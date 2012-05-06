@@ -10,77 +10,77 @@ import nme.events.MouseEvent;
 import base.social.SinaWeibo;
 class SinaBinderDlg extends CommDialog{
 
-    public function new (dd:DialogData, dm:ListDialogMgr):Void{
-        super(dd);
-        dialogManager = dm;
-        dm.addDialog(this);
-        this.addEventListener( MouseEvent.CLICK, onMouseClick);
+    var _content:Sprite;
+    public function new ( dm:ListDialogMgr):Void{
+        _uniqueId = Type.getClassName( SinaBinderDlg);
+        super(dm);
+        resetDlgs();
     }
 
-    public override function onMouseClick(evt:MouseEvent):Void{
-        trace("onMouseClick");
+    public function resetDlgs():Void{
         var sina:SinaWeibo = SocialMgr.getInst()._socials.get( Type.getClassName(SinaWeibo));
-        trace(  Type.getClassName(base.social.SinaWeibo));
+        //trace(  Type.getClassName(base.social.SinaWeibo));
+        var str= null;
+        var dm:ListDialogMgr= cast _mgr;
         if ( sina != null && sina.isBound() ) {
-            sina.unBound();
-
-            var dm:ListDialogMgr= cast dialogManager;
-            var str= "绑定新浪微博";
-            var s:Sprite = CommDialogMgr.getElement( str, 0);
-            var dd:DialogData = dialogData;
-            dd.display = s;
-            dm.remove(this);
-            var sd = new SinaBinderDlg( dd, dm);
-            sd.show();
-            clear();
+            str= "解除绑定新浪微博";
         }
         else{
-            SocialMgr.getInst().bindSina();
-            //trace("bindSina");
-            //var dm:ListDialogMgr= cast dialogManager;
-            //var str= "解除绑定新浪微博";
-            //var s:Sprite = CommDialogMgr.getElement( str, 0);
-            //var dd:DialogData = dialogData;
-            //dd.display = s;
-            //dm.remove(this);
-            //var sd = new SinaBinderDlg( dd, dm);
-            //sd.show();
-            //trace("add dialog1");
+            str= "绑定新浪微博";
         }
+        if ( _content!= null && _content.parent != null ){
+            _content.parent.removeChild(_content);
+        }
+        _content = CommDialogMgr.getElement( str, 0);
+        addChild( _content);
+    }
+
+    override function onMouseClick():Void{
+        //trace("onMouseClick");
+        var sina:SinaWeibo = SocialMgr.getInst()._socials.get( Type.getClassName(SinaWeibo));
+        if ( sina != null && sina.isBound() ) {
+            sina.unBound();
+        }else{
+            SocialMgr.getInst().bindSina();
+            trace("bindSina");
+        }
+        resetDlgs();
     }
 }
 
 class SocialBinderDlg extends ListDialog {
 
+    var _binder:SinaBinderDlg;
 
-    public function new ( cmdDlgMgr:ListDialogMgr){
+    public function new ( mgr:ListDialogMgr){
         var str:String = "绑定SNS";
         var id:Int = 0;
-        var s:Sprite = cmdDlgMgr.createElement( str, id);
-        var dd:DialogData = cmdDlgMgr.createListDialogData( s, str+id );
-        super( dd, cmdDlgMgr);
-        cmdDlgMgr.addDialog( this);
-        createDlgs();
+        _uniqueId = str+id;
+        var s:Sprite = mgr.createElement( str, id);
+        super(  mgr);
+        addChild(s);
+        _binder = new SinaBinderDlg(  _listDialogMgr);
     }
 
     public function createDlgs():Void{
-        var sina= SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
-        var str:String = null;
-        if ( sina.isBound() == false ){
-            str= "绑定新浪微博";
-        }else{
-            str= "解除绑定新浪微博";
-        }
-        var id:Int = 0;
-        var s:Sprite = _listDialogMgr.createElement( str, id);
-        var dd:DialogData = _listDialogMgr.createListDialogData( s, str+id );
-        var s = new SinaBinderDlg( dd, _listDialogMgr);
+        //var sina= SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
+        //var str:String = null;
+        //if ( sina.isBound() == false ){
+        //str= "绑定新浪微博";
+        //}else{
+        //str= "解除绑定新浪微博";
+        //}
+        //var id:Int = 0;
+        //var s:Sprite = _listDialogMgr.createElement( str, id);
     }
 
-    public function resetDlgs():Void{
-        clear();
-        createDlgs();
-
+    override function onMouseClick():Void{
+        trace("onMouseClick");
+        _binder.resetDlgs();
+        super.onMouseClick();
     }
+    //public function resetDlgs():Void{
+        //createDlgs();
+        //}
 
 }

@@ -143,48 +143,50 @@ class ComponentDlgMgr extends CommDialogMgr{
         }
     }
     public function onMouseMove(evt:MouseEvent){ 
-        if ( _isFixed && _isDown  ){
-            if ( ( evt.stageX < 0 || evt.stageX > nme.Lib.current.stage.stageWidth || evt.stageY < 0 || evt.stageY > nme.Lib.current.stage.stageHeight ) && _isDown){
-                onMouseUp(evt); 
-            }
-            else{
-                _oldx = _movex;
-                _movex = evt.stageX - _downx;
-                switchListDialog( );
-            }
-        }
-        else {
-            if ( ( evt.stageX < 0 || evt.stageX > nme.Lib.current.stage.stageWidth || evt.stageY < 0 || evt.stageY > nme.Lib.current.stage.stageHeight ) && _isDown){
-                onMouseUp(evt); 
-            }
-            else if ( !_isFixed  && _isDown){
-                if ( evt.stageX <= LeftEdge && _pressTime ==0){
-                    _pressTime = Timer.stamp();
-                    _movex = nme.Lib.current.stage.stageWidth;
-                    trace( "left: "+ _movex );
+        if ( _isDown){
+            if ( _isFixed   ){
+                if ( ( evt.stageX < 0 || evt.stageX > nme.Lib.current.stage.stageWidth || evt.stageY < 0 || evt.stageY > nme.Lib.current.stage.stageHeight ) ){
+                    onMouseUp(evt); 
                 }
-                else if ( evt.stageX >= RightEdge && _pressTime == 0){
-                    _pressTime = Timer.stamp();
-                    _movex = -nme.Lib.current.stage.stageWidth;
-                    trace( "right: "+ _movex );
+                else{
+                    _oldx = _movex;
+                    _movex = evt.stageX - _downx;
+                    switchListDialog( );
                 }
-                else if ( _pressTime > 0 ){
-                    if ( evt.stageX > LeftEdge && _movex > 0 ){
-                        trace( "reset!" );
-                        _pressTime = 0;
+            }
+            else {
+                if ( ( evt.stageX < 0 || evt.stageX > nme.Lib.current.stage.stageWidth || evt.stageY < 0 || evt.stageY > nme.Lib.current.stage.stageHeight ) ){
+                    onMouseUp(evt); 
+                }
+                else if ( !_isFixed  && _isDown){
+                    if ( evt.stageX <= LeftEdge && _pressTime ==0){
+                        _pressTime = Timer.stamp();
+                        _movex = nme.Lib.current.stage.stageWidth;
+                        trace( "left: "+ _movex );
                     }
-                    else if ( evt.stageX < RightEdge && _movex < 0 ){
-                        trace( "reset!" );
-                        _pressTime = 0;
+                    else if ( evt.stageX >= RightEdge && _pressTime == 0){
+                        _pressTime = Timer.stamp();
+                        _movex = -nme.Lib.current.stage.stageWidth;
+                        trace( "right: "+ _movex );
                     }
-                }
-                //if( _pressTime > 0 && Timer.stamp() - _pressTime  > 3){
-                //trace( "move: "+ _movex );
-                //_oldx = 0;
-                //_pressTime = 0;
-                //switchListDialog();
-                //}
-            } 
+                    else if ( _pressTime > 0 ){
+                        if ( evt.stageX > LeftEdge && _movex > 0 ){
+                            trace( "reset!" );
+                            _pressTime = 0;
+                        }
+                        else if ( evt.stageX < RightEdge && _movex < 0 ){
+                            trace( "reset!" );
+                            _pressTime = 0;
+                        }
+                    }
+                    //if( _pressTime > 0 && Timer.stamp() - _pressTime  > 3){
+                    //trace( "move: "+ _movex );
+                    //_oldx = 0;
+                    //_pressTime = 0;
+                    //switchListDialog();
+                    //}
+                } 
+            }
         }
     }
     public function onEnterFrame(evt:Event){
@@ -197,38 +199,44 @@ class ComponentDlgMgr extends CommDialogMgr{
         }
     }
     public function onMouseUp(evt:MouseEvent){ 
-        //trace( "ComponentDlgMgr onMouseUp"+ _isDown + evt.stageX);
-        if( _isDown && getInstancesByDisplayOrder().length > 0 && (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50  && (evt.stageX - _downx) < 50 && (evt.stageY - _downy ) > -50 ){
-            for ( i in getInstancesByDisplayOrder()){
-                if( i.hitTestPoint(_downx, _downy) ) {
-                    i.onMouseClick();
-                    return;
+        if ( _isDown){
+            if( getInstancesByDisplayOrder().length > 0 && (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50  && (evt.stageX - _downx) < 50 && (evt.stageX - _downx ) > -50 ){
+                for ( i in getInstancesByDisplayOrder()){
+                    if( i.hitTestPoint(_downx, _downy) ) {
+                        i.onMouseClick();
+                        _isDown = false;
+                        return;
+                    }
                 }
-            }
-        }else{
+            }else{
 
-            var x:Float, y:Float;
-            if ( evt.stageX < 0 ){ x = 0; }else x = evt.stageX;
-            if ( evt.stageY < 0 ){ y = 0; }else y = evt.stageY;
-            if ( evt.stageX > nme.Lib.current.stage.stageWidth ){ x = nme.Lib.current.stage.stageWidth; }else x = evt.stageX;
-            if ( evt.stageY > nme.Lib.current.stage.stageHeight){ y = nme.Lib.current.stage.stageHeight; }else y = evt.stageY;
+                var x:Float, y:Float;
+                if ( evt.stageX < 0 ){ x = 0; }else x = evt.stageX;
+                if ( evt.stageY < 0 ){ y = 0; }else y = evt.stageY;
+                if ( evt.stageX > nme.Lib.current.stage.stageWidth ){ x = nme.Lib.current.stage.stageWidth; }else x = evt.stageX;
+                if ( evt.stageY > nme.Lib.current.stage.stageHeight){ y = nme.Lib.current.stage.stageHeight; }else y = evt.stageY;
 
-            if ( _isFixed && _isDown  ){
-                if ( (x - _downx <200 && x - _downx  > 0 ) || (x- _downx > -200 && x - _downx < -0 ) ){
-                    _oldx = _movex;
-                    _movex = 0;
+                trace( "x: "+x);
+                if ( _isFixed  ){
+                    if ( (x - _downx <200 && x - _downx  > 0 ) || (x- _downx > -200 && x - _downx < -0 ) ){
+                        _oldx = _movex;
+                        _movex = 0;
+                        trace( "_movex: "+_movex);
+                    }
+                    else if ( x- _downx <= -200 ){
+                        _oldx = _movex;
+                        _movex = -nme.Lib.current.stage.stageWidth;
+                        trace( "_movex: "+_movex);
+                    }
+                    else if ( x- _downx  >= 200  ){
+                        _oldx = _movex;
+                        _movex = nme.Lib.current.stage.stageWidth;
+                        trace( "_movex: "+_movex);
+                    }
+                    switchListDialog( );
                 }
-                else if ( x- _downx <= -200 ){
-                    _oldx = _movex;
-                    _movex = -nme.Lib.current.stage.stageWidth;
+                else if ( !_isFixed  ){
                 }
-                else if ( x- _downx  >= 200  ){
-                    _oldx = _movex;
-                    _movex = nme.Lib.current.stage.stageWidth;
-                }
-                switchListDialog( );
-            }
-            else if ( !_isFixed  && _isDown){
             }
         }
         _downx = 10000;
@@ -248,16 +256,13 @@ class ComponentDlgMgr extends CommDialogMgr{
             if ( _movex > 0 && _page.hasPrePage() == false){
                 _movex = 0;
                 trace( "no pre page");
-
             }else if ( _movex < 0 && _page.hasNextPage() == false){
                 _movex = 0;
                 trace( "no next page");
-
             }else {
-
                 if (_movex > 0 ) _page.prePage();
                 else if (_movex < 0 ) _page.nextPage();
-
+                trace("move page: " +_movex);
             }
             for ( i in getInstancesByDisplayOrder()){
                 var c:ComponentDlg= cast(i);
@@ -270,7 +275,6 @@ class ComponentDlgMgr extends CommDialogMgr{
         }
         else for ( i in getInstancesByDisplayOrder()){
             i.x += -_oldx +_movex;
-
         }
     }
 

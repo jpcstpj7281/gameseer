@@ -20,13 +20,13 @@ class InitMainState extends State{
     }
 
     override function fromState(s:State):Void{
-        MainStage.resetDlgs();
+        MainStage.getInst().resetDlgs();
 
         if( NetworkMgr.getInst().getConn() != null&& NetworkMgr.getInst().getConn().isConected()){
             var d = MainStage.getInst().getSpecificDialog("连接",0);
             if( d!= null){
                 var cd:CommDialog  = cast( d);
-                cd.onMouseClick(null);
+                cd.onMouseClick();
                 trace("opened connection drawing");
                 return;
             }

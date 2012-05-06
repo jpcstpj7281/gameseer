@@ -147,8 +147,6 @@ class SocialWorld
         //useProxy_ = false;
         //debugMode_ = false;
 
-        _callbackUrl = "oob";
-
         _sig = new Signal3();
     }
 

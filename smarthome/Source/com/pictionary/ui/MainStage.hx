@@ -82,17 +82,9 @@ class MainStage extends ListDialogMgr {
         //trace("clear2");
     }
 
-    static public function resetDlgs(){
-        //trace("test5");
-        if ( inst != null ){
-            inst.clear();
-            //trace("test10");
-        }
-        //trace("test6");
-        inst = new MainStage();
-        //trace("test7");
-        inst.createDlgs();
-        //trace("test8");
+    public function resetDlgs(){
+        getInst().removeAll();
+        getInst().createDlgs();
     }
 
     public override function createElement(name:String, id:Int):Sprite{

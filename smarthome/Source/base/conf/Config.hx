@@ -24,7 +24,7 @@ class Config extends Sprite
 	
 #if flash
 	inline static public var host:String = "http://gameseer.sinaapp.com:8080/" ;
-	inline static public var basePath:String = "trunksm/Assets/" ;
+	inline static public var basePath:String = "smarthome/Assets/" ;
     //inline static public var host:String = "http://astrol.vicp.net:8080/" ;
     //inline static public var basePath:String = "smarthome/Assets/" ;
 #end

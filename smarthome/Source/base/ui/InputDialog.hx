@@ -20,19 +20,15 @@ class InputDialog extends CommDialog{
     var _hint:EmbedTextField ;
     var _OK:EmbedTextField ;
     var _Cancel:EmbedTextField ;
-    var _parentMgr:ListDialogMgr;
     var _promt:String;
 
-    public function new ( cmdDlgMgr:ListDialogMgr, name:String, id:Int , promt:String){
+    public function new ( mgr:ListDialogMgr, name:String, id:Int , promt:String){
         var str:String = name;
-        var s:Sprite = cmdDlgMgr.createElement( str, id);
-        var dd:DialogData = cmdDlgMgr.createListDialogData( s, str+id );
-        super( dd);
-        cmdDlgMgr.addDialog(this );
+        var s:Sprite = mgr.createElement( str, id);
+        super( mgr);
+        addChild(s);
 
         _promt = promt;
-        _parentMgr = cmdDlgMgr;
-        this.addEventListener( MouseEvent.CLICK, onMouseClick);
     }
 
     public function onLoop(evt:Event){
@@ -46,15 +42,15 @@ class InputDialog extends CommDialog{
         }
     }
 
-    override function onMouseClick(evt:MouseEvent){
-        if ( _parentMgr.isAnimating()) return;
+    override function onMouseClick(){
+        if ( cast(_mgr,ListDialogMgr).isAnimating()) return;
 
 #if (cpp || neko)
         Native.nativeInput();
         nme.Lib.current.addEventListener( Event.ENTER_FRAME, onLoop);
 #else
         flashInput();
-        _parentMgr.hideListDialog();
+        cast(_mgr,ListDialogMgr).hideListDialog();
 #end
     }
 
@@ -113,7 +109,7 @@ class InputDialog extends CommDialog{
 
     public function swichBackToCMDView():Void{
         hideElements();
-        _parentMgr.showListDialog( );
+        cast(_mgr,ListDialogMgr).showListDialog( );
     }
 
 
