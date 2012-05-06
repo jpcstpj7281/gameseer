@@ -25,9 +25,8 @@ import base.ui.ListDialog;
 class ConnDrawingDlg extends ConnDialog{
 
     var _drawingDialogMgr:DrawingDlgMgr;
-    public function new ( cmdDlgMgr:ListDialogMgr ){
-
-        super( cmdDlgMgr );
+    public function new ( mgr:ListDialogMgr ){
+        super( mgr );
     }
 
     public override function clear():Void{
@@ -60,8 +59,8 @@ class ConnDrawingDlg extends ConnDialog{
         }
     }
 
-    public override function onMouseClick( evt:MouseEvent):Void{
-        var dm:CommDialogMgr = cast( dialogManager);
+    override function onMouseClick( ):Void{
+        var dm:CommDialogMgr = _mgr;
         if ( dm.isAnimating() == false){
             if ( NetworkMgr.getInst().getConn() != null && NetworkMgr.getInst().getConn().isConected() ){
                 if ( _drawingDialogMgr== null ){
@@ -70,7 +69,7 @@ class ConnDrawingDlg extends ConnDialog{
                 _drawingDialogMgr.showListDialog();
             }else{
                 resetDlgs();
-                super.onMouseClick(evt);
+                super.onMouseClick();
             }
         }
     }

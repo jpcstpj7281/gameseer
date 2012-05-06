@@ -27,53 +27,21 @@ class DrawingDlg extends CommDialog{
     public var _id:Int;
 
     var _drawingDialogMgr:DrawingDlgMgr;
-    public function new ( cmdDlgMgr:ListDialogMgr, name:String, id:Int ){
+    public function new ( mgr:ListDialogMgr, name:String, id:Int ){
         _drawingDialogMgr = new DrawingDlgMgr(nme.Lib.current);
         _drawingDialogMgr._returnCallback = showParent;
-        var s:Sprite = cmdDlgMgr.createElement( name, id);
-        var dd:DialogData = cmdDlgMgr.createListDialogData( s, name+id );
-        super( dd);
-        dialogManager = cmdDlgMgr;
-        //trace(cmdDlgMgr);
-        cmdDlgMgr.addDialog(this );
+        _uniqueId = name + id;
+        var s:Sprite = mgr.createElement( name, id);
+        super( mgr);
+        addChild(s);
         _id = id;
-
-        this.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
-        this.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
-        this.addEventListener( MouseEvent.MOUSE_UP, onMouseUp);
-
     }
 
-    public override function onMouseClick( evt:MouseEvent):Void{
-        var dm:CommDialogMgr = cast( dialogManager);
+    override function onMouseClick( ):Void{
+        var dm:CommDialogMgr = _mgr;
         if ( dm.isAnimating() == false){
             _drawingDialogMgr.showListDialog();
             hideParent();
-        }
-    }
-    public function onMouseDown(evt:MouseEvent){ 
-        _downx = evt.stageX;
-        _downy = evt.stageY;
-    }
-    public function onMouseMove(evt:MouseEvent){ 
-        if( (evt.stageX- _downx) > 100 ){
-            //trace("move");
-            _downx = 10000;
-            _downy = 10000;
-        }else if ( (evt.stageY - _downy)  > 100 ){
-            //trace("move");
-            _downx = 10000;
-            _downy = 10000;
-        }
-    }
-    public function onMouseUp(evt:MouseEvent){ 
-        if( (evt.stageX - _downx) < 10 && (evt.stageX - _downx) > -10&& (evt.stageY - _downy) <10 && (evt.stageY - _downy) >-10 ){
-            onMouseClick(evt);
-        }
-        else{
-            _downx = 10000;
-            _downy = 10000;
-            //trace("move up");
         }
     }
 

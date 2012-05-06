@@ -48,8 +48,8 @@ class SinaWeibo extends SocialWorld{
         
 #if flash
         //_callbackUrl = "http://gameseer.sinaapp.com/trunksm/hpictionary.html"; 
-        _callbackUrl = "http://gameseer.sinaapp.com:8080/trunksm/hpictionary.html"; 
-#elseif cpp
+        _callbackUrl = "http://gameseer.sinaapp.com:8080/smarthome/hpictionary.html"; 
+#else
         _callbackUrl = "oob"; 
 #end
         //#end
@@ -232,6 +232,8 @@ class SinaWeibo extends SocialWorld{
 
         DataLoader.getInst().saveData( "acc_token", _accessTokenKey);
         DataLoader.getInst().saveData( "acc_secret", _accessTokenSecret);
+        DataLoader.getInst().saveData( "req_token", null);
+        DataLoader.getInst().saveData( "req_secret", null);
         DataLoader.getInst().saveData( "pin", _pin);
     }
     dynamic function getAccessTokenByPin() {

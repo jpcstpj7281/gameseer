@@ -28,29 +28,22 @@ class SimpleCmdDialog extends CommDialog{
     public var _isDown:Bool;
     public var _id:Int;
 
-    public function new ( cmdDlgMgr:ListDialogMgr, name:String, id:Int ){
+    public function new ( mgr:ListDialogMgr, name:String, id:Int ){
         var str:String = name;
         _id = id;
-        var s:Sprite = cmdDlgMgr.createElement( str, id);
-        var dd:DialogData = cmdDlgMgr.createListDialogData( s, str+id );
-        super( dd);
-        dialogManager = cmdDlgMgr;
-        //trace(cmdDlgMgr);
-        cmdDlgMgr.addDialog(this );
-
-        this.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
-        this.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
-        this.addEventListener( MouseEvent.MOUSE_UP, onMouseUp);
+        var s:Sprite = mgr.createElement( str, id);
+        super( mgr);
+        addChild(s);
 
         _isDown =false;
     }
 
     public override function showParent():Void{
-        var dm:ListDialogMgr= cast (dialogManager);
+        var dm:ListDialogMgr= cast (_mgr);
         dm.showListDialog();
     }
     public override function hideParent():Void{
-        var dm:ListDialogMgr = cast (dialogManager);
+        var dm:ListDialogMgr = cast (_mgr);
         dm.hideListDialog();
     }
     override function show():IGenericActuator {
@@ -58,41 +51,12 @@ class SimpleCmdDialog extends CommDialog{
         return super.show();
     }
 
-    private function onMouseClicked( evt:MouseEvent):Void{
+    override function onMouseClick( ):Void{
         var cmd:Command = CommandMgr.getInst().getCmd(_id);
         if ( cmd != null){
             cmd.fire();
         }
         else trace("unable to get coresponsed command: " + _id);
     }
-    public function onMouseDown(evt:MouseEvent){ 
-        _downx = evt.stageX;
-        _downy = evt.stageY;
-        _isDown = true;
-        //trace("down");
-    }
-    public function onMouseMove(evt:MouseEvent){ 
-        if( (evt.stageX- _downx) > 100 ){
-            //trace("move");
-            _downx = 10000;
-            _downy = 10000;
-        }else if ( (evt.stageY - _downy)  > 100 ){
-            //trace("move");
-            _downx = 10000;
-            _downy = 10000;
-        }
-    }
-    public function onMouseUp(evt:MouseEvent){ 
-        if( (evt.stageX - _downx) < 10 && (evt.stageX - _downx) > -10&& (evt.stageY - _downy) <10 && (evt.stageY - _downy) >-10 ){
-            onMouseClicked(evt);
-        }
-        else{
-            _downx = 10000;
-            _downy = 10000;
-            //trace("move up");
-        }
-        _isDown = false;
-    }
-
 }
 

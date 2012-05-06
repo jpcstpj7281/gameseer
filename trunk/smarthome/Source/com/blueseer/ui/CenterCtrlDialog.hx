@@ -31,7 +31,7 @@ class CenterCtrlDialog extends ListDialog{
             new LoginCmdDialog(_listDialogMgr);
             new DeviceCreatorDialog( _listDialogMgr);
             new CommandCreatorDialog( _listDialogMgr);
-            new NativeInputCmdDialog(_listDialogMgr);
+            //new NativeInputCmdDialog(_listDialogMgr);
             new TypedCmdDialog(_listDialogMgr);
             new UntypedCmdDialog(_listDialogMgr);
         }
