@@ -62,6 +62,7 @@ class MainStage extends ListDialogMgr {
         //new HostDialog( this  );
 #end
         new DrawingDlg( this, "SNS猜猜",0 );
+        new SubjectsDlg( this);
     }
 
 

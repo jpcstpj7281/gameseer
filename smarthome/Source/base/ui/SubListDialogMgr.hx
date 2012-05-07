@@ -1,11 +1,4 @@
 package base.ui;
-
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogType;
-import com.eclecticdesignstudio.dialog.DialogData;
-import com.eclecticdesignstudio.dialog.events.DialogEvent;
-
 import base.ui.EmbedTextField;
 import nme.display.Sprite;
 import nme.display.Bitmap;
