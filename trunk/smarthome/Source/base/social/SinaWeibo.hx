@@ -329,7 +329,7 @@ class SinaWeibo extends SocialWorld{
         trace(  encodeMsg(content));
         //params.set("annotations", "test");
 
-#if cpp
+#if sys
         if( img == null){ img = testimg(); }
         trace("img len: "+ img.length);
 

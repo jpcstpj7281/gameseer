@@ -33,9 +33,6 @@ class CommDialog extends Sprite{
         _fadeOutTime = 0;
         _fadeInTime= 0;
 
-        //trace(mgr.getInstancesByDisplayOrder().length);
-        //trace(height);
-        //trace(scaleY);
         mgr.addDialog( this);
     }
 

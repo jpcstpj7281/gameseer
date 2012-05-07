@@ -152,6 +152,7 @@ class DrawingDlgMgr extends CommDialogMgr{
             nme.Lib.current.addChild(_edit);
             nme.Lib.current.addChild(_erase);
             nme.Lib.current.addChild(_upload);
+            cacheBitmapData();
         }
         _isFixed = true;
         //fixedDialog(_isFixed);
@@ -378,7 +379,7 @@ class DrawingDlgMgr extends CommDialogMgr{
     }
 
     public function uploadImg():Void{
-        this.cacheBitmapData();
+        if( _pressTime > 0 ) cacheBitmapData();
         var bytes = base.common.Tools.converToPNGBytes( _bmd, _maxWidth, _maxHeight);
 
         var sina = SocialMgr.getInst()._socials.get( Type.getClassName( base.social.SinaWeibo) );
@@ -402,13 +403,13 @@ class DrawingDlgMgr extends CommDialogMgr{
         if(  _isFixed &&  !_isDown  && _releaseTime > 0 && Timer.stamp() - _releaseTime > 1){
             cacheBitmapData();
 
+            if( _pressTime > 0 ) cacheBitmapData();
             _pressTime = 0;
             _releaseTime = 0;
         }
     }
 
     public function cacheBitmapData():Void{
-        if (_releaseTime  == 0 ) return ;
         var tx = _view.x;
         var ty = _view.y;
         _view.x = 0;
