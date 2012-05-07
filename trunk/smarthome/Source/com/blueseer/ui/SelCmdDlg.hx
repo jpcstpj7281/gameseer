@@ -22,8 +22,6 @@ import base.ui.ListDialogMgr;
 
 class SelCmdDlg extends CommDialog{
 
-    //public var _downx:Float;
-    //public var _downy:Float;
     public var _cmdid:Int;
     public var _listDialogMgr:SubListDialogMgr;
 
@@ -37,10 +35,6 @@ class SelCmdDlg extends CommDialog{
         var s:Sprite = mgr.createElement( str, cmdid);
         super(  mgr);
         addChild(s);
-
-        //this.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
-        //this.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
-        //this.addEventListener( MouseEvent.MOUSE_UP, onMouseUp);
     }
 
     public function returnCallback():Void{
@@ -76,31 +70,5 @@ class SelCmdDlg extends CommDialog{
             hideParent();
         }
     }
-
-    //public function onMouseDown(evt:MouseEvent){ 
-    //_downx = evt.stageX;
-    //_downy = evt.stageY;
-    //}
-    //public function onMouseMove(evt:MouseEvent){ 
-    //if( (evt.stageX- _downx) > 100 ){
-    ////trace("move");
-    //_downx = 10000;
-    //_downy = 10000;
-    //}else if ( (evt.stageY - _downy)  > 100 ){
-    ////trace("move");
-    //_downx = 10000;
-    //_downy = 10000;
-    //}
-    //}
-    //public function onMouseUp(evt:MouseEvent){ 
-    //if( (evt.stageX - _downx) < 10 && (evt.stageX - _downx) > -10&& (evt.stageY - _downy) <10 && (evt.stageY - _downy) >-10 ){
-    //onMouseClicked(evt);
-    //}
-    //else{
-    //_downx = 10000;
-    //_downy = 10000;
-    ////trace("move up");
-    //}
-    //}
 }
 
