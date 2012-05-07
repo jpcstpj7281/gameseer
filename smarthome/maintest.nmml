@@ -30,8 +30,6 @@
     <ndll name="zlib" />
     <ndll name="nme" haxelib="nme" />
 
-    <extension name="native" path="Extension"/>
-
 
     <set name="SHOW_CONSOLE" value="1"/>  
     <haxedef name="SHOW_CONSOLE"/> 

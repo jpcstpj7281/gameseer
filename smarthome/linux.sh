@@ -1,3 +1,3 @@
 #! /bin/bash
 
-haxelib run nme test maintest.nmml linux
+haxelib run nme build maintest.nmml linux

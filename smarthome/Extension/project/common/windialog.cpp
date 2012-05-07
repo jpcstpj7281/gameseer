@@ -6,12 +6,13 @@
 #include "native.h"
 
 
+/*
 #include <atlbase.h>
 CComModule _Module;
 #include <atlwin.h>
 #pragma comment(lib,"atl")
 #pragma comment(lib,"User32.lib")
-
+*/
 
 
 
@@ -171,6 +172,7 @@ static InputBoxStringType ShowInputBox(HWND OwnerWindowHandle, const InputBoxStr
 
 #undef InputBoxString
 
+/*
 const wchar_t* gURL;
 
 LRESULT CALLBACK BrowserWndProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
@@ -248,6 +250,7 @@ const wchar_t* launchEmbedBrowser(const wchar_t* url)
     }
     return L"";
 }
+*/
 
 namespace native {
 
@@ -262,11 +265,11 @@ namespace native {
         ShellExecute(NULL,L"open",url,NULL,NULL,SW_SHOW); 
         return L"ok";
     }
-    const wchar_t * openEmbedBrowser( const wchar_t* url ){
-        wprintf( L"*** open url: %s\n", url);
-        gURL = url;
-        return launchEmbedBrowser(url);
-    }
+    //const wchar_t * openEmbedBrowser( const wchar_t* url ){
+    //wprintf( L"*** open url: %s\n", url);
+    //gURL = url;
+    //return launchEmbedBrowser(url);
+    //}
 
 }
 
