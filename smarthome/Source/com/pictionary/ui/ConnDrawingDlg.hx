@@ -3,9 +3,6 @@ package com.pictionary.ui;
 import base.ui.ConnDialog;
 import haxe.io.Bytes;
 import com.blueseer.ui.UIMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogData;
 import base.network.SMConnection;
 import base.ui.EmbedTextField;
 import nme.display.Bitmap;
@@ -14,7 +11,6 @@ import base.network.NetworkMgr;
 
 import nme.events.MouseEvent;
 import nme.display.Sprite;
-import nme.text.TextFieldType;
 
 import base.ui.CommDialog;
 import base.ui.CommDialogMgr;

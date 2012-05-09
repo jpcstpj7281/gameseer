@@ -38,6 +38,13 @@ class CommDialogMgr  {
         }
     }
 
+    public function showListDialog():Void{
+        for ( i in _instancesByDisplayOrder){ i.show(); trace("show: " + i);}
+    }
+    public function hideListDialog( ):Void{
+        for ( i in _instancesByDisplayOrder){ i.hide(); }
+    }
+
     public function removeAll():Void{
         for ( d in _instancesByDisplayOrder){
             d.clear();
@@ -53,10 +60,6 @@ class CommDialogMgr  {
     }
     public function isAnimating():Bool{
         return _animatingNum >0;
-    }
-
-    inline public function getInstancesByDisplayOrder():Array<CommDialog>{
-        return _instancesByDisplayOrder;
     }
 
     public function clear():Void{
@@ -80,16 +83,16 @@ class CommDialogMgr  {
 
     public function addDialog(  instance:CommDialog ):Void{
         if ( instance._uniqueId == null){
-            instance._uniqueId = Std.string(haxe.Timer.stamp());
+            instance._uniqueId = Std.string(haxe.Timer.stamp())+ Type.getClassName( Type.getClass(instance));
             trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
         }
         if ( contains(instance._uniqueId) ) {
             trace("already add dialog: " + Type.getClassName( Type.getClass(instance)) );
             return;
         }
-        trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
-
+        trace("add Fixed dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
         _instancesByDisplayOrder.push(instance);
+        //trace(_instancesByDisplayOrder.length);
         _dropPoint.addChild (instance);
         instance.hide();
     }

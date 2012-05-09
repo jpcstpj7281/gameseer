@@ -1,11 +1,6 @@
 package com.pictionary.ui;
 
 import base.social.SocialMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogType;
-import com.eclecticdesignstudio.dialog.DialogData;
-import com.eclecticdesignstudio.dialog.events.DialogEvent;
 import com.eclecticdesignstudio.motion.Actuate;
 
 import base.network.NetworkMgr;
@@ -133,7 +128,7 @@ class DrawingDlgMgr extends CommDialogMgr{
 
     }
 
-    public function showListDialog():Void{
+    public override function showListDialog():Void{
         //if ( getInstancesByDisplayOrder() != null ){
         //setAnimationNum(getInstancesByDisplayOrder().length);
         //var c:Int = 0;
@@ -157,7 +152,7 @@ class DrawingDlgMgr extends CommDialogMgr{
         _isFixed = true;
         //fixedDialog(_isFixed);
     }
-    public function hideListDialog( ):Void{
+    public override function hideListDialog( ):Void{
         //for ( i in getInstancesByDisplayOrder()){
         //i.hide();
         //}

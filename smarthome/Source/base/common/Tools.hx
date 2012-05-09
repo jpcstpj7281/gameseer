@@ -164,6 +164,8 @@ class Tools
     }   
 
     public static function converToPNGBytes( bmd:BitmapData, w:Int = 0, h:Int = 0):Bytes{
+#if js  return null; 
+#else
         if ( w == 0) w = bmd.width;
         if ( h == 0) h = bmd.height;
         var rect = new nme.geom.Rectangle( 0, 0, w, h);
@@ -181,8 +183,12 @@ class Tools
         var strpng:Bytes = bo.getBytes();
 
         return strpng;
+#end
     }
     public static function converToJPEGBytes( bmd:BitmapData, w:Int = 0, h:Int = 0):Bytes{
+#if js
+        return null;
+#else
         if ( w == 0) w = bmd.width;
         if ( h == 0) h = bmd.height;
         var rect = new nme.geom.Rectangle( 0, 0, w, h);
@@ -203,5 +209,6 @@ class Tools
         var strpng:Bytes = bo.getBytes();
 
         return strpng;
+#end
     }
 }

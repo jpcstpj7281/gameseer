@@ -27,10 +27,11 @@ class ListDialogMgr extends CommDialogMgr{
 
     var _isListening:Bool;
 
-    var _fixedElement:Array<Sprite>;
+    var _movableInstances:Array<CommDialog>;
 
     public function new (droppoint:Sprite ){
 
+        _movableInstances = new Array<CommDialog>();
         _view= new Sprite();
         //_view.mouseChildren = false;
         //_view.mouseEnabled= true;
@@ -42,23 +43,55 @@ class ListDialogMgr extends CommDialogMgr{
         _isDown = false;
         _isListening= false;
 
-        _fixedElement = new Array<Sprite>();
     }
 
+    public override function contains (id:String):Bool {
+        for ( d in _movableInstances){
+            if (d._uniqueId == id){
+                return true;
+            }
+        }
+        return super.contains( id);
+    }
+    public override function addDialog(  instance:CommDialog ):Void{
+        if ( Std.is( instance, base.ui.FixedDlg)) { 
+            //trace("add FixedDlg: "+ instance);
+            super.addDialog(instance); return; 
+        }
+        if ( instance._uniqueId == null){
+            instance._uniqueId = Std.string(haxe.Timer.stamp())+ Type.getClassName( Type.getClass(instance));
+            trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+        }
+        if ( contains(instance._uniqueId) ) {
+            trace("already add dialog: " + Type.getClassName( Type.getClass(instance)) );
+            return;
+        }
+        trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+
+        _movableInstances.push(instance);
+        _dropPoint.addChild (instance);
+        instance.hide();
+    }
     public override function clear():Void{
         hideListDialog();
+        removeAllMovables();
         if( _view.parent != null){
             _view.parent.removeChild( _view);
         }
-        _fixedElement.splice(0, _fixedElement.length);
+        _movableInstances.splice(0, _movableInstances.length);
         super.clear();
+    }
+
+    public function removeAllMovables():Void{
+        for ( d in _movableInstances){
+            d.clear();
+        }
+        _movableInstances = [];
     }
 
     public function onMouseDown(evt:MouseEvent){ 
         //trace( "list onMouseDown");
-        for ( i in _fixedElement){
-            if( i.hitTestPoint(evt.stageX, evt.stageY) ) return;
-        }
+        //for ( i in _instancesByDisplayOrder ){ if( i.hitTestPoint(evt.stageX, evt.stageY) ) return; }
         _downx = evt.stageX;
         _downy = evt.stageY;
         _movex= evt.stageX;
@@ -73,10 +106,16 @@ class ListDialogMgr extends CommDialogMgr{
             _movex = evt.stageX;
         }
     }
-    
+
     public function onMouseUp(evt:MouseEvent){ 
-        if( _isDown && getInstancesByDisplayOrder().length > 0 && (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 ){
-            for ( i in getInstancesByDisplayOrder()){
+        if( _isDown && _movableInstances.length > 0 && (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 ){
+            for ( i in _movableInstances){
+                if( i.hitTestPoint(_downx, _downy) ) {
+                    i.onMouseClick();
+                    return;
+                }
+            }
+            for ( i in _instancesByDisplayOrder){
                 if( i.hitTestPoint(_downx, _downy) ) {
                     i.onMouseClick();
                     return;
@@ -94,17 +133,16 @@ class ListDialogMgr extends CommDialogMgr{
         _isDown = false;
     }
 
-    public function showListDialog():Void{
+    public override function showListDialog():Void{
         if ( _isListening == false  ){
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_UP, onMouseUp);
-            setAnimationNum( getInstancesByDisplayOrder().length);
-            for ( i in 0...getInstancesByDisplayOrder().length){//must use int! for i number
-                var d = getInstancesByDisplayOrder()[i];
+            setAnimationNum( _movableInstances.length);
+            for ( i in 0..._movableInstances.length){//must use int! for i number
+                var d = _movableInstances[i];
                 d.show().delay(0.05 * i).onComplete(decreaseAnimationNum, []);
                 trace("show dialog: "+ d._uniqueId);
-
 #if flash
                 //d.x = d.width /2;
                 //d.y = d.height/2 + d.height* i;
@@ -114,33 +152,31 @@ class ListDialogMgr extends CommDialogMgr{
                 //d.y= d.height* d.scaleY/2 + d.height*d.scaleY *i;
                 d.y=  d.height*d.scaleY *i;
 #end
-
             }
-            for ( i in _fixedElement){ if ( i.parent == null ) nme.Lib.current.addChild(i); }
             _isDown = false;
             _isListening = true;
+            trace("super show: "+ _instancesByDisplayOrder.length);
+            super.showListDialog();
         }
     }
 
-    public function hideListDialog( ):Void{
+    public override function hideListDialog( ):Void{
         if( _isListening == true  ){
             nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
             nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
             nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_UP, onMouseUp);
-            for ( i in getInstancesByDisplayOrder()){
-                i.hide();
-            }
-            for ( i in _fixedElement){ if(i.parent != null ) nme.Lib.current.removeChild(i); }
+            for ( i in _movableInstances){ i.hide(); }
             _isDown = false;
             _isListening = false;
+            super.hideListDialog();
         }
     }
 
     //scroll up and down
     public function moveListDialog1( x:Float, y:Float){
-        if ( getInstancesByDisplayOrder().length > 10){
-            var updiff:Float = getInstancesByDisplayOrder()[0].y + y + _view.y;
-            var downdiff:Float = getInstancesByDisplayOrder()[getInstancesByDisplayOrder().length -1].y +y +_view.y;
+        if ( _movableInstances.length > 10){
+            var updiff:Float = _movableInstances[0].y + y + _view.y;
+            var downdiff:Float = _movableInstances[_movableInstances.length -1].y +y +_view.y;
             if ( updiff<=0 && downdiff >= (nme.Lib.current.stage.stageHeight - nme.Lib.current.stage.stageHeight / 10) ){
                 _view.y += _oldy + y;
             }
@@ -148,21 +184,21 @@ class ListDialogMgr extends CommDialogMgr{
     }
     /*
        public function moveListDialog( x:Float, y:Float ):Void{
-       if (getInstancesByDisplayOrder().length > 1){
-       var updiff:Float = getInstancesByDisplayOrder()[0].y + y;
-       var downdiff:Float = getInstancesByDisplayOrder()[getInstancesByDisplayOrder().length -1].y +y;
+       if (_instancesByDisplayOrder.length > 1){
+       var updiff:Float = _instancesByDisplayOrder[0].y + y;
+       var downdiff:Float = _instancesByDisplayOrder[_instancesByDisplayOrder.length -1].y +y;
        if ( updiff <=0 && downdiff >= (nme.Lib.current.stage.stageHeight - nme.Lib.current.stage.stageHeight / 10) ){
-       var interval:Float = getInstancesByDisplayOrder()[1].y - getInstancesByDisplayOrder()[0].y;
+       var interval:Float = _instancesByDisplayOrder[1].y - _instancesByDisplayOrder[0].y;
 //var interval:Float  = nme.Lib.current.stage.stageHeight/10;
 var h:Float = nme.Lib.current.stage.stageHeight;
-for ( i in 0...getInstancesByDisplayOrder().length){
-getInstancesByDisplayOrder()[i].y += _oldy + y ;
+for ( i in 0..._instancesByDisplayOrder.length){
+_instancesByDisplayOrder[i].y += _oldy + y ;
 //trace( interval);
 }
 }
 }
 else{
-getInstancesByDisplayOrder()[0] = _oldy +y;
+_instancesByDisplayOrder[0] = _oldy +y;
 }
 }
      */
@@ -193,11 +229,11 @@ public function createListDialogData( displayObj:Sprite, name:String): DialogDat
 #if flash
     //dd.alignOffsetY = displayObj.height/2;
     var alignOffsetX = displayObj.width /2;
-    var alignOffsetY = displayObj.height/2 + displayObj.height*(getInstancesByDisplayOrder().length);
+    var alignOffsetY = displayObj.height/2 + displayObj.height*(_movableInstances.length);
 #else
     var alignOffsetX = displayObj.width * displayObj.scaleX /2;
     //dd.alignOffsetY = displayObj.height* displayObj.scaleY/2;
-    var alignOffsetY = displayObj.height* displayObj.scaleY/2 + displayObj.height*displayObj.scaleY *(getInstancesByDisplayOrder().length);
+    var alignOffsetY = displayObj.height* displayObj.scaleY/2 + displayObj.height*displayObj.scaleY *(_movableInstances.length);
 #end
     return getListDialogData( alignOffsetX, alignOffsetY, displayObj, name);
 }
