@@ -154,10 +154,10 @@ class UIMgr extends ListDialogMgr {
     }
 
     public function resetDlgs(){
-        for ( d in getInstancesByDisplayOrder() ){
+        for ( d in _movableInstances){
             if( Std.is( d , CenterCtrlDialog) == false ){
                 d.clear();
-                getInstancesByDisplayOrder().remove(d);
+                _movableInstances.remove(d);
             }else{
                 var c:CenterCtrlDialog = cast d;
                 c.resetDlgs();

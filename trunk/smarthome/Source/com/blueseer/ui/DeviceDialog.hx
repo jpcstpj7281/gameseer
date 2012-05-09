@@ -44,7 +44,7 @@ class DeviceDialog extends CommDialog{
     }
 
     public function resetDlgs(){
-        _listDialogMgr.removeAll();
+        _listDialogMgr.removeAllMovables();
         createDlgs(_deviceID);
     }
     public function createDlgs( deviceid:Int){

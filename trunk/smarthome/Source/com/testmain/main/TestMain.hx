@@ -43,9 +43,9 @@ import sys.io.File;
 
 
 import nme.events.MouseEvent;
-//import base.common.Tools;
-//import base.social.SocialWorld;
-//import base.social.SinaWeibo;
+import base.common.Tools;
+import base.social.SocialWorld;
+import base.social.SinaWeibo;
 
 #if flash
 import base.common.FlashConnect;
@@ -67,7 +67,7 @@ class TestMain extends Sprite {
         initialize ();
     }
 
-    //var sw:SinaWeibo ;
+    var sw:SinaWeibo ;
     //private static var labelPrefix : String = "Number of button clicks: ";
     //private var numClicks : Int ;
     //private var label : JLabel;
@@ -172,11 +172,9 @@ class TestMain extends Sprite {
         //acc.addEventListener( AccelerometerEvent.UPDATE, onSensor);
     }
 
-    /*
     function testweibo(){
 
         sw = new SinaWeibo("4121333920", "0512e457b9a5f71fc0fb22a865dd7640");
-        sw._sig.add( onLogin);
         var pin:String=null;
         var refresh:Bool = false;
 #if flash
@@ -186,7 +184,6 @@ class TestMain extends Sprite {
 #end
         sw.login( refresh , pin  );
     }
-    */
     /*
     function saveBitmap(){
         var s:Sprite = new Sprite();
@@ -233,7 +230,6 @@ class TestMain extends Sprite {
         }
 #end
         //Lib.current.addChild (new TestMain ());
-        new TestMain();
     }
 
 

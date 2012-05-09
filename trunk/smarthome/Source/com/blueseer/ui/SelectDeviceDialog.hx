@@ -5,9 +5,6 @@ import com.blueseer.cmd.CommandMgr;
 import com.blueseer.cmd.Command;
 import com.blueseer.device.Device;
 import com.blueseer.device.DeviceMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogData;
 import com.eclecticdesignstudio.motion.actuators.GenericActuator;
 import com.eclecticdesignstudio.motion.Actuate;
 import base.ui.EmbedTextField;
@@ -22,8 +19,6 @@ import base.ui.ListDialogMgr;
 
 class SelectDeviceDialog extends CommDialog{
 
-    public var _downx:Float;
-    public var _downy:Float;
     public var _deviceID:Int;
     public var _cmdid:Int;
 

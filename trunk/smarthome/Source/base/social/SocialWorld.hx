@@ -652,12 +652,15 @@ class SocialWorld
         {
             return "";
         }
+#if js
+        return urlEncode( srcStr);
+#else
         var ba:ByteArray = new ByteArray();
         var chr:Int= 0;
         ba.writeUTFBytes(srcStr);
         ba.position = 0;
         //trace(ba.toString());
-        var utfStr:String='';
+        var utfStr:String="";
         //When encode the string using utf8. The encoder should encode the original string one byte by one byte.
         for (i in 0...ba.length)
         {
@@ -679,6 +682,7 @@ class SocialWorld
             }
         }
         return urlEncode(utfStr);
+#end
     }
     /**
      * base OAUTH中需要使用utf8编码

@@ -4,11 +4,6 @@ import base.ui.EmbedTextField;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogType;
-import com.eclecticdesignstudio.dialog.DialogData;
-import com.eclecticdesignstudio.dialog.events.DialogEvent;
 
 import nme.events.MouseEvent;
 import nme.events.Event;
@@ -17,22 +12,18 @@ import base.ui.ListDialogMgr;
 import base.ui.SubListDialogMgr;
 import base.ui.InputDialog;
 import com.pictionary.ui.ConnDrawingDlg;
+import base.ui.FixedDlg;
 
 import haxe.Timer;
 
 class MainStage extends ListDialogMgr {
 
 
-    var _exit:Sprite;
+    //var _exit:Sprite;
 
 #if (cpp || neko)
     public function initExit():Void{
-        _exit = new Sprite();
-        var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("exit"));
-        _exit.addChild( bm);
-        _exit.x = 50;
-        _exit.y= nme.Lib.current.stage.stageHeight - 100;
-        _exit.addEventListener( MouseEvent.CLICK, onExit);
+        new base.ui.ExitDlg(this);
     }
 
     public function onExit( evt:MouseEvent):Void{
@@ -67,12 +58,10 @@ class MainStage extends ListDialogMgr {
 
 
     public override function showListDialog( ):Void{
-        if (_exit!= null &&  _exit.parent == null  ) { nme.Lib.current.addChild(_exit); }
         super.showListDialog();
     }
 
     public override function hideListDialog( ):Void{
-        if (_exit!= null &&  _exit.parent != null  ) { nme.Lib.current.removeChild(_exit); }
         super.hideListDialog();
     }
 
@@ -84,7 +73,7 @@ class MainStage extends ListDialogMgr {
     }
 
     public function resetDlgs(){
-        getInst().removeAll();
+        getInst().removeAllMovables();
         getInst().createDlgs();
     }
 

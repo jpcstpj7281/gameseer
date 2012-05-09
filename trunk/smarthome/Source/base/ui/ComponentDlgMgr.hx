@@ -31,10 +31,9 @@ class ComponentDlgMgr extends CommDialogMgr{
     var _isDown:Bool;
 
     var _view:Sprite;
-    var _returnParent:Sprite;
+    //var _returnParent:Sprite;
     public var _returnCallback:Dynamic;
 
-    var _edit:Sprite;
     var _page:ComponentPageView;
     var _isFixed:Bool;
 
@@ -42,97 +41,123 @@ class ComponentDlgMgr extends CommDialogMgr{
     var RightEdge:Float ;
     var LeftEdge:Float ;
 
+    var _movableInstances:Array<CommDialog>;
+
     public function new (droppoint:Sprite ){
+        _movableInstances = [];
+
         _view= new Sprite();
         droppoint.addChild(_view);
         super( _view);
 
         RightEdge= nme.Lib.current.stage.stageWidth - 50;
-        //trace("RightEdge: "+RightEdge);
         LeftEdge= 50;
-        //trace("LeftEdge: "+LeftEdge);
-
-
         _oldx = _view.x;
         _oldy = _view.y;
         _isDown = false;
-        _returnParent = new Sprite();
-        var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("btn_return"));
-        _returnParent.addChild( bm);
-        _returnParent.x = nme.Lib.current.stage.stageWidth - 80;
-        _returnParent.y= nme.Lib.current.stage.stageHeight - 80;
-        _returnParent.addEventListener( MouseEvent.CLICK, onClickReturn);
 
-        _edit = new Sprite();
-        bm= new Bitmap( DataLoader.getInst().bms_.get("btn_edit"));
-        _edit.addChild( bm);
-        _edit.x = nme.Lib.current.stage.stageWidth - 160;
-        _edit.y= nme.Lib.current.stage.stageHeight - 80;
-        _edit.addEventListener( MouseEvent.CLICK, onClickEdit);
+        new ReturnDlg( this, returnCallback);
+        new EditDlg(this);
+
         _isFixed = true;
-
-
         _page = new ComponentPageView();
+
     }
 
-    public function showListDialog():Void{
-        if ( getInstancesByDisplayOrder() != null ){
-            setAnimationNum(getInstancesByDisplayOrder().length);
-            var c:Int = 0;
-            for ( i in getInstancesByDisplayOrder()){
-                ++c;
-                i.show().delay(0.05 * c).onComplete( decreaseAnimationNum, []);
-
-                var row = (c-1) % 5;
-#if flash
-                i.y=  i.height*(row);
-                var page:Int = Std.int( c / 5 );
-                i.x=  nme.Lib.current.stage.stageWidth * page /4;
-#else
-                i.y=  i.height*i.scaleY *(row);
-                var page:Int = Std.int( c/ 5 );
-                i.x=  nme.Lib.current.stage.stageWidth * page /4;
-#end
+    public override function contains (id:String):Bool {
+        trace(_movableInstances);
+        for ( d in _movableInstances){
+            if (d._uniqueId == id){
+                return true;
             }
         }
+        return super.contains( id);
+    }
+    public override function addDialog(  instance:CommDialog ):Void{
+        if ( Std.is( instance, base.ui.FixedDlg)) { super.addDialog(instance); return; }
+        if ( instance._uniqueId == null){
+            instance._uniqueId = Std.string(haxe.Timer.stamp());
+            trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+        }
+        if ( contains(instance._uniqueId) ) {
+            trace("already add dialog: " + Type.getClassName( Type.getClass(instance)) );
+            return;
+        }
+        trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+
+        _movableInstances.push(instance);
+        _dropPoint.addChild (instance);
+        instance.hide();
+    }
+    public override function showListDialog():Void{
+        setAnimationNum(_movableInstances.length);
+        var c:Int = 0;
+        for ( i in _movableInstances){
+            ++c;
+            i.show().delay(0.05 * c).onComplete( decreaseAnimationNum, []);
+
+            var row = (c-1) % 5;
+#if flash
+            i.y=  i.height*(row);
+            var page:Int = Std.int( c / 5 );
+            i.x=  nme.Lib.current.stage.stageWidth * page /4;
+#else
+            i.y=  i.height*i.scaleY *(row);
+            var page:Int = Std.int( c/ 5 );
+            i.x=  nme.Lib.current.stage.stageWidth * page /4;
+#end
+        }
+        super.showListDialog();
         _isDown = false;
-        if ( _returnParent.parent == null ) {
+        if ( _page.parent == null ) {
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_UP, onMouseUp);
             nme.Lib.current.stage.addEventListener( Event.ENTER_FRAME , onEnterFrame);
-            nme.Lib.current.addChild(_returnParent);
-            nme.Lib.current.addChild(_edit);
             nme.Lib.current.addChild(_page);
         }
         _isFixed = true;
         //fixedDialog(_isFixed);
     }
-    public function hideListDialog( ):Void{
-        for ( i in getInstancesByDisplayOrder()){
+    public override function hideListDialog( ):Void{
+        for ( i in _movableInstances){
             i.hide();
         }
+        super.hideListDialog();
         _isDown = false;
-        if ( _returnParent.parent != null ) {
+        if ( _page.parent != null ) {
             nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
             nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
             nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_UP, onMouseUp);
             nme.Lib.current.stage.removeEventListener( Event.ENTER_FRAME, onEnterFrame);
-            nme.Lib.current.removeChild(_returnParent);
-            nme.Lib.current.removeChild(_edit);
             nme.Lib.current.removeChild(_page);
         }
     }
+
+    public function removeAllMovables():Void{
+        for ( d in _movableInstances){
+            d.clear();
+        }
+        _movableInstances = [];
+    }
     public override function clear():Void{
         hideListDialog();
+        removeAllMovables();
         super.clear();
-        _returnParent = null;
-        _returnCallback = null;
-        _edit = null;
+        //_returnParent = null;
     }
     public function onMouseDown(evt:MouseEvent){ 
         //trace( "ComponentDlgMgr onMouseDown");
         if ( isAnimating()  ) return;
+        for ( i in _instancesByDisplayOrder){
+            if( i.hitTestPoint(evt.stageX, evt.stageY) ) {
+                _isDown = false;
+                _downx = evt.stageX;
+                _downy = evt.stageY;
+                //trace(" hit!");
+                return;
+            }
+        }
         _downx = evt.stageX;
         _downy = evt.stageY;
         _movex= 0;
@@ -199,44 +224,49 @@ class ComponentDlgMgr extends CommDialogMgr{
         }
     }
     public function onMouseUp(evt:MouseEvent){ 
+        if(  (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50  && (evt.stageX - _downx) < 50 && (evt.stageX - _downx ) > -50 ){
+            for ( i in _movableInstances){
+                if( i.hitTestPoint(evt.stageX, evt.stageY) ) {
+                    i.onMouseClick();
+                    _isDown = false;
+                    return;
+                }
+            }
+            for ( i in _instancesByDisplayOrder){
+                if( i.hitTestPoint(evt.stageX, evt.stageY) ) {
+                    i.onMouseClick();
+                    _isDown = false;
+                    return;
+                }
+            }
+        }
         if ( _isDown){
-            if( getInstancesByDisplayOrder().length > 0 && (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50  && (evt.stageX - _downx) < 50 && (evt.stageX - _downx ) > -50 ){
-                for ( i in getInstancesByDisplayOrder()){
-                    if( i.hitTestPoint(_downx, _downy) ) {
-                        i.onMouseClick();
-                        _isDown = false;
-                        return;
-                    }
-                }
-            }else{
+            var x:Float, y:Float;
+            if ( evt.stageX < 0 ){ x = 0; }else x = evt.stageX;
+            if ( evt.stageY < 0 ){ y = 0; }else y = evt.stageY;
+            if ( evt.stageX > nme.Lib.current.stage.stageWidth ){ x = nme.Lib.current.stage.stageWidth; }else x = evt.stageX;
+            if ( evt.stageY > nme.Lib.current.stage.stageHeight){ y = nme.Lib.current.stage.stageHeight; }else y = evt.stageY;
 
-                var x:Float, y:Float;
-                if ( evt.stageX < 0 ){ x = 0; }else x = evt.stageX;
-                if ( evt.stageY < 0 ){ y = 0; }else y = evt.stageY;
-                if ( evt.stageX > nme.Lib.current.stage.stageWidth ){ x = nme.Lib.current.stage.stageWidth; }else x = evt.stageX;
-                if ( evt.stageY > nme.Lib.current.stage.stageHeight){ y = nme.Lib.current.stage.stageHeight; }else y = evt.stageY;
-
-                trace( "x: "+x);
-                if ( _isFixed  ){
-                    if ( (x - _downx <200 && x - _downx  > 0 ) || (x- _downx > -200 && x - _downx < -0 ) ){
-                        _oldx = _movex;
-                        _movex = 0;
-                        trace( "_movex: "+_movex);
-                    }
-                    else if ( x- _downx <= -200 ){
-                        _oldx = _movex;
-                        _movex = -nme.Lib.current.stage.stageWidth;
-                        trace( "_movex: "+_movex);
-                    }
-                    else if ( x- _downx  >= 200  ){
-                        _oldx = _movex;
-                        _movex = nme.Lib.current.stage.stageWidth;
-                        trace( "_movex: "+_movex);
-                    }
-                    switchListDialog( );
+            trace( "x: "+x);
+            if ( _isFixed  ){
+                if ( (x - _downx <200 && x - _downx  > 0 ) || (x- _downx > -200 && x - _downx < -0 ) ){
+                    _oldx = _movex;
+                    _movex = 0;
+                    trace( "_movex: "+_movex);
                 }
-                else if ( !_isFixed  ){
+                else if ( x- _downx <= -200 ){
+                    _oldx = _movex;
+                    _movex = -nme.Lib.current.stage.stageWidth;
+                    trace( "_movex: "+_movex);
                 }
+                else if ( x- _downx  >= 200  ){
+                    _oldx = _movex;
+                    _movex = nme.Lib.current.stage.stageWidth;
+                    trace( "_movex: "+_movex);
+                }
+                switchListDialog( );
+            }
+            else if ( !_isFixed  ){
             }
         }
         _downx = 10000;
@@ -251,7 +281,7 @@ class ComponentDlgMgr extends CommDialogMgr{
         if ( isAnimating() ){ return; }
 
         if ( _movex == -nme.Lib.current.stage.stageWidth || _movex == nme.Lib.current.stage.stageWidth ){
-            setAnimationNum( getInstancesByDisplayOrder().length);
+            setAnimationNum( _movableInstances.length);
 
             if ( _movex > 0 && _page.hasPrePage() == false){
                 _movex = 0;
@@ -264,7 +294,7 @@ class ComponentDlgMgr extends CommDialogMgr{
                 else if (_movex < 0 ) _page.nextPage();
                 trace("move page: " +_movex);
             }
-            for ( i in getInstancesByDisplayOrder()){
+            for ( i in _movableInstances){
                 var c:ComponentDlg= cast(i);
                 if (c._isDown == false) { 
                     Actuate.tween (i, 0.5, { x: (i.x  -_oldx + _movex) } ).onComplete( decreaseAnimationNum, []);
@@ -273,38 +303,26 @@ class ComponentDlgMgr extends CommDialogMgr{
                 }
             }
         }
-        else for ( i in getInstancesByDisplayOrder()){
+        else for ( i in _movableInstances){
             i.x += -_oldx +_movex;
         }
     }
 
-    //public function fixedDialog( flag:Bool){
-    //if( flag){
-    //for ( i in getInstancesByDisplayOrder()){
-    //i.dialogData.type = DialogType.FIXED;
-    //}
-    //}else{
-    //for ( i in getInstancesByDisplayOrder()){
-    //i.dialogData.type = DialogType.DRAGGABLE;
-    //}
-    //}
-    //}
-
-    public function onClickEdit( evt:MouseEvent):Void{
+    public function toggleFixed( ):Void{
         _isFixed = !_isFixed;
         //fixedDialog( _isFixed);
     }
 
     public function createListDialogData( displayObj:Sprite, name:String): DialogData{
         var dd:DialogData = new DialogData(displayObj, name);
-        var row = getInstancesByDisplayOrder().length % 5;
+        var row = _movableInstances.length % 5;
 #if flash
         dd.alignOffsetY = displayObj.height/2 + displayObj.height*(row);
-        var page:Int = Std.int(getInstancesByDisplayOrder().length / 5 );
+        var page:Int = Std.int(_movableInstances.length / 5 );
         dd.alignOffsetX = displayObj.width /2 + nme.Lib.current.stage.stageWidth * page /4;
 #else
         dd.alignOffsetY = displayObj.height* displayObj.scaleY/2 + displayObj.height*displayObj.scaleY *(row);
-        var page:Int = Std.int(getInstancesByDisplayOrder().length / 5 );
+        var page:Int = Std.int(_movableInstances.length / 5 );
         dd.alignOffsetX = displayObj.width * displayObj.scaleX /2 + nme.Lib.current.stage.stageWidth * page /4;
 #end
         dd.fadeInTime = 0.5;
@@ -317,12 +335,6 @@ class ComponentDlgMgr extends CommDialogMgr{
 
         var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("cmd") );
         bm.height = nme.Lib.current.stage.stageHeight/10;
-
-        //s.addChild( txt1);
-        //var w:Float = nme.Lib.current.stage.stageWidth / txt.width;
-        //s.width=  nme.Lib.current.stage.stageWidth;
-        //s.height = nme.Lib.current.stage.stageHeight/10;
-        //txt.scaleY = 2;
 
         var txt:EmbedTextField = new EmbedTextField();
         txt.text = name;
@@ -342,10 +354,9 @@ class ComponentDlgMgr extends CommDialogMgr{
         return s;
     }
 
-    public function onClickReturn( evt:MouseEvent) :Void{
+    function returnCallback( ) :Void{
         if ( _returnCallback != null ){
             _returnCallback();
         }
-        hideListDialog();
     }
 }
