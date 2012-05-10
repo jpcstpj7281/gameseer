@@ -72,14 +72,10 @@ class CommDialog extends Sprite{
     }
 
     public function showParent():Void{
-        base.common.Tools.assert( _mgr != null);
-        var dm:ListDialogMgr = cast (_mgr);
-        dm.showListDialog();
+        _mgr.showListDialog();
     }
     public function hideParent():Void{
-        base.common.Tools.assert( _mgr != null);
-        var dm:ListDialogMgr = cast (_mgr);
-        dm.hideListDialog();
+        _mgr.hideListDialog();
     }
     public function onMouseClick():Void{ }
 

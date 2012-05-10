@@ -10,20 +10,23 @@ import nme.display.DisplayObject;
 
 import haxe.Timer;
 
-class ListDialog extends CommDialog {
+import base.ui.CommDialog;
+class ListFixedDlg extends FixedDlg{
 
 
     public var _listDialogMgr:SubListDialogMgr;
 
-    public function new ( dm:CommDialogMgr){
+    public function new ( dm:CommDialogMgr, obj:DisplayObject){
         _listDialogMgr = new SubListDialogMgr(nme.Lib.current);
         _listDialogMgr._returnCallback = showParent;
 
         super( dm);
+        addChild(obj);
     }
 
     public override function clear():Void{
         _listDialogMgr.clear();
+        _listDialogMgr = null;
         super.clear();
     }
     public override function onMouseClick( ):Void{
@@ -31,13 +34,5 @@ class ListDialog extends CommDialog {
             _listDialogMgr.showListDialog();
             hideParent();
         }
-    }
-    public override function showParent():Void{
-        var dm:ListDialogMgr = cast (_mgr);
-        dm.showListDialog();
-    }
-    public override function hideParent():Void{
-        var dm:ListDialogMgr = cast (_mgr);
-        dm.hideListDialog();
     }
 }

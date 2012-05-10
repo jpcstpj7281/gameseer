@@ -8,7 +8,7 @@ import base.social.SocialMgr;
 import nme.events.MouseEvent;
 
 import base.social.SinaWeibo;
-class SinaBinderDlg extends CommDialog{
+class SinaBinderDlg extends InputDialog{
 
     var _content:Sprite;
     public function new ( dm:ListDialogMgr):Void{
@@ -23,10 +23,12 @@ class SinaBinderDlg extends CommDialog{
         var str= null;
         var dm:ListDialogMgr= cast _mgr;
         if ( sina != null && sina.isBound() ) {
-            str= "解除绑定新浪微博";
+            //str= "解除绑定新浪微博";
+            str= "unbind sina weibo";
         }
         else{
-            str= "绑定新浪微博";
+            str= "bind sina weibo";
+            //str= "绑定新浪微博";
         }
         if ( _content!= null && _content.parent != null ){
             _content.parent.removeChild(_content);
@@ -36,15 +38,34 @@ class SinaBinderDlg extends CommDialog{
     }
 
     override function onMouseClick():Void{
-        //trace("onMouseClick");
         var sina:SinaWeibo = SocialMgr.getInst()._socials.get( Type.getClassName(SinaWeibo));
         if ( sina != null && sina.isBound() ) {
             sina.unBound();
         }else{
-            SocialMgr.getInst().bindSina();
-            trace("bindSina");
+            //SocialMgr.getInst().bindSina();
+            sina._sig.add( onLogin);
+            sina.login( false, null );
+            //trace("bindSina");
         }
         resetDlgs();
+    }
+    public function onLogin( msg:String, args:Array<Dynamic>, obj:Dynamic){
+        if( msg == "LoginSucceed"){
+            resetDlgs();
+        }else if( msg == "LoginFailed"){
+        }else if( msg == "LoginRequirePin"){
+            flashInput();
+            cast(_mgr,ListDialogMgr).hideListDialog();
+        }
+        var sina:SinaWeibo = cast obj;
+        sina._sig.remove(onLogin);
+        trace(msg);
+    }
+    override function fireInput( data:String):Void{ 
+        var sina:SinaWeibo = SocialMgr.getInst()._socials.get( Type.getClassName(SinaWeibo));
+        sina._sig.add( onLogin);
+        sina.login( false, data);
+        swichBackToCMDView();
     }
 }
 
@@ -53,7 +74,7 @@ class SocialBinderDlg extends ListDialog {
     var _binder:SinaBinderDlg;
 
     public function new ( mgr:ListDialogMgr){
-        var str:String = "绑定SNS";
+        var str:String = "bind SNS";
         var id:Int = 0;
         _uniqueId = str+id;
         var s:Sprite = mgr.createElement( str, id);
@@ -75,12 +96,11 @@ class SocialBinderDlg extends ListDialog {
     }
 
     override function onMouseClick():Void{
-        trace("onMouseClick");
         _binder.resetDlgs();
         super.onMouseClick();
     }
     //public function resetDlgs():Void{
-        //createDlgs();
-        //}
+    //createDlgs();
+    //}
 
 }

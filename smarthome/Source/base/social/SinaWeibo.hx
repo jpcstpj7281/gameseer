@@ -127,10 +127,6 @@ class SinaWeibo extends SocialWorld{
         ENABLE_NOTIFICATION_REQUEST_URL= API_BASE_URL + "/notifications/_S_enabled_S_user.json";
 
         LOAD_PROVINCE_CITY_ID_LIST = API_BASE_URL +  API_BASE_URL + "provinces.json";
-
-
-
-
     }
 
     // 添加到社交网络授权后的返回地址,用于把授权的PIN权保存到对应的帐号用,添加的就是对应数据库的用户帐号信息
@@ -150,10 +146,15 @@ class SinaWeibo extends SocialWorld{
             if ( _accessTokenKey == null || _accessTokenKey.length == 0 ){
                 _accessTokenKey= DataLoader.getInst().getData( "acc_token");
                 _accessTokenSecret= DataLoader.getInst().getData( "acc_secret");
+                _userId = DataLoader.getInst().getData( "user_id");
             }
             trace( "reachieve acc_token: "+_accessTokenKey);
             trace( "reachieve acc_secret: "+_accessTokenSecret);
-            if ( _accessTokenKey != null && _accessTokenKey.length > 0 && _accessTokenSecret != null && _accessTokenSecret.length > 0 ) {
+            trace( "reachieve user_id: "+_userId);
+            if ( _accessTokenKey != null && _accessTokenKey.length > 0 
+                    && _accessTokenSecret != null && _accessTokenSecret.length > 0  
+                    && _userId != null && _userId.length > 0) 
+            {
                 _sig.dispatch("LoginSucceed", [], this);
                 return true;
             }
@@ -177,8 +178,9 @@ class SinaWeibo extends SocialWorld{
                 _pin.length == 0) ){ 
             openBrowserToGetPin(); 
             //openBrowser( _callbackUrl);
+        }else{
+            _sig.dispatch("LoginFailed", [], this);
         }
-
 
         return false;
     }
@@ -190,6 +192,8 @@ class SinaWeibo extends SocialWorld{
         DataLoader.getInst().saveData( "acc_token", null);
         _accessTokenSecret="";
         DataLoader.getInst().saveData( "acc_secret", null);
+        _userId="";
+        DataLoader.getInst().saveData( "user_id", null);
         //trace( "acckey: " + _accessTokenKey);
         //trace( "accSecret: " + _accessTokenSecret);
     }
@@ -198,12 +202,10 @@ class SinaWeibo extends SocialWorld{
     public function isBound():Bool{
         _accessTokenKey= DataLoader.getInst().getData( "acc_token");
         _accessTokenSecret= DataLoader.getInst().getData( "acc_secret");
-        //trace( "acckey: " + _accessTokenKey);
-        //trace( "accSecret: " + _accessTokenSecret);
-        if( (_accessTokenKey == null || 
-                _accessTokenKey.length == 0|| 
-                _accessTokenSecret == null || 
-                _accessTokenSecret.length == 0))
+        _userId= DataLoader.getInst().getData( "user_id");
+        if (_accessTokenKey == null || _accessTokenKey.length == 0|| 
+                _accessTokenSecret == null || _accessTokenSecret.length == 0 ||
+                _userId == null || _userId.length == 0 ) 
         {
             return false;
         }else{
@@ -214,27 +216,25 @@ class SinaWeibo extends SocialWorld{
 
     dynamic function cbAccessToken( data:String):Void {
         var segs:Array<String> = data.split( "&");
-        var reqTokenKey = _accessTokenKey;
         for ( i in 0...segs.length) {
             var seg:Array<String> = segs[i].split("=");
             if ( seg[0] == "oauth_token") {
                 _accessTokenKey = seg[1];
             }else if (seg[0] == "oauth_token_secret" ) {
                 _accessTokenSecret = seg[1];
+            }if ( seg[0]=="user_id"){
+                _userId = seg[1];
             }
         }
-
-        //_sig.dispatch( SocialEvent.regAccessToken,[ _accessTokenKey, _accessTokenSecret, reqTokenKey]);
-        _sig.dispatch( "LoginSucceed", [ _accessTokenKey, _accessTokenSecret, reqTokenKey], this);
-
-        trace( "acckey: " + _accessTokenKey);
-        trace( "accSecret: " + _accessTokenSecret);
-
         DataLoader.getInst().saveData( "acc_token", _accessTokenKey);
         DataLoader.getInst().saveData( "acc_secret", _accessTokenSecret);
+        DataLoader.getInst().saveData( "user_id", _userId);
         DataLoader.getInst().saveData( "req_token", null);
         DataLoader.getInst().saveData( "req_secret", null);
         DataLoader.getInst().saveData( "pin", _pin);
+
+        _sig.dispatch( "LoginSucceed", [ _accessTokenKey, _accessTokenSecret, _userId], this);
+
     }
     dynamic function getAccessTokenByPin() {
         //用PIN获取access token and secret，并会保存在SharedObject中
@@ -271,8 +271,8 @@ class SinaWeibo extends SocialWorld{
         }
         //just a request token 
         //trace(data);
-        trace( "cb from openBrowserToGetPin reqkey: " + _accessTokenKey); 
-        trace( "cb from openBrowserToGetPin reqSecret: " + _accessTokenSecret);
+        //trace( "cb from openBrowserToGetPin reqkey: " + _accessTokenKey); 
+        //trace( "cb from openBrowserToGetPin reqSecret: " + _accessTokenSecret);
 
         DataLoader.getInst().saveData("req_token", _accessTokenKey);
         DataLoader.getInst().saveData("req_secret", _accessTokenSecret);
@@ -290,7 +290,7 @@ class SinaWeibo extends SocialWorld{
         base.ui.Native.openEmbedBrowser(url);
 #else
         openBrowser( url);
-        _sig.dispatch( "Required_Pin", [], this);
+        _sig.dispatch( "LoginRequirePin", [], this);
 #end
     }
 
@@ -299,12 +299,11 @@ class SinaWeibo extends SocialWorld{
     public function onLoop(evt:nme.events.Event){
         var res:String = base.ui.Native.inputData();
         if ( res != null ){
-            if ( res == "__failed__"){
-                nme.Lib.current.removeEventListener( nme.events.Event.ENTER_FRAME, onLoop);
-                return;
+            if ( res != "__failed__"){
+                login( false, res);
+            }else{
+                _sig.dispatch( "LoginFailed", [], this);
             }
-            //trace(res );
-            login( false, res);
             nme.Lib.current.removeEventListener( nme.events.Event.ENTER_FRAME, onLoop);
         }
     }

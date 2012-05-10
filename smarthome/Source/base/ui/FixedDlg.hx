@@ -14,13 +14,11 @@ import haxe.Timer;
 class FixedDlg extends CommDialog {
 
 
-    public function new ( dm:CommDialogMgr, elem:DisplayObject){
+    public function new ( dm:CommDialogMgr, elem:DisplayObject = null){
         super( dm);
-        addChild(elem);
+        if ( elem != null ) addChild(elem);
     }
 
     public override function onMouseClick( ):Void{
-        if ( _mgr.isAnimating() == false){
-        }
     }
 }

@@ -21,7 +21,7 @@ class CenterCtrlDialog extends ListDialog{
     }
 
     public function resetDlgs():Void{
-        _listDialogMgr.removeAll();
+        _listDialogMgr.removeAllMovables();
 
         new ConnDialog( _listDialogMgr);
 #if sys

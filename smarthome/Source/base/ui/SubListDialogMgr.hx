@@ -13,7 +13,6 @@ import haxe.Timer;
 class SubListDialogMgr extends ListDialogMgr{
 
 
-    //var _returnParent:Sprite;
     public var _returnCallback:Dynamic;
     public function new (droppoint:Sprite ){
         super( droppoint );
