@@ -22,12 +22,16 @@ class InputDialog extends CommDialog{
     var _Cancel:EmbedTextField ;
     var _promt:String;
 
-    public function new ( mgr:ListDialogMgr, name:String, id:Int , promt:String){
-        var str:String = name;
-        var s:Sprite = mgr.createElement( str, id);
+    public function new ( mgr:ListDialogMgr, name:String = null, id:Int =0 , promt:String = null){
         super( mgr);
-        addChild(s);
 
+        var s:Sprite ;
+        if ( name != null){
+            s= mgr.createElement( name, id);
+            addChild(s);
+        }
+
+        if ( promt == null ) _promt = "input text: ";
         _promt = promt;
     }
 
@@ -54,7 +58,6 @@ class InputDialog extends CommDialog{
 #end
     }
 
-#if flash
     public function flashInput():Void{
         if ( _usrInput == null ){
             _usrInput= new EmbedTextField();
@@ -105,7 +108,6 @@ class InputDialog extends CommDialog{
         showElements();
         nme.Lib.current.stage.focus = _usrInput;
     }
-#end
 
     public function swichBackToCMDView():Void{
         hideElements();

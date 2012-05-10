@@ -32,14 +32,17 @@ class SocialMgr
         _socials.set( Type.getClassName( SinaWeibo), sina);
         if ( sina.isBound() ){
             sina.login( false, null);
-        }else{
+        }
+#if flash
+        else{
             var pin:String = getPin();
             if (pin != null && pin.length > 0 ){
                 sina._sig.add( onLogin);
-                sina.login( false, pin);
-                ++_loginCount;
+                sina.login( false, pin );
+                ++ _loginCount;
             }
         }
+#end
 
     }
 
@@ -48,19 +51,24 @@ class SocialMgr
     }
 
     public function bindSina(){
-        //var sina = new SinaWeibo("4121333920", "0512e457b9a5f71fc0fb22a865dd7640");
         var sina= _socials.get( Type.getClassName(base.social.SinaWeibo));
-        //trace( Type.getClassName(base.social.SinaWeibo));
         sina._sig.add( onLogin);
-        sina.login( isRefresh(), getPin() );
+        sina.login( false, getPin() );
         ++ _loginCount;
     }
 
     public function onLogin( msg:String, args:Array<Dynamic>, obj:Dynamic){
         if( msg == "LoginSucceed"){
-            trace("obj is a "+ Type.getClassName( Type.getClass(obj) ) );
-            -- _loginCount;
+            trace("weibo login succeed! "+ Type.getClassName( Type.getClass(obj) ) );
+        }else if (msg == "LoginFailed" ){
+            trace("weibo login failed! "+ Type.getClassName( Type.getClass(obj) ) );
+        }else if (msg == "LoginRequirePin" ){
+            trace("weibo login require pin! "+ Type.getClassName( Type.getClass(obj) ) );
         }
+
+        -- _loginCount;
+        var sina:SinaWeibo = _socials.get( Type.getClassName(Type.getClass(obj)));
+        sina._sig.remove( onLogin);
     }
 
     inline public function getPin():String{

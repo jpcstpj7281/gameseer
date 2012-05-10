@@ -13,6 +13,8 @@ import base.ui.SubListDialogMgr;
 import base.ui.InputDialog;
 import com.pictionary.ui.ConnDrawingDlg;
 import base.ui.FixedDlg;
+import nme.text.TextFormat;
+import nme.text.TextFormatAlign;
 
 import haxe.Timer;
 
@@ -52,7 +54,8 @@ class MainStage extends ListDialogMgr {
 #if !flash
         //new HostDialog( this  );
 #end
-        new DrawingDlg( this, "SNS猜猜",0 );
+        //new DrawingDlg( this, "SNS猜猜",0 );
+        new DrawingDlg( this, "SNS drawing",0 );
         new SubjectsDlg( this);
     }
 
@@ -82,33 +85,31 @@ class MainStage extends ListDialogMgr {
         txt.text = name;
         txt.scaleX = 3;
         txt.scaleY = 3;
-        txt.x = 220;
-        txt.width = nme.Lib.current.stage.stageWidth/txt.scaleX - 220/txt.scaleX;
+        txt.width = nme.Lib.current.stage.stageWidth/txt.scaleX ;
         txt.height = nme.Lib.current.stage.stageHeight/10/txt.scaleY;
         txt.setBorder(true);
         txt.selectable = false;
+        var txtFormat:TextFormat = new TextFormat();
+        txtFormat.align = "center";
+        //txtFormat.font = "DroidSansFallback";
+        txt.setTextFormat(txtFormat);
 
-        var txt1:EmbedTextField = new EmbedTextField();
-        txt1.text = Std.string(id);
-        txt1.scaleX = 1;
-        txt1.scaleY = 3;
-        txt1.setBorder(true);
-        txt1.width = 100;
-        txt1.x = 120;
-        txt1.height = nme.Lib.current.stage.stageHeight/10/txt1.scaleY;
-        txt1.selectable = false;
+        //var txt1:EmbedTextField = new EmbedTextField();
+        //txt1.text = Std.string(id);
+        //txt1.scaleX = 1;
+        //txt1.scaleY = 3;
+        //txt1.setBorder(true);
+        //txt1.width = 100;
+        //txt1.x = 120;
+        //txt1.height = nme.Lib.current.stage.stageHeight/10/txt1.scaleY;
+        //txt1.selectable = false;
 
-        var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("trunk") );
-        //bm.height = nme.Lib.current.stage.stageHeight/10/txt.scaleY;
-
+        //var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("trunk") );
         var s:Sprite = new Sprite();
-        s.addChild( bm);
-        s.addChild( txt1);
+        //s.addChild( bm);
+        //s.addChild( txt1);
         s.addChild( txt);
-        //var w:Float = nme.Lib.current.stage.stageWidth / txt.width;
-        //s.width=  nme.Lib.current.stage.stageWidth;
         s.height = nme.Lib.current.stage.stageHeight/10;
-        //txt.scaleY = 2;
         return s;
     }
 

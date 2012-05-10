@@ -189,7 +189,7 @@ class DataLoader
     public function saveData( key:String, val:String):Void{
         var so:SharedObject = SharedObject.getLocal( Config.appName );
         Reflect.setField( so.data, key, val);
-        trace("saveData: " + val);
+        trace("saveData key: " + key +" val: "+ val);
         so.flush();
     }
 

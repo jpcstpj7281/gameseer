@@ -107,6 +107,7 @@ class SocialWorld
     public inline static var CONTENT_DISPOSITION_BASIC:String="Content-Disposition: form-data; name=\"$name\"";
     public inline static var CONTENT_TYPE_IMG:String = "Content-Type: image/"; 
     public inline static var CONTENT_TYPE_JPEG:String = "Content-Type: image/pjpeg"; 
+
     public var _sig:Signal3< String, Array<Dynamic>, Dynamic> ;
 
     var	_xauthUser:String;
@@ -121,6 +122,8 @@ class SocialWorld
 
     var _callbackUrl:String;
     var _cburlappend:String;
+
+    public var _userId:String;
 
 
     //var	_source:String;//same as ping?
@@ -320,7 +323,7 @@ class SocialWorld
     }
 
     public function onData(d):Void {	
-        trace(d);
+        //trace(d);
         _sig.dispatch( "onData", [d] , this);
     }
     public function onError(e):Void {	

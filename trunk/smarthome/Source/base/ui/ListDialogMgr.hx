@@ -27,7 +27,7 @@ class ListDialogMgr extends CommDialogMgr{
 
     var _isListening:Bool;
 
-    var _movableInstances:Array<CommDialog>;
+    public var _movableInstances:Array<CommDialog>;
 
     public function new (droppoint:Sprite ){
 
@@ -60,7 +60,7 @@ class ListDialogMgr extends CommDialogMgr{
         }
         if ( instance._uniqueId == null){
             instance._uniqueId = Std.string(haxe.Timer.stamp())+ Type.getClassName( Type.getClass(instance));
-            trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+            //trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
         }
         if ( contains(instance._uniqueId) ) {
             trace("already add dialog: " + Type.getClassName( Type.getClass(instance)) );
@@ -108,7 +108,7 @@ class ListDialogMgr extends CommDialogMgr{
     }
 
     public function onMouseUp(evt:MouseEvent){ 
-        if( _isDown && _movableInstances.length > 0 && (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 ){
+        if(  (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 &&  (evt.stageX - _downx) <50 && (evt.stageX - _downx ) > -50 ){
             for ( i in _movableInstances){
                 if( i.hitTestPoint(_downx, _downy) ) {
                     i.onMouseClick();
@@ -142,7 +142,7 @@ class ListDialogMgr extends CommDialogMgr{
             for ( i in 0..._movableInstances.length){//must use int! for i number
                 var d = _movableInstances[i];
                 d.show().delay(0.05 * i).onComplete(decreaseAnimationNum, []);
-                trace("show dialog: "+ d._uniqueId);
+                //trace("show dialog: "+ d._uniqueId);
 #if flash
                 //d.x = d.width /2;
                 //d.y = d.height/2 + d.height* i;
@@ -155,7 +155,7 @@ class ListDialogMgr extends CommDialogMgr{
             }
             _isDown = false;
             _isListening = true;
-            trace("super show: "+ _instancesByDisplayOrder.length);
+            //trace("super show: "+ _instancesByDisplayOrder.length);
             super.showListDialog();
         }
     }

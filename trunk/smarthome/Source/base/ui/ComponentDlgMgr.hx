@@ -31,7 +31,6 @@ class ComponentDlgMgr extends CommDialogMgr{
     var _isDown:Bool;
 
     var _view:Sprite;
-    //var _returnParent:Sprite;
     public var _returnCallback:Dynamic;
 
     var _page:ComponentPageView;
@@ -65,7 +64,7 @@ class ComponentDlgMgr extends CommDialogMgr{
     }
 
     public override function contains (id:String):Bool {
-        trace(_movableInstances);
+        //trace(_movableInstances);
         for ( d in _movableInstances){
             if (d._uniqueId == id){
                 return true;
@@ -144,7 +143,6 @@ class ComponentDlgMgr extends CommDialogMgr{
         hideListDialog();
         removeAllMovables();
         super.clear();
-        //_returnParent = null;
     }
     public function onMouseDown(evt:MouseEvent){ 
         //trace( "ComponentDlgMgr onMouseDown");

@@ -164,9 +164,9 @@ class UIMgr extends ListDialogMgr {
             }
         }
         for( dev in DeviceMgr.getInst()._devices){
-            trace("resetDlgs");
+            //trace("resetDlgs");
             new DeviceDialog( this, dev._deviceName, dev._deviceID);
-            trace("resetDlgs");
+            //trace("resetDlgs");
         }
     }
 
@@ -198,16 +198,11 @@ class UIMgr extends ListDialogMgr {
         txt1.selectable = false;
 
         var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("trunk") );
-        //bm.height = nme.Lib.current.stage.stageHeight/10/txt.scaleY;
-
         var s:Sprite = new Sprite();
         s.addChild( bm);
         s.addChild( txt1);
         s.addChild( txt);
-        //var w:Float = nme.Lib.current.stage.stageWidth / txt.width;
-        //s.width=  nme.Lib.current.stage.stageWidth;
         s.height = nme.Lib.current.stage.stageHeight/10;
-        //txt.scaleY = 2;
         return s;
     }
 

@@ -6,10 +6,9 @@ import base.ui.ListDialogMgr;
 
 class DrawingDlg extends CommDialog{
 
-    var _drawingDialogMgr:DrawingDlgMgr;
+    static var _drawingDialogMgr:DrawingDlgMgr;
+    static var _currThisDlg;
     public function new ( mgr:ListDialogMgr, name:String, id:Int ){
-        _drawingDialogMgr = new DrawingDlgMgr(nme.Lib.current);
-        _drawingDialogMgr._returnCallback = showParent;
         _uniqueId = name + id;
         var s= mgr.createElement( name, id);
         super( mgr);
@@ -19,8 +18,17 @@ class DrawingDlg extends CommDialog{
     override function onMouseClick( ):Void{
         var dm:CommDialogMgr = _mgr;
         if ( dm.isAnimating() == false){
+
+            if ( _drawingDialogMgr == null ){
+                _drawingDialogMgr = new DrawingDlgMgr(nme.Lib.current);
+            }
             _drawingDialogMgr.showListDialog();
             hideParent();
+            if ( _currThisDlg != this){
+                _currThisDlg = this;
+                _drawingDialogMgr.eraseDrawing();
+                _drawingDialogMgr._returnCallback = showParent;
+            }
         }
     }
 

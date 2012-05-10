@@ -10,10 +10,12 @@ class EmbedTextField extends TextField {
     public function new (){
 
         super();
-#if cpp
+#if android
         if( cpp.Sys.systemName() == "Linux" || cpp.Sys.systemName() == "android"  ){
-            defaultTextFormat = DataLoader.inst.textFormat_;
-            embedFonts = true;
+            if ( DataLoader.inst.textFormat_ != null){
+                defaultTextFormat = DataLoader.inst.textFormat_;
+                embedFonts = true;
+            }
         }
 #end
 
@@ -26,7 +28,7 @@ class EmbedTextField extends TextField {
             border = flag;
         }else{
 #if android
-        border = flag;
+            border = flag;
 #end
         }
 #end
