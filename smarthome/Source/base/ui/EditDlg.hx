@@ -17,8 +17,5 @@ class EditDlg extends FixedDlg{
         if ( Std.is( _mgr, ComponentDlgMgr)){
             cast(_mgr, ComponentDlgMgr).toggleFixed();
         }
-        else if ( Std.is( _mgr, DrawingDlgMgr)){
-            cast(_mgr, DrawingDlgMgr).toggleFixed();
-        }
     }
 }

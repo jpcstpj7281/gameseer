@@ -22,6 +22,7 @@ import haxe.io.Bytes;
 import haxe.io.BytesBuffer;
 
 import haxe.Timer;
+import base.ui.ReturnDlg;
 
 class DrawingDlgMgr extends CommDialogMgr{
 
@@ -87,9 +88,9 @@ class DrawingDlgMgr extends CommDialogMgr{
         _linesArr = new Array<Bytes>();
         _lines = new BytesBuffer();
 
-        new base.ui.ReturnDlg( this , returnCallback);
+        new ReturnDlg( this , returnCallback);
         new UploadImgDlg(this);
-        new base.ui.EditDlg(this);
+        new DrawEditDlg(this);
         new EraseDlg(this);
         _draw.visible = false;
         _isFixed = true;
@@ -282,10 +283,21 @@ class DrawingDlgMgr extends CommDialogMgr{
     public function toggleFixed( ):Void{
         if( _isDown && _isFixed ){
             _draw.graphics.moveTo(_oldx-_draw.x, _oldy-_draw.y);
+            for ( i in _instancesByDisplayOrder){
+                if ( Std.is( i, DrawEditDlg) == false && Std.is(i,ReturnDlg) == false ){
+                    i.hide();
+                }
+            }
+        }
+        else{
+            for ( i in _instancesByDisplayOrder){
+                if ( Std.is( i, DrawEditDlg) == false && Std.is(i,ReturnDlg) == false ){
+                    i.show();
+                }
+            }
         }
         _isFixed = !_isFixed;
     }
-
 
     public function onMouseUp(evt:MouseEvent){ 
         if ( isAnimating()  ) return;
