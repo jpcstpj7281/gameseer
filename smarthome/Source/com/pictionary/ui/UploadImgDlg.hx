@@ -28,10 +28,8 @@ class UploadImgDlg extends ListFixedDlg{
         var bm= new Bitmap( bmd);
 
         super(dm, bm);
-        //_upload.addChild( bm);
         x = 160;
         y= nme.Lib.current.stage.stageHeight - 80;
-        //_upload.addEventListener( MouseEvent.CLICK, onClickUpload);
     }
 
     public override function showParent():Void{
@@ -48,8 +46,8 @@ class UploadImgDlg extends ListFixedDlg{
         var str = sina.getMsg();
         sina.clearMsgTo();
         //trace("msg: "+str);
-        //sina.updateNewStatusWithImg(str, b );
-        sina.updateNewStatus(str );
+        sina.updateNewStatusWithImg(str, b );
+        //sina.updateNewStatus(str );
     }
 
     public override function onMouseClick( ):Void{

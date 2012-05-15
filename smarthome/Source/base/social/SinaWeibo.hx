@@ -283,12 +283,10 @@ class SinaWeibo extends SocialWorld{
     }
 
     public function setFanScreenName( id:String, name:String):Void{
-        //_bilateral.set(id, name);
-        //DataLoader.getInst().saveDynamicData( "bilateral", _bilateral);
-        DataLoader.getInst().saveData( id, name);
+        DataLoader.getInst().saveData( "sina_id_"+id, name);
     }
     public function getScreenName( id:String):String{
-        return DataLoader.getInst().getData(id);
+        return DataLoader.getInst().getData("sina_id_"+id);
     }
 
     //inline public function getSaveObj():SharedObject{
@@ -297,14 +295,14 @@ class SinaWeibo extends SocialWorld{
 
     public function getBilateral():Array<String>{
         if ( _bilateral == null ) {
-            _bilateral = DataLoader.getInst().getData(_userId+"bilateral");
+            _bilateral = DataLoader.getInst().getData("sina_bilateral_" + _userId);
         }
         return _bilateral;
     }
 
     public function refreshBilateral( fans:Array<String>):Void{
         _bilateral = fans;
-        DataLoader.getInst().saveDynamicData( _userId+"bilateral", fans);
+        DataLoader.getInst().saveDynamicData( "sina_bilateral_" + _userId, fans);
     }
 
     dynamic function cbAccessToken( data:String):Void {

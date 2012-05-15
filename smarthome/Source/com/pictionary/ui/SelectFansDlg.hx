@@ -20,7 +20,7 @@ class SelectFansDlg extends CommDialog{
     var _show:Sprite;
     public function new ( mgr:ListDialogMgr, id:String, name:String = ""){
         _id = id;
-        _name = name;
+        _name =name ;
         _show = getElement( name, id);
         super( mgr);
         addChild(_show);
@@ -47,21 +47,17 @@ class SelectFansDlg extends CommDialog{
     }
 
     function onData( msg:String, args:Array<Dynamic>, obj:Dynamic):Void{
-        if ( msg == "OnData"){
-            var rsp = args[0];
-            trace("test");
-            var json = hxjson2.JSON.decode( rsp);
-            trace("test");
+        if ( msg == "OnDataAsJson"){
+            var json = args[0];
+            //var json = hxjson2.JSON.decode( rsp);
             if ( json.id == _id ){
                 _name = json.screen_name;
                 removeChild( _show);
                 _show = getElement( _name, _id);
                 addChild(_show);
-            trace("test");
                 var sina:base.social.SinaWeibo = cast obj;
                 sina._sig.remove( onData);
                 sina.setFanScreenName( _id, _name);
-            trace("test");
             }
         }
     }
