@@ -32,11 +32,15 @@ class SinaWeibo extends SocialWorld{
 
 
     var urlLoader:URLLoader ;
+    var _brief:String;
+    var _msgAto:Array<String>;
 
 
     public function new( appKey:String, appSecret:String) {
         super( appKey, appSecret);
 
+        _brief = "";
+        _msgAto = new Array<String>();
 
         API_BASE_URL = "http://api.t.sina.com.cn";
         PROLICY_FILE_URL =  API_BASE_URL + "/flash/crossdomain.xml";
@@ -45,7 +49,7 @@ class SinaWeibo extends SocialWorld{
         //#if flash
         _cburlappend= ""; 
         //#elseif cpp
-        
+
 #if flash
         //_callbackUrl = "http://gameseer.sinaapp.com/trunksm/hpictionary.html"; 
         _callbackUrl = "http://gameseer.sinaapp.com:8080/smarthome/hpictionary.html"; 
@@ -80,7 +84,7 @@ class SinaWeibo extends SocialWorld{
         STATUS_UNREAD_REQUEST_URL = API_BASE_URL +  "/statuses/unread.json";
         RESET_STATUS_COUNT_REQUEST_URL = API_BASE_URL +  "/statuses/reset_count.json";
         SHOW_STATUS_REQUEST_URL = API_BASE_URL +  "/statuses/show/$id.json";
-		
+
 
         UPDATE_STATUS_REQUEST_URL= API_BASE_URL + "/statuses/update.json";
         UPDATE_STATUS_WITH_IMAGE_REQUEST_URL= API_BASE_URL + "/statuses/upload.json";
@@ -92,11 +96,11 @@ class SinaWeibo extends SocialWorld{
         REPLY_STATUS_REQUEST_URL = API_BASE_URL +  "/statuses/reply.json";	
 
         LOAD_USER_INFO_REQUEST_URL= API_BASE_URL + "/users/show.json";
-        LOAD_FRIENDS_INFO_REQUEST_URL= API_BASE_URL + "/statuses/friends_S_user.json";
+        LOAD_FRIENDS_INFO_REQUEST_URL= API_BASE_URL + "/statuses/friends/$id.json";
         LOAD_FOLLOWERS_INFO_REQUEST_URL = API_BASE_URL +  "/statuses/followers_S_user.json";
         LOAD_HOT_USERS_URL = API_BASE_URL +  "/users/hot.json";
         UPDATE_FRIENDS_REMARK_URL = API_BASE_URL +  "/user/friends/update_remark.json";
-		RETURN_SUGGESTIONS = API_BASE_URL + "/users/suggestions";
+        RETURN_SUGGESTIONS = API_BASE_URL + "/users/suggestions";
 
         LOAD_DIRECT_MESSAGES_RECEIVED_REQUEST_URL= API_BASE_URL + "/direct_messages.json";
         LOAD_DIRECT_MESSAGES_SENT_REQUEST_URL= API_BASE_URL + "/direct_messages/sent.json";
@@ -106,10 +110,14 @@ class SinaWeibo extends SocialWorld{
         FOLLOW_REQUEST_URL= API_BASE_URL + "/friendships/create/$id.json";
         CANCEL_FOLLOWING_REQUEST_URL= API_BASE_URL + "/friendships/destroy_S_user.json";
         CHECK_IS_FOLLOWING_REQUEST_URL = API_BASE_URL + "/friendships/show.json";
-		CHECK_IS_Friendship_Exists_URL= API_BASE_URL + "/friendships/exists.json";
+        CHECK_IS_Friendship_Exists_URL= API_BASE_URL + "/friendships/exists.json";
 
-        LOAD_FRIENDS_ID_LIST_REQUEST_URL= API_BASE_URL + "/friends/ids_S_user.json";
-        LOAD_FOLLOWERS_ID_LIST_REQUEST_URL= API_BASE_URL + "/followers/ids_S_user.json";
+        LOAD_FRIENDS_ID_LIST_REQUEST_URL= API_BASE_URL + "/friends/ids/$id.json";
+        LOAD_FOLLOWERS_ID_LIST_REQUEST_URL= API_BASE_URL + "/followers/ids/$id.json";
+
+        LOAD_FOLLOWERS_ID_LIST_REQUEST_URL_VIP = API_BASE_URL +"/1/friendships/followers/all/ids.json";
+
+        LOAD_FRIENDS_ID_LIST_REQUEST_URL_V2 = API_BASE_URL +"/1/friendships/friends/ids.json"; 
 
         VERIFY_CREDENTIALS_REQUEST_URL = API_BASE_URL + "/account/verify_credentials.json";
 
@@ -139,8 +147,8 @@ class SinaWeibo extends SocialWorld{
 
     /*  will dispatch a "LoginSucceed" in _sig signal dispatcher after logined
         will dispatch a "Required_Pin" in _sig signal dispatcher after got a req_token to authorize, 
-                and open a browser with authorization url for usr, requir to login again with pin
-        */
+        and open a browser with authorization url for usr, requir to login again with pin
+     */
     public function login(   refresh:Bool = false, pin:String =  null):Bool{ 
         if( refresh == false  && pin == null ){//没有从外部存入PIN，查看SO中有没有相关PIN和ACC_TOKEN
             if ( _accessTokenKey == null || _accessTokenKey.length == 0 ){
@@ -171,11 +179,11 @@ class SinaWeibo extends SocialWorld{
             }
         }
         if( (_accessTokenKey == null || 
-                _accessTokenKey.length == 0|| 
-                _accessTokenSecret == null || 
-                _accessTokenSecret.length == 0|| 
-                _pin == null || 
-                _pin.length == 0) ){ 
+                    _accessTokenKey.length == 0|| 
+                    _accessTokenSecret == null || 
+                    _accessTokenSecret.length == 0|| 
+                    _pin == null || 
+                    _pin.length == 0) ){ 
             openBrowserToGetPin(); 
             //openBrowser( _callbackUrl);
         }else{
@@ -213,6 +221,91 @@ class SinaWeibo extends SocialWorld{
         }
     }
 
+
+    public function brief( content:String):Bool{
+        if ( isOutRange( content) ){ return false;}
+        _brief = content;
+        return true;
+    }
+
+    public function addMsgTo( name:String):Bool{
+        for ( i in _msgAto){
+            if ( name == i) return false;
+        }
+        if ( isOutRange( name) ){ return false;}
+        _msgAto.push(name);
+        return true;
+    }
+
+    public function removeMsgTo( name:String):Void{
+        for ( i in _msgAto){
+            if ( name == i) {
+                _msgAto.remove(i);
+                return;
+            }
+        }
+    }
+    public function hasMsgTo( name:String):Bool{
+        for ( i in _msgAto){
+            if ( name == i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isOutRange( name:String):Bool{
+        var len:Int = haxe.Utf8.length( name);
+        for ( i in _msgAto){
+            len += haxe.Utf8.length(i)+1;
+        }
+        len+= haxe.Utf8.length(_brief);
+        if ( len > 140 ) return true;
+        else return false;
+    }
+
+    public function clearMsgTo():Void{
+        _msgAto = [];
+    }
+    public function getMsg():String{
+        var res = _brief + getAtoString();
+        //_brief = "";
+        //_msgAto = [];
+        return res;
+    }
+
+    public function getAtoString( ):String{
+        var ns = "";
+        for ( i in _msgAto){
+            ns += "@"+i;
+        }
+        return ns;
+    }
+
+    public function setFanScreenName( id:String, name:String):Void{
+        //_bilateral.set(id, name);
+        //DataLoader.getInst().saveDynamicData( "bilateral", _bilateral);
+        DataLoader.getInst().saveData( id, name);
+    }
+    public function getScreenName( id:String):String{
+        return DataLoader.getInst().getData(id);
+    }
+
+    //inline public function getSaveObj():SharedObject{
+    //return DataLoader.getInst().getSharedObj();
+    //}
+
+    public function getBilateral():Array<String>{
+        if ( _bilateral == null ) {
+            _bilateral = DataLoader.getInst().getData(_userId+"bilateral");
+        }
+        return _bilateral;
+    }
+
+    public function refreshBilateral( fans:Array<String>):Void{
+        _bilateral = fans;
+        DataLoader.getInst().saveDynamicData( _userId+"bilateral", fans);
+    }
 
     dynamic function cbAccessToken( data:String):Void {
         var segs:Array<String> = data.split( "&");
@@ -312,9 +405,9 @@ class SinaWeibo extends SocialWorld{
     public function updateNewStatus( content:String  ):Void {	
         var params:Hash<String> = new Hash<String>();
         params.set("status", content);
+        //trace(  encodeMsg(content));
         //params.set("annotations", "test");
         //params.set("_url", UPDATE_STATUS_REQUEST_URL);
-        trace(  encodeMsg(content));
         var req:Http = signRequest( UPDATE_STATUS_REQUEST_URL , params, true);
         req.onData = onData;
         req.onError = onError;
@@ -325,9 +418,8 @@ class SinaWeibo extends SocialWorld{
     public function updateNewStatusWithImg( content:String, img:Bytes = null, imgType:String= "png", fileName:String = "unknow.png"  ):Void {	
         var params:Hash<String> = new Hash<String>();
         params.set("status", content);
-        trace(  encodeMsg(content));
+        //trace(  encodeMsg(content));
         //params.set("annotations", "test");
-
 #if sys
         if( img == null){ img = testimg(); }
         trace("img len: "+ img.length);
@@ -348,8 +440,6 @@ class SinaWeibo extends SocialWorld{
         //params = makeParamsData( UPDATE_STATUS_WITH_IMAGE_REQUEST_URL, params);
         //var str = makeMultiPostData(boundary, "pic", fileName, img, params, imgType);
         //req.setPostData( str);
-
-
 #elseif flash
 
         if( img == null){ img = testimg(); }

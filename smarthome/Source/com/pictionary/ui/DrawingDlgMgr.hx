@@ -318,9 +318,12 @@ class DrawingDlgMgr extends CommDialogMgr{
         _oldy = 0;
     }
 
-    public function uploadImg():Void{
+    public function getImgBytes():Bytes{
         if( _pressTime > 0 ) cacheBitmapData();
-        var bytes = base.common.Tools.converToPNGBytes( _bmd, _maxWidth, _maxHeight);
+        return base.common.Tools.converToPNGBytes( _bmd, _maxWidth, _maxHeight);
+    }
+    public function uploadImg():Void{
+        var bytes  = getImgBytes();
 
         var sina = SocialMgr.getInst()._socials.get( Type.getClassName( base.social.SinaWeibo) );
         if( sina!= null && sina.isBound()) {
@@ -371,11 +374,13 @@ class DrawingDlgMgr extends CommDialogMgr{
         trace("clear once");
     }
 
-    public function returnCallback( evt:MouseEvent) :Void{
+    public function returnCallback( ) :Void{
+        //trace( _returnCallback);
         cacheBitmapData();
+        //trace( _returnCallback);
         if ( _returnCallback != null ){
             _returnCallback();
         }
-        hideListDialog();
+        //hideListDialog();
     }
 }

@@ -23,6 +23,7 @@ class ListDialogMgr extends CommDialogMgr{
 
     var _isDown:Bool;
 
+    var _movableView:Sprite;
     var _view:Sprite;
 
     var _isListening:Bool;
@@ -31,15 +32,18 @@ class ListDialogMgr extends CommDialogMgr{
 
     public function new (droppoint:Sprite ){
 
-        _movableInstances = new Array<CommDialog>();
         _view= new Sprite();
-        //_view.mouseChildren = false;
-        //_view.mouseEnabled= true;
-        _view.visible = true;
+        _movableView= new Sprite();
+
+        _movableInstances = new Array<CommDialog>();
+        //_movableView.mouseChildren = false;
+        //_movableView.mouseEnabled= true;
+        _movableView.visible = true;
         droppoint.addChild(_view);
+        _view.addChild(_movableView);
         super( _view );
-        _oldx = _view.x;
-        _oldy = _view.y;
+        _oldx = _movableView.x;
+        _oldy = _movableView.y;
         _isDown = false;
         _isListening= false;
 
@@ -69,14 +73,14 @@ class ListDialogMgr extends CommDialogMgr{
         trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
 
         _movableInstances.push(instance);
-        _dropPoint.addChild (instance);
+        _movableView.addChild (instance);
         instance.hide();
     }
     public override function clear():Void{
         hideListDialog();
         removeAllMovables();
-        if( _view.parent != null){
-            _view.parent.removeChild( _view);
+        if( _movableView.parent != null){
+            _movableView.parent.removeChild( _movableView);
         }
         _movableInstances.splice(0, _movableInstances.length);
         super.clear();
@@ -91,9 +95,13 @@ class ListDialogMgr extends CommDialogMgr{
 
     public function onMouseDown(evt:MouseEvent){ 
         //trace( "list onMouseDown");
-        //for ( i in _instancesByDisplayOrder ){ if( i.hitTestPoint(evt.stageX, evt.stageY) ) return; }
         _downx = evt.stageX;
         _downy = evt.stageY;
+        for ( i in _instancesByDisplayOrder ){ 
+            if( i.hitTestPoint(evt.stageX, evt.stageY) ) {
+                return; 
+            }
+        }
         _movex= evt.stageX;
         _movey= evt.stageY;
         _isDown = true;
@@ -109,15 +117,17 @@ class ListDialogMgr extends CommDialogMgr{
 
     public function onMouseUp(evt:MouseEvent){ 
         if(  (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 &&  (evt.stageX - _downx) <50 && (evt.stageX - _downx ) > -50 ){
-            for ( i in _movableInstances){
-                if( i.hitTestPoint(_downx, _downy) ) {
-                    i.onMouseClick();
-                    return;
-                }
-            }
             for ( i in _instancesByDisplayOrder){
                 if( i.hitTestPoint(_downx, _downy) ) {
                     i.onMouseClick();
+                    _isDown = false;
+                    return;
+                }
+            }
+            for ( i in _movableInstances){
+                if( i.hitTestPoint(_downx, _downy) ) {
+                    i.onMouseClick();
+                    _isDown = false;
                     return;
                 }
             }
@@ -175,10 +185,10 @@ class ListDialogMgr extends CommDialogMgr{
     //scroll up and down
     public function moveListDialog1( x:Float, y:Float){
         if ( _movableInstances.length > 10){
-            var updiff:Float = _movableInstances[0].y + y + _view.y;
-            var downdiff:Float = _movableInstances[_movableInstances.length -1].y +y +_view.y;
+            var updiff:Float = _movableInstances[0].y + y + _movableView.y;
+            var downdiff:Float = _movableInstances[_movableInstances.length -1].y +y +_movableView.y;
             if ( updiff<=0 && downdiff >= (nme.Lib.current.stage.stageHeight - nme.Lib.current.stage.stageHeight / 10) ){
-                _view.y += _oldy + y;
+                _movableView.y += _oldy + y;
             }
         }
     }

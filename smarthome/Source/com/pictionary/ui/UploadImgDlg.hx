@@ -34,22 +34,36 @@ class UploadImgDlg extends ListFixedDlg{
         //_upload.addEventListener( MouseEvent.CLICK, onClickUpload);
     }
 
+    public override function showParent():Void{
+        var dm:DrawingDlgMgr = cast (_mgr);
+        dm.showListDialog();
+
+        var b = dm.getImgBytes();
+        if ( b.length == 0){
+            trace("Image has no content!");
+            return;
+        }
+
+        var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
+        var str = sina.getMsg();
+        sina.clearMsgTo();
+        //trace("msg: "+str);
+        //sina.updateNewStatusWithImg(str, b );
+        sina.updateNewStatus(str );
+    }
+
     public override function onMouseClick( ):Void{
         if ( _mgr.isAnimating() ) return;
 
         if ( _listDialogMgr._movableInstances.length == 0 ){
-            new base.ui.InputDialog( _listDialogMgr, "test", 0);
-            new base.ui.InputDialog( _listDialogMgr, "test", 1);
+            new LoadFriendsDlg( _listDialogMgr, "load friends", 0);
+            //new LoadFriendsDlg( _listDialogMgr, "", 1);
         }
         super.onMouseClick();
         hideParent();
         //cast( _mgr, DrawingDlgMgr).uploadImg();
     }
 
-    public override function showParent():Void{
-        var dm:DrawingDlgMgr = cast (_mgr);
-        dm.showListDialog();
-    }
     public override function hideParent():Void{
         var dm:DrawingDlgMgr = cast (_mgr);
         dm.hideListDialog();
