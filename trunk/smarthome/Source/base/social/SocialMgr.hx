@@ -11,10 +11,8 @@ import base.social.SinaWeibo;
 class SocialMgr
 {
 
-
     public  var _socials:Hash<Dynamic>;
     static var inst:SocialMgr;
-
     public var _loginCount:Int;
 
     //invoke must at the begining of your app
@@ -49,6 +47,7 @@ class SocialMgr
     public function isInitialized():Bool{
         return _loginCount == 0;
     }
+
 
     public function bindSina(){
         var sina= _socials.get( Type.getClassName(base.social.SinaWeibo));

@@ -135,6 +135,15 @@ class TestMain extends Sprite {
         //#end    
 
         //testweibo();
+
+        trace("test");
+        var str= "测试";
+        var b = Bytes.ofString(str);
+#if sys
+        trace("s: "+haxe.Utf8.length(str)+ " b: "+b.length);
+#else
+        trace("s: "+str.length + " b: "+b.length);
+#end
     }
 
     //private function click(evt:MouseEvent):Void{
@@ -224,12 +233,12 @@ class TestMain extends Sprite {
     // Entry point
     public static function main () {
 #if flash
-        var debug:String = flash.Lib.current.root.loaderInfo.parameters.debug;
-        if(debug == null){
-            FlashConnect.redirect();
-        }
+        //var debug:String = flash.Lib.current.root.loaderInfo.parameters.debug;
+        //if(debug == null){
+        //FlashConnect.redirect();
+        //}
 #end
-        //Lib.current.addChild (new TestMain ());
+        Lib.current.addChild (new TestMain ());
     }
 
 

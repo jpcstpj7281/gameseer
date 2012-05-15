@@ -13,7 +13,7 @@ import haxe.Timer;
 class ReturnDlg extends FixedDlg{
 
 
-    public var _returnCallback:Dynamic;
+    public var _returnCallback:Void->Void;
     static var BM:Bitmap;
     public function new ( dm:CommDialogMgr, returnCallback:Dynamic ){
         if( BM == null) BM= new Bitmap( DataLoader.getInst().bms_.get("btn_return"));
@@ -37,10 +37,14 @@ class ReturnDlg extends FixedDlg{
     public override function onMouseClick( ):Void{
         if ( _mgr.isAnimating() ) return;
 
+        //trace( BM);
         if ( contains(BM)) removeChild(BM);
+        //trace( _returnCallback);
         if ( _returnCallback != null ){
             _returnCallback();
         }
+        //trace( _returnCallback);
         _mgr.hideListDialog();
+        //trace( _returnCallback);
     }
 }

@@ -177,15 +177,26 @@ class DataLoader
     public function getData( key:String):Dynamic{
         var so:SharedObject = SharedObject.getLocal( Config.appName );
         //trace(Config.appName);
-        var data:String = Reflect.field( so.data, key);
+        var data= Reflect.field( so.data, key);
         //trace("getData: " + data);
         return data;
     }
+
+    public function getSharedObj( ):SharedObject{
+        return SharedObject.getLocal( Config.appName );
+    }
+
     public function getSaveData( ):Dynamic{
         var so:SharedObject = SharedObject.getLocal( Config.appName );
         return so.data;
     }
 
+    public function saveDynamicData( key:String, val:Dynamic):Void{
+        var so:SharedObject = SharedObject.getLocal( Config.appName );
+        Reflect.setField( so.data, key, val);
+        trace("saveData key: " + key +" val: "+ val);
+        so.flush();
+    }
     public function saveData( key:String, val:String):Void{
         var so:SharedObject = SharedObject.getLocal( Config.appName );
         Reflect.setField( so.data, key, val);

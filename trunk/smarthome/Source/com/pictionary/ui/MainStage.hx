@@ -55,7 +55,7 @@ class MainStage extends ListDialogMgr {
         //new HostDialog( this  );
 #end
         //new DrawingDlg( this, "SNS猜猜",0 );
-        new DrawingDlg( this, "SNS drawing",0 );
+        var d = new DrawingDlg( this, "SNS drawing",0 );
         new SubjectsDlg( this);
     }
 
@@ -90,7 +90,7 @@ class MainStage extends ListDialogMgr {
         txt.setBorder(true);
         txt.selectable = false;
         var txtFormat:TextFormat = new TextFormat();
-        txtFormat.align = "center";
+        txtFormat.align = flash.text.TextFormatAlign.CENTER;
         //txtFormat.font = "DroidSansFallback";
         txt.setTextFormat(txtFormat);
 

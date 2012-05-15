@@ -10,6 +10,7 @@ import com.eclecticdesignstudio.motion.Actuate;
 import base.ui.EmbedTextField;
 import nme.display.Bitmap;
 import base.data.DataLoader;
+import base.ui.EmbedTextField;
 
 import nme.events.MouseEvent;
 import nme.display.Sprite;

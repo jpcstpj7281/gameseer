@@ -1,9 +1,6 @@
 package base.ui;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogData;
 import nme.display.Sprite;
 
-import com.eclecticdesignstudio.dialog.DialogManager;
 import base.social.SocialMgr;
 import nme.events.MouseEvent;
 
@@ -11,29 +8,31 @@ import base.social.SinaWeibo;
 class SinaBinderDlg extends InputDialog{
 
     var _content:Sprite;
+    var _currstr:String;
     public function new ( dm:ListDialogMgr):Void{
         _uniqueId = Type.getClassName( SinaBinderDlg);
-        super(dm);
+        super(dm, null , 0, "Input the pin number: ");
         resetDlgs();
     }
 
     public function resetDlgs():Void{
         var sina:SinaWeibo = SocialMgr.getInst()._socials.get( Type.getClassName(SinaWeibo));
         //trace(  Type.getClassName(base.social.SinaWeibo));
-        var str= null;
         var dm:ListDialogMgr= cast _mgr;
         if ( sina != null && sina.isBound() ) {
+            if ( _currstr != null && _currstr == "unbind sina weibo") return;
             //str= "解除绑定新浪微博";
-            str= "unbind sina weibo";
+            _currstr= "unbind sina weibo";
         }
         else{
-            str= "bind sina weibo";
+            if ( _currstr != null && _currstr == "bind sina weibo") return;
+            _currstr= "bind sina weibo";
             //str= "绑定新浪微博";
         }
         if ( _content!= null && _content.parent != null ){
             _content.parent.removeChild(_content);
         }
-        _content = CommDialogMgr.getElement( str, 0);
+        _content = CommDialogMgr.getElement( _currstr, 0);
         addChild( _content);
     }
 
@@ -59,7 +58,7 @@ class SinaBinderDlg extends InputDialog{
         }
         var sina:SinaWeibo = cast obj;
         sina._sig.remove(onLogin);
-        trace(msg);
+        //trace(msg);
     }
     override function fireInput( data:String):Void{ 
         var sina:SinaWeibo = SocialMgr.getInst()._socials.get( Type.getClassName(SinaWeibo));

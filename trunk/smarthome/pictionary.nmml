@@ -18,6 +18,7 @@
     <haxelib name="actuate" />
     <haxelib name="format" />
     <haxelib name="hxs" />
+    <haxelib name="hxjson2" />
     <assets path="Assets" rename="assets" include="*" exclude="nme.svg" />
     <icon name="Assets/nme.svg" />
     <ndll name="std" />

@@ -83,8 +83,10 @@ class SocialWorld
     dynamic var CHECK_IS_FOLLOWING_REQUEST_URL:String;
     dynamic var CHECK_IS_Friendship_Exists_URL:String;
 
+    dynamic var LOAD_FRIENDS_ID_LIST_REQUEST_URL_V2:String;
     dynamic var LOAD_FRIENDS_ID_LIST_REQUEST_URL:String;
     dynamic var LOAD_FOLLOWERS_ID_LIST_REQUEST_URL:String;
+    dynamic var LOAD_FOLLOWERS_ID_LIST_REQUEST_URL_VIP:String; 
 
     dynamic var VERIFY_CREDENTIALS_REQUEST_URL:String;
     dynamic var GET_RATE_LIMIT_STATUS_REQUEST_URL:String;
@@ -124,6 +126,8 @@ class SocialWorld
     var _cburlappend:String;
 
     public var _userId:String;
+
+    var _bilateral:Array<String>;
 
 
     //var	_source:String;//same as ping?
@@ -240,33 +244,34 @@ class SocialWorld
     }
 
     dynamic function makeSignableParamStr(params:Hash<String>):String
-        {
-            var retParams:Array<String>=[];
+    {
+        var retParams:Array<String>=[];
 
-            //var keys:Iterator<String> = params.keys();
-            //while ( keys.hasNext()) {
-            //var key:String = keys.next();
-            for( key in params.keys() ){
-                if (key != "oauth_signature")
-                {
-                    var param:String = params.get(key);
-                    if ( param != null) {
-                        retParams.push(key + "=" + urlEncodeSpecial(param));
-                        //retParams.push(key + "=" + StringTools.urlEncode(param));
-                        //trace( "key: "+key+" val: "+ param);
-                        //trace( "len: "+retParams[retParams.length -1].length);
-                    }
+        //var keys:Iterator<String> = params.keys();
+        //while ( keys.hasNext()) {
+        //var key:String = keys.next();
+        for( key in params.keys() ){
+            if (key != "oauth_signature")
+            {
+                var param:String = params.get(key);
+                if ( param != null) {
+                    //retParams.push(key + "=" + urlEncodeSpecial(param));
+                    retParams.push(key + "=" + urlEncodeSpecial(param));
+                    //retParams.push(key + "=" + StringTools.urlEncode(param));
+                    //trace( "key: "+key+" val: "+ param);
+                    //trace( "len: "+retParams[retParams.length -1].length);
                 }
             }
-            retParams.sort(Tools.sortString); //after i tested, it seems have to be sort, if u want a right response
-            var str:String =  retParams.join("&");
-
-            //trace(str.substr(0, 100) );
-            //trace(str.substr(100, 100) );
-            //trace(str.substr(200, 100) );
-            //trace(str.substr(300, str.length - 300) );
-            return str;
         }
+        retParams.sort(Tools.sortString); //after i tested, it seems have to be sort, if u want a right response
+        var str:String =  retParams.join("&");
+
+        //trace(str.substr(0, 100) );
+        //trace(str.substr(100, 100) );
+        //trace(str.substr(200, 100) );
+        //trace(str.substr(300, str.length - 300) );
+        return str;
+    }
 
 
     private function signRequest(url:String, requestParams:Hash<String> = null, isPost:Bool = true ):Http {			
@@ -323,8 +328,11 @@ class SocialWorld
     }
 
     public function onData(d):Void {	
-        //trace(d);
-        _sig.dispatch( "onData", [d] , this);
+        trace(d);
+        trace(d.substr( d.length -1, 1) );
+        trace(d.length);
+        _sig.dispatch( "OnData", [d] , this);
+        trace("test");
     }
     public function onError(e):Void {	
         trace(e);
@@ -332,6 +340,67 @@ class SocialWorld
     public function onStatus(s):Void {	
         trace(s);
     }
+
+    public function loadFollowersV1( id:String = null):Void {
+        if ( id == null ){
+            if ( _userId != null){
+                id = _userId;
+            }
+            else{
+                trace("cannot deal with null id!");
+            }
+        }
+
+        var params:Hash<String> = new Hash<String>();
+        params.set("count", "5000");
+        var url = StringTools.replace(LOAD_FOLLOWERS_ID_LIST_REQUEST_URL, "$id", id);
+        var req:Http = signRequest( url , null, false);
+        req.onData = onData;
+        req.onError = onError;
+        req.onStatus = onStatus;
+        req.request( false);
+    }
+
+    public function loadFriendsV1( id:String = null):Void {
+        if ( id == null ){
+            if ( _userId != null){
+                id = _userId;
+            }
+            else{
+                trace("cannot deal with null id!");
+            }
+        }
+
+        var params:Hash<String> = new Hash<String>();
+        params.set("count", "5000");
+        var url = StringTools.replace(LOAD_FRIENDS_ID_LIST_REQUEST_URL, "$id", id);
+        var req:Http = signRequest( url , null, false);
+        req.onData = onData;
+        req.onError = onError;
+        req.onStatus = onStatus;
+        req.request( false);
+    }  
+
+    //public function loadFriendsV2( id:String = null):Void {
+    //if ( id == null ){
+    //if ( _userId != null){
+    //id = _userId;
+    //}
+    //else{
+    //trace("cannot deal with null id!");
+    //}
+    //}
+    //
+    ////var url = StringTools.replace(LOAD_FRIENDS_ID_LIST_REQUEST_URL_V2, "$id", id);
+    //
+    //var params:Hash<String> = new Hash<String>();
+    //params.set("uid", id);
+    //var req:Http = signRequest( LOAD_FRIENDS_ID_LIST_REQUEST_URL_V2, params, false);
+    //req.onData = onData;
+    //req.onError = onError;
+    //req.onStatus = onStatus;
+    //req.request( false);
+    //}  
 
     public function loadPublicTimeLine():Void {	
         var req:Http = signRequest( PUBLIC_TIMELINE_REQUEST_URL, null, false);
@@ -499,38 +568,38 @@ class SocialWorld
         req.request( true);
     }
 
-// not used bug keep it
+    // not used bug keep it
     /*
-    function makeMultiPostData( boundary:String, imgFieldName:String, filename:String, imgData:Bytes, params:Hash<String>, imgType:String):Bytes{
+       function makeMultiPostData( boundary:String, imgFieldName:String, filename:String, imgData:Bytes, params:Hash<String>, imgType:String):Bytes{
 
-        var postData=new BytesBuffer();
-        for (name in params.keys()) {
-            boundaryPostData( postData, boundary);
-            addLineBreak(postData);
-            postData.add( Bytes.ofString ( StringTools.replace( CONTENT_DISPOSITION_BASIC, "$name", name)));
-            addLineBreak(postData);
-            addLineBreak(postData);
-            postData.add( Bytes.ofString( params.get(name)));
-            addLineBreak(postData);
-        }
+       var postData=new BytesBuffer();
+       for (name in params.keys()) {
+       boundaryPostData( postData, boundary);
+       addLineBreak(postData);
+       postData.add( Bytes.ofString ( StringTools.replace( CONTENT_DISPOSITION_BASIC, "$name", name)));
+       addLineBreak(postData);
+       addLineBreak(postData);
+       postData.add( Bytes.ofString( params.get(name)));
+       addLineBreak(postData);
+       }
 
-        boundaryPostData( postData, boundary);
-        addLineBreak(postData);
-        postData.add( Bytes.ofString( StringTools.replace( CONTENT_DISPOSITION_BASIC, "$name", imgFieldName) + "; filename=\"" + filename + "\""));
-        addLineBreak(postData);
-        postData.add( Bytes.ofString(CONTENT_TYPE_IMG + imgType));
-        addLineBreak(postData);
-        addLineBreak(postData);
-        postData.add(imgData);
-        addLineBreak(postData);
+       boundaryPostData( postData, boundary);
+       addLineBreak(postData);
+       postData.add( Bytes.ofString( StringTools.replace( CONTENT_DISPOSITION_BASIC, "$name", imgFieldName) + "; filename=\"" + filename + "\""));
+       addLineBreak(postData);
+       postData.add( Bytes.ofString(CONTENT_TYPE_IMG + imgType));
+       addLineBreak(postData);
+       addLineBreak(postData);
+       postData.add(imgData);
+       addLineBreak(postData);
 
-        boundaryPostData( postData, boundary);
-        addDoubleDash(postData);
+       boundaryPostData( postData, boundary);
+       addDoubleDash(postData);
 
-        var b = postData.getBytes();
-        return b;
-    }
-    */
+       var b = postData.getBytes();
+       return b;
+       }
+     */
 
 #if flash
     function makeMultiPostData( boundary:String, imgFieldName:String, filename:String, imgData:ByteArray, params:Hash<String>, imgType:String):ByteArray{
@@ -598,9 +667,15 @@ class SocialWorld
         var chr:Int = 0;
         var utfStr:String='';
         //When encode the string using utf8. The encoder should encode the original string one byte by one byte.
+#if flash
         for (i in 0...srcStr.length)
         {
             chr=srcStr.charCodeAt(i);
+#else
+        for (i in 0...haxe.Utf8.length(srcStr))
+        {
+            chr=haxe.Utf8.charCodeAt(srcStr,i);
+#end
             if (chr < 128)
             {
                 utfStr+=String.fromCharCode(chr);
@@ -754,4 +829,4 @@ class SocialWorld
         data.add( Bytes.ofString(boundary));
     }
 #end
-        }
+    }

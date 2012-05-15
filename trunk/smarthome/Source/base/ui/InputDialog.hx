@@ -31,8 +31,9 @@ class InputDialog extends CommDialog{
             addChild(s);
         }
 
-        if ( promt == null ) _promt = "input text: ";
-        _promt = promt;
+        if ( promt == null ) {
+            _promt = "input text: ";
+        }else _promt = promt;
     }
 
     public function onLoop(evt:Event){

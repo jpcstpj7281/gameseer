@@ -5,16 +5,11 @@ import com.blueseer.cmd.CommandMgr;
 import com.blueseer.cmd.Command;
 import com.blueseer.device.Device;
 import com.blueseer.device.DeviceMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogData;
-import base.ui.EmbedTextField;
 import nme.display.Bitmap;
 import base.data.DataLoader;
 
 import nme.events.MouseEvent;
 import nme.display.Sprite;
-import nme.text.TextFieldType;
 import base.ui.CommDialog;
 import base.ui.CommDialogMgr;
 import base.ui.SubListDialogMgr;
