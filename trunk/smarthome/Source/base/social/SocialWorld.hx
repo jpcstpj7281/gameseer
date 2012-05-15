@@ -328,11 +328,12 @@ class SocialWorld
     }
 
     public function onData(d):Void {	
-        trace(d);
-        trace(d.substr( d.length -1, 1) );
-        trace(d.length);
-        _sig.dispatch( "OnData", [d] , this);
-        trace("test");
+        if ( d.substr(0, 1) == "{"){
+            var json = hxjson2.JSON.decode( cast(d, String));
+            _sig.dispatch( "OnDataAsJson", [json] , this);
+        }
+        else _sig.dispatch( "OnData", [d] , this);
+        //trace("test");
     }
     public function onError(e):Void {	
         trace(e);

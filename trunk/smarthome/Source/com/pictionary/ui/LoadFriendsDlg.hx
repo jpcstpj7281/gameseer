@@ -49,7 +49,7 @@ class LoadFriendsDlg extends ListDialog{
     }
 
     public function onLoadedFriends( msg:String, args:Array<Dynamic>, obj:Dynamic){
-        if( msg == "OnData"){
+        if( msg == "OnDataAsJson"){
             var sina:SinaWeibo = cast obj;
             sina._sig.remove(onLoadedFriends);
             //trace( args[0] );
@@ -61,7 +61,7 @@ class LoadFriendsDlg extends ListDialog{
     }
 
     public function onLoadedFollowers( msg:String, args:Array<Dynamic>, obj:Dynamic){
-        if( msg == "OnData"){
+        if( msg == "OnDataAsJson"){
             var sina:SinaWeibo = cast obj;
             sina._sig.remove(onLoadedFollowers);
             _followers = hashString(args[0]);
@@ -88,10 +88,10 @@ class LoadFriendsDlg extends ListDialog{
         return res;
     }
 
-    public function hashString( data:String):Hash<String>{
+    public function hashString( data:Dynamic):Hash<String>{
         //trace( data);
-        var json = hxjson2.JSON.decode( data);
-        var ids:Array<String>=  json.ids;
+        //var json = hxjson2.JSON.decode( data);
+        var ids:Array<String>=  data.ids;
         var d = new Hash<String>();
         for ( i in ids ){
             d.set( i, "");
