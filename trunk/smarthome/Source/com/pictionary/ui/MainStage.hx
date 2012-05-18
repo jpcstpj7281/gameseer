@@ -48,7 +48,11 @@ class MainStage extends ListDialogMgr {
         if (name == null) {
             name = "玩家";
         }
+
+#if !neko
         new base.ui.SocialBinderDlg(this);
+        new SubjectsDlg( this);
+#end
         //new UserNameInputDlg( this, name, 0, "输入名称:");
         //new ConnDrawingDlg( this);
 #if !flash
@@ -56,7 +60,6 @@ class MainStage extends ListDialogMgr {
 #end
         //new DrawingDlg( this, "SNS猜猜",0 );
         var d = new DrawingDlg( this, "SNS drawing",0 );
-        new SubjectsDlg( this);
     }
 
 
