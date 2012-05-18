@@ -11,6 +11,10 @@
     <item><type>orangedot</type><name>orangedot</name><extension>.png</extension><loc>img</loc></item>
     <item><type>mic</type><name>mic</name><extension>.png</extension><loc>img</loc></item>
     <item><type>exit</type><name>exit</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>upload</type><name>upload</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>line</type><name>line</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>pan</type><name>pan</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>color</type><name>color</name><extension>.png</extension><loc>img</loc></item>
     <item><type>erase</type><name>X1</name><extension>.png</extension><loc>img</loc></item>
 
 

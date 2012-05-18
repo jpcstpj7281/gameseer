@@ -475,7 +475,12 @@ class SinaWeibo extends SocialWorld{
         s.graphics.lineTo(0, 50);
         s.graphics.lineTo(50, 0);
         s.graphics.endFill();
-        var b= new nme.display.BitmapData(100, 100, true,0);
+#if neko
+        var color:nme.display.BitmapInt32 =  {rgb:0, a:1};
+#else
+        var color:nme.display.BitmapInt32 = 0;
+#end
+        var b= new nme.display.BitmapData(100, 100, true,color);
         b.draw(s);
 
         var strimg = Tools.converToPNGBytes( b);

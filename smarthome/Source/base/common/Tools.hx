@@ -26,7 +26,10 @@ import sys.io.File;
 
 class Base64 {
     private static var chars:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-    public static function encode(input:String) {
+    public static function encode(input:String) :String{
+#if neko
+        return haxe.BaseCode.encode( input, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/");
+#else
         var output:String = "",chr1:Null<Int>,chr2:Null<Int>,chr3:Null<Int>,enc1:Int,enc2:Int,enc3:Int,enc4:Int,i:Int = 0;
         while (i < input.length) {
             chr1 = input.charCodeAt(i++);
@@ -45,6 +48,7 @@ class Base64 {
             output = output + chars.charAt(enc1) + chars.charAt(enc2) + chars.charAt(enc3) + chars.charAt(enc4);
         }
         return output;
+#end
     }
 
     /*
@@ -101,16 +105,19 @@ class Tools
 #else
         var code = Base64.encode( instr);
 #end
-
-        //trace("base64: "+ code);
         return code;
     }
 
     inline public static function hash_HMAC_SHA1( insecret:String, inmessage:String):String {
-        //trace("insecret: " + insecret);
-        //trace("inmessage: " + inmessage);
 #if php
         var code = hash_hmac ( "sha1" , inmessage , insecret );
+#elseif neko
+        var hmac = new chx.hash.HMAC( null);
+        var bcode = hmac.calculate( Bytes.ofString(insecret), Bytes.ofString(inmessage));
+        var code ="";
+        for ( b in 0...bcode.length){
+            code+= String.fromCharCode(bcode.get(b));
+        }
 #else
         //var code = HMAC.hash(insecret, inmessage);		
         var sha1 = new chx.hash.Sha1();
@@ -123,34 +130,33 @@ class Tools
 #end
         return code;
     }
-
-    inline public static function salt_SHA1( data:Bytes):Bytes{ return chx.hash.Sha1.encode( data); }
-    inline public static function base64_salt_SHA1( data:String):String{ 
-        var b = Bytes.ofString(data);
-        var s = chx.hash.Sha1.encode( b);
-
-        trace( s.toHex());
-
-        var code ="";
-        for ( b in 0...s.length){
-            code+= String.fromCharCode(s.get(b));
-        }
-        var base64 = Base64.encode(code); 
-
-        //trace( base64);
-
-        //var debase = Base64.decode(base64);
-        //#if cpp 
-        //trace( Bytes.ofString(debase).toHex() );
-        //#else
-        //var ba = new ByteArray();
-        //for ( b in 0...debase.length){
-        //ba.writeByte( debase.charCodeAt(b) );
-        //}
-        //trace( Bytes.ofData( ba).toHex()) ;
-        //#end
-        return base64;
-    }
+    //
+    //inline public static function salt_SHA1( data:Bytes):Bytes{ 
+    //#if neko
+    //trace("unsupport neko algorithm");
+    //return Bytes.ofString("");
+    //#else
+    //return chx.hash.Sha1.encode( data); 
+    //#end
+    //}
+    //inline public static function base64_salt_SHA1( data:String):String{ 
+    //#if neko
+    //trace("unsupport neko algorithm");
+    //return ("");
+    //#else
+    //var b = Bytes.ofString(data);
+    //var s = chx.hash.Sha1.encode( b);
+    //
+    //trace( s.toHex());
+    //
+    //var code ="";
+    //for ( b in 0...s.length){
+    //code+= String.fromCharCode(s.get(b));
+    //}
+    //var base64 = Base64.encode(code); 
+    //return base64;
+    //#end
+    //}
 
     inline public static function sortString (a : String, b : String) : Int {
         return if ( a < b ) -1 else if ( a > b ) 1 else 0;

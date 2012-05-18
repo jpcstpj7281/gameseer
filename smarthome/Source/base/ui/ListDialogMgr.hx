@@ -6,8 +6,6 @@ import nme.events.Event;
 import base.ui.EmbedTextField;
 import nme.display.Sprite;
 import base.data.DataLoader;
-import com.eclecticdesignstudio.dialog.DialogType;
-import com.eclecticdesignstudio.dialog.DialogData;
 
 import haxe.Timer;
 
@@ -17,7 +15,6 @@ class ListDialogMgr extends CommDialogMgr{
     var _downx:Float;
     var _movey:Float;
     var _movex:Float;
-
     var _oldx:Float;
     var _oldy:Float;
 
@@ -47,6 +44,10 @@ class ListDialogMgr extends CommDialogMgr{
         _isDown = false;
         _isListening= false;
 
+        _downy=0;
+        _downx=0;
+        _movey=0;
+        _movex=0;
     }
 
     public override function contains (id:String):Bool {
@@ -99,24 +100,27 @@ class ListDialogMgr extends CommDialogMgr{
         _downy = evt.stageY;
         for ( i in _instancesByDisplayOrder ){ 
             if( i.hitTestPoint(evt.stageX, evt.stageY) ) {
-                return; 
+                return;
             }
         }
         _movex= evt.stageX;
         _movey= evt.stageY;
         _isDown = true;
     }
-    public function onMouseMove(evt:MouseEvent){ 
-        if( (evt.stageX- _downx) > 50 ){
-        }else if ( _isDown  ){
-            moveListDialog1( 0, evt.stageY - _movey);
-            _movey = evt.stageY;
-            _movex = evt.stageX;
+    public function onMouseMove(evt:MouseEvent){
+        if ( _isDown  ){
+            if( (evt.stageX- _downx) > 50 ){
+                moveListDialog1( 0, evt.stageY - _movey);
+                _movey = evt.stageY;
+                _movex = evt.stageX;
+            }
         }
     }
 
     public function onMouseUp(evt:MouseEvent){ 
-        if(  (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 &&  (evt.stageX - _downx) <50 && (evt.stageX - _downx ) > -50 ){
+        var ydiff = evt.stageY - _downy;
+        var xdiff = evt.stageX - _downx;
+        if(  ydiff <50 && ydiff > -50  &&  xdiff <50 && xdiff > -50 ){
             for ( i in _instancesByDisplayOrder){
                 if( i.hitTestPoint(_downx, _downy) ) {
                     i.onMouseClick();
@@ -213,39 +217,12 @@ _instancesByDisplayOrder[0] = _oldy +y;
 }
      */
 public function createListDialog(name:String, id:Int):CommDialog{
-    var dd:DialogData ;
     var s:Sprite = createElement(name, id );
-    //dd = createListDialogData(s, name);
-    //d = createDialog(dd);
     var d = new ListDialog(this);
     d.addChild(s);
     d.hide();
     return d;
 }
-static public function getListDialogData( offsetx, offsety, displayObj:Sprite, name:String): DialogData{
 
-    var dd:DialogData = new DialogData(displayObj, name, DialogType.FIXED);
-    //dd.alignOffsetY = displayObj.height/2;
-    dd.alignOffsetX = offsetx;
-    dd.alignOffsetY = offsety;
-    dd.fadeInTime = 0.5;
-    dd.fadeOutTime = 0 ;
-    return dd;
-
-}
-
-
-public function createListDialogData( displayObj:Sprite, name:String): DialogData{
-#if flash
-    //dd.alignOffsetY = displayObj.height/2;
-    var alignOffsetX = displayObj.width /2;
-    var alignOffsetY = displayObj.height/2 + displayObj.height*(_movableInstances.length);
-#else
-    var alignOffsetX = displayObj.width * displayObj.scaleX /2;
-    //dd.alignOffsetY = displayObj.height* displayObj.scaleY/2;
-    var alignOffsetY = displayObj.height* displayObj.scaleY/2 + displayObj.height*displayObj.scaleY *(_movableInstances.length);
-#end
-    return getListDialogData( alignOffsetX, alignOffsetY, displayObj, name);
-}
 
 }

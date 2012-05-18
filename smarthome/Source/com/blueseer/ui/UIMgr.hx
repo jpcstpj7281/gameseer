@@ -4,7 +4,6 @@ import base.ui.EmbedTextField;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import com.eclecticdesignstudio.dialog.DialogData;
 
 import com.blueseer.cmd.CommandMgr;
 import com.blueseer.device.Device;

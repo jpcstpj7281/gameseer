@@ -10,17 +10,16 @@ import haxe.Timer;
 import com.pictionary.ui.DrawingDlgMgr;
 import base.ui.FixedDlg;
 import base.ui.CommDialogMgr;
-class EraseDlg extends FixedDlg{
+class SelectLineDlg extends FixedDlg{
     public function new ( dm:CommDialogMgr ){
-        super(dm, new Bitmap( DataLoader.getInst().bms_.get("erase")));
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("line")));
         x = 100;
-        y= nme.Lib.current.stage.stageHeight - 75;
+        y= nme.Lib.current.stage.stageHeight - 155;
     }
 
     public override function onMouseClick( ):Void{
         if ( _mgr.isAnimating() ) return;
         if ( Std.is( _mgr, DrawingDlgMgr)){
-            cast(_mgr, DrawingDlgMgr).eraseDrawing();
         }
     }
 }

@@ -127,7 +127,7 @@ class ClientConn{
 #if flash
         _socket.writeBytes( data, 0, data.length );
         _socket.flush();
-#elseif cpp
+#elseif sys
         _socket.writeBytes( data);
 #else
         _socket.write( data.toString() );

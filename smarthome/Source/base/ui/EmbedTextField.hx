@@ -3,7 +3,6 @@ package base.ui;
 
 import nme.text.TextField;
 import base.data.DataLoader;
-import com.eclecticdesignstudio.dialog.IDialogDisplay;
 
 
 class EmbedTextField extends TextField {
@@ -23,13 +22,12 @@ class EmbedTextField extends TextField {
 
     public function setBorder( flag:Bool):Void{
 
-#if cpp
+#if neko border = flag; #end
+#if android
+        border = flag;
+#elseif cpp
         if( cpp.Sys.systemName() != "Linux" ){
             border = flag;
-        }else{
-#if android
-            border = flag;
-#end
         }
 #end
     }

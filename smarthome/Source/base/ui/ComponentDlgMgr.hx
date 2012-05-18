@@ -1,10 +1,5 @@
 package base.ui;
 
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogType;
-import com.eclecticdesignstudio.dialog.DialogData;
-import com.eclecticdesignstudio.dialog.events.DialogEvent;
 import com.eclecticdesignstudio.motion.Actuate;
 
 import base.ui.EmbedTextField;
@@ -309,23 +304,6 @@ class ComponentDlgMgr extends CommDialogMgr{
     public function toggleFixed( ):Void{
         _isFixed = !_isFixed;
         //fixedDialog( _isFixed);
-    }
-
-    public function createListDialogData( displayObj:Sprite, name:String): DialogData{
-        var dd:DialogData = new DialogData(displayObj, name);
-        var row = _movableInstances.length % 5;
-#if flash
-        dd.alignOffsetY = displayObj.height/2 + displayObj.height*(row);
-        var page:Int = Std.int(_movableInstances.length / 5 );
-        dd.alignOffsetX = displayObj.width /2 + nme.Lib.current.stage.stageWidth * page /4;
-#else
-        dd.alignOffsetY = displayObj.height* displayObj.scaleY/2 + displayObj.height*displayObj.scaleY *(row);
-        var page:Int = Std.int(_movableInstances.length / 5 );
-        dd.alignOffsetX = displayObj.width * displayObj.scaleX /2 + nme.Lib.current.stage.stageWidth * page /4;
-#end
-        dd.fadeInTime = 0.5;
-        dd.fadeOutTime = 0 ;
-        return dd;
     }
 
     override function createElement(name:String, id:Int):Sprite{

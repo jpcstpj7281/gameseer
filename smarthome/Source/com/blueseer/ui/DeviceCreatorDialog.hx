@@ -2,9 +2,6 @@ package com.blueseer.ui;
 
 import com.blueseer.device.DeviceMgr;
 import com.blueseer.ui.UIMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogData;
 import base.ui.EmbedTextField;
 import nme.display.Bitmap;
 import base.data.DataLoader;
