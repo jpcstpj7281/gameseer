@@ -18,7 +18,7 @@ import haxe.io.BytesBuffer;
 
 
 class Connection{
-#if cpp
+#if sys
     public var _socket:BaseSocket;
 #else
     public var _socket:Socket;
@@ -27,7 +27,7 @@ class Connection{
     public var _ipv4:String;
     public var _port:Int;
     public function new( ipv4:String, port:Int){
-#if cpp
+#if sys
         _socket = new BaseSocket();
 #else
         _socket = new Socket();
@@ -84,7 +84,7 @@ class Connection{
         var ba = data.getData();
         _socket.writeBytes( ba, 0, ba.length );
         _socket.flush();
-#elseif cpp
+#elseif sys
         _socket.writeBytes( data);
 #else
         _socket.write( data.toString() );

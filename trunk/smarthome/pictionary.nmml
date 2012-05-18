@@ -14,7 +14,6 @@
     <classpath name="Source" />
 
     <haxelib name="nme" />
-    <haxelib name="gui" />
     <haxelib name="actuate" />
     <haxelib name="format" />
     <haxelib name="hxs" />
@@ -28,7 +27,7 @@
 
     <extension name="native" path="Extension"/>
 
-    <set name="SHOW_CONSOLE" value="1"/>  
+    <set name="SHOW_CONSOLE" value="1"/>
     <haxedef name="SHOW_CONSOLE"/> 
     <setenv name="HXCPP_LOAD_DEBUG" value="1" />
 

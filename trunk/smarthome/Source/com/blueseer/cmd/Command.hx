@@ -1,8 +1,6 @@
 package com.blueseer.cmd;
 
 import com.blueseer.ui.UIMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
 import base.network.SMConnection;
 import base.ui.EmbedTextField;
 import nme.display.Bitmap;

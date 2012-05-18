@@ -14,7 +14,7 @@
 	<classpath name="Source" />
 	
 	<haxelib name="nme" />
-	<haxelib name="gui" />
+	<haxelib name="hxjson2" />
 	<haxelib name="actuate" />
 	<haxelib name="format" />
 	<haxelib name="hxs" />

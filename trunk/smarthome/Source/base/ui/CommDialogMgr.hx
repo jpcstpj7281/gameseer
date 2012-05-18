@@ -1,6 +1,4 @@
 package base.ui;
-import com.eclecticdesignstudio.dialog.DialogType;
-import com.eclecticdesignstudio.dialog.DialogData;
 
 import nme.display.DisplayObject;
 import base.ui.EmbedTextField;

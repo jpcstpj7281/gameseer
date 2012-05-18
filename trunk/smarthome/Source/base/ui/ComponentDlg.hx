@@ -2,9 +2,6 @@ package base.ui;
 
 import com.blueseer.cmd.Command;
 import com.blueseer.cmd.CommandMgr;
-import com.eclecticdesignstudio.dialog.DialogManager;
-import com.eclecticdesignstudio.dialog.Dialog;
-import com.eclecticdesignstudio.dialog.DialogData;
 import base.ui.EmbedTextField;
 import nme.display.Bitmap;
 import base.data.DataLoader;

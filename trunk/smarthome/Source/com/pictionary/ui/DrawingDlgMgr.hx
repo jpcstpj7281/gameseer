@@ -17,6 +17,7 @@ import base.ui.CommDialogMgr;
 import nme.geom.Rectangle;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
+import nme.display.BitmapInt32;
 
 import haxe.io.Bytes;
 import haxe.io.BytesBuffer;
@@ -59,6 +60,10 @@ class DrawingDlgMgr extends CommDialogMgr{
     var _linesArr:Array< Bytes >;
     var _lines:BytesBuffer;
 
+    public var _color:Int;
+    public var _linePixel:Int;
+    public var _alpha:Float;
+
     var x1:Int;
     var y1:Int;
     var x2:Int;
@@ -77,9 +82,13 @@ class DrawingDlgMgr extends CommDialogMgr{
         //_draw.cacheAsBitmap = true;
         _draw.cacheAsBitmap = false;
 
+        _color = 0xf75544;
+        _linePixel = 1;
+        _alpha = 1.0;
+
         _maxWidth =  nme.Lib.current.stage.stageWidth;
         _maxHeight =  nme.Lib.current.stage.stageHeight;
-        _bmd = new BitmapData( _maxWidth, _maxHeight, true, 0);
+        _bmd = new BitmapData( _maxWidth, _maxHeight, true, #if neko {rgb:0, a:0} #else 0 #end );
         _rect = new Rectangle( 0, 0, _maxWidth, _maxHeight);
 
         _oldx = _draw.x;
@@ -92,8 +101,14 @@ class DrawingDlgMgr extends CommDialogMgr{
         new UploadImgDlg(this);
         new DrawEditDlg(this);
         new EraseDlg(this);
+        new ColorPanelDlg(this);
+        new SelectAlphaDlg(this);
+        new SelectLineDlg(this);
+        new LineThickScrollDlg(this);
+        new AlphaScrollDlg(this);
         _draw.visible = false;
         _isFixed = true;
+
     }
 
     public override function showListDialog():Void{
@@ -104,9 +119,17 @@ class DrawingDlgMgr extends CommDialogMgr{
         nme.Lib.current.stage.addEventListener( Event.ENTER_FRAME , onEnterFrame);
         _draw.visible = true;
         cacheBitmapData();
-        super.showListDialog();
+        //super.showListDialog();
         _isFixed = true;
+        for ( i in _instancesByDisplayOrder){
+            if ( Std.is( i, DrawEditDlg) == false  ){
+                i.hide();
+            }else{
+                i.show();
+            }
+        }
     }
+
     public override function hideListDialog( ):Void{
         _isDown = false;
         nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -131,7 +154,7 @@ class DrawingDlgMgr extends CommDialogMgr{
     }
 
     inline public function draw( data:Array<Bytes> ){
-        _draw.graphics.lineStyle( 5, 0xf75544, 0.75);
+        _draw.graphics.lineStyle( _linePixel, _color, _alpha);
 
         for ( line in data){
             var pos:Int = 0;
@@ -168,7 +191,19 @@ class DrawingDlgMgr extends CommDialogMgr{
         _downy = evt.stageY;
 
         for ( i in _instancesByDisplayOrder){
-            if( i.hitTestPoint(evt.stageX, evt.stageY)){
+            if(  i.alpha == 1 && i.hitTestPoint(evt.stageX, evt.stageY)){
+                if ( Std.is(i, LineThickScrollDlg) ){
+                    var lt:LineThickScrollDlg = cast i;
+                    lt.onMouseDown(evt);
+                }
+                if ( Std.is(i, AlphaScrollDlg) ){
+                    var lt:AlphaScrollDlg = cast i;
+                    lt.onMouseDown(evt);
+                }
+                if ( Std.is(i, ColorPanelDlg) ){
+                    var lt:ColorPanelDlg= cast i;
+                    lt.onMouseDown(evt);
+                }
                 return;
             }
         }
@@ -179,7 +214,8 @@ class DrawingDlgMgr extends CommDialogMgr{
         _oldy = evt.stageY;
 
         if( _isFixed ){
-            _draw.graphics.lineStyle(10, 0xf75544, 0.75);
+            //_draw.graphics.lineStyle( _linePixel, _color, _alpha);
+            _draw.graphics.lineStyle( _linePixel, _color, _alpha);
             //_draw.graphics.beginFill(0xf75544, 0.75);
 
             var x:Int = cast (evt.stageX - _draw.x);
@@ -206,6 +242,23 @@ class DrawingDlgMgr extends CommDialogMgr{
     public function onMouseMove(evt:MouseEvent):Void{ 
 
         if ( isAnimating()  ) return;
+        for ( i in _instancesByDisplayOrder){
+            if(  i.alpha == 1 && i.hitTestPoint(evt.stageX, evt.stageY)){
+                if ( Std.is(i, LineThickScrollDlg) ){
+                    var lt:LineThickScrollDlg = cast i;
+                    lt.onMouseMove( evt);
+                }
+                if ( Std.is(i, AlphaScrollDlg) ){
+                    var lt:AlphaScrollDlg = cast i;
+                    lt.onMouseMove( evt);
+                }
+                if ( Std.is(i, ColorPanelDlg) ){
+                    var lt:ColorPanelDlg= cast i;
+                    lt.onMouseMove(evt);
+                }
+                return;
+            }
+        }
         if ( _isDown){
 #if flash
             if( evt.stageX < 0 || evt.stageX > nme.Lib.current.stage.stageWidth || evt.stageY < 0 || evt.stageY > nme.Lib.current.stage.stageHeight ) {
@@ -253,10 +306,10 @@ class DrawingDlgMgr extends CommDialogMgr{
                 _draw.graphics.curveTo(cx, cy, x3, y3);
 
                 /*
-                var cx2 = (x3 - x4)/4+x3;
-                var cy2 = (y3 - y4)/4+y3;
-                _draw.graphics.cubicCurveTo(cx, cy, cx2, cy2, x3, y3);
-                */
+                   var cx2 = (x3 - x4)/4+x3;
+                   var cy2 = (y3 - y4)/4+y3;
+                   _draw.graphics.cubicCurveTo(cx, cy, cx2, cy2, x3, y3);
+                 */
 
                 //x4 = x; y4 = y;
 
@@ -277,22 +330,22 @@ class DrawingDlgMgr extends CommDialogMgr{
         _draw.graphics.clear();
         _maxWidth =  nme.Lib.current.stage.stageWidth;
         _maxHeight =  nme.Lib.current.stage.stageHeight;
-        _bmd = new BitmapData( _maxWidth, _maxHeight, true, 0);
+        _bmd = new BitmapData( _maxWidth, _maxHeight, true,#if neko {rgb:0, a:0} #else 0 #end ) ;
         _rect = new Rectangle( 0, 0, _maxWidth, _maxHeight);
     }
     public function toggleFixed( ):Void{
-        if( _isDown && _isFixed ){
+        if( _isFixed ){
             _draw.graphics.moveTo(_oldx-_draw.x, _oldy-_draw.y);
             for ( i in _instancesByDisplayOrder){
-                if ( Std.is( i, DrawEditDlg) == false && Std.is(i,ReturnDlg) == false ){
-                    i.hide();
+                if ( Std.is( i, DrawEditDlg) == false  ){
+                    i.show();
                 }
             }
         }
-        else{
+        else {
             for ( i in _instancesByDisplayOrder){
-                if ( Std.is( i, DrawEditDlg) == false && Std.is(i,ReturnDlg) == false ){
-                    i.show();
+                if ( Std.is( i, DrawEditDlg) == false  ){
+                    i.hide();
                 }
             }
         }
@@ -301,13 +354,31 @@ class DrawingDlgMgr extends CommDialogMgr{
 
     public function onMouseUp(evt:MouseEvent){ 
         if ( isAnimating()  ) return;
-        if(  (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 &&  (evt.stageX - _downx) <50 && (evt.stageX - _downx ) > -50 ){
-            for ( i in _instancesByDisplayOrder){
-                if( i.hitTestPoint(evt.stageX, evt.stageY)){
+        for ( i in _instancesByDisplayOrder){
+            if( i.alpha == 1 && i.hitTestPoint(evt.stageX, evt.stageY)){
+                if ( Std.is(i, LineThickScrollDlg) ){
+                    var lt:LineThickScrollDlg = cast i;
+                    lt.onMouseUp( evt);
+                }
+                if ( Std.is(i, AlphaScrollDlg) ){
+                    var lt:AlphaScrollDlg = cast i;
+                    lt.onMouseUp( evt);
+                }
+                if ( Std.is(i, ColorPanelDlg) ){
+                    var lt:ColorPanelDlg= cast i;
+                    lt.onMouseUp(evt);
+                }
+                if(  (evt.stageY - _downy) <50 && (evt.stageY - _downy ) > -50 &&  (evt.stageX - _downx) <50 && (evt.stageX - _downx ) > -50 ){
                     i.onMouseClick();
                 }
             }
         }
+        //for ( i in _instancesByDisplayOrder){
+        //if( i.alpha == 1 && i.hitTestPoint(evt.stageX, evt.stageY)){
+        //i.onMouseClick();
+        //return;
+        //}
+        //}
         var x:Float = evt.stageX, y:Float = evt.stageY;
         //#if flash
         if ( evt.stageX < 0 ){ x = 0; }else x = evt.stageX;
@@ -372,7 +443,7 @@ class DrawingDlgMgr extends CommDialogMgr{
         _rect.height = _maxHeight;
         _rect.width = _maxWidth;
         if ( _maxWidth > _bmd.width || _maxHeight > _bmd.height){
-            _bmd = new BitmapData( _maxWidth, _maxHeight, true, 0);
+            _bmd = new BitmapData( _maxWidth, _maxHeight, true, #if neko {rgb:0, a:0} #else 0 #end );
         }
         _bmd.draw(_draw, _rect);
         if( _bm!=null && _bm.parent != null ) {

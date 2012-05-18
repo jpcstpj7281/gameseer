@@ -43,21 +43,25 @@ class HMAC {
      * @param bits If greater than 0, output will be truncated
      * @todo Bits is only a multiple of 8, but theoretically could implemented with a BigInteger
      **/
-    public function new(hashMethod : IHash, bits : Null<Int>=0) {
-        this.hash = hashMethod;
-        var hb = hashMethod.getLengthBits();
-        if(bits == 0) {
-            bits = hb;
+    public function new(hashMethod:IHash, bits : Null<Int>=0) {
+        if ( hashMethod == null){
+            this.bits = 160;
+        }else{
+            this.hash = hashMethod;
+            var hb = hashMethod.getLengthBits();
+            if(bits == 0) {
+                bits = hb;
+            }
+            else if(bits > hb){
+                bits = hb;
+            }
+            if(bits <= 0) {
+                throw "Invalid HMAC length";
+            }
+            else if(bits % 8 != 0)
+                throw "Bits must be a multiple of 8";
+            this.bits = bits;
         }
-        else if(bits > hb){
-            bits = hb;
-        }
-        if(bits <= 0) {
-            throw "Invalid HMAC length";
-        }
-        else if(bits % 8 != 0)
-            throw "Bits must be a multiple of 8";
-        this.bits = bits;
     }
 
     public function toString() : String {
@@ -70,11 +74,21 @@ class HMAC {
     }
 
     inline function cal( data:Bytes):Bytes{
+#if neko
+        var str= data.toString();
+        haxe.SHA1.encode(str);
+        return Bytes.ofString(str);
+#else
         return hash.calculate( data);
+#end
     }
 
     public function calculate(key : Bytes, msg : Bytes ) : Bytes {
+#if neko
+        var B = 64;
+#else
         var B = hash.getBlockSizeBytes();
+#end
         var K : Bytes = key;
 
         //trace("B: "+B);
@@ -103,7 +117,7 @@ class HMAC {
         var b:Bytes = Ki.getBytes() ;
         //trace("len: "+ b.length+ " Ki: "+b.toHex() );
 
-        Ko.add(cal(b ));
+        Ko.add(cal(b));
         var b1:Bytes = Ko.getBytes();
         //trace("len: "+ b1.length+" Ko: "+b1.toHex());
 

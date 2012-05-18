@@ -19,16 +19,16 @@ class UploadImgDlg extends ListFixedDlg{
 
     public function new ( dm:CommDialogMgr ){
 
-        var m = new Matrix();
-        m.rotate(3.14/2);
-        m.translate( 60, 0);
-        var bmt = DataLoader.getInst().bms_.get("exit");
-        var bmd = new BitmapData(bmt.width, bmt.height);
-        bmd.draw( bmt, m);
+        //var m = new Matrix();
+        //m.rotate(3.14/2);
+        //m.translate( 60, 0);
+        var bmd = DataLoader.getInst().bms_.get("upload");
+        //var bmd = new BitmapData(bmt.width, bmt.height);
+        //bmd.draw( bmt, m);
         var bm= new Bitmap( bmd);
 
         super(dm, bm);
-        x = 160;
+        x = 180;
         y= nme.Lib.current.stage.stageHeight - 80;
     }
 
