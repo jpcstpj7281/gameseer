@@ -31,20 +31,20 @@ class ColorPanelDlg extends FixedDlg{
 
     var _note:Sprite;
 
-    var _x:Float;
-    var _y:Float;
+    var _x:Int;
+    var _y:Int;
     public function new ( dm:CommDialogMgr ){
         _note = new Sprite();
         _bmd = DataLoader.getInst().bms_.get("color");
         _bm = new Bitmap( _bmd);
-        _note.addChild(_bm);
 
-        //var pos= cast ( (nme.Lib.current.stage.stageWidth - (_bmd.width + _colorLevelOffset + _colorLevelWidth))/2);
-        //_x = cast (pos, Float);
-        _x = 121;
-        _y = 150;
+        var pos:Int= cast ( (nme.Lib.current.stage.stageWidth - (_bmd.width + _colorLevelOffset + _colorLevelWidth))/2);
+        _y = Int32.toInt(Int32.ofInt(nme.Lib.current.stage.stageHeight)) - 350;
+        _x = Int32.toInt(Int32.ofInt(pos)) ;
         _note.x= _x;
         _note.y= _y;
+        _note.addChild(_bm);
+
         _tmp= new Sprite();
         _rect = new Rectangle( 0, 0, _colorLevelWidth, _bmd.height);
         _bmdColorLevel= new BitmapData( cast _rect.width, cast _rect.height);
@@ -117,6 +117,7 @@ class ColorPanelDlg extends FixedDlg{
         if ( x > 0&& y > 0 && x <= _bmd.width && y < _bmd.height ){
             color= _bmd.getPixel( x, y);
             fillColorLevel( color );
+            //trace( x+" " +y + " "+color);
         }else{
             x = x - _colorLevelOffset - _bmd.width;
             //trace( x);
@@ -126,6 +127,7 @@ class ColorPanelDlg extends FixedDlg{
             }else{
                 color = -1;
             }
+            //trace( color);
         }
         return color;
     }
@@ -137,7 +139,10 @@ class ColorPanelDlg extends FixedDlg{
         var x = _downx - _x;
         var y = _downy - _y;
 
+        //trace("test");
         var color:Int = getColor( cast (x, Int), cast (y, Int) );
+
+        //trace(color);
         if ( color == -1 ) return;
 
         //trace(color);
