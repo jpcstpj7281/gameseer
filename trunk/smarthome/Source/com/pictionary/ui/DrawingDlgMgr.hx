@@ -61,6 +61,8 @@ class DrawingDlgMgr extends CommDialogMgr{
     var _linesArr:Array< Bytes >;
     var _lines:BytesBuffer;
 
+    public var _colorPanelToggle:Int;
+
     public var _color:Int;
     public var _linePixel:Int;
     public var _alpha:Float;
@@ -105,12 +107,13 @@ class DrawingDlgMgr extends CommDialogMgr{
         new DrawEditDlg(this);
         new EraseDlg(this);
         new ColorPanelDlg(this);
-        new SelectAlphaDlg(this);
-        new SelectLineDlg(this);
+        new SelectColorDlg(this);
+        //new SelectLineDlg(this);
         new LineThickScrollDlg(this);
-        new AlphaScrollDlg(this);
+        //new AlphaScrollDlg(this);
         _graphic.visible = false;
         _isFixed = true;
+        _colorPanelToggle = 1;
     }
 
     public override function showListDialog():Void{
@@ -336,11 +339,33 @@ class DrawingDlgMgr extends CommDialogMgr{
         _bmd = new BitmapData( _maxWidth, _maxHeight, true,#if neko {rgb:0, a:0} #else 0 #end ) ;
         _rect = new Rectangle( 0, 0, _maxWidth, _maxHeight);
     }
+
+    public function toggleColorPanel( ):Void{
+        ++_colorPanelToggle;
+        if ( _colorPanelToggle ==2 ) _colorPanelToggle = 0;
+        for ( i in _instancesByDisplayOrder){
+            if ( Std.is( i , ColorPanelDlg) ){
+                if ( _colorPanelToggle == 0 ){
+                    i.hide();
+                }else{
+                    i.show();
+                }
+                break;
+            }
+        }
+    }
+
     public function toggleFixed( ):Void{
         if( _isFixed ){
             //_draw.graphics.moveTo( _oldx - _graphic.x, _oldy - _graphic.y);
             for ( i in _instancesByDisplayOrder){
-                if ( Std.is( i, DrawEditDlg) == false  ){
+                if ( Std.is( i , ColorPanelDlg) ){
+                    if ( _colorPanelToggle == 0 ){
+                        i.hide();
+                    }else{
+                        i.show();
+                    }
+                }else if ( Std.is( i, DrawEditDlg) == false  ){
                     i.show();
                 }
             }
@@ -429,7 +454,8 @@ class DrawingDlgMgr extends CommDialogMgr{
 
 
     public function onEnterFrame(evt:Event){
-        if(  _isFixed &&  !_isDown  && _releaseTime > 0 && Timer.stamp() - _releaseTime > 1){
+        //if(  _isFixed &&  !_isDown  && _releaseTime > 0 && Timer.stamp() - _releaseTime > 1){
+        if(  !_isDown  && _releaseTime > 0 && Timer.stamp() - _releaseTime > 1){
             cacheBitmapData();
 
             _pressTime = 0;
