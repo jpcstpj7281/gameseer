@@ -6,7 +6,7 @@
     <window width="480" height="800" fps="30" orientation="landscape" resizable="true" if="target_flash" />
     <window width="480" height="800" fps="30" orientation="portrait" resizable="true"  if="target_cpp" />
     <window width="480" height="800" fps="30" orientation="portrait" resizable="true" if="target_neko" />
-    <window width="0" background="0xffffff" height="0" fps="30" orientation="portrait" resizable="true"  if="target_android" />
+    <window width="0"  height="0" fps="30" orientation="portrait" resizable="true"  if="target_android" />
     <!-- <window width="0" height="0" fps="30" orientation="portrait" resizable="true" unless="target_flash" /> -->
 
     <set name="BUILD_DIR" value="Export" />
@@ -34,6 +34,7 @@
     <set name="SHOW_CONSOLE" value="1"/>  
     <haxedef name="SHOW_CONSOLE"/> 
 
+    <extension name="native" path="Extension" />
     <setenv name="HXCPP_LOAD_DEBUG" value="1" />
 
     <!--

@@ -106,9 +106,9 @@ class CommDialogMgr  {
         //txt.width = nme.Lib.current.stage.stageWidth/txt.scaleX - 220/txt.scaleX;
         txt.width = nme.Lib.current.stage.stageWidth/txt.scaleX ;
         txt.height = nme.Lib.current.stage.stageHeight/10/txt.scaleY;
-        var txtFormat:TextFormat = new TextFormat();
-        txtFormat.align = flash.text.TextFormatAlign.CENTER;
-        txt.setTextFormat(txtFormat);
+        //var txtFormat:TextFormat = new TextFormat();
+        //txtFormat.align = flash.text.TextFormatAlign.CENTER;
+        //txt.setTextFormat(txtFormat);
         txt.setBorder(true);
         txt.selectable = false;
 

@@ -9,13 +9,13 @@ class EmbedTextField extends TextField {
     public function new (){
 
         super();
-#if android
-        if( cpp.Sys.systemName() == "Linux" || cpp.Sys.systemName() == "android"  ){
+#if (android || neko)
+        //if( cpp.Sys.systemName() == "Linux" ){
             if ( DataLoader.inst.textFormat_ != null){
                 defaultTextFormat = DataLoader.inst.textFormat_;
                 embedFonts = true;
             }
-        }
+            //}
 #end
 
     }

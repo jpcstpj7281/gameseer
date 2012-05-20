@@ -92,10 +92,9 @@ class MainStage extends ListDialogMgr {
         txt.height = nme.Lib.current.stage.stageHeight/10/txt.scaleY;
         txt.setBorder(true);
         txt.selectable = false;
-        var txtFormat:TextFormat = new TextFormat();
-        txtFormat.align = flash.text.TextFormatAlign.CENTER;
-        //txtFormat.font = "DroidSansFallback";
-        txt.setTextFormat(txtFormat);
+        //var txtFormat:TextFormat = new TextFormat();
+        //txtFormat.align = flash.text.TextFormatAlign.CENTER;
+        //txt.setTextFormat(txtFormat);
 
         //var txt1:EmbedTextField = new EmbedTextField();
         //txt1.text = Std.string(id);
