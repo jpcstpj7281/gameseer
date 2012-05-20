@@ -3,7 +3,9 @@
 
 <config>
 
+    <!-- 
     <item><type>font</type><name>simfang</name><extension>.ttf</extension><loc>font</loc></item>
+    -->
     <item><type>trunk</type><name>Y5</name><extension>.png</extension><loc>img</loc></item>
 	<item><type>cmd</type><name>Y9</name><extension>.png</extension><loc>img</loc></item>
 	<item><type>btn_edit</type><name>F1</name><extension>.png</extension><loc>img</loc></item>

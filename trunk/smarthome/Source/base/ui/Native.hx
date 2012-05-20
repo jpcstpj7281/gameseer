@@ -27,6 +27,7 @@ class Native {
             jni_speech_input=  nme.JNI.createStaticMethod("NativeCall", "openInputSpeech", "()V");
             jni_open_browser =  nme.JNI.createStaticMethod("NativeCall", "openBrowser", "(Ljava/lang/String;)V");
             jni_open_embed_browser =  nme.JNI.createStaticMethod("NativeCall", "openEmbedBrowser", "(Ljava/lang/String;)V");
+            jni_open_ui_view=  nme.JNI.createStaticMethod("NativeCall", "openUIView", "()V");
             jni_get_bitmap=  nme.JNI.createStaticMethod("NativeCall", "getBitmap", "()Landroid/graphics/Bitmap;");
             //jni_set_status=  nme.JNI.createStaticMethod("NativeCall", "setStatus", "(Ljava/lang/String)V");
             //jni_show_keyboard= JNI.createStaticMethod ("org.haxe.nme.GameActivity", "showKeyboard", "(Z)V");
@@ -40,7 +41,9 @@ class Native {
         initJNI();
         //jni_set_status("input");
         trace("nativeInput1");
-        nme.Lib.postUICallback( function() { jni_open_input_view();  } );
+        nme.Lib.postUICallback( function() { 
+                jni_open_input_view();  
+                } );
         trace("nativeInput2");
 
         //jni_show_keyboard(true);
@@ -49,6 +52,14 @@ class Native {
         if ( cpp.Sys.systemName() != "Linux") rs= cpp_openInput();
 #end
 
+    }
+
+    public static function openUIView():Void{
+#if android
+        initJNI();
+        nme.Lib.postUICallback( function() { jni_open_ui_view();} );
+        trace("openUIView");
+#end
     }
 
     public static function speechInput():Void{
@@ -63,7 +74,6 @@ class Native {
         rs= "";
 #end
     }
-
 
     public static function openBrowser( address:String):Void{
         rs = null;
@@ -87,7 +97,9 @@ class Native {
         initJNI();
         //jni_set_status("speech");
         trace("openEmbedBrowser");
-        nme.Lib.postUICallback( function() { jni_open_embed_browser( address);  } );
+        nme.Lib.postUICallback( function() { 
+                jni_open_embed_browser( address);  
+                } );
         trace("openEmbedBrowser");
 #elseif cpp
         if ( cpp_openBrowser== null ){ cpp_openBrowser= Lib.load ("native", "native_openBrowser", 1); }
@@ -118,10 +130,10 @@ class Native {
     private static var jni_speech_input:Dynamic;
     private static var jni_open_input_view:Dynamic;
     private static var jni_get_result:Dynamic;
-    private static var jni_two_plus_two:Dynamic;
     private static var jni_show_keyboard:Dynamic;
     private static var jni_open_browser:Dynamic;
     private static var jni_open_embed_browser:Dynamic;
+    private static var jni_open_ui_view:Dynamic;
 #elseif cpp
 
     //private static var cpp_call_printf = Lib.load ("test", "test_call_printf", 1);

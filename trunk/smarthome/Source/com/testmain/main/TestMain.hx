@@ -1,31 +1,15 @@
 package com.testmain.main;
 
-//import org.aswing.BorderLayout;
-//import org.aswing.FlowLayout;
-//import org.aswing.GridLayout;
-//import org.aswing.Insets;
-//import org.aswing.JButton;
-//import org.aswing.JFrame;
-//import org.aswing.JLabel;
-//import org.aswing.JPanel;
-//import org.aswing.border.EmptyBorder;
-//import org.aswing.geom.IntDimension;
 import nme.display.Sprite;
-
+import nme.Lib;
+/*
 import nme.text.TextField;
 import nme.display.Stage;
 import nme.display.StageAlign;
 import nme.display.StageScaleMode;
-import nme.Lib;
 
 import nme.events.Event;
 
-//import org.aswing.JButton;
-//import org.aswing.JFrame;
-//import org.aswing.geom.IntDimension;
-//import org.aswing.AsWingManager;
-
-import nme.Lib;
 import nme.display.Sprite;
 import nme.display.StageScaleMode;
 
@@ -44,8 +28,8 @@ import sys.io.File;
 
 import nme.events.MouseEvent;
 import base.common.Tools;
-import base.social.SocialWorld;
-import base.social.SinaWeibo;
+//import base.social.SocialWorld;
+//import base.social.SinaWeibo;
 
 #if flash
 import base.common.FlashConnect;
@@ -55,6 +39,7 @@ import base.common.FlashConnect;
 import nme.sensors.Accelerometer;
 import nme.events.AccelerometerEvent;
 #end
+*/
 /**
  * @author 
  */
@@ -67,7 +52,7 @@ class TestMain extends Sprite {
         initialize ();
     }
 
-    var sw:SinaWeibo ;
+    //var sw:SinaWeibo ;
     //private static var labelPrefix : String = "Number of button clicks: ";
     //private var numClicks : Int ;
     //private var label : JLabel;
@@ -136,6 +121,7 @@ class TestMain extends Sprite {
 
         //testweibo();
 
+        /*
         trace("test");
         var str= "测试";
         var b = Bytes.ofString(str);
@@ -144,6 +130,11 @@ class TestMain extends Sprite {
 #else
         trace("s: "+str.length + " b: "+b.length);
 #end
+*/
+
+
+
+        base.ui.Native.openUIView();
     }
 
     //private function click(evt:MouseEvent):Void{
@@ -181,6 +172,7 @@ class TestMain extends Sprite {
         //acc.addEventListener( AccelerometerEvent.UPDATE, onSensor);
     }
 
+    /*
     function testweibo(){
 
         sw = new SinaWeibo("4121333920", "0512e457b9a5f71fc0fb22a865dd7640");
@@ -193,6 +185,7 @@ class TestMain extends Sprite {
 #end
         sw.login( refresh , pin  );
     }
+    */
     /*
     function saveBitmap(){
         var s:Sprite = new Sprite();
