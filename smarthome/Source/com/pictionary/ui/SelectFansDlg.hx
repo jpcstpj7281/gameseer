@@ -24,9 +24,25 @@ class SelectFansDlg extends CommDialog{
         _show = getElement( name, id);
         super( mgr);
         addChild(_show);
-        nme.Lib.current.stage.addEventListener( Event.ENTER_FRAME , onEnterFrame);
     }
 
+    override function show(){
+        var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
+        if ( _name == "" || _name == "loading..."){
+            //nme.Lib.current.stage.addEventListener( Event.ENTER_FRAME , onEnterFrame);
+            sina._sig.add( onData);
+        }
+        return super.show();
+    }
+
+    override function hide(){
+        var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
+        if ( _name == "" || _name == "loading..."){
+            //nme.Lib.current.stage.removeEventListener( Event.ENTER_FRAME , onEnterFrame);
+            sina._sig.remove( onData);
+        }
+        return super.hide();
+    }
 
     function onEnterFrame( evt:Event):Void{
         if ( _name.length >0 ) return;
