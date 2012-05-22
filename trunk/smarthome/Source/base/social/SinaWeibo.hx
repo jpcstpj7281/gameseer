@@ -288,10 +288,25 @@ class SinaWeibo extends SocialWorld{
     public function getScreenName( id:String):String{
         return DataLoader.getInst().getData("sina_id_"+id);
     }
-
     //inline public function getSaveObj():SharedObject{
     //return DataLoader.getInst().getSharedObj();
     //}
+
+    public function loadBilateralInfoAfterId(id:String, num:Int =10 ){
+        var bs = getBilateral();
+        for ( i in 0...bs.length){
+            if ( bs[i] == id){
+                var len = bs.length  - i;
+                if ( len > 10 ) len  =10;
+                for ( l in 0...len){
+                    if ( getScreenName( bs[i+l] ) == "loading..."){ continue; }
+                    setFanScreenName( bs[i+l], "loading...");
+                    loadUserInfo(bs[i+l]);
+                }
+                return;
+            }
+        }
+    }
 
     public function getBilateral():Array<String>{
         if ( _bilateral == null ) {

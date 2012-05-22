@@ -18,30 +18,14 @@ class SelectFansDlg extends CommDialog{
     var _id:String;
     var _name:String;
     var _show:Sprite;
+    static var Loading:String = Loading;
     public function new ( mgr:ListDialogMgr, id:String, name:String = ""){
         _id = id;
         _name =name ;
-        _show = getElement( name, id);
+        if ( _name.length == 0 ) _name = Loading;
+        _show = getElement( _name, id);
         super( mgr);
         addChild(_show);
-    }
-
-    override function show(){
-        var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
-        if ( _name == "" || _name == "loading..."){
-            //nme.Lib.current.stage.addEventListener( Event.ENTER_FRAME , onEnterFrame);
-            sina._sig.add( onData);
-        }
-        return super.show();
-    }
-
-    override function hide(){
-        var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
-        if ( _name == "" || _name == "loading..."){
-            //nme.Lib.current.stage.removeEventListener( Event.ENTER_FRAME , onEnterFrame);
-            sina._sig.remove( onData);
-        }
-        return super.hide();
     }
 
     function onEnterFrame( evt:Event):Void{
@@ -49,13 +33,8 @@ class SelectFansDlg extends CommDialog{
         var interval = nme.Lib.current.stage.stageHeight/10;
         for ( i in 0...10){
             if ( hitTestPoint( 1, 1+interval*i )){
-                _name = "loading...";
-                removeChild( _show);
-                _show = getElement( _name, _id);
-                addChild(_show);
                 var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
-                sina._sig.add( onData);
-                sina.loadUserInfo(_id);
+                sina.loadBilateralInfoAfterId(_id);
                 nme.Lib.current.stage.removeEventListener( Event.ENTER_FRAME , onEnterFrame);
                 break;
             }
@@ -65,7 +44,6 @@ class SelectFansDlg extends CommDialog{
     function onData( msg:String, args:Array<Dynamic>, obj:Dynamic):Void{
         if ( msg == "OnDataAsJson"){
             var json = args[0];
-            //var json = hxjson2.JSON.decode( rsp);
             if ( json.id == _id ){
                 _name = json.screen_name;
                 removeChild( _show);
@@ -78,6 +56,15 @@ class SelectFansDlg extends CommDialog{
         }
     }
 
+    override function hide(){
+        var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
+        if (  _name == Loading){
+            nme.Lib.current.stage.removeEventListener( Event.ENTER_FRAME , onEnterFrame);
+            sina._sig.remove( onData);
+        }
+        return super.hide();
+    }
+
     override function show(){
         var sina:base.social.SinaWeibo = base.social.SocialMgr.getInst()._socials.get( Type.getClassName(base.social.SinaWeibo));
         var a:Float = 0;
@@ -85,6 +72,11 @@ class SelectFansDlg extends CommDialog{
             a = 0.5;
         }else{
             a = 1;
+        }
+        if ( _name == Loading){
+            nme.Lib.current.stage.addEventListener( Event.ENTER_FRAME , onEnterFrame);
+            //如果还没有读取名称信息就监听信息
+            sina._sig.add( onData);
         }
         return Actuate.tween (this, _fadeInTime, { alpha: a} ).autoVisible(true);
     }
