@@ -4,7 +4,8 @@ msgType 0: Map<String, String>
 		3: Array<Int32>
 		
 		
-MsgId 	0: 	__STATUS__-> iterate(status1, status2) //迭代Map中的所有String, 对应上所需请求的状态信息
+MsgId 	0: 	status1| status2| status3 |.... //迭代Map中的所有String, 对应上所需请求的状态信息
+		1:  __STATUS__-> iterate(status1, status2) //迭代Map中的所有String, 对应上所需请求的状态信息
 			__STATUS__-> all //请求所有状态信息
 			__STATUS__-> init //请求初始化时所需的状态信息
 			
