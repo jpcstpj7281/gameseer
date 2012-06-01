@@ -1,14 +1,10 @@
-msgType 0: Map<String, String>
-		1: Array<char>
-		2: Array<Short>
-		3: Array<Int32>
-		
-		
-MsgId 	0: 	status1| status2| status3 |.... //迭代Map中的所有String, 对应上所需请求的状态信息
-		1:  __STATUS__-> iterate(status1, status2) //迭代Map中的所有String, 对应上所需请求的状态信息
-			__STATUS__-> all //请求所有状态信息
-			__STATUS__-> init //请求初始化时所需的状态信息
-			
+msgType|msgID
+1|1: status1| status2| status3 |.... //迭代Map中的所有String, 对应上所需请求的状态信息
+1|3: //请求所有状态信息
+1|5: //请求初始化时所需的状态信息
+2|
+3|
+
 		1:	__WINDOWS__-> set_windows | windows1-> sx,sy,vx,vy,in,out| windows2-> sx,sy,vx,vy,in,out|...
 			__WINDOWS__-> show_windows | windows1 | windows2|...
 			__WINDOWS__-> close_windows | windows1 | windows2| ...
