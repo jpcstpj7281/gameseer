@@ -175,7 +175,7 @@ void IServer::Run()
         	  struct sockaddr_in clientAddr;
         	  size_t cliAddrLen = sizeof(clientAddr);
 
-        	  connfd = accept(listenfd,(sockaddr *)&clientAddr, &cliAddrLen);
+        	  connfd = accept(listenfd,(sockaddr *)&clientAddr, (socklen_t*)&cliAddrLen);
               if (connfd <= 0)
               {
                   perror("accept");
