@@ -5,8 +5,8 @@
  *      Author: icecoffee76
  */
 
-#ifndef PROTOCOL_H_
-#define PROTOCOL_H_
+#ifndef PSTATUS_H_
+#define PSTATUS_H_
 
 
 #define STATUS_MSGBASE  0x01

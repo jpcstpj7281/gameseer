@@ -8,6 +8,7 @@ SRC_COMM = IServer.cpp\
 		   msgHandler.cpp\
 		   status.cpp\
 		   commModel.cpp\
+		   entSetting.cpp\
 		   main.cpp 
 			
 

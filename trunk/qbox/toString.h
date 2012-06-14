@@ -5,10 +5,10 @@
 #include <sstream>
 #include <string>
 
-namespace sox
+namespace msg
 {
 
-// XXX 好像有点慢，也许该自己写个快速的ostringstream
+// XXX 锟斤拷锟斤拷锟叫碉拷锟斤拷也锟斤拷锟斤拷约锟叫达拷锟斤拷锟斤拷俚锟給stringstream
 
 template < class T1 >
 inline std::string tostring(const T1 & t1)
