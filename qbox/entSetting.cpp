@@ -151,3 +151,14 @@ uint32_t EntSetting::getOutputTotal()
 	return total;
 
 }
+
+void EntSetting::setVersion(string version)
+{
+	m_version = version;
+}
+
+
+string EntSetting::getVersion()
+{
+	return m_version;
+}
