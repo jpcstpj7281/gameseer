@@ -12,6 +12,7 @@
 #include "common.h"
 
 
+using namespace msg;
 
 void testMenu()
 {
