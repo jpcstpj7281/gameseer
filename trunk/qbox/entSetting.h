@@ -60,6 +60,9 @@ public:
 	void getOutputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height);
 	uint32_t getOutputTotal();
 
+	void setVersion(string version);
+	string getVersion();
+
 
 
 protected:

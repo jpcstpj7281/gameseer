@@ -61,16 +61,11 @@ void Status::onProtocolVersionReq(MsgInfo *msg,uint32_t connID)
 {
     cout<<"onProtocolVersionReq"<<" connID="<<connID <<endl;
 
-    //	cout<<"user="<<msg->info["user"] <<endl;
-    //	cout<<"psw="<<msg->info["psw"] <<endl;
-
-
-
-
     MsgInfo rsp;
     rsp.msgType = PProtocolVersionRsp::uri;
 
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+    rsp.info["protocol"] = EntSetting::Instance()->getVersion();
 
 
 
