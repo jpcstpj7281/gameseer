@@ -14,6 +14,11 @@ enum Model_TYPE
 {
 	TYPE_MODEL_STATUS =10001,
 
+
+
+
+	TYPE_MODEL_BUSDRIVER =20001,
+
 };
 
 

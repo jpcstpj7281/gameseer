@@ -52,6 +52,11 @@ uint32_t Status::onMsgReq(MsgInfo *msg,uint32_t connID)
             onGetOutPutSizeReq(msg,connID);
             break;
 
+        default:
+        	cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
+        	break;
+
+
     }
 
     return 0;

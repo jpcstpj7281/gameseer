@@ -70,8 +70,6 @@ bool MsgHandler::sendMsg(uint32_t connID,MsgInfo *pMsg)
 
 	msgBase.packMsg(netMsg);
 
-
-
 	string sendBuff;
 	sendBuff.append((const char* )&netMsg,sizeof(NetMsgHead));
 	sendBuff.append((const char* )&netMsg.msgType,sizeof(uint32_t));
@@ -83,6 +81,32 @@ bool MsgHandler::sendMsg(uint32_t connID,MsgInfo *pMsg)
 	return true;
 
 }
+
+bool MsgHandler::broadcastMsg(MsgInfo *pMsg)
+{
+
+	NetMsgBody netMsg;
+
+	MsgBase msgBase;
+
+	msgBase.setMsgInfo(pMsg);
+	msgBase.setNetMsgBody(&netMsg);
+
+	msgBase.packMsg(netMsg);
+
+	string sendBuff;
+	sendBuff.append((const char* )&netMsg,sizeof(NetMsgHead));
+	sendBuff.append((const char* )&netMsg.msgType,sizeof(uint32_t));
+	sendBuff.append((const char* )netMsg.msgData.c_str(),netMsg.msgData.size());
+
+
+	IServer::Instance()->BroadcastMsg((char*)sendBuff.c_str(),sendBuff.size());
+
+	return true;
+
+}
+
+
 
 MsgHandler* MsgHandler::Instance()
 {
@@ -99,4 +123,25 @@ MsgHandler* MsgHandler::Instance()
 void MsgHandler::setModel(uint32_t modelType,CommModel *pModel)
 {
 	m_model[modelType] = pModel;
+}
+
+
+
+CommModel* MsgHandler::getModule( uint32_t type )
+{
+	std::map< uint32_t, CommModel* >::iterator it = m_model.find(type);
+	if( it == m_model.end() )
+	{
+		//logth(Debug, "can't find module instance. type=%u", type);
+		return NULL;
+	}
+
+	if( it->second  )
+	{
+		return it->second;
+	}
+	else
+	{
+		return NULL;
+	}
 }
