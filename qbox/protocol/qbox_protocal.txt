@@ -40,9 +40,9 @@ msgType|msgID:  msg data msg
 
 //机芯状态更新协议
 9|3: event->??| desc->???| //普通事件上报
-9|4: error->xxx ///普通事件回应
+9|4: error->??? | desc->???|///普通事件回应
 9|5: event->??| desc->???| //重要事件上报
-9|6: error->xxx //重要事件回应
+9|6: error->??? | desc->??? //重要事件回应
 
 //后台测试协议
 10|1: chn->??? | addr->???|value->???? //I2C 测试写入
