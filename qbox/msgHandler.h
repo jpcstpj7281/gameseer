@@ -28,9 +28,11 @@ public:
 //	void setServer(IServer server){m_pServer = &server;};
 
 	bool sendMsg(uint32_t connID,MsgInfo *pMsg);
+	bool broadcastMsg(MsgInfo *pMsg);
 
 	void netMsgInput(uint32_t connID,char* buff,uint32_t buffLen);
 	void setModel(uint32_t modelType,CommModel *pModel);
+	CommModel* getModule( uint32_t type );
 
 protected:
 

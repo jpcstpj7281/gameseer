@@ -45,6 +45,7 @@ public:
 	void Run();
 
 	void SendNetMsg(int fd,char* buff,uint32_t buffLen);
+	void BroadcastMsg(char* buff,uint32_t buffLen);
 	void setMsgHandler(MsgHandler *pMsgHandler){m_pMsgHandler = pMsgHandler;};
 
 private:

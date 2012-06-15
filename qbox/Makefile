@@ -9,6 +9,9 @@ SRC_COMM = IServer.cpp\
 		   status.cpp\
 		   commModel.cpp\
 		   entSetting.cpp\
+		   event.cpp\
+		   busDriver.cpp\
+		   bgtest.cpp\
 		   main.cpp 
 			
 

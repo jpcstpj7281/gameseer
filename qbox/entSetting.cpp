@@ -16,6 +16,10 @@ EntSetting* EntSetting::m_instance = 0;
 EntSetting::EntSetting()
 {
 	m_version = "1.0.0.1";
+
+	m_ip = "192.168.1.190";
+
+
 	for(int i=0;i<6;i++)
 	{
 		setInputInfoFlg(i,USE_FLG_OFFLINE);
@@ -161,4 +165,16 @@ void EntSetting::setVersion(string version)
 string EntSetting::getVersion()
 {
 	return m_version;
+}
+
+
+void EntSetting::setSysIp(string ip)
+{
+	m_ip = ip;
+}
+
+
+string EntSetting::getSysIp()
+{
+	return m_ip;
 }

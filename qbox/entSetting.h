@@ -63,6 +63,8 @@ public:
 	void setVersion(string version);
 	string getVersion();
 
+	void setSysIp(string ip);
+	string getSysIp();
 
 
 protected:
@@ -71,6 +73,8 @@ protected:
 private:
 
 	string m_version;
+	string m_ip;
+
 	map<uint32_t,channelInfo> m_inputType;
 	map<uint32_t,channelInfo> m_outputType;
 

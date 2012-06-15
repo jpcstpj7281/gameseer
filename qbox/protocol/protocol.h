@@ -9,7 +9,10 @@
 #define PROTOCOL_H_
 
 #include "pstatus.h"
-
+#include "pbgtest.h"
+#include "pchannel.h"
+#include "pevent.h"
+#include "pwindow.h"
 
 
 

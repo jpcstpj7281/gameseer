@@ -10,8 +10,28 @@
 
 #include "msgBase.h"
 
+
+class ModuleInterface
+{
+	public:
+
+		//event
+		virtual void mifCommonEvent(uint32_t eventId){}
+		virtual void mifImportanceEvent(uint32_t eventId){}
+
+
+		//busDriver
+		virtual void mifI2CWrite(uint32_t chn,uint32_t addr,uint32_t value){}
+		virtual uint32_t mifI2CRead(uint32_t chn,uint32_t addr){return 0;}
+		virtual void mifSPIWrite(uint32_t chn,uint32_t addr,uint32_t value){}
+		virtual uint32_t mifSPIRead(uint32_t chn,uint32_t addr){return 0;}
+
+
+};
+
 class CommModel
 :public MsgBase
+,public ModuleInterface
 {
 
 public:
