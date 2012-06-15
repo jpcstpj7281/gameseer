@@ -40,7 +40,6 @@ class Qbox extends Sprite {
         Config.confFileName = "qbox.xml";
         Config.appName = "Qbox";
         var is= new InitQboxState();
-
         is.init(StateMachine.getInst());
 
     }

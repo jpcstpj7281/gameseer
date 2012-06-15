@@ -9,7 +9,7 @@ import haxe.io.Bytes;
 
 import haxe.Timer;
 import base.state.StateMachine;
-import com.pictionary.ui.MainStage;
+import com.qbox.ui.MainStage;
 
 import base.ui.CommDialog;
 
@@ -22,16 +22,16 @@ class InitMainState extends State{
     override function fromState(s:State):Void{
         MainStage.getInst().resetDlgs();
 
-        if( NetworkMgr.getInst().getConn() != null&& NetworkMgr.getInst().getConn().isConected()){
-            var d = MainStage.getInst().getSpecificDialog("连接",0);
-            if( d!= null){
-                var cd:CommDialog  = cast( d);
-                cd.onMouseClick();
-                trace("opened connection drawing");
-                return;
-            }
-            trace("failed opene connection drawing");
-        }
+        //if( NetworkMgr.getInst().getConn() != null&& NetworkMgr.getInst().getConn().isConected()){
+        //var d = MainStage.getInst().getSpecificDialog("连接",0);
+        //if( d!= null){
+        //var cd:CommDialog  = cast( d);
+        //cd.onMouseClick();
+        //trace("opened connection drawing");
+        //return;
+        //}
+        //trace("failed opene connection drawing");
+        //}
         MainStage.getInst().showListDialog();
     }
 
