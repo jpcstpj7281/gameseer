@@ -96,28 +96,28 @@ struct PSetWindowsShowStateRsp
 
 struct PDelWindowsReq
 {
-	enum{uri=(WINDOWS_MSGBASE<<16|9)};
+	enum{uri=(WINDOWS_MSGBASE<<16|11)};
 	//winHandle-> ??? | //删除窗口
 
 };
 
 struct PDelWindowsRsp
 {
-	enum{uri=(WINDOWS_MSGBASE<<16|10)};
+	enum{uri=(WINDOWS_MSGBASE<<16|12)};
 	//error->???
 };
 
 
 struct PMoveWindowsReq
 {
-	enum{uri=(WINDOWS_MSGBASE<<16|9)};
+	enum{uri=(WINDOWS_MSGBASE<<16|13)};
 	// winHandle->???| x->??? | y->???| w->??? | h->???| //移动窗口
 
 };
 
 struct PMoveWindowsRsp
 {
-	enum{uri=(WINDOWS_MSGBASE<<16|10)};
+	enum{uri=(WINDOWS_MSGBASE<<16|14)};
 	//error->???
 };
 

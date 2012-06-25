@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <map>
+#include <set>
 
 using namespace std;
 
@@ -23,12 +24,58 @@ const string VIDEO_TYPE_DEFAULT	 = 	"default";
 const string VIDEO_TYPE_CVBS	 = 	"cvbs";
 const string VIDEO_TYPE_RGB		 = 	"rgb";
 
-struct channelInfo
+struct ChannelInfo
 {
 	uint32_t useFlg;
 	uint32_t width;
 	uint32_t height;
 	string   type;
+
+	ChannelInfo& operator = (const ChannelInfo& info)
+	{
+		if (this == &info)
+			return *this;
+
+		useFlg = info.useFlg;
+		width = info.width;
+		height = info.height;
+		type = info.type;
+
+
+		return *this;
+	}
+
+
+};
+
+struct WindowInfo
+{
+	uint32_t winX;
+	uint32_t winY;
+	uint32_t width;
+	uint32_t height;
+	uint32_t channelIn;
+	uint32_t channelOut;
+	uint32_t layer;
+	uint32_t showStatus;
+
+	WindowInfo& operator = (const WindowInfo& info)
+	{
+		if (this == &info)
+			return *this;
+
+
+		winX = info.winX;
+		winY = info.winY;
+		width = info.width;
+		height = info.height;
+		channelIn = info.channelIn;
+		channelOut = info.channelOut;
+		layer = info.layer;
+
+		return *this;
+	}
+
 
 };
 
@@ -66,6 +113,28 @@ public:
 	void setSysIp(string ip);
 	string getSysIp();
 
+	uint32_t getWindowsTotal();
+	void getWindowsHandle(std::set<uint32_t> &handle);
+	bool getWindowsInfo(uint32_t winHandle,WindowInfo &windowInfo);
+
+	uint32_t createWindow(uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
+	bool delWindow(uint32_t winHandle);
+
+	bool setLayer(uint32_t winHandle,uint32_t layer);
+	bool getLayer(uint32_t winHandle,uint32_t &layer);
+
+	bool setOutput(uint32_t winHandle,uint32_t channelOut);
+	bool getOutput(uint32_t winHandle,uint32_t &channelOut);
+
+	bool setInput(uint32_t winHandle,uint32_t channelIn);
+	bool getInput(uint32_t winHandle,uint32_t &channelIn);
+
+	bool setShowStatus(uint32_t winHandle,uint32_t status);
+	bool getShowStatus(uint32_t winHandle,uint32_t &status);
+
+	bool setWindowPosition(uint32_t winHandle,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
+
+
 
 protected:
 
@@ -75,10 +144,11 @@ private:
 	string m_version;
 	string m_ip;
 
-	map<uint32_t,channelInfo> m_inputType;
-	map<uint32_t,channelInfo> m_outputType;
+	map<uint32_t,ChannelInfo> m_inputType;
+	map<uint32_t,ChannelInfo> m_outputType;
 
-
+	uint32_t m_windowNum;
+	map<uint32_t,WindowInfo> m_windowInfo;
 
 };
 
