@@ -12,6 +12,8 @@ SRC_COMM = IServer.cpp\
 		   event.cpp\
 		   busDriver.cpp\
 		   bgtest.cpp\
+		   windows.cpp\
+		   channel.cpp\
 		   main.cpp 
 			
 
