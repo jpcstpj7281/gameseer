@@ -162,7 +162,7 @@ void IServer::Run()
                 		 memset(&buf[buffLen], '\0', 1);
                 	 }
                      printf("client[%d] send:%s\n", i, buf);
-                     m_pMsgHandler->netMsgInput((uint32_t)i,buff,(uint32_t)buffLen);
+                     m_pMsgHandler->netMsgInput((uint32_t)i,buf,(uint32_t)buffLen);
                  }
              }
          }
