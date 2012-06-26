@@ -8,6 +8,7 @@
 #include "msgHandler.h"
 #include "IServer.h"
 #include <iostream>
+#include <stdio.h>
 #include <string.h>
 
 MsgHandler* MsgHandler::m_instance = 0;
@@ -21,11 +22,39 @@ MsgHandler::~MsgHandler()
 
 }
 
+static void showData( const char* buf , bool isSend = false){
+    unsigned char* rb = (unsigned char* )buf;
+
+    if ( isSend ) printf("send str to client: ");
+    else printf("got str from client: ");
+    int i  = 0;
+    while( i < 4 ){
+        unsigned char show = 0 | rb[i];
+        printf( "|%x", show);
+        ++i;
+    }
+    unsigned int len = 0;
+    while( i < 8 ){
+        len |= (rb[i] << ( i -4 ) );
+        printf( "|%2x", rb[i]);
+        ++i;
+    }
+
+    len += 8;
+    while( i < len ){
+        printf( "|%2x", rb[i]);
+        ++i;
+    }
+    printf( "\nlen: %d\n", len);
+    printf( "\n");
+}
 void MsgHandler::netMsgInput(uint32_t connID,char* buff,uint32_t buffLen)
 {
 
 	MsgInfo msg;
 	NetMsgBody netMsg;
+
+    showData( buff);
 
 	if(buffLen <20)
 	{
@@ -75,6 +104,7 @@ bool MsgHandler::sendMsg(uint32_t connID,MsgInfo *pMsg)
 	sendBuff.append((const char* )&netMsg.msgType,sizeof(uint32_t));
 	sendBuff.append((const char* )netMsg.msgData.c_str(),netMsg.msgData.size());
 
+    showData( sendBuff.c_str() , true);
 
 	IServer::Instance()->SendNetMsg(connID,(char*)sendBuff.c_str(),sendBuff.size());
 
