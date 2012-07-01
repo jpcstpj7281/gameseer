@@ -26,24 +26,25 @@ class InitQboxState extends State{
         loadConfState._nextStates.push(loadDataState);
         loadDataState.init( _sm);
 
-        var initNetworkState:InitNetworkState= new InitNetworkState();
-        loadDataState._nextStates.push(initNetworkState);
-        initNetworkState.init( _sm);
+        //var initNetworkState:InitNetworkState= new InitNetworkState();
+        //loadDataState._nextStates.push(initNetworkState);
+        //initNetworkState.init( _sm);
 
         //var initSocialState:InitSocialState= new InitSocialState();
         //initNetworkState._nextStates.push(initSocialState);
         //initSocialState.init( _sm);
 
         var initMainState:InitMainState= new InitMainState();
+        loadDataState._nextStates.push(initMainState);
         //initSocialState._nextStates.push( initMainState);
-        initMainState._nextStates.push(initNetworkState);
+        //initMainState._nextStates.push(initNetworkState);
         initMainState.init( _sm);
 
 
-        var initBaseState:InitBaseState= new InitBaseState();
-        initNetworkState._nextStates.push(initBaseState);
-        initBaseState._nextStates.push(initMainState);
-        initBaseState.init( _sm);
+        //var initBaseState:InitBaseState= new InitBaseState();
+        //initNetworkState._nextStates.push(initBaseState);
+        //initBaseState._nextStates.push(initMainState);
+        //initBaseState.init( _sm);
 
         //var initSocialState:InitSocialState= new InitSocialState();
         //initMainState._nextStates.push(initSocialState);

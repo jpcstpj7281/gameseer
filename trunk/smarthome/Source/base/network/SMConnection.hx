@@ -27,7 +27,7 @@ class SMConnection extends Connection{
 
     var _length:Bytes;
     //var _data:Bytes;
-    public function new( ip:String, port:Int = 8000){
+    public function new( ip:String = "127.0.0.1", port:Int = 8000){
         //super( ip, 8989 );
         super( ip, port);
 
@@ -167,8 +167,10 @@ class SMConnection extends Connection{
     }
 
     // before send out the data, you have to set up the handler for deal with the reponses, or the data will lost
+    // func:Dynamic->Void
     inline public function startListening( msgId:Int, func:Dynamic, msgType:Int = 1 ):Bool{
         var msgidtype = (msgId<< 16) + msgType;
+        trace("start listen msgidtype: " + msgidtype );
         var res:Bool = true;
         if ( Lambda.count( _listeners ) > 0 ){
             trace("already listening");
@@ -208,8 +210,9 @@ class SMConnection extends Connection{
         //trace("try to listen for response: 2" );
         _sendTime = Timer.stamp();
 
-        var msgType:Int = NetworkMgr.bytes2Short( data, 16 );
-        var msgidType = NetworkMgr.bytes2Int( data, 16);
+        var msgid:Int = NetworkMgr.bytes2Short( data, 16 );
+        var msgType= NetworkMgr.bytes2Short( data, 18);
+        var msgidType= (msgid << 16) + msgType;
         //trace("try to listen for response: msgidType "+ msgidType );
         var d:Dynamic = null;
         if ( msgType == 1 ){
