@@ -251,7 +251,7 @@ class NetworkMgr{
             if ( datalen > 0 ){
                 //var data:Bytes= str.sub( dataPos, datalen ) ;
                 var datas:Hash<Bytes> = parseDataMap(str, dataPos);
-                datas.set( "__MSGTYPE__", str.sub( 16, 4));
+                //datas.set( "__MSGTYPE__", str.sub( 16, 4));
                 return datas;
             }
         }
