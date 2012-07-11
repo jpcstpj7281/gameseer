@@ -14,6 +14,7 @@ SRC_COMM = IServer.cpp\
 		   bgtest.cpp\
 		   windows.cpp\
 		   channel.cpp\
+		   ./chip/devC772.cpp\
 		   main.cpp 
 			
 
