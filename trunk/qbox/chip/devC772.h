@@ -36,30 +36,30 @@ public:
 	DriverChip772();
 	virtual ~DriverChip772();
 
-	void dev_C772_Set480(list<map<uint8_t,uint8_t> > &value);
-	void dev_C772_Set576(list<map<uint8_t,uint8_t> > &value);
+	void dev_C772_Set480(uint32_t chn);
+	void dev_C772_Set576(uint32_t chn);
 
-	void dev_InitIP00c772(list<map<uint8_t,uint8_t> > &value);
-	void dev_C772_InitColorConversion(list<map<uint8_t,uint8_t> > &value);
-	void dev_C772_InitIPConversion(list<map<uint8_t,uint8_t> > &value);
-	void dev_C772_InitLUT(list<map<uint8_t,uint8_t> > &value);
-	void dev_C772_Reset(list<map<uint8_t,uint8_t> > &value);
-
-
-
-	void dev_C772_ChangeModel(list<map<uint8_t,uint8_t> > &value,uint32_t byVideoModel);
-
-
-	void dev_C772_SetInputSize(list<map<uint8_t,uint8_t> > &value,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth);
-	void dev_C772_SetOutputSize(list<map<uint8_t,uint8_t> > &value,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth);
-
-
-	void dev_C772_SetOutputSyncCycle(list<map<uint8_t,uint8_t> > &value,uint32_t wHSyncCycle,uint32_t wVSyncCycle);
-	void dev_C772_SetBlueScreen(list<map<uint8_t,uint8_t> > &value,uint32_t byFlg);
+	void dev_InitIP00c772(uint32_t chn);
+	void dev_C772_InitColorConversion(uint32_t chn);
+	void dev_C772_InitIPConversion(uint32_t chn);
+	void dev_C772_InitLUT(uint32_t chn);
+	void dev_C772_Reset(uint32_t chn);
 
 
 
-	void dev_C772_SetHorAndVerSyncCtrl(list<map<uint8_t,uint8_t> > &value,uint32_t byHorPolarity,uint32_t byHorWidth,uint32_t byVerPolarty,uint32_t byVerWidth);
+	void dev_C772_ChangeModel(uint32_t chn,uint32_t byVideoModel);
+
+
+	void dev_C772_SetInputSize(uint32_t chn,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth);
+	void dev_C772_SetOutputSize(uint32_t chn,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth);
+
+
+	void dev_C772_SetOutputSyncCycle(uint32_t chn,uint32_t wHSyncCycle,uint32_t wVSyncCycle);
+	void dev_C772_SetBlueScreen(uint32_t chn,uint32_t byFlg);
+
+
+
+	void dev_C772_SetHorAndVerSyncCtrl(uint32_t chn,uint32_t byHorPolarity,uint32_t byHorWidth,uint32_t byVerPolarty,uint32_t byVerWidth);
 
 
 private:
