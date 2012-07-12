@@ -25,8 +25,10 @@ DriverChip772::~DriverChip772()
 
 
 
-void DriverChip772::dev_C772_Set480(list<map<uint8_t,uint8_t> > &value)
+void DriverChip772::dev_C772_Set480(uint32_t chn)
 {
+
+	list<map<uint8_t,uint8_t> > value;
 
 	map<uint8_t,uint8_t> bank0;
 
@@ -88,8 +90,9 @@ void DriverChip772::dev_C772_Set480(list<map<uint8_t,uint8_t> > &value)
 
 }
 
-void dev_C772_Set576(list<map<uint8_t,uint8_t> > &value)
+void dev_C772_Set576(uint32_t chn)
 {
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
@@ -154,8 +157,10 @@ void dev_C772_Set576(list<map<uint8_t,uint8_t> > &value)
 
 }
 
-void DriverChip772::dev_InitIP00c772(list<map<uint8_t,uint8_t> > &value)
+void DriverChip772::dev_InitIP00c772(uint32_t chn)
 {
+	list<map<uint8_t,uint8_t> > value;
+
 	map<uint8_t,uint8_t> bank;
 
 	bank[CP_IP00C772_RGBNK_ADDR] = 0x03;
@@ -346,9 +351,9 @@ void DriverChip772::dev_InitIP00c772(list<map<uint8_t,uint8_t> > &value)
 
 	value.push_back(bank2);
 
-	dev_C772_InitColorConversion(value);
-	dev_C772_InitIPConversion(value);
-	dev_C772_InitLUT(value);
+	dev_C772_InitColorConversion(chn);
+	dev_C772_InitIPConversion(chn);
+	dev_C772_InitLUT(chn);
 
 	map<uint8_t,uint8_t> bank3;
 	bank3[CP_IP00C772_RGBNK_ADDR] = 0x00;
@@ -360,8 +365,10 @@ void DriverChip772::dev_InitIP00c772(list<map<uint8_t,uint8_t> > &value)
 
 }
 
-void DriverChip772::dev_C772_InitColorConversion(list<map<uint8_t,uint8_t> > &value)
+void DriverChip772::dev_C772_InitColorConversion(uint32_t chn)
 {
+
+	list<map<uint8_t,uint8_t> > value;
 
 	map<uint8_t,uint8_t> bank0;
 
@@ -383,8 +390,9 @@ void DriverChip772::dev_C772_InitColorConversion(list<map<uint8_t,uint8_t> > &va
 
 }
 
-void DriverChip772::dev_C772_InitIPConversion(list<map<uint8_t,uint8_t> > &value)
+void DriverChip772::dev_C772_InitIPConversion(uint32_t chn)
 {
+	list<map<uint8_t,uint8_t> > value;
 
 	map<uint8_t,uint8_t> bank0;
 
@@ -418,9 +426,9 @@ void DriverChip772::dev_C772_InitIPConversion(list<map<uint8_t,uint8_t> > &value
 
 }
 
-void DriverChip772::dev_C772_InitLUT(list<map<uint8_t,uint8_t> > &value)
+void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 {
-
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x02;
@@ -647,21 +655,22 @@ void DriverChip772::dev_C772_InitLUT(list<map<uint8_t,uint8_t> > &value)
 
 }
 
-void DriverChip772::dev_C772_Reset(list<map<uint8_t,uint8_t> > &value)
+void DriverChip772::dev_C772_Reset(uint32_t chn)
 {
 
 }
 
 
 
-void DriverChip772::dev_C772_ChangeModel(list<map<uint8_t,uint8_t> > &value,uint32_t byVideoModel)
+void DriverChip772::dev_C772_ChangeModel(uint32_t chn,uint32_t byVideoModel)
 {
 
 }
 
 
-void DriverChip772::dev_C772_SetInputSize(list<map<uint8_t,uint8_t> >&value,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth)
+void DriverChip772::dev_C772_SetInputSize(uint32_t chn,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth)
 {
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x01;
 
@@ -695,8 +704,9 @@ void DriverChip772::dev_C772_SetInputSize(list<map<uint8_t,uint8_t> >&value,uint
 	value.push_back(bank0);
 }
 
-void DriverChip772::dev_C772_SetOutputSize(list<map<uint8_t,uint8_t> >&value,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth)
+void DriverChip772::dev_C772_SetOutputSize(uint32_t chn,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth)
 {
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 
@@ -730,8 +740,9 @@ void DriverChip772::dev_C772_SetOutputSize(list<map<uint8_t,uint8_t> >&value,uin
 }
 
 
-void DriverChip772::dev_C772_SetOutputSyncCycle(list<map<uint8_t,uint8_t> > &value,uint32_t wHSyncCycle,uint32_t wVSyncCycle)
+void DriverChip772::dev_C772_SetOutputSyncCycle(uint32_t chn,uint32_t wHSyncCycle,uint32_t wVSyncCycle)
 {
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 
@@ -753,8 +764,9 @@ void DriverChip772::dev_C772_SetOutputSyncCycle(list<map<uint8_t,uint8_t> > &val
 	value.push_back(bank0);
 }
 
-void DriverChip772::dev_C772_SetBlueScreen(list<map<uint8_t,uint8_t> > &value,uint32_t byFlg)
+void DriverChip772::dev_C772_SetBlueScreen(uint32_t chn,uint32_t byFlg)
 {
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 
@@ -780,9 +792,9 @@ void DriverChip772::dev_C772_SetBlueScreen(list<map<uint8_t,uint8_t> > &value,ui
 
 }
 
-void DriverChip772::dev_C772_SetHorAndVerSyncCtrl(list<map<uint8_t,uint8_t> > &value,uint32_t byHorPolarity,uint32_t byHorWidth,uint32_t byVerPolarty,uint32_t byVerWidth)
+void DriverChip772::dev_C772_SetHorAndVerSyncCtrl(uint32_t chn,uint32_t byHorPolarity,uint32_t byHorWidth,uint32_t byVerPolarty,uint32_t byVerWidth)
 {
-
+	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 
