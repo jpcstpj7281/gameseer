@@ -8,7 +8,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "devTVP5160.h"
-#include "CPTVP5160Addr.h"
+#include "devTVP5160Addr.h"
 
 using namespace chip;
 
@@ -23,8 +23,6 @@ DriverChip5160::~DriverChip5160()
 
 }
 
-
-
 void DriverChip5160::dev_5160_SetColorScope(uint32_t byChannels,uint8_t byColorMode,uint8_t byColorValue)
 {
 	list<map<uint8_t,uint8_t> > value;
@@ -35,25 +33,18 @@ void DriverChip5160::dev_5160_SetColorScope(uint32_t byChannels,uint8_t byColorM
 		case COLORSCOPE_AUTO:
 			byColorMode = (byColorMode << COLORSCOPE_MODEMOVE);
 			byRegData = (byColorMode | byColorValue);
-
-
-
-//			CHIP_WriteTVP5160(byChannels, CP_TVP5160_CHIP_COLOR_SCOPE_ADDR, byRegData);
 			break;
 
 		case COLORSCOPE_ENABLED:
 			byColorMode = byColorMode + 1;
 			byColorMode = (byColorMode << COLORSCOPE_MODEMOVE);
 			byRegData = (byColorMode | byColorValue);
-//			CHIP_WriteTVP5160(byChannels, CP_TVP5160_CHIP_COLOR_SCOPE_ADDR, byRegData);
-
 			break;
 
 		case COLORSCOPE_DISABLED:
 			byColorMode = byColorMode + 1;
 			byColorMode = (byColorMode << COLORSCOPE_MODEMOVE);
 			byRegData = (byColorMode | byColorValue);
-//			CHIP_WriteTVP5160(byChannels, CP_TVP5160_CHIP_COLOR_SCOPE_ADDR, byRegData);
 			break;
 
 		default:
@@ -62,9 +53,7 @@ void DriverChip5160::dev_5160_SetColorScope(uint32_t byChannels,uint8_t byColorM
 
 	    }
 
-	map<uint8_t,uint8_t> bank0;
-	bank0[CP_TVP5160_CHIP_COLOR_SCOPE_ADDR] = byRegData;
-	value.push_back(bank0);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHIP_COLOR_SCOPE_ADDR,byRegData);
 
 
 }
@@ -74,7 +63,7 @@ void DriverChip5160::dev_5160_GetColorScope(uint32_t byChannels,uint8_t &byColor
     uint8_t valueRegData = 0;
     uint8_t valueColorMode = 0;
 
-//    CHIP_ReadTVP5160(byChannels, CP_TVP5160_CHIP_COLOR_SCOPE_ADDR,&byRegData);
+    dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHIP_COLOR_SCOPE_ADDR,valueRegData);
 
     byColorValue = (valueRegData & COLORSCOPE_VALUEMASK);
 
@@ -104,70 +93,70 @@ void DriverChip5160::dev_5160_GetColorScope(uint32_t byChannels,uint8_t &byColor
 /*读取图像的亮度函数*/
 void DriverChip5160::dev_5160_GetBrightness(uint32_t byChannels,uint8_t &byBrightness)
 {
-//    CHIP_ReadTVP5160(byChannels, CP_TVP5160_LUM_BRIGHTNESS_ADDR,byBrightness);
-
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_LUM_BRIGHTNESS_ADDR,byBrightness);
 }
 
 void DriverChip5160::dev_5160_SetBrightness(uint32_t byChannels,uint8_t byBrightness)
 {
-//	CHIP_WriteTVP5160(byChannels, CP_TVP5160_LUM_BRIGHTNESS_ADDR, byBrightness);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_LUM_BRIGHTNESS_ADDR,byBrightness);
 }
 
 /*调节图像的对比度函数*/
 void DriverChip5160::dev_5160_SetContrast(uint32_t byChannels,uint8_t byContrast)
 {
-//	CHIP_WriteTVP5160(byChannels, CP_TVP5160_LUM_CONTRAST_ADDR, byContrast);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_LUM_CONTRAST_ADDR,byContrast);
 }
 
 void DriverChip5160::dev_5160_GetContrast(uint32_t byChannels,uint8_t &byContrast)
 {
-//	CHIP_ReadTVP5160(byChannels, CP_TVP5160_LUM_CONTRAST_ADDR,byContrast);
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_LUM_CONTRAST_ADDR,byContrast);
 }
 
 /*调节图像的饱和度函数*/
 void DriverChip5160::dev_5160_SetSaturation(uint32_t byChannels,uint8_t bySaturation)
 {
-//	CHIP_WriteTVP5160(byChannels, CP_TVP5160_CHROMA_SATURATION_ADDR, bySaturation);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHROMA_SATURATION_ADDR,bySaturation);
 }
 
 void DriverChip5160::dev_5160_GetSaturation(uint32_t byChannels,uint8_t &bySaturation)
 {
-//	CHIP_ReadTVP5160(byChannels, CP_TVP5160_CHROMA_SATURATION_ADDR,bySaturation);
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHROMA_SATURATION_ADDR,bySaturation);
+
 }
 
 
 /*调节图像的锐度函数*/
 void DriverChip5160::dev_5160_SetAcutance(uint32_t byChannels,uint8_t byAcutance)
 {
-//	CHIP_WriteTVP5160(byChannels, CP_TVP5160_VIDEO_ACUTANCE_ADDR, byAcutance);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_VIDEO_ACUTANCE_ADDR,byAcutance);
 }
 
 void DriverChip5160::dev_5160_GetAcutance(uint32_t byChannels,uint8_t &byAcutance)
 {
-//	CHIP_ReadTVP5160(byChannels, CP_TVP5160_VIDEO_ACUTANCE_ADDR,byAcutance);
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_VIDEO_ACUTANCE_ADDR,byAcutance);
+
 }
 
 /*调节图像的颜色相位函数*/
 void DriverChip5160::dev_5160_SetColorPhasic(uint32_t byChannels,uint8_t byColorPhasic)
 {
-//	CHIP_WriteTVP5160(byChannels, CP_TVP5160_CHROMA_HUE_ADDR, byColorPhasic);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHROMA_HUE_ADDR,byColorPhasic);
 }
 
 void DriverChip5160::dev_5160_GetColorPhasic(uint32_t byChannels,uint8_t &byColorPhasic)
 {
-//	CHIP_ReadTVP5160(byChannels, CP_TVP5160_CHROMA_HUE_ADDR,pbyColorPhasic);
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHROMA_HUE_ADDR,byColorPhasic);
 }
 
 /*调节视频信号模式函数*/
 void DriverChip5160::dev_5160_SetSignalMode(uint32_t byChannels,uint8_t bySignalMode)
 {
-//	CHIP_WriteTVP5160(byChannels, CP_TVP5160_VIDEO_STANDARD_SEL_ADDR, bySignalMode);
+	dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_VIDEO_STANDARD_SEL_ADDR,bySignalMode);
 }
 
 void DriverChip5160::dev_5160_GetSignalMode(uint32_t byChannels,uint8_t &bySignalMode)
 {
-//	  CHIP_ReadTVP5160(byChannels, CP_TVP5160_VIDEO_STANDARD_STATUS_ADDR,pbySignalMode);
-//	  *pbySignalMode = *pbySignalMode & MODEL_MASK;
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_CHROMA_HUE_ADDR,bySignalMode);
 }
 
 /*调节视频自动增益模式函数*/
@@ -184,26 +173,13 @@ void DriverChip5160::dev_5160_SetAutoGainFlg(uint32_t byChannels,uint8_t byAutoG
         byValue = GAIN_MANUAL_VALUE;
     }
 
-
-//    CHIP_WriteTVP5160(byChannels, CP_TVP5160_AUTO_MANUAL_GAIN_ADDR, byValue);
+    dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_AUTO_MANUAL_GAIN_ADDR,byValue);
 
 }
 
 void DriverChip5160::dev_5160_GetAutoGainFlg(uint32_t byChannels,uint8_t &byAutoGainFlg)
 {
-    uint8_t byValue = 0;
-//  CHIP_ReadTVP5160(byChannels, CP_TVP5160_AUTO_MANUAL_GAIN_ADDR,&byValue);
-
-	//芯片与协议正好相反
-    if((byValue & GAIN_AUTO_VALUE) == GAIN_AUTO_VALUE)
-    {
-    	byAutoGainFlg = GAIN_AUTO;
-    }
-    else
-    {
-    	byAutoGainFlg = GAIN_MANUAL;
-    }
-
+    dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_AUTO_MANUAL_GAIN_ADDR,byAutoGainFlg);
 }
 
 void DriverChip5160::dev_5160_SetManualGainValue(uint32_t byChannels,uint8_t byManualGainValue)
@@ -219,10 +195,11 @@ void DriverChip5160::dev_5160_SetManualGainValue(uint32_t byChannels,uint8_t byM
 
 
 /*设置CVBS粗精度增益寄存器的值为byManualGain的高4位*/
-//        CHIP_WriteTVP5160(byChannels, CP_TVP5160_CVBS_COARSE_GAIN_ADDR, byCoarseGain);
+    dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_CVBS_COARSE_GAIN_ADDR,byCoarseGain);
 //        /*设置CVBS细精度增益寄存器的值为byManualGain的低4位*/
-//        CHIP_WriteTVP5160(byChannels, CP_TVP5160_SVIDEO_CHROMA_FINE_GAIN_ADDR1, byFineGain);
-//        CHIP_WriteTVP5160(byChannels, CP_TVP5160_LUMA_CVBS_FINE_GAIN_ADDR1, byFineGain);
+    dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_SVIDEO_CHROMA_FINE_GAIN_ADDR1,byFineGain);
+    dev_I2C_Write(byChannels,TYPE_CHIP_5160,CP_TVP5160_LUMA_CVBS_FINE_GAIN_ADDR1,byFineGain);
+
 
 }
 
@@ -235,9 +212,9 @@ void DriverChip5160::dev_5160_GetManualGainValue(uint32_t byChannels,uint8_t &by
 	uint8_t byFineGain   = 0;
 
         /*设置CVBS粗精度增益寄存器的值为byManualGain的高4位*/
-//        CHIP_ReadTVP5160(byChannels, CP_TVP5160_CVBS_COARSE_GAIN_ADDR,&byCoarseGain);
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_CVBS_COARSE_GAIN_ADDR,byCoarseGain);
         /*设置CVBS细精度增益寄存器的值为byManualGain的低4位*/
-//        CHIP_ReadTVP5160(byChannels, CP_TVP5160_SVIDEO_CHROMA_FINE_GAIN_ADDR1,&byFineGain);
+	dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_SVIDEO_CHROMA_FINE_GAIN_ADDR1,byFineGain);
 
     byCoarseGain = byCoarseGain & HIGH4_MASK;
     byFineGain = byFineGain & LOW4_MASK;
@@ -284,6 +261,7 @@ void DriverChip5160::dev_5160_InitTVP5160(uint32_t byChannels)
 // 初始化片选寄存器 SMC_CSR4
 //   (*(volatile DWORD *)(0xffffff80)) = 0x21003284;
 
+	dev_I2C_WriteMult(byChannels,TYPE_CHIP_5160,value);
 
 
 }
@@ -292,9 +270,8 @@ void DriverChip5160::dev_5160_DetectInputSignal(uint32_t byChannels,uint8_t  &by
 {
     uint8_t byRtn = 0;
 
-//    CHIP_ReadTVP5160(byChannels, CP_TVP5160_STATUS2_ADDR,&byRtn);
+    dev_I2C_Read(byChannels,TYPE_CHIP_5160,CP_TVP5160_STATUS2_ADDR,byRtn);
 
-	//byRtn1 = byRtn1 & 0x08;
     byRtn = byRtn & 0x80;
     if(byRtn == 0x80 )
     {
@@ -311,7 +288,7 @@ void DriverChip5160::dev_5160_GetVsFreq(uint32_t byChannel,uint8_t &byVsFreq)
 {
     uint8_t byData = 0;
 
-//  CHIP_ReadTVP5160(byChannel, CP_TVP5160_STATUS1_ADDR,&byData);
+    dev_I2C_Read(byChannel,TYPE_CHIP_5160,CP_TVP5160_STATUS2_ADDR,byData);
 
     byData = (FREQ_MASK & byData);
 
@@ -330,7 +307,7 @@ void DriverChip5160::dev_5160_GetInputType(uint32_t byChannel,uint8_t &byInputTy
 {
 	uint8_t byRtnType = 0;
 
-//	CHIP_ReadTVP5160(byChannel, CP_TVP5160_INPUT_SELECT_ADDR,&byRtnType);
+	dev_I2C_Read(byChannel,TYPE_CHIP_5160,CP_TVP5160_INPUT_SELECT_ADDR,byRtnType);
 
 	if(byRtnType == CP_TVP5160_INPUT_SELECT_CVBS)
 	{

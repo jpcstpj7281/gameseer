@@ -10,6 +10,7 @@
 
 #include <map>
 #include <list>
+#include "devBus.h"
 
 using namespace std;
 
@@ -42,6 +43,7 @@ namespace chip
 #define VIEW_CVBS              0x00
 
 class DriverChip5160
+:public I2CBus
 {
 
 public:

@@ -8,7 +8,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "devC772.h"
-#include "CPC772Addr.h"
+#include "devC772Addr.h"
 
 using namespace chip;
 
@@ -86,11 +86,11 @@ void DriverChip772::dev_C772_Set480(uint32_t chn)
 
 	value.push_back(bank3);
 
-
+	dev_SPI_WriteMult(chn,value);
 
 }
 
-void dev_C772_Set576(uint32_t chn)
+void DriverChip772::dev_C772_Set576(uint32_t chn)
 {
 	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
@@ -153,7 +153,7 @@ void dev_C772_Set576(uint32_t chn)
 	value.push_back(bank3);
 
 
-
+	dev_SPI_WriteMult(chn,value);
 
 }
 
@@ -362,7 +362,7 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 
 	value.push_back(bank3);
 
-
+	dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_InitColorConversion(uint32_t chn)
@@ -387,7 +387,7 @@ void DriverChip772::dev_C772_InitColorConversion(uint32_t chn)
 	bank0[CP_IP00C772_B0_OCCFTBR_ADDR2] = 0x00;
 
 	value.push_back(bank0);
-
+	dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_InitIPConversion(uint32_t chn)
@@ -423,7 +423,7 @@ void DriverChip772::dev_C772_InitIPConversion(uint32_t chn)
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x0;
 
 	value.push_back(bank0);
-
+	dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_InitLUT(uint32_t chn)
@@ -652,7 +652,7 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
     bank0[CP_IP00C772_LUTWR ]=0xff;
 
     value.push_back(bank0);
-
+    dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_Reset(uint32_t chn)
@@ -702,6 +702,8 @@ void DriverChip772::dev_C772_SetInputSize(uint32_t chn,uint32_t wACTHStart,uint3
 	bank0[CP_IP00C772_B1_IACTVW_ADDR2] = byValue;
 
 	value.push_back(bank0);
+
+	dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_SetOutputSize(uint32_t chn,uint32_t wACTHStart,uint32_t wACTHWidth,uint32_t wACTVStart,uint32_t wACTVWidth)
@@ -737,6 +739,9 @@ void DriverChip772::dev_C772_SetOutputSize(uint32_t chn,uint32_t wACTHStart,uint
 	byValue = (wACTVWidth & MASK_HIGH8) >> 8;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR2] = byValue;
 
+	value.push_back(bank0);
+	dev_SPI_WriteMult(chn,value);
+
 }
 
 
@@ -762,6 +767,7 @@ void DriverChip772::dev_C772_SetOutputSyncCycle(uint32_t chn,uint32_t wHSyncCycl
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR2] = byValue;
 
 	value.push_back(bank0);
+	dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_SetBlueScreen(uint32_t chn,uint32_t byFlg)
@@ -774,20 +780,24 @@ void DriverChip772::dev_C772_SetBlueScreen(uint32_t chn,uint32_t byFlg)
 	bank0[CP_IP00C772_B0_OFILL_GREEN_ADDR] = 0x00;
 	bank0[CP_IP00C772_B0_OFILL_BLUE_ADDR] = 0xff;
 
+	value.push_back(bank0);
+	dev_SPI_WriteMult(chn,value);
 
-//	CHIP_ReadC772(byChannel,CP_IP00C772_B0_OIMGCT_ADDR,&byValue);
-//
-//	if(byFlg == CP_TRUE)
-//	{
-//		byValue = byValue | 0x01;
-//		CHIP_WriteC772(byChannel,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
-//	}
-//	else
-//	{
-//		byValue = byValue & 0xfe;
-//		CHIP_WriteC772(byChannel,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
-//	}
-//	CHIP_WriteC772(byChannel,CP_IP00C772_RGBNK_ADDR,0);
+	uint8_t byValue = 0;
+
+	dev_SPI_Read(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
+
+	if(byFlg == 1)
+	{
+		byValue = byValue | 0x01;
+		dev_SPI_Write(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
+	}
+	else
+	{
+		byValue = byValue & 0xfe;
+		dev_SPI_Write(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
+	}
+	dev_SPI_Write(chn,CP_IP00C772_RGBNK_ADDR,0);
 
 
 }
@@ -813,6 +823,7 @@ void DriverChip772::dev_C772_SetHorAndVerSyncCtrl(uint32_t chn,uint32_t byHorPol
 
 
 	value.push_back(bank0);
+	dev_SPI_WriteMult(chn,value);
 }
 
 

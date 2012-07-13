@@ -15,6 +15,10 @@ SRC_COMM = IServer.cpp\
 		   windows.cpp\
 		   channel.cpp\
 		   ./chip/devC772.cpp\
+		   ./chip/devTVP5160.cpp\
+		   ./chip/devBus.cpp\
+		   ./chip/devAD9388A.cpp\
+		   ./chip/devC753.cpp\
 		   main.cpp 
 			
 
@@ -36,6 +40,7 @@ depend:
 	mkdep $(INCLUDE) $(SRC_COMM) $(CXXFLAG)
 
 clean: 
+	rm -f ./chip/*.o
 	rm -f *.o
 	rm -f *.ro
 	rm -f $(PROGRAM)

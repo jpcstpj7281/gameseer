@@ -11,6 +11,8 @@
 #include <map>
 #include <list>
 
+#include "devBus.h"
+
 using namespace std;
 
 namespace chip
@@ -30,6 +32,7 @@ namespace chip
 
 
 class DriverChip772
+:public SPIBus
 {
 
 public:
