@@ -9,12 +9,17 @@
 #define BUSDRIVER_H_
 
 #include "commModel.h"
+#include "chip/devBus.h"
+
+using namespace chip;
 
 namespace msg
 {
 
 class BusDriver
 :public CommModel
+,public I2CBus
+,public SPIBus
 {
 
 public:
