@@ -220,7 +220,7 @@ void IServer::Run()
 
 void IServer::SendNetMsg(int fd,char* buff,uint32_t buffLen)
 {
-	m_buff[fd].buff.append(buff,buffLen);
+	m_buff[fd].buff.assign(buff,buffLen);
 	m_buff[fd].buffLen = buffLen;
 
 	if(m_fd[fd] > 0)
@@ -239,7 +239,7 @@ void IServer::BroadcastMsg(char* buff,uint32_t buffLen)
 	{
 		if(m_fd[i] >0)
 		{
-			m_buff[i].buff.append(buff,buffLen);
+			m_buff[i].buff.assign(buff,buffLen);
 			m_buff[i].buffLen = buffLen;
 
 			write(m_fd[i],m_buff[i].buff.c_str(),m_buff[i].buffLen);
