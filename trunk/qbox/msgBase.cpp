@@ -65,7 +65,6 @@ void MsgBase::push_string(string data)
 	uint16_t length = data.size();
 	push_u16(length);
 	m_pNetMsgBody->msgData.append(data.c_str(),length);
-
 	m_nMove+=length;
 	m_nMax+=length;
 
