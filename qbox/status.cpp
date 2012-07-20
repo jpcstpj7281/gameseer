@@ -88,7 +88,6 @@ void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
     uint32_t iTotal = EntSetting::Instance()->getInputTotal();
-    rsp.info["total"] = tostring(iTotal);
 
     rsp.info["in0"] = EntSetting::Instance()->getInputInfoType(0);
     rsp.info["in1"] = EntSetting::Instance()->getInputInfoType(1);
@@ -96,6 +95,8 @@ void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
     rsp.info["in3"] = EntSetting::Instance()->getInputInfoType(3);
     rsp.info["in4"] = EntSetting::Instance()->getInputInfoType(4);
     rsp.info["in5"] = EntSetting::Instance()->getInputInfoType(5);
+    if ( iTotal == 0 ) iTotal = 6;
+    rsp.info["total"] = tostring(iTotal);
 
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -113,11 +114,12 @@ void Status::onGetOutPutReq(MsgInfo *msg,uint32_t connID)
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
     uint32_t iTotal = EntSetting::Instance()->getOutputTotal();
-    rsp.info["total"] = tostring(iTotal);
 
     rsp.info["out0"] = EntSetting::Instance()->getOutputInfoType(0);
     rsp.info["out1"] = EntSetting::Instance()->getOutputInfoType(1);
     rsp.info["out2"] = EntSetting::Instance()->getOutputInfoType(2);
+    if ( iTotal == 0 ) iTotal = 3;
+    rsp.info["total"] = tostring(iTotal);
 
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
