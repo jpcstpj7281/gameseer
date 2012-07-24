@@ -43,10 +43,15 @@ class MainStage extends ListDialogMgr {
 
 
     public function createDlgs(){
-        var name:String = DataLoader.getInst().getData("usrname");
-        if (name == null) {
-            name = "玩家";
-        }
+        //var name:String = DataLoader.getInst().getData("usrname");
+        //if (name == null) {
+        //name = "玩家";
+        //}
+
+        new QboxesDlg(this);
+        new ChannelsDlg(this);
+        new WndsDlg(this);
+        new ScreensDlg(this);
 
 #if !neko
         //new base.ui.SocialBinderDlg(this);

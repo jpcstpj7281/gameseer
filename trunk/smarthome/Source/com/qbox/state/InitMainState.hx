@@ -37,20 +37,24 @@ class InitMainState extends State{
         //trace("failed opene connection drawing");
         //}
         MainStage.getInst().showListDialog();
-
-
-        q = QboxMgr.getInst().createQbox();
-        q._ipv4 = "127.0.0.1";
-        q._port = 5000;
-        q.connect();
+        if ( QboxMgr.getInst().loadQbox() == false){
+            q = QboxMgr.getInst().createQbox();
+            q._ipv4 = "127.0.0.1";
+            q._port = 5000;
+            QboxMgr.getInst().saveQbox();
+        }
+#if !neko
+        QboxMgr.getInst().connectQboxes();
+#end
     }
 
     override function run():Bool{
-        if(!q._isFailed && q.isConected()){
-            trace("connected: " + q._ipv4+ ":"+ q._port);
 #if !neko
-            q.loadVersion();
-#end
+        if ( QboxMgr.getInst().isAllConnected() ){
+            //trace("connected: " + q._ipv4+ ":"+ q._port);
+            QboxMgr.getInst().checkVersion();
+            QboxMgr.getInst().loadInput();
+            QboxMgr.getInst().loadOutput();
             return false;
         }
         else if ( !q.isConected() ){
@@ -61,6 +65,7 @@ class InitMainState extends State{
                 return false;
             }
         }
+#end
         return true;
     }
 

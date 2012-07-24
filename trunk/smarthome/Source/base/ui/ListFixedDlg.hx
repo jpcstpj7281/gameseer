@@ -29,6 +29,7 @@ class ListFixedDlg extends FixedDlg{
         _listDialogMgr = null;
         super.clear();
     }
+
     public override function onMouseClick( ):Void{
         if ( _mgr.isAnimating() == false){
             _listDialogMgr.showListDialog();
