@@ -34,6 +34,7 @@ class Connection{
 #end
         _ipv4 = ipv4;
         _port = port;
+        _isFailed = true;
     }
 
     inline public function connect(){
@@ -91,7 +92,7 @@ class Connection{
 #end
     }
 
-    inline public function isConected():Bool{
+    public function isConected():Bool{
 #if flash
         return _socket.connected;
 #else
@@ -101,6 +102,12 @@ class Connection{
 
     inline public function close():Void{
         _socket.close();
+#if sys
+        _socket = new BaseSocket();
+#else
+        _socket = new Socket();
+#end
+        _isFailed = true;
     }
     public function sendData():Bool{
 

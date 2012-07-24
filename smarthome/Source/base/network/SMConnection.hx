@@ -136,10 +136,10 @@ class SMConnection extends Connection{
     }
 
     inline public function setMsg(  msgId:Int , msgType:Int = 1 ) :Bool{
-        _msg.set(0,  msgType );
-        _msg.set(1,  msgType >> 8);
-        _msg.set(2,  msgId );
-        _msg.set(3,  msgId >> 8);
+        _msg.set(2,  msgType );
+        _msg.set(3,  msgType >> 8);
+        _msg.set(0,  msgId );
+        _msg.set(1,  msgId >> 8);
         return true;
     }
 
@@ -210,33 +210,43 @@ class SMConnection extends Connection{
         //trace("try to listen for response: 2" );
         _sendTime = Timer.stamp();
 
-        var msgid:Int = NetworkMgr.bytes2Short( data, 16 );
-        var msgType= NetworkMgr.bytes2Short( data, 18);
-        var msgidType= (msgid << 16) + msgType;
         //trace("try to listen for response: msgidType "+ msgidType );
-        var d:Dynamic = null;
-        if ( msgType == 1 ){
-            d= NetworkMgr.parseData(data);
-        }else if (msgType == 2){
-            //trace("dispatching data " );
-            d = NetworkMgr.parseBytesArray( data);
-        }else{
-            trace("***unknow id type");
-            return;
-        }
 
-        if ( d == null ){ return;}
-        //trace("diapatching msg id type: " +msgidType);
-        var func = _listeners.get( msgidType);
-        _listeners.remove( msgidType);
-        if ( func == null){
-            trace("***There is not coresponsing incoming data handler! msgType: " + msgidType);
-            return ;
-        }
-        else{
-            func( d);
-        }
+        var pos:Int = 0;
+        trace( "data len: "+ data.length);
+        while ( pos  < data.length ){
+            var msgid:Int = NetworkMgr.bytes2Short( data, pos+16 );
+            var msgType= NetworkMgr.bytes2Short( data, pos+18);
+            var msgidType= (msgid << 16) + msgType;
 
+            var len:Int = NetworkMgr.bytes2Int( data, pos+ 4);
+            //trace(len);
+            var subdata = data.sub(pos, len+8 );
+            //trace( subdata.toHex() );
+            //trace( data.toHex() );
+
+            var d:Dynamic = null;
+            d= NetworkMgr.parseData(subdata);
+
+            if ( d == null ){ 
+                trace("data cannot be parse!");
+                return;
+            }
+            //trace("diapatching msg id type: " +msgidType);
+            var func = _listeners.get( msgidType);
+            _listeners.remove( msgidType);
+            if ( func == null){
+                trace("***There is not coresponsing incoming data handler! msgType: " + msgidType);
+                //return ;
+            }
+            else{
+                func( d);
+            }
+
+            //trace(pos);
+            pos = pos+len+8;
+            //trace(pos);
+        }
 
     }
 

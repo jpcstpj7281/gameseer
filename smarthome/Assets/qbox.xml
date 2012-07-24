@@ -19,6 +19,8 @@
     <item><type>pan</type><name>pan</name><extension>.png</extension><loc>img</loc></item>
     <item><type>color</type><name>color</name><extension>.png</extension><loc>img</loc></item>
     <item><type>erase</type><name>X1</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>plus</type><name>plus</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>qbox</type><name>qbox</name><extension>.png</extension><loc>img</loc></item>
 
 
 
