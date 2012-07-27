@@ -21,6 +21,13 @@
     <item><type>erase</type><name>X1</name><extension>.png</extension><loc>img</loc></item>
     <item><type>plus</type><name>plus</name><extension>.png</extension><loc>img</loc></item>
     <item><type>qbox</type><name>qbox</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>screen</type><name>screen</name><extension>.jpg</extension><loc>img</loc></item>
+    <item><type>wnd</type><name>wnd</name><extension>.jpg</extension><loc>img</loc></item>
+    <item><type>channel</type><name>channel</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>up</type><name>up</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>down</type><name>down</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>left</type><name>left</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>right</type><name>right</name><extension>.png</extension><loc>img</loc></item>
 
 
 

@@ -7,6 +7,7 @@ import base.ui.EmbedTextField;
 import nme.text.TextFieldType;
 import base.ui.ListDialogMgr;
 import base.ui.ListDialog;
+import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
@@ -40,7 +41,9 @@ class ChannelDlg extends ListDialog{
         for ( i in _channel._nodes){
             new ChannelNodeDlg(_listDialogMgr, i);
         }
+        super.onMouseClick();
     }
+    override function onMouseClick():Void{}
 
     public override function showParent():Void{
         if ( _listDialogMgr._movableInstances.length >0 ){

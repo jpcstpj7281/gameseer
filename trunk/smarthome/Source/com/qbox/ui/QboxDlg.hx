@@ -46,6 +46,8 @@ class QboxDlg extends CommDialog{
         }
     }
 
+    //override function onMouseClick():Void{}
+
     public function createElement():Sprite{
         var s:Sprite = new Sprite();
 

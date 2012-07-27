@@ -14,7 +14,7 @@ import com.qbox.logic.Channel;
 import com.pictionary.ui.DrawingDlgMgr;
 class ChannelsDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
-        super(dm, new Bitmap( DataLoader.getInst().bms_.get("btn_edit")));
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("channel")));
 
         x = 170;
         y= nme.Lib.current.stage.stageHeight - 80;

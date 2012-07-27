@@ -52,6 +52,7 @@ class MainStage extends ListDialogMgr {
         new ChannelsDlg(this);
         new WndsDlg(this);
         new ScreensDlg(this);
+        new ScreenPlate(this);
 
 #if !neko
         //new base.ui.SocialBinderDlg(this);

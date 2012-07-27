@@ -35,7 +35,7 @@ class ScreenDlg extends CommDialog{
 
         _iptext= new EmbedTextField();
         _iptext.selectable = false;
-        _iptext.text = "screen:";
+        _iptext.text = "screen:" + _screen._col+"|"+_screen._row;
         _iptext.scaleX = 3;
         _iptext.scaleY = 3;
         _iptext.width = 50;
@@ -49,7 +49,7 @@ class ScreenDlg extends CommDialog{
         _usrInput.width = 60;
         _usrInput.height= 16;
         _usrInput.setBorder(true);
-        _usrInput.x= 80;
+        _usrInput.x= 110;
 
         s.addChild( _iptext);
         s.addChild( _usrInput);
