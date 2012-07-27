@@ -73,8 +73,8 @@ class ScreenPlate extends CommDialog{
             addChildAt( _screens, 0);
             for ( i in ScreenMgr.getInst()._screens){
                 var s = new Sprite();
-                //s.width = _screenWidth;
-                //s.height = _screenHeight;
+                i._virtualHeight = cast _screenHeight;
+                i._virtualWidth = cast _screenWidth;
                 s.graphics.lineStyle( 1, 0x000000, 1);
                 s.graphics.moveTo( i._col * _screenWidth, i._row * _screenHeight );
                 s.graphics.lineTo( (i._col+1) * _screenWidth, i._row * _screenHeight );
@@ -146,6 +146,7 @@ class ScreenPlate extends CommDialog{
             if ( _isMoving ){
                 _movingWnd.x = evt.stageX - _movex;
                 _movingWnd.y = evt.stageY - _movey;
+                _movingWnd._wnd.move( cast _movingWnd.x, cast _movingWnd.y);
             }else if ( _isResize){
                 var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
                 var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;

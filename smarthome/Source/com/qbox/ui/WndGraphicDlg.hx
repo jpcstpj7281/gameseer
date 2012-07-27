@@ -12,6 +12,9 @@ import nme.text.TextFieldType;
 import base.ui.CommDialog;
 import base.ui.CommDialogMgr;
 
+import com.qbox.logic.Wnd;
+import com.qbox.logic.WndMgr;
+
 class WndGraphicDlg extends CommDialog{
 
     public var _downx:Float;
@@ -19,43 +22,48 @@ class WndGraphicDlg extends CommDialog{
     public var _isDown:Bool;
 
 
-    public var _wnd:Sprite;
+    public var _wnd:Wnd;
+    public var _virtualWnd:Sprite;
     public function new ( mgr:CommDialogMgr ){
         super( mgr);
 
-        _wnd = new Sprite();
-        addChild(_wnd);
+        _virtualWnd = new Sprite();
+        addChild(_virtualWnd);
     }
 
     public function resizeWnd( w:Int, h:Int){
-        //removeChild(_wnd);
-        //_wnd = new Sprite();
-        _wnd.graphics.clear();
-        _wnd.graphics.lineStyle( 1, 0x121212, 1);
-        _wnd.graphics.beginFill(0xFFFFFF, 1);
-        _wnd.graphics.drawRect( 0,0, w, h);
-        _wnd.graphics.beginFill(0x808080, 1);
-        _wnd.graphics.drawRect( w-10,h-10, 10, 10);
-        _wnd.graphics.beginFill(0x808080, 1);
-        _wnd.graphics.drawRect( w-10,0, 10, 10);
-        //addChild(_wnd);
+        //removeChild(_virtualWnd);
+        //_virtualWnd = new Sprite();
+        _wnd.resize( w,h);
+        _virtualWnd.graphics.clear();
+        _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
+        _virtualWnd.graphics.beginFill(0xFFFFFF, 1);
+        _virtualWnd.graphics.drawRect( 0,0, w, h);
+        _virtualWnd.graphics.beginFill(0x808080, 1);
+        _virtualWnd.graphics.drawRect( w-10,h-10, 10, 10);
+        _virtualWnd.graphics.beginFill(0x808080, 1);
+        _virtualWnd.graphics.drawRect( w-10,0, 10, 10);
+        //addChild(_virtualWnd);
 
     }
     public function openWnd( x:Int, y:Int, w:Int, h:Int){
-        _wnd.graphics.lineStyle( 1, 0x121212, 1);
-        _wnd.graphics.beginFill(0xFFFFFF, 1);
-        _wnd.graphics.drawRect( 0,0, w, h);
-        _wnd.graphics.beginFill(0x808080, 1);
-        _wnd.graphics.drawRect( w-10,h-10, 10, 10);
-        _wnd.graphics.beginFill(0x808080, 1);
-        _wnd.graphics.drawRect( w-10,0, 10, 10);
+        _wnd = WndMgr.getInst().createWnd();
+        _wnd.open( x,y,w,h);
+        _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
+        _virtualWnd.graphics.beginFill(0xFFFFFF, 1);
+        _virtualWnd.graphics.drawRect( 0,0, w, h);
+        _virtualWnd.graphics.beginFill(0x808080, 1);
+        _virtualWnd.graphics.drawRect( w-10,h-10, 10, 10);
+        _virtualWnd.graphics.beginFill(0x808080, 1);
+        _virtualWnd.graphics.drawRect( w-10,0, 10, 10);
         this.x = x;
         this.y = y;
     }
     public function closeWnd( ){
-        _wnd.graphics.clear();
-        removeChild(_wnd);
-        _wnd = null;
+        _wnd.close();
+        _virtualWnd.graphics.clear();
+        removeChild(_virtualWnd);
+        _virtualWnd = null;
     }
 
 }

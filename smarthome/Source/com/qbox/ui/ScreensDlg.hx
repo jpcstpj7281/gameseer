@@ -1,5 +1,6 @@
 package com.qbox.ui;
 
+import com.qbox.logic.QboxMgr;
 import base.ui.FixedDlg;
 import base.ui.ListFixedDlg;
 import base.ui.CommDialogMgr;
@@ -22,6 +23,10 @@ class PlusRight extends FixedDlg{
     public function cbPlus( ):Void{
         var arr = ScreenMgr.getInst().createColScreen();
         for ( i in arr){
+            if ( QboxMgr.getInst()._qboxes.length > 0 ){
+                i._qboxid = QboxMgr.getInst()._qboxes[0]._ipv4;
+                i._output= "out0";
+            }
             var qd = new ScreenDlg( cast _mgr, i);
             qd.show();
         }
@@ -43,6 +48,10 @@ class PlusDown extends FixedDlg{
     public function cbPlus( ):Void{
         var arr = ScreenMgr.getInst().createRowScreen();
         for ( i in arr){
+            if ( QboxMgr.getInst()._qboxes.length > 0 ){
+                i._qboxid = QboxMgr.getInst()._qboxes[0]._ipv4;
+                i._output= "out0";
+            }
             var qd = new ScreenDlg( cast _mgr, i);
             qd.show();
         }
@@ -70,6 +79,7 @@ class ScreensDlg extends ListFixedDlg{
     //}
 
     public override function onMouseClick( ):Void{
+        if ( QboxMgr.getInst()._qboxes.length == 0) return;
         if ( _mgr.isAnimating() == false){
             _listDialogMgr.removeAllMovables();
 
