@@ -18,6 +18,26 @@ using namespace std;
 namespace chip
 {
 
+#define C753_BUSCAHNNEL  0
+
+enum
+{
+    C753_INPUT_CHANNEL_1 = 1,
+    C753_INPUT_CHANNEL_2
+};
+
+enum
+{
+    C753_OUTPUT_CHANNEL_1 = 1,
+    C753_OUTPUT_CHANNEL_2
+};
+
+enum
+{
+    C753_CHANNEL_1 = 1,
+    C753_CHANNEL_2
+};
+
 struct RGBQuad
 {
 	 uint8_t    rgbBlue;    // 蓝色的亮度(值范围为0-255)
@@ -431,10 +451,10 @@ public:
 	void C753SetChromaErrorAutomaticCorrectionCounterUpperLimit(uint32_t iCh, uint8_t byVal);
 	void C753SetChromaErrorCorrectionLowPassFilterCoefficient(uint32_t iCh, uint8_t byVal);
 
-	uint16_t C753GetChannel1InputPortHorizontalSyncFrequency(void);
-	uint16_t C753GetChannel1InputPortVerticalSyncFrequency(void);
-	uint8_t C753GetChannel1InputPortHorizontalSyncPulseWidth(void);
-	uint8_t C753GetChannel1InputPortVerticalSyncPulseWidth(void);
+	void C753GetInputPortHorizontalSyncFrequency(uint32_t iCh, uint16_t &wVal);
+	void C753GetInputPortVerticalSyncFrequency(uint32_t iCh, uint16_t &wVal);
+	void C753GetInputPortHorizontalSyncPulseWidth(uint32_t iCh, uint8_t &byVal);
+	void C753GetInputPortVerticalSyncPulseWidth(uint32_t iCh, uint8_t &byVal);
 
 	uint16_t C753GetChannel2InputPortHorizontalSyncFrequency(void);
 	uint16_t C753GetChannel2InputPortVerticalSyncFrequency(void);

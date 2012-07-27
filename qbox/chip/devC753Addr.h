@@ -2,8 +2,8 @@
 *                    IP00C753  Registers Define
 ******************************************************************************/
 
-#ifndef _DEV_C753_H_
-#define _DEV_C753_H_
+#ifndef _DEV_C753_ADDRH_
+#define _DEV_C753_ADDRH_
 
 #ifdef __cplusplus
     extern "C"{
