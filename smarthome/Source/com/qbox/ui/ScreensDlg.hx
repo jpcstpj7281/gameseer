@@ -11,20 +11,63 @@ import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;
 
 import com.pictionary.ui.DrawingDlgMgr;
+
+class PlusRight extends FixedDlg{
+    public function new ( dm:CommDialogMgr ){
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("right")));
+        x = nme.Lib.current.stage.stageWidth - 160;
+        y= nme.Lib.current.stage.stageHeight - 80;
+    }
+
+    public function cbPlus( ):Void{
+        var arr = ScreenMgr.getInst().createColScreen();
+        for ( i in arr){
+            var qd = new ScreenDlg( cast _mgr, i);
+            qd.show();
+        }
+    }
+
+    public override function onMouseClick( ):Void{
+        if ( _mgr.isAnimating() ) return;
+        cbPlus();
+    }
+}
+
+class PlusDown extends FixedDlg{
+    public function new ( dm:CommDialogMgr ){
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("down")));
+        x = nme.Lib.current.stage.stageWidth - 240;
+        y= nme.Lib.current.stage.stageHeight - 80;
+    }
+
+    public function cbPlus( ):Void{
+        var arr = ScreenMgr.getInst().createRowScreen();
+        for ( i in arr){
+            var qd = new ScreenDlg( cast _mgr, i);
+            qd.show();
+        }
+    }
+    public override function onMouseClick( ):Void{
+        if ( _mgr.isAnimating() ) return;
+        cbPlus();
+    }
+}
+
 class ScreensDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
-        super(dm, new Bitmap( DataLoader.getInst().bms_.get("btn_edit")));
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("screen")));
 
         x = 330;
         y= nme.Lib.current.stage.stageHeight - 80;
 
-        new PlusItemFixedDlg(_listDialogMgr, cbPlus);
+        new PlusDown(_listDialogMgr);
+        new PlusRight(_listDialogMgr);
     }
 
-    public function cbPlus( ):Void{
-        var qd = new ScreenDlg(_listDialogMgr, ScreenMgr.getInst().createScreen());
-        qd.show();
-    }
+    //public function cbPlus( ):Void{
+    //var qd = new ScreenDlg(_listDialogMgr, ScreenMgr.getInst().createScreen());
+    //qd.show();
+    //}
 
     public override function onMouseClick( ):Void{
         if ( _mgr.isAnimating() == false){
