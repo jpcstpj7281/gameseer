@@ -8,7 +8,7 @@
 #ifndef MSGHANDLER_H_
 #define MSGHANDLER_H_
 
-#include <stdint.h>
+//#include <stdint.h>
 #include "msgBase.h"
 #include "commModel.h"
 #include "common.h"
