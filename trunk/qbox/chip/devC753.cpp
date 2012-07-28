@@ -2101,6 +2101,7 @@ void DriverChip753::C753SetHorizontalMovementValueGain2(uint32_t iCh, uint8_t by
     {
         dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,11);
         dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B11_HFILCFBCH2, byVal);
+    }
 }
 void DriverChip753::C753SetHorizontalMovementValueGain1(uint32_t iCh, uint8_t byVal)
 {
@@ -2130,7 +2131,7 @@ void DriverChip753::C753SetHorizontalMovementValueGain0(uint32_t iCh, uint8_t by
     }
 }
 
-}
+
 void DriverChip753::C753SetVerticalDirectionMAXFilter(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
@@ -4357,15 +4358,15 @@ void DriverChip753::C753SetHorizontalBlockBoundaryInitialCoordinateForProjection
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_BNHINIPOSCH1_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B15_BNHINIPOSCH1_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNHINIPOSCH1_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNHINIPOSCH1_H, (wVal&0xff00)>>8);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_BNHINIPOSCH2_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B16_BNHINIPOSCH2_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNHINIPOSCH2_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNHINIPOSCH2_H, (wVal&0xff00)>>8);
     }
 
 }
@@ -4373,15 +4374,15 @@ void DriverChip753::C753SetHorizontalBlockEnlargementScaleForProjection(uint32_t
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_BNHSCLCH1_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B15_BNHSCLCH1_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNHSCLCH1_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNHSCLCH1_H, (wVal&0xff00)>>8);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_BNHSCLCH2_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B16_BNHSCLCH2_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNHSCLCH2_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNHSCLCH2_H, (wVal&0xff00)>>8);
     }
 
 }
@@ -4389,30 +4390,30 @@ void DriverChip753::C753SetVerticalBlockBoundaryInitialCoordinateForProjection(u
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_BNVINIPOSCH1_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B15_BNVINIPOSCH1_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNVINIPOSCH1_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNVINIPOSCH1_H, (wVal&0xff00)>>8);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_BNVINIPOSCH2_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B16_BNVINIPOSCH2_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNVINIPOSCH2_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNVINIPOSCH2_H, (wVal&0xff00)>>8);
     }
 }
 void DriverChip753::C753SetVerticalBlockEnlargementScaleForProjection(uint32_t iCh, uint16_t wVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_BNVSCLCH1_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B15_BNVSCLCH1_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNVSCLCH1_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_BNVSCLCH1_H, (wVal&0xff00)>>8);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_BNVSCLCH2_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B16_BNVSCLCH2_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNVSCLCH2_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_BNVSCLCH2_H, (wVal&0xff00)>>8);
     }
 
 }
@@ -4420,158 +4421,158 @@ void DriverChip753::C753SetHorizontalVerticalNRControl(uint32_t iCh, uint8_t byV
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_HVPXNRCTCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_HVPXNRCTCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_HVPXNRCTCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_HVPXNRCTCH2, byVal);
     }
 }
 void DriverChip753::C753SetVerticalNRCoefficient1(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_VPXNRCF1CH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_VPXNRCF1CH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_VPXNRCF1CH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_VPXNRCF1CH2, byVal);
     }
 }
 void DriverChip753::C753SetVerticalNRCoefficient2(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_VPXNRCF2CH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_VPXNRCF2CH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_VPXNRCF2CH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_VPXNRCF2CH2, byVal);
     }
 }
 void DriverChip753::C753SetHorizontalNRCoefficient1(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_HPXNRCF1CH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_HPXNRCF1CH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_HPXNRCF1CH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_HPXNRCF1CH2, byVal);
     }
 }
 void DriverChip753::C753SetHorizontalNRCoefficient2(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_HPXNRCF2CH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_HPXNRCF2CH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_HPXNRCF2CH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_HPXNRCF2CH2, byVal);
     }
 }
 void DriverChip753::C753SetChromaErrorCorrectionControl(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNRCTCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRCTCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNRCTCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRCTCH2, byVal);
     }
 }
 void DriverChip753::C753SetChromaErrorDetectionThreshold(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNRTHCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRTHCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNRTHCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRTHCH2, byVal);
     }
 }
 void DriverChip753::C753SetChromaErrorDetectionCountThreshold(uint32_t iCh, uint16_t wVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNRCNTTHCH1_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B15_UVNRCNTTHCH1_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRCNTTHCH1_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRCNTTHCH1_H, (wVal&0xff00)>>8);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNRCNTTHCH2_L, (wVal&0x00ff));
-        C753SetReg(REG_C753_B16_UVNRCNTTHCH2_H, (wVal&0xff00)>>8);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRCNTTHCH2_L, (wVal&0x00ff));
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRCNTTHCH2_H, (wVal&0xff00)>>8);
     }
 }
 void DriverChip753::C753SetChromaErrorDetectionExclusionThreshold(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNREXTHCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNREXTHCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNREXTHCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNREXTHCH2, byVal);
     }
 }
 void DriverChip753::C753SetChromaErrorAutomaticCorrectionThreshold(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNRATTHCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRATTHCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNRATTHCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRATTHCH2, byVal);
     }
 }
 void DriverChip753::C753SetChromaErrorAutomaticCorrectionCounterUpperLimit(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNRATLIMCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRATLIMCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNRATLIMCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRATLIMCH2, byVal);
     }
 }
 void DriverChip753::C753SetChromaErrorCorrectionLowPassFilterCoefficient(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_CHANNEL_1)
     {
-        C753SetBank(C753_BANK_15);
-        C753SetReg(REG_C753_B15_UVNRLPCFCH1, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,15);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B15_UVNRLPCFCH1, byVal);
     }
     else if(iCh == C753_CHANNEL_2)
     {
-        C753SetBank(C753_BANK_16);
-        C753SetReg(REG_C753_B16_UVNRLPCFCH2, byVal);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,16);
+        dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B16_UVNRLPCFCH2, byVal);
     }
 }
 
@@ -4581,14 +4582,14 @@ void DriverChip753::C753GetInputPortHorizontalSyncFrequency(uint32_t iCh, uint16
 	uint8_t byValH = 0;
     if(iCh == C753_CHANNEL_1)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFH1_L,byValL);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFH1_H,byValH);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFH2_L,byValL);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFH2_H,byValH);
     }
@@ -4604,14 +4605,14 @@ void DriverChip753::C753GetInputPortVerticalSyncFrequency(uint32_t iCh, uint16_t
 	uint8_t byValH = 0;
     if(iCh == C753_CHANNEL_1)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFV1_L,byValL);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFV1_H,byValH);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFV2_L,byValL);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IFV2_H,byValH);
     }
@@ -4623,13 +4624,13 @@ void DriverChip753::C753GetInputPortHorizontalSyncPulseWidth(uint32_t iCh, uint8
 {
     if(iCh == C753_CHANNEL_1)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IHW1,byVal);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IHW2,byVal);
     }
 
@@ -4639,13 +4640,13 @@ void DriverChip753::C753GetInputPortVerticalSyncPulseWidth(uint32_t iCh, uint8_t
 {
     if(iCh == C753_CHANNEL_1)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IVW1,byVal);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
-    	C753SetBank(C753_BANK_17);
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,17);
     	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_B17_IVW2,byVal);
     }
 
