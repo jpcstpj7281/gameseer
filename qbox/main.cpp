@@ -26,9 +26,10 @@ void testMenu()
 void runService(int port)
 {
 	Status status;
+	Windows windows;
 
 	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
-
+	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&windows));
 
 	IServer::Instance()->setPort(port);
 	IServer::Instance()->setServerFlg(true);
