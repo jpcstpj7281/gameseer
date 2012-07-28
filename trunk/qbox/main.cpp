@@ -9,6 +9,9 @@
 #include "IServer.h"
 #include "msgHandler.h"
 #include "status.h"
+#include "windows.h"
+#include "event.h"
+#include "channel.h"
 #include "common.h"
 
 
@@ -27,9 +30,13 @@ void runService(int port)
 {
 	Status status;
 	Windows windows;
+	Event evt;
+	Channel channel;
 
 	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
-	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&windows));
+	MsgHandler::Instance()->setModel(TYPE_MODEL_WINDOWS,(CommModel*)(&windows));
+	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&windows));
+	MsgHandler::Instance()->setModel(TYPE_MODEL_CHANNEL,(CommModel*)(&windows));
 
 	IServer::Instance()->setPort(port);
 	IServer::Instance()->setServerFlg(true);
