@@ -32,7 +32,6 @@ class WndDlg extends CommDialog{
         _yt.text = "Y:"+_wnd._virtualY;
         _wt.text = "W:"+_wnd._virtualWidth;
         _ht.text = "H:"+_wnd._virtualHeight;
-        trace("test");
         return super.show();
     }
 

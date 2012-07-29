@@ -50,13 +50,10 @@ class EditChannelDlg extends ListDialog{
 
     public function createDlgs(){
         _channel.addNode( QboxMgr.getInst()._qboxes[0], "in0");
-            trace("test");
         for ( i in _channel._nodes){
-            trace("test");
+            //trace("test");
         }
     }
-
-
     public function createElement():Sprite{
         var s:Sprite = new Sprite();
 

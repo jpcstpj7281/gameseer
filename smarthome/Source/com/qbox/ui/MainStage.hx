@@ -68,10 +68,6 @@ class MainStage extends ListDialogMgr {
     }
 
 
-    public override function showListDialog( ):Void{
-        super.showListDialog();
-    }
-
     public override function hideListDialog( ):Void{
         super.hideListDialog();
     }
@@ -126,6 +122,23 @@ class MainStage extends ListDialogMgr {
             inst = new MainStage();
         }
         return inst;
+    }
+
+    public override function showListDialog():Void{
+        if ( _isListening == false  ){
+            nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
+            nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove);
+            nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_UP, onMouseUp);
+            setAnimationNum( _movableInstances.length);
+            _isDown = false;
+            _isListening = true;
+            //trace("super show: "+ _instancesByDisplayOrder.length);
+            for ( i in 0..._movableInstances.length){//must use int! for i number
+                var d = _movableInstances[i];
+                d.show().delay(0.05 * i).onComplete(decreaseAnimationNum, []);
+            }
+            for ( i in _instancesByDisplayOrder){ i.show(); }
+        }
     }
 
 

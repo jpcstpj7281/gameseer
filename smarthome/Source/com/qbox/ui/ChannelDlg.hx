@@ -18,7 +18,7 @@ import com.qbox.logic.Channel;
 
 class ChannelDlg extends ListDialog{
 
-    var _usrInput:EmbedTextField;
+    var _input:EmbedTextField;
     var _iptext:EmbedTextField;
     var _editBtn:EmbedTextField;
     var _channel:Channel;
@@ -69,15 +69,15 @@ class ChannelDlg extends ListDialog{
         _iptext.width = 50;
         _iptext.height= 20;
 
-        _usrInput= new EmbedTextField();
-        _usrInput.text = _channel._name;
-        _usrInput.type = INPUT;
-        _usrInput.scaleX = 3;
-        _usrInput.scaleY = 3;
-        _usrInput.width = 60;
-        _usrInput.height= 16;
-        _usrInput.setBorder(true);
-        _usrInput.x= 100;
+        _input= new EmbedTextField();
+        _input.text = _channel._name;
+        _input.type = INPUT;
+        _input.scaleX = 3;
+        _input.scaleY = 3;
+        _input.width = 60;
+        _input.height= 16;
+        _input.setBorder(true);
+        _input.x= 100;
 
         _editBtn= new EmbedTextField();
         _editBtn.selectable = false;
@@ -91,7 +91,7 @@ class ChannelDlg extends ListDialog{
         _editBtn.addEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
 
         s.addChild( _iptext);
-        s.addChild( _usrInput);
+        s.addChild( _input);
         s.addChild( _editBtn);
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;

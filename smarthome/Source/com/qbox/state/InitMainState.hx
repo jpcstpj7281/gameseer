@@ -36,7 +36,9 @@ class InitMainState extends State{
         //}
         //trace("failed opene connection drawing");
         //}
+
         MainStage.getInst().showListDialog();
+        /*
         if ( QboxMgr.getInst().loadQbox() == false){
             q = QboxMgr.getInst().createQbox();
             q._ipv4 = "127.0.0.1";
@@ -46,9 +48,11 @@ class InitMainState extends State{
 #if !neko
         QboxMgr.getInst().connectQboxes();
 #end
+*/
     }
 
     override function run():Bool{
+        /*
 #if !neko
         if ( QboxMgr.getInst().isAllConnected() ){
             //trace("connected: " + q._ipv4+ ":"+ q._port);
@@ -66,6 +70,7 @@ class InitMainState extends State{
             }
         }
 #end
+*/
         return true;
     }
 

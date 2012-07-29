@@ -11,7 +11,7 @@ import nme.text.TextFormatAlign;
 class CommDialogMgr  {
 
     var _animatingNum:Int;
-    var _instancesByDisplayOrder:Array <CommDialog>;
+    public var _instancesByDisplayOrder:Array <CommDialog>;
     private var _dropPoint:Sprite;
 
     public function new ( dropPoint:Sprite){

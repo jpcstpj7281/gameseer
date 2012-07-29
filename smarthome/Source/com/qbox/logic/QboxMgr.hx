@@ -12,17 +12,21 @@ class QboxMgr {
         }
         return inst;
     }
-
-
-
     //Array< Qbox>, container of Qboxes.
     public var _qboxes:Array<Qbox>;
-
 
     public function new(){
         _qboxes =  new Array<Qbox>();
     }
 
+    public function getQboxByIp( ip:String):Qbox{
+        for ( i in _qboxes){
+            if ( i._ipv4 == ip ){
+                return i;
+            }
+        }
+        return  null;
+    }
     public function createQbox():Qbox{
         var q = new Qbox();
         _qboxes.push( q);
