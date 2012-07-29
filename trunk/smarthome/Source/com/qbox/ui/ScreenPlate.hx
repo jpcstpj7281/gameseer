@@ -12,6 +12,8 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;
+import com.qbox.logic.ChannelMgr;
+import com.qbox.logic.Channel;
 
 import com.pictionary.ui.DrawingDlgMgr;
 
@@ -170,9 +172,14 @@ class ScreenPlate extends CommDialog{
                 //_wnds.graphics.beginFill( 0x111111);
                 //_wnds.graphics.drawRect( _downx, _downy, upx - _downx, upy - _downy);
                 if ( upx - _downx > 90  && upy - _downy > 60 ) {
-                    var win = new WndGraphicDlg(_mgr);
-                    win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy);
-                    win.show();
+                    if ( ChannelMgr.getInst()._channels.length > 0){
+                        var win = new WndGraphicDlg(_mgr);
+                        win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy, ChannelMgr.getInst()._channels[0]);
+                        win.show();
+                    }
+                    else{
+                        trace("channel not yet select.");
+                    }
                 }
                 else if ( upx - _downx < 5  && upy - _downy <5 ) {
                     var ms = cast(_mgr, ListDialogMgr)._movableInstances;
