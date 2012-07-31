@@ -34,6 +34,7 @@ class Wnd{
         _virtualY = y;
         _virtualWidth = w;
         _virtualHeight = h;
+        _channel =  channel;
 
         for (i in ScreenMgr.getInst()._screens){ 
             i.setWnd( x,y,w,h, cbSetWnd); 
@@ -48,6 +49,7 @@ class Wnd{
         //trace(handle);
         _screens.push( s);
         _handles.push( handle);
+        //trace("setChannel:"+handle);
         if ( handle != "null"){
             s.setChannel( handle, _channel,  cbSetChannel);
         }
@@ -56,10 +58,17 @@ class Wnd{
     function cbSetChannel( args:Dynamic, s:Screen):Void{
         var error = args.get("error");
         if (error == "1") { return; }
-        s.showWnd( handle, cbShowWnd );
+        for ( i in 0..._screens.length){
+            if ( _screens[i] == s ){
+                if ( _handles[i] != "null"){
+                    s.showWnd( _handles[i], cbShowWnd );
+                }
+            }
+        }
     }
 
     function cbShowWnd( args:Dynamic){
+        trace(args);
     }
 
     public function move( x:Int, y:Int){
