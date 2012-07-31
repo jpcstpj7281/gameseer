@@ -92,9 +92,9 @@ class Screen{
         }
         else {
             trace(""+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
+            _currCB = cbSetWndFunc;
 #if !neko
             var q = QboxMgr.getInst().getQboxByIp( _qboxid);
-            _currCB = cbSetWndFunc;
             if ( q != null){
                 q.clearData();
                 q.startListening( 6, cbSetWnd, 2);
@@ -125,8 +125,12 @@ class Screen{
         if (_currCB != null){
             trace("there is a set channel operation processing.");
         }
-        _currCB = cbSetChannelFunc;
         var notes = channel._nodes;
+        if (notes ==  null || notes.length == 0){ 
+            trace("channel nodes have not been set!");
+            return;
+        }
+        _currCB = cbSetChannelFunc;
         for ( i in notes){
             var arr:Array<String> = i.split(":");
             if ( _qboxid == arr[0]){
