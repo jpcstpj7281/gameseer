@@ -37,7 +37,7 @@ class ChannelDlg extends ListDialog{
         qd.show();
     }
 
-    function onConnBtnMouseClick( evt:MouseEvent ):Void{
+    public function onConnBtnMouseClick( evt:MouseEvent ):Void{
         for ( i in _channel._nodes){
             new ChannelNodeDlg(_listDialogMgr, i);
         }

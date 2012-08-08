@@ -29,13 +29,22 @@ class ChannelsDlg extends ListFixedDlg{
     }
 
     public override function onMouseClick( ):Void{
+        var selected:ChannelDlg = null;
         if ( _mgr.isAnimating() == false){
             _listDialogMgr.removeAllMovables();
 
             for ( c in ChannelMgr.getInst()._channels){
-                new ChannelDlg(_listDialogMgr, c);
+                if ( ChannelMgr.getInst()._currSelected == c){
+                    selected = new ChannelDlg(_listDialogMgr, c);
+                }
+                else new ChannelDlg(_listDialogMgr, c);
             }
         }
         super.onMouseClick();
+
+        if ( selected != null){
+            //trace("onMouseClick");
+            selected.onConnBtnMouseClick(null);
+        }
     }
 }

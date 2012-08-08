@@ -5,6 +5,7 @@ import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
 
+import com.qbox.logic.ChannelMgr;
 import nme.events.MouseEvent;
 import nme.events.Event;
 import nme.display.DisplayObject;
@@ -68,10 +69,40 @@ class MainStage extends ListDialogMgr {
     }
 
 
-    public override function hideListDialog( ):Void{
-        super.hideListDialog();
+    public override function showListDialog( ):Void{
+        var cm = ChannelMgr.getInst()._channels;
+        for ( i in 0...cm.length){
+            //trace("add ChannelSelectionDlg");
+            var c = new ChannelSelectionDlg( this, cm[i], i);
+            if ( ChannelMgr.getInst()._currSelected ==cm[i]){
+                c.selected();
+            }
+        }
+        super.showListDialog();
     }
 
+    public override function hideListDialog( ):Void{
+        super.hideListDialog();
+        var arr:Array<ChannelSelectionDlg> = new Array<ChannelSelectionDlg>();
+        for ( i in _instancesByDisplayOrder){
+            if ( Std.is( i , ChannelSelectionDlg) ){
+                arr.push(cast i);
+            }
+        }
+
+        for ( i in arr){
+            remove(i);
+        }
+    }
+
+    public function clearChannelSelecting(){
+        for ( i in _instancesByDisplayOrder){
+            if ( Std.is( i , ChannelSelectionDlg) ){
+                cast (i, ChannelSelectionDlg).unselected();
+            }
+        }
+
+    }
     override function clear(){
         hideListDialog();
         //trace("clear1");
@@ -124,6 +155,7 @@ class MainStage extends ListDialogMgr {
         return inst;
     }
 
+    /*
     public override function showListDialog():Void{
         if ( _isListening == false  ){
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -140,6 +172,7 @@ class MainStage extends ListDialogMgr {
             for ( i in _instancesByDisplayOrder){ i.show(); }
         }
     }
+    */
 
 
 }
