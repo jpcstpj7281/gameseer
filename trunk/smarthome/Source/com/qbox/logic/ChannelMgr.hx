@@ -17,6 +17,7 @@ class ChannelMgr {
 
     //Array< Qbox>, container of Qboxes.
     public var _channels:Array<Channel>;
+    public var _currSelected:Channel;
 
 
     public function new(){

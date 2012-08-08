@@ -67,6 +67,9 @@ class CommDialog extends Sprite{
     public function clear():Void{
         _mgr = null;
         hideElements();
+        if ( parent != null){
+            parent.removeChild(this);
+        }
         //trace("cleared dialog: " + );
         _elements = null;
     }

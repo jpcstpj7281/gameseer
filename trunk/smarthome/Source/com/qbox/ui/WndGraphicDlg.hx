@@ -1,7 +1,6 @@
 package com.qbox.ui;
 
 import base.ui.EmbedTextField;
-import base.ui.FixedDlg;
 import nme.display.Bitmap;
 import base.data.DataLoader;
 import base.network.NetworkMgr;
@@ -14,8 +13,8 @@ import base.ui.CommDialog;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Wnd;
-import com.qbox.logic.Channel;
 import com.qbox.logic.WndMgr;
+import com.qbox.logic.Channel;
 
 class WndGraphicDlg extends CommDialog{
 
@@ -26,6 +25,9 @@ class WndGraphicDlg extends CommDialog{
 
     public var _wnd:Wnd;
     public var _virtualWnd:Sprite;
+
+    public var _channel:Channel;
+
     public function new ( mgr:CommDialogMgr ){
         super( mgr);
 
@@ -48,6 +50,7 @@ class WndGraphicDlg extends CommDialog{
         //addChild(_virtualWnd);
 
     }
+
     public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel){
         _wnd = WndMgr.getInst().createWnd();
         _wnd.open( x,y,w,h, channel);
@@ -60,9 +63,9 @@ class WndGraphicDlg extends CommDialog{
         _virtualWnd.graphics.drawRect( w-10,0, 10, 10);
         this.x = x;
         this.y = y;
+        _channel = channel;
     }
     public function closeWnd( ){
-        WndMgr.getInst().removeWnd(_wnd);
         _wnd.close();
         _virtualWnd.graphics.clear();
         removeChild(_virtualWnd);
