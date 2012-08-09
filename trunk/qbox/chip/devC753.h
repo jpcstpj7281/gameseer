@@ -58,8 +58,8 @@ public:
 	virtual ~DriverChip753();
 
 	/*Basic function*/
-	void C753SetBasicAddress(uint32_t dwAddr);
-	void C753GetBasicAddress(uint32_t &dwAddr);
+	void C753SetBankRegister(uint8_t byVal);
+	void C753GetBankRegister(uint8_t &byVal);
 	void C753SetMainControl(uint16_t wVal);
 	void C753SetCh1MainControl(uint8_t byVal);
 	void C753GetCh1MainControl(uint8_t &byVal);
