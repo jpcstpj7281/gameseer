@@ -456,82 +456,53 @@ public:
 	void C753GetInputPortHorizontalSyncPulseWidth(uint32_t iCh, uint8_t &byVal);
 	void C753GetInputPortVerticalSyncPulseWidth(uint32_t iCh, uint8_t &byVal);
 
-	uint16_t C753GetChannel2InputPortHorizontalSyncFrequency(void);
-	uint16_t C753GetChannel2InputPortVerticalSyncFrequency(void);
-	uint8_t C753GetChannel2InputPortHorizontalSyncPulseWidth(void);
-	uint8_t C753GetChannel2InputPortVerticalSyncPulseWidth(void);
+	void C753GetHorizontalAndVerticalSyncPhaseDifference0(uint32_t iCh,uint16_t &wVal);
+	void C753GetHorizontalAndVerticalSyncPhaseDifference1(uint32_t iCh,uint16_t &wVal);
 
-	uint16_t C753GetChannel1HorizontalAndVerticalSyncPhaseDifference0(void);
-	uint16_t C753GetChannel1HorizontalAndVerticalSyncPhaseDifference1(void);
+	void C753GetStatus(uint16_t &wVal);
+	void C753GetFieldHistory(uint32_t iCh,uint8_t &byVal);
 
-	uint16_t C753GetChannel2HorizontalAndVerticalSyncPhaseDifference0(void);
-	uint16_t C753GetChannel2HorizontalAndVerticalSyncPhaseDifference1(void);
 
-	uint16_t C753GetStatus(void);
-	uint8_t C753GetChannel1FieldHistory(void);
-	uint8_t C753GetChannel2FieldHistory(void);
+	void C753GetMeasurementStatusMonitor(uint32_t iCh,uint8_t &byVal);
+	void C753GetCharacteristicsMeasurementResult0(uint32_t iCh,uint8_t &byVal);
+	void C753GetCharacteristicsMeasurementResult1(uint32_t iCh,uint8_t &byVal);
 
-	uint8_t C753GetChannel1MeasurementStatusMonitor(void);
+	void C753GetCharacteristicsMeasurementResultHorizontalCoordinate0(uint32_t iCh,uint16_t &wVal);
+	void C753GetCharacteristicsMeasurementResultVerticalCoordinate0(uint32_t iCh,uint16_t &wVal);
 
-	uint8_t C753GetChannel1CharacteristicsMeasurementResult0(void);
-	uint8_t C753GetChannel1CharacteristicsMeasurementResult1(void);
+	void C753GetCharacteristicsMeasurementResultHorizontalCoordinate1(uint32_t iCh,uint16_t &wVal);
+	void C753GetCharacteristicsMeasurementResultVerticalCoordinate1(uint32_t iCh,uint16_t &wVal);
 
-	uint16_t C753GetChannel1CharacteristicsMeasurementResultHorizontalCoordinate0(void);
-	uint16_t C753GetChannel1CharacteristicsMeasurementResultVerticalCoordinate0(void);
-	uint16_t C753GetChannel1CharacteristicsMeasurementResultHorizontalCoordinate1(void);
-	uint16_t C753GetChannel1CharacteristicsMeasurementResultVerticalCoordinate1(void);
-	uint8_t C753GetChannel1SNHistogramMeasurementResult(void);
+	void C753GetSNHistogramMeasurementResult(uint32_t iCh,uint8_t &byVal);
 
-	uint8_t C753GetChannel2MeasurementStatusMonitor(void);
-	uint8_t C753GetChannel2CharacteristicsMeasurementResult0(void);
-	uint8_t C753GetChannel2CharacteristicsMeasurementResult1(void);
-	uint16_t C753GetChannel2CharacteristicsMeasurementResultHorizontalCoordinate0(void);
-	uint16_t C753GetChannel2CharacteristicsMeasurementResultVerticalCoordinate0(void);
-	uint16_t C753GetChannel2CharacteristicsMeasurementResultHorizontalCoordinate1(void);
-	uint16_t C753GetChannel2CharacteristicsMeasurementResultVerticalCoordinate1(void);
-	uint8_t C753GetChannel2SNHistogramMeasurementResult(void);
+	void C753GetMAXFILTERResult(uint32_t iCh,uint8_t &byVal);
+	void C753GetMINFILTERResult(uint32_t iCh,uint8_t &byVal);
 
-	uint8_t C753GetChannel1MAXFILTERResult(void);
-	uint8_t C753GetChannel1MINFILTERResult(void);
+	void C753GetAverageLuminanceLevelResult(uint32_t iCh,uint8_t &byVal);
 
-	uint8_t C753GetChannel2MAXFILTERResult(void);
-	uint8_t C753GetChannel2MINFILTERResult(void);
+	void C753Get23PulldownSequenceCount1(uint32_t iCh,uint8_t &byVal);
+	void C753Get23PulldownSequenceCount2(uint32_t iCh,uint8_t &byVal);
+	void C753Get23PulldownSequenceCount3(uint32_t iCh,uint8_t &byVal);
+	void C753Get23PulldownSequenceCount4(uint32_t iCh,uint8_t &byVal);
+	void C753Get23PulldownSequenceCount5(uint32_t iCh,uint8_t &byVal);
 
-	uint8_t C753GetChannel1AverageLuminanceLevelResult(void);
-	uint8_t C753GetChannel2AverageLuminanceLevelResult(void);
+	void C753Get22PulldownSequenceCount1(uint32_t iCh,uint8_t &byVal);
 
-	uint8_t C753GetChannel123PulldownSequenceCount1(void);
-	uint8_t C753GetChannel123PulldownSequenceCount2(void);
-	uint8_t C753GetChannel123PulldownSequenceCount3(void);
-	uint8_t C753GetChannel123PulldownSequenceCount4(void);
-	uint8_t C753GetChannel123PulldownSequenceCount5(void);
-	uint8_t C753GetChannel122PulldownSequenceCount1(void);
-	uint8_t C753GetChannel223PulldownSequenceCount1(void);
-	uint8_t C753GetChannel223PulldownSequenceCount2(void);
-	uint8_t C753GetChannel223PulldownSequenceCount3(void);
-	uint8_t C753GetChannel223PulldownSequenceCount4(void);
-	uint8_t C753GetChannel223PulldownSequenceCount5(void);
-	uint8_t C753GetChannel222PulldownSequenceCount1(void);
-	uint16_t C753GetOutputPortVerticalSyncFrequency(void);
-	uint16_t C753GetPWMLowPulseWidthCounterValue(void);
-	uint16_t C753GetPWMHighPulseWidthCounterValue(void);
-	uint8_t C753GetFlashStatus(void);
-	uint16_t C753GetInterruptStatus(void);
-	uint8_t C753GetDPMSInterruptStatus(void);
-	uint8_t C753GetDPMSStatus(void);
-	uint8_t C753GetChannel1BlockNoiseHMatchingCountsMax(void);
-	uint8_t C753GetChannel1BlockNoiseHMatchingCountsMax2(void);
-	uint8_t C753GetChannel1BlockNoiseHBoundaryCoordinate(void);
-	uint8_t C753GetChannel1BlockNoiseVMatchingCountsMax(void);
-	uint8_t C753GetChannel1BlockNoiseVMatchingCountsMax2(void);
-	uint8_t C753GetChannel1BlockNoiseVBoundaryCoordinate(void);
-	uint8_t C753GetChannel2BlockNoiseHMatchingCountsMax(void);
-	uint8_t C753GetChannel2BlockNoiseHMatchingCountsMax2(void);
-	uint8_t C753GetChannel2BlockNoiseHBoundaryCoordinate(void);
-	uint8_t C753GetChannel2BlockNoiseVMatchingCountsMax(void);
-	uint8_t C753GetChannel2BlockNoiseVMatchingCountsMax2(void);
-	uint8_t C753GetChannel2BlockNoiseVBoundaryCoordinate(void);
 
+	void C753GetOutputPortVerticalSyncFrequency(uint16_t &wVal);
+	void C753GetPWMLowPulseWidthCounterValue(uint16_t &wVal);
+	void C753GetPWMHighPulseWidthCounterValue(uint16_t &wVal);
+	void C753GetFlashStatus(uint8_t &byVal);
+	void C753GetInterruptStatus(uint16_t &wVal);
+	void C753GetDPMSInterruptStatus(uint8_t &byVal);
+	void C753GetDPMSStatus(uint8_t &byVal);
+
+	void C753GetBlockNoiseHMatchingCountsMax(uint32_t iCh,uint8_t &byVal);
+	void C753GetBlockNoiseHMatchingCountsMax2(uint32_t iCh,uint8_t &byVal);
+	void C753GetBlockNoiseHBoundaryCoordinate(uint32_t iCh,uint8_t &byVal);
+	void C753GetBlockNoiseVMatchingCountsMax(uint32_t iCh,uint8_t &byVal);
+	void C753GetBlockNoiseVMatchingCountsMax2(uint32_t iCh,uint8_t &byVal);
+	void C753GetBlockNoiseVBoundaryCoordinate(uint32_t iCh,uint8_t &byVal);
 
 
 private:
