@@ -19,6 +19,7 @@ SRC_COMM = IServer.cpp\
 		   ./chip/devBus.cpp\
 		   ./chip/devAD9388A.cpp\
 		   ./chip/devC753.cpp\
+		   ./chip/appC753.cpp\
 		   main.cpp 
 			
 

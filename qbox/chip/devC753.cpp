@@ -26,8 +26,18 @@ DriverChip753::~DriverChip753()
 
 
 /*Basic function*/
-void DriverChip753::C753SetBasicAddress(uint32_t dwAddr){}
-void DriverChip753::C753GetBasicAddress(uint32_t &dwAddr){}
+void DriverChip753::C753SetBankRegister(uint8_t byVal)
+{
+	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,0);
+}
+void DriverChip753::C753GetBankRegister(uint8_t &byVal)
+{
+	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,byVal);
+}
+
+
+
+
 void DriverChip753::C753SetMainControl(uint16_t wVal)
 {
 	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, wVal&0x00ff);
