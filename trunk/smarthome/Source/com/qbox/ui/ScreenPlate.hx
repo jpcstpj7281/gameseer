@@ -13,6 +13,7 @@ import base.data.DataLoader;
 import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;
 import com.qbox.logic.ChannelMgr;
+import com.qbox.logic.WndMgr;
 
 import com.pictionary.ui.DrawingDlgMgr;
 
@@ -191,6 +192,7 @@ class ScreenPlate extends CommDialog{
                         _movingWnd.closeWnd();
                         _movingWnd.parent.removeChild(_movingWnd);
                         cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
+                        WndMgr.getInst().removeWnd(_movingWnd._wnd);
                     }
                 }
             }
