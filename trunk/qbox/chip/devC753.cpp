@@ -11,6 +11,7 @@
 #include "devC753.h"
 #include "devC753Addr.h"
 
+
 using namespace chip;
 
 
@@ -36,32 +37,38 @@ void DriverChip753::C753GetBankRegister(uint8_t &byVal)
 }
 
 
+//void DriverChip753::C753SetMainControl(uint16_t wVal)
+//{
+//	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, wVal&0x00ff);
+//	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_H, (wVal&0xff00)>>8);
+//}
 
-
-void DriverChip753::C753SetMainControl(uint16_t wVal)
+void DriverChip753::C753SetMainControl(uint32_t iCh,uint8_t byVal)
 {
-	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, wVal&0x00ff);
-	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_H, (wVal&0xff00)>>8);
+    if(iCh == C753_INPUT_CHANNEL_1)
+    {
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, byVal);
+    }
+    else if(iCh == C753_INPUT_CHANNEL_2)
+    {
+    	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_H, byVal);
+    }
+
+
+
 }
 
-void DriverChip753::C753SetCh1MainControl(uint8_t byVal)
-{
-	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, byVal);
-}
 
-void DriverChip753::C753GetCh1MainControl(uint8_t &byVal)
+void DriverChip753::C753GetMainControl(uint32_t iCh,uint8_t &byVal)
 {
-	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, byVal);
-}
-
-void DriverChip753::C753SetCh2MainControl(uint8_t byVal)
-{
-	dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_MCT_H, byVal);
-}
-
-void DriverChip753::C753GetCh2MainControl(uint8_t &byVal)
-{
-	dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_BSC_MCT_H, byVal);
+	if(iCh == C753_INPUT_CHANNEL_1)
+	{
+		dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_BSC_MCT_L, byVal);
+    }
+	else if(iCh == C753_INPUT_CHANNEL_2)
+	{
+		dev_SPI_Read(C753_BUSCAHNNEL,REG_C753_BSC_MCT_H, byVal);
+	}
 }
 
 void DriverChip753::C753SetDDRControl(uint8_t byVal)
@@ -331,10 +338,10 @@ void DriverChip753::C753WritePixel(uint8_t byRed, uint8_t byGreen, uint8_t byBlu
     dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_B0_CPUDT, byDump);
 }
 
-void DriverChip753::C753WriteN1BitPixels(uint16_t wNPixels, RGBQuad *pC753Plt, uint8_t **ppbyMap, uint8_t *pbyBuf)
+void DriverChip753::C753WriteN1BitPixels(uint16_t wNPixels, RGBQUAD *pC753Plt, uint8_t **ppbyMap, uint8_t *pbyBuf)
 {
     uint16_t i, j;
-    register RGBQuad *pPlt;
+    register RGBQUAD *pPlt;
     register uint8_t *pbySrc;
     register uint8_t val;
 
@@ -361,10 +368,10 @@ void DriverChip753::C753WriteN1BitPixels(uint16_t wNPixels, RGBQuad *pC753Plt, u
     }
 }
 
-void DriverChip753::C753WriteN8BitPixels(uint16_t wNPixels, RGBQuad *pC753Plt, uint8_t *pbyBuf)
+void DriverChip753::C753WriteN8BitPixels(uint16_t wNPixels, RGBQUAD *pC753Plt, uint8_t *pbyBuf)
 {
 	uint16_t i;
-    register RGBQuad *pPlt;
+    register RGBQUAD *pPlt;
     register uint8_t val;
 
     dev_SPI_Write(C753_BUSCAHNNEL,REG_C753_BSC_RGBNK,0);

@@ -10,7 +10,7 @@
 
 #include <map>
 #include <list>
-
+#include "Bitmap.h"
 #include "devBus.h"
 
 using namespace std;
@@ -38,13 +38,7 @@ enum
     C753_CHANNEL_2
 };
 
-struct RGBQuad
-{
-	 uint8_t    rgbBlue;    // 蓝色的亮度(值范围为0-255)
-	 uint8_t    rgbGreen;   // 绿色的亮度(值范围为0-255)
-	 uint8_t    rgbRed;     // 红色的亮度(值范围为0-255)
-	 uint8_t    rgbReserved;// 保留，必须为0
-};
+
 
 
 
@@ -60,11 +54,9 @@ public:
 	/*Basic function*/
 	void C753SetBankRegister(uint8_t byVal);
 	void C753GetBankRegister(uint8_t &byVal);
-	void C753SetMainControl(uint16_t wVal);
-	void C753SetCh1MainControl(uint8_t byVal);
-	void C753GetCh1MainControl(uint8_t &byVal);
-	void C753SetCh2MainControl(uint8_t byVal);
-	void C753GetCh2MainControl(uint8_t &byVal);
+//	void C753SetMainControl(uint16_t wVal);
+	void C753SetMainControl(uint32_t iCh,uint8_t byVal);
+	void C753GetMainControl(uint32_t iCh,uint8_t &byVal);
 	void C753SetDDRControl(uint8_t byVal);
 	void C753SetRegisterValueTransferControl(uint16_t wVal);
 	void C753SetMemoryControl(uint8_t byVal);
@@ -112,8 +104,8 @@ public:
 	void C753GetCPUData(uint8_t &byVal);
 
 	void C753WritePixel(uint8_t byRed, uint8_t byGreen, uint8_t byBlue, uint8_t byDump);
-	void C753WriteN1BitPixels(uint16_t wNPixels, RGBQuad *pC753Plt, uint8_t **ppbyMap, uint8_t *pbyBuf);
-	void C753WriteN8BitPixels(uint16_t wNPixels, RGBQuad *pC753Plt, uint8_t *pbyBuf);
+	void C753WriteN1BitPixels(uint16_t wNPixels, RGBQUAD *pC753Plt, uint8_t **ppbyMap, uint8_t *pbyBuf);
+	void C753WriteN8BitPixels(uint16_t wNPixels, RGBQUAD *pC753Plt, uint8_t *pbyBuf);
 	void C753WriteN24BitPixels(uint16_t wNPixels, uint8_t *pbyBuf);
 	void C753ReadN24BitPixels(uint16_t wNPixels, uint8_t *pbyBuf);
 	void C753SetCharacterBufferAddress(uint16_t wVal);
