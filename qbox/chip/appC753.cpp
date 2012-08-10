@@ -199,17 +199,17 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
     /*
     *  配置输出部分寄存器
     */
-    /*OFLDC输出同步方式，OFLD1=IFLD1, OFLD2=IFLD2*/
-    if((pScaleConfig->wHorResolution == 1920) && (pScaleConfig->wVerResolution == 1200))
-    {
-	    /*POACT active low Select AOI0*/
-        C753SetOutputPortSyncControl(0x2310);
-    }
-    else
-    {
+//    /*OFLDC输出同步方式，OFLD1=IFLD1, OFLD2=IFLD2*/
+//    if((pScaleConfig->wHorResolution == 1920) && (pScaleConfig->wVerResolution == 1200))
+//    {
+//	    /*POACT active low Select AOI0*/
+//        C753SetOutputPortSyncControl(0x2310);
+//    }
+//    else
+//    {
 	    /*POACT active high Select AOI0*/
         C753SetOutputPortSyncControl(0x2350);
-    }
+//    }
     /*OFLDC输出同步方式，OFLD1=0, OFLD2=0*/
     /*POACT active high Select AOI3*/
     /*C753SetOutputSyncControl(0x0068);*/
