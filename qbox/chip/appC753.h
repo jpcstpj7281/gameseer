@@ -10,13 +10,23 @@
 
 #include "devC753.h"
 #include <vector>
+#include "Bitmap.h"
 
 using namespace std;
 using namespace chip;
 
+#define         SCAL_FRAME_LINE_MAX             1024
+#define         SCAL_INPUT_HOR_SYNC_MCLK        4390
+#define         SCAL_INPUT_VER_SYNC_30          1250
+#define         SCAL_INPUT_VER_SYNC_50          750
+#define         SCAL_INPUT_VER_SYNC_60          625
+#define         SCAL_INPUT_HOR_SYNC_THRESHOLD   4
+#define         SCAL_INPUT_VER_SYNC_THRESHOLD   4
 
 namespace chipApp
 {
+
+
 
 static const uint8_t s_abyScaleZoomCoefficient4SymbolTable[24] =
 {
@@ -32,6 +42,44 @@ static const uint8_t s_abyScaleShrinkCoefficient4SymbolTable[24] =
   0x05, 0x0d, 0x18, 0x23, 0x2e, 0x38, 0x3e, 0x40
 };
 
+typedef struct{
+	int32_t		iChStatus;	        /*通道状态，-1：关闭通道，0：隐藏通道，1：打开通道*/
+    uint8_t   	byContextRegs[4];   /*保存寄存器状态*/
+    int32_t  	iImageType;	        /*图像类型，0：RGB, 1：Video, 2：IP field*/
+    int32_t  	iFrameRate;	        /*输入图像帧率 （25，30，50，60）*/
+	uint16_t    wInputStartX;	    /*输入图像的起始列坐标*/
+	uint16_t    wInputStartY;	    /*输入图像的起始行坐标*/
+	uint16_t    wInputClipOffsetX;  /*剪切区域的偏移列坐标（相对图像区域）*/
+	uint16_t    wInputClipOffsetY;  /*剪切区域的偏移行坐标（相对图像区域）*/
+	uint16_t    wInputClipWidth;	/*剪切区域的宽度*/
+	uint16_t    wInputClipHeight;	/*剪切区域的高度*/
+    int16_t	    sswInputAdjustStartX;/*输入微调列位置*/
+    int16_t  	sswInputAdjustStartY;/*输入微调行位置*/
+    int16_t   	sswInputAdjustWidth; /*输入微调宽度*/
+    int16_t   	sswInputAdjustHeight;/*输入微调高度*/
+    uint16_t    wOutputStartX;	    /*背景图像输出的起始列坐标*/
+    uint16_t    wOutputStartY;	    /*背景图像输出的起始行坐标*/
+    uint16_t    wOutputWidth;	    /*背景图像输出的宽度*/
+    uint16_t    wOutputHeight;	    /*背景图像输出的高度*/
+    uint16_t    wOutputActOffsetX;	/*输出图像的偏移列坐标（相对背景区域）*/
+    uint16_t    wOutputActOffsetY;  /*输出图像的偏移行坐标（相对背景区域）*/
+    uint16_t    wOutputActWidth;	/*输出图像的宽度*/
+    uint16_t    wOutputActHeight;	/*输出图像的高度*/
+    uint16_t    wOutputClipOffsetX;	/*输出剪切图像的偏移列坐标（相对背景区域）*/
+    uint16_t    wOutputClipOffsetY; /*输出剪切图像的偏移行坐标（相对背景区域）*/
+	uint16_t    wOutputClipWidth;	/*输出剪切图像的宽度*/
+	uint16_t    wOutputClipHeight;	/*输出剪切图像的高度*/
+	int16_t		sswScaleModeH;	    /*图像的水平缩放模式（-1：缩小，0：不变，1：放大）*/
+	int16_t		sswScaleModeV;      /*图像的垂直缩放模式（-1：缩小，0：不变，1：放大）*/
+	uint16_t    wScaleFactorUpH;	/*图像水平放大因子*/
+	uint16_t    wScaleFactorDownH;	/*图像水平缩小因子*/
+	uint16_t    wScaleFactorUpV;	/*图像垂直放大因子*/
+	uint16_t    wScaleFactorDownV;		/*图像垂直缩放因子，用16bit小数表示
+							        缩小计算公式：
+							        (OACT-1)*65536/(ICLP-1)+1
+							        放大计算公式：
+							        (ICLP-1)*65536/(OACT-1)+1*/
+}ScaleChInfoT;
 
 typedef struct
 {
@@ -69,6 +117,30 @@ typedef struct{
     uint32_t   dwCoef;
 }ScalLUTIPTableT;
 
+enum SCAL_IMAGE_TYPE
+{
+    SCAL_IMAGE_RGB   = 0,
+    SCAL_IMAGE_VIDEO = 1,
+    SCAL_IMAGE_IPFIELD = 2,
+};
+
+enum SCAL_STATUS_TYPE
+{
+    SCAL_STATUS_CLOSE = -1,
+    SCAL_STATUS_HIDE = 0,
+    SCAL_STATUS_OPEN = 1,
+    SCAL_STATUS_REOPEN = 2,
+    SCAL_STATUS_FREERUN = 3, /*��������״̬�����Ĭ�ϵ�����*/
+};
+
+enum SCAL_MODE_TYPE
+{
+    SCAL_MODE_SHRINK = -1,
+    SCAL_MODE_SAME = 0,
+    SCAL_MODE_ZOOM = 1,
+    SCAL_MODE_BOTH = 2,
+};
+
 static const ScalLUTIPTableT s_sLUTIPTable[] =
 {
 	{0x00, 0x00042000},  {0x01, 0x00139c01},  {0x02, 0x00139c01},  {0x03, 0x00231802},
@@ -101,9 +173,21 @@ public:
 	void chipTest();
 	void initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig);
 
+	void showWnd(uint32_t iChID);
+	void hideWnd(uint32_t iChID);
+	void pauseChannel(uint32_t iChID);
+	void resumeChannel(uint32_t iChID);
+	void openChannel(uint32_t iChID);
+
+	void writeBackground(uint32_t iChID, uint16_t wOffsetX, uint16_t wOffsetY, DispBitmapT *BitmapPtr);
+	void readBackground(uint32_t iChID, int32_t iIndex, uint16_t wWidth, uint16_t wHeight, uint8_t *pbyBuf);
+
 private:
 
+	void initChannel(uint32_t iChID, ScaleChInfoT *pScalCh);
 	void initTimingIndexTable();
+	int32_t calculate6SymbolLUT(float *pfCutoff, float *pfWinfact, uint8_t *pbyLut);
+
 	uint16_t getHorizontalTotal(uint16_t wHorResolution, uint16_t wVerResolution, uint16_t byStandardType);
 	uint16_t getHorizontalStart(uint16_t wHorResolution, uint16_t wVerResolution, uint8_t byStandardType);
 	int16_t getHorizontalCompensation(uint16_t wHorResolution, uint16_t wVerResolution, uint8_t byStandardType);
@@ -117,6 +201,7 @@ private:
 	vector<TimingT> m_asSignalTiming;
 
 	ScaleConfigT m_asScaleConfig;
+	vector<ScaleChInfoT> m_asScaleChInfo;
 
 };
 };

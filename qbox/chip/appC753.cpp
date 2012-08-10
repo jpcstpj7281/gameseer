@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "appC753.h"
+#include <math.h>
 
 
 
@@ -165,7 +166,6 @@ void AppC753::chipTest()
         C753GetCPUData(val2);
         if(val2 != val1)
         {
-            //SPCMsgErr("can not read memory[val1=0x%02x val2=0x%02x index=%d]\n", val1, val2, i, 0);
         	printf("can not read memory[val_in=0x%02x val_out=0x%02x index=%d]\n", val1, val2, i);
             return ;
         }
@@ -353,6 +353,20 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
         C753SetLUTWriteAddress(iChID, s_sLUTIPTable[i].byAddr);
         C753SetLUTWriteEnable(iChID, 0xff);
     }
+}
+
+void AppC753::initChannel(uint32_t iChID, ScaleChInfoT *pScalCh)
+{
+
+    /*重新设置窗口大小时窗口已经打开通道*/
+    /*
+    if(pScalCh->iChStatus != -1)
+        return -1;
+    */
+    pScalCh->wOutputStartX += getHorizontalCompensation(m_asScaleConfig.wHorResolution, m_asScaleConfig.wVerResolution, m_asScaleConfig.byStandardType);
+    pScalCh->wOutputStartY += getVerticalCompensation(m_asScaleConfig.wHorResolution, m_asScaleConfig.wVerResolution, m_asScaleConfig.byStandardType);
+    memcpy(&m_asScaleChInfo[iChID], pScalCh, sizeof(ScaleChInfoT));
+
 }
 
 void AppC753::initTimingIndexTable(void)
@@ -562,3 +576,629 @@ int16_t AppC753::getVerticalCompensation(uint16_t wHorResolution, uint16_t wVerR
     return 0;
 }
 
+
+void AppC753::showWnd(uint32_t iChID)
+{
+	/*显示该通道*/
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
+//        {
+//            C753SetMainControl(iChID,0x3b);
+//        }
+//        else
+//        {
+            C753SetMainControl(iChID,0x03);
+//        }
+            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
+//        {
+//            C753SetMainControl(iChID,0x3f);
+//        }
+//        else
+//        {
+            C753SetMainControl(iChID,0x07);
+//        }
+            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
+    }
+
+}
+
+void AppC753::hideWnd(uint32_t iChID)
+{
+    /*���ظ�ͨ��*/
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
+//        {
+//            C753SetMainControl(iChID,0x3a);
+//        }
+//        else
+//        {
+            C753SetMainControl(iChID,0x02);
+//        }
+            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_HIDE;
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
+//        {
+//            C753SetCh2MainControl(0x3e);
+//        }
+//        else
+//        {
+            C753SetMainControl(iChID,0x06);
+//        }
+           m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_HIDE;
+    }
+}
+
+
+void AppC753::openChannel(uint32_t iChID)
+{
+
+    /*
+    *  配置输入部分寄存器
+    */
+//    if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
+//    {
+//        /*IFLD[0]=PIFLD IFLD[1] toggles every 2 fields*/
+//        /*水平同步信号低电平有效*/
+//        /*垂直同步信号低电平有效*/
+//        C753SetInputPortSyncControl(num, 0x06);
+//    }
+//    else
+//    {
+        /*IFLD 0到3循环*/
+        /*水平同步信号低电平有效*/
+        /*垂直同步信号低电平有效*/
+    C753SetInputPortSyncControl(iChID, 0x01);
+//    }
+    C753SetInputImageControl(iChID, 0x00);
+    /*设置输入图像区域*/
+    C753SetInputPortACTHorizontalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wInputStartX + m_asScaleChInfo[iChID].wInputClipOffsetX + m_asScaleChInfo[iChID].sswInputAdjustStartX - 1));
+    C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth);
+    C753SetInputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wInputStartY + m_asScaleChInfo[iChID].wInputClipOffsetY + m_asScaleChInfo[iChID].sswInputAdjustStartY + 1));
+    /*由于图像下边缘闪烁，高度补充4行数据*/
+    C753SetInputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wInputClipHeight + m_asScaleChInfo[iChID].sswInputAdjustHeight + 4);
+    if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_ZOOM)
+    {
+        /*放大比率大于2倍时要在输入宽度补偿2个像素，否则补偿1个像素*/
+        if(m_asScaleChInfo[iChID].wScaleFactorUpH < 32768)
+        {
+            C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 2);
+        }
+        else
+        {
+            C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 1);
+        }
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_SHRINK)
+    {
+        /*缩小时要将输入宽度设置成等于输出宽度*/
+        C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wOutputActWidth);
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_BOTH)
+    {
+        /*缩小时要将输入宽度设置成等于缩小前的宽度*/
+        C753SetInputPortACTHorizontalWidth(iChID, SCAL_FRAME_LINE_MAX);
+    }
+    /*
+    *  配置输出部分寄存器
+    */
+    C753SetOutputImageControl(iChID, 0x02);
+
+    /*配置OAOI区域为图像输出区域 防止放大时图像叠加产生顶层图像超出*/
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+        C753SetOutputPortOAOI1HorizontalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX));
+        C753SetOutputPortOAOI1HorizontalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX + m_asScaleChInfo[iChID].wOutputClipWidth));
+        C753SetOutputPortOAOI1VerticalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + 0));
+        C753SetOutputPortOAOI1VerticalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + m_asScaleChInfo[iChID].wOutputClipHeight + 1));
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+        C753SetOutputPortOAOI2HorizontalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX));
+        C753SetOutputPortOAOI2HorizontalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX + m_asScaleChInfo[iChID].wOutputClipWidth));
+        C753SetOutputPortOAOI2VerticalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + 0));
+        C753SetOutputPortOAOI2VerticalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + m_asScaleChInfo[iChID].wOutputClipHeight + 1));
+    }
+    /*输出图像区域*/
+    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputActOffsetX));
+    C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wOutputActWidth);
+    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY + 0));
+    C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 1);
+
+    if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_ZOOM)
+    {
+        /*放大比率大于2倍时要将输出宽度设置成等于输入宽度加上补偿2个像素，否则补偿1个像素*/
+        if(m_asScaleChInfo[iChID].wScaleFactorUpH < 32768)
+        {
+            C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 2);
+        }
+        else
+        {
+            C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 1);
+        }
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_BOTH)
+    {
+        /*放大时要将输出宽度设置成等于放大前的宽度*/
+        C753SetOutputPortACTHorizontalWidth(iChID, SCAL_FRAME_LINE_MAX);
+    }
+
+    if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_ZOOM)
+    {
+        /*C753bug 放大时放大的图像层会下移1-2个像素*/
+        C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY - 2));
+        C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 3);
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_BOTH)
+    {
+        /*C753bug 放大时放大的图像层会下移1-2个像素*/
+        C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY - 2));
+        C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 3);
+    }
+
+    if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_SHRINK)
+    {
+        /*
+        *  配置缩小寄存器
+        */
+        uint8_t lut[24];
+        float ratio, win;
+
+        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownH / 65536;
+        if(ratio > 0.5)
+        {
+            win = ratio;
+        }
+        else
+        {
+            win = 0.1;
+        }
+        calculate6SymbolLUT(&ratio, &win, lut);
+        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
+        C753SetInputShrinkCompensationControl(iChID, 0x00);
+        C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
+        /*6-symbol LUT*/
+        C753SetInputHorizontalShrinkControl(iChID, 0x07);
+        /*关闭放大模块*/
+        C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
+        C753SetInputHorizontalShrinkInitialValue(iChID, 0x00);
+        C753SetInputHorizontalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownH);
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_ZOOM)
+    {
+        /*
+        *  配置放大寄存器
+        */
+        /*6-symbol LUT*/
+        C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
+        /*关闭缩小模块*/
+        C753SetInputHorizontalShrinkControl(iChID, 0x00);
+        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
+        C753SetOutputHorizontalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpH);
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_BOTH)
+    {
+        uint8_t lut[24];
+        float ratio, win;
+
+        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownH / 65536;
+        if(ratio > 0.5)
+        {
+            win = ratio;
+        }
+        else
+        {
+            win = 0.1;
+        }
+        calculate6SymbolLUT(&ratio, &win, lut);
+        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
+        C753SetInputShrinkCompensationControl(iChID, 0x00);
+        C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
+        /*6-symbol LUT*/
+        C753SetInputHorizontalShrinkControl(iChID, 0x07);
+        C753SetInputHorizontalShrinkInitialValue(iChID, 0x00);
+        C753SetInputHorizontalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownH);
+        /*6-symbol LUT*/
+        C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
+        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
+        C753SetOutputHorizontalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpH);
+    }
+    else
+    {
+        /*关闭缩小模块*/
+        C753SetInputHorizontalShrinkControl(iChID, 0x00);
+        /*关闭放大模块*/
+        C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
+    }
+
+    if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_SHRINK)
+    {
+        /*
+        *  配置缩小寄存器
+        */
+        uint8_t lut[24];
+        float ratio, win;
+
+        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownV / 65536;
+        if(ratio > 0.5)
+        {
+            win = ratio;
+        }
+        else
+        {
+            win = 0.1;
+        }
+        calculate6SymbolLUT(&ratio, &win, lut);
+        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
+        C753SetInputShrinkCompensationControl(iChID, 0x00);
+        C753SetInputVerticalShrinkCompensation(iChID, 0x00);
+        /*6-symbol LUT*/
+        C753SetInputVerticalShrinkControl(iChID, 0x07);
+        /*关闭放大模块*/
+        C753SetOutputVerticalEnlargementControl(iChID, 0x00);
+        C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
+        C753SetInputVerticalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownV);
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_ZOOM)
+    {
+        /*
+        *  配置放大寄存器
+        */
+        /*6-symbol LUT*/
+        C753SetOutputVerticalEnlargementControl(iChID, 0x07);
+        /*关闭缩小模块*/
+        C753SetInputVerticalShrinkControl(iChID, 0x00);
+        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
+        C753SetOutputVerticalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpV);
+    }
+    else if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_BOTH)
+    {
+        uint8_t lut[24];
+        float ratio, win;
+
+        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownV / 65536;
+        if(ratio > 0.5)
+        {
+            win = ratio;
+        }
+        else
+        {
+            win = 0.1;
+        }
+        calculate6SymbolLUT(&ratio, &win, lut);
+        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
+        C753SetInputShrinkCompensationControl(iChID, 0x00);
+        C753SetInputVerticalShrinkCompensation(iChID, 0x00);
+        /*6-symbol LUT*/
+        C753SetInputVerticalShrinkControl(iChID, 0x07);
+        C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
+        C753SetInputVerticalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownV);
+        /*6-symbol LUT*/
+        C753SetOutputVerticalEnlargementControl(iChID, 0x07);
+        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
+        C753SetOutputVerticalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpV);
+    }
+    else
+    {
+        /*关闭放大模块*/
+        C753SetOutputVerticalEnlargementControl(iChID, 0x00);
+        /*关闭缩小模块*/
+        C753SetInputVerticalShrinkControl(iChID, 0x00);
+    }
+
+    /*
+    *  其他寄存器
+    */
+    /*通道已经打开，由于信号分辨率发生变化，要重新设置缩放参数
+    *叠加层次保持不变，所以在这里返回
+    */
+    if(m_asScaleChInfo[iChID].iChStatus == SCAL_STATUS_REOPEN)
+        return;
+
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+        /*叠加控制 side 1*/
+        C753SetOverlayControl(0x00);
+        /*打开通道1*/
+        if(m_asScaleChInfo[iChID].iChStatus == SCAL_STATUS_OPEN)
+        {
+            C753SetMainControl(iChID,0x03);
+        }
+        else
+        {
+            C753SetMainControl(iChID,0x02);
+        }
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+        /*叠加控制 side 2*/
+        C753SetOverlayControl(0x01);
+        /*打开通道2*/
+        if(m_asScaleChInfo[iChID].iChStatus == SCAL_STATUS_OPEN)
+        {
+        	C753SetMainControl(iChID,0x07);
+        }
+        else
+        {
+        	C753SetMainControl(iChID,0x06);
+        }
+    }
+}
+
+void AppC753::pauseChannel(uint32_t iChID)
+{
+    uint8_t val=0;
+
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+        C753GetMainControl(iChID,val);
+        C753SetMainControl(iChID,0x01);
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+        C753GetMainControl(iChID,val);
+        C753SetMainControl(iChID,0x05);
+    }
+    else
+    {
+        return;
+    }
+
+    m_asScaleChInfo[iChID].byContextRegs[0] = val;
+}
+
+void AppC753::resumeChannel(uint32_t iChID)
+{
+    uint8_t val=0;
+
+
+    val = m_asScaleChInfo[iChID].byContextRegs[0];
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+        C753SetMainControl(iChID,val);
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+    	C753SetMainControl(iChID,val);
+    }
+    else
+    {
+        return;
+    }
+}
+
+int32_t AppC753::calculate6SymbolLUT(float *pfCutoff, float *pfWinfact, uint8_t *pbyLut)
+{
+    int i, icoeff[32], ik[8];
+    float fj, fpara, fCutoff, fWinfact, fcoeff[32], fk[8];
+
+    fCutoff = *pfCutoff;
+    fWinfact = *pfWinfact;
+    if(fCutoff < 0.3)
+    {
+        fCutoff = 0.3;
+    }
+    else if(fCutoff > 1.2)
+    {
+        fCutoff = 1.2;
+    }
+
+    if(fWinfact < 0.1)
+    {
+        fWinfact = 0.1;
+    }
+    else if(fWinfact > 1.0)
+    {
+        fWinfact = 1.0;
+    }
+
+    for(i = 0; i < 25; i++)
+    {
+		fj = (float)(i - 24);
+		if(i == 24)
+        {
+            fj = 0.0001;
+		}
+
+		fcoeff[i] = (sin(3.141592*fj*fCutoff/8.0)) / (3.141592*fj*fCutoff);
+
+		if(i == 0)
+		{
+            fcoeff[0] = 0;
+		}
+
+		fpara = 1 - fWinfact * (24 - i) / 24;
+		if(fpara < 0.01)
+        {
+            fpara = 0;
+        }
+		fcoeff[i] = fcoeff[i] * fpara;
+    }
+
+	fk[0] = fcoeff[0] + fcoeff[8]  + fcoeff[16] + fcoeff[24] + fcoeff[16] + fcoeff[8] + fcoeff[0];
+	fk[1] = fcoeff[1] + fcoeff[9]  + fcoeff[17] + fcoeff[23] + fcoeff[15] + fcoeff[7];
+	fk[2] = fcoeff[2] + fcoeff[10] + fcoeff[18] + fcoeff[22] + fcoeff[14] + fcoeff[6];
+	fk[3] = fcoeff[3] + fcoeff[11] + fcoeff[19] + fcoeff[21] + fcoeff[13] + fcoeff[5];
+	fk[4] = fcoeff[4] + fcoeff[12] + fcoeff[20] + fcoeff[20] + fcoeff[12] + fcoeff[4];
+	fk[5] = fcoeff[5] + fcoeff[13] + fcoeff[21] + fcoeff[19] + fcoeff[11] + fcoeff[3];
+	fk[6] = fcoeff[6] + fcoeff[14] + fcoeff[22] + fcoeff[18] + fcoeff[10] + fcoeff[2];
+	fk[7] = fcoeff[7] + fcoeff[15] + fcoeff[23] + fcoeff[17] + fcoeff[9]  + fcoeff[1];
+
+	for(i = 0; i < 25; i++)
+    {
+		if(fk[i%8] != 0)
+        {
+            icoeff[i] = (int)(64.0 * fcoeff[i] / fk[i%8]);
+		}
+		else
+        {
+            icoeff[i] = 0;
+		}
+	}
+
+	ik[0] = icoeff[0] + icoeff[8]  + icoeff[16] + icoeff[24] + icoeff[16] + icoeff[8] + icoeff[0];
+	ik[1] = icoeff[1] + icoeff[9]  + icoeff[17] + icoeff[23] + icoeff[15] + icoeff[7];
+	ik[2] = icoeff[2] + icoeff[10] + icoeff[18] + icoeff[22] + icoeff[14] + icoeff[6];
+	ik[3] = icoeff[3] + icoeff[11] + icoeff[19] + icoeff[21] + icoeff[13] + icoeff[5];
+
+	icoeff[24] = icoeff[24] + 64 - ik[0];
+	icoeff[23] = icoeff[23] + 64 - ik[1];
+	icoeff[22] = icoeff[22] + 64 - ik[2];
+	icoeff[21] = icoeff[21] + 64 - ik[3];
+	icoeff[20] = 32 - icoeff[12] - icoeff[4];
+
+    for(i = 0; i < 24; i++)
+    {
+        pbyLut[i] = (uint8_t)(icoeff[i+1] & 0xff);
+    }
+
+    return 0;
+}
+
+
+
+static uint8_t *pMapTable[256];
+void  AppC753::writeBackground(uint32_t iChID, uint16_t wOffsetX, uint16_t wOffsetY, DispBitmapT *BitmapPtr)
+{
+    uint32_t memAddr, memWidth;
+    uint16_t status, field;
+    uint16_t i, j, w, h;
+    uint8_t *pbyBuf;
+
+
+    C753GetStatus(status);
+    if(iChID == C753_OUTPUT_CHANNEL_1)
+    {
+        field = (status & 0x0003);
+    }
+    else if(iChID == C753_OUTPUT_CHANNEL_2)
+    {
+        field = ((status>>2) & 0x0003);
+    }
+
+    if(field == 0)
+         C753GetOutputField0MemoryReadStartAddress(iChID,memAddr);
+    else if(field == 1)
+    	 C753GetOutputField1MemoryReadStartAddress(iChID,memAddr);
+    else if(field == 2)
+        C753GetOutputField2MemoryReadStartAddress(iChID,memAddr);
+    else if(field == 3)
+        C753GetOutputField3MemoryReadStartAddress(iChID,memAddr);
+
+    uint8_t byVal=0;
+    C753GetMemoryReadLinefeedWidth(iChID,byVal);
+    memWidth = ((uint32_t)byVal)<<8;
+    memAddr += (wOffsetY*memWidth + wOffsetX*4);
+    C753SetCPUWriteAddress(memAddr);
+    w = BitmapPtr->w;
+    h = BitmapPtr->h;
+    pbyBuf = BitmapPtr->Bmp;
+    if(BitmapPtr->BitCount == 24)
+    {
+        uint8_t r, g, b;
+        for(i = 0; i < h; i++)
+        {
+            C753WriteN24BitPixels(w, pbyBuf);
+            pbyBuf += w*3;
+            memAddr += memWidth;
+            C753SetCPUWriteAddress(memAddr);
+        }
+    }
+    else if(BitmapPtr->BitCount == 8)
+    {
+        for(i = 0; i < h; i++)
+        {
+            C753WriteN8BitPixels(w, BitmapPtr->pPalette, pbyBuf);
+            pbyBuf += w;
+            memAddr += memWidth;
+            C753SetCPUWriteAddress(memAddr);
+        }
+    }
+    else if(BitmapPtr->BitCount == 1)
+    {
+        uint8_t val;
+        uint8_t *pbySrc;
+
+        pbySrc = (uint8_t *)malloc(256*8);
+        memset(pbySrc, 0, 256*8);
+        pMapTable[0] = pbySrc;
+        for(i = 0; i < 256; i++)
+        {
+            pMapTable[i] = pbySrc + i*8;
+            val = i;
+            for(j = 0; j < 8; j++)
+            {
+                if(val & 0x80)
+                {
+                    pMapTable[i][j] = 0x01;
+                }
+                val <<= 1;
+            }
+        }
+
+        for(i = 0; i < h; i++)
+        {
+            C753WriteN1BitPixels(w, BitmapPtr->pPalette, pMapTable, pbyBuf);
+            pbyBuf += w/8;
+            memAddr += memWidth;
+            C753SetCPUWriteAddress(memAddr);
+        }
+        free(pMapTable[0]);
+    }
+}
+
+void AppC753::readBackground(uint32_t iChID, int32_t iIndex, uint16_t wWidth, uint16_t wHeight, uint8_t *pbyBuf)
+{
+	uint8_t val, r, g, b;
+    uint32_t memAddr, memWidth;
+    int32_t i, j;
+    int32_t width;
+    uint8_t *pBase;
+
+    width = (wWidth*3 + 3) & (-4);
+    pBase = pbyBuf;
+    if((iIndex < 0) || (iIndex > 3))
+    {
+        iIndex = 0;
+    }
+
+    if(iIndex == 0)
+    {
+        C753GetOutputField0MemoryReadStartAddress(iChID,memAddr);
+    }
+    else if(iIndex == 1)
+    {
+        C753GetOutputField1MemoryReadStartAddress(iChID,memAddr);
+    }
+    else if(iIndex == 2)
+    {
+        C753GetOutputField2MemoryReadStartAddress(iChID,memAddr);
+    }
+    else if(iIndex == 3)
+    {
+        C753GetOutputField3MemoryReadStartAddress(iChID,memAddr);
+    }
+
+    uint8_t byVal=0;
+    C753GetMemoryReadLinefeedWidth(iChID,byVal);
+    memWidth =((uint32_t)byVal)<<8;
+
+    C753SetCPUReadAddress(memAddr-1);
+    C753GetCPUData(byVal);
+    for(i = 0; i < wHeight; i++)
+    {
+        C753ReadN24BitPixels(wWidth, pbyBuf);
+        pbyBuf += width;
+        memAddr += memWidth;
+        C753SetCPUReadAddress(memAddr-1);
+        C753GetCPUData(byVal);
+    }
+
+}
