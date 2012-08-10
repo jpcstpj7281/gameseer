@@ -23,6 +23,8 @@ class MainStage extends ListDialogMgr {
 
     //var _exit:Sprite;
 
+    var _screenPlate:ScreenPlate;
+
 #if (cpp || neko)
     public function initExit():Void{
         new base.ui.ExitDlg(this);
@@ -53,8 +55,10 @@ class MainStage extends ListDialogMgr {
         new ChannelsDlg(this);
         new WndsDlg(this);
         new ScreensDlg(this);
-        new ScreenPlate(this);
+        _screenPlate = new ScreenPlate(this);
 
+        new PlusDown(this);
+        new PlusRight(this);
 #if !neko
         //new base.ui.SocialBinderDlg(this);
         //new SubjectsDlg( this);
@@ -68,8 +72,14 @@ class MainStage extends ListDialogMgr {
         //var d = new DrawingDlg( this, "SNS drawing",0 );
     }
 
+    public function resetScreenPlate():Void{
+        if ( _screenPlate != null){
+            _screenPlate.hide();
+            _screenPlate.show();
+        }
+    }
 
-    public override function showListDialog( ):Void{
+    public function showChannelDlg( ):Void{
         var cm = ChannelMgr.getInst()._channels;
         for ( i in 0...cm.length){
             //trace("add ChannelSelectionDlg");
@@ -78,7 +88,7 @@ class MainStage extends ListDialogMgr {
                 c.selected();
             }
         }
-        super.showListDialog();
+        //super.showListDialog();
     }
 
     public override function hideListDialog( ):Void{
@@ -155,7 +165,6 @@ class MainStage extends ListDialogMgr {
         return inst;
     }
 
-    /*
     public override function showListDialog():Void{
         if ( _isListening == false  ){
             nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -165,6 +174,7 @@ class MainStage extends ListDialogMgr {
             _isDown = false;
             _isListening = true;
             //trace("super show: "+ _instancesByDisplayOrder.length);
+            showChannelDlg();
             for ( i in 0..._movableInstances.length){//must use int! for i number
                 var d = _movableInstances[i];
                 d.show().delay(0.05 * i).onComplete(decreaseAnimationNum, []);
@@ -172,7 +182,6 @@ class MainStage extends ListDialogMgr {
             for ( i in _instancesByDisplayOrder){ i.show(); }
         }
     }
-    */
 
 
 }
