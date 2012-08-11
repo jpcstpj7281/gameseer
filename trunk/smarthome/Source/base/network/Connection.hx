@@ -81,15 +81,17 @@ class Connection{
 
     }
     inline public function write( data:Bytes):Void{
+        if ( isConected()) {
 #if flash
-        var ba = data.getData();
-        _socket.writeBytes( ba, 0, ba.length );
-        _socket.flush();
+            var ba = data.getData();
+            _socket.writeBytes( ba, 0, ba.length );
+            _socket.flush();
 #elseif sys
-        _socket.writeBytes( data);
+            _socket.writeBytes( data);
 #else
-        _socket.write( data.toString() );
+            _socket.write( data.toString() );
 #end
+        }
     }
 
     public function isConected():Bool{

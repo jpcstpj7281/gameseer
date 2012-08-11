@@ -47,12 +47,23 @@ class ChannelNodeDlg extends CommDialog{
         var arr = QboxMgr.getInst()._qboxes;
         for (i in 0...arr.length){
             if ( _qboxid.text == arr[i]._ipv4){
-                var input = Std.parseInt( _input.text.substr( 2, _input.text.length -2) );
-                ++input;
-                if ( input == Lambda.count(arr[i]._inputs)){
-                    input = 0;
+                if ( _input.text != "null"){
+                    var str:String = _input.text.substr( 2, _input.text.length -2);
+                    var input = Std.parseInt( str );
+                    ++input;
+                    if ( input == Lambda.count(arr[i]._inputs)){
+                        input = 0;
+                    }
+                    _input.text = "in"+input;
                 }
-                _input.text = "in"+input;
+                else{
+                    if ( Lambda.count(arr[i]._inputs) == 0){
+                        _input.text = "null";
+                    }else{
+                        _input.text = arr[i]._inputs.iterator().next();
+                    }
+                }
+
                 _node = _qboxid.text +":"+_input.text;
                 break;
             }

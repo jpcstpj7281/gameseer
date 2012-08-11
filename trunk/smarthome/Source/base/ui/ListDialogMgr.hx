@@ -48,6 +48,8 @@ class ListDialogMgr extends CommDialogMgr{
         _downx=0;
         _movey=0;
         _movex=0;
+
+        _isListening = false;
     }
 
     public override function contains (id:String):Bool {
@@ -74,15 +76,20 @@ class ListDialogMgr extends CommDialogMgr{
         trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
 
         var d = instance;
-        var height:Int = 20*3;
+        //var height:Int = 20*3;
+
+        var height:Float = 0;
+        for ( i in _movableInstances){
+            height += i.height;
+        }
 #if flash
         //d.x = d.width /2;
         //d.y = d.height/2 + d.height* i;
-        d.y = height* _movableInstances.length;
+        d.y = height;
 #else
         //d.x = d.width * d.scaleX /2;
         //d.y= d.height* d.scaleY/2 + d.height*d.scaleY *i;
-        d.y=  height* _movableInstances.length;
+        d.y=  height;
         //trace( ""+ height +"+"+ d.scaleY );
 #end
         _movableInstances.push(instance);
