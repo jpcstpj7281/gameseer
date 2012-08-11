@@ -18,7 +18,7 @@ class WndsDlg extends ListFixedDlg{
         x = 250;
         y= nme.Lib.current.stage.stageHeight - 80;
 
-        new PlusItemFixedDlg(_listDialogMgr, cbPlusWnd);
+        //new PlusItemFixedDlg(_listDialogMgr, cbPlusWnd);
     }
 
     public function cbPlusWnd( ):Void{
