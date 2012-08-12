@@ -11,6 +11,7 @@
 #include <map>
 #include <list>
 
+
 using namespace std;
 
 namespace chip
@@ -19,7 +20,8 @@ namespace chip
 enum Chip_type
 {
 	TYPE_CHIP_5160=0,
-	TYPE_CHIP_772,
+	TYPE_CHIP_C753,
+	TYPE_CHIP_C772,
 	TYPE_CHIP_9388A,
 };
 
@@ -48,9 +50,26 @@ public:
 	virtual ~SPIBus();
 
 	void dev_SPI_WriteMult(uint32_t chn,list<map<uint8_t,uint8_t> > value);
-	void dev_SPI_Write(uint32_t chn,uint8_t addr,uint8_t value);
+	void SPI_Write(uint32_t chn,uint8_t addr,uint8_t value);
 
-	void dev_SPI_Read(uint32_t chn,uint8_t addr,uint8_t &value);
+	void SPI_Read(uint32_t chn,uint8_t addr,uint8_t &value);
+
+private:
+
+
+};
+
+class FPGABus
+{
+
+public:
+	FPGABus();
+	virtual ~FPGABus();
+
+
+	void FPGA_Write(uint16_t addr,uint16_t value);
+
+	void FPGA_Read(uint16_t addr,uint16_t &value);
 
 private:
 

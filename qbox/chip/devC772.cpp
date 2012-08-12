@@ -785,19 +785,19 @@ void DriverChip772::dev_C772_SetBlueScreen(uint32_t chn,uint32_t byFlg)
 
 	uint8_t byValue = 0;
 
-	dev_SPI_Read(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
+	SPI_Read(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
 
 	if(byFlg == 1)
 	{
 		byValue = byValue | 0x01;
-		dev_SPI_Write(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
+		SPI_Write(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
 	}
 	else
 	{
 		byValue = byValue & 0xfe;
-		dev_SPI_Write(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
+		SPI_Write(chn,CP_IP00C772_B0_OIMGCT_ADDR,byValue);
 	}
-	dev_SPI_Write(chn,CP_IP00C772_RGBNK_ADDR,0);
+	SPI_Write(chn,CP_IP00C772_RGBNK_ADDR,0);
 
 
 }

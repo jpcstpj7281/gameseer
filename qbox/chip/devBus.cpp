@@ -8,6 +8,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include "devBus.h"
+#include <stdio.h>
+#include "dev.h"
 
 
 using namespace chip;
@@ -72,19 +74,53 @@ void SPIBus::dev_SPI_WriteMult(uint32_t chn,list<map<uint8_t,uint8_t> > value)
 
 }
 
-void SPIBus::dev_SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
+void SPIBus::SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
+{
+//	printf("dev_SPI_Write value=%02x\n",value);
+	if(chn == TYPE_CHIP_C753)
+	{
+		dev_SPI_Write(DEV_SPI_C753_CHANNEL,addr,value);
+	}
+	else if(chn == TYPE_CHIP_C772)
+	{
+		dev_SPI_Write(DEV_SPI_C722_CHANNEL,addr,value);
+	}
+}
+
+void SPIBus::SPI_Read(uint32_t chn,uint8_t addr,uint8_t &value)
+{
+	if(chn == TYPE_CHIP_C753)
+	{
+		dev_SPI_Read(DEV_SPI_C753_CHANNEL,addr,&value);
+	}
+	else if(chn == TYPE_CHIP_C772)
+	{
+		dev_SPI_Read(DEV_SPI_C722_CHANNEL,addr,&value);
+	}
+
+//	printf("dev_SPI_Read value=%02x\n",value);
+}
+
+
+FPGABus::FPGABus()
 {
 
 }
 
-void SPIBus::dev_SPI_Read(uint32_t chn,uint8_t addr,uint8_t &value)
+FPGABus::~FPGABus()
 {
 
 }
 
 
+void FPGABus::FPGA_Write(uint16_t addr,uint16_t value)
+{
+	dev_FPGA_Write(DEV_SPI_FPGA_CHANNEL,addr,value);
+}
 
-
-
+void FPGABus::FPGA_Read(uint16_t addr,uint16_t &value)
+{
+	dev_FPGA_Read(DEV_SPI_FPGA_CHANNEL,addr,&value);
+}
 
 

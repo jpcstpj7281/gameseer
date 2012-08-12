@@ -9,7 +9,8 @@
 
 #define     PACKED      __attribute__((packed))
 typedef int LONG;
-#include <stdint.h>
+//#include <stdint.h>
+#include <stdio.h>
 
 struct tagBITMAPFILEHEADER{ 
 	uint16_t	bfType;   	// 位图文件的类型，必须为BM

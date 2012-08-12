@@ -182,6 +182,9 @@ public:
 	void writeBackground(uint32_t iChID, uint16_t wOffsetX, uint16_t wOffsetY, DispBitmapT *BitmapPtr);
 	void readBackground(uint32_t iChID, int32_t iIndex, uint16_t wWidth, uint16_t wHeight, uint8_t *pbyBuf);
 
+	void openChannelTest();
+
+
 private:
 
 	void initChannel(uint32_t iChID, ScaleChInfoT *pScalCh);
