@@ -13,6 +13,7 @@
 #include "event.h"
 #include "channel.h"
 #include "common.h"
+#include "windows.h"
 
 
 using namespace msg;

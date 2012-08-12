@@ -9,10 +9,19 @@
 #include "IServer.h"
 #include "msgHandler.h"
 
-//#include <vxWorks.h>
-//#include <sockLib.h>
-//#include "socket.h"
-//#include "netinet/tcp.h"
+#include <vxWorks.h>
+//#include "fioLib.h"
+//#include "stdio.h"
+//#include "string.h"
+//#include "usrLib.h"
+//#include "errnoLib.h"
+//#include "hostLib.h"
+#include <sockLib.h>
+#include "socket.h"
+//#include "inetLib.h"
+//#include "in.h"
+//#include "assert.h"
+#include "netinet/tcp.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -21,11 +30,9 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
-
+//#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-
-#include <sys/socket.h>
 
 IServer* IServer::m_instance = 0;
 
@@ -182,7 +189,7 @@ void IServer::Run()
         	  struct sockaddr_in clientAddr;
         	  int cliAddrLen = sizeof(clientAddr);
 
-        	  connfd = accept(listenfd,(sockaddr *)&clientAddr,(socklen_t *) &cliAddrLen);
+        	  connfd = accept(listenfd,(sockaddr *)&clientAddr, &cliAddrLen);
               if (connfd <= 0)
               {
                   perror("accept");
@@ -232,8 +239,8 @@ void IServer::SendNetMsg(int fd,char* buff,uint32_t buffLen)
 
     if(m_fd[fd] > 0)
     {
-        write(m_fd[fd],m_buff[fd].buff.c_str(),m_buff[fd].buffLen);
-//    	send(m_fd[fd],m_buff[fd].buff.c_str(),m_buff[fd].buffLen,0);
+        //write(m_fd[fd],m_buff[fd].buff.c_str(),m_buff[fd].buffLen);
+    	send(m_fd[fd],m_buff[fd].buff.c_str(),m_buff[fd].buffLen,0);
     }
     else
     {
@@ -250,8 +257,8 @@ void IServer::BroadcastMsg(char* buff,uint32_t buffLen)
             m_buff[i].buff.append(buff,buffLen);
             m_buff[i].buffLen = buffLen;
 
-            write(m_fd[i],m_buff[i].buff.c_str(),m_buff[i].buffLen);
-//            send(m_fd[i],m_buff[i].buff.c_str(),m_buff[i].buffLen,0);
+            //write(m_fd[i],m_buff[i].buff.c_str(),m_buff[i].buffLen);
+            send(m_fd[i],m_buff[i].buff.c_str(),m_buff[i].buffLen,0);
 
         }
     }

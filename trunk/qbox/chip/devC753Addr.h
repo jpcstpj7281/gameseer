@@ -7,7 +7,7 @@
 
 #ifdef __cplusplus
     extern "C"{
-#endif /* __cplusplus */
+
 
 /*Basic setting register*/
 #define         REG_C753_BSC_RGBNK          0x00    /*Register select*/
@@ -1475,7 +1475,6 @@
 #define         REG_C753_B17_I2MYCNTB       0x7A    /*Channel 2 lower side movement/luminance measurements*/
 
 
-#ifdef __cplusplus
 }
 #endif
 

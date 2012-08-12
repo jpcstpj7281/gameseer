@@ -25,6 +25,27 @@ const string VIDEO_TYPE_DEFAULT	 = 	"default";
 const string VIDEO_TYPE_CVBS	 = 	"cvbs";
 const string VIDEO_TYPE_RGB		 = 	"rgb";
 
+const string VIDEO_TYPE_RING	 = 	"ring";
+
+struct BroadInfo
+{
+	uint32_t onlineFlg;
+	string   type;
+
+	BroadInfo& operator = (const BroadInfo& info)
+	{
+		if (this == &info)
+			return *this;
+
+		onlineFlg = info.onlineFlg;
+		type = info.type;
+
+
+		return *this;
+	}
+};
+
+
 struct ChannelInfo
 {
 	uint32_t useFlg;
@@ -135,6 +156,12 @@ public:
 
 	bool setWindowPosition(uint32_t winHandle,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
 
+	void setSlotStatusFlg(uint32_t slot,uint32_t iFlg);
+	void setSlotStatusType(uint32_t slot,string sType);
+	uint32_t getSlotStatusFlg(uint32_t slot);
+	string getSlotStatusType(uint32_t slot);
+
+
 
 
 protected:
@@ -145,8 +172,9 @@ private:
 	string m_version;
 	string m_ip;
 
-	map<uint32_t,ChannelInfo> m_inputType;
-	map<uint32_t,ChannelInfo> m_outputType;
+	map<uint32_t,ChannelInfo> m_inputStatus;
+	map<uint32_t,ChannelInfo> m_outputStatus;
+	map<uint32_t,BroadInfo> m_slotStatus;
 
 	uint32_t m_windowNum;
 	map<uint32_t,WindowInfo> m_windowInfo;

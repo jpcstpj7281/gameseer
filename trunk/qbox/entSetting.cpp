@@ -28,11 +28,18 @@ EntSetting::EntSetting()
 		setInputInfoSize(i,0,0);
 	}
 
-	for(int i=0;i<3;i++)
+	for(int i=0;i<4;i++)
 	{
 		setOutputInfoFlg(i,USE_FLG_OFFLINE);
 		setOutputInfoType(i,VIDEO_TYPE_DEFAULT);
 		setOutputInfoSize(i,0,0);
+	}
+
+	for(int i=0;i<5;i++)
+	{
+		setSlotStatusFlg(i,USE_FLG_OFFLINE);
+		setSlotStatusType(i,VIDEO_TYPE_DEFAULT);
+
 	}
 
 
@@ -56,78 +63,78 @@ EntSetting* EntSetting::Instance()
 
 void EntSetting::setInputInfoFlg(uint32_t chId,uint32_t iFlg)
 {
-	m_inputType[chId].useFlg = iFlg;
+	m_inputStatus[chId].useFlg = iFlg;
 }
 
 void EntSetting::setInputInfoType(uint32_t chId,string sType)
 {
-	m_inputType[chId].type = sType;
+	m_inputStatus[chId].type = sType;
 }
 
 void EntSetting::setInputInfoSize(uint32_t chId,uint32_t width,uint32_t height)
 {
-	m_inputType[chId].width = width;
-	m_inputType[chId].height = height;
+	m_inputStatus[chId].width = width;
+	m_inputStatus[chId].height = height;
 }
 
 
 uint32_t EntSetting::getInputInfoFlg(uint32_t chId)
 {
-	return m_inputType[chId].useFlg;
+	return m_inputStatus[chId].useFlg;
 }
 
 string EntSetting::getInputInfoType(uint32_t chId)
 {
-	return m_inputType[chId].type;
+	return m_inputStatus[chId].type;
 }
 
 void EntSetting::getInputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height)
 {
-	width = m_inputType[chId].width;
-	height = m_inputType[chId].height;
+	width = m_inputStatus[chId].width;
+	height = m_inputStatus[chId].height;
 
 }
 
 
 void EntSetting::setOutputInfoFlg(uint32_t chId,uint32_t iFlg)
 {
-	m_outputType[chId].useFlg = iFlg;
+	m_outputStatus[chId].useFlg = iFlg;
 }
 
 void EntSetting::setOutputInfoType(uint32_t chId,string sType)
 {
-	m_outputType[chId].type = sType;
+	m_outputStatus[chId].type = sType;
 }
 
 
 void EntSetting::setOutputInfoSize(uint32_t chId,uint32_t width,uint32_t height)
 {
-	m_outputType[chId].width = width;
-	m_outputType[chId].height = height;
+	m_outputStatus[chId].width = width;
+	m_outputStatus[chId].height = height;
 }
 
 
 uint32_t EntSetting::getOutputInfoFlg(uint32_t chId)
 {
-	return m_outputType[chId].useFlg;
+	return m_outputStatus[chId].useFlg;
 }
 
 string EntSetting::getOutputInfoType(uint32_t chId)
 {
-	return m_outputType[chId].type;
+	return m_outputStatus[chId].type;
 }
 
 void EntSetting::getOutputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height)
 {
-	width = m_outputType[chId].width;
-	height = m_outputType[chId].height;
+	width = m_outputStatus[chId].width;
+	height = m_outputStatus[chId].height;
 }
 
 
 uint32_t EntSetting::getInputTotal()
 {
 	uint32_t total = 0;
-	for(map<uint32_t,ChannelInfo>::iterator it = m_inputType.begin();it !=  m_inputType.end();it++)
+	for(map<uint32_t,ChannelInfo>::iterator it = m_inputStatus.begin();it !=  m_inputStatus.end();it++)
 	{
 		if(it->second.useFlg == USE_FLG_ONLINE)
 		{
@@ -144,7 +151,7 @@ uint32_t EntSetting::getOutputTotal()
 
 	uint32_t total=0;
 
-	for(map<uint32_t,ChannelInfo>::iterator it = m_outputType.begin();it !=  m_outputType.end();it++)
+	for(map<uint32_t,ChannelInfo>::iterator it = m_outputStatus.begin();it !=  m_outputStatus.end();it++)
 	{
 		if(it->second.useFlg == USE_FLG_ONLINE)
 		{
@@ -396,4 +403,25 @@ bool EntSetting::setWindowPosition(uint32_t winHandle,uint32_t winX,uint32_t win
 	}
 
 	return true;
+}
+
+
+void EntSetting::setSlotStatusFlg(uint32_t slot,uint32_t iFlg)
+{
+	m_slotStatus[slot].onlineFlg = iFlg;
+}
+
+void EntSetting::setSlotStatusType(uint32_t slot,string sType)
+{
+	m_slotStatus[slot].type = sType;
+}
+
+uint32_t EntSetting::getSlotStatusFlg(uint32_t slot)
+{
+	return m_slotStatus[slot].onlineFlg;
+}
+
+string EntSetting::getSlotStatusType(uint32_t slot)
+{
+	return m_slotStatus[slot].type;
 }

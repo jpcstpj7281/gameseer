@@ -18,7 +18,7 @@ using namespace std;
 namespace chip
 {
 
-#define C753_BUSCAHNNEL  0
+
 
 enum
 {

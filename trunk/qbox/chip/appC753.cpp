@@ -21,8 +21,12 @@ using namespace chipApp;
 
 AppC753::AppC753()
 {
-	m_asTimingIndexTable[0].wHorResolution = 1024;
-	m_asTimingIndexTable[0].wVerResolution = 768;
+
+	TimingIndexTableT timingIndex;
+	timingIndex.wHorResolution=1024;
+	timingIndex.wVerResolution = 768;
+	m_asTimingIndexTable.push_back(timingIndex);
+
 
 //	m_asTimingIndexTable[1].wHorResolution = 1400;
 //	m_asTimingIndexTable[1].wVerResolution = 1050;
@@ -40,18 +44,21 @@ AppC753::AppC753()
 //	m_asTimingIndexTable[5].wVerResolution = 1200;
 
 
-	m_asSignalTiming[0].wHorResolution = 1024;
-	m_asSignalTiming[0].wVerResolution = 768;
-	m_asSignalTiming[0].iFrameRate = 60;
-	m_asSignalTiming[0].iClock = 65;
-	m_asSignalTiming[0].wHorTotal = 1344;
-	m_asSignalTiming[0].wHorSync = 136;
-	m_asSignalTiming[0].wHorStart = 296;
-	m_asSignalTiming[0].wVerTotal = 806;
-	m_asSignalTiming[0].wVerSync = 6;
-	m_asSignalTiming[0].wVerStart = 35;
-	m_asSignalTiming[0].sswC753OffsetX = -133;
-	m_asSignalTiming[0].sswC753OffsetY = -1;
+	TimingT timing;
+
+	timing.wHorResolution = 1024;
+	timing.wVerResolution = 768;
+	timing.iFrameRate = 60;
+	timing.iClock = 65;
+	timing.wHorTotal = 1344;
+	timing.wHorSync = 136;
+	timing.wHorStart = 296;
+	timing.wVerTotal = 806;
+	timing.wVerSync = 6;
+	timing.wVerStart = 35;
+	timing.sswC753OffsetX = -133;
+	timing.sswC753OffsetY = -1;
+	m_asSignalTiming.push_back(timing);
 
 //	m_asSignalTiming[1].wHorResolution = 1366;
 //	m_asSignalTiming[1].wVerResolution = 768;
@@ -79,7 +86,9 @@ AppC753::AppC753()
 
 
 
-	initTimingIndexTable();
+//	initTimingIndexTable();
+
+
 
 }
 
@@ -95,6 +104,7 @@ void AppC753::chipTest()
     uint32_t memAddr;
     int i;
 
+    printf("chip Test Begin\n");
     /*测试寄存器的读写*/
     val1 = 0x0b;
     C753SetBankRegister(val1);
@@ -108,13 +118,13 @@ void AppC753::chipTest()
     for(regAddr = 0x08, i = 0x08; i < 0x48; i++, regAddr++)
     {
         val1 = regAddr;
-        dev_SPI_Write(C753_BUSCAHNNEL, regAddr, val1);
+        SPI_Write(TYPE_CHIP_C753, regAddr, val1);
     }
 
     for(regAddr = 0x08, i = 0x08; i < 0x48; i++, regAddr++)
     {
         val1 = regAddr;
-        dev_SPI_Read(C753_BUSCAHNNEL, regAddr,val2);
+        SPI_Read(TYPE_CHIP_C753, regAddr,val2);
         if(val2 != val1)
         {
             //SPCMsgErr("can not read bank register value[val1=0x%02x val2=0x%02x addr=0x%02x]\n", val1, val2, regAddr, 0);
@@ -179,6 +189,7 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
 {
     int i;
 
+    printf("initHardware\n");
 
     /*配置传输寄存器*/
     /*RTCT4=000B RTCT3=000B RTCT2=110B RTCT1=101B RTCT0=011B*/
@@ -226,11 +237,12 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
     C753SetPOCLKPLLControl(0x81);
     C753SetPOCLKReferenceDividing(0x07);
     C753SetPOCLKFeedbackDividing(0x0f);
-    /*IPCLK PLL配置*/
-    C753SetIPCLKPLLControl(0x01);
-    C753SetIPCLKReferenceDividing(0x01);
-    C753SetIPCLKFeedbackDividing(0x03);
+//    /*IPCLK PLL配置*/
+//    C753SetIPCLKPLLControl(0x01);
+//    C753SetIPCLKReferenceDividing(0x01);
+//    C753SetIPCLKFeedbackDividing(0x03);
 
+    printf("initHardware PCL OK \n!");
 
 
     uint16_t startX=0;
@@ -238,10 +250,10 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
     uint16_t width=0;
     uint16_t height=0;
 
-    startX = getHorizontalStart(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
-    startX += getHorizontalCompensation(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
-    startY = getVerticalStart(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
-    startY += getVerticalCompensation(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
+//   startX = getHorizontalStart(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
+//    startX += getHorizontalCompensation(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
+//    startY = getVerticalStart(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
+//    startY += getVerticalCompensation(pScaleConfig->wHorResolution, pScaleConfig->wVerResolution, pScaleConfig->byStandardType);
     width = pScaleConfig->wHorResolution;
     height = pScaleConfig->wVerResolution;
 //    if((pScaleConfig->wHorResolution == 1920) && (pScaleConfig->wVerResolution == 1200))
@@ -256,10 +268,17 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
 //    else
 //    {
         /*配置POACT区域*/
-        C753SetOutputPortOAOI0HorizontalStart((uint16_t)startX);
-        C753SetOutputPortOAOI0HorizontalEnd((uint16_t)(startX + width));
-        C753SetOutputPortOAOI0VerticalStart((uint16_t)startY);
-        C753SetOutputPortOAOI0VerticalEnd((uint16_t)(startY + height + 1));
+//        C753SetOutputPortOAOI0HorizontalStart((uint16_t)startX);
+//        C753SetOutputPortOAOI0HorizontalEnd((uint16_t)(startX + width));
+//        C753SetOutputPortOAOI0VerticalStart((uint16_t)startY);
+//        C753SetOutputPortOAOI0VerticalEnd((uint16_t)(startY + height + 1));
+
+        C753SetOutputPortOAOI0HorizontalStart((uint16_t)163);
+        C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1178);
+        C753SetOutputPortOAOI0VerticalStart((uint16_t)34);
+        C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
+
+        printf("initHardware OUTPUT PORT OK \n!");
 //    }
     /*背景区域*/
     /*
@@ -317,42 +336,42 @@ void AppC753::initHardware(uint32_t iChID, ScaleConfigT *pScaleConfig)
     C753SetMemoryReadLinefeedWidth(iChID, 0x10);
     C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
 
-    /*配置IP转换的输出区域*/
-    C753SetIPConversionOutputPortHorizontalSyncCycle(iChID, 0x04b6);
-    C753SetIPConversionOutputPortVerticalSyncCycle(iChID, 0x0fff);
-    C753SetIPConversionForcedSyncResetDelay(iChID, 0x40);
-    C753SetIPConversionOutputPortActiveAreaHorizontalStart(iChID, 0x0020);
-    C753SetIPConversionOutputPortActiveAreaHorizontalWidth(iChID, 0x02d0);
-    C753SetIPConversionOutputPortActiveAreaVerticalStart(iChID, 0x0008);
-    C753SetIPConversionOutputPortActiveAreaVerticalWidth(iChID, 0x01e5);
-    /*配置IP转换运动自适应补偿滤波器系数*/
-    C753SetMovementNRControl(iChID, 0x17);
-    C753SetHorizontalMovementValueNRCoefficient(iChID, 0x01, 0x01, 0x02, 0x08);
-    C753SetVerticalMovementValueGain(iChID, 0x00, 0x00, 0x00, 0x00);
-    C753SetHorizontalMovementValueGain(iChID, 0x08, 0x08, 0x10, 0x18);
-    C753SetVerticalDirectionMAXFilter(iChID, 0x07);
-    C753SetMovementCoefficientNR(iChID, 0x01);
-    /*配置IP转换的内存配置*/
-
-    C753SetIPConversionField0MemoryReadStartAddress(iChID, 0x00400000);
-    C753SetIPConversionField1MemoryReadStartAddress(iChID, 0x00800000);
-    C753SetIPConversionField0MemoryWriteStartAddress(iChID,	0x00401000);
-    C753SetIPConversionField1MemoryWriteStartAddress(iChID, 0x00400000);
-    C753SetIPConversionField2MemoryWriteStartAddress(iChID, 0x00801000);
-    C753SetIPConversionField3MemoryWriteStartAddress(iChID, 0x00800000);
-    C753SetIPConversionMovementValueReadStartAddress(iChID, 0x00C00000);
-
-
-    C753SetIPConversionMemoryLinefeedWidth(iChID, 0x08);
-    C753SetTemporalNRReadStartAddressSelect(iChID, 0x01);
-
-    /*配置IP转换表参数*/
-    for(i = 0; i < sizeof(s_sLUTIPTable)/sizeof(s_sLUTIPTable[0]); i++)
-    {
-        C753SetLUTCoefficient(iChID, s_sLUTIPTable[i].dwCoef);
-        C753SetLUTWriteAddress(iChID, s_sLUTIPTable[i].byAddr);
-        C753SetLUTWriteEnable(iChID, 0xff);
-    }
+//    /*配置IP转换的输出区域*/
+//    C753SetIPConversionOutputPortHorizontalSyncCycle(iChID, 0x04b6);
+//    C753SetIPConversionOutputPortVerticalSyncCycle(iChID, 0x0fff);
+//    C753SetIPConversionForcedSyncResetDelay(iChID, 0x40);
+//    C753SetIPConversionOutputPortActiveAreaHorizontalStart(iChID, 0x0020);
+//    C753SetIPConversionOutputPortActiveAreaHorizontalWidth(iChID, 0x02d0);
+//    C753SetIPConversionOutputPortActiveAreaVerticalStart(iChID, 0x0008);
+//    C753SetIPConversionOutputPortActiveAreaVerticalWidth(iChID, 0x01e5);
+//    /*配置IP转换运动自适应补偿滤波器系数*/
+//    C753SetMovementNRControl(iChID, 0x17);
+//    C753SetHorizontalMovementValueNRCoefficient(iChID, 0x01, 0x01, 0x02, 0x08);
+//    C753SetVerticalMovementValueGain(iChID, 0x00, 0x00, 0x00, 0x00);
+//    C753SetHorizontalMovementValueGain(iChID, 0x08, 0x08, 0x10, 0x18);
+//    C753SetVerticalDirectionMAXFilter(iChID, 0x07);
+//    C753SetMovementCoefficientNR(iChID, 0x01);
+//    /*配置IP转换的内存配置*/
+//
+//    C753SetIPConversionField0MemoryReadStartAddress(iChID, 0x00400000);
+//    C753SetIPConversionField1MemoryReadStartAddress(iChID, 0x00800000);
+//    C753SetIPConversionField0MemoryWriteStartAddress(iChID,	0x00401000);
+//    C753SetIPConversionField1MemoryWriteStartAddress(iChID, 0x00400000);
+//    C753SetIPConversionField2MemoryWriteStartAddress(iChID, 0x00801000);
+//    C753SetIPConversionField3MemoryWriteStartAddress(iChID, 0x00800000);
+//    C753SetIPConversionMovementValueReadStartAddress(iChID, 0x00C00000);
+//
+//
+//    C753SetIPConversionMemoryLinefeedWidth(iChID, 0x08);
+//    C753SetTemporalNRReadStartAddressSelect(iChID, 0x01);
+//
+//    /*配置IP转换表参数*/
+//    for(i = 0; i < sizeof(s_sLUTIPTable)/sizeof(s_sLUTIPTable[0]); i++)
+//    {
+//        C753SetLUTCoefficient(iChID, s_sLUTIPTable[i].dwCoef);
+//        C753SetLUTWriteAddress(iChID, s_sLUTIPTable[i].byAddr);
+//        C753SetLUTWriteEnable(iChID, 0xff);
+//    }
 }
 
 void AppC753::initChannel(uint32_t iChID, ScaleChInfoT *pScalCh)
@@ -372,6 +391,8 @@ void AppC753::initChannel(uint32_t iChID, ScaleChInfoT *pScalCh)
 void AppC753::initTimingIndexTable(void)
 {
     int i;
+
+    printf("initTimingIndexTable\n");
 
     for(vector<TimingIndexTableT>::iterator it=m_asTimingIndexTable.begin();it!=m_asTimingIndexTable.end();it++)
     {
@@ -579,6 +600,7 @@ int16_t AppC753::getVerticalCompensation(uint16_t wHorResolution, uint16_t wVerR
 
 void AppC753::showWnd(uint32_t iChID)
 {
+	printf("showWnd !\n");
 	/*显示该通道*/
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
@@ -590,7 +612,7 @@ void AppC753::showWnd(uint32_t iChID)
 //        {
             C753SetMainControl(iChID,0x03);
 //        }
-            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
+//            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
     }
     else if(iChID == C753_OUTPUT_CHANNEL_2)
     {
@@ -602,7 +624,7 @@ void AppC753::showWnd(uint32_t iChID)
 //        {
             C753SetMainControl(iChID,0x07);
 //        }
-            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
+//            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
     }
 
 }
@@ -1200,5 +1222,97 @@ void AppC753::readBackground(uint32_t iChID, int32_t iIndex, uint16_t wWidth, ui
         C753SetCPUReadAddress(memAddr-1);
         C753GetCPUData(byVal);
     }
+
+}
+
+
+void AppC753::openChannelTest()
+{
+    int i;
+    uint32_t iChID=1;
+
+    printf("openChannelTest\n");
+
+    /*配置传输寄存器*/
+    /*RTCT4=000B RTCT3=000B RTCT2=110B RTCT1=101B RTCT0=011B*/
+    C753SetRegisterValueTransferControl(0x01AB);
+    /*
+    *  配置输入部分寄存器
+    */
+    /*RGB 30-bit 输入*/
+    C753SetInputFormatControl(iChID, 0x00);
+    /*IFLD 0到3循环*/
+    /*水平同步信号低电平有效*/
+    /*垂直同步信号低电平有效*/
+    C753SetInputPortSyncControl(iChID, 0x02);
+    /*关闭场信号自动识别*/
+    C753SetInputFieldRecognitionControl(iChID, 0x00);
+    /*PIACT区域外图像为0 PIACT POL*/
+    C753SetInputDigitalInterfaceControl(iChID, 0x00);
+    /*
+    *  配置输出部分寄存器
+    */
+    C753SetOutputPortSyncControl(0x2350);
+    /*OFLDC输出同步方式，OFLD1=0, OFLD2=0*/
+    /*POACT active high Select AOI3*/
+    /*C753SetOutputSyncControl(0x0068);*/
+    /*通道1输出场指针延时改变时间*/
+    C753SetFieldPropagationDelay1(0x04);
+    /*通道2输出场指针延时改变时间*/
+    C753SetFieldPropagationDelay2(0x04);
+    /*背景图像*/
+    C753SetOutputBackground0(0x00);
+    C753SetOutputBackground1(0x00);
+    /*POCLKO 输出使能*/
+    C753SetPOCLKControl(0x03);
+    /*POCLK PLL配置*/
+    C753SetPOCLKPLLControl(0x81);
+    C753SetPOCLKReferenceDividing(0x07);
+    C753SetPOCLKFeedbackDividing(0x0f);
+
+    printf("initHardware PCL OK \n!");
+
+
+    uint16_t startX=0;
+    uint16_t startY=0;
+    uint16_t width=0;
+    uint16_t height=0;
+
+
+    C753SetOutputPortOAOI0HorizontalStart((uint16_t)163);
+    C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1178);
+    C753SetOutputPortOAOI0VerticalStart((uint16_t)34);
+    C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
+
+    /*输出图像区域*/
+    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputActOffsetX));
+    C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wOutputActWidth);
+    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY + 0));
+    C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 1);
+
+
+    printf("initHardware OUTPUT PORT OK \n!");
+
+    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+    /*
+    *  配置图像数据存储器
+    */
+
+    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
+    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
+    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
+    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
+    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
+    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
+    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
+    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
+
+
+    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
+    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
+
 
 }
