@@ -1,4 +1,4 @@
-package com.qbox.ui;
+package com.qbox.ui.osd;
 
 import com.qbox.logic.QboxMgr;
 import nme.events.MouseEvent;
@@ -16,7 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdImgDlg extends ListDialog{
+class VideoSettingInputBlackLevel extends ListDialog{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -30,13 +30,13 @@ class OsdImgDlg extends ListDialog{
         var img= new EmbedTextField();
         img.selectable = false;
 #if neko
-        img.text = "img";
+        img.text = "Input Black Level";
 #else
-        img.text = "图像设定";
+        img.text = "输入信号黑阶";
 #end
         img.scaleX = 3;
         img.scaleY = 3;
-        img.width = 50;
+        img.width = 100;
         img.height= 20;
         s.addChild( img);
 

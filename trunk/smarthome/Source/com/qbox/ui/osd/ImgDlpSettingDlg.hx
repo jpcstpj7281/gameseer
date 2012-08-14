@@ -22,6 +22,12 @@ class ImgDlpSettingDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog =new DlpSettingRedLightness(_listDialogMgr);
+        i =new DlpSettingGreenLightness(_listDialogMgr);
+        i =new DlpSettingBlueLightness(_listDialogMgr);
+        i =new DlpSettingRedContrast(_listDialogMgr);
+        i =new DlpSettingGreenContrast(_listDialogMgr);
+        i =new DlpSettingBlueContrast(_listDialogMgr);
     }
 
     public function createElement():Sprite{

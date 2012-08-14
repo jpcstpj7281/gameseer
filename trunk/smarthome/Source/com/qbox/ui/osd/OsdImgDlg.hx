@@ -39,7 +39,7 @@ class OsdImgDlg extends ListDialog{
         var img= new EmbedTextField();
         img.selectable = false;
 #if neko
-        img.text = "img";
+        img.text = "Image";
 #else
         img.text = "图像设定";
 #end

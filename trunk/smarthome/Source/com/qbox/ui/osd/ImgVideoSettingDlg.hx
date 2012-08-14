@@ -22,6 +22,14 @@ class ImgVideoSettingDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog =new VideoSettingLightnessDlg(_listDialogMgr);
+        i =new VideoSettingContrast(_listDialogMgr);
+        i =new VideoSettingDefinition(_listDialogMgr);
+        i =new VideoSettingColor(_listDialogMgr);
+        i =new VideoSettingColorTone(_listDialogMgr);
+        i =new VideoSettingForceMode(_listDialogMgr);
+        i =new VideoSettingInputBlackLevel(_listDialogMgr);
+        i =new VideoSettingEnhanceMode(_listDialogMgr);
     }
 
     public function createElement():Sprite{

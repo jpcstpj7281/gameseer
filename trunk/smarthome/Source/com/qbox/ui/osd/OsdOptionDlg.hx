@@ -22,6 +22,13 @@ class OsdOptionDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog = new OptionLanguage(_listDialogMgr);
+        i =new OptionImgDirection(_listDialogMgr);
+        i =new OptionBitRate(_listDialogMgr);
+        i =new OptionLightnessCurve(_listDialogMgr);
+        i =new OptionMenuHorizontalPos(_listDialogMgr);
+        i =new OptionMenuVerticalPos(_listDialogMgr);
+        i =new OptionRecoverPreset(_listDialogMgr);
     }
 
     public function createElement():Sprite{
@@ -30,7 +37,7 @@ class OsdOptionDlg extends ListDialog{
         var option= new EmbedTextField();
         option.selectable = false;
 #if neko
-        option.text = "option";
+        option.text = "Option";
 #else
         option.text = "选项设定";
 #end

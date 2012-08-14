@@ -1,5 +1,6 @@
 package com.qbox.ui.osd;
 
+
 import com.qbox.logic.QboxMgr;
 import nme.events.MouseEvent;
 import base.ui.InputDialog;
@@ -16,7 +17,7 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class VideoSettingColorTone extends CommDialog{
+class AmplificationVMovment extends CommDialog{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
@@ -61,18 +62,18 @@ class VideoSettingColorTone extends CommDialog{
     public function createElement():Sprite{
         var s:Sprite = new Sprite();
 
-        var img= new EmbedTextField();
-        img.selectable = false;
+        var source= new EmbedTextField();
+        source.selectable = false;
 #if neko
-        img.text = "Color Tone";
+        source.text = "Vertical Amplify Movment";
 #else
-        img.text = "色调";
+        source.text = "垂直放大位移";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        s.addChild( img);
+        source.scaleX = 3;
+        source.scaleY = 3;
+        source.width = 100;
+        source.height= 20;
+        s.addChild( source);
 
         _g = new Sprite();
         s.addChild (_g);

@@ -23,6 +23,14 @@ class SourceChildFrameSetting extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog =new ChildFrameSwitch(_listDialogMgr);
+        i =new ChildFrameHSize(_listDialogMgr);
+        i =new ChildFrameVSize(_listDialogMgr);
+        i =new ChildFrameHPos(_listDialogMgr);
+        i =new ChildFrameVPos(_listDialogMgr);
+        i =new ChildFrameAlpha(_listDialogMgr);
+        i =new ChildFramePosSetting(_listDialogMgr);
+        i =new ChildFrameVideoSetting(_listDialogMgr);
     }
 
     public function createElement():Sprite{
@@ -33,11 +41,11 @@ class SourceChildFrameSetting extends ListDialog{
 #if neko
         source.text = "Child Frame Setting";
 #else
-        source.text = "子画面2设定";
+        source.text = "子画面设定";
 #end
         source.scaleX = 3;
         source.scaleY = 3;
-        source.width = 50;
+        source.width = 100;
         source.height= 20;
         s.addChild( source);
 

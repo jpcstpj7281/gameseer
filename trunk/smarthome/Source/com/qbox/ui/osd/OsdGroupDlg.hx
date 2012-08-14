@@ -23,6 +23,11 @@ class OsdGroupDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog = new GroupHorizontalNum(_listDialogMgr);
+        i =new GroupVerticalNum(_listDialogMgr);
+        i =new GroupHorizontalIndex(_listDialogMgr);
+        i =new GroupVerticalIndex(_listDialogMgr);
+        i =new GroupMachineNumber(_listDialogMgr);
     }
 
     public function createElement():Sprite{
@@ -31,7 +36,7 @@ class OsdGroupDlg extends ListDialog{
         var group= new EmbedTextField();
         group.selectable = false;
 #if neko
-        group.text = "group";
+        group.text = "Group";
 #else
         group.text = "组屏设定";
 #end

@@ -23,6 +23,13 @@ class OsdSysDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog =new SysModel(_listDialogMgr);
+        i =new SysMachinePosNum(_listDialogMgr);
+        i =new SysSource(_listDialogMgr);
+        i =new SysImgResolution(_listDialogMgr);
+        i =new SysRunningTime(_listDialogMgr);
+        i =new SysSoftwareVersion(_listDialogMgr);
+        i =new SysLEDLightTemperature(_listDialogMgr);
     }
 
     public function createElement():Sprite{
@@ -31,9 +38,9 @@ class OsdSysDlg extends ListDialog{
         var sys= new EmbedTextField();
         sys.selectable = false;
 #if neko
-        sys.text = "sys";
+        sys.text = "System Setting";
 #else
-        sys.text = "组屏设定";
+        sys.text = "系统设定";
 #end
         sys.scaleX = 3;
         sys.scaleY = 3;

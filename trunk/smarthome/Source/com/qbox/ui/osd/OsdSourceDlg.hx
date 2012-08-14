@@ -38,7 +38,7 @@ class OsdSourceDlg extends ListDialog{
         var source= new EmbedTextField();
         source.selectable = false;
 #if neko
-        source.text = "source";
+        source.text = "Source";
 #else
         source.text = "信号源设定";
 #end

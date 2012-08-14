@@ -12,14 +12,14 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialog;
+import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdSysDlg extends ListDialog{
+class SysSoftwareVersion extends CommDialog{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
@@ -31,13 +31,13 @@ class OsdSysDlg extends ListDialog{
         var sys= new EmbedTextField();
         sys.selectable = false;
 #if neko
-        sys.text = "sys";
+        sys.text = "Software Version";
 #else
-        sys.text = "组屏设定";
+        sys.text = "软件版本";
 #end
         sys.scaleX = 3;
         sys.scaleY = 3;
-        sys.width = 50;
+        sys.width = 100;
         sys.height= 20;
         s.addChild( sys);
 

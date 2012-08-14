@@ -22,6 +22,12 @@ class ImgInputFitnessDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog =new InputFitnessRedBlackLevel(_listDialogMgr);
+        i =new InputFitnessGreenBlackLevel(_listDialogMgr);
+        i =new InputFitnessBlueBlackLevel(_listDialogMgr);
+        i =new InputFitnessRedEnhance(_listDialogMgr);
+        i =new InputFitnessGreenEnhance(_listDialogMgr);
+        i =new InputFitnessBlueEnhance(_listDialogMgr);
     }
 
     public function createElement():Sprite{

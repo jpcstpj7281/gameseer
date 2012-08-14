@@ -12,14 +12,14 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialog;
+import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdSourceDlg extends ListDialog{
+class ChildFrameSwitch extends CommDialog{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
@@ -31,13 +31,13 @@ class OsdSourceDlg extends ListDialog{
         var source= new EmbedTextField();
         source.selectable = false;
 #if neko
-        source.text = "source";
+        source.text = "Child Frame Function";
 #else
-        source.text = "信号源设定";
+        source.text = "子图像功能";
 #end
         source.scaleX = 3;
         source.scaleY = 3;
-        source.width = 50;
+        source.width = 100;
         source.height= 20;
         s.addChild( source);
 

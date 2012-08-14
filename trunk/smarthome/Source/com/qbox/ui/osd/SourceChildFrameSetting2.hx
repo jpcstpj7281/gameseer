@@ -36,7 +36,7 @@ class SourceChildFrameSetting2 extends ListDialog{
 #end
         source.scaleX = 3;
         source.scaleY = 3;
-        source.width = 50;
+        source.width = 100;
         source.height= 20;
         s.addChild( source);
 

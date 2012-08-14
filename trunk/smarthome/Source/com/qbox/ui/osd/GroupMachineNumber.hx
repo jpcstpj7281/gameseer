@@ -12,14 +12,14 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialog;
+import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdGroupDlg extends ListDialog{
+class GroupMachineNumber extends CommDialog{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
@@ -31,13 +31,13 @@ class OsdGroupDlg extends ListDialog{
         var group= new EmbedTextField();
         group.selectable = false;
 #if neko
-        group.text = "group";
+        group.text = "Machine Position Number";
 #else
-        group.text = "组屏设定";
+        group.text = "单机位置码";
 #end
         group.scaleX = 3;
         group.scaleY = 3;
-        group.width = 50;
+        group.width = 100;
         group.height= 20;
         s.addChild( group);
 
