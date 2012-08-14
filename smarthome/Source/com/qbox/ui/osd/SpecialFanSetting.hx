@@ -12,14 +12,14 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialog;
+import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdSpecialDlg extends ListDialog{
+class SpecialFanSetting extends CommDialog{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
@@ -31,13 +31,13 @@ class OsdSpecialDlg extends ListDialog{
         var special= new EmbedTextField();
         special.selectable = false;
 #if neko
-        special.text = "special";
+        special.text = "Fan Setting";
 #else
-        special.text = "特殊设定";
+        special.text = "风扇设定";
 #end
         special.scaleX = 3;
         special.scaleY = 3;
-        special.width = 50;
+        special.width = 100;
         special.height= 20;
         s.addChild( special);
 

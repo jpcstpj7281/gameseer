@@ -23,6 +23,16 @@ class OsdSpecialDlg extends ListDialog{
         super(dm);
         addChild( createElement());
 
+        var i:CommDialog = new SpecialStartUpDelayTime(_listDialogMgr);
+        i =new SpecialImgFrameworkLock(_listDialogMgr);
+        i =new SpecialRGBFirstTimeAutoAdjust(_listDialogMgr);
+        i =new SpecialAGCSetting(_listDialogMgr);
+        i =new SpecialTestFrame(_listDialogMgr);
+        i =new SpecialHSGAdjustSetting(_listDialogMgr);
+        i =new SpecialForceModeSetting(_listDialogMgr);
+        i =new SpecialDVIDigitalEQSetting(_listDialogMgr);
+        i =new SpecialAmplificationSetting(_listDialogMgr);
+        i =new SpecialFanSetting(_listDialogMgr);
     }
 
     public function createElement():Sprite{
@@ -31,7 +41,7 @@ class OsdSpecialDlg extends ListDialog{
         var special= new EmbedTextField();
         special.selectable = false;
 #if neko
-        special.text = "special";
+        special.text = "Special Setting";
 #else
         special.text = "特殊设定";
 #end
