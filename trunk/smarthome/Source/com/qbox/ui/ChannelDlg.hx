@@ -18,6 +18,7 @@ import com.qbox.logic.Channel;
 
 class ChannelDlg extends ListDialog{
 
+    var _s:Sprite;
     var _input:EmbedTextField;
     var _iptext:EmbedTextField;
     var _editBtn:EmbedTextField;
@@ -58,42 +59,65 @@ class ChannelDlg extends ListDialog{
         super.showParent();
     }
 
+    override function show(){
+        if ( _s != null) {
+            if ( _iptext!= null){
+                _s.removeChild(_iptext);
+                _s.removeChild(_input);
+                _s.removeChild(_editBtn);
+            }
+            _iptext= new EmbedTextField();
+            _iptext.selectable = false;
+            _iptext.text = "Channel:";
+            _iptext.scaleX = 3;
+            _iptext.scaleY = 3;
+            _iptext.width = 50;
+            _iptext.height= 20;
+
+            _input= new EmbedTextField();
+            _input.text = _channel._name;
+            _input.type = INPUT;
+            _input.scaleX = 3;
+            _input.scaleY = 3;
+            _input.width = 60;
+            _input.height= 16;
+            _input.setBorder(true);
+            _input.x= 100;
+
+            _editBtn= new EmbedTextField();
+            _editBtn.selectable = false;
+            _editBtn.text = "Edit";
+            _editBtn.scaleX = 3;
+            _editBtn.scaleY = 3;
+            _editBtn.width = 20;
+            _editBtn.height= 18;
+            _editBtn.setBorder(true);
+            _editBtn.x = nme.Lib.current.stage.stageWidth - 80;
+            _editBtn.addEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
+
+            _s.addChild( _iptext);
+            _s.addChild( _input);
+            _s.addChild( _editBtn);
+            _s.height = nme.Lib.current.stage.stageHeight/15;
+        }
+        return super.show();
+    }
+    override function hide(){
+        if ( _s != null && _iptext!= null) {
+            _editBtn.removeEventListener(  MouseEvent.CLICK, onConnBtnMouseClick); 
+            _s.removeChild(_iptext);
+            _s.removeChild(_input);
+            _s.removeChild(_editBtn);
+            _iptext= null;
+            _input= null;
+            _editBtn= null;
+        }
+        return super.hide();
+    }
+
     public function createElement():Sprite{
-        var s:Sprite = new Sprite();
+        _s = new Sprite();
 
-        _iptext= new EmbedTextField();
-        _iptext.selectable = false;
-        _iptext.text = "Channel:";
-        _iptext.scaleX = 3;
-        _iptext.scaleY = 3;
-        _iptext.width = 50;
-        _iptext.height= 20;
-
-        _input= new EmbedTextField();
-        _input.text = _channel._name;
-        _input.type = INPUT;
-        _input.scaleX = 3;
-        _input.scaleY = 3;
-        _input.width = 60;
-        _input.height= 16;
-        _input.setBorder(true);
-        _input.x= 100;
-
-        _editBtn= new EmbedTextField();
-        _editBtn.selectable = false;
-        _editBtn.text = "Edit";
-        _editBtn.scaleX = 3;
-        _editBtn.scaleY = 3;
-        _editBtn.width = 20;
-        _editBtn.height= 18;
-        _editBtn.setBorder(true);
-        _editBtn.x = nme.Lib.current.stage.stageWidth - 80;
-        _editBtn.addEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
-
-        s.addChild( _iptext);
-        s.addChild( _input);
-        s.addChild( _editBtn);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
+        return _s;
     }
 }

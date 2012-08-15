@@ -30,6 +30,7 @@ class ScreenDlg extends ListDialog{
     var _qboxid:EmbedTextField;
     var _output:EmbedTextField;
     var _osdBtn:EmbedTextField;
+    var _s:Sprite;
 
     public function new ( dm:ListDialogMgr, c:Screen){
         super(dm);
@@ -70,54 +71,80 @@ class ScreenDlg extends ListDialog{
             }
         }
     }
+
+    override function show(){
+        if ( _s != null) {
+            if ( _qboxid != null){
+                _s.removeChild(_qboxid);
+                _s.removeChild(_output);
+                _s.removeChild(_pos);
+                _s.removeChild(_osdBtn);
+            }
+            _qboxid= new EmbedTextField();
+            _qboxid.selectable = false;
+            _qboxid.text = _screen._qboxid;
+            _qboxid.scaleX = 3;
+            _qboxid.scaleY = 3;
+            _qboxid.width = 50;
+            _qboxid.height= 20;
+            _qboxid.x = 150;
+            _qboxid.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
+
+            _output= new EmbedTextField();
+            _output.selectable = false;
+            _output.text = _screen._output;
+            _output.scaleX = 3;
+            _output.scaleY = 3;
+            _output.width = 50;
+            _output.height= 20;
+            _output.x = 300;
+            _output.addEventListener( MouseEvent.CLICK, onOutputMouseClick);
+
+            _pos= new EmbedTextField();
+            _pos.selectable = false;
+            _pos.text = "screen:" + _screen._col+"|"+_screen._row;
+            _pos.scaleX = 3;
+            _pos.scaleY = 3;
+            _pos.width = 50;
+            _pos.height= 20;
+
+            _osdBtn= new EmbedTextField();
+            _osdBtn.selectable = false;
+            _osdBtn.text = "OSD";
+            _osdBtn.scaleX = 3;
+            _osdBtn.scaleY = 3;
+            _osdBtn.width = 20;
+            _osdBtn.height= 18;
+            _osdBtn.setBorder(true);
+            _osdBtn.x = nme.Lib.current.stage.stageWidth - 80;
+            _osdBtn.addEventListener( MouseEvent.CLICK, onOsdBtnMouseClick);
+            _s.addChild( _pos);
+            _s.addChild( _qboxid);
+            _s.addChild( _output);
+            _s.addChild( _osdBtn);
+            _s.height = nme.Lib.current.stage.stageHeight/15;
+        }
+        return super.show();
+    }
+    override function hide(){
+        if ( _s != null && _qboxid != null) {
+            _qboxid.removeEventListener(  MouseEvent.CLICK, onQboxMouseClick); 
+            _output.removeEventListener(  MouseEvent.CLICK, onOutputMouseClick); 
+            _osdBtn.removeEventListener(  MouseEvent.CLICK, onOsdBtnMouseClick); 
+            _s.removeChild(_qboxid);
+            _s.removeChild(_pos);
+            _s.removeChild(_output);
+            _s.removeChild(_osdBtn);
+            _qboxid = null;
+            _pos= null;
+            _output= null;
+            _osdBtn= null;
+        }
+        return super.hide();
+    }
+
     public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        _qboxid= new EmbedTextField();
-        _qboxid.selectable = false;
-        _qboxid.text = _screen._qboxid;
-        _qboxid.scaleX = 3;
-        _qboxid.scaleY = 3;
-        _qboxid.width = 50;
-        _qboxid.height= 20;
-        _qboxid.x = 150;
-        _qboxid.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
-
-        _output= new EmbedTextField();
-        _output.selectable = false;
-        _output.text = _screen._output;
-        _output.scaleX = 3;
-        _output.scaleY = 3;
-        _output.width = 50;
-        _output.height= 20;
-        _output.x = 300;
-        _output.addEventListener( MouseEvent.CLICK, onOutputMouseClick);
-
-        _pos= new EmbedTextField();
-        _pos.selectable = false;
-        _pos.text = "screen:" + _screen._col+"|"+_screen._row;
-        _pos.scaleX = 3;
-        _pos.scaleY = 3;
-        _pos.width = 50;
-        _pos.height= 20;
-
-        _osdBtn= new EmbedTextField();
-        _osdBtn.selectable = false;
-        _osdBtn.text = "OSD";
-        _osdBtn.scaleX = 3;
-        _osdBtn.scaleY = 3;
-        _osdBtn.width = 20;
-        _osdBtn.height= 18;
-        _osdBtn.setBorder(true);
-        _osdBtn.x = nme.Lib.current.stage.stageWidth - 80;
-        _osdBtn.addEventListener( MouseEvent.CLICK, onOsdBtnMouseClick);
-
-        s.addChild( _pos);
-        s.addChild( _qboxid);
-        s.addChild( _output);
-        s.addChild( _osdBtn);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-
+        _s= new Sprite();
 
         new OsdImgDlg(_listDialogMgr);
         new OsdFitnessDlg( _listDialogMgr);
@@ -127,6 +154,6 @@ class ScreenDlg extends ListDialog{
         new OsdSpecialDlg(_listDialogMgr);
         new OsdSysDlg(_listDialogMgr);
 
-        return s;
+        return _s;
     }
 }
