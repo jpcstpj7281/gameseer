@@ -11,20 +11,24 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialog;
-
+import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class VideoSettingEnhanceMode extends ListDialog{
+class VideoSettingEnhanceMode extends ValueSwitchDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
-
+#if neko
+        _values.push("on");
+        _values.push("off");
+#else
+        _values.push("开启");
+        _values.push("关闭");
+#end
     }
 
-    public function createElement():Sprite{
+    public override function createElement():Sprite{
         var s:Sprite = new Sprite();
 
         var img= new EmbedTextField();

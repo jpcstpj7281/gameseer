@@ -11,22 +11,21 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialog;
+import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class VideoSettingInputBlackLevel extends ListDialog{
+class VideoSettingInputBlackLevel extends ValueSwitchDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("0 IRE");
+        _values.push("7.5 IRE");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var img= new EmbedTextField();
         img.selectable = false;
 #if neko
@@ -38,8 +37,8 @@ class VideoSettingInputBlackLevel extends ListDialog{
         img.scaleY = 3;
         img.width = 100;
         img.height= 20;
+        var s = super.createElement();
         s.addChild( img);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

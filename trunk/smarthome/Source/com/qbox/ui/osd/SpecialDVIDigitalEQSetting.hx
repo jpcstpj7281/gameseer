@@ -15,19 +15,18 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class SpecialDVIDigitalEQSetting extends CommDialog{
+class SpecialDVIDigitalEQSetting extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("高");
+        _values.push("正常");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var special= new EmbedTextField();
         special.selectable = false;
 #if neko
@@ -39,8 +38,8 @@ class SpecialDVIDigitalEQSetting extends CommDialog{
         special.scaleY = 3;
         special.width = 100;
         special.height= 20;
+        var s = super.createElement();
         s.addChild( special);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

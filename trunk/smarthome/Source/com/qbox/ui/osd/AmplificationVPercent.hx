@@ -17,15 +17,17 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class AmplificationVPercent extends CommDialog{
+class AmplificationVPercent extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("关闭");
+        _values.push("10%");
     }
 
-    public function createElement():Sprite{
+    public override function createElement():Sprite{
         var s:Sprite = new Sprite();
 
         var source= new EmbedTextField();
@@ -39,8 +41,8 @@ class AmplificationVPercent extends CommDialog{
         source.scaleY = 3;
         source.width = 100;
         source.height= 20;
+        var s = super.createElement();
         s.addChild( source);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

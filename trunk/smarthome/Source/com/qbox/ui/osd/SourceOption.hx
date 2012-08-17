@@ -1,6 +1,5 @@
 package com.qbox.ui.osd;
 
-
 import com.qbox.logic.QboxMgr;
 import nme.events.MouseEvent;
 import base.ui.InputDialog;
@@ -15,19 +14,19 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class SourceOption extends CommDialog{
+class SourceOption extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("DVI数码-模拟");
+        _values.push("VGA模拟");
+        _values.push("DVI数码");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var source= new EmbedTextField();
         source.selectable = false;
 #if neko
@@ -39,8 +38,8 @@ class SourceOption extends CommDialog{
         source.scaleY = 3;
         source.width = 100;
         source.height= 20;
+        var s = super.createElement();
         s.addChild( source);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }
