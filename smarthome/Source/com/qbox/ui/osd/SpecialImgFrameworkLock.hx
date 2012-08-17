@@ -15,19 +15,18 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class SpecialImgFrameworkLock extends CommDialog{
+class SpecialImgFrameworkLock extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("开启");
+        _values.push("关闭");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var special= new EmbedTextField();
         special.selectable = false;
 #if neko
@@ -39,8 +38,8 @@ class SpecialImgFrameworkLock extends CommDialog{
         special.scaleY = 3;
         special.width = 100;
         special.height= 20;
+        var s = super.createElement();
         s.addChild( special);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

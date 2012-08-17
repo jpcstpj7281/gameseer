@@ -13,21 +13,19 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 import base.ui.CommDialog;
 import base.ui.CommDialogMgr;
-
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class FitnessAspectRatio extends CommDialog{
+class FitnessAspectRatio extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("4:3");
+        _values.push("16:9");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var fitness= new EmbedTextField();
         fitness.selectable = false;
 #if neko
@@ -39,8 +37,8 @@ class FitnessAspectRatio extends CommDialog{
         fitness.scaleY = 3;
         fitness.width = 100;
         fitness.height= 20;
+        var s = super.createElement();
         s.addChild( fitness);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

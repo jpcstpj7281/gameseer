@@ -14,19 +14,18 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class OptionLanguage extends CommDialog{
+class OptionLanguage extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("简体中文");
+        _values.push("English");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var option= new EmbedTextField();
         option.selectable = false;
 #if neko
@@ -38,8 +37,8 @@ class OptionLanguage extends CommDialog{
         option.scaleY = 3;
         option.width = 100;
         option.height= 20;
+        var s = super.createElement();
         s.addChild( option);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

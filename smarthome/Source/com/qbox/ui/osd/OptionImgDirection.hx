@@ -14,19 +14,20 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class OptionImgDirection extends CommDialog{
+class OptionImgDirection extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("背投");
+        _values.push("前投反向");
+        _values.push("背投反向");
+        _values.push("前投");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var option= new EmbedTextField();
         option.selectable = false;
 #if neko
@@ -38,8 +39,8 @@ class OptionImgDirection extends CommDialog{
         option.scaleY = 3;
         option.width = 100;
         option.height= 20;
+        var s = super.createElement();
         s.addChild( option);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

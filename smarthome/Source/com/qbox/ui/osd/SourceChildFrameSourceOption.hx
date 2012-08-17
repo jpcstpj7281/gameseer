@@ -15,19 +15,19 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
-import com.qbox.logic.Channel;
 
-class SourceChildFrameSourceOption extends CommDialog{
+class SourceChildFrameSourceOption extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
+        _values.push("复合视频");
+        _values.push("RGB模拟");
+        _values.push("色差信号");
     }
 
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
+    public override function createElement():Sprite{
         var source= new EmbedTextField();
         source.selectable = false;
 #if neko
@@ -39,8 +39,8 @@ class SourceChildFrameSourceOption extends CommDialog{
         source.scaleY = 3;
         source.width = 100;
         source.height= 20;
+        var s = super.createElement();
         s.addChild( source);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }

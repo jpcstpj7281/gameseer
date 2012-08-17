@@ -24,11 +24,9 @@ class ImgLightnessDlg extends ValueBarDlg{
         addChild( createElement());
 
         _value = 0;
-        _max = 255;
     }
 
     public override function createElement():Sprite{
-
         var img= new EmbedTextField();
         img.selectable = false;
 #if neko
@@ -40,7 +38,6 @@ class ImgLightnessDlg extends ValueBarDlg{
         img.scaleY = 3;
         img.width = 100;
         img.height= 20;
-
         var s = super.createElement();
         s.addChild( img);
         s.height = nme.Lib.current.stage.stageHeight/15;

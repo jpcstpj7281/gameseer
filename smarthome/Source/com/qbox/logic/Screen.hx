@@ -113,12 +113,14 @@ class Screen{
             cbSetWnd(test);
 #end
         }
-
     }
 
     function cbSetWnd( args:Dynamic):Void{
-        if (_currCB != null) _currCB( args, this);
-        _currCB = null;
+        if (_currCB != null) {
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
     }
 
     public function setChannel( winHandle:String,  channel:Channel, cbSetChannelFunc:Dynamic->Screen->Void):Void{
@@ -131,6 +133,7 @@ class Screen{
             return;
         }
         _currCB = cbSetChannelFunc;
+#if !neko
         for ( i in notes){
             var arr:Array<String> = i.split(":");
             if ( _qboxid == arr[0]){
@@ -146,12 +149,18 @@ class Screen{
                 break;
             }
         }
+#else
+        var test= new Hash<String>();
+        test.set("error","0");
+        cbSetChannel(test);
+#end
     }
 
     function cbSetChannel( args:Dynamic):Void{
         if (_currCB != null) _currCB( args, this);
         _currCB = null;
     }
+
     public function showWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
 #if !neko
         var q = QboxMgr.getInst().getQboxByIp( _qboxid);
@@ -172,8 +181,77 @@ class Screen{
     }
 
 
-    public function moveWnd(x:Int, y:Int, w:Int, h:Int, handle:String):String{
+    public function moveWnd(x:Int, y:Int, w:Int, h:Int, winHandle:String):String{
+        var screenx:Int = _virtualWidth * _col;
+        var screeny:Int = _virtualHeight * _row;
+        var screenw:Int = _virtualWidth;
+        var screenh:Int = _virtualHeight;
+        var isOutOfScreen = false;
+        if ( x <screenx ){
+            if (x + w > screenx ){
+                if ( x+w > screenx+_virtualWidth){
+                    screenw = _virtualWidth;
+                }else{
+                    screenw =  w - screenx +x;
+                }
+                screenx = 0;
+            }else{
+                isOutOfScreen = true;
+                trace("outofscreen");
+            }
+        }else{
+            if ( x >= screenx && x <= screenx + _virtualWidth) {
+                if ( x+w >= screenx+_virtualWidth){
+                    screenw = _virtualWidth + screenx - x;
+                }else{
+                    screenw =  w;
+                }
+                screenx = x - screenx;
+            }else if ( x >screenx + _virtualWidth){
+                isOutOfScreen = true;
+                trace("outofscreen");
+            }
+        }
+
+        if ( !isOutOfScreen && y <screeny){
+            if (y + h > screeny ){
+                if ( y+h > screeny+_virtualHeight){
+                    screenh = _virtualHeight;
+                }else{
+                    screenh = h - screeny +y;
+                }
+            }else{
+                isOutOfScreen = true;
+                trace("outofscreen");
+            }
+        }else if ( !isOutOfScreen){
+            if ( y >= screeny && y <= screeny + _virtualHeight){
+                if ( y+h >= screeny+_virtualHeight){
+                    screenh = _virtualHeight +screeny - y;
+                }else{
+                    screenh = h;
+                }
+                screeny = y - screeny;
+            }else if(  x > screeny + _virtualHeight){
+                isOutOfScreen = true;
+                trace("outofscreen");
+            }
+        }
+
+        if (isOutOfScreen){
+            trace(""+_col+"|"+_row+":Out of screen");
+            var outofscreen = new Hash<String>();
+            outofscreen.set("winHandle","null");
+            outofscreen.set("error","0");
+            cbMoveWnd(outofscreen);
+        }else{
+            cbMoveWnd("test");
+        }
         return "handle";
+    }
+
+    function cbMoveWnd(args:Dynamic){
+        trace(args);
     }
     public function resizeWnd(x:Int, y:Int, w:Int, h:Int, handle:String):String{
         return "handle";

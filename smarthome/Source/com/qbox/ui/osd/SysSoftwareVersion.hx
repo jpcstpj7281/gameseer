@@ -40,7 +40,6 @@ class SysSoftwareVersion extends CommDialog{
         sys.width = 100;
         sys.height= 20;
         s.addChild( sys);
-
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;
     }
