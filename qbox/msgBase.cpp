@@ -48,15 +48,17 @@ void MsgBase::UnpackMsg(MsgInfo &msgInfo)
 {
 	msgInfo.msgType = m_pNetMsgBody->msgType;
 
-	uint16_t mapSize= pop_u16() ;
-
-	for(uint16_t i=0;i<mapSize;i++)
+	if(!m_pNetMsgBody->msgData.empty())
 	{
-		string sKey = pop_string();
-		string sValue = pop_string();
-		msgInfo.info.insert(make_pair(sKey,sValue));
-	}
+		uint16_t mapSize= pop_u16() ;
 
+		for(uint16_t i=0;i<mapSize;i++)
+		{
+			string sKey = pop_string();
+			string sValue = pop_string();
+			msgInfo.info.insert(make_pair(sKey,sValue));
+		}
+	}
 }
 
 

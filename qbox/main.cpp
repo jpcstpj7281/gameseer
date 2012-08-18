@@ -4,6 +4,7 @@
  *  Created on: 2012-2-19
  *      Author: icecoffee76
  */
+#include <vxworks.h>
 
 #include <stdlib.h>
 #include "IServer.h"
@@ -14,9 +15,15 @@
 #include "channel.h"
 #include "common.h"
 #include "windows.h"
+#include <taskLib.h>
 
+
+#ifdef __cplusplus
+    extern "C"{
 
 using namespace msg;
+
+
 
 void testMenu()
 {
@@ -27,7 +34,28 @@ void testMenu()
 
 
 
-void runService(int port)
+//void runService(int port)
+//{
+//	Status status;
+//	Windows windows;
+//	Event evt;
+//	Channel channel;
+//
+//	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
+//	MsgHandler::Instance()->setModel(TYPE_MODEL_WINDOWS,(CommModel*)(&windows));
+//	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&windows));
+//	MsgHandler::Instance()->setModel(TYPE_MODEL_CHANNEL,(CommModel*)(&windows));
+//
+//	IServer::Instance()->setPort(port);
+//	IServer::Instance()->setServerFlg(true);
+//
+//	IServer::Instance()->setMsgHandler(MsgHandler::Instance());
+//
+//
+//	IServer::Instance()->Run();
+//}
+
+void runServer(int port)
 {
 	Status status;
 	Windows windows;
@@ -39,13 +67,28 @@ void runService(int port)
 	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&evt));
 	MsgHandler::Instance()->setModel(TYPE_MODEL_CHANNEL,(CommModel*)(&channel));
 
+	MsgHandler::Instance()->getModule(TYPE_MODEL_STATUS);
+	MsgHandler::Instance()->getModule(TYPE_MODEL_WINDOWS);
+	MsgHandler::Instance()->getModule(TYPE_MODEL_EVENT);
+	MsgHandler::Instance()->getModule(TYPE_MODEL_CHANNEL);
+
+
+
 	IServer::Instance()->setPort(port);
-	IServer::Instance()->setServerFlg(true);
+
 
 	IServer::Instance()->setMsgHandler(MsgHandler::Instance());
+	IServer::Instance()->Server();
+}
+
+void testTaskServer()
+{
+
+	int ret = 0;
+	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,
+	                                 5000, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 
-	IServer::Instance()->Run();
 }
 
 
@@ -82,7 +125,7 @@ int main(int argc,char*argv[])
 			break;
 
 		case 1:
-			runService(para1);
+			runServer(para1);
 			break;
 
 
@@ -96,5 +139,8 @@ int main(int argc,char*argv[])
 	return 0;
 }
 
+
+}
+#endif /* __cplusplus */
 
 

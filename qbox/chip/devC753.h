@@ -65,6 +65,9 @@ public:
 	void C753SetOutputPortSyncControl(uint16_t wVal);
 	void C753GetOutputPortSyncControl(uint16_t &wVal);
 
+	void C753SetOutputHorizontalSync(uint16_t wVal);
+	void C753SetOutputVerticalSync(uint16_t wVal);
+
 	void C753SetForcedSyncResetDelay(uint8_t byVal);
 	void C753SetForcedSyncResetControl(uint16_t wVal);
 	void C753SetFieldInterlockTransferControl(uint8_t byVal);

@@ -88,6 +88,22 @@ void DriverChip753::C753SetOutputPortSyncControl(uint16_t wVal)
 	SPI_Write(TYPE_CHIP_C753,REG_C753_B0_OSYCT_L, (wVal&0x00ff));
 	SPI_Write(TYPE_CHIP_C753,REG_C753_B0_OSYCT_H, (wVal&0xff00)>>8);
 }
+
+void DriverChip753::C753SetOutputHorizontalSync(uint16_t wVal)
+{
+	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,0);
+	SPI_Write(TYPE_CHIP_C753,REG_C753_B0_OHCYCL_L, (wVal&0x00ff));
+	SPI_Write(TYPE_CHIP_C753,REG_C753_B0_OHCYCL_H, (wVal&0xff00)>>8);
+}
+
+void DriverChip753::C753SetOutputVerticalSync(uint16_t wVal)
+{
+	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,0);
+	SPI_Write(TYPE_CHIP_C753,REG_C753_B0_OVCYCL_L, (wVal&0x00ff));
+	SPI_Write(TYPE_CHIP_C753,REG_C753_B0_OVCYCL_H, (wVal&0xff00)>>8);
+}
+
+
 void DriverChip753::C753GetOutputPortSyncControl(uint16_t &wVal)
 {
 	  uint16_t val=0;

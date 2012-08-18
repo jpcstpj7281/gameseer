@@ -11,17 +11,22 @@
 #include <iostream>
 #include <map>
 
-//#include <sys/epoll.h>
 
+//#include <sys/epoll.h>
+#include <vxWorks.h>
+#include <sockLib.h>
+#include <semLib.h>
+#include "msgCommon.h"
 #include "msgHandler.h"
 using namespace std;
 
 
-#define MSG_MAX_LENGTH 4*1024
+#define MSG_MAX_LENGTH 1024
 //#define OPEN_MAX 100
 #define MAX_CLIENT_ACCEPT 4
 #define SERV_DEFINE_PORT 5000
 //#define INFTIM 1000
+
 
 
 struct NetMsg
@@ -48,6 +53,10 @@ public:
 	void BroadcastMsg(char* buff,uint32_t buffLen);
 	void setMsgHandler(MsgHandler *pMsgHandler){m_pMsgHandler = pMsgHandler;};
 
+	int Server();
+	void server_proc(int sock);
+
+
 private:
 
 	static IServer* m_instance;
@@ -62,6 +71,10 @@ private:
 
 	MsgHandler * m_pMsgHandler;
 	map<uint32_t,NetMsg> m_buff;
+
+
+	int m_server;
+
 };
 
 
