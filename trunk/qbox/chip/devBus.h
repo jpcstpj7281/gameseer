@@ -10,12 +10,14 @@
 
 #include <map>
 #include <list>
-
+#include "dev.h"
 
 using namespace std;
 
 namespace chip
 {
+
+
 
 enum Chip_type
 {

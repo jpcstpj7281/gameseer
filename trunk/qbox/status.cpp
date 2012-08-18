@@ -30,6 +30,7 @@ Status::~Status()
 uint32_t Status::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
 
+	test_msg("m_model connID=%d,msgType=%d\n",connID,msg->msgType);
     switch(msg->msgType)
     {
         case PProtocolVersionReq::uri:
@@ -54,6 +55,7 @@ uint32_t Status::onMsgReq(MsgInfo *msg,uint32_t connID)
 
         default:
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
+
         	break;
 
 
@@ -64,7 +66,7 @@ uint32_t Status::onMsgReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onProtocolVersionReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onProtocolVersionReq"<<" connID="<<connID <<endl;
+	test_msg("onProtocolVersionReq connID=%d\n",connID);
 
     MsgInfo rsp;
     rsp.msgType = PProtocolVersionRsp::uri;
@@ -80,7 +82,8 @@ void Status::onProtocolVersionReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onGetInPutReq"<<" connID="<<connID <<endl;
+	test_msg("onGetInPutReq connID=%d\n",connID);
+
 
     MsgInfo rsp;
 
@@ -98,7 +101,7 @@ void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
     if ( iTotal == 0 ) iTotal = 6;
     rsp.info["total"] = tostring(iTotal);
 
-
+    test_msg("onGetInPutReq Done\n",connID);
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 
 }

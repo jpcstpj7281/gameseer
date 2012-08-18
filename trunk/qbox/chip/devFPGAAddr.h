@@ -112,12 +112,12 @@
 	#define FPGA_VER_FP_5_ADDR                    0x008c
 	#define FPGA_VER_BP_5_ADDR                    0x008d
 
-	#define FPGA_HOR_SYNC_6_ADDR                  0x008f
-	#define FPGA_VER_SYNC_6_ADDR                  0x0090
-	#define FPGA_HOR_FP_6_ADDR                    0x0091
-	#define FPGA_HOR_BP_6_ADDR                    0x0092
-	#define FPGA_VER_FP_6_ADDR                    0x0093
-	#define FPGA_VER_BP_6_ADDR                    0x0094
+	#define FPGA_HOR_SYNC_6_ADDR                  0x008e
+	#define FPGA_VER_SYNC_6_ADDR                  0x008f
+	#define FPGA_HOR_FP_6_ADDR                    0x0090
+	#define FPGA_HOR_BP_6_ADDR                    0x0091
+	#define FPGA_VER_FP_6_ADDR                    0x0092
+	#define FPGA_VER_BP_6_ADDR                    0x0093
 
 
 

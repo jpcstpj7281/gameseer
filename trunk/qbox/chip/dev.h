@@ -145,7 +145,7 @@ extern void dev_I2C_Write(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t va
 **************************************************************/
 extern void dev_I2C_Read(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t *value);
 
-
+extern void ICS307_config(unsigned long  val);
 
 
 };

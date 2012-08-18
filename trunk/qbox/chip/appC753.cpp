@@ -600,7 +600,7 @@ int16_t AppC753::getVerticalCompensation(uint16_t wHorResolution, uint16_t wVerR
 
 void AppC753::showWnd(uint32_t iChID)
 {
-	printf("showWnd !\n");
+//	printf("showWnd !\n");
 	/*显示该通道*/
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
@@ -1279,16 +1279,16 @@ void AppC753::openChannelTest()
     uint16_t height=0;
 
 
-    C753SetOutputPortOAOI0HorizontalStart((uint16_t)163);
-    C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1178);
-    C753SetOutputPortOAOI0VerticalStart((uint16_t)34);
-    C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
+    C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
+    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
+    C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
+    C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
 
     /*输出图像区域*/
-    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputActOffsetX));
-    C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wOutputActWidth);
-    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY + 0));
-    C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 1);
+    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
+    C753SetOutputPortACTHorizontalWidth(iChID, 1024);
+    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)34);
+    C753SetOutputPortACTVerticalWidth(iChID,769);
 
 
     printf("initHardware OUTPUT PORT OK \n!");
@@ -1314,5 +1314,219 @@ void AppC753::openChannelTest()
     C753SetMemoryReadLinefeedWidth(iChID, 0x10);
     C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
 
+        /*配置IP转换的输出区域*/
+        C753SetIPConversionOutputPortHorizontalSyncCycle(iChID, 0x04b6);
+        C753SetIPConversionOutputPortVerticalSyncCycle(iChID, 0x0fff);
+        C753SetIPConversionForcedSyncResetDelay(iChID, 0x40);
+        C753SetIPConversionOutputPortActiveAreaHorizontalStart(iChID, 0x0020);
+        C753SetIPConversionOutputPortActiveAreaHorizontalWidth(iChID, 0x02d0);
+        C753SetIPConversionOutputPortActiveAreaVerticalStart(iChID, 0x0008);
+        C753SetIPConversionOutputPortActiveAreaVerticalWidth(iChID, 0x01e5);
+        /*配置IP转换运动自适应补偿滤波器系数*/
+        C753SetMovementNRControl(iChID, 0x17);
+        C753SetHorizontalMovementValueNRCoefficient(iChID, 0x01, 0x01, 0x02, 0x08);
+        C753SetVerticalMovementValueGain(iChID, 0x00, 0x00, 0x00, 0x00);
+        C753SetHorizontalMovementValueGain(iChID, 0x08, 0x08, 0x10, 0x18);
+        C753SetVerticalDirectionMAXFilter(iChID, 0x07);
+        C753SetMovementCoefficientNR(iChID, 0x01);
+        /*配置IP转换的内存配置*/
+
+        C753SetIPConversionField0MemoryReadStartAddress(iChID, 0x00400000);
+        C753SetIPConversionField1MemoryReadStartAddress(iChID, 0x00800000);
+        C753SetIPConversionField0MemoryWriteStartAddress(iChID,	0x00401000);
+        C753SetIPConversionField1MemoryWriteStartAddress(iChID, 0x00400000);
+        C753SetIPConversionField2MemoryWriteStartAddress(iChID, 0x00801000);
+        C753SetIPConversionField3MemoryWriteStartAddress(iChID, 0x00800000);
+        C753SetIPConversionMovementValueReadStartAddress(iChID, 0x00C00000);
+
+
+        C753SetIPConversionMemoryLinefeedWidth(iChID, 0x08);
+        C753SetTemporalNRReadStartAddressSelect(iChID, 0x01);
+
+        /*配置IP转换表参数*/
+        for(i = 0; i < sizeof(s_sLUTIPTable)/sizeof(s_sLUTIPTable[0]); i++)
+        {
+            C753SetLUTCoefficient(iChID, s_sLUTIPTable[i].dwCoef);
+            C753SetLUTWriteAddress(iChID, s_sLUTIPTable[i].byAddr);
+            C753SetLUTWriteEnable(iChID, 0xff);
+        }
 
 }
+
+void AppC753::initTest1024()
+{
+    int i;
+    uint32_t iChID=1;
+
+    debug_msg("initTest1024\n");
+
+    /*配置传输寄存器*/
+    C753SetRegisterValueTransferControl(0x0);
+    /*
+    *  配置输入部分寄存器
+    */
+    /*RGB 30-bit 输入*/
+    C753SetInputFormatControl(iChID, 0x00);
+    /*IFLD 0到3循环*/
+    /*水平同步信号低电平有效*/
+    /*垂直同步信号低电平有效*/
+    C753SetInputPortSyncControl(iChID, 0x02);
+    /*关闭场信号自动识别*/
+    C753SetInputFieldRecognitionControl(iChID, 0x00);
+    /*PIACT区域外图像为0 PIACT POL*/
+    C753SetInputDigitalInterfaceControl(iChID, 0x00);
+    /*
+    *  配置输出部分寄存器
+    */
+    C753SetOutputPortSyncControl(0x1);
+
+    /*通道1输出场指针延时改变时间*/
+    C753SetFieldPropagationDelay1(0x04);
+    /*通道2输出场指针延时改变时间*/
+    C753SetFieldPropagationDelay2(0x04);
+    /*背景图像*/
+    C753SetOutputBackground0(0x00);
+    C753SetOutputBackground1(0x00);
+    /*POCLKO 输出使能*/
+    C753SetPOCLKControl(0x03);
+    /*POCLK PLL配置*/
+    C753SetPOCLKPLLControl(0x81);
+    C753SetPOCLKReferenceDividing(0x07);
+    C753SetPOCLKFeedbackDividing(0x0f);
+
+    debug_msg("initHardware PCL OK \n!");
+
+
+    C753SetOutputHorizontalSync(0x053e);
+    C753SetOutputVerticalSync(0x0324);
+
+
+    C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
+    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
+    C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
+    C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
+
+    /*输出图像区域*/
+    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
+    C753SetOutputPortACTHorizontalWidth(iChID, 1024);
+    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)34);
+    C753SetOutputPortACTVerticalWidth(iChID,769);
+
+
+    debug_msg("initHardware OUTPUT PORT OK \n!");
+
+    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+    /*
+    *  配置图像数据存储器
+    */
+
+    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
+    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
+    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
+    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
+    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
+    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
+    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
+    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
+
+
+    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
+    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
+
+
+
+
+
+}
+
+void AppC753::initTest1400()
+{
+    int i;
+    uint32_t iChID=1;
+
+    debug_msg("initTest1400\n");
+
+    /*配置传输寄存器*/
+    C753SetRegisterValueTransferControl(0x0);
+    /*
+    *  配置输入部分寄存器
+    */
+    /*RGB 30-bit 输入*/
+    C753SetInputFormatControl(iChID, 0x00);
+    /*IFLD 0到3循环*/
+    /*水平同步信号低电平有效*/
+    /*垂直同步信号低电平有效*/
+    C753SetInputPortSyncControl(iChID, 0x02);
+    /*关闭场信号自动识别*/
+    C753SetInputFieldRecognitionControl(iChID, 0x00);
+    /*PIACT区域外图像为0 PIACT POL*/
+    C753SetInputDigitalInterfaceControl(iChID, 0x00);
+    /*
+    *  配置输出部分寄存器
+    */
+    C753SetOutputPortSyncControl(0x1);
+
+    /*通道1输出场指针延时改变时间*/
+    C753SetFieldPropagationDelay1(0x04);
+    /*通道2输出场指针延时改变时间*/
+    C753SetFieldPropagationDelay2(0x04);
+    /*背景图像*/
+    C753SetOutputBackground0(0x00);
+    C753SetOutputBackground1(0x00);
+    /*POCLKO 输出使能*/
+    C753SetPOCLKControl(0x03);
+    /*POCLK PLL配置*/
+    C753SetPOCLKPLLControl(0x81);
+    C753SetPOCLKReferenceDividing(0x07);
+    C753SetPOCLKFeedbackDividing(0x0f);
+
+    debug_msg("initHardware PCL OK \n!");
+
+
+    C753SetOutputHorizontalSync(0x0746);
+    C753SetOutputVerticalSync(0x043f);
+
+
+//    C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
+//    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
+//    C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
+//    C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
+
+//    {1024,  768,   60,  65,   1344,    136,  296,  806,     6,     35,  -133,   -1},
+//    {1400,  1050,  60,  121,  1864,    144,  376,  1089,    4,     36,  -135,   -1},
+    /*输出图像区域*/
+    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
+    C753SetOutputPortACTHorizontalWidth(iChID, 1400);
+    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)35);
+    C753SetOutputPortACTVerticalWidth(iChID,1051);
+
+
+    debug_msg("initHardware OUTPUT PORT OK \n!");
+
+    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+    /*
+    *  配置图像数据存储器
+    */
+
+    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
+    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
+    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
+    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
+    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
+    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
+    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
+    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
+
+
+    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
+    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
+
+}
+
+

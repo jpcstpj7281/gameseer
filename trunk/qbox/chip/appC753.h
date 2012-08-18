@@ -8,6 +8,7 @@
 #ifndef _APP_C753_H_
 #define _APP_C753_H_
 
+#include "chipCommon.h"
 #include "devC753.h"
 #include <vector>
 #include "Bitmap.h"
@@ -183,6 +184,10 @@ public:
 	void readBackground(uint32_t iChID, int32_t iIndex, uint16_t wWidth, uint16_t wHeight, uint8_t *pbyBuf);
 
 	void openChannelTest();
+	void initTest1024();
+	void initTest1400();
+
+
 
 
 private:

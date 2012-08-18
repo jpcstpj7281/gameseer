@@ -43,7 +43,7 @@ public:
 
 private:
 
-	uint32_t name;
+	//uint32_t name;
 
 };
 
