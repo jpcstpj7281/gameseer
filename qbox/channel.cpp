@@ -46,7 +46,7 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 
 
         default:
-        	cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
+            //cout<<"CHANNEL URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
 
