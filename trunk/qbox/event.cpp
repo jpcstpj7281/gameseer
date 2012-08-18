@@ -41,7 +41,7 @@ uint32_t Event::onMsgReq(MsgInfo *msg,uint32_t connID)
             break;
 
         default:
-        	cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
+            //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
 
 

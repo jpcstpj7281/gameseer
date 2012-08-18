@@ -63,7 +63,7 @@ uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
         	break;
 
         default:
-        	cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
+            //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
 
@@ -239,12 +239,11 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
     MsgInfo rsp;
     rsp.msgType = PDelWindowsRsp::uri;
 
-    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-
-
     if(!EntSetting::Instance()->delWindow(winHandle))
     {
     	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+    }else{
+        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);

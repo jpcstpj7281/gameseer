@@ -36,8 +36,8 @@ void runService(int port)
 
 	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
 	MsgHandler::Instance()->setModel(TYPE_MODEL_WINDOWS,(CommModel*)(&windows));
-	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&windows));
-	MsgHandler::Instance()->setModel(TYPE_MODEL_CHANNEL,(CommModel*)(&windows));
+	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&evt));
+	MsgHandler::Instance()->setModel(TYPE_MODEL_CHANNEL,(CommModel*)(&channel));
 
 	IServer::Instance()->setPort(port);
 	IServer::Instance()->setServerFlg(true);
