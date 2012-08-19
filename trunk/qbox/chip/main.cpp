@@ -19,7 +19,7 @@ void chipTest()
 	s_c753.chipTest();
 }
 
-void chipSetBankTest(uint8_t byAdd,uint8_t byVal)
+void set753(uint8_t byAdd,uint8_t byVal)
 {
 
 	AppC753 s_c753;
@@ -30,7 +30,7 @@ void chipSetBankTest(uint8_t byAdd,uint8_t byVal)
 }
 
 
-void chipGetBankTest(uint8_t byAdd)
+void get753(uint8_t byAdd)
 {
 
 	uint8_t byVal=0;
@@ -39,15 +39,18 @@ void chipGetBankTest(uint8_t byAdd)
 	debug_msg("addr=%02x,val=%02x\n",byAdd,byVal);
 }
 
-void chipSetFPGA(uint16_t addr,uint16_t wVal)
+void chipSetFPGATest(uint16_t addr,uint16_t wVal)
 {
 
 	DriverChipFPGA s_FPGA;
 
-	debug_msg("Test FPGA addr=%04x,byVal=%04x\n",addr,wVal);
+	debug_msg("Test FPGA set addr=%04x,byVal=%04x\n",addr,wVal);
 
 	s_FPGA.FPGA_Write(addr,wVal);
 
+	uint16_t byVal=0;
+	s_FPGA.FPGA_Read(addr,byVal);
+	debug_msg("Read addr=%04x,val1=%04x\n",addr,byVal);
 
 }
 
@@ -161,17 +164,6 @@ void getC753ChnInput(uint32_t chn)
 
 }
 
-
-void openChannel()
-{
-	debug_msg("openChannel\n");
-	AppC753 s_c753;
-
-	s_c753.openChannelTest();
-	debug_msg("showWnd\n");
-	s_c753.showWnd(1);
-}
-
 void initTest1024()
 {
 	debug_msg("initTest1024\n");
@@ -182,6 +174,31 @@ void initTest1024()
 	s_c753.initTest1024();
 	debug_msg("showWnd\n");
 	s_c753.showWnd(1);
+}
+
+void initTable()
+{
+	AppC753 s_c753;
+	s_c753.C753LoadInputHorizontalShrinkLookupTable(1, s_abyScaleShrinkCoefficient4SymbolTable);
+	s_c753.C753LoadInputVerticalShrinkLookupTable(1, s_abyScaleShrinkCoefficient4SymbolTable);
+	s_c753.C753LoadOutputHorizontalZoomLookupTable(1, s_abyScaleZoomCoefficient4SymbolTable);
+	s_c753.C753LoadOutputVerticalZoomLookupTable(1, s_abyScaleZoomCoefficient4SymbolTable);
+}
+
+void initMoney()
+{
+	AppC753 s_c753;
+
+	s_c753.C753SetOutputField0MemoryReadStartAddress(1, 0x00c00000);
+	s_c753.C753SetOutputField1MemoryReadStartAddress(1, 0x00000000);
+	s_c753.C753SetOutputField2MemoryReadStartAddress(1, 0x00400000);
+	s_c753.C753SetOutputField3MemoryReadStartAddress(1, 0x00800000);
+	s_c753.C753SetInputField0MemoryWriteStartAddress(1, 0x00000000);
+	s_c753.C753SetInputField1MemoryWriteStartAddress(1, 0x00400000);
+	s_c753.C753SetInputField2MemoryWriteStartAddress(1, 0x00800000);
+	s_c753.C753SetInputField3MemoryWriteStartAddress(1, 0x00C00000);
+	s_c753.C753SetMemoryReadLinefeedWidth(1, 0x10);
+	s_c753.C753SetMemoryWriteLinefeedWidth(1, 0x10);
 }
 
 void initTest1400()
@@ -196,6 +213,82 @@ void initTest1400()
 	s_c753.showWnd(1);
 }
 
+void selectOutPut(uint32_t model)
+{
+	AppC753 s_c753;
+	if(model == 0)
+	{
+		s_c753.C753SetOutputPortSyncControl(0x2341);
+	}
+	else if(model == 1)
+	{
+		s_c753.C753SetOutputPortSyncControl(0x2351);
+	}
+	else if(model == 2)
+	{
+		s_c753.C753SetOutputPortSyncControl(0x2359);
+	}
+
+
+
+}
+
+void setC753OutPutACT1(uint32_t hStar,uint32_t hWidth,uint32_t VStar,uint32_t VWidth)
+{
+
+	AppC753 s_c753;
+	s_c753.C753SetOutputPortACTHorizontalStart(1, (uint16_t)hStar);
+	s_c753.C753SetOutputPortACTHorizontalWidth(1, hWidth);
+	s_c753.C753SetOutputPortACTVerticalStart(1, (uint16_t)VStar);
+	s_c753.C753SetOutputPortACTVerticalWidth(1,VWidth);
+}
+
+void setC753OutPutACT2(uint32_t hStar,uint32_t hWidth,uint32_t VStar,uint32_t VWidth)
+{
+	AppC753 s_c753;
+	s_c753.C753SetOutputPortACTHorizontalStart(2, (uint16_t)hStar);
+	s_c753.C753SetOutputPortACTHorizontalWidth(2, hWidth);
+	s_c753.C753SetOutputPortACTVerticalStart(2, (uint16_t)VStar);
+	s_c753.C753SetOutputPortACTVerticalWidth(2,VWidth);
+}
+
+void setC753OutPutOAI1(uint32_t hStar,uint32_t hWidth,uint32_t VStar,uint32_t VWidth)
+{
+	AppC753 s_c753;
+	s_c753.C753SetOutputPortOAOI1HorizontalStart((uint16_t)hStar);
+	s_c753.C753SetOutputPortOAOI1HorizontalEnd((uint16_t)hWidth);
+	s_c753.C753SetOutputPortOAOI1VerticalStart((uint16_t)VStar);
+	s_c753.C753SetOutputPortOAOI1VerticalEnd((uint16_t)VWidth);
+}
+
+void setC753OutPutOAI0(uint32_t hStar,uint32_t hWidth,uint32_t VStar,uint32_t VWidth)
+{
+	AppC753 s_c753;
+	s_c753.C753SetOutputPortOAOI0HorizontalStart((uint16_t)hStar);
+	s_c753.C753SetOutputPortOAOI0HorizontalEnd((uint16_t)hWidth);
+	s_c753.C753SetOutputPortOAOI0VerticalStart((uint16_t)VStar);
+	s_c753.C753SetOutputPortOAOI0VerticalEnd((uint16_t)VWidth);
+}
+
+void testMACRO()
+{
+	#ifdef __unix__
+		cout<<"unix!"<<endl;
+	#else
+		cout<<"vxWork!"<<endl;
+	#endif
+
+}
+
+void C753SetOutFill(uint32_t chn,uint32_t color,uint8_t model)
+{
+	debug_msg("C753SetOutFill\n");
+	AppC753 s_c753;
+	s_c753.C753SetOutputFill(chn,color);
+	s_c753.C753SetOutputImageControl(chn,model);
+
+	s_c753.showWnd(chn);
+}
 
 
 void C753SetInputFill()
