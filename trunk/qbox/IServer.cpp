@@ -9,15 +9,17 @@
 #include "IServer.h"
 #include "msgHandler.h"
 
-#include <vxWorks.h>
 //#include "fioLib.h"
 //#include "stdio.h"
 //#include "string.h"
 //#include "usrLib.h"
 //#include "errnoLib.h"
 //#include "hostLib.h"
-#include <sockLib.h>
+#ifndef __unix__
 #include "socket.h"
+#else
+#include <sys/socket.h>
+#endif
 //#include "inetLib.h"
 //#include "in.h"
 //#include "assert.h"
@@ -30,12 +32,13 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
-//#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
 IServer* IServer::m_instance = 0;
+#ifndef __unix__
 SEM_ID Server_SM;
+#endif
 
 IServer::IServer()
 :m_serverFlg(false)
@@ -361,8 +364,10 @@ void IServer::server_proc(int sock)
          continue;
     if(FD_ISSET(sock,&socket))
     {
+#ifndef __unix__
     	 //TODO::semTake有锁太长时间的问题
          semTake(Server_SM, WAIT_FOREVER);
+#endif
          memset(buffer,0,sizeof(buffer));
          rc = recv(sock,buffer,sizeof(buffer),0);
          if(rc > 0)
@@ -378,7 +383,9 @@ void IServer::server_proc(int sock)
         	 {
         		 m_pMsgHandler->netMsgInput((uint32_t)sock,buffer,(uint32_t)rc);
         	 }
+#ifndef __unix__
         	 semGive(Server_SM);
+#endif
          }
          else
          {
@@ -386,11 +393,15 @@ void IServer::server_proc(int sock)
 			 close(sock);
 			 m_server = 0;
 			 m_fd[sock] = 0;
+#ifndef __unix__
 			 semGive(Server_SM);
+#endif
 			 break;
          }
     }
+#ifndef __unix__
     taskDelay(10);
+#endif
     }
 
 }
