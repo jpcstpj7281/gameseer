@@ -356,51 +356,58 @@ void IServer::server_proc(int sock)
 
     while(m_server > 0)
     {
-    FD_ZERO(&socket);
-    FD_SET(sock,&socket);
+        FD_ZERO(&socket);
+        FD_SET(sock,&socket);
 
-    rc = select(FD_SETSIZE,&socket,(fd_set *)0,(fd_set *)0,&wait);
-    if(rc == 0)
-         continue;
-    if(FD_ISSET(sock,&socket))
-    {
+        rc = select(FD_SETSIZE,&socket,(fd_set *)0,(fd_set *)0,&wait);
+        if(rc == 0)
+            continue;
+        if(FD_ISSET(sock,&socket))
+        {
 #ifndef __unix__
-    	 //TODO::semTake有锁太长时间的问题
-         semTake(Server_SM, WAIT_FOREVER);
+            //TODO::semTake有锁太长时间的问题
+            semTake(Server_SM, WAIT_FOREVER);
 #endif
-         memset(buffer,0,sizeof(buffer));
-         rc = recv(sock,buffer,sizeof(buffer),0);
-         if(rc > 0)
-         {
-         /* you can add your application specific code here */
-        	 test_msg("RecvMsg:%s\n",buffer);
-        	 if(m_pMsgHandler == NULL)
-        	 {
-        		 test_msg("ERROR m_pMsgHandler NOT INIT\n");
+            memset(buffer,0,sizeof(buffer));
+            rc = recv(sock,buffer, 8, MSG_PEEK);
+            int len = 0;
+            if ( rc > 0){
+                memcpy((void*)&len,(const void*)(buffer+4),4);
+                test_msg("RecvMsg len:%d\n",len);
+            }
+            if ( len <12 ) break;
+            rc = recv(sock,buffer,len+8,0);
+            if(rc > 0)
+            {
+                /* you can add your application specific code here */
+                test_msg("RecvMsg:%s\n",buffer);
+                if(m_pMsgHandler == NULL)
+                {
+                    test_msg("ERROR m_pMsgHandler NOT INIT\n");
 
-        	 }
-        	 else
-        	 {
-        		 m_pMsgHandler->netMsgInput((uint32_t)sock,buffer,(uint32_t)rc);
-        	 }
+                }
+                else
+                {
+                    m_pMsgHandler->netMsgInput((uint32_t)sock,buffer,(uint32_t)rc);
+                }
 #ifndef __unix__
-        	 semGive(Server_SM);
+                semGive(Server_SM);
 #endif
-         }
-         else
-         {
-			 test_msg("Socket closed\n");
-			 close(sock);
-			 m_server = 0;
-			 m_fd[sock] = 0;
+            }
+            else
+            {
+                test_msg("Socket closed\n");
+                close(sock);
+                m_server = 0;
+                m_fd[sock] = 0;
 #ifndef __unix__
-			 semGive(Server_SM);
+                semGive(Server_SM);
 #endif
-			 break;
-         }
-    }
+                break;
+            }
+        }
 #ifndef __unix__
-    taskDelay(10);
+        taskDelay(10);
 #endif
     }
 
