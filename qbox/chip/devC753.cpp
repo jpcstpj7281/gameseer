@@ -630,16 +630,16 @@ void DriverChip753::C753SetBackgroundControl(uint8_t byVal)
 void DriverChip753::C753SetOutputBackground0(uint32_t dwVal)
 {
     SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,1);
-     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD0_R, (dwVal&0x000000ff));
+     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD0_R, (dwVal&0x00ff0000)>>16);
      SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD0_G, (dwVal&0x0000ff00)>>8);
-     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD0_B, (dwVal&0x00ff0000)>>16);
+     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD0_B, (dwVal&0x000000ff));
 }
 void DriverChip753::C753SetOutputBackground1(uint32_t dwVal)
 {
     SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,1);
-     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD1_R, (dwVal&0x000000ff));
+     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD1_R, (dwVal&0x00ff0000)>>16);
      SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD1_G, (dwVal&0x0000ff00)>>8);
-     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD1_B, (dwVal&0x00ff0000)>>16);
+     SPI_Write(TYPE_CHIP_C753,REG_C753_B1_OBKGD1_B, (dwVal&0x000000ff));
 }
 void DriverChip753::C753SetOutputPatternBarWidth(uint8_t byVal)
 {
@@ -1014,16 +1014,16 @@ void DriverChip753::C753SetOutputFill(uint32_t iCh, uint32_t dwVal)
     if(iCh == C753_OUTPUT_CHANNEL_1)
     {
         SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,2);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B2_O1FILL_R, (dwVal&0x000000ff));
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B2_O1FILL_R, (dwVal&0x00ff0000)>>16);
         SPI_Write(TYPE_CHIP_C753,REG_C753_B2_O1FILL_G, (dwVal&0x0000ff00)>>8);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B2_O1FILL_B, (dwVal&0x00ff0000)>>16);
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B2_O1FILL_B, (dwVal&0x000000ff));
     }
     else if(iCh == C753_OUTPUT_CHANNEL_2)
     {
         SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,4);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B4_O2FILL_R, (dwVal&0x000000ff));
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B4_O2FILL_R, (dwVal&0x00ff0000)>>16);
         SPI_Write(TYPE_CHIP_C753,REG_C753_B4_O2FILL_G, (dwVal&0x0000ff00)>>8);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B4_O2FILL_B, (dwVal&0x00ff0000)>>16);
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B4_O2FILL_B, (dwVal&0x000000ff));
     }
 }
 void DriverChip753::C753SetOutputImageControl(uint32_t iCh, uint8_t byVal)
@@ -1397,16 +1397,16 @@ void DriverChip753::C753SetInputFill(uint32_t iCh, uint32_t dwVal)
     if(iCh == C753_INPUT_CHANNEL_1)
     {
         SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,6);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B6_I1FILL_R, (dwVal&0x000000ff));
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B6_I1FILL_R, (dwVal&0x00ff0000)>>16);
         SPI_Write(TYPE_CHIP_C753,REG_C753_B6_I1FILL_G, (dwVal&0x0000ff00)>>8);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B6_I1FILL_B, (dwVal&0x00ff0000)>>16);
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B6_I1FILL_B, (dwVal&0x000000ff));
     }
     else if(iCh == C753_INPUT_CHANNEL_2)
     {
         SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,8);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2FILL_R, (dwVal&0x000000ff));
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2FILL_R, (dwVal&0x00ff0000)>>16);
         SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2FILL_G, (dwVal&0x0000ff00)>>8);
-        SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2FILL_B, (dwVal&0x00ff0000)>>16);
+        SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2FILL_B, (dwVal&0x000000ff));
     }
 }
 

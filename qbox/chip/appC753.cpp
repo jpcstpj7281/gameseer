@@ -604,27 +604,11 @@ void AppC753::showWnd(uint32_t iChID)
 	/*显示该通道*/
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
-//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
-//        {
-//            C753SetMainControl(iChID,0x3b);
-//        }
-//        else
-//        {
-            C753SetMainControl(iChID,0x03);
-//        }
-//            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
+        C753SetMainControl(iChID,0x03);
     }
     else if(iChID == C753_OUTPUT_CHANNEL_2)
     {
-//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
-//        {
-//            C753SetMainControl(iChID,0x3f);
-//        }
-//        else
-//        {
-            C753SetMainControl(iChID,0x07);
-//        }
-//            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_OPEN;
+    	C753SetMainControl(iChID,0x07);
     }
 
 }
@@ -634,27 +618,11 @@ void AppC753::hideWnd(uint32_t iChID)
     /*���ظ�ͨ��*/
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
-//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
-//        {
-//            C753SetMainControl(iChID,0x3a);
-//        }
-//        else
-//        {
-            C753SetMainControl(iChID,0x02);
-//        }
-            m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_HIDE;
+       C753SetMainControl(iChID,0x02);
     }
     else if(iChID == C753_OUTPUT_CHANNEL_2)
     {
-//        if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
-//        {
-//            C753SetCh2MainControl(0x3e);
-//        }
-//        else
-//        {
-            C753SetMainControl(iChID,0x06);
-//        }
-           m_asScaleChInfo[iChID].iChStatus = SCAL_STATUS_HIDE;
+        C753SetMainControl(iChID,0x06);
     }
 }
 
@@ -1378,15 +1346,15 @@ void AppC753::initTest1024()
     /*
     *  配置输出部分寄存器
     */
-    C753SetOutputPortSyncControl(0x1);
+    C753SetOutputPortSyncControl(0x2359);
 
     /*通道1输出场指针延时改变时间*/
     C753SetFieldPropagationDelay1(0x04);
     /*通道2输出场指针延时改变时间*/
     C753SetFieldPropagationDelay2(0x04);
     /*背景图像*/
-    C753SetOutputBackground0(0x00);
-    C753SetOutputBackground1(0x00);
+    C753SetOutputBackground0(0x00ff00);
+    C753SetOutputBackground1(0x0000ff);
     /*POCLKO 输出使能*/
     C753SetPOCLKControl(0x03);
     /*POCLK PLL配置*/
@@ -1401,40 +1369,37 @@ void AppC753::initTest1024()
     C753SetOutputVerticalSync(0x0324);
 
 
-    C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
-    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
-    C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
-    C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
+
 
     /*输出图像区域*/
     C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
     C753SetOutputPortACTHorizontalWidth(iChID, 1024);
     C753SetOutputPortACTVerticalStart(iChID, (uint16_t)34);
-    C753SetOutputPortACTVerticalWidth(iChID,769);
+    C753SetOutputPortACTVerticalWidth(iChID,768);
 
 
     debug_msg("initHardware OUTPUT PORT OK \n!");
 
-    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+//    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+//    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+//    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+//    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
     /*
     *  配置图像数据存储器
     */
 
-    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
-    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
-    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
-    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
-    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
-    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
-    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
-    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
-
-
-    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
-    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
+//    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
+//    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
+//    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
+//    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
+//    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
+//    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
+//    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
+//    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
+//
+//
+//    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
+//    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
 
 
 
@@ -1467,15 +1432,15 @@ void AppC753::initTest1400()
     /*
     *  配置输出部分寄存器
     */
-    C753SetOutputPortSyncControl(0x1);
+    C753SetOutputPortSyncControl(0x2341);
 
     /*通道1输出场指针延时改变时间*/
     C753SetFieldPropagationDelay1(0x04);
     /*通道2输出场指针延时改变时间*/
     C753SetFieldPropagationDelay2(0x04);
     /*背景图像*/
-    C753SetOutputBackground0(0x00);
-    C753SetOutputBackground1(0x00);
+    C753SetOutputBackground0(0x00ff00);
+    C753SetOutputBackground1(0x0000ff);
     /*POCLKO 输出使能*/
     C753SetPOCLKControl(0x03);
     /*POCLK PLL配置*/
@@ -1490,42 +1455,52 @@ void AppC753::initTest1400()
     C753SetOutputVerticalSync(0x043f);
 
 
-//    C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
-//    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
-//    C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
-//    C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
+
+
+    C753SetOutputPortOAOI1HorizontalStart((uint16_t)241);
+    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1640);
+    C753SetOutputPortOAOI1VerticalStart((uint16_t)35);
+    C753SetOutputPortOAOI1VerticalEnd((uint16_t)1085);
+
+
+
+    C753SetOutputPortOAOI0HorizontalStart((uint16_t)163);
+    C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1178);
+    C753SetOutputPortOAOI0VerticalStart((uint16_t)34);
+    C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
+
 
 //    {1024,  768,   60,  65,   1344,    136,  296,  806,     6,     35,  -133,   -1},
 //    {1400,  1050,  60,  121,  1864,    144,  376,  1089,    4,     36,  -135,   -1},
     /*输出图像区域*/
-    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
-    C753SetOutputPortACTHorizontalWidth(iChID, 1400);
-    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)35);
-    C753SetOutputPortACTVerticalWidth(iChID,1051);
+    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)341);
+    C753SetOutputPortACTHorizontalWidth(iChID, 1024);
+    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)135);
+    C753SetOutputPortACTVerticalWidth(iChID,768);
 
 
     debug_msg("initHardware OUTPUT PORT OK \n!");
 
-    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-    /*
-    *  配置图像数据存储器
-    */
-
-    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
-    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
-    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
-    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
-    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
-    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
-    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
-    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
-
-
-    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
-    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
+//    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+//    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
+//    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+//    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
+//    /*
+//    *  配置图像数据存储器
+//    */
+//
+//    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
+//    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
+//    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
+//    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
+//    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
+//    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
+//    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
+//    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
+//
+//
+//    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
+//    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
 
 }
 
