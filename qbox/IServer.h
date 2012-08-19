@@ -12,10 +12,11 @@
 #include <map>
 
 
-//#include <sys/epoll.h>
+#ifndef __unix__
 #include <vxWorks.h>
 #include <sockLib.h>
 #include <semLib.h>
+#endif
 #include "msgCommon.h"
 #include "msgHandler.h"
 using namespace std;
