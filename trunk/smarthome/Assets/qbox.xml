@@ -28,6 +28,7 @@
     <item><type>down</type><name>down</name><extension>.png</extension><loc>img</loc></item>
     <item><type>left</type><name>left</name><extension>.png</extension><loc>img</loc></item>
     <item><type>right</type><name>right</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>file</type><name>file</name><extension>.png</extension><loc>img</loc></item>
 
 
 

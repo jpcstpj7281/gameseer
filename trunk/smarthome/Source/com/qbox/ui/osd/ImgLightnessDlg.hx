@@ -24,6 +24,7 @@ class ImgLightnessDlg extends ValueBarDlg{
         addChild( createElement());
 
         _value = 0;
+        _max = 255;
     }
 
     public override function createElement():Sprite{

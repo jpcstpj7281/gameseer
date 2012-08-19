@@ -21,6 +21,8 @@ class ValueBarDlg extends CommDialog{
     public function new ( dm:CommDialogMgr){
         super(dm);
         _min = 0;
+        _value = 0;
+        _max = 0;
     }
 
     var _less:Sprite;
@@ -38,6 +40,17 @@ class ValueBarDlg extends CommDialog{
             if ( _c != null){ _g.removeChild(_c); }
             if ( _less != null){ _g.removeChild(_less); }
             if ( _more != null){ _g.removeChild(_more); }
+            if ( _v!= null){ _g.removeChild(_v); }
+
+            _v= new EmbedTextField();
+            _v.selectable = false;
+            _v.text = "0";
+            _v.scaleX = 3;
+            _v.scaleY = 3;
+            _v.width = 100;
+            _v.height= 20;
+            _v.x = nme.Lib.current.stage.stageWidth - 50;
+            _g.addChild( _v);
 
             _c = new Sprite();
             _c.graphics.beginFill(0x888888);
@@ -70,11 +83,15 @@ class ValueBarDlg extends CommDialog{
     override function hide(){
         if ( _g != null && _c != null) {
             _c.removeEventListener(  MouseEvent.MOUSE_DOWN, onBarMouseDown );
-            _g.removeChild(_c);
-            _c = null;
             _less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);
             _more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
+            _g.removeChild(_c);
+            _g.removeChild(_v);
+            _g.removeChild(_less);
+            _g.removeChild(_more);
+            _c = null;
             _less = null;
+            _v = null;
             _more = null;
         }
         return super.hide();
@@ -90,6 +107,7 @@ class ValueBarDlg extends CommDialog{
         calValueAndDraw();
     }
     function calValueAndDraw(){
+        if (_max == 0 ) return;
         var percent = WIDTH / (_max - _min);
         var lw = percent * _value;
         var rw = percent * (_max - _value);
@@ -110,6 +128,8 @@ class ValueBarDlg extends CommDialog{
     }
     function drawBar( leftWidth:Float, rightWidth:Float){
         if (  _c != null){
+            trace(leftWidth);
+            trace(rightWidth);
             _c.graphics.clear();
             _c.graphics.beginFill(0x00FF00);
             _c.graphics.drawRect( POSX, 10, leftWidth, 30 );
@@ -125,18 +145,6 @@ class ValueBarDlg extends CommDialog{
         var s:Sprite = new Sprite();
         _g = new Sprite();
         s.addChild (_g);
-
-        _v= new EmbedTextField();
-        _v.selectable = false;
-        _v.text = "0";
-        _v.scaleX = 3;
-        _v.scaleY = 3;
-        _v.width = 100;
-        _v.height= 20;
-        _v.x = nme.Lib.current.stage.stageWidth - 50;
-
-        s.addChild( _v);
-
         return s;
     }
 }
