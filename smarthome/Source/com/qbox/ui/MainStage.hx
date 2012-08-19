@@ -18,6 +18,12 @@ import nme.text.TextFormatAlign;
 
 import haxe.Timer;
 
+#if neko
+import neko.FileSystem;
+#else
+import cpp.FileSystem;
+#end
+
 class MainStage extends ListDialogMgr {
 
 
@@ -51,6 +57,7 @@ class MainStage extends ListDialogMgr {
         //name = "玩家";
         //}
 
+        new FileManagerDlg(this);
         new QboxesDlg(this);
         new ChannelsDlg(this);
         new WndsDlg(this);
@@ -70,6 +77,19 @@ class MainStage extends ListDialogMgr {
 #end
         //new DrawingDlg( this, "SNS猜猜",0 );
         //var d = new DrawingDlg( this, "SNS drawing",0 );
+
+
+        /*
+        if(FileSystem.exists("assets")){
+            trace( FileSystem.fullPath("assets"));
+            var arr = FileSystem.readDirectory("assets");
+            for( i in arr){
+                if ( !FileSystem.isDirectory( "assets/"+i) ){
+                    trace(i);
+                }
+            }
+        }
+        */
     }
 
     public function resetScreenPlate():Void{
@@ -81,13 +101,16 @@ class MainStage extends ListDialogMgr {
 
     public function showChannelDlg( ):Void{
         var cm = ChannelMgr.getInst()._channels;
+        var index:Int = 0;
         for ( i in 0...cm.length){
+            ++index;
             //trace("add ChannelSelectionDlg");
             var c = new ChannelSelectionDlg( this, cm[i], i);
             if ( ChannelMgr.getInst()._currSelected ==cm[i]){
                 c.selected();
             }
         }
+        new ChannelSelectionDlg( this, null, index);
         //super.showListDialog();
     }
 
@@ -99,10 +122,15 @@ class MainStage extends ListDialogMgr {
                 arr.push(cast i);
             }
         }
-
         for ( i in arr){
             remove(i);
         }
+    }
+
+    public function addChannelSelect(){
+        var cm = ChannelMgr.getInst()._channels;
+        var c = new ChannelSelectionDlg( this, null, cm.length);
+        c.show();
     }
 
     public function clearChannelSelecting(){
@@ -111,13 +139,10 @@ class MainStage extends ListDialogMgr {
                 cast (i, ChannelSelectionDlg).unselected();
             }
         }
-
     }
     override function clear(){
         hideListDialog();
-        //trace("clear1");
         super.clear();
-        //trace("clear2");
     }
 
     public function resetDlgs(){
@@ -134,24 +159,8 @@ class MainStage extends ListDialogMgr {
         txt.height = nme.Lib.current.stage.stageHeight/10/txt.scaleY;
         txt.setBorder(true);
         txt.selectable = false;
-        //var txtFormat:TextFormat = new TextFormat();
-        //txtFormat.align = flash.text.TextFormatAlign.CENTER;
-        //txt.setTextFormat(txtFormat);
 
-        //var txt1:EmbedTextField = new EmbedTextField();
-        //txt1.text = Std.string(id);
-        //txt1.scaleX = 1;
-        //txt1.scaleY = 3;
-        //txt1.setBorder(true);
-        //txt1.width = 100;
-        //txt1.x = 120;
-        //txt1.height = nme.Lib.current.stage.stageHeight/10/txt1.scaleY;
-        //txt1.selectable = false;
-
-        //var bm:Bitmap = new Bitmap( DataLoader.getInst().bms_.get("trunk") );
         var s:Sprite = new Sprite();
-        //s.addChild( bm);
-        //s.addChild( txt1);
         s.addChild( txt);
         s.height = nme.Lib.current.stage.stageHeight/10;
         return s;
@@ -182,7 +191,5 @@ class MainStage extends ListDialogMgr {
             for ( i in _instancesByDisplayOrder){ i.show(); }
         }
     }
-
-
 }
 

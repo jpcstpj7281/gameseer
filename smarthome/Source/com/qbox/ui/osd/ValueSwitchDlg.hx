@@ -37,9 +37,16 @@ class ValueSwitchDlg extends CommDialog{
         if ( _g != null) {
             if ( _less != null){ _g.removeChild(_less); }
             if ( _more != null){ _g.removeChild(_more); }
-            if (_values!= null &&  _values.length > 0){ 
-                _v.text = _values[_value];
-            }
+            if ( _v!= null){ _g.removeChild(_v); }
+
+            _v= new EmbedTextField();
+            _v.selectable = false;
+            _v.scaleX = 3;
+            _v.scaleY = 3;
+            _v.width = 50;
+            _v.height= 20;
+            _v.x = POSX+WIDTH/3;
+            _g.addChild( _v);
 
             _less = new Sprite();
             _less.graphics.beginFill(0x888888);
@@ -60,6 +67,7 @@ class ValueSwitchDlg extends CommDialog{
             _more.graphics.endFill();
             _more.addEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
             _g.addChild(_more);
+            if (_values!= null &&  _values.length > 0){ _v.text = _values[_value]; }
         }
         return super.show();
     }
@@ -69,6 +77,8 @@ class ValueSwitchDlg extends CommDialog{
             _more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
             _g.removeChild(_less);
             _g.removeChild(_more);
+            _g.removeChild(_v);
+            _v = null;
             _less = null;
             _more = null;
         }
@@ -87,24 +97,13 @@ class ValueSwitchDlg extends CommDialog{
         calValueAndDraw();
     }
     function calValueAndDraw(){
+        if (_v == null) return;
         _v.text = _values[_value];
     }
     public function createElement():Sprite{
         var s:Sprite = new Sprite();
         _g = new Sprite();
         s.addChild (_g);
-
-        _v= new EmbedTextField();
-        _v.selectable = false;
-        _v.text = "null";
-        _v.scaleX = 3;
-        _v.scaleY = 3;
-        _v.width = 50;
-        _v.height= 20;
-        _v.x = POSX+WIDTH/3;
-
-        s.addChild( _v);
-
         return s;
     }
 }

@@ -58,7 +58,7 @@ class ChannelsDlg extends ListFixedDlg{
 
         if ( selected != null){
             //trace("onMouseClick");
-            selected.onConnBtnMouseClick(null);
+            selected.onEditBtnMouseClick(null);
         }
     }
 }

@@ -28,6 +28,12 @@ class ScreenMgr {
     public var _resWidth:Int;
     public var _resHeight:Int;
 
+    //virtual ui screen size;
+    public var _virtualWidth:Int;
+    public var _virtualHeight:Int;
+    public var _virtualX:Int;
+    public var _virtualY:Int;
+
     function new(){
         _screens =  new Array<Screen>();
         _col = 0;
@@ -46,6 +52,7 @@ class ScreenMgr {
         var arr:Array<Screen> = new Array<Screen>();
         for ( i in 0..._row ){
             var c = new Screen( _col-1, i);
+            c._resWidth = _resWidth;
             _screens.push(c);
             arr.push(c);
         }
@@ -62,6 +69,7 @@ class ScreenMgr {
         var arr:Array<Screen> = new Array<Screen>();
         for ( i in 0..._col ){
             var c = new Screen( i, _row-1);
+            c._resHeight= _resHeight;
             _screens.push(c);
             arr.push(c);
         }

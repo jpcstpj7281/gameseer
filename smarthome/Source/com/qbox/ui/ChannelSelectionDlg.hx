@@ -1,4 +1,3 @@
-
 package com.qbox.ui;
 
 import com.qbox.logic.QboxMgr;
@@ -31,9 +30,15 @@ class ChannelSelectionDlg extends ListFixedDlg{
         _isSelected = false;
     }
 
+    override function show(){
+        var s = super.show();
+        if (_channel == null){ alpha = 0.5; }
+        else { alpha = 1; }
+        return s;
+    }
     public function unselected():Void{
         if (_isSelected ){
-            _isSelected=!_isSelected;
+            _isSelected=false;
             if ( _clicked.parent != null ){
                 removeChild(_clicked);
             }
@@ -50,7 +55,7 @@ class ChannelSelectionDlg extends ListFixedDlg{
         if ( !_isSelected ){
             cast(_mgr, MainStage).clearChannelSelecting();
             addChild(_clicked);
-            _isSelected = !_isSelected;
+            _isSelected = true;
             ChannelMgr.getInst()._currSelected = _channel;
         }
     }
@@ -59,19 +64,28 @@ class ChannelSelectionDlg extends ListFixedDlg{
         //if ( QboxMgr.getInst()._qboxes.length == 0) return;
         if ( _mgr.isAnimating() == false){
 
-            if ( !_isSelected ){
-                selected();
-                //trace("selected");
+            if (_channel != null){
+                if ( !_isSelected ){
+                    selected();
+                    //trace("selected");
+                }else{
+                    ChannelMgr.getInst()._currSelected = null;
+                    unselected();
+                    //trace("unselected");
+                }
             }else{
-                ChannelMgr.getInst()._currSelected = null;
-                unselected();
-                //trace("unselected");
+                if ( QboxMgr.getInst()._qboxes.length == 0) {
+                    trace("there is no qbox!");
+                    return;
+                }
+                if (ChannelMgr.getInst()._channels.length >8 ) return;
+                var c = ChannelMgr.getInst().createChannel();
+                var q = QboxMgr.getInst()._qboxes[0];
+                c._nodes.push( q._ipv4 +":"+q._inputs.iterator().next());
+                cast(_mgr, MainStage).addChannelSelect();
+                _channel = c;
+                alpha = 1;
             }
-            //_listDialogMgr.removeAllMovables();
-            //for ( c in ScreenMgr.getInst()._screens){
-            //new ChannelSelectionDlg(_listDialogMgr, c);
-            //}
         }
-        //super.onMouseClick();
     }
 }

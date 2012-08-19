@@ -68,6 +68,11 @@ class ScreenPlate extends CommDialog{
                 _screenWidth= _screenHeight *9/6;
             }
 
+            ScreenMgr.getInst()._virtualWidth = cast _screenWidth* col;
+            ScreenMgr.getInst()._virtualHeight = cast _screenHeight* row;
+            //trace( ScreenMgr.getInst()._virtualHeight);
+            //trace( ScreenMgr.getInst()._virtualWidth);
+
             //trace(_screenHeight);
             //trace(_screenWidth);
             removeChild(_screens);
@@ -87,7 +92,9 @@ class ScreenPlate extends CommDialog{
                 _screens.addChild(s);
             }
 
-            _screens.x = (width - _screens.width) /2;
+            _screens.x = Math.round( (width - _screens.width) /2);
+            ScreenMgr.getInst()._virtualX= cast _screens.x;
+            ScreenMgr.getInst()._virtualY= cast _screens.y;
         }
 
         nme.Lib.current.stage.addEventListener( MouseEvent.MOUSE_DOWN, onThisMouseDown);
@@ -111,7 +118,7 @@ class ScreenPlate extends CommDialog{
             for ( i in 0...p.numChildren){
                 var w = p.getChildAt( p.numChildren - i -1 );
                 if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                    //p.setChildIndex(w, p.numChildren -1 );
+                    //A window has been capture and moving.
                     _movingWnd = cast (w, WndGraphicDlg);
                     _movex = cast evt.stageX - w.x;
                     _movey = cast evt.stageY - w.y;
@@ -120,6 +127,7 @@ class ScreenPlate extends CommDialog{
             }
         }
         if ( _screens.hitTestPoint( evt.stageX, evt.stageY)){
+            //screen plate has been clicked.
             _isDown = true;
             _isMoving = false;
             _downx = cast evt.stageX;
@@ -130,10 +138,8 @@ class ScreenPlate extends CommDialog{
         if ( _isDown){
             if ( _movingWnd != null){
                 if (_isResize ||( evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 )){
-                    //trace("_isResize");
                     _isResize = true;
                 }else if (!_isResize && (evt.stageX - _downx > 5 || evt.stageY - _downy > 5 || evt.stageX - _downx < -5 || evt.stageY - _downy <-5)){
-                    //trace("_isMoving");
                     _isMoving = true;
                 }
             }
@@ -146,53 +152,66 @@ class ScreenPlate extends CommDialog{
     function onThisMouseUp( evt:MouseEvent ):Void{ 
         if ( _isDown ){
             if ( _isMoving ){
+                //move window
                 _movingWnd.x = evt.stageX - _movex;
                 _movingWnd.y = evt.stageY - _movey;
                 _movingWnd._wnd.move( cast _movingWnd.x, cast _movingWnd.y);
             }else if ( _isResize){
                 var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
                 var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
+                //resize window
                 _movingWnd.resizeWnd( w , h);
             }else{
+                if ( evt.stageX == _downx && evt.stageY == _downy ){
+                    if (evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){
+                        _movingWnd.shiftRightDownWnd( );
+                    }
+                    if (evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
+                        _movingWnd.shiftLeftUpWnd();
+                    }
+                }else{
 
-                var upx = evt.stageX;
-                var upy = evt.stageY;
+                    var upx = evt.stageX;
+                    var upy = evt.stageY;
+                    //calculate whether out of screen plate
+                    if (upx < _screens.x ) {
+                        upx = _screens.x;
+                    }else if ( upx > (_screens.x +_screens.width)){
+                        upx = _screens.x + _screens.width;
+                    }
+                    if (upy < _screens.y ) {
+                        upy = _screens.y;
+                    }else if ( upy > (_screens.y +_screens.height)){
+                        upy = _screens.y+_screens.height;
+                    }
 
-                if (upx < _screens.x ) {
-                    upx = _screens.x;
-                }else if ( upx > (_screens.x +_screens.width)){
-                    upx = _screens.x + _screens.width;
-                }
-                if (upy < _screens.y ) {
-                    upy = _screens.y;
-                }else if ( upy > (_screens.y +_screens.height)){
-                    upy = _screens.y+_screens.height;
-                }
 
-                //_wnds.graphics.beginFill( 0x111111);
-                //_wnds.graphics.drawRect( _downx, _downy, upx - _downx, upy - _downy);
-                if ( upx - _downx > 90  && upy - _downy > 60 && ChannelMgr.getInst()._currSelected != null ) {
-                    var win = new WndGraphicDlg(_mgr);
-                    win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy, ChannelMgr.getInst()._currSelected );
-                    win.show();
-                }
-                else if ( upx - _downx < 5  && upy - _downy <5 ) {
-                    var ms = cast(_mgr, ListDialogMgr)._movableInstances;
-                    if ( ms.length > 0 ){
-                        var m = ms[0];
-                        var p = m.parent;
-                        for ( i in 0...p.numChildren){
-                            var w = p.getChildAt( i );
-                            if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                                p.setChildIndex(w, p.numChildren -1 );
+                    //open window
+                    if ( upx - _downx > 90  && upy - _downy > 60 && ChannelMgr.getInst()._currSelected != null ) {
+                        var win = new WndGraphicDlg(_mgr);
+                        win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy, ChannelMgr.getInst()._currSelected );
+                        win.show();
+                    }
+                    else if ( upx - _downx < 5  && upy - _downy <5 ) {
+                        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+                        if ( ms.length > 0 ){
+                            //swap windows
+                            var m = ms[0];
+                            var p = m.parent;
+                            for ( i in 0...p.numChildren){
+                                var w = p.getChildAt( i );
+                                if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
+                                    p.setChildIndex(w, p.numChildren -1 );
+                                }
                             }
                         }
-                    }
-                    if ( _movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY < _movingWnd.y +10 ){
-                        _movingWnd.closeWnd();
-                        _movingWnd.parent.removeChild(_movingWnd);
-                        cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
-                        WndMgr.getInst().removeWnd(_movingWnd._wnd);
+                        //close window
+                        if ( _movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY < _movingWnd.y +10 ){
+                            _movingWnd.closeWnd();
+                            _movingWnd.parent.removeChild(_movingWnd);
+                            cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
+                            WndMgr.getInst().removeWnd(_movingWnd._wnd);
+                        }
                     }
                 }
             }

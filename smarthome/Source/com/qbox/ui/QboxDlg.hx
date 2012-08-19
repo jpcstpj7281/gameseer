@@ -8,10 +8,12 @@ import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
 import base.ui.CommDialog;
+import base.ui.ListDialog;
 
 import com.qbox.logic.Qbox;
+import com.qbox.logic.QboxMgr;
 
-class QboxDlg extends CommDialog{
+class QboxDlg extends ListDialog{
 
     var _usrInput:EmbedTextField;
     var _iptext:EmbedTextField;
@@ -38,14 +40,32 @@ class QboxDlg extends CommDialog{
         }else{
             _qbox._ipv4 = _usrInput.text;
             _qbox._port= Std.parseInt(_portInput.text);
-            trace("connect");
             _qbox.connect();
-            trace("connect");
+            trace("connected");
             if (_qbox._isFailed == false && _qbox.isConected() ){
                 _qbox.connectedInit();
                 _connBtn.text = "disconnect";
             }
         }
+    }
+
+    function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
+        for ( i in cast(_mgr, ListDialogMgr)._movableInstances){
+            if ( i == this ){
+                QboxMgr.getInst().removeQbox(_qbox);
+                _qbox = null;
+                clear();
+            }
+        }
+    }
+
+    override function onMouseClick():Void{}
+    function onDetailBtnMouseClick( evt:MouseEvent ):Void{
+        new QboxVersionDlg(_listDialogMgr, _qbox);
+        new QboxInputsDlg(_listDialogMgr, _qbox);
+        new QboxOutputsDlg(_listDialogMgr, _qbox);
+        new QboxTemperatureDlg(_listDialogMgr, _qbox);
+        super.onMouseClick();
     }
 
     override function show(){
@@ -120,6 +140,7 @@ class QboxDlg extends CommDialog{
             _detail.width = 40;
             _detail.height= 16;
             _detail.x = 530;
+            _detail.addEventListener( MouseEvent.CLICK, onDetailBtnMouseClick);
 
             _delete= new EmbedTextField();
             _delete.setBorder(true);
@@ -130,6 +151,7 @@ class QboxDlg extends CommDialog{
             _delete.width = 40;
             _delete.height= 16;
             _delete.x = 690;
+            _delete.addEventListener( MouseEvent.CLICK, onDeleteBtnMouseClick);
 
             _s.addChild( _iptext);
             _s.addChild( _usrInput);
@@ -145,6 +167,8 @@ class QboxDlg extends CommDialog{
     override function hide(){
         if ( _s != null && _iptext!= null) {
             _connBtn.removeEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
+            _delete.removeEventListener( MouseEvent.CLICK, onDeleteBtnMouseClick);
+            _detail.removeEventListener( MouseEvent.CLICK, onDetailBtnMouseClick);
             _s.removeChild( _iptext);
             _s.removeChild( _usrInput);
             _s.removeChild( _porttext);
@@ -164,8 +188,6 @@ class QboxDlg extends CommDialog{
 
     public function createElement():Sprite{
         _s= new Sprite();
-
-
         return _s;
     }
 }

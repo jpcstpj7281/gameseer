@@ -12,6 +12,7 @@ import nme.text.TextFieldType;
 import base.ui.CommDialog;
 import base.ui.CommDialogMgr;
 
+import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;
 import com.qbox.logic.WndMgr;
 import com.qbox.logic.Channel;
@@ -35,10 +36,35 @@ class WndGraphicDlg extends CommDialog{
         addChild(_virtualWnd);
     }
 
-    public function resizeWnd( w:Int, h:Int){
-        //removeChild(_virtualWnd);
-        //_virtualWnd = new Sprite();
-        _wnd.resize( w,h);
+    public function shiftLeftUpWnd( isMax:Bool = true){
+        if ( isMax){
+            var rx = _wnd._virtualWidth + _wnd._virtualX;
+            var dy = _wnd._virtualHeight + _wnd._virtualY;
+
+            x=_wnd._virtualX = ScreenMgr.getInst()._virtualX;
+            y=_wnd._virtualY = ScreenMgr.getInst()._virtualY;
+
+            var w = _wnd._virtualWidth = rx -  _wnd._virtualX;
+            var h = _wnd._virtualHeight = dy - _wnd._virtualY;
+
+            redrawWnd(w,h);
+            resizeWnd(w,h);
+        }else{
+        }
+    }
+
+    public function shiftRightDownWnd( isMax:Bool = true){
+        if ( isMax){
+            var w = _wnd._virtualWidth = ScreenMgr.getInst()._virtualWidth +ScreenMgr.getInst()._virtualX -  _wnd._virtualX;
+            var h = _wnd._virtualHeight = ScreenMgr.getInst()._virtualHeight +ScreenMgr.getInst()._virtualY - _wnd._virtualY;
+
+            redrawWnd(w,h);
+            resizeWnd(w,h);
+        }else{
+        }
+    }
+
+    function redrawWnd( w:Float, h:Float){
         _virtualWnd.graphics.clear();
         _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
         _virtualWnd.graphics.beginFill(0xFFFFFF, 1);
@@ -47,6 +73,14 @@ class WndGraphicDlg extends CommDialog{
         _virtualWnd.graphics.drawRect( w-10,h-10, 10, 10);
         _virtualWnd.graphics.beginFill(0x808080, 1);
         _virtualWnd.graphics.drawRect( w-10,0, 10, 10);
+        _virtualWnd.graphics.beginFill(0x808080, 1);
+        _virtualWnd.graphics.drawRect( 0,0, 10, 10);
+    }
+    public function resizeWnd( w:Int, h:Int){
+        //removeChild(_virtualWnd);
+        //_virtualWnd = new Sprite();
+        _wnd.resize( w,h);
+        redrawWnd(w,h);
         //addChild(_virtualWnd);
 
     }
@@ -54,13 +88,7 @@ class WndGraphicDlg extends CommDialog{
     public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel){
         _wnd = WndMgr.getInst().createWnd();
         _wnd.open( x,y,w,h, channel);
-        _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
-        _virtualWnd.graphics.beginFill(0xFFFFFF, 1);
-        _virtualWnd.graphics.drawRect( 0,0, w, h);
-        _virtualWnd.graphics.beginFill(0x808080, 1);
-        _virtualWnd.graphics.drawRect( w-10,h-10, 10, 10);
-        _virtualWnd.graphics.beginFill(0x808080, 1);
-        _virtualWnd.graphics.drawRect( w-10,0, 10, 10);
+        redrawWnd(w,h);
         this.x = x;
         this.y = y;
         _channel = channel;

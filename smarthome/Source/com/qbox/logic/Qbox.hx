@@ -17,11 +17,13 @@ class Qbox extends SMConnection{
     public var _inputs:Hash<String>;
     public var _outputs:Hash<String>;
 
+    public var _version:String;
     public function new(){
         super( "127.0.0.1", 5000);
 
         _inputs = new Hash<String>();
         _outputs= new Hash<String>();
+        _version = "1.0";
     }
 
     public function loadVersion(){
@@ -32,7 +34,7 @@ class Qbox extends SMConnection{
     }
 
     function cbVersion( args:Dynamic){
-        trace(args);
+        _version = args.get("protocal");
     }
 
     public function loadInput(){
@@ -98,7 +100,7 @@ class Qbox extends SMConnection{
 
     public function connectedInit():Bool{
         loadInput();
-        loadOutput();
+        //loadOutput();
         return true;
     }
 }

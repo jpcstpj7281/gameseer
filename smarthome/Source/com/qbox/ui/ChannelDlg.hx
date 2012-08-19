@@ -38,14 +38,13 @@ class ChannelDlg extends ListDialog{
         qd.show();
     }
 
-    public function onConnBtnMouseClick( evt:MouseEvent ):Void{
+    public function onEditBtnMouseClick( evt:MouseEvent ):Void{
         for ( i in _channel._nodes){
             new ChannelNodeDlg(_listDialogMgr, i);
         }
         super.onMouseClick();
     }
     override function onMouseClick():Void{}
-
     public override function showParent():Void{
         if ( _listDialogMgr._movableInstances.length >0 ){
             var arr:Array<String> = new Array<String>();
@@ -93,7 +92,7 @@ class ChannelDlg extends ListDialog{
             _editBtn.height= 18;
             _editBtn.setBorder(true);
             _editBtn.x = nme.Lib.current.stage.stageWidth - 80;
-            _editBtn.addEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
+            _editBtn.addEventListener( MouseEvent.CLICK, onEditBtnMouseClick);
 
             _s.addChild( _iptext);
             _s.addChild( _input);
@@ -104,7 +103,7 @@ class ChannelDlg extends ListDialog{
     }
     override function hide(){
         if ( _s != null && _iptext!= null) {
-            _editBtn.removeEventListener(  MouseEvent.CLICK, onConnBtnMouseClick); 
+            _editBtn.removeEventListener(  MouseEvent.CLICK, onEditBtnMouseClick); 
             _s.removeChild(_iptext);
             _s.removeChild(_input);
             _s.removeChild(_editBtn);
