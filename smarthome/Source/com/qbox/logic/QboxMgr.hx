@@ -78,18 +78,18 @@ class QboxMgr {
         _qboxes[0].loadInputResolution();
     }
     public function loadOutputResolution():Void{ 
-        _qboxes[0].loadOutputResolution();
+        _qboxes[0].loadOutputResolution("out0");
     }
 
-    public function loadQbox(){ 
+    public function loadQbox(){
         var str:String = DataLoader.getInst().getData( "qboxes"); 
         if ( str == null || str.length <= 1) return false;
         var arr:Array<String> = str.split(";");
         for ( i in arr){
             if ( i.length == 0 ) continue;
             var a2 = i.split(":");
-            trace(a2[0]);
-            trace(a2[1]);
+            //trace(a2[0]);
+            //trace(a2[1]);
             var q = createQbox();
             q._ipv4 = a2[0];
             q._port = Std.parseInt(a2[1]);

@@ -82,10 +82,11 @@ class Qbox extends SMConnection{
         //_outputs.set( "in"+i, outputs.get("in"+i) );
         //}
     }
-    public function loadOutputResolution(){
+    public function loadOutputResolution( out:String){
         clearData();
         startListening( 10, cbLoadOutputResolution, 1);
         setMsg( 9, 1);
+        addKeyVal("out", Bytes.ofString(out));
         sendData();
     }
 
@@ -100,7 +101,8 @@ class Qbox extends SMConnection{
 
     public function connectedInit():Bool{
         loadInput();
-        //loadOutput();
+        loadOutput();
+        loadOutputResolution("out0");
         return true;
     }
 }
