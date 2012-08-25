@@ -62,12 +62,28 @@ uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
         	onPMoveWindowsReq(msg,connID);
         	break;
 
+        case PUpdateQboxReq::uri:
+        	onPUpdateQboxReq(msg,connID);
+        	break;
+
         default:
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
 
     return 0;
+}
+
+void Windows::onPUpdateQboxReq(MsgInfo *msg,uint32_t connID)
+{
+    cout<<"onPUpdateQboxReq"<<" connID="<<connID <<endl;
+    cout<<msg->info["totalLen"]<<" "<<msg->info["name"]<<endl;
+    MsgInfo rsp;
+    rsp.msgType = PUpdateQboxRsp::uri;
+    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+    rsp.info["name"] = msg->info["name"];
+    rsp.info["index"] = msg->info["index"];
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
 }
 
 void Windows::onPGetWindowsHandleReq(MsgInfo *msg,uint32_t connID)
