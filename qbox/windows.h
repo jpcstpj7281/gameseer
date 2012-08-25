@@ -36,6 +36,7 @@ private:
 	void onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID);
 	void onPDelWindowsReq(MsgInfo *msg,uint32_t connID);
 	void onPMoveWindowsReq(MsgInfo *msg,uint32_t connID);
+	void onPUpdateQboxReq(MsgInfo *msg,uint32_t connID);
 
 
 };

@@ -121,5 +121,16 @@ struct PMoveWindowsRsp
 	//error->???
 };
 
+struct PUpdateQboxReq
+{
+	enum{uri=(15<<16|1)};
+	//error->???
+};
+
+struct PUpdateQboxRsp
+{
+	enum{uri=(15<<16|2)};
+	//error->???
+};
 
 #endif /* PROTOCOL_H_ */

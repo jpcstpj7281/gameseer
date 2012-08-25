@@ -384,7 +384,6 @@ void IServer::server_proc(int sock)
                 if(m_pMsgHandler == NULL)
                 {
                     test_msg("ERROR m_pMsgHandler NOT INIT\n");
-
                 }
                 else
                 {
