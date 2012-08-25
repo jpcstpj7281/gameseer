@@ -15,16 +15,18 @@ class FileManagerDlg extends ListFixedDlg{
         super(dm, new Bitmap( DataLoader.getInst().bms_.get("file")));
         x = 410;
         y= nme.Lib.current.stage.stageHeight - 80;
+
+        new QboxesUpdateDlg(_listDialogMgr);
     }
 
     public override function onMouseClick( ):Void{
-        if ( _mgr.isAnimating() == false){
-            _listDialogMgr.removeAllMovables();
+        //if ( _mgr.isAnimating() == false){
+        //_listDialogMgr.removeAllMovables();
 
-            for ( q in QboxMgr.getInst()._qboxes ){
+            //for ( q in QboxMgr.getInst()._qboxes ){
                 //new QboxUpdateDlg(_listDialogMgr, q);
-            }
-        }
+                //}
+                //}
         super.onMouseClick();
     }
 }

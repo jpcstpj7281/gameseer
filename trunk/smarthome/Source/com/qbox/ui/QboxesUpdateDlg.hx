@@ -16,12 +16,15 @@ import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
 
-class QboxesUpdateDlg extends ListDialog{
-    var _qbox:Qbox;
+#if neko
+import neko.FileSystem;
+#else
+import cpp.FileSystem;
+#end
 
-    public function new ( dm:ListDialogMgr, q:Qbox){
+class QboxesUpdateDlg extends ListDialog{
+    public function new ( dm:ListDialogMgr){
         super(dm);
-        _qbox = q;
         addChild(createElement());
     }
 
@@ -40,9 +43,9 @@ class QboxesUpdateDlg extends ListDialog{
             _g.addChild( _v);
 
 #if !neko
-            _v.text = "Qbox系统版本: " + _qbox._version;
+            _v.text = "Qbox系统版本: " ;
 #else
-            _v.text = "Qbox System Version: " + _qbox._version;
+            _v.text = "Qbox System Version: " ;
 #end
             _g.height = nme.Lib.current.stage.stageHeight/15;
         }
@@ -52,6 +55,7 @@ class QboxesUpdateDlg extends ListDialog{
         if ( _g != null ) {
             _g.removeChild(_v);
             _v = null;
+            //_listDialogMgr.removeAllMovables();
         }
         return super.hide();
     }
@@ -59,5 +63,26 @@ class QboxesUpdateDlg extends ListDialog{
         _g = new Sprite();
         _g.height = nme.Lib.current.stage.stageHeight/15;
         return _g;
+    }
+    public override function onMouseClick( ):Void{
+        if ( _mgr.isAnimating() == false){
+            _listDialogMgr.removeAllMovables();
+
+            var dirs = new Array<String>();
+            if(FileSystem.exists(QboxUpdateDlg.DIR)){
+                var arr = FileSystem.readDirectory(QboxUpdateDlg.DIR);
+                for( i in arr){
+                    if ( !FileSystem.isDirectory( QboxUpdateDlg.DIR+"/"+i) ){
+                        dirs.push(i);
+                    }
+                }
+            }
+
+            for ( q in QboxMgr.getInst()._qboxes ){
+                new QboxUpdateDlg(_listDialogMgr, q, dirs);
+            }
+
+        }
+        super.onMouseClick();
     }
 }
