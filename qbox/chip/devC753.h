@@ -133,6 +133,10 @@ public:
 	void C753SetOutputPortOAOI0HorizontalEnd(uint16_t wVal);
 	void C753SetOutputPortOAOI0VerticalStart(uint16_t wVal);
 	void C753SetOutputPortOAOI0VerticalEnd(uint16_t wVal);
+
+
+
+
 	void C753SetOutputPortOAOI1HorizontalStart(uint16_t wVal);
 	void C753SetOutputPortOAOI1HorizontalEnd(uint16_t wVal);
 	void C753SetOutputPortOAOI1VerticalStart(uint16_t wVal);
@@ -179,8 +183,17 @@ public:
 	/*Bank 2/4 function*/
 	void C753SetOutputPortACTHorizontalStart(uint32_t iCh, uint16_t wVal);
 	void C753SetOutputPortACTHorizontalWidth(uint32_t iCh, uint16_t wVal);
+
+	void C753GetOutputPortACTHorizontalStart(uint32_t iCh, uint16_t &wVal);
+
+
 	void C753SetOutputPortACTVerticalStart(uint32_t iCh, uint16_t wVal);
 	void C753SetOutputPortACTVerticalWidth(uint32_t iCh, uint16_t wVal);
+
+	void C753GetOutputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal);
+
+
+
 	void C753SetOutputPostEnlargementHorizontalEdgeEmphasisControl(uint32_t iCh, uint8_t byVal);
 	void C753SetOutputPostEnlargementHorizontalEdgeEmphasisCoringL(uint32_t iCh, uint8_t byVal);
 	void C753SetOutputPostEnlargementHorizontalEdgeEmphasisCoringH(uint32_t iCh, uint8_t byVal);
@@ -214,10 +227,17 @@ public:
 	void C753SetInputFieldRecognitionControl(uint32_t iCh, uint8_t byVal);
 	void C753SetInputDigitalInterfaceControl(uint32_t iCh, uint8_t byVal);
 	void C753SetInputComponentInputControl(uint32_t iCh, uint8_t byVal);
+
+
 	void C753SetInputPortACTHorizontalStart(uint32_t iCh, uint16_t wVal);
 	void C753SetInputPortACTHorizontalWidth(uint32_t iCh, uint16_t wVal);
 	void C753SetInputPortACTVerticalStart(uint32_t iCh, uint16_t wVal);
 	void C753SetInputPortACTVerticalWidth(uint32_t iCh, uint16_t wVal);
+
+	void C753GetInputPortACTHorizontalStart(uint32_t iCh, uint16_t &wVal);
+	void C753GetInputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal);
+
+
 	void C753SetInputSignalSwap(uint32_t iCh, uint8_t byVal);
 	void C753SetInputImageControl(uint32_t iCh, uint8_t byVal);
 	void C753SetInputFill(uint32_t iCh, uint32_t dwVal);

@@ -35,9 +35,9 @@ public:
 	virtual ~I2CBus();
 
 	void dev_I2C_WriteMult(uint32_t chn,uint32_t chipType,list<map<uint8_t,uint8_t> > value);
-	void dev_I2C_Write(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t value);
+	void I2C_Write(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t value);
 
-	void dev_I2C_Read(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t &value);
+	void I2C_Read(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t &value);
 
 private:
 
