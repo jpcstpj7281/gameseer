@@ -807,6 +807,28 @@ void DriverChip753::C753SetOutputPortACTHorizontalStart(uint32_t iCh, uint16_t w
     }
 }
 
+void DriverChip753::C753GetOutputPortACTHorizontalStart(uint32_t iCh, uint16_t &wVal)
+{
+
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+        SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,2);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B2_O1ACTHST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B2_O1ACTHST_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+        SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,4);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B4_O2ACTHST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B4_O2ACTHST_H,valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
+}
+
 void DriverChip753::C753SetOutputPortACTHorizontalWidth(uint32_t iCh, uint16_t wVal)
 {
 	if(iCh == C753_OUTPUT_CHANNEL_1)
@@ -837,6 +859,30 @@ void DriverChip753::C753SetOutputPortACTVerticalStart(uint32_t iCh, uint16_t wVa
         SPI_Write(TYPE_CHIP_C753,REG_C753_B4_O2ACTVST_H, (wVal&0xff00)>>8);
     }
 }
+
+void DriverChip753::C753GetOutputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal)
+{
+
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+        SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,2);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B2_O1ACTVST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B2_O1ACTVST_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+        SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,4);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B4_O2ACTVST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B4_O2ACTVST_H, valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
+}
+
+
 void DriverChip753::C753SetOutputPortACTVerticalWidth(uint32_t iCh, uint16_t wVal)
 {
     if(iCh == C753_OUTPUT_CHANNEL_1)
@@ -1316,6 +1362,29 @@ void DriverChip753::C753SetInputPortACTHorizontalStart(uint32_t iCh, uint16_t wV
         SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2ACTHST_H, (wVal&0xff00)>>8);
     }
 }
+
+void DriverChip753::C753GetInputPortACTHorizontalStart(uint32_t iCh, uint16_t &wVal)
+{
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+    	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,6);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B6_I1ACTHST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B6_I1ACTHST_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+    	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,8);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B8_I2ACTHST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B8_I2ACTHST_H,valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
+}
+
+
 void DriverChip753::C753SetInputPortACTHorizontalWidth(uint32_t iCh, uint16_t wVal)
 {
     if(iCh == C753_INPUT_CHANNEL_1)
@@ -1346,6 +1415,29 @@ void DriverChip753::C753SetInputPortACTVerticalStart(uint32_t iCh, uint16_t wVal
         SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2ACTVST_L, (wVal&0x00ff));
         SPI_Write(TYPE_CHIP_C753,REG_C753_B8_I2ACTVST_H, (wVal&0xff00)>>8);
     }
+}
+
+void DriverChip753::C753GetInputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal)
+{
+
+
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+    	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,6);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B6_I1ACTVST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B6_I1ACTVST_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+    	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,8);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B8_I2ACTVST_L, valL);
+        SPI_Read(TYPE_CHIP_C753,REG_C753_B8_I2ACTVST_H,valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
 }
 
 void DriverChip753::C753SetInputPortACTVerticalWidth(uint32_t iCh, uint16_t wVal)
@@ -4806,14 +4898,14 @@ void DriverChip753::C753GetCharacteristicsMeasurementResultHorizontalCoordinate0
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH0CH1_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH0CH1_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH0CH1_H,valH);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH0CH2_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH0CH2_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH0CH2_H,valH);
     }
 
     wVal = valL| ((uint16_t)valH<<8);
@@ -4829,14 +4921,14 @@ void DriverChip753::C753GetCharacteristicsMeasurementResultVerticalCoordinate0(u
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV0CH1_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV0CH1_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV0CH1_H,valH);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV0CH2_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV0CH2_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV0CH2_H,valH);
     }
 
     wVal = valL| ((uint16_t)valH<<8);
@@ -4854,14 +4946,14 @@ void DriverChip753::C753GetCharacteristicsMeasurementResultHorizontalCoordinate1
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH1CH1_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH1CH1_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH1CH1_H,valH);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH1CH2_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH1CH2_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PH1CH2_H,valH);
     }
 
     wVal = valL| ((uint16_t)valH<<8);
@@ -4877,14 +4969,14 @@ void DriverChip753::C753GetCharacteristicsMeasurementResultVerticalCoordinate1(u
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV1CH1_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV1CH1_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV1CH1_H,valH);
 
     }
     else if(iCh == C753_CHANNEL_2)
     {
     	SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV1CH2_L,valL);
-    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV1CH2_H,valL);
+    	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PV1CH2_H,valH);
     }
 
     wVal = valL| ((uint16_t)valH<<8);
@@ -5045,7 +5137,7 @@ void DriverChip753::C753GetOutputPortVerticalSyncFrequency(uint16_t &wVal)
 
     SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     SPI_Read(TYPE_CHIP_C753,REG_C753_B17_OFV_L,valL);
-   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_OFV_H,valL);
+   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_OFV_H,valH);
 
    	wVal = valL| ((uint16_t)valH<<8);
 
@@ -5057,7 +5149,7 @@ void DriverChip753::C753GetPWMLowPulseWidthCounterValue(uint16_t &wVal)
 
     SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PWMLW_L,valL);
-   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PWMLW_H,valL);
+   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PWMLW_H,valH);
 
    	wVal = valL| ((uint16_t)valH<<8);
 }
@@ -5068,7 +5160,7 @@ void DriverChip753::C753GetPWMHighPulseWidthCounterValue(uint16_t &wVal)
 
     SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PWMHW_L,valL);
-   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PWMHW_H,valL);
+   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_PWMHW_H,valH);
 
    	wVal = valL| ((uint16_t)valH<<8);
 }
@@ -5085,7 +5177,7 @@ void DriverChip753::C753GetInterruptStatus(uint16_t &wVal)
 
     SPI_Write(TYPE_CHIP_C753,REG_C753_BSC_RGBNK,17);
     SPI_Read(TYPE_CHIP_C753,REG_C753_B17_INTSTAT_L,valL);
-   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_INTSTAT_H,valL);
+   	SPI_Read(TYPE_CHIP_C753,REG_C753_B17_INTSTAT_H,valH);
 
    	wVal = valL| ((uint16_t)valH<<8);
 }

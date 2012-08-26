@@ -86,7 +86,7 @@ void runServer(int port)
 void testTaskServer()
 {
 	int ret = 0;
-	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,
+	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,0,0,0,0,0,0,0,0,0,0);
 
 }
 #endif

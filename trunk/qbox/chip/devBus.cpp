@@ -33,20 +33,20 @@ void I2CBus::dev_I2C_WriteMult(uint32_t chn,uint32_t chipType,list<map<uint8_t,u
 	{
 		for(map<uint8_t,uint8_t>::iterator itMap = itList->begin();itMap!=itList->end();itMap++)
 		{
-			dev_I2C_Write(chn,chipType,itMap->first,itMap->second);
+			I2C_Write(chn,chipType,itMap->first,itMap->second);
 		}
 	}
 
 }
 
-void I2CBus::dev_I2C_Write(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t value)
+void I2CBus::I2C_Write(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t value)
 {
-
+	dev_I2C_Write(chn,chipType,addr,value);
 }
 
-void I2CBus::dev_I2C_Read(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t &value)
+void I2CBus::I2C_Read(uint32_t chn,uint32_t chipType,uint8_t addr,uint8_t &value)
 {
-
+	dev_I2C_Read(chn,chipType,addr,&value);
 }
 
 

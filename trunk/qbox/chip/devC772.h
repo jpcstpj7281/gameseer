@@ -64,6 +64,9 @@ public:
 
 	void dev_C772_SetHorAndVerSyncCtrl(uint32_t chn,uint32_t byHorPolarity,uint32_t byHorWidth,uint32_t byVerPolarty,uint32_t byVerWidth);
 
+	void SetBankRegister(uint32_t chn,uint8_t byVal);
+	void GetBankRegister(uint32_t chn,uint8_t &byVal);
+
 
 private:
 

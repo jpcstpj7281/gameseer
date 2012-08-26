@@ -827,6 +827,16 @@ void DriverChip772::dev_C772_SetHorAndVerSyncCtrl(uint32_t chn,uint32_t byHorPol
 }
 
 
+void DriverChip772::SetBankRegister(uint32_t chn,uint8_t byVal)
+{
+	SPI_Write(TYPE_CHIP_C772,CP_IP00C772_RGBNK_ADDR,byVal);
+}
+void DriverChip772::GetBankRegister(uint32_t chn,uint8_t &byVal)
+{
+	SPI_Read(TYPE_CHIP_C772,CP_IP00C772_RGBNK_ADDR,byVal);
+}
+
+
 
 
 
