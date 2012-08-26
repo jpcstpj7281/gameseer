@@ -37,6 +37,7 @@ class QboxUpdateDlg extends CommDialog{
     var _currSwitch:Int;
     var _isUpdating:Bool;
     var _currInput:FileInput;
+    var _buff:Bytes;
 
     static var POSX:Int = 300;
     static var WIDTH:Int = 300;
@@ -60,23 +61,56 @@ class QboxUpdateDlg extends CommDialog{
         _qbox.startListening( 2, cbUpdateFinished, 15);
         _qbox.setMsg( 1, 15);
         _qbox.addKeyVal("name", Bytes.ofString("test.txt"));
-        _qbox.addKeyVal("eof", Bytes.ofString("0"));
         _qbox.addKeyVal("start", Bytes.ofString("0"));
-        try{
-            var bs:Bytes =Bytes.alloc( 500);
-            var len = _currInput.readBytes( bs, 0, 500);
-            _qbox.addKeyVal("binary", bs);
-            _qbox.addKeyVal("end", Bytes.ofString(""+len));
-            _qbox.sendData();
-        }catch( ex:Eof){}
-        _currInput.close();
+        _buff = _currInput.readAll();
+        //trace(_buff.length);
+        var len = _buff.length < 500 ? _buff.length : 500;
+        _qbox.addKeyVal("binary", _buff.sub(0, len));
+        _qbox.addKeyVal("end", Bytes.ofString(""+len));
+        if ( len < 500 ){
+            _qbox.addKeyVal("eof", Bytes.ofString("1"));
+        }else{
+            _qbox.addKeyVal("eof", Bytes.ofString("0"));
+        }
+        _qbox.sendData();
         //var fileContent = neko.io.File.getContent(fname);
         //neko.Lib.println("file content:\n" + fileContent);
+        _currInput.close();
     }
 
     function cbUpdateFinished(args:Dynamic){
-        trace(args);
+        if ( args.get("error") != "0") {
+            trace("error occurred");
+            return;
+        }
+        if ( args.get("eof") == "1"){
+            trace("finished");
+            return;
+        }
+        var start:Int = Std.parseInt(args.get("start"))+500;
+        var end:Int = Std.parseInt(args.get("end"));
+        //var fname = DIR+"/"+_dirs[_currSwitch];
+        //_currInput = File.read(fname, true );
 
+        _qbox.startListening( 2, cbUpdateFinished, 15);
+        _qbox.setMsg( 1, 15);
+        _qbox.addKeyVal("name", Bytes.ofString("test.txt"));
+        _qbox.addKeyVal("start", Bytes.ofString(""+end));
+        var len = (_buff.length - end) <500 ? (_buff.length - end) : 500 ;
+        var bs = _buff.sub( start, len );
+        //trace( bs.toString() );
+        //l = _currInput.readBytes( _buff, start, 500);
+        end+=bs.length;
+        //trace(len);
+        //trace(end);
+        _qbox.addKeyVal("binary", bs);
+        _qbox.addKeyVal("end", Bytes.ofString(""+end));
+        if ( len < 500){
+            _qbox.addKeyVal("eof", Bytes.ofString("1"));
+        }else _qbox.addKeyVal("eof", Bytes.ofString("0"));
+        _qbox.sendData();
+        //var fileContent = neko.io.File.getContent(fname);
+        //neko.Lib.println("file content:\n" + fileContent);
     }
 
     function onLessMouseClick(evt:MouseEvent){
