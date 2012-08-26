@@ -9,6 +9,7 @@
 #define WINDOWS_H_
 
 #include "commModel.h"
+#include <fstream>
 
 namespace msg
 {
@@ -38,6 +39,8 @@ private:
 	void onPMoveWindowsReq(MsgInfo *msg,uint32_t connID);
 	void onPUpdateQboxReq(MsgInfo *msg,uint32_t connID);
 
+    std::ofstream   _update;
+    uint32_t        _updateid;
 
 };
 
