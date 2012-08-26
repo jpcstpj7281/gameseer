@@ -18,7 +18,7 @@ using namespace msg;
 using namespace ent;
 using namespace std;
 
-Windows::Windows()
+Windows::Windows():_updateid(0)
 {
 
 }
@@ -78,11 +78,32 @@ void Windows::onPUpdateQboxReq(MsgInfo *msg,uint32_t connID)
 {
     cout<<"onPUpdateQboxReq"<<" connID="<<connID <<endl;
     cout<<msg->info["totalLen"]<<" "<<msg->info["name"]<<endl;
+
     MsgInfo rsp;
     rsp.msgType = PUpdateQboxRsp::uri;
-    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-    rsp.info["name"] = msg->info["name"];
-    rsp.info["index"] = msg->info["index"];
+    if ( connID != _updateid  && _updateid != 0){
+        //if there is already an other user occupied update process, return error
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+    }else{
+        rsp.msgType = PUpdateQboxRsp::uri;
+        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+        string name = rsp.info["name"] = msg->info["name"];
+        rsp.info["start"] = msg->info["start"];
+        rsp.info["end"] = msg->info["end"];
+        string bin = msg->info["binary"];
+        string eof = rsp.info["eof"] = msg->info["eof"];
+        if ( eof == "0" ){
+            if ( _updateid == 0){
+                _update.open(name.c_str(), ios::binary|ios::out);
+                _updateid = connID;
+            }
+            _update.write(bin.c_str(), bin.length() );
+        } else{
+            _updateid = 0;
+            _update.write(bin.c_str(), bin.length() );
+            _update.close();
+        }
+    }
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 }
 
@@ -102,8 +123,8 @@ void Windows::onPGetWindowsHandleReq(MsgInfo *msg,uint32_t connID)
     uint32_t handleNum=0;
     for(std::set<uint32_t>::iterator it=handle.begin();it!=handle.end();it++)
     {
-    	string key = "handleNum" + tostring(handleNum);
-    	rsp.info[key] = (*it);
+        string key = "handleNum" + tostring(handleNum);
+        rsp.info[key] = (*it);
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -163,17 +184,17 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
     if(!EntSetting::Instance()->setLayer(winHandle,DEFINE_WINDOW_LAYER))
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
 
     if(!EntSetting::Instance()->setOutput(winHandle,winOut))
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
 
     if(!EntSetting::Instance()->setShowStatus(winHandle,TYPE_WINDOW_STATUS_HIDE))
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
 
 
@@ -199,7 +220,7 @@ void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 
     if(!EntSetting::Instance()->setLayer(winHandle,layer))
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
@@ -226,7 +247,7 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
     {
         if(!EntSetting::Instance()->setShowStatus(winHandle,TYPE_WINDOW_STATUS_SHOW))
         {
-        	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+            rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
         }
     }
 
@@ -234,7 +255,7 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
     {
         if(!EntSetting::Instance()->setShowStatus(winHandle,TYPE_WINDOW_STATUS_HIDE))
         {
-        	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+            rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
         }
     }
 
@@ -257,7 +278,7 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
 
     if(!EntSetting::Instance()->delWindow(winHandle))
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }else{
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
     }
@@ -285,7 +306,7 @@ void Windows::onPMoveWindowsReq(MsgInfo *msg,uint32_t connID)
 
     if(EntSetting::Instance()->setWindowPosition(winHandle,winX,winY,winW,winH))
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
 
 
