@@ -1,4 +1,4 @@
-package com.qbox.ui;
+﻿package com.qbox.ui;
 
 import com.qbox.logic.QboxMgr;
 import nme.events.MouseEvent;
@@ -43,7 +43,7 @@ class QboxesUpdateDlg extends ListDialog{
             _g.addChild( _v);
 
 #if !neko
-            _v.text = "Qboxϵͳ�汾: " ;
+            _v.text = "Qbox系统: " ;
 #else
             _v.text = "Qbox System Version: " ;
 #end
