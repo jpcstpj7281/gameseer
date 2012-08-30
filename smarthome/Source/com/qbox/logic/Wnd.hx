@@ -70,7 +70,7 @@ class Wnd{
         _virtualX = x;
         _virtualY = y;
         for (i in 0..._screens.length){ 
-            trace(_screens[i]);
+            //trace(_screens[i]);
             _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd); 
         }
     }
