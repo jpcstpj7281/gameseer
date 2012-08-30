@@ -19,6 +19,7 @@ class Screen{
 
     var _currCB:Dynamic->Screen->Void;
 
+    //dont try to create this obj by your own, use ScreenMgr.create() instead.
     public function new( col:Int, row:Int){
         _col = col;
         _row = row;
@@ -33,12 +34,13 @@ class Screen{
         var screenw:Int = _virtualWidth;
         var screenh:Int = _virtualHeight;
         var isOutOfScreen = false;
-        if ( x <screenx ){
+        if ( x <screenx ){ 
             if (x + w > screenx ){
                 if ( x+w > screenx+_virtualWidth){
                     screenw = _virtualWidth;
                 }else{
                     screenw =  w - screenx +x;
+                    trace(screenw);
                 }
                 screenx = 0;
             }else{
@@ -48,7 +50,8 @@ class Screen{
         }else{
             if ( x >= screenx && x <= screenx + _virtualWidth) {
                 if ( x+w >= screenx+_virtualWidth){
-                    screenw = _virtualWidth + screenx - x;
+                    screenw = _virtualWidth + screenx ;
+                    trace(screenw);
                 }else{
                     screenw =  w;
                 }
@@ -122,6 +125,21 @@ class Screen{
             var test= new Hash<String>();
             test.set("winHandle","1");
             test.set("error","0");
+            var pw = _resWidth /_virtualWidth ;
+            var ph = _resHeight/_virtualHeight;
+            trace(_resHeight);
+            trace(_resWidth);
+            trace(_virtualHeight);
+            trace(_virtualWidth);
+            var qx = Math.round(screenx*pw);
+            var qy = Math.round(screeny*ph);
+            var qw = Math.round(screenw*pw);
+            var qh = Math.round(screenh*ph);
+            test.set( "x", (Std.string(qx)));
+            test.set( "y", (Std.string(qy)));
+            test.set( "w", (Std.string(qw)));
+            test.set( "h", (Std.string(qh)));
+            //trace(test);
             cbSetWnd(test);
 #end
         }

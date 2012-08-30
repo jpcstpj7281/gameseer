@@ -53,6 +53,7 @@ class ScreenMgr {
         for ( i in 0..._row ){
             var c = new Screen( _col-1, i);
             c._resWidth = _resWidth;
+            c._resHeight = _resHeight;
             _screens.push(c);
             arr.push(c);
         }
