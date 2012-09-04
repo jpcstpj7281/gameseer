@@ -1,0 +1,6 @@
+IicDev.o : $(PRJ_DIR)/../Src/driver/driver/IicDev.c \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	D:/platform/include/sys_types.h \
+	$(PRJ_DIR)/../Src/driver/driver/IicDev.h
+
+

@@ -1,0 +1,29 @@
+sysLib.o : $(PRJ_DIR)/../Src/at91rm9200/sysLib.c \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(PRJ_DIR)/../Src/at91rm9200/config.h \
+	$(PRJ_DIR)/prjComps.h \
+	$(PRJ_DIR)/../Src/at91rm9200/at91rm9200dk.h \
+	$(PRJ_DIR)/../Src/at91rm9200/at91rm9200.h \
+	$(PRJ_DIR)/../Src/at91rm9200/h/AT91RM9200_UHP.h \
+	$(PRJ_DIR)/../Src/at91rm9200/h/AT91RM9200_EMAC.h \
+	$(PRJ_DIR)/../Src/at91rm9200/port.h \
+	$(PRJ_DIR)/prjParams.h \
+	$(PRJ_DIR)/../Src/at91rm9200/sysSerial.c \
+	$(PRJ_DIR)/../Src/at91rm9200/h/drv/intrCtl/at91Intr.h \
+	$(PRJ_DIR)/../Src/at91rm9200/h/drv/sio/at91Sio.h \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/timer/at91Timer.c \
+	$(PRJ_DIR)/../Src/at91rm9200/config.h \
+	$(PRJ_DIR)/../Src/at91rm9200/h/drv/timer/at91Timer.h \
+	$(PRJ_DIR)/../Src/at91rm9200/lib_AT91RM9200.h \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/sio/at91Sio.c \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/intrCtl/at91Intr.c \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/end/at91eth.c \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/end/at91_ether.h \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/end/mii.h \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/end/at91_ether.c \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/end/crc32table.h \
+	$(PRJ_DIR)/../Src/at91rm9200/src/drv/end/secEnd.c \
+	$(PRJ_DIR)/../Src/at91rm9200/h/drv/end/secEnd.h
+
+

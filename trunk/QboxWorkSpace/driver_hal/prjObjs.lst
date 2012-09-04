@@ -1,0 +1,13 @@
+bgtest.o 
+busDriver.o 
+channel.o 
+commModel.o 
+entSetting.o 
+event.o 
+IServer.o 
+msgBase.o 
+msgHandler.o 
+status.o 
+taskCheckFPGA.o 
+windows.o 
+main.o 

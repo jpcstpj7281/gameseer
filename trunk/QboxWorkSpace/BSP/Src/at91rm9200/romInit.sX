@@ -1,0 +1,863 @@
+/* romInit.s - ARM Integrator ROM initialization module */
+
+/* Copyright 1999-2001 ARM Limited */
+/* Copyright 1999-2001 Wind River Systems, Inc. */
+
+/* 
+modification history 
+-------------------- 
+01m,25jan02,m_h  sdata needs "_" for bootrom_res
+01l,09oct01,jpd  added clock speed setting for 946ES.
+01k,03oct01,jpd  tidied slightly.
+01j,28sep01,pr   added support for ARM946ES.
+01i,04jun01,rec  memory clock rate changes for 740t
+01h,21feb01,h_k  added support for ARM966ES and ARM966ES_T.
+01g,20nov00,jpd  change speeds on 920T and add conditional early
+		 enabling of I-cache on 920T.
+01f,18sep00,rec  Add delay during power up
+01e,23feb00,jpd  comments changes. 
+01d,22feb00,jpd  changed copyright string.
+01c,20jan00,jpd  added support for ARM720T/ARM920T.
+01b,13jan00,pr	 added support for ARM740T.
+01a,30nov99,ajb  created, based on PID version 01i.
+*/
+
+/*
+DESCRIPTION
+This module contains the entry code for VxWorks images that start
+running from ROM, such as 'bootrom' and 'vxWorks_rom'.  The entry
+point, romInit(), is the first code executed on power-up.  It performs
+the minimal setup needed to call the generic C routine romStart() with
+parameter BOOT_COLD.
+
+romInit() masks interrupts in the processor and the interrupt
+controller and sets the initial stack pointer (to STACK_ADRS which is
+defined in configAll.h).  Other hardware and device initialisation is
+performed later in the sysHwInit routine in sysLib.c.
+
+The routine sysToMonitor() jumps to a location after the beginning of
+romInit, (defined by ROM_WARM_ADRS) to perform a "warm boot".  This
+entry point allows a parameter to be passed to romStart().
+
+The routines in this module don't use the "C" frame pointer %r11@ ! or
+establish a stack frame.
+
+SEE ALSO:
+.I "ARM Architecture Reference Manual,"
+.I "ARM 7TDMI Data Sheet,"
+.
+ "ARM 720T Data Sheet,"
+.I "ARM 740T Data Sheet,"
+.I "ARM 920T Technical Reference Manual",
+.I "ARM 940T Technical Reference Manual",
+.I "ARM 946E-S Technical Reference Manual",
+.I "ARM 966E-S Technical Reference Manual",
+.I "ARM Reference Peripherals Specification,"
+.I "ARM Integrator/AP User Guide",
+.I "ARM Integrator/CM7TDMI User Guide",
+.I "ARM Integrator/CM720T User Guide",
+.I "ARM Integrator/CM740T User Guide",
+.I "ARM Integrator/CM920T User Guide",
+.I "ARM Integrator/CM940T User Guide",
+.I "ARM Integrator/CM946E User Guide",
+.I "ARM Integrator/CM9x6ES Datasheet".
+*/
+
+#define	_ASMLANGUAGE
+#include "vxWorks.h"
+#include "sysLib.h"
+#include "asm.h"
+#include "regs.h"	
+#include "config.h"
+#include "arch/arm/mmuArmLib.h"
+ 
+        .data
+        .globl   VAR(copyright_wind_river)
+        .long    VAR(copyright_wind_river)
+#define TEXT_BASE 0x10000000
+
+/* internals */
+
+	.globl	FUNC(romInit)		/* start of system code */
+	.globl	VAR(sdata)		/* start of data */
+        .globl  _sdata
+	.globl	VAR(integratorMemSize)	/* actual memory size */
+
+
+/* externals */
+ 
+	.extern	FUNC(romStart)	/* system initialization routine */
+
+
+
+
+
+_sdata:
+VAR_LABEL(sdata)
+	.asciz	"start of data"
+	.balign	4
+
+/* variables */
+
+	.data
+
+VAR_LABEL(integratorMemSize)
+	.long	0
+
+	.text
+	.balign 4
+	
+#include "boot/start.s"
+
+#include "boot/lowlevel_init.s"	
+	
+#if 0
+/*******************************************************************************
+*
+* romInit - entry point for VxWorks in ROM
+*
+
+* romInit
+*     (
+*     int startType	/@ only used by 2nd entry point @/
+*     )
+
+* INTERNAL
+* sysToMonitor examines the ROM for the first instruction and the string
+* "Copy" in the third word so if this changes, sysToMonitor must be updated.
+*/
+
+_ARM_FUNCTION(romInit)
+_romInit:
+cold:
+	MOV	r0, #BOOT_COLD	/* fall through to warm boot entry */
+warm:
+	B	start
+
+	/* copyright notice appears at beginning of ROM (in TEXT segment) */
+
+	.ascii   "Copyright 1999-2001 ARM Limited"
+	.ascii   "\nCopyright 1999-2001 Wind River Systems, Inc."
+	.balign 4
+
+start:
+	/*
+	 * There have been reports of problems with certain boards and
+	 * certain power supplies not coming up after a power-on reset,
+	 * and adding a delay at the start of romInit appears to help
+	 * with this.
+	 */
+
+	TEQS	r0, #BOOT_COLD
+	MOVEQ	r1, #AT91_DELAY_VALUE
+	MOVNE	r1, #1
+
+delay_loop:
+	SUBS	r1, r1, #1
+	BNE	delay_loop
+
+#if defined(CPU_720T)  || defined(CPU_720T_T) || \
+    defined(CPU_740T)  || defined(CPU_740T_T) || \
+    defined(CPU_920T)  || defined(CPU_920T_T) || \
+    defined(CPU_940T)  || defined(CPU_940T_T) || \
+    defined(CPU_946ES) || defined(CPU_946ES_T)
+
+	/*
+	 * Set processor and MMU to known state as follows (we may have not
+	 * been entered from a reset). We must do this before setting the CPU
+	 * mode as we must set PROG32/DATA32.
+	 *
+	 * MMU Control Register layout.
+	 *
+	 * bit
+	 *  0 M 0 MMU disabled
+	 *  1 A 0 Address alignment fault disabled, initially
+	 *  2 C 0 Data cache disabled
+	 *  3 W 0 Write Buffer disabled
+	 *  4 P 1 PROG32
+	 *  5 D 1 DATA32
+	 *  6 L 1 Should Be One (Late abort on earlier CPUs)
+	 *  7 B ? Endianness (1 => big)
+	 *  8 S 0 System bit to zero } Modifies MMU protections, not really
+	 *  9 R 1 ROM bit to one     } relevant until MMU switched on later.
+	 * 10 F 0 Should Be Zero
+	 * 11 Z 0 Should Be Zero (Branch prediction control on 810)
+	 * 12 I 0 Instruction cache control
+	 */
+
+	/* Setup MMU Control Register */
+
+	MOV	r1, #MMU_INIT_VALUE		/* Defined in mmuArmLib.h */
+
+	MCR	CP_MMU, 0, r1, c1, c0, 0	/* Write to MMU CR */
+
+	/*
+	 * If MMU was on before this, then we'd better hope it was set
+	 * up for flat translation or there will be problems. The next
+	 * 2/3 instructions will be fetched "translated" (number depends
+	 * on CPU).
+	 *
+	 * We would like to discard the contents of the Write-Buffer
+	 * altogether, but there is no facility to do this. Failing that,
+	 * we do not want any pending writes to happen at a later stage,
+	 * so drain the Write-Buffer, i.e. force any pending writes to
+	 * happen now.
+	 */
+
+
+#if defined(CPU_920T)  || defined(CPU_920T_T) || \
+    defined(CPU_946ES) || defined(CPU_946ES_T)
+	MOV	r1, #0				/* data SBZ */
+	MCR	CP_MMU, 0, r1, c7, c10, 4	/* drain write-buffer */
+
+	/* Flush (invalidate) both I and D caches */
+
+	MCR	CP_MMU, 0, r1, c7, c7, 0	/* R1 = 0 from above, data SBZ*/
+#endif /* defined(CPU_920T,946ES) */
+
+
+#if defined(CPU_720T) || defined(CPU_720T_T) || \
+    defined(CPU_920T) || defined(CPU_920T_T)
+        /*
+	 * Set Process ID Register to zero, this effectively disables
+	 * the process ID remapping feature.
+	 */
+
+	MOV	r1, #0
+	MCR	CP_MMU, 0, r1, c13, c0, 0
+#endif /* defined(CPU_720T,920T) */
+#endif /* defined(CPU_720T,740T,920T,940T,946ES) */
+
+	/* disable interrupts in CPU and switch to SVC32 mode */
+
+	MRS	r1, cpsr
+	BIC	r1, r1, #MASK_MODE
+	ORR	r1, r1, #MODE_SVC32 | I_BIT | F_BIT
+	MSR	cpsr, r1
+
+	/*
+	 * CPU INTERRUPTS DISABLED
+	 *
+	 * disable individual interrupts in the interrupt controller
+	 */
+
+        ldr     r1, =APMC_BASE
+        #- Peripheral clock Enable register : enable PIO peripheral clocks
+        #- ldr     r0,= 0x000e203C
+	ldr     r0,= 0xfffffffC
+        str     r0, [r1, #APMC_PCDR]
+
+
+	bl	lowlevel_init
+		
+#if 0
+
+#- Load Default Handlers
+#-----------------------
+#- | Load System Peripheral Base Addresses and default handlers
+                adr         r13, PtMEMCBase
+                ldmia       r13!, {r0-r4}
+
+#- Initialise the Memory Controller
+#----------------------------------
+#- | Copy the Image of the Memory Controller
+# get the address of the chip select register image
+                ldr         r10, PtInitTableMEMC    
+                adr         r11, PtMEMCBase
+                ldr         r11, [r11]
+                add         r11, r11, #0x60
+
+#- | Load the address where to jump
+#                ldr         r12, InitRemap
+
+#- | Copy Chip Select Register Image to Memory Controller and command remap 
+                ldmia       r10!, {r0-r9}          /* load the complete image */
+                stmia       r11!, {r0-r9}          /* store the complete image */
+                ldmia       r10!, {r0-r2}          /* load the complete image and the EBI base */
+
+                stmia       r11!, {r0-r1}          /* store the complete image with the remap command */
+                adr         r11, PtMEMCBase        /* remap command */
+                ldr         r11, [r11]
+                str         r2, [r11]
+
+#- | Jump to ROM at its new address
+#                mov         pc, r12                 /* jump and break the pipeline */
+
+InitRemap:
+
+#-APMC Initialization
+#---------------------
+                ldr     r1, =APMC_BASE
+
+                ldr     r0, =0xFFFFFFFF                 /* Interrupt Disable Register */
+                str     r0, [r1, #APMC_IDR]
+                ldr     r0, =0xFFFFFFFE                 /* System clock disable register APMC_SCDR : disable all clocks except CPU clock */
+                str     r0, [r1, #APMC_SCDR]
+                ldr     r0,= 0xFFFFFFC3                 /* Peripheral clock Disable register : disable all peripheral clocks */
+                str     r0, [r1, #APMC_PCDR]
+                ldr     r0, =0x00000000
+                str     r0, [r1, #APMC_MCKR]
+                ldr     r0,= 0x010e203c                       /* Peripheral clock Enable register */
+                str     r0, [r1, #APMC_PCER]
+                ldr     r0, =0x00000001                 /* System clock Enable register APMC_SCER : Enable only processor clock */
+                str     r0, [r1, #APMC_SCER]
+                ldr     r0, =0x0000FF01                 /* Main oscillator Enable register APMC_MOR : Enable main oscillator , OSCOUNT = 0xFF */
+                str     r0, [r1, #APMC_MOR]
+
+#- Reading the APMC Status register to detect when the Main Oscillator is stabilized
+#------------------------------------------------------------------------------------
+                mov     r4, #0x1
+MOR_Loop:
+                ldr     r3, [r1, #APMC_SR]
+                and     r3, r4, r3
+                cmp     r3, #0x1
+                bne     MOR_Loop
+
+
+#-Setup the PLL A
+#-----------------
+                 ldr     r0, =0x2026BE01                       /* 180MHz, 4.608MHz Crystal */		 
+#                 ldr     r0, =0x2026BE04                       /* 180MHz, 18.432MHz Crystal */
+                 str     r0, [r1, #APMC_PLLAR]
+
+
+#- Reading the APMC Status register to detect when the PLL A is stabilized
+#-----------------------------------------------------------------------
+                mov     r4, #0x2
+PllA_Loop:
+                ldr     r3, [r1, #APMC_SR]
+                and     r3, r4, r3
+                cmp     r3, #0x2
+                bne     PllA_Loop
+
+#-Setup the PLL B
+#-----------------
+                 ldr     r0, =0x10673E05                       /* 96MHz, 4.608MHz Crystal */
+#                 ldr     r0, =0x10483E0E                       /* 96MHz, 18.432MHz Crystal */
+                 str     r0, [r1, #APMC_PLLBR]
+
+
+#- Reading the APMC Status register to detect when the PLL B is stabilized
+#-----------------------------------------------------------------------
+                mov     r4, #0x4
+PllB_Loop:
+                ldr     r3, [r1, #APMC_SR]
+                and     r3, r4, r3
+                cmp     r3, #0x4
+                bne     PllB_Loop
+
+#- Commuting Master Clock from SLCK to PLLA/3
+#---------------------------------------------
+                ldr     r0, =0x00000202
+                str     r0, [r1, #APMC_MCKR]
+
+#- Reading the APMC Status register to detect when the Master Clock is commuted
+#-------------------------------------------------------------------------------
+                mov     r4, #0x8
+MCKR_1_Loop:
+                ldr     r3, [r1, #APMC_SR]
+                and     r3, r4, r3
+                cmp     r3, #0x8
+                bne     MCKR_1_Loop
+
+#-SDRAMC init
+#------------
+                bl InitSDRAM
+
+
+#- | Set up Supervisor mode and set Supervisor stack
+                mov         r1, #(ARM_MODE_SVC | ARM_I_BIT | ARM_F_BIT )
+                msr         cpsr_c, r1
+#               mov         r13, #STACK
+
+
+
+
+
+#if 0	/*  replace with at91 support 	*/
+	MOV	r2, #IC_BASE			/* R2->interrupt controller */
+	MVN	r1, #0				/* &FFFFFFFF */
+	STR	r1, [r2, #FIQ_DISABLE-IC_BASE]	/* disable all FIQ sources */
+	STR	r1, [r2, #IRQ_DISABLE-IC_BASE]	/* disable all IRQ sources */
+
+	/*
+	 * Jump to the normal (higher) ROM Position. After a reset, the
+	 * ROM is mapped into memory from* location zero upwards as well
+	 * as in its normal position at This code could be executing in
+	 * the lower position. We wish to be executing the code, still
+	 * in ROM, but in its normal (higher) position before we remap
+	 * the machine so that the ROM is no longer dual-mapped from zero
+	 * upwards, but so that RAM appears from 0 upwards.
+	 */
+
+	LDR	pc, L$_HiPosn
+HiPosn:
+
+
+	/*
+	 * We are now executing in the normal (higher, still in ROM)
+	 * position in the memory map.  Remap memory to post-reset state,
+	 * so that the ROM is not now dual-mapped to zero upwards, but
+	 * RAM is mapped from zero, instead.
+	 */
+
+	MOV	r1, #INTEGRATOR_HDR_REMAP
+	MOV	r2, #INTEGRATOR_HDR_BASE
+	STR	r1, [r2, #INTEGRATOR_HDR_CTRL_OFFSET]
+
+	/*
+	 * SSRAM is now mapped from 0 upwards.
+	 *
+	 * Setup asynchronous clocking (eg. core and memory clocks different)
+	 */
+
+	LDR	r1, =INTEGRATOR_HDR_BASE
+	LDR	r2, [r1, #INTEGRATOR_HDR_OSC_OFFSET]
+	AND	r2, r2, #(3 << 23)
+	CMP	r2, #(1 << 23)
+	BNE	clock1
+
+#if defined(CPU_920T) || defined(CPU_920T_T) || \
+    defined(CPU_940T) || defined(CPU_940T_T)
+	/*
+	 * if HDR_OSC indicates (bits[23:24] = 01), set
+	 * implementation-specific bits in the MMU control register - set
+	 * asynchronous mode.
+	 */
+
+	MRC	CP_MMU, 0, r2, c1, c0, 0
+	ORR	r2, r2, #MMUCR_ASYNC
+	MCR	CP_MMU, 0, r2, c1, c0, 0
+#endif
+
+clock1:
+	/* If bits[23:24] were 0, set asynchronous mode in HDR_CTRL */
+
+	LDRLT	r2, [r1, #INTEGRATOR_HDR_CTRL_OFFSET]
+	BICLT	r2, r2, #INTEGRATOR_HDR_CTRL_FASTBUS
+	STRLT	r2, [r1, #INTEGRATOR_HDR_CTRL_OFFSET]
+
+	/*
+	 * setup default clocks
+	 *
+	 * Core clock must always be greater than memory clock.
+	 *
+	 * Read HDR_PROC register, if this is non zero then there is no
+	 * coprocessor, in this case use the default settings. First,
+	 * load the default settings.
+	 */
+
+	LDR	r2, =INTEGRATOR_HDR_OSC_DFLT_VAL
+	LDR	r1, =INTEGRATOR_HDR_BASE
+	LDR	r3, [r1, #INTEGRATOR_HDR_PROC_OFFSET]
+	CMP	r3, #0
+	BNE	write_clock
+	
+	/*
+	 * HDR_PROC was zero => there is a coprocessor. Get the processor ID.
+	 *
+	 * If the processor type is not recognised then the default settings
+	 * will be used.
+	 *
+	 * For safety's sake, make the following conditional upon there being a
+	 * coprocessor in the CPU.
+	 */
+
+#if defined(CPU_720T)  || defined(CPU_720T_T)  || \
+    defined(CPU_740T)  || defined(CPU_740T_T)  || \
+    defined(CPU_920T)  || defined(CPU_920T_T)  || \
+    defined(CPU_940T)  || defined(CPU_940T_T)  || \
+    defined(CPU_946ES) || defined(CPU_946ES_T) || \
+    defined(CPU_966ES) || defined(CPU_966ES_T)
+	MRC	CP_MMU, 0, r1, c0, c0, 0
+	MOV	r3, r1, LSL #16
+	MOV	r3, r3, LSR #20		/* move bits 15-3 to 12-0 */
+
+	CMP	r3, #0x720		/* is this a 720 */
+	LDREQ	r2, =INTEGRATOR_HDR_OSC_720T_VAL
+	BEQ	write_clock
+
+	CMP	r3, #0x740		/* is this a 740 */
+        LDREQ   r2, =INTEGRATOR_HDR_OSC_740T_VAL
+	BEQ     write_clock
+
+	CMP	r3, #0x940		/* is this a 940 */
+	LDREQ	r2, =INTEGRATOR_HDR_OSC_940T_VAL
+	BEQ	write_clock
+
+	LDR	r12, =0x946
+	CMP	r3, r12			/* is this a 946ES */
+	LDREQ	r2, =INTEGRATOR_HDR_OSC_946ES_VAL
+	BEQ	write_clock
+
+	CMP	r3, #0x920		/* is this a 920 */
+	LDREQ	r2, =INTEGRATOR_HDR_OSC_920T_VAL
+	BEQ	write_clock
+
+	MOV	r1, r3, LSR #4		/* is this a 966 */
+	CMP	r1, #0x96
+	BNE	write_clock
+	AND	r1, r3, #0xF
+	CMP	r1, #6
+	LDREQ	r2, =INTEGRATOR_HDR_OSC_966ES_VAL
+#endif /* defined(CPU_720T/740T/920T/940T/966ES) */
+
+write_clock:
+	/* Write clock settings */
+
+	LDR	r1, =INTEGRATOR_HDR_BASE
+	LDR	r3, =0xA05F
+	STR	r3, [r1, #INTEGRATOR_HDR_LOCK_OFFSET]
+	STR	r2, [r1, #INTEGRATOR_HDR_OSC_OFFSET]
+	MOV	r2, #0
+	STR	r2, [r1, #INTEGRATOR_HDR_LOCK_OFFSET]
+
+	/* Set up System BUS and PCI clocks */
+
+	LDR	r1, =INTEGRATOR_SC_BASE
+	STR	r3, [r1, #INTEGRATOR_SC_LOCK_OFFSET]
+	LDR	r2, =(INTEGRATOR_SC_OSC_SYS_20MHz | INTEGRATOR_SC_OSC_PCI_33MHz)
+	STR	r2, [r1, #INTEGRATOR_SC_OSC_OFFSET]
+	MOV	r2, #0
+	STR	r2, [r1, #INTEGRATOR_SC_LOCK_OFFSET]
+
+	/* Initialize static memory. */
+
+	MOV	r1, #INTEGRATOR_EBI_BASE
+	
+	/* CS0 - ROM (Boot Flash) */
+
+	MOV	r2, #INTEGRATOR_EBI_8_BIT | INTEGRATOR_EBI_WS_3
+	STR	r2, [r1, #INTEGRATOR_EBI_CSR0_OFFSET]
+
+	/* CS1 - Flash (Application Flash) */
+
+	MOV	r2, #INTEGRATOR_EBI_32_BIT | INTEGRATOR_EBI_WS_3
+	STR	r2, [r1, #INTEGRATOR_EBI_CSR1_OFFSET]
+
+	/* CS2 - SSRAM (Not on Rev A Boards) */
+
+	MOV	r2, #INTEGRATOR_EBI_32_BIT | INTEGRATOR_EBI_WRITE_ENABLE | \
+		     INTEGRATOR_EBI_SYNC | INTEGRATOR_EBI_WS_2
+	STR	r2, [r1, #INTEGRATOR_EBI_CSR2_OFFSET]
+
+	/* CS3 - Unused (Set up for debug) */
+
+	MOV	r2, #INTEGRATOR_EBI_8_BIT | INTEGRATOR_EBI_WRITE_ENABLE
+	STR	r2, [r1, #INTEGRATOR_EBI_CSR3_OFFSET]
+	
+	/*
+	 * Initialize external target memory.
+	 * Copied (with modifications for GNU) from uHAL.
+	 *
+	 * Size SDRAM (see CM940T User Guide, ARM DUI0125A - s.4.3.8, p.4-16)
+	 *
+	 * Check to see if the SPD data has been loaded.  If the load has
+	 * not completed we will loop upto 64K times before giving up.
+	 */
+
+	LDR	r1, =INTEGRATOR_HDR_SDRAM	/* Load address of HDR_SDRAM */
+	MOV	r2, #0x10000			/* Load count */
+
+sdram1:
+	LDR	r3, [r1]			/* Load contents of HDR_SDRAM */
+
+	/* Check to see if SPD data is loaded */
+
+	TST	r3, #INTEGRATOR_HDR_SDRAM_SPD_OK
+	BNE	sdram2
+	SUBS	r2, r2, #1			/* Decrement the count */
+	B	sdram5
+
+sdram2:
+	/* Load address of the base of SPD data */
+
+	LDR	r1, =INTEGRATOR_HDR_SPDBASE
+	MOV	r3, #0
+
+	/* Calculate the memory size from the SPD data. */
+
+	LDRB	r2, [r1, #31]		/* Get Module Bank Density */
+	MOV	r2, r2, LSL #2		/* Multiply by 4 */
+	LDRB	r3, [r1, #5]		/* Get Number of Banks */
+	MULS	r2, r3, r2		/* Multiply to to get size in MBytes */
+	BEQ	sdram5			/* If zero then something's gone wrong*/
+
+	/* The maximum SDRAM DIMM supported is 256 Mbytes */
+
+	CMP	r2, #256
+	BGT	sdram5
+
+	/*
+	 * We need to convert the size in MBytes to the value the value
+	 * to write to the MEMSIZE field of HDR_SDRAM.  The formula to do
+	 * this is as follows -
+	 *
+	 * 	MEMSIZE = LOG2(SizeInMB) - 4
+	 *
+	 * All the sizes that are supported are powers of 2 so a simple
+	 * algorithm to find LOG2 of number is to count the number of trailing
+	 * zeros.
+	 */
+
+	MOV	r1, #0		/* Initialise the counter */
+sdram4:
+	TST	r2, #1		/* Is the bottom bit set of the size varible */
+	MOVEQ	r2, r2, LSR #1	/* If not set then divide by 2 */
+	ADDEQ	r1, r1, #1	/* If not set then increment the counter */
+	BEQ	sdram4		/* If not set then loop */
+
+	CMP	r2, #1		/* $w2 should now contain 1 */
+	BNE	sdram5		/* If it doesn't then something has gone wrong*/
+
+	/* Load base address of header registers */
+
+	LDR	r2, =INTEGRATOR_HDR_BASE
+
+	/* Load contents of HDR_SDRAM */
+
+	LDR	r3, [r2, #INTEGRATOR_HDR_SDRAM_OFFSET]
+	AND	r3, r3, #3	/* Clear the everything except CASLAT */
+	SUBS	r1, r1, #4	/* Subtract 4 from the number of trailing bits*/
+	BMI	sdram5 		/* If negative then something has gone wrong */
+	ORR	r3, r3, r1, LSL #2	/* Merge it into contents of HDR_SDRAM*/
+
+	LDRB	r1, [r2, #(INTEGRATOR_HDR_SPDBASE_OFFSET + 3)] /* No. of Rows */
+	AND	r1, r1, #0xF		/* Only want bottom 4 bits */
+	ORR	r3, r3, r1, LSL #8	/* Merge into HDR_SDRAM */
+
+	LDRB	r1, [r2, #(INTEGRATOR_HDR_SPDBASE_OFFSET + 4)] /* Num Columns */
+	AND	r1, r1, #0xF		/* Only want bottom 4 bits */
+	ORR	r3, r3, r1, LSL #12	/* Merge into HDR_SDRAM */
+
+	LDRB	r1, [r2, #(INTEGRATOR_HDR_SPDBASE_OFFSET + 5)] /* No. of Banks*/
+	AND	r1, r1, #0xF		/* Only want bottom 4 bits */
+	ORR	r3, r3, r1, LSL #16	/* Merge into HDR_SDRAM */
+
+	/* Write back to HDR_SDRAM */
+
+	STR	r3, [r2, #INTEGRATOR_HDR_SDRAM_OFFSET]
+
+	/*
+	 * Now calculate the size of memory in bytes, this is done by
+	 * shifting 1 by MEMSIZE + 24.  The magic number 24 is the 4 we
+	 * subtracted earlier plus 20 to get the value is bytes (2^20
+	 * being 1 Mbyte).
+	 */
+	MOV	r1, r3, LSR #2		/* Need to extract MEMSIZE from the */
+	AND	r1, r1, #0x7		/* value we wrote to HDR_SDRAM */
+
+	MOV	r2, #1			/* Load 1 */
+	ADD	r1, r1, #24		/* Add 24 to the MEMSIZE value */
+	MOV	r1, r2, LSL r1		/* Shift 1 by (24 + MEMSIZE) */
+	B	sdram6
+
+sdram5:
+	MOV	r1, #0			/* Could not find any good DRAM */
+	
+sdram6:
+	/* Load base address of header registers */
+
+	LDR	r2, =INTEGRATOR_HDR_BASE
+
+	/* Load contents of HDR_STAT */
+
+	LDR	r2, [r2, #INTEGRATOR_HDR_STAT_OFFSET]
+
+	/* Clear all but bits 23:16 to get SSRAM size */
+
+	ANDS	r2, r2, #0xFF0000
+
+	/* If zero then this is a old header with 256K */
+
+	MOVEQ	r2, #0x00040000
+	CMP	r1, r2		/* Is there less SDRAM than the SSRAM */
+	MOVMI	r1, r2		/* If so then return the size of the SSRAM */
+
+	/* r1 now contains memory size: store this in Memory_Size variable */
+
+	LDR	r3, L$_memSize
+	STR	r1, [r3]
+
+	MOV	r3, r1		/* Need to return size in both these registers*/
+#endif
+	
+	/*
+	 * End of DRAM initialisation.
+	 *
+	 * Initialize the stack pointer to just before where the
+	 * uncompress code, copied from ROM to RAM, will run.
+	 */
+
+	LDR	sp, L$_STACK_ADDR
+	MOV	fp, #0			/* zero frame pointer */
+
+	/* jump to C entry point in ROM: routine - entry point + ROM base */
+
+#if	(ARM_THUMB)
+	LDR	r12, L$_rStrtInRom
+	ORR	r12, r12, #1		/* force Thumb state */
+	BX	r12
+#else
+	LDR	pc, L$_rStrtInRom
+#endif	/* (ARM_THUMB) */
+
+
+
+
+
+InitSDRAM:
+                /* Mode register Normal mode, 32 bit access */
+                ldr r3, =0xFFFFFF90
+		ldr r2,	=0x00000000
+                str r2,[r3]
+
+                /* Configuration register
+		NC   01   => 9
+		NR   01   => 12
+		NB   1    => 4
+		CAS  10   => 2
+		TWR  0010 = 2
+		TRC  0101 = 5
+		TRP  0010 = 2
+		TRCD 0010 = 2
+		TRAS 0011 = 3
+		TXSR 0101 = 5
+		 */
+                ldr r2, =0x29912955
+                str r2,[r3,#8]
+
+	        ldr r6, =180000
+waitloop1:
+	        sub r6, r6, #1
+        	bne waitloop1
+
+                /* Mode register NOP command, 32 bit access */
+                ldr r2, =0x00000001
+                str r2,[r3]
+
+                ldr r6, =180000
+waitloop2:
+                sub r6, r6, #1
+                bne waitloop2
+	
+		/* perform a memory access */
+		ldr r1, =0x20000000
+	        ldr r1,[r1]
+
+                /* Mode register  PRECHARGE ALL command, 32 bit access */
+                ldr r2, =0x00000002
+                str r2,[r3]
+
+                /* perform a memory access */
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+
+                /* Mode register REFRESH command, 32 bit access */
+                ldr r2, =0x00000004
+                str r2,[r3]
+
+                /* perform 8 memory access */
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+
+                /* Mode register LOAD MODE REGISTER command, 32 bit access */
+                ldr r2, =0x00000003
+                str r2,[r3]
+
+                /* perform a memory access */
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+
+                /* Mode register Normal mode, 32 bit access */
+                ldr r2, =0x00000000
+                str r2,[r3]
+
+                /* perform a memory access */
+                ldr r1, =0x20000000
+                ldr r1,[r1]
+
+		/* Refresh timer register */
+                ldr r2, =0x00000382
+                str r2,[r3,#4]
+
+		mov pc,lr
+
+
+
+#- MEMC Initialization Data
+#-------------------------
+# 10MHz master clock assumed
+InitTableMEMC:
+# NCS1 assigned to the SDRAM Controller
+            .word         0x00000002  
+# Internal Pull-Up enabled
+            .word         0x00000000  
+            .word         0x00000000  
+            .word         0x00000000  
+# NCS0: 0x10000000, 2MB, 2 tdf, 16 bits, 4 WS
+            .word         0x00003284  
+# NCS1: SDRAM Controller Controlled
+            .word         0x00000000  
+# NCS2: Display Controller not initialized
+            .word         0x00000000  
+# NCS3: SmartMedia Interface not initialized
+            .word         0x00000000  
+# NCS4: not initialized
+            .word         0x00000000  
+# NCS5: not initialized
+            .word         0x00000000  
+# NCS6: not initialized
+            .word         0x00000000  
+# NCS7: FingerChip Interface not initialized
+            .word         0x00000000  
+# REMAP command
+#	    .word         0x00000001
+
+#- System Peripheral Base Addresses
+#----------------------------------
+PtMEMCBase:
+            .word         MEMC_BASE   
+            .word         AIC_BASE    
+PtInitTableMEMC:
+	    .word         InitTableMEMC
+
+#endif
+/******************************************************************************/
+
+/*
+ * PC-relative-addressable pointers - LDR Rn,=sym is broken
+ * note "_" after "$" to stop preprocessor performing substitution
+ */
+
+	.balign	4
+/*
+L$_HiPosn:
+	.long	ROM_TEXT_ADRS + HiPosn - FUNC(romInit)
+*/
+L$_rStrtInRom:
+	.long	ROM_TEXT_ADRS + FUNC(romStart) - FUNC(romInit)
+
+L$_STACK_ADDR:
+	.long	STACK_ADRS
+
+L$_memSize:
+	.long	VAR(integratorMemSize)
+
+#endif
+
+

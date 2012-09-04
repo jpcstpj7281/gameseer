@@ -1,0 +1,27 @@
+Nand.o : $(PRJ_DIR)/../Src/driver/NAND/Nand.c \
+	$(PRJ_DIR)/../Src/driver/NAND/nand.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	$(PRJ_DIR)/../Src/at91rm9200/config.h \
+	$(PRJ_DIR)/prjComps.h \
+	$(PRJ_DIR)/../Src/at91rm9200/at91rm9200dk.h \
+	$(PRJ_DIR)/../Src/at91rm9200/at91rm9200.h \
+	$(PRJ_DIR)/../Src/at91rm9200/h/AT91RM9200_UHP.h \
+	$(PRJ_DIR)/../Src/at91rm9200/h/AT91RM9200_EMAC.h \
+	$(PRJ_DIR)/../Src/at91rm9200/port.h \
+	$(PRJ_DIR)/prjParams.h \
+	$(PRJ_DIR)/../Src/at91rm9200/drivererr.h \
+	$(PRJ_DIR)/../Src/at91rm9200/driverdebug.h \
+	D:/platform/include/sys_include.h \
+	D:/platform/include/sys_types.h \
+	D:/platform/include/sys_errcode.h \
+	D:/platform/include/BSPinterface.h \
+	D:/platform/include/IBCAPI.h \
+	D:/platform/include/debugAPI.h \
+	D:/platform/include/TimerAPI.h \
+	D:/platform/include/CSInterface.h \
+	D:/platform/include/MC_if.h \
+	D:/platform/include/mmapi.h \
+	$(PRJ_DIR)/../Src/driver/include/BSPinclude.h
+
+

@@ -1,0 +1,192 @@
+Document file - DO NOT EDIT
+
+<BEGIN> BUILD_ARMARCH4gnu_BUILDRULE
+application.pl
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_AR
+ararm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_ARCHIVE
+$(PRJ_DIR)/ARMARCH4gnu/application.a
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_AS
+ccarm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CC
+ccarm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CC_ARCH_SPEC
+-mapcs-32 -mlittle-endian -march=armv4
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CFLAGS
+-g \
+	-mapcs-32 \
+	-mlittle-endian \
+	-march=armv4 \
+	-ansi \
+	-fno-builtin \
+	-DARMEL \
+	-I. \
+	-I$(WIND_BASE)/target/h/ \
+	-DCPU=ARMARCH4 \
+	-DTOOL_FAMILY=gnu \
+	-DTOOL=gnu
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CFLAGS_AS
+-g \
+	-mapcs-32 \
+	-mlittle-endian \
+	-march=armv4 \
+	-ansi \
+	-fno-builtin \
+	-P \
+	-xassembler-with-cpp \
+	-I. \
+	-I$(WIND_BASE)/target/h/ \
+	-DCPU=ARMARCH4 \
+	-DTOOL_FAMILY=gnu \
+	-DTOOL=gnu
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CPP
+ccarm -E -P
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_HEX_FLAGS
+
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LD
+ldarm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LDFLAGS
+-X -EL -N
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LD_PARTIAL
+ccarm -r -nostdlib -Wl,-X -Wl,-EL
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LD_PARTIAL_FLAGS
+-X -EL -r
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_NM
+nmarm -g
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_DEFINE_MACRO
+-D
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_DEPEND
+-M -w
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_GENERATE_DEPENDENCY_FILE
+-MD
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_INCLUDE_DIR
+-I
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_LANG_C
+-xc
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_UNDEFINE_MACRO
+-U
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_POST_BUILD_RULE
+
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_PRJ_LIBS
+
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_SIZE
+sizearm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_TOOL_FAMILY
+gnu
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_RO_DEPEND_PATH
+{$(WIND_BASE)/target/h/} \
+	{$(WIND_BASE)/target/src/} \
+	{$(WIND_BASE)/target/config/}
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_TC
+::tc_ARMARCH4gnu
+<END>
+
+<BEGIN> BUILD_RULE_application.out
+
+<END>
+
+<BEGIN> BUILD_RULE_application.pl
+
+<END>
+
+<BEGIN> BUILD_RULE_archive
+
+<END>
+
+<BEGIN> BUILD_RULE_objects
+
+<END>
+
+<BEGIN> BUILD__CURRENT
+ARMARCH4gnu
+<END>
+
+<BEGIN> BUILD__LIST
+ARMARCH4gnu
+<END>
+
+<BEGIN> CORE_INFO_TYPE
+::prj_vxApp
+<END>
+
+<BEGIN> CORE_INFO_VERSION
+2.2
+<END>
+
+<BEGIN> FILE_$(PRJ_DIR)/app_demo.c_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_$(PRJ_DIR)/app_demo.c_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h
+<END>
+
+<BEGIN> FILE_$(PRJ_DIR)/app_demo.c_objects
+app_demo.o
+<END>
+
+<BEGIN> FILE_$(PRJ_DIR)/app_demo.c_tool
+C/C++ compiler
+<END>
+
+<BEGIN> PROJECT_FILES
+$(PRJ_DIR)/app_demo.c
+<END>
+
+<BEGIN> userComments
+application for qbox
+<END>
+
