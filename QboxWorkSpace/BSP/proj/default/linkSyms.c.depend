@@ -1,0 +1,3 @@
+linkSyms.o : $(PRJ_DIR)/linkSyms.c
+
+

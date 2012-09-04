@@ -1,0 +1,971 @@
+Document file - DO NOT EDIT
+
+<BEGIN> BUILD_ARMARCH4gnu_BUILDRULE
+driver_hal.pl
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_AR
+ararm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_ARCHIVE
+$(PRJ_DIR)/ARMARCH4gnu/dirver_hal.a
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_AS
+ccarm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CC
+ccarm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CC_ARCH_SPEC
+-mapcs-32 -mlittle-endian -march=armv4
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CFLAGS
+-g \
+	-mapcs-32 \
+	-mlittle-endian \
+	-march=armv4 \
+	-ansi \
+	-fno-builtin \
+	-DARMEL \
+	-I. \
+	-I$(WIND_BASE)/target/h/ \
+	-DCPU=ARMARCH4 \
+	-DTOOL_FAMILY=gnu \
+	-DTOOL=gnu
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CFLAGS_AS
+-g \
+	-mapcs-32 \
+	-mlittle-endian \
+	-march=armv4 \
+	-ansi \
+	-fno-builtin \
+	-P \
+	-xassembler-with-cpp \
+	-I. \
+	-I$(WIND_BASE)/target/h/ \
+	-DCPU=ARMARCH4 \
+	-DTOOL_FAMILY=gnu \
+	-DTOOL=gnu
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_CPP
+ccarm -E -P
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_HEX_FLAGS
+
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LD
+ldarm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LDFLAGS
+-X -EL -N
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LD_PARTIAL
+ccarm -r -nostdlib -Wl,-X -Wl,-EL
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_LD_PARTIAL_FLAGS
+-X -EL -r
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_NM
+nmarm -g
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_DEFINE_MACRO
+-D
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_DEPEND
+-M -w
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_GENERATE_DEPENDENCY_FILE
+-MD
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_INCLUDE_DIR
+-I
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_LANG_C
+-xc
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_OPTION_UNDEFINE_MACRO
+-U
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_POST_BUILD_RULE
+
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_PRJ_LIBS
+
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_SIZE
+sizearm
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_MACRO_TOOL_FAMILY
+gnu
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_RO_DEPEND_PATH
+{$(WIND_BASE)/target/h/} \
+	{$(WIND_BASE)/target/src/} \
+	{$(WIND_BASE)/target/config/}
+<END>
+
+<BEGIN> BUILD_ARMARCH4gnu_TC
+::tc_ARMARCH4gnu
+<END>
+
+<BEGIN> BUILD_RULE_archive
+
+<END>
+
+<BEGIN> BUILD_RULE_dirver_hal.out
+
+<END>
+
+<BEGIN> BUILD_RULE_dirver_hal.pl
+
+<END>
+
+<BEGIN> BUILD_RULE_driver_hal.out
+
+<END>
+
+<BEGIN> BUILD_RULE_driver_hal.pl
+
+<END>
+
+<BEGIN> BUILD_RULE_objects
+
+<END>
+
+<BEGIN> BUILD__CURRENT
+ARMARCH4gnu
+<END>
+
+<BEGIN> BUILD__LIST
+ARMARCH4gnu
+<END>
+
+<BEGIN> CORE_INFO_TYPE
+::prj_vxApp
+<END>
+
+<BEGIN> CORE_INFO_VERSION
+2.2
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/IServer.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/IServer.cpp_dependencies
+Z:/gameseer/qbox/IServer.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/common.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/IServer.cpp_objects
+IServer.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/IServer.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/bgtest.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/bgtest.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/bgtest.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/protocol/protocol.h \
+	Z:/gameseer/qbox/protocol/pstatus.h \
+	Z:/gameseer/qbox/protocol/pbgtest.h \
+	Z:/gameseer/qbox/protocol/pchannel.h \
+	Z:/gameseer/qbox/protocol/pevent.h \
+	Z:/gameseer/qbox/protocol/pwindow.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/bgtest.cpp_objects
+bgtest.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/bgtest.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/busDriver.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/busDriver.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/busDriver.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/chip/devBus.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/list \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_uninitialized.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_list.h \
+	Z:/gameseer/qbox/chip/dev.h \
+	Z:/gameseer/qbox/protocol/protocol.h \
+	Z:/gameseer/qbox/protocol/pstatus.h \
+	Z:/gameseer/qbox/protocol/pbgtest.h \
+	Z:/gameseer/qbox/protocol/pchannel.h \
+	Z:/gameseer/qbox/protocol/pevent.h \
+	Z:/gameseer/qbox/protocol/pwindow.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/busDriver.cpp_objects
+busDriver.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/busDriver.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/channel.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/channel.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/channel.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/protocol/protocol.h \
+	Z:/gameseer/qbox/protocol/pstatus.h \
+	Z:/gameseer/qbox/protocol/pbgtest.h \
+	Z:/gameseer/qbox/protocol/pchannel.h \
+	Z:/gameseer/qbox/protocol/pevent.h \
+	Z:/gameseer/qbox/protocol/pwindow.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/channel.cpp_objects
+channel.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/channel.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/commModel.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/commModel.cpp_dependencies
+Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/commModel.cpp_objects
+commModel.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/commModel.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/entSetting.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/entSetting.cpp_dependencies
+Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/entSetting.cpp_objects
+entSetting.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/entSetting.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/event.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/event.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/event.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/protocol/protocol.h \
+	Z:/gameseer/qbox/protocol/pstatus.h \
+	Z:/gameseer/qbox/protocol/pbgtest.h \
+	Z:/gameseer/qbox/protocol/pchannel.h \
+	Z:/gameseer/qbox/protocol/pevent.h \
+	Z:/gameseer/qbox/protocol/pwindow.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/event.cpp_objects
+event.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/event.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/main.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/main.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	Z:/gameseer/qbox/IServer.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/status.h \
+	Z:/gameseer/qbox/windows.h \
+	Z:/gameseer/qbox/event.h \
+	Z:/gameseer/qbox/channel.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/main.cpp_objects
+main.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/main.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgBase.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgBase.cpp_dependencies
+Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgBase.cpp_objects
+msgBase.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgBase.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgHandler.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgHandler.cpp_dependencies
+Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/IServer.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgHandler.cpp_objects
+msgHandler.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/msgHandler.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/status.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/status.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/status.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/protocol/protocol.h \
+	Z:/gameseer/qbox/protocol/pstatus.h \
+	Z:/gameseer/qbox/protocol/pbgtest.h \
+	Z:/gameseer/qbox/protocol/pchannel.h \
+	Z:/gameseer/qbox/protocol/pevent.h \
+	Z:/gameseer/qbox/protocol/pwindow.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/status.cpp_objects
+status.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/status.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/taskCheckFPGA.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/taskCheckFPGA.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/taskCheckFPGA.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/taskCheckFPGA.cpp_objects
+taskCheckFPGA.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/taskCheckFPGA.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/windows.cpp_dependDone
+TRUE
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/windows.cpp_dependencies
+$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iostream.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/streambuf.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/libio.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/arm-wrs-vxworks/include/_G_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stdio-lock.h \
+	Z:/gameseer/qbox/windows.h \
+	Z:/gameseer/qbox/commModel.h \
+	Z:/gameseer/qbox/msgBase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/map \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_tree.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_algobase.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_config.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_relops.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_pair.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/type_traits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/new \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/exception \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_iterator.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_construct.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_function.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_map.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multimap.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/string \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstddef \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/straits.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cctype \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/cstring \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/alloc.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/iterator \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/std/bastring.cc \
+	Z:/gameseer/qbox/protocol/protocol.h \
+	Z:/gameseer/qbox/protocol/pstatus.h \
+	Z:/gameseer/qbox/protocol/pbgtest.h \
+	Z:/gameseer/qbox/protocol/pchannel.h \
+	Z:/gameseer/qbox/protocol/pevent.h \
+	Z:/gameseer/qbox/protocol/pwindow.h \
+	Z:/gameseer/qbox/msgHandler.h \
+	Z:/gameseer/qbox/msgCommon.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stdarg.h \
+	Z:/gameseer/qbox/common.h \
+	Z:/gameseer/qbox/toString.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/sstream \
+	Z:/gameseer/qbox/entSetting.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/set \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_set.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/include/g++-3/stl_multiset.h
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/windows.cpp_objects
+windows.o
+<END>
+
+<BEGIN> FILE_Z:/gameseer/qbox/windows.cpp_tool
+C/C++ compiler
+<END>
+
+<BEGIN> PROJECT_FILES
+Z:/gameseer/qbox/bgtest.cpp \
+	Z:/gameseer/qbox/busDriver.cpp \
+	Z:/gameseer/qbox/channel.cpp \
+	Z:/gameseer/qbox/commModel.cpp \
+	Z:/gameseer/qbox/entSetting.cpp \
+	Z:/gameseer/qbox/event.cpp \
+	Z:/gameseer/qbox/IServer.cpp \
+	Z:/gameseer/qbox/msgBase.cpp \
+	Z:/gameseer/qbox/msgHandler.cpp \
+	Z:/gameseer/qbox/status.cpp \
+	Z:/gameseer/qbox/taskCheckFPGA.cpp \
+	Z:/gameseer/qbox/windows.cpp \
+	Z:/gameseer/qbox/main.cpp
+<END>
+
+<BEGIN> userComments
+dirver interface
+<END>
+

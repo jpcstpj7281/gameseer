@@ -1,0 +1,9 @@
+romInit.o : $(PRJ_DIR)/../Src/at91rm9200/romInit.s \
+	$(PRJ_DIR)/../Src/at91rm9200/config.h \
+	$(PRJ_DIR)/prjComps.h \
+	$(PRJ_DIR)/../Src/at91rm9200/at91rm9200dk.h \
+	$(PRJ_DIR)/../Src/at91rm9200/at91rm9200.h \
+	$(PRJ_DIR)/../Src/at91rm9200/port.h \
+	$(PRJ_DIR)/prjParams.h
+
+

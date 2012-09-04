@@ -1,0 +1,16 @@
+UrgencyChannelDrv.o : $(PRJ_DIR)/../Src/driver/485/UrgencyChannelDrv.c \
+	$(PRJ_DIR)/../Src/driver/485/UrgencyChannelDrv.h \
+	$(WIND_BASE)/host/$(WIND_HOST_TYPE)/lib/gcc-lib/arm-wrs-vxworks/2.9-010413/include/stddef.h \
+	D:/platform/include/sys_include.h \
+	D:/platform/include/sys_types.h \
+	D:/platform/include/sys_errcode.h \
+	D:/platform/include/BSPinterface.h \
+	D:/platform/include/IBCAPI.h \
+	D:/platform/include/debugAPI.h \
+	D:/platform/include/TimerAPI.h \
+	D:/platform/include/CSInterface.h \
+	D:/platform/include/MC_if.h \
+	D:/platform/include/mmapi.h \
+	$(PRJ_DIR)/../Src/driver/include/BSPinclude.h
+
+
