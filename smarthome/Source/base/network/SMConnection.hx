@@ -215,8 +215,8 @@ class SMConnection extends Connection{
         var pos:Int = 0;
         trace( "data len: "+ data.length);
         while ( pos  < data.length ){
-            var msgid:Int = NetworkMgr.bytes2Short( data, pos+16 );
-            var msgType= NetworkMgr.bytes2Short( data, pos+18);
+            var msgType:Int= NetworkMgr.bytes2Short( data, pos+16);
+            var msgid:Int = NetworkMgr.bytes2Short( data, pos+18 );
             var msgidType= (msgid << 16) + msgType;
 
             var len:Int = NetworkMgr.bytes2Int( data, pos+ 4);

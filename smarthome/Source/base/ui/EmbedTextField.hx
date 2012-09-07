@@ -1,6 +1,7 @@
 package base.ui;
 
 
+import nme.Assets;
 import nme.text.TextField;
 import base.data.DataLoader;
 
@@ -9,13 +10,13 @@ class EmbedTextField extends TextField {
     public function new (){
 
         super();
-#if (android || neko)
+#if (android )
         //if( cpp.Sys.systemName() == "Linux" ){
-            if ( DataLoader.inst.textFormat_ != null){
-                defaultTextFormat = DataLoader.inst.textFormat_;
-                embedFonts = true;
-            }
-            //}
+        if ( DataLoader.inst.textFormat_ != null){
+            defaultTextFormat = DataLoader.inst.textFormat_;
+            embedFonts = true;
+        }
+        //}
 #end
 
     }
@@ -26,7 +27,7 @@ class EmbedTextField extends TextField {
 #if android
         border = flag;
 #elseif cpp
-        if( cpp.Sys.systemName() != "Linux" ){
+        if( Sys.systemName() != "Linux" ){
             border = flag;
         }
 #end

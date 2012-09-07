@@ -159,7 +159,8 @@ class NetworkMgr{
                     }else trace("unavailable data: " + data.toString() );
                     return ; 
                 }
-                var msgType:Int = NetworkMgr.bytes2Short( data, 16 );
+                var msgType:Int = NetworkMgr.bytes2Short( data, 18 );
+                //trace(msgType);
 
                 if (msgType == 1 ){
                     var datas:Hash<Bytes> = parseData( data);
@@ -178,6 +179,8 @@ class NetworkMgr{
                         }
                     }
                     noreplyBroadcast(datas, isThis);
+                }else{
+                    trace("sever: unknow msg type");
                 }
 
             }
