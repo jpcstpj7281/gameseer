@@ -15,7 +15,16 @@ class BaseSocket extends Socket{
     }
 #if sys
     public function writeBytes( bytes:haxe.io.Bytes):Void{ socket_write_bytes( __s, bytes.getData() ); }
-    public function readBytes( ):haxe.io.Bytes { var b = socket_read_bytes( __s ); if(b == null) return null; else return haxe.io.Bytes.ofData(b) ; }
+    public function readBytes( ):haxe.io.Bytes { 
+        try{
+            var b = socket_read_bytes( __s ); 
+            if(b == null) return null; else return haxe.io.Bytes.ofData(b) ; 
+        }catch( e:Dynamic){
+            trace(e);
+        }
+        return null;
+    }
+
 
 #if cpp
     private static var socket_write_bytes= cpp.Lib.load("std", "socket_write", 2);

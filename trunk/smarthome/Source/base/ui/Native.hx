@@ -47,9 +47,11 @@ class Native {
         trace("nativeInput2");
 
         //jni_show_keyboard(true);
-#elseif cpp
+#elseif (cpp ||neko)
         if ( cpp_openInput == null ){ cpp_openInput = Lib.load ("native", "native_openInput", 0); }
-        if ( cpp.Sys.systemName() != "Linux") rs= cpp_openInput();
+        if ( Sys.systemName() != "Linux") {
+            rs= new String(cpp_openInput());
+        }
 #end
 
     }
@@ -70,7 +72,7 @@ class Native {
         trace("speechInput1");
         nme.Lib.postUICallback( function() { jni_speech_input();  } );
         trace("speechInput2");
-#elseif cpp
+#elseif (cpp || neko)
         rs= "";
 #end
     }
@@ -83,9 +85,9 @@ class Native {
         trace("openBrowser");
         nme.Lib.postUICallback( function() { jni_open_browser( address);  } );
         trace("openBrowser");
-#elseif cpp
+#elseif (cpp || neko)
         if ( cpp_openBrowser== null ){ cpp_openBrowser= Lib.load ("native", "native_openBrowser", 1); }
-        if ( cpp.Sys.systemName() != "Linux"){
+        if ( Sys.systemName() != "Linux"){
             rs= cpp_openBrowser( address);
         }
 #end
@@ -101,9 +103,9 @@ class Native {
                 jni_open_embed_browser( address);  
                 } );
         trace("openEmbedBrowser");
-#elseif cpp
+#elseif (cpp || neko)
         if ( cpp_openBrowser== null ){ cpp_openBrowser= Lib.load ("native", "native_openBrowser", 1); }
-        if ( cpp.Sys.systemName() != "Linux"){
+        if ( Sys.systemName() != "Linux"){
             rs= cpp_openBrowser( address);
         }
 #end
@@ -134,7 +136,7 @@ class Native {
     private static var jni_open_browser:Dynamic;
     private static var jni_open_embed_browser:Dynamic;
     private static var jni_open_ui_view:Dynamic;
-#elseif cpp
+#elseif (cpp || neko)
 
     //private static var cpp_call_printf = Lib.load ("test", "test_call_printf", 1);
     private static var cpp_openInput:Dynamic;

@@ -68,7 +68,7 @@ class Connection{
         _socket.readBytes(ba);
         var b:Bytes = Bytes.ofData(ba);
         return b;
-#elseif cpp
+#elseif (cpp||neko)
 
         var arr = Socket.select([_socket], [], [], 0.000001 );
         if (arr.read.length > 0 ) { return _socket.readBytes();}
