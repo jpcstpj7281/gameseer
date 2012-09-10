@@ -136,10 +136,10 @@ class SMConnection extends Connection{
     }
 
     inline public function setMsg(  msgId:Int , msgType:Int = 1 ) :Bool{
-        _msg.set(2,  msgType );
-        _msg.set(3,  msgType >> 8);
         _msg.set(0,  msgId );
         _msg.set(1,  msgId >> 8);
+        _msg.set(2,  msgType );
+        _msg.set(3,  msgType >> 8);
         return true;
     }
 
@@ -215,8 +215,8 @@ class SMConnection extends Connection{
         var pos:Int = 0;
         trace( "data len: "+ data.length);
         while ( pos  < data.length ){
-            var msgType:Int= NetworkMgr.bytes2Short( data, pos+16);
-            var msgid:Int = NetworkMgr.bytes2Short( data, pos+18 );
+            var msgid:Int = NetworkMgr.bytes2Short( data, pos+16 );
+            var msgType:Int= NetworkMgr.bytes2Short( data, pos+18);
             var msgidType= (msgid << 16) + msgType;
 
             var len:Int = NetworkMgr.bytes2Int( data, pos+ 4);

@@ -47,6 +47,7 @@ class Connection{
 #else
         try{
             //_socket.setBlocking( false);
+            //最小可以分辨毫秒
             _socket.setTimeout( 0.001);
             _socket.connect(new Host(_ipv4), _port) ;
         }catch( e:Dynamic){
@@ -70,6 +71,7 @@ class Connection{
         return b;
 #elseif (cpp||neko)
 
+        //时间最小是微秒，timeout以秒为单位
         var arr = Socket.select([_socket], [], [], 0.000001 );
         if (arr.read.length > 0 ) { return _socket.readBytes();}
         else return null;

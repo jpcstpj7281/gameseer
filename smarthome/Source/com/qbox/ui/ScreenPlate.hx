@@ -151,22 +151,22 @@ class ScreenPlate extends CommDialog{
     }
     function onThisMouseUp( evt:MouseEvent ):Void{ 
         if ( _isDown ){
-            if ( _isMoving ){
+            if ( _isMoving && _movingWnd !=null ){
                 //move window
                 _movingWnd.x = evt.stageX - _movex;
                 _movingWnd.y = evt.stageY - _movey;
                 _movingWnd._wnd.move( cast _movingWnd.x, cast _movingWnd.y);
-            }else if ( _isResize){
+            }else if ( _isResize && _movingWnd != null){
                 var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
                 var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
                 //resize window
                 _movingWnd.resizeWnd( w , h);
             }else{
                 if ( evt.stageX == _downx && evt.stageY == _downy ){
-                    if (evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){
+                    if (_movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){
                         _movingWnd.shiftRightDownWnd( );
                     }
-                    if (evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
+                    if (_movingWnd !=null && evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
                         _movingWnd.shiftLeftUpWnd();
                     }
                 }else{
@@ -207,6 +207,7 @@ class ScreenPlate extends CommDialog{
                         }
                         //close window
                         if ( _movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY < _movingWnd.y +10 ){
+                            trace("closeWnd");
                             _movingWnd.closeWnd();
                             _movingWnd.parent.removeChild(_movingWnd);
                             cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);

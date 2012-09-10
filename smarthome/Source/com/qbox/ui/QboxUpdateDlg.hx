@@ -87,6 +87,7 @@ class QboxUpdateDlg extends CommDialog{
             trace("finished");
             return;
         }
+        trace("test");
         var start:Int = Std.parseInt(args.get("start"))+500;
         var end:Int = Std.parseInt(args.get("end"));
         //var fname = DIR+"/"+_dirs[_currSwitch];

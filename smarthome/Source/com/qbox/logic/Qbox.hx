@@ -102,7 +102,19 @@ class Qbox extends SMConnection{
     public function connectedInit():Bool{
         loadInput();
         loadOutput();
-        loadOutputResolution("out0");
+        //loadOutputResolution("out0");
+        closeAllWnd();
         return true;
+    }
+
+    function closeAllWnd(){
+        clearData();
+        startListening( 16, cbCloseAllWnd, 2);
+        setMsg( 15, 2);
+        sendData();
+    }
+
+    function cbCloseAllWnd( args:Dynamic){
+        trace(args);
     }
 }

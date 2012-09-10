@@ -97,6 +97,13 @@ class Wnd{
         for (i in 0..._screens.length){ _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd); }
     }
 
+    public function reset(x:Int, y:Int, w:Int, h:Int){
+        _virtualX = x;
+        _virtualY = y;
+        _virtualHeight = h;
+        _virtualWidth = w;
+        for (i in 0..._screens.length){ _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd); }
+    }
     public function close(){
         //var ss = ScreenMgr.getInst()._screens;
         for (i in 0..._screens.length){ _screens[i].closeWnd( _handles[i], cbCloseWnd); }
