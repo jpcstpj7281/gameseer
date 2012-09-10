@@ -4,7 +4,7 @@
 	<app title="SmartHome" file="SmartHome" main="com.blueseer.main.SmartHome" package="com.blueseer.main" version="1.0.0" company="" />
 
 	<window width="480" height="800" fps="30" orientation="landscape" resizable="true" if="target_flash" />
-	<window width="480" height="800" fps="30" orientation="portrait" resizable="true"  if="target_cpp" />
+	<window width="480" height="500" fps="30" orientation="portrait" resizable="true"  if="target_cpp" />
 	<window width="480" height="500" fps="30" orientation="portrait" resizable="true" if="target_neko" />
 	<window width="0" background="0xffffff" height="0" fps="30" orientation="portrait" resizable="true"  if="target_android" />
 	<!-- <window width="0" height="0" fps="30" orientation="portrait" resizable="true" unless="target_flash" /> -->

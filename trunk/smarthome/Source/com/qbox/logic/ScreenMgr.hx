@@ -14,8 +14,6 @@ class ScreenMgr {
         return inst;
     }
 
-
-
     //Array< Qbox>, container of Qboxes.
     public var _screens:Array<Screen>;
 
@@ -42,7 +40,6 @@ class ScreenMgr {
         _height = _resHeight = 768;
     }
 
-
     public function createColScreen( ):Array<Screen>{
         ++_col;
         if ( _col == 1  && _row == 0 ) _row = 1;
@@ -57,7 +54,6 @@ class ScreenMgr {
             _screens.push(c);
             arr.push(c);
         }
-
         return arr;
     }
 

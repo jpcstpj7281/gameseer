@@ -34,7 +34,7 @@ class Config extends Sprite
 #end
 
     //public static var connIP:String = "192.168.1.129";
-    public static var connIP:String = "192.168.1.131";
+    public static var connIP:String = "127.0.0.1";
     //public static var connIP:String = "192.168.1.127";
 
     public static var conf_:Fast; //静态化才可以在CPP中提早初始化对象

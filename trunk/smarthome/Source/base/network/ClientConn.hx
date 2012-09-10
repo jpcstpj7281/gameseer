@@ -25,8 +25,8 @@ class ClientConn{
 
     public function new( s:BaseSocket){
         _socket = s;
+        //最小可以分辨毫秒
         _socket.setTimeout(0.001);
-
 
         var bb:BytesBuffer = new BytesBuffer();
         //head
@@ -101,10 +101,10 @@ class ClientConn{
     }
 
     inline public function setMsg(  msgId:Int , msgType:Int = 1 ) :Bool{
-        _msg.set(0,  msgType );
-        _msg.set(1,  msgType >> 8);
-        _msg.set(2,  msgId );
-        _msg.set(3,  msgId >> 8);
+        _msg.set(0,  msgId );
+        _msg.set(1,  msgId >> 8);
+        _msg.set(2,  msgType );
+        _msg.set(3,  msgType >> 8);
         return true;
     }
 

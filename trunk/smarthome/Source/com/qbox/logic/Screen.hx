@@ -29,8 +29,8 @@ class Screen{
             trace("there is a set wnd operation processing.");
         }
 
-        var screenx:Int = _virtualWidth * _col;
-        var screeny:Int = _virtualHeight * _row;
+        var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;
+        var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;
         var screenw:Int = _virtualWidth;
         var screenh:Int = _virtualHeight;
         var isOutOfScreen = false;
@@ -38,6 +38,7 @@ class Screen{
             if (x + w > screenx ){
                 if ( x+w > screenx+_virtualWidth){
                     screenw = _virtualWidth;
+                    trace(screenw);
                 }else{
                     screenw =  w - screenx +x;
                     trace(screenw);
@@ -49,11 +50,16 @@ class Screen{
             }
         }else{
             if ( x >= screenx && x <= screenx + _virtualWidth) {
+                trace(x);
+                trace(w);
+                trace(screenx);
+                trace(_virtualWidth);
                 if ( x+w >= screenx+_virtualWidth){
-                    screenw = _virtualWidth + screenx ;
+                    screenw = _virtualWidth + screenx - x;
                     trace(screenw);
                 }else{
                     screenw =  w;
+                    trace(screenw);
                 }
                 screenx = x - screenx;
             }else if ( x >screenx + _virtualWidth){
@@ -76,7 +82,7 @@ class Screen{
         }else if ( !isOutOfScreen){
             if ( y >= screeny && y <= screeny + _virtualHeight){
                 if ( y+h >= screeny+_virtualHeight){
-                    screenh = _virtualHeight +screeny - y;
+                    screenh = _virtualHeight +screeny -y;
                 }else{
                     screenh = h;
                 }
@@ -103,14 +109,21 @@ class Screen{
                 //calculate real window size
                 var pw = _resWidth /_virtualWidth ;
                 var ph = _resHeight/_virtualHeight;
-                var qx = cast(screenx*pw,Int);
-                var qy = cast(screeny*ph,Int);
-                var qw = cast(screenw*pw,Int);
-                var qh = cast(screenh*ph,Int);
+                trace( screenx);
+                trace( screeny);
+                trace( screenw);
+                trace( screenh);
+                trace(pw);
+                trace(ph);
+                var qx = Math.round(screenx*pw);
+                var qy = Math.round(screeny*ph);
+                var qw = Math.round(screenw*pw);
+                var qh = Math.round(screenh*ph);
                 trace("qbox x: "+qx);
                 trace("qbox y: "+qy);
                 trace("qbox w: "+qw);
                 trace("qbox h: "+qh);
+                trace(_output);
                 q.clearData();
                 q.startListening( 6, cbSetWnd, 2);
                 q.setMsg( 5, 2);
@@ -135,6 +148,10 @@ class Screen{
             var qy = Math.round(screeny*ph);
             var qw = Math.round(screenw*pw);
             var qh = Math.round(screenh*ph);
+            trace("qbox x: "+qx);
+            trace("qbox y: "+qy);
+            trace("qbox w: "+qw);
+            trace("qbox h: "+qh);
             test.set( "x", (Std.string(qx)));
             test.set( "y", (Std.string(qy)));
             test.set( "w", (Std.string(qw)));
@@ -189,6 +206,24 @@ class Screen{
         _currCB = null;
     }
 
+    public function hideWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
+#if !neko
+        var q = QboxMgr.getInst().getQboxByIp( _qboxid);
+        if ( q != null){
+            q.clearData();
+            q.startListening( 10, cbShowWnd, 2);
+            q.setMsg( 9, 2);
+            q.addKeyVal( "winHandle", Bytes.ofString(handle));
+            q.addKeyVal( "showState", Bytes.ofString("hide"));
+            q.sendData();
+        }
+#else
+        var test= new Hash<String>();
+        test.set("winHandle","1");
+        test.set("error","0");
+        cbShowWnd(test);
+#end
+    }
     public function showWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
 #if !neko
         var q = QboxMgr.getInst().getQboxByIp( _qboxid);
@@ -197,7 +232,7 @@ class Screen{
             q.startListening( 10, cbShowWnd, 2);
             q.setMsg( 9, 2);
             q.addKeyVal( "winHandle", Bytes.ofString(handle));
-            q.addKeyVal( "showState", Bytes.ofString("1"));
+            q.addKeyVal( "showState", Bytes.ofString("show"));
             q.sendData();
         }
 #else
@@ -223,7 +258,7 @@ class Screen{
             q.clearData();
             q.startListening( 12, cbCloseWnd, 2);
             q.setMsg( 11, 2);
-            q.addKeyVal( "wndHandle", Bytes.ofString(winHandle));
+            q.addKeyVal( "winHandle", Bytes.ofString(winHandle));
             q.sendData();
         }
 #else

@@ -29,11 +29,19 @@ class WndGraphicDlg extends CommDialog{
 
     public var _channel:Channel;
 
+    var _redrawW:Float;
+    var _redrawH:Float;
+
     public function new ( mgr:CommDialogMgr ){
         super( mgr);
 
         _virtualWnd = new Sprite();
         addChild(_virtualWnd);
+    }
+
+    override function show (){
+        //trace("test");
+        return super.show();
     }
 
     public function shiftLeftUpWnd( isMax:Bool = true){
@@ -65,17 +73,20 @@ class WndGraphicDlg extends CommDialog{
     }
 
     function redrawWnd( w:Float, h:Float){
+        _redrawW = w;
+        _redrawH = h;
         _virtualWnd.graphics.clear();
         _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
         _virtualWnd.graphics.beginFill(0xFFFFFF, 1);
-        _virtualWnd.graphics.drawRect( 0,0, w, h);
+        _virtualWnd.graphics.drawRect( 0,0, _redrawW, _redrawH);
         _virtualWnd.graphics.beginFill(0x808080, 1);
-        _virtualWnd.graphics.drawRect( w-10,h-10, 10, 10);
+        _virtualWnd.graphics.drawRect( _redrawW-10,_redrawH-10, 10, 10);
         _virtualWnd.graphics.beginFill(0x808080, 1);
-        _virtualWnd.graphics.drawRect( w-10,0, 10, 10);
+        _virtualWnd.graphics.drawRect( _redrawW-10,0, 10, 10);
         _virtualWnd.graphics.beginFill(0x808080, 1);
         _virtualWnd.graphics.drawRect( 0,0, 10, 10);
     }
+
     public function resizeWnd( w:Int, h:Int){
         //removeChild(_virtualWnd);
         //_virtualWnd = new Sprite();
