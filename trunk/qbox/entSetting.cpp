@@ -221,6 +221,12 @@ uint32_t EntSetting::createWindow(uint32_t winX,uint32_t winY,uint32_t width,uin
 {
 	m_windowNum++;
 
+	if(m_windowNum >2)
+	{
+		m_windowNum--;
+		return 0;
+	}
+
 	WindowInfo info;
 	info.winX = winX;
 	info.winY = winY;
@@ -228,6 +234,7 @@ uint32_t EntSetting::createWindow(uint32_t winX,uint32_t winY,uint32_t width,uin
 	info.height = height;
 
 	m_windowInfo.insert(make_pair(m_windowNum,info));
+
 
 	return m_windowNum;
 }
@@ -243,6 +250,7 @@ bool EntSetting::delWindow(uint32_t winHandle)
 	else
 	{
 		m_windowInfo.erase(winHandle);
+		m_windowNum--;
 	}
 	return true;
 }

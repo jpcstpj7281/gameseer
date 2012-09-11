@@ -63,6 +63,8 @@ void runServer(int port)
 	Event evt;
 	Channel channel;
 
+
+
 	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
 	MsgHandler::Instance()->setModel(TYPE_MODEL_WINDOWS,(CommModel*)(&windows));
 	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&evt));
@@ -78,18 +80,26 @@ void runServer(int port)
 	IServer::Instance()->setPort(port);
 
 
+	taskDelay(100);
+	initOutputModel(TYPE_MODEL_1024_768);
+
 	IServer::Instance()->setMsgHandler(MsgHandler::Instance());
 	IServer::Instance()->Server();
+
+
+
 }
 
 #ifndef __unix__
-void testTaskServer()
+void enterApp()
 {
 	int ret = 0;
-	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,0,0,0,0,0,0,0,0,0,0);
+	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,5000,0,0,0,0,0,0,0,0,0);
 
 }
 #endif
+
+
 
 
 

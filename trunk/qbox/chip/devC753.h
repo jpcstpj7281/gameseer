@@ -68,6 +68,9 @@ public:
 	void C753SetOutputHorizontalSync(uint16_t wVal);
 	void C753SetOutputVerticalSync(uint16_t wVal);
 
+	void C753SetHorizontalSyncResetDelay(uint8_t byVal);
+	void C753SetVerticalSyncResetDelay(uint8_t byVal);
+
 	void C753SetForcedSyncResetDelay(uint8_t byVal);
 	void C753SetForcedSyncResetControl(uint16_t wVal);
 	void C753SetFieldInterlockTransferControl(uint8_t byVal);

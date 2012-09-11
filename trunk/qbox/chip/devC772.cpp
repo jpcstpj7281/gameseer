@@ -772,6 +772,9 @@ void DriverChip772::dev_C772_SetOutputSyncCycle(uint32_t chn,uint32_t wHSyncCycl
 
 void DriverChip772::dev_C772_SetBlueScreen(uint32_t chn,uint32_t byFlg)
 {
+
+
+
 	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
@@ -829,11 +832,11 @@ void DriverChip772::dev_C772_SetHorAndVerSyncCtrl(uint32_t chn,uint32_t byHorPol
 
 void DriverChip772::SetBankRegister(uint32_t chn,uint8_t byVal)
 {
-	SPI_Write(TYPE_CHIP_C772,CP_IP00C772_RGBNK_ADDR,byVal);
+	SPI_Write(chn,CP_IP00C772_RGBNK_ADDR,byVal);
 }
 void DriverChip772::GetBankRegister(uint32_t chn,uint8_t &byVal)
 {
-	SPI_Read(TYPE_CHIP_C772,CP_IP00C772_RGBNK_ADDR,byVal);
+	SPI_Read(chn,CP_IP00C772_RGBNK_ADDR,byVal);
 }
 
 

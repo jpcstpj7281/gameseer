@@ -8,7 +8,7 @@
 #ifndef STATUS_H_
 #define STATUS_H_
 
-#include "msgCommon.h"
+
 #include "commModel.h"
 
 namespace msg

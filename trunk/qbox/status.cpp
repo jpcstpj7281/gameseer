@@ -13,6 +13,8 @@
 #include "toString.h"
 #include "entSetting.h"
 
+#include "common.h"
+
 using namespace msg;
 using namespace ent;
 
@@ -30,7 +32,7 @@ Status::~Status()
 uint32_t Status::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
 
-	test_msg("m_model connID=%d,msgType=%d\n",connID,msg->msgType);
+//	test_msg("m_model connID=%d,msgType=%d\n",connID,msg->msgType);
     switch(msg->msgType)
     {
         case PProtocolVersionReq::uri:

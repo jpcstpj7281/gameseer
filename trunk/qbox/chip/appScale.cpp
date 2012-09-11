@@ -18,7 +18,7 @@ using namespace chipApp;
 
 
 
-
+AppScale* AppScale::m_instance=0;
 AppScale::AppScale()
 :m_horFp(0)
 ,m_verFp(0)
@@ -1546,16 +1546,9 @@ void AppScale::setOutputSize(uint32_t type)
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_65000KHZ);
 			 C753SetOutputHorizontalSync(0x053e);
 		     C753SetOutputVerticalSync(0x0324);
+		     C753SetHorizontalSyncResetDelay(1);
+		     C753SetVerticalSyncResetDelay(1);
 
-		     C753SetOutputPortOAOI1HorizontalStart((uint16_t)241);
-		     C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1640);
-		     C753SetOutputPortOAOI1VerticalStart((uint16_t)35);
-		     C753SetOutputPortOAOI1VerticalEnd((uint16_t)1085);
-
-		     C753SetOutputPortOAOI0HorizontalStart((uint16_t)163);
-		     C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1178);
-		     C753SetOutputPortOAOI0VerticalStart((uint16_t)34);
-		     C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
 
 		     debug_msg("setOutputSize 1024 X 768 @60Hz \n!");
 			 break;
@@ -1566,11 +1559,10 @@ void AppScale::setOutputSize(uint32_t type)
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_121750KHZ);
 			 C753SetOutputHorizontalSync(0x0746);
 			 C753SetOutputVerticalSync(0x043f);
+			 C753SetHorizontalSyncResetDelay(1);
+			 C753SetVerticalSyncResetDelay(1);
 
-			 C753SetOutputPortOAOI1HorizontalStart((uint16_t)241);
-			 C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1640);
-			 C753SetOutputPortOAOI1VerticalStart((uint16_t)35);
-			 C753SetOutputPortOAOI1VerticalEnd((uint16_t)1085);
+
 
 			 debug_msg("setOutputSize 1440 X 1050 @60Hz \n!");
 			 break;
@@ -1591,19 +1583,20 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 
 	if(model == TYPE_OUTPUT_ACT)
 	{
+
 		debug_msg("Please set ACT \n!");
 	}
 	else if(model == TYPE_OUTPUT_AOI0)
 	{
 		if(size == TYPE_OUTPUT_SIZE_1024_768)
 		{
-			C753SetOutputPortOAOI0HorizontalStart((uint16_t)163);
-			C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1178);
-			C753SetOutputPortOAOI0VerticalStart((uint16_t)34);
+			C753SetOutputPortOAOI0HorizontalStart((uint16_t)296);
+			C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1320);
+			C753SetOutputPortOAOI0VerticalStart((uint16_t)35);
 			C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
 
-			m_horFp = 163;
-			m_verFp = 34;
+			m_horFp = 296;
+			m_verFp = 35;
 
 		}
 		else if(size == TYPE_OUTPUT_SIZE_1440_1050)
@@ -1624,13 +1617,13 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 	{
 		if(size == TYPE_OUTPUT_SIZE_1024_768)
 		{
-			C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
-			C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
-			C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
+			C753SetOutputPortOAOI1HorizontalStart((uint16_t)296);
+			C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1320);
+			C753SetOutputPortOAOI1VerticalStart((uint16_t)35);
 			C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
 
-			m_horFp = 163;
-			m_verFp = 34;
+			m_horFp = 296;
+			m_verFp = 35;
 		}
 		else if(size == TYPE_OUTPUT_SIZE_1440_1050)
 		{
@@ -1647,8 +1640,12 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 
 void AppScale::setOutputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_t hs,uint16_t vs)
 {
+	debug_msg("setOutputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d\n",iChID,hw,vw,hs,vs);
+
 	uint16_t tempHs = hs + m_horFp;
 	uint16_t tempVs = vs + m_verFp;
+	debug_msg("setOutputChannelACT chid=%d  hw:%d,vw:%d,tempHs=%d,tempVs=%d\n",iChID,hw,vw,tempHs,tempVs);
+
     C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)tempHs);
     C753SetOutputPortACTHorizontalWidth(iChID, hw);
     C753SetOutputPortACTVerticalStart(iChID, (uint16_t)tempVs);
@@ -1661,11 +1658,12 @@ void AppScale::setOutputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16
     {
     	C753SetOutputImageControl(iChID,0x00);
     }
-    showWnd(iChID);
+//  showWnd(iChID);
 }
 
 void AppScale::setInputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_t hs,uint16_t vs)
 {
+	debug_msg("setInputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d\n",iChID,hw,vw,hs,vs);
 	C753SetInputPortACTHorizontalStart(iChID, (uint16_t)hs);
 	C753SetInputPortACTHorizontalWidth(iChID,hw);
 	C753SetInputPortACTVerticalStart(iChID, (uint16_t)vs);
@@ -1718,5 +1716,13 @@ void AppScale::topChannel(uint32_t channel)
     }
 }
 
+AppScale* AppScale::Instance()
+{
+	if(m_instance==NULL)
+	{
+		m_instance = new AppScale();
+	}
+	return m_instance;
+}
 
 
