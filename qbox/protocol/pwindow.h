@@ -121,6 +121,19 @@ struct PMoveWindowsRsp
 	//error->???
 };
 
+struct PCloseAllReq
+{
+	enum{uri=(WINDOWS_MSGBASE<<16|15)};
+
+
+};
+
+struct PCloseAllRsp
+{
+	enum{uri=(WINDOWS_MSGBASE<<16|16)};
+	//error->???
+};
+
 struct PUpdateQboxReq
 {
 	enum{uri=(15<<16|1)};

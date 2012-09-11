@@ -54,7 +54,7 @@ void MsgHandler::netMsgInput(uint32_t connID,char* buff,uint32_t buffLen)
 	MsgInfo msg;
 	NetMsgBody netMsg;
 
-    showData( buff);
+//    showData( buff);
 
 	if(buffLen <20)
 	{
@@ -103,7 +103,7 @@ bool MsgHandler::sendMsg(uint32_t connID,MsgInfo *pMsg)
 	sendBuff.append((const char* )&netMsg.msgType,sizeof(uint32_t));
 	sendBuff.append((const char* )netMsg.msgData.c_str(),netMsg.msgData.size());
 
-    showData( sendBuff.c_str() , true);
+//    showData( sendBuff.c_str() , true);
 
 	IServer::Instance()->SendNetMsg(connID,(char*)sendBuff.c_str(),sendBuff.size());
 

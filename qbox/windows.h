@@ -38,6 +38,7 @@ private:
 	void onPDelWindowsReq(MsgInfo *msg,uint32_t connID);
 	void onPMoveWindowsReq(MsgInfo *msg,uint32_t connID);
 	void onPUpdateQboxReq(MsgInfo *msg,uint32_t connID);
+	void onCloseAllReq(MsgInfo *msg,uint32_t connID);
 
     std::ofstream   _update;
     uint32_t        _updateid;

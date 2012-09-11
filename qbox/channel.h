@@ -27,7 +27,7 @@ private:
 
 	void onPChangeInputReq(MsgInfo *msg,uint32_t connID);
 	void onPSetInPutPicReq(MsgInfo *msg,uint32_t connID);
-	void onPSetOutPutSizeReq(MsgInfo *msg,uint32_t connID);
+	void onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID);
 
 
 

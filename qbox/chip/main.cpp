@@ -31,6 +31,37 @@ void get753(uint8_t byAdd)
 	debug_msg("addr=%02x,val=%02x\n",byAdd,byVal);
 }
 
+void set5160(uint32_t chid,uint8_t byAdd,uint8_t byVal)
+{
+	debug_msg("chid=%d,addr=%02x,val=%02x\n",chid,byAdd,byVal);
+	dev_5160_Write(chid,byAdd,byVal);
+}
+
+
+void get5160(uint32_t chid,uint8_t byAdd)
+{
+	uint8_t byVal=0;
+	dev_5160_Read(chid,byAdd,&byVal);
+	debug_msg("chid=%d,addr=%02x,val=%02x\n",chid,byAdd,byVal);
+}
+
+void set772(uint32_t chid,uint8_t byAdd,uint8_t byVal)
+{
+	DriverChip772 s_c772;
+	debug_msg("chid=%d,addr=%02x,val=%02x\n",chid,byAdd,byVal);
+	s_c772.SPI_Write(chid,byAdd,byVal);
+}
+
+
+void get772(uint32_t chid,uint8_t byAdd)
+{
+	uint8_t byVal=0;
+	DriverChip772 s_c772;
+	s_c772.SPI_Read(chid,byAdd,byVal);
+	debug_msg("chid=%d,addr=%02x,val=%02x\n",chid,byAdd,byVal);
+}
+
+
 void chipSetFPGATest(uint16_t addr,uint16_t wVal)
 {
 
@@ -54,20 +85,205 @@ void chipGetFPGATest(uint16_t addr)
 	s_FPGA.FPGA_Read(addr,byVal);
 	debug_msg("addr=%04x,val1=%04x\n",addr,byVal);
 }
-void testSPI()
+
+void test753SPI()
 {
-	debug_msg("testSPI\n");
+	debug_msg("\n-------------------------------test753SPI----------------------------------\n");
 	uint8_t byVal=0x0a;
 	uint8_t byVal1=0x00;
 	dev_SPI_Write(DEV_SPI_C753_CHANNEL,0,byVal);
 	dev_SPI_Read(DEV_SPI_C753_CHANNEL,0,&byVal1);
-	debug_msg("val1=%02x\n",byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("753SPI ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+
+}
+
+
+void test772SPI()
+{
+	debug_msg("\n---------------------------test772SPI----------------------------------\n");
+	uint8_t byVal=0x0a;
+	uint8_t byVal1=0x00;
+	dev_SPI_Write(DEV_SPI_C772_CHANNEL_1,0,byVal);
+	dev_SPI_Read(DEV_SPI_C772_CHANNEL_1,0,&byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("772CHANNEL_1 ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+	byVal=0x0a;
+
+
+	byVal1=0x00;
+	dev_SPI_Write(DEV_SPI_C772_CHANNEL_2,0,byVal);
+	dev_SPI_Read(DEV_SPI_C772_CHANNEL_2,0,&byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("772CHANNEL_2 ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+	byVal=0x0a;
+	byVal1=0x00;
+	dev_SPI_Write(DEV_SPI_C772_CHANNEL_3,0,byVal);
+	dev_SPI_Read(DEV_SPI_C772_CHANNEL_3,0,&byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("772CHANNEL_3 ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+	byVal=0x0a;
+	byVal1=0x00;
+	dev_SPI_Write(DEV_SPI_C772_CHANNEL_4,0,byVal);
+	dev_SPI_Read(DEV_SPI_C772_CHANNEL_4,0,&byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("772CHANNEL_4 ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+	byVal=0x0a;
+	byVal1=0x00;
+	dev_SPI_Write(DEV_SPI_C772_CHANNEL_5,0,byVal);
+	dev_SPI_Read(DEV_SPI_C772_CHANNEL_5,0,&byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("772CHANNEL_5 ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+	byVal=0x0a;
+	byVal1=0x00;
+	dev_SPI_Write(DEV_SPI_C772_CHANNEL_6,0,byVal);
+	dev_SPI_Read(DEV_SPI_C772_CHANNEL_6,0,&byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("772CHANNEL_6 ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+
+}
+
+void test5160IIC()
+{
+	debug_msg("\n--------------------5160IIC------------------------------\n");
+	DriverChipFPGA s_FPGA;
+
+	DriverChip5160 s_c5160;
+	uint8_t val1 = 0x40;
+	uint8_t val = 0x00;
+	s_c5160.dev_5160_SetInputType(DEV_5160_CHANNEL_1,val1);
+	s_c5160.dev_5160_GetInputType(DEV_5160_CHANNEL_1,val);
+	if(val1!=val)
+	{
+		debug_msg("test5160 channel 1 error val1=%02x,val=%02x\n",val1,val);
+	}
+	else
+	{
+		debug_msg("test5160 channel 1! TEST OK! \n");
+	}
+
+	val1 = 0x40;
+	val = 0x00;
+	s_c5160.dev_5160_SetInputType(DEV_5160_CHANNEL_2,val1);
+	s_c5160.dev_5160_GetInputType(DEV_5160_CHANNEL_2,val);
+	if(val1!=val)
+	{
+		debug_msg("test5160 channel 2 error val1=%02x,val=%02x\n",val1,val);
+	}
+	else
+	{
+		debug_msg("test5160 channel 2! TEST OK! \n");
+	}
+
+	val1 = 0x40;
+	val = 0x00;
+	s_c5160.dev_5160_SetInputType(DEV_5160_CHANNEL_3,val1);
+	s_c5160.dev_5160_GetInputType(DEV_5160_CHANNEL_3,val);
+	if(val1!=val)
+	{
+		debug_msg("test5160 channel 3 error val1=%02x,val=%02x\n",val1,val);
+	}
+	else
+	{
+		debug_msg("test5160 channel 3! TEST OK! \n");
+	}
+
+	val1 = 0x40;
+	val = 0x00;
+	s_c5160.dev_5160_SetInputType(DEV_5160_CHANNEL_4,val1);
+	s_c5160.dev_5160_GetInputType(DEV_5160_CHANNEL_4,val);
+	if(val1!=val)
+	{
+		debug_msg("test5160 channel 4 error val1=%02x,val=%02x\n",val1,val);
+	}
+	else
+	{
+		debug_msg("test5160 channel 4! TEST OK! \n");
+	}
+
+	val1 = 0x40;
+	val = 0x00;
+	s_c5160.dev_5160_SetInputType(DEV_5160_CHANNEL_5,val1);
+	s_c5160.dev_5160_GetInputType(DEV_5160_CHANNEL_5,val);
+	if(val1!=val)
+	{
+		debug_msg("test5160 channel 5 error val1=%02x,val=%02x\n",val1,val);
+	}
+	else
+	{
+		debug_msg("test5160 channel 5! TEST OK! \n");
+	}
+
+	val1 = 0x40;
+	val = 0x00;
+	s_c5160.dev_5160_SetInputType(DEV_5160_CHANNEL_6,val1);
+	s_c5160.dev_5160_GetInputType(DEV_5160_CHANNEL_6,val);
+	if(val1!=val)
+	{
+		debug_msg("test5160 channel 6 error val1=%02x,val=%02x\n",val1,val);
+	}
+	else
+	{
+		debug_msg("test5160 channel 6! TEST OK! \n");
+	}
+
+
+
+}
+
+void testFPGASPI()
+{
+	debug_msg("\n---------------------------------testFPGA--------------------------------\n");
+	DriverChipFPGA s_FPGA;
+
+	uint16_t byVal=0x0a;
+	uint16_t byVal1=0x00;
+
+	s_FPGA.setTestReg(byVal);
+	s_FPGA.getTestReg(byVal1);
+	if(byVal!=byVal1)
+	{
+		debug_msg("FPGA ERROR! TEST Reg write = %02x ,read=%02x \n",byVal,byVal1);
+	}
+	else
+	{
+		debug_msg("FPGA  TEST OK! \n");
+	}
+
+}
+
+void testAllDev()
+{
+
+	testFPGASPI();
+	test5160IIC();
+	test772SPI();
+	test753SPI();
 }
 
 
 
-
-void testFPGA()
+void testFPGADetail()
 {
 	debug_msg("testFPGA\n");
 	DriverChipFPGA s_FPGA;
@@ -261,21 +477,43 @@ void demo()
 	s_c753.initMemoryLineFeedWidth(2);
 
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
-	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1440_1050);
+	s_c753.setOutputImage(TYPE_OUTPUT_AOI0,TYPE_OUTPUT_SIZE_1024_768);
 
 
 	s_c753.setInputChannelACT(1,1024,768,303,36);
 	s_c753.setOutputChannelACT(1,1024,768,20,10);
+	s_c753.showWnd(1);
 
 	s_c753.setInputChannelACT(2,1024,768,303,36);
 	s_c753.setOutputChannelACT(2,1024,768,350,300);
+	s_c753.showWnd(2);
+
 
 }
 
-void demoMove()
+void demoSD()
 {
+	AppScale s_c753;
+	s_c753.initHardware();
+	s_c753.initMemoryLineFeedWidth(1);
+	s_c753.initMemoryLineFeedWidth(2);
+
+	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
+	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
+
+
+	s_c753.setInputChannelACT(1,1024,768,303,36);
+	s_c753.setOutputChannelACT(1,1024,768,20,10);
+	s_c753.showWnd(1);
+
+//	s_c753.setInputChannelACT(2,1024,768,303,36);
+//	s_c753.setOutputChannelACT(2,1024,768,350,300);
+//	s_c753.showWnd(2);
+
 
 }
+
+
 
 void topChannel(uint32_t channel)
 {
@@ -356,6 +594,57 @@ void testC772()
 
 }
 
+
+void initSD480(uint32_t chn)
+{
+	debug_msg("initSD480\n");
+	DriverChip5160 s_c5160;
+	DriverChip772 s_c772;
+
+	s_c5160.dev_5160_InitTVP5160(chn);
+	s_c772.dev_InitIP00c772(chn);
+	s_c772.dev_C772_Set480(chn);
+}
+
+
+
+void initSD576(uint32_t chn)
+{
+	debug_msg("initSD576\n");
+	DriverChip5160 s_c5160;
+	DriverChip772 s_c772;
+
+	s_c5160.dev_5160_InitTVP5160(chn);
+	s_c772.dev_InitIP00c772(chn);
+	s_c772.dev_C772_Set576(chn);
+}
+
+void init5160(uint32_t chn)
+{
+	DriverChip5160 s_c5160;
+	s_c5160.dev_5160_InitTVP5160(chn);
+}
+
+void init772(uint32_t chn,uint32_t flg)
+{
+
+	DriverChip772 s_c772;
+
+	s_c772.dev_InitIP00c772(chn);
+	if(flg == 0)
+	{
+		s_c772.dev_C772_Set576(chn);
+	}
+	else
+	{
+		s_c772.dev_C772_Set480(chn);
+	}
+}
+
+void blue5160(uint32_t chn)
+{
+	set5160(chn,0x34,0x80);
+}
 
 }
 #endif /* __cplusplus */

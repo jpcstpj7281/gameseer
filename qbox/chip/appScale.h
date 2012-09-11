@@ -186,6 +186,9 @@ public:
 	virtual ~AppScale();
 
 
+	static AppScale* Instance();
+
+
 	void chipTest();
 
 
@@ -224,6 +227,8 @@ public:
 	void topChannel(uint32_t channel);
 
 private:
+
+	static AppScale* m_instance;
 
 	void initChannel(uint32_t iChID, ScaleChInfoT *pScalCh);
 	void initTimingIndexTable();

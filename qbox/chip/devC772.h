@@ -13,6 +13,13 @@
 
 #include "devBus.h"
 
+#define C722_CHANNEL_1	0x0	  /* 0000'b */
+#define C722_CHANNEL_2	0x1	  /* 0001'b */
+#define C722_CHANNEL_3	0x2	  /* 0010'b */
+#define C722_CHANNEL_4  0x3   /* 0011'b */
+#define C722_CHANNEL_5	0x4	  /* 0100'b */
+#define C722_CHANNEL_6	0x5	  /* 0101'b */
+
 using namespace std;
 
 namespace chip

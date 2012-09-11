@@ -9,6 +9,7 @@
 #include "IServer.h"
 #include "msgHandler.h"
 
+
 //#include "fioLib.h"
 //#include "stdio.h"
 //#include "string.h"
@@ -34,6 +35,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
+#include "common.h"
 
 IServer* IServer::m_instance = 0;
 #ifndef __unix__
@@ -254,7 +257,7 @@ IServer* IServer::Instance()
 
 void IServer::SendNetMsg(int fd,char* buff,uint32_t buffLen)
 {
-	test_msg("sock:%d,buffLen=%d",fd,buffLen);
+//	test_msg("sock:%d,buffLen=%d",fd,buffLen);
 	send(fd,buff,buffLen,0);
 //    m_buff[fd].buff.assign(buff,buffLen);
 //    m_buff[fd].buffLen = buffLen;
@@ -373,14 +376,14 @@ void IServer::server_proc(int sock)
             int len = 0;
             if ( rc > 0){
                 memcpy((void*)&len,(const void*)(buffer+4),4);
-                test_msg("RecvMsg len:%d\n",len);
+//                test_msg("RecvMsg len:%d\n",len);
             }
             if ( len <12 ) break;
             rc = recv(sock,buffer,len+8,0);
             if(rc > 0)
             {
                 /* you can add your application specific code here */
-                test_msg("RecvMsg:%s\n",buffer);
+//                test_msg("RecvMsg:%s\n",buffer);
                 if(m_pMsgHandler == NULL)
                 {
                     test_msg("ERROR m_pMsgHandler NOT INIT\n");

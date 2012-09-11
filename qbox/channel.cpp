@@ -12,9 +12,13 @@
 #include "msgHandler.h"
 #include "toString.h"
 #include "entSetting.h"
+#include "common.h"
 
 using namespace msg;
 using namespace ent;
+
+extern void setInputChannel(uint32_t chn,uint32_t hs,uint32_t vs,uint32_t hOffset,uint32_t vOffset);
+
 
 Channel::Channel()
 {
@@ -41,7 +45,7 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
             break;
 
         case PSetOutPutSizeReq::uri:
-            onPSetOutPutSizeReq(msg,connID);
+        	onPSetInPutShowAreaReq(msg,connID);
             break;
 
 
@@ -55,7 +59,7 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 
 void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPChangeInputReq"<<" connID="<<connID <<endl;
+ //   cout<<"onPChangeInputReq"<<" connID="<<connID <<endl;
 
     uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
     uint32_t input = atoi(msg->info["in"].c_str());
@@ -69,6 +73,9 @@ void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
     {
     	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
+
+    setInputChannel(1,1024,768,303,36);
+    setInputChannel(2,1024,768,303,36);
 
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -100,15 +107,17 @@ void Channel::onPSetInPutPicReq(MsgInfo *msg,uint32_t connID)
 
 }
 
-void Channel::onPSetOutPutSizeReq(MsgInfo *msg,uint32_t connID)
+void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPSetOutPutSizeReq"<<" connID="<<connID <<endl;
 
-    uint32_t output = atoi(msg->info["out"].c_str());
+	uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+    uint32_t output = atoi(msg->info["in"].c_str());
     uint32_t width = atoi(msg->info["w"].c_str());
     uint32_t height = atoi(msg->info["h"].c_str());
+    uint32_t channelX = atoi(msg->info["x"].c_str());
+    uint32_t channelY = atoi(msg->info["y"].c_str());
 
-
+    test_msg("onPSetInPutShowAreaReq in=%d,w=%d,h=%d,x=%d,y=%d",output,width,height,channelX,channelY);
 
     MsgInfo rsp;
     rsp.msgType = PSetOutPutSizeRsp::uri;
@@ -117,11 +126,14 @@ void Channel::onPSetOutPutSizeReq(MsgInfo *msg,uint32_t connID)
 
 
     EntSetting::Instance()->setOutputInfoSize(output,width,height);
-//    EntSetting::Instance()->setOutputInfoFlg(output,USE_FLG_ONLINE);
 
-
+    rsp.info["out"] = tostring(output);
     rsp.info["w"] = tostring(width);
     rsp.info["h"] = tostring(height);
+    rsp.info["x"] =tostring(channelX);
+    rsp.info["y"] =tostring(channelY);
+
+
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 

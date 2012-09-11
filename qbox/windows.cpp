@@ -13,6 +13,7 @@
 #include "toString.h"
 #include "entSetting.h"
 #include <set>
+#include "common.h"
 
 using namespace msg;
 using namespace ent;
@@ -60,6 +61,10 @@ uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
 
         case PMoveWindowsReq::uri:
         	onPMoveWindowsReq(msg,connID);
+        	break;
+
+        case PCloseAllReq::uri:
+        	onCloseAllReq(msg,connID);
         	break;
 
         case PUpdateQboxReq::uri:
@@ -166,7 +171,7 @@ void Windows::onPGetWindowsInfoReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPCreateWindowsReq"<<" connID="<<connID <<endl;
+
 
 
     uint32_t winX = atoi(msg->info["x"].c_str());
@@ -175,12 +180,26 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
     uint32_t winH = atoi(msg->info["h"].c_str());
     uint32_t winOut = atoi(msg->info["out"].c_str());
 
+    test_msg("onPCreateWindowsReq winX=%d,winY=%d,winW=%d,winH=%d,winOut=%d!\n",winX,winY,winW,winH,winOut);
+
+
     MsgInfo rsp;
     rsp.msgType = PCreateWindowsRsp::uri;
 
     uint32_t winHandle = 0;
 
     winHandle = EntSetting::Instance()->createWindow(winX,winY,winW,winH);
+    if(winHandle!=0)
+    {
+        test_msg("onPCreateWindowsReq winHandle=%d!\n",winHandle);
+    	setOutputChannel(winHandle,winW,winH,winX,winY);
+        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+        rsp.info["winHandle"] = tostring(winHandle);
+    }
+    else
+    {
+    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+    }
 
     if(!EntSetting::Instance()->setLayer(winHandle,DEFINE_WINDOW_LAYER))
     {
@@ -198,8 +217,8 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
     }
 
 
-    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-    rsp.info["winHandle"] = tostring(winHandle);
+
+
 
 
 
@@ -232,10 +251,9 @@ void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPSetWindowsShowStateReq"<<" connID="<<connID <<endl;
 
     uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
-
+    test_msg("onPSetWindowsShowStateReq winHandle=%d,showState=%s!\n",winHandle,msg->info["showState"].c_str());
 
 
     MsgInfo rsp;
@@ -249,6 +267,7 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
         {
             rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
         }
+        showChannel(winHandle);
     }
 
     if("hide" == msg->info["showState"])
@@ -257,9 +276,8 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
         {
             rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
         }
+        hideChannel(winHandle);
     }
-
-
 
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -268,9 +286,10 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPDelWindowsReq"<<" connID="<<connID <<endl;
+
 
     uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+    test_msg("onPDelWindowsReq winHandle=%d!\n",winHandle);
 
 
     MsgInfo rsp;
@@ -279,8 +298,13 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
     if(!EntSetting::Instance()->delWindow(winHandle))
     {
         rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-    }else{
+        test_msg("onPDelWindowsReq winHandle=%d Error!\n",winHandle);
+    }
+    else
+    {
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+        test_msg("onPDelWindowsReq winHandle=%d OK!\n",winHandle);
+        hideChannel(winHandle);
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -315,5 +339,24 @@ void Windows::onPMoveWindowsReq(MsgInfo *msg,uint32_t connID)
 
 }
 
+void Windows::onCloseAllReq(MsgInfo *msg,uint32_t connID)
+{
+    test_msg("onCloseAllReq !\n");
 
+
+    MsgInfo rsp;
+    rsp.msgType = PCloseAllRsp::uri;
+
+
+    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+    EntSetting::Instance()->delWindow(1);
+    EntSetting::Instance()->delWindow(2);
+    hideChannel(1);
+    hideChannel(2);
+
+
+
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+}
 
