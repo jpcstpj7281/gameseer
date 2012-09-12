@@ -74,8 +74,10 @@ void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
     	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
 
+#ifndef __unix__
     setInputChannel(1,1024,768,303,36);
     setInputChannel(2,1024,768,303,36);
+#endif
 
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);

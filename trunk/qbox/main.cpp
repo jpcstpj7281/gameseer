@@ -80,8 +80,11 @@ void runServer(int port)
 	IServer::Instance()->setPort(port);
 
 
+#ifndef __unix__
 	taskDelay(100);
 	initOutputModel(TYPE_MODEL_1024_768);
+#else
+#endif
 
 	IServer::Instance()->setMsgHandler(MsgHandler::Instance());
 	IServer::Instance()->Server();
