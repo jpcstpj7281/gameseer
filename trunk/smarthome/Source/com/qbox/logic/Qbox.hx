@@ -129,12 +129,11 @@ class Qbox extends SMConnection{
         var a:Hash<String> = args ;
         if ( a.get("error") != "0"){
             trace("get windows handle failed!");
-            return;
-        }
-
-        for (i in a.keys()){
-            if ( i.substr(0, 9) == "winHandle"){
-                loadWnd( a.get(i) );
+        }else{
+            for (i in a.keys()){
+                if ( i.substr(0, 9) == "winHandle"){
+                    loadWnd( a.get(i) );
+                }
             }
         }
     }
@@ -149,6 +148,15 @@ class Qbox extends SMConnection{
         if ( args.get("error") != "0"){
             trace("get windows info failed!");
         }else{
+            var srn = ScreenMgr.getInst().getScreenByQbox( this);
+            var x = Std.parseInt( args.get("x"));
+            var y = Std.parseInt( args.get("y"));
+            var w = Std.parseInt( args.get("w"));
+            var h = Std.parseInt( args.get("h"));
+
+            var input = args.get("in");
+
+            var wnd = srn.resurrectWnd( x, y, w, h, input );
         }
     }
 }
