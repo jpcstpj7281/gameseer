@@ -172,13 +172,14 @@ class SMConnection extends Connection{
         var msgidtype = (msgId<< 16) + msgType;
         trace("start listen msgidtype: " + msgidtype );
         var res:Bool = true;
-        if ( Lambda.count( _listeners ) > 0 ){
+        if (  _listeners.get(msgidtype) != null ){
             trace("already listening");
             res = false;
+        }else{
+            _listeners.set(msgidtype, func);
+            _sendTime = Timer.stamp();
         }
         //if( _listeners.get(msgType) != null ) return false;
-        _listeners.set(msgidtype, func);
-        _sendTime = Timer.stamp();
         return res;
     }
 

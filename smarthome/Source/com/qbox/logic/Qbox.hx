@@ -103,7 +103,8 @@ class Qbox extends SMConnection{
         loadInput();
         loadOutput();
         //loadOutputResolution("out0");
-        closeAllWnd();
+        //closeAllWnd();
+        loadWnds();
         return true;
     }
 
@@ -115,6 +116,16 @@ class Qbox extends SMConnection{
     }
 
     function cbCloseAllWnd( args:Dynamic){
+        trace(args);
+    }
+
+    function loadWnds(){
+        clearData();
+        startListening( 2, cbLoadWnds, 2);
+        setMsg( 1, 2);
+        sendData();
+    }
+    function cbLoadWnds( args:Dynamic){
         trace(args);
     }
 }
