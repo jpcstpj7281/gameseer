@@ -28,6 +28,7 @@ class Wnd{
         _handles= new Array<String>();
     }
 
+
     public function open(x:Int, y:Int, w:Int, h:Int, channel:Channel){
         _virtualX = x;
         _virtualY = y;

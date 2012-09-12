@@ -24,6 +24,28 @@ class Screen{
         _col = col;
         _row = row;
     }
+
+    //open wnd by reachieve wnd data from qbox;
+    public function resurrectWnd( resx:Int, resy:Int, resw:Int, resh:Int, input:String){
+        var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;
+        var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;
+
+        var pw:Float = _virtualWidth / _resWidth;
+        var ph:Float = _virtualHeight / _resHeight;
+
+        var virtualX =  Math.round( resx * pw + screenx);
+        var virtualY =  Math.round( resy * pw + screeny);
+        _virtualWidth=  Math.round( resw * pw);
+        _virtualHeight=  Math.round( resh * ph);
+
+        var wnd = WndMgr.getInst().createWnd();
+        wnd._virtualX = virtualX;
+        wnd._virtualY = virtualX;
+        wnd._virtualWidth = _virtualWidth;
+        wnd._virtualHeight = _virtualHeight;
+
+    }
+
     public function setWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void ){
         if (_currCB != null){
             trace("there is a set wnd operation processing.");
@@ -38,10 +60,10 @@ class Screen{
             if (x + w > screenx ){
                 if ( x+w > screenx+_virtualWidth){
                     screenw = _virtualWidth;
-                    trace(screenw);
+                    //trace(screenw);
                 }else{
                     screenw =  w - screenx +x;
-                    trace(screenw);
+                    //trace(screenw);
                 }
                 screenx = 0;
             }else{
@@ -56,10 +78,10 @@ class Screen{
                 trace(_virtualWidth);
                 if ( x+w >= screenx+_virtualWidth){
                     screenw = _virtualWidth + screenx - x;
-                    trace(screenw);
+                    //trace(screenw);
                 }else{
                     screenw =  w;
-                    trace(screenw);
+                    //trace(screenw);
                 }
                 screenx = x - screenx;
             }else if ( x >screenx + _virtualWidth){

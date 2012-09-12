@@ -81,4 +81,13 @@ class ScreenMgr {
             }
         }
     }
+
+    public function getScreenByQbox( qbox:Qbox){
+        for ( i in _screens){
+            if ( i._qboxid == qbox._ipv4){
+                return i;
+            }
+        }
+        return null;
+    }
 }
