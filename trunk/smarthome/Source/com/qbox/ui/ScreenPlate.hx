@@ -164,11 +164,23 @@ class ScreenPlate extends CommDialog{
             }else{
                 if ( evt.stageX == _downx && evt.stageY == _downy ){
                     if (_movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){
+                        //right down maximize
+                        trace("max");
                         _movingWnd.shiftRightDownWnd( );
                     }
                     if (_movingWnd !=null && evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
+                        //left up maximize
+                        trace("max");
                         _movingWnd.shiftLeftUpWnd();
                     }
+                        //close window
+                        if ( _movingWnd != null && evt.stageX >= _movingWnd.x + _movingWnd.width -10 && evt.stageY <= _movingWnd.y +10 ){
+                            trace("closeWnd");
+                            _movingWnd.closeWnd();
+                            _movingWnd.parent.removeChild(_movingWnd);
+                            cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
+                            WndMgr.getInst().removeWnd(_movingWnd._wnd);
+                        }
                 }else{
 
                     var upx = evt.stageX;
@@ -204,14 +216,6 @@ class ScreenPlate extends CommDialog{
                                     p.setChildIndex(w, p.numChildren -1 );
                                 }
                             }
-                        }
-                        //close window
-                        if ( _movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY < _movingWnd.y +10 ){
-                            trace("closeWnd");
-                            _movingWnd.closeWnd();
-                            _movingWnd.parent.removeChild(_movingWnd);
-                            cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
-                            WndMgr.getInst().removeWnd(_movingWnd._wnd);
                         }
                     }
                 }
