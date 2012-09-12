@@ -126,6 +126,29 @@ class Qbox extends SMConnection{
         sendData();
     }
     function cbLoadWnds( args:Dynamic){
-        trace(args);
+        var a:Hash<String> = args ;
+        if ( a.get("error") != "0"){
+            trace("get windows handle failed!");
+            return;
+        }
+
+        for (i in a.keys()){
+            if ( i.substr(0, 9) == "winHandle"){
+                loadWnd( a.get(i) );
+            }
+        }
+    }
+    function loadWnd( winHandle:String){
+        clearData();
+        startListening( 4, cbLoadWnd, 2);
+        setMsg( 3, 2);
+        addKeyVal("winHandle", Bytes.ofString(winHandle));
+        sendData();
+    }
+    function cbLoadWnd( args:Dynamic){
+        if ( args.get("error") != "0"){
+            trace("get windows info failed!");
+        }else{
+        }
     }
 }

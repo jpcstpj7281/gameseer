@@ -120,7 +120,7 @@ void Windows::onPGetWindowsHandleReq(MsgInfo *msg,uint32_t connID)
 
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
-    rsp.info["total"] =  EntSetting::Instance()->getWindowsTotal();
+    rsp.info["total"] =  tostring( EntSetting::Instance()->getWindowsTotal());
 
     std::set<uint32_t> handle;
     EntSetting::Instance()->getWindowsHandle(handle);
@@ -192,7 +192,9 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
     if(winHandle!=0)
     {
         test_msg("onPCreateWindowsReq winHandle=%d!\n",winHandle);
+#ifndef __unix__
     	setOutputChannel(winHandle,winW,winH,winX,winY);
+#endif
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
         rsp.info["winHandle"] = tostring(winHandle);
     }
@@ -267,7 +269,9 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
         {
             rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
         }
+#ifndef __unix__
         showChannel(winHandle);
+#endif
     }
 
     if("hide" == msg->info["showState"])
@@ -276,7 +280,9 @@ void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
         {
             rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
         }
+#ifndef __unix__
         hideChannel(winHandle);
+#endif
     }
 
 
@@ -304,7 +310,9 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
     {
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
         test_msg("onPDelWindowsReq winHandle=%d OK!\n",winHandle);
+#ifndef __unix__
         hideChannel(winHandle);
+#endif
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -351,8 +359,10 @@ void Windows::onCloseAllReq(MsgInfo *msg,uint32_t connID)
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
     EntSetting::Instance()->delWindow(1);
     EntSetting::Instance()->delWindow(2);
+#ifndef __unix__
     hideChannel(1);
     hideChannel(2);
+#endif
 
 
 
