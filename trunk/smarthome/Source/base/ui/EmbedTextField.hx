@@ -16,6 +16,7 @@ class EmbedTextField extends TextField {
                 defaultTextFormat = DataLoader.inst.textFormat_;
                 embedFonts = true;
             }
+            //}
         }
 #end
 

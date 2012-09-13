@@ -115,13 +115,14 @@ class DataLoader
             } else if ( item.node.type.innerData == "font") {
                 font_ = Assets.getFont( "assets/" + item.node.loc.innerData + "/" + item.node.name.innerData +  item.node.extension.innerData);
                 if ( font_ != null) {
-                    textFormat_ = new TextFormat( font_.fontName, 12, 0x888888);
+                    textFormat_ = new TextFormat( font_.fontName, 12, 0x80FF80);
                     textFormat_.align = nme.text.TextFormatAlign.CENTER;
-                    //textFormat_.font = font_.fontName;
+                    textFormat_.font = font_.fontName;
                     //trace("load font: "+ font_.fontName);
                     loadComplete(null);
                 }else {
                     Config.inst.error_.text = "no font!";
+                    trace(Config.inst.error_.text );
                 }
             } else{
                 //trace( item.node.loc.innerData + "/" + item.node.name.innerData +  item.node.extension.innerData);
