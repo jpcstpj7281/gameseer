@@ -131,7 +131,7 @@ class Qbox extends SMConnection{
             trace("get windows handle failed!");
         }else{
             for (i in a.keys()){
-                if ( i.substr(0, 9) == "winHandle"){
+                if ( i.substr(0, 9) == "handleNum"){
                     loadWnd( a.get(i) );
                 }
             }
@@ -149,14 +149,18 @@ class Qbox extends SMConnection{
             trace("get windows info failed!");
         }else{
             var srn = ScreenMgr.getInst().getScreenByQbox( this);
-            var x = Std.parseInt( args.get("x"));
-            var y = Std.parseInt( args.get("y"));
-            var w = Std.parseInt( args.get("w"));
-            var h = Std.parseInt( args.get("h"));
+            if ( srn == null) {
+                trace("dont have corresponse screen! qboxip: " + _ipv4);
+            }else{
+                var x = Std.parseInt( args.get("x"));
+                var y = Std.parseInt( args.get("y"));
+                var w = Std.parseInt( args.get("w"));
+                var h = Std.parseInt( args.get("h"));
 
-            var input = args.get("in");
+                var input = args.get("in");
 
-            var wnd = srn.resurrectWnd( x, y, w, h, input );
+                var wnd = srn.resurrectWnd( x, y, w, h, input );
+            }
         }
     }
 }

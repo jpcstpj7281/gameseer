@@ -54,7 +54,7 @@ class ScreenPlate extends CommDialog{
         var col = ScreenMgr.getInst()._col;
         var row = ScreenMgr.getInst()._row;
         if ( col == 0 && row == 0 ) {
-            createScreens();
+            return;
         }
         var width:Int = nme.Lib.current.stage.stageWidth ;
         var height:Int = nme.Lib.current.stage.stageHeight - 180;
