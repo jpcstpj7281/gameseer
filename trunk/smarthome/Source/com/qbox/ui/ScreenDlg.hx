@@ -30,6 +30,7 @@ class ScreenDlg extends ListDialog{
     var _qboxid:EmbedTextField;
     var _output:EmbedTextField;
     var _osdBtn:EmbedTextField;
+    var _conn:EmbedTextField;
     var _s:Sprite;
 
     public function new ( dm:ListDialogMgr, c:Screen){
@@ -90,6 +91,7 @@ class ScreenDlg extends ListDialog{
             _qboxid.x = 150;
             _qboxid.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
 
+            /*
             _output= new EmbedTextField();
             _output.selectable = false;
             _output.text = _screen._output;
@@ -99,6 +101,7 @@ class ScreenDlg extends ListDialog{
             _output.height= 20;
             _output.x = 300;
             _output.addEventListener( MouseEvent.CLICK, onOutputMouseClick);
+            */
 
             _pos= new EmbedTextField();
             _pos.selectable = false;
