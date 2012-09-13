@@ -37,10 +37,15 @@ void DriverChip772::dev_C772_Set480(uint32_t chn)
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR1] = 0x0b;
 	bank0[CP_IP00C772_B0_OHSCT_ADDR] = 0x1e;
 	bank0[CP_IP00C772_B0_OVSCT_ADDR] = 0x05;
+//	bank0[CP_IP00C772_B0_OACTHST_ADDR1] = 0x27;
+//	bank0[CP_IP00C772_B0_OACTHST_ADDR2] = 0x01;
+//	bank0[CP_IP00C772_B0_OACTVST_ADDR1] = 0x21;
+//	bank0[CP_IP00C772_B0_OACTVST_ADDR2] = 0x00;
 	bank0[CP_IP00C772_B0_OACTHST_ADDR1] = 0x7b;
 	bank0[CP_IP00C772_B0_OACTHST_ADDR2] = 0x00;
 	bank0[CP_IP00C772_B0_OACTVST_ADDR1] = 0x24;
 	bank0[CP_IP00C772_B0_OACTVST_ADDR2] = 0x00;
+
 	bank0[CP_IP00C772_B0_OACTHW_ADDR1] = 0xc6;
 	bank0[CP_IP00C772_B0_OACTHW_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR1] = 0xe7;
@@ -163,7 +168,7 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 
 	map<uint8_t,uint8_t> bank;
 
-	bank[CP_IP00C772_RGBNK_ADDR] = 0x03;
+	bank[CP_IP00C772_MCT_ADDR] = 0x03;
 	bank[CP_IP00C772_RTCT_ADDR] = 	0x00;
 	bank[CP_IP00C772_MISC_ADDR] = 	0x08;
 	bank[CP_IP00C772_MEMCT_ADDR] = 0x29;
@@ -186,14 +191,14 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 //	bank0[CP_IP00C772_B0_OVCYCLMIN_ADDR1] =   	0x00;
 //	bank0[CP_IP00C772_B0_OVCYCLMIN_ADDR2] =   	0x00;
 	bank0[CP_IP00C772_B0_OSWP_ADDR]      =   	0x00;
-	bank0[CP_IP00C772_B0_OACTHST_ADDR1]   =   	0x79;
-	bank0[CP_IP00C772_B0_OACTHST_ADDR2]   =   	0x00;
-	bank0[CP_IP00C772_B0_OACTHW_ADDR1]    =   	0xd0;
-	bank0[CP_IP00C772_B0_OACTHW_ADDR2]    =   	0x02;
-	bank0[CP_IP00C772_B0_OACTVST_ADDR1]   =   	0x28;
-	bank0[CP_IP00C772_B0_OACTVST_ADDR2]   =   	0x00;
-	bank0[CP_IP00C772_B0_OACTVW_ADDR1]    =   	0xe3;
-	bank0[CP_IP00C772_B0_OACTVW_ADDR2]    =   	0x01;
+//	bank0[CP_IP00C772_B0_OACTHST_ADDR1]   =   	0x79;
+//	bank0[CP_IP00C772_B0_OACTHST_ADDR2]   =   	0x00;
+//	bank0[CP_IP00C772_B0_OACTHW_ADDR1]    =   	0xd0;
+//	bank0[CP_IP00C772_B0_OACTHW_ADDR2]    =   	0x02;
+//	bank0[CP_IP00C772_B0_OACTVST_ADDR1]   =   	0x28;
+//	bank0[CP_IP00C772_B0_OACTVST_ADDR2]   =   	0x00;
+//	bank0[CP_IP00C772_B0_OACTVW_ADDR1]    =   	0xe3;
+//	bank0[CP_IP00C772_B0_OACTVW_ADDR2]    =   	0x01;
 
 //	bank0[CP_IP00C772_B0_OAOI0HST_ADDR]   =   	0x00;
 //	bank0[CP_IP00C772_B0_OAOI0HEND_ADDR]  =   	0x00;
@@ -246,7 +251,7 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 //	bank0[CP_IP00C772_B0_ACTCT_ADDR]  =   0x05;
 //	bank0[CP_IP00C772_B0_HISTGRAMCT_ADDR]  =   0x05;
 
-	bank0[CP_IP00C772_B0_POCLKOCT_ADDR]  =   0x11;
+	bank0[CP_IP00C772_B0_POCLKOCT_ADDR]  =   0x01;
 	bank0[CP_IP00C772_B0_POPLLCT_ADDR]  =   0x01;
 	bank0[CP_IP00C772_B0_POREFDIV_ADDR]  =   0x02;
 	bank0[CP_IP00C772_B0_POFBDIV_ADDR]  =   0x07;
@@ -282,7 +287,7 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 
 
 	map<uint8_t,uint8_t> bank2;
-	bank1[CP_IP00C772_RGBNK_ADDR] = 0x02;
+	bank2[CP_IP00C772_RGBNK_ADDR] = 0x02;
 
 	bank2[CP_IP00C772_B2_TMPPXNRCT_ADDR]=0x03;
 	bank2[CP_IP00C772_B2_TPXNRTH1_ADDR]=0x31;
@@ -351,9 +356,9 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 
 	value.push_back(bank2);
 
-	dev_C772_InitColorConversion(chn);
-	dev_C772_InitIPConversion(chn);
-	dev_C772_InitLUT(chn);
+//	dev_C772_InitColorConversion(chn);
+//	dev_C772_InitIPConversion(chn);
+//	dev_C772_InitLUT(chn);
 
 	map<uint8_t,uint8_t> bank3;
 	bank3[CP_IP00C772_RGBNK_ADDR] = 0x00;
@@ -420,7 +425,6 @@ void DriverChip772::dev_C772_InitIPConversion(uint32_t chn)
 	bank0[CP_IP00C772_B3_MVFLD_ADDR3] = 0x30;
 	bank0[CP_IP00C772_B3_TMSASEL_ADDR] = 0x01;
 
-	bank0[CP_IP00C772_RGBNK_ADDR] = 0x0;
 
 	value.push_back(bank0);
 	dev_SPI_WriteMult(chn,value);
@@ -431,228 +435,431 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 
-	bank0[CP_IP00C772_RGBNK_ADDR] = 0x02;
-
+//	bank0[CP_IP00C772_RGBNK_ADDR] = 0x02;
+	SPI_Write(chn,CP_IP00C772_RGBNK_ADDR,0x02);
 	// C772B2 LUTCOEF 00042000h
-	bank0[CP_IP00C772_LUTCOEF_a] = 0x00;
-	bank0[CP_IP00C772_LUTCOEF_b] = 0x20;
-	bank0[CP_IP00C772_LUTCOEF_c] = 0x04;
-	bank0[CP_IP00C772_LUTCOEF_d] = 0x00;
+//	bank0[CP_IP00C772_LUTCOEF_a] = 0x00;
+//	bank0[CP_IP00C772_LUTCOEF_b] = 0x20;
+//	bank0[CP_IP00C772_LUTCOEF_c] = 0x04;
+//	bank0[CP_IP00C772_LUTCOEF_d] = 0x00;
 
-	bank0[CP_IP00C772_LUTWAD] =   0x00;
-	bank0[CP_IP00C772_LUTWR] =    0xff;
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x00);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x20);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x04);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
+//	bank0[CP_IP00C772_LUTWAD] =   0x00;
+//	bank0[CP_IP00C772_LUTWR] =    0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x00);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
 
     // C772B2 LUTCOEF 00139c01h
-	bank0[CP_IP00C772_LUTCOEF_a] =  0x01;
-	bank0[CP_IP00C772_LUTCOEF_b] = 0x9c;
-	bank0[CP_IP00C772_LUTCOEF_c] = 0x13;
-	bank0[CP_IP00C772_LUTCOEF_d] = 0x00;
+//	bank0[CP_IP00C772_LUTCOEF_a] =  0x01;
+//	bank0[CP_IP00C772_LUTCOEF_b] = 0x9c;
+//	bank0[CP_IP00C772_LUTCOEF_c] = 0x13;
+//	bank0[CP_IP00C772_LUTCOEF_d] = 0x00;
 
-	bank0[CP_IP00C772_LUTWAD]=0x01;
-	bank0[CP_IP00C772_LUTWR ]=0xff;
-	bank0[CP_IP00C772_LUTWAD]=0x02;
-	bank0[CP_IP00C772_LUTWR ]=0xff;
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x01);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x9c);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x13);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
+
+//	bank0[CP_IP00C772_LUTWAD]=0x01;
+//	bank0[CP_IP00C772_LUTWR ]=0xff;
+//	bank0[CP_IP00C772_LUTWAD]=0x02;
+//	bank0[CP_IP00C772_LUTWR ]=0xff;
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x01);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x02);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
     // C772B2 LUTCOEF 00231802h
-	bank0[CP_IP00C772_LUTCOEF_a]=0x02;
-	bank0[CP_IP00C772_LUTCOEF_b]=0x18;
-	bank0[CP_IP00C772_LUTCOEF_c]=0x23;
-	bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//	bank0[CP_IP00C772_LUTCOEF_a]=0x02;
+//	bank0[CP_IP00C772_LUTCOEF_b]=0x18;
+//	bank0[CP_IP00C772_LUTCOEF_c]=0x23;
+//	bank0[CP_IP00C772_LUTCOEF_d]=0x00;
 
-	bank0[CP_IP00C772_LUTWAD]=0x03;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x04;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x02);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x18);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x23);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
+
+
+//	bank0[CP_IP00C772_LUTWAD]=0x03;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x04;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x03);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x04);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
     // C772B2 LUTCOEF 00329403h
-    bank0[CP_IP00C772_LUTCOEF_a]=0x03;
-    bank0[CP_IP00C772_LUTCOEF_b]=0x94;
-    bank0[CP_IP00C772_LUTCOEF_c]=0x32;
-    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]=0x03;
+//    bank0[CP_IP00C772_LUTCOEF_b]=0x94;
+//    bank0[CP_IP00C772_LUTCOEF_c]=0x32;
+//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x03);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x94);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x32);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
 
-    bank0[CP_IP00C772_LUTWAD]=0x05;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x06;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x07;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+//    bank0[CP_IP00C772_LUTWAD]=0x05;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x06;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x07;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x05);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x06);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x07);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
 
     // C772B2 LUTCOEF 00421004h
-    bank0[CP_IP00C772_LUTCOEF_a]=0x04;
-    bank0[CP_IP00C772_LUTCOEF_b]=0x10;
-    bank0[CP_IP00C772_LUTCOEF_c]=0x42;
-    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]=0x04;
+//    bank0[CP_IP00C772_LUTCOEF_b]=0x10;
+//    bank0[CP_IP00C772_LUTCOEF_c]=0x42;
+//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
 
-    bank0[CP_IP00C772_LUTWAD]=0x08;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x09;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x0a;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x0b;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x04);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x10);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x42);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
+
+
+//    bank0[CP_IP00C772_LUTWAD]=0x08;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x09;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x0a;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x0b;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x08);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x09);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0a);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0b);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
     // C772B2 LUTCOEF 00518c05h
-    bank0[CP_IP00C772_LUTCOEF_a]=0x05;
-    bank0[CP_IP00C772_LUTCOEF_b]=0x8c;
-    bank0[CP_IP00C772_LUTCOEF_c]=0x51;
-    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]=0x05;
+//    bank0[CP_IP00C772_LUTCOEF_b]=0x8c;
+//    bank0[CP_IP00C772_LUTCOEF_c]=0x51;
+//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x05);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x8c);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x51);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
 
-    bank0[CP_IP00C772_LUTWAD]=0x0c;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x0d;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x0e;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x0f;
-    bank0[CP_IP00C772_LUTWR]= 0xff;
+
+//    bank0[CP_IP00C772_LUTWAD]=0x0c;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x0d;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x0e;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x0f;
+//    bank0[CP_IP00C772_LUTWR]= 0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0c);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0d);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0e);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0f);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
     // C772B2 LUTCOEF 00610806h
-    bank0[CP_IP00C772_LUTCOEF_a]=0x06;
-    bank0[CP_IP00C772_LUTCOEF_b]=0x08;
-    bank0[CP_IP00C772_LUTCOEF_c]=0x61;
-    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]=0x06;
+//    bank0[CP_IP00C772_LUTCOEF_b]=0x08;
+//    bank0[CP_IP00C772_LUTCOEF_c]=0x61;
+//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
 
 
-    bank0[CP_IP00C772_LUTWAD]=0x10;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x11;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x12;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x13;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x06);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x08);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x61);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
+
+
+//    bank0[CP_IP00C772_LUTWAD]=0x10;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x11;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x12;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x13;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x10);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x11);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x12);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x13);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
     // C772B2 LUTCOEF 00708407h
-    bank0[CP_IP00C772_LUTCOEF_a]=0x07;
-    bank0[CP_IP00C772_LUTCOEF_b]=0x84;
-    bank0[CP_IP00C772_LUTCOEF_c]=0x70;
-    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]=0x07;
+//    bank0[CP_IP00C772_LUTCOEF_b]=0x84;
+//    bank0[CP_IP00C772_LUTCOEF_c]=0x70;
+//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x07);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x84);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x70);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
 
 
-    bank0[CP_IP00C772_LUTWAD]=0x14;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x15;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x16;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x17;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+//    bank0[CP_IP00C772_LUTWAD]=0x14;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x15;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x16;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x17;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x14);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x15);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x16);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x17);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
 
 
 
    // C772B2 LUTCOEF 00800008h
-    bank0[CP_IP00C772_LUTCOEF_a]= 0x08;
-    bank0[CP_IP00C772_LUTCOEF_b]= 0x00;
-    bank0[CP_IP00C772_LUTCOEF_c]= 0x80;
-    bank0[CP_IP00C772_LUTCOEF_d]= 0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]= 0x08;
+//    bank0[CP_IP00C772_LUTCOEF_b]= 0x00;
+//    bank0[CP_IP00C772_LUTCOEF_c]= 0x80;
+//    bank0[CP_IP00C772_LUTCOEF_d]= 0x00;
+
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x08);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x00);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x80);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
 
 
 
-    bank0[CP_IP00C772_LUTWAD]=0x18;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x19;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x1a;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x1b;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x1c;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x1d;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x1e;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x1f;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x18;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x19;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x1a;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x1b;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x1c;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x1d;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x1e;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x1f;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x18);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x19);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x1a);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x1b);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x1c);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x1d);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x1e);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x1f);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
 
 
     // C772B2 LUTCOEF 00004000h
-    bank0[CP_IP00C772_LUTCOEF_a]=0x00;
-    bank0[CP_IP00C772_LUTCOEF_b]= 0x40;
-    bank0[CP_IP00C772_LUTCOEF_c]=0x00;
-    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_a]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_b]= 0x40;
+//    bank0[CP_IP00C772_LUTCOEF_c]=0x00;
+//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
+
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x00);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x40);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x00);
+	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
 
-    bank0[CP_IP00C772_LUTWAD]=0x20;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x21;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x22;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x23;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x24;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x25;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x26;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x27;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x28;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x29;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x2a;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x2b;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x2c;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x2d;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x2e;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x2f;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x30;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x31;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x32;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x33;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x34;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x35;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x36;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x37;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x38;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x39;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x3a;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x3b;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x3c;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x3d;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x3e;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
-    bank0[CP_IP00C772_LUTWAD]=0x3f;
-    bank0[CP_IP00C772_LUTWR ]=0xff;
 
-    value.push_back(bank0);
-    dev_SPI_WriteMult(chn,value);
+//    bank0[CP_IP00C772_LUTWAD]=0x20;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x21;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x22;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x23;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x24;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x25;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x26;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x27;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x28;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x29;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x2a;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x2b;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x2c;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x2d;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x2e;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x2f;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x30;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x31;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x32;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x33;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x34;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x35;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x36;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x37;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x38;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x39;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x3a;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x3b;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x3c;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x3d;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x3e;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//    bank0[CP_IP00C772_LUTWAD]=0x3f;
+//    bank0[CP_IP00C772_LUTWR ]=0xff;
+//
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x20);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x21);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x22);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x23);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x24);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x25);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x26);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x27);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x28);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x29);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x2a);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x2b);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x2c);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x2d);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x2e);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x2f);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
+
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x30);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x31);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x32);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x33);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x34);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x35);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x36);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x37);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x38);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x39);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x3a);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x3b);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x3c);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x3d);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x3e);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+	SPI_Write(chn,CP_IP00C772_LUTWAD,0x3f);
+	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
+
+
+//    value.push_back(bank0);
+//    dev_SPI_WriteMult(chn,value);
 }
 
 void DriverChip772::dev_C772_Reset(uint32_t chn)

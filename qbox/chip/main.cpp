@@ -491,27 +491,7 @@ void demo()
 
 }
 
-void demoSD()
-{
-	AppScale s_c753;
-	s_c753.initHardware();
-	s_c753.initMemoryLineFeedWidth(1);
-	s_c753.initMemoryLineFeedWidth(2);
 
-	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
-	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
-
-
-	s_c753.setInputChannelACT(1,1024,768,303,36);
-	s_c753.setOutputChannelACT(1,1024,768,20,10);
-	s_c753.showWnd(1);
-
-//	s_c753.setInputChannelACT(2,1024,768,303,36);
-//	s_c753.setOutputChannelACT(2,1024,768,350,300);
-//	s_c753.showWnd(2);
-
-
-}
 
 
 
@@ -644,6 +624,60 @@ void init772(uint32_t chn,uint32_t flg)
 void blue5160(uint32_t chn)
 {
 	set5160(chn,0x34,0x80);
+}
+
+void blue772Out(uint32_t chn,uint32_t flg)
+{
+	DriverChip772 s_c772;
+	s_c772.dev_C772_SetBlueScreen(chn,flg);
+}
+
+
+
+void init772more(uint32_t chn,uint32_t flg)
+{
+	DriverChip772 s_c772;
+
+	if(flg ==1)
+	{
+		s_c772.dev_C772_InitColorConversion(chn);
+	}
+
+	if(flg ==2)
+	{
+		s_c772.dev_C772_InitIPConversion(chn);
+	}
+
+	if(flg ==3)
+	{
+		s_c772.dev_C772_InitLUT(chn);
+	}
+
+}
+
+
+void demoSD()
+{
+	AppScale &s_c753=*AppScale::Instance();
+	s_c753.initHardware();
+	s_c753.initMemoryLineFeedWidth(1);
+	s_c753.initMemoryLineFeedWidth(2);
+
+	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
+	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
+
+	init772(2,1);
+
+
+	s_c753.setInputChannelACT(1,702,480,131,39);
+	s_c753.setOutputChannelACT(1,702,480,20,10);
+	s_c753.showWnd(1);
+
+//	s_c753.setInputChannelACT(2,1024,768,303,36);
+//	s_c753.setOutputChannelACT(2,1024,768,350,300);
+//	s_c753.showWnd(2);
+
+
 }
 
 }
