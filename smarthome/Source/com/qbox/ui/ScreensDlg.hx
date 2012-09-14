@@ -26,10 +26,10 @@ class ScreensDlg extends ListFixedDlg{
     }
 
     public override function onMouseClick( ):Void{
-        if ( QboxMgr.getInst()._qboxes.length == 0) {
-            trace("there is no qbox!");
-            return;
-        }
+        //if ( QboxMgr.getInst()._qboxes.length == 0) {
+        //trace("there is no qbox!");
+        //return;
+        //}
         if ( _mgr.isAnimating() == false){
             _listDialogMgr.removeAllMovables();
 

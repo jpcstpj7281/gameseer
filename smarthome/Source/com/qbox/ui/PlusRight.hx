@@ -22,16 +22,16 @@ class PlusRight extends FixedDlg{
     public function cbPlus( ):Void{
         var arr = ScreenMgr.getInst().createColScreen();
         for ( i in arr){
-            if ( QboxMgr.getInst()._qboxes.length > 0 ){
-                i._qboxid = QboxMgr.getInst()._qboxes[0]._ipv4;
-                i._output= "out0";
+            //if ( QboxMgr.getInst()._qboxes.length > 0 ){
+                i._qboxid = "127.0.0.1";
+                //i._output= "out0";
                 if ( Std.is(_mgr, MainStage) ){
                     cast(_mgr, MainStage).resetScreenPlate();
                 }else{
                     var qd = new ScreenDlg( cast _mgr, i);
                     qd.show();
                 }
-            }
+                //}
         }
     }
 
