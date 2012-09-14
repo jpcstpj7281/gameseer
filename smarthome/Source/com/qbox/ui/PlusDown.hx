@@ -20,19 +20,20 @@ class PlusDown extends FixedDlg{
 
     public function cbPlus( ):Void{
         var arr = ScreenMgr.getInst().createRowScreen();
+        var ms:MainStage = null;
         for ( i in arr){
             //if ( QboxMgr.getInst()._qboxes.length > 0 ){
-            //i._qboxid = QboxMgr.getInst()._qboxes[0]._ipv4;
-            i._qboxid = "127.0.0.1";
+            i._qbox = QboxMgr.getInst().createQbox();
             //i._output= "out0";
             if ( Std.is(_mgr, MainStage) ){
-                cast(_mgr, MainStage).resetScreenPlate();
+                ms = cast(_mgr, MainStage);
             }else{
                 var qd = new ScreenDlg( cast _mgr, i);
                 qd.show();
             }
             //}
         }
+        if ( ms != null) ms.resetScreenPlate();
     }
     public override function onMouseClick( ):Void{
         if ( _mgr.isAnimating() ) return;

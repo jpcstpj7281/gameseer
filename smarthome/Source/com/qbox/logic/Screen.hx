@@ -14,8 +14,9 @@ class Screen{
     public var _resWidth:Int;
     public var _resHeight:Int;
 
-    public var _qboxid:String;
-    public var _output:String;
+    //public var _qboxid:String;
+    //public var _output:String;
+    public var _qbox:Qbox;
 
     var _currCB:Dynamic->Screen->Void;
 
@@ -126,7 +127,7 @@ class Screen{
         else {
             trace(""+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
 #if !neko
-            var q = QboxMgr.getInst().getQboxByIp( _qboxid);
+            var q = QboxMgr.getInst().getQboxByIp( _qbox._ipv4);
             if ( q != null){
                 //calculate real window size
                 var pw = _resWidth /_virtualWidth ;
@@ -145,7 +146,6 @@ class Screen{
                 trace("qbox y: "+qy);
                 trace("qbox w: "+qw);
                 trace("qbox h: "+qh);
-                trace(_output);
                 q.clearData();
                 q.startListening( 6, cbSetWnd, 2);
                 q.setMsg( 5, 2);
@@ -153,7 +153,7 @@ class Screen{
                 q.addKeyVal( "y", Bytes.ofString(Std.string(qy)));
                 q.addKeyVal( "w", Bytes.ofString(Std.string(qw)));
                 q.addKeyVal( "h", Bytes.ofString(Std.string(qh)));
-                q.addKeyVal( "out", Bytes.ofString(_output ));
+                q.addKeyVal( "out", Bytes.ofString("default"));
                 q.sendData();
             }
 #else
@@ -203,8 +203,8 @@ class Screen{
 #if !neko
         for ( i in notes){
             var arr:Array<String> = i.split(":");
-            if ( _qboxid == arr[0]){
-                var q = QboxMgr.getInst().getQboxByIp( _qboxid);
+            if ( _qbox._ipv4 == arr[0]){
+                var q = QboxMgr.getInst().getQboxByIp( _qbox._ipv4);
                 if ( q != null){
                     q.clearData();
                     q.startListening( 2, cbSetChannel, 3);
@@ -230,7 +230,7 @@ class Screen{
 
     public function hideWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
 #if !neko
-        var q = QboxMgr.getInst().getQboxByIp( _qboxid);
+        var q = QboxMgr.getInst().getQboxByIp( _qbox._ipv4);
         if ( q != null){
             q.clearData();
             q.startListening( 10, cbShowWnd, 2);
@@ -248,7 +248,7 @@ class Screen{
     }
     public function showWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
 #if !neko
-        var q = QboxMgr.getInst().getQboxByIp( _qboxid);
+        var q = QboxMgr.getInst().getQboxByIp( _qbox._ipv4);
         if ( q != null){
             q.clearData();
             q.startListening( 10, cbShowWnd, 2);
@@ -275,7 +275,7 @@ class Screen{
         trace("closed wnd: "+_col+"|"+_row);
         _currCB = cbMoveWndFunc;
 #if !neko
-        var q = QboxMgr.getInst().getQboxByIp( _qboxid);
+        var q = QboxMgr.getInst().getQboxByIp( _qbox._ipv4);
         if ( q != null){
             q.clearData();
             q.startListening( 12, cbCloseWnd, 2);

@@ -17,7 +17,7 @@ import base.ui.SubListDialogMgr;
 
 class ChannelNodeDlg extends CommDialog{
 
-    var _qboxid:EmbedTextField;
+    var _qboxip:EmbedTextField;
     var _input:EmbedTextField;
     public var _node:String;
 
@@ -32,13 +32,13 @@ class ChannelNodeDlg extends CommDialog{
     function onQboxMouseClick( evt:MouseEvent ):Void{ 
         var arr = QboxMgr.getInst()._qboxes;
         for (i in 0...arr.length){
-            if ( _qboxid.text == arr[i]._ipv4){
+            if ( _qboxip.text == arr[i]._ipv4){
                 var next = i+1;
                 if ( next == arr.length ){
                     next=0;
                 }
-                _qboxid.text = arr[next]._ipv4;
-                _node = _qboxid.text +":"+_input.text;
+                _qboxip.text = arr[next]._ipv4;
+                _node = _qboxip.text +":"+_input.text;
                 break;
             }
         }
@@ -46,15 +46,27 @@ class ChannelNodeDlg extends CommDialog{
     function onInputMouseClick( evt:MouseEvent ):Void{ 
         var arr = QboxMgr.getInst()._qboxes;
         for (i in 0...arr.length){
-            if ( _qboxid.text == arr[i]._ipv4){
+            if ( _qboxip.text == arr[i]._ipv4){
                 if ( _input.text != "null"){
-                    var str:String = _input.text.substr( 2, _input.text.length -2);
-                    var input = Std.parseInt( str );
-                    ++input;
-                    if ( input == Lambda.count(arr[i]._inputs)){
-                        input = 0;
+                    var iter = arr[i]._inputs.iterator();
+                    while ( iter.hasNext()){
+                        var input = iter.next();
+                        if ( _input.text == input){
+                            if ( iter.hasNext()){
+                                _input.text = iter.next();
+                                break;
+                            }else{
+                                _input.text = arr[i]._inputs.iterator().next();
+                            }
+                        }
                     }
-                    _input.text = "in"+input;
+                    //var str:String = _input.text.substr( 2, _input.text.length -2);
+                    //var input = Std.parseInt( str );
+                    //++input;
+                    //if ( input == Lambda.count(arr[i]._inputs)){
+                    //input = 0;
+                    //}
+                    //_input.text = "in"+input;
                 }
                 else{
                     if ( Lambda.count(arr[i]._inputs) == 0){
@@ -63,8 +75,7 @@ class ChannelNodeDlg extends CommDialog{
                         _input.text = arr[i]._inputs.iterator().next();
                     }
                 }
-
-                _node = _qboxid.text +":"+_input.text;
+                _node = _qboxip.text +":"+_input.text;
                 break;
             }
         }
@@ -76,14 +87,14 @@ class ChannelNodeDlg extends CommDialog{
         var arr = _node.split(":");
         if ( arr.length != 2 ) return s;
 
-        _qboxid= new EmbedTextField();
-        _qboxid.selectable = false;
-        _qboxid.text = arr[0];
-        _qboxid.scaleX = 3;
-        _qboxid.scaleY = 3;
-        _qboxid.width = 50;
-        _qboxid.height= 20;
-        _qboxid.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
+        _qboxip= new EmbedTextField();
+        _qboxip.selectable = false;
+        _qboxip.text = arr[0];
+        _qboxip.scaleX = 3;
+        _qboxip.scaleY = 3;
+        _qboxip.width = 50;
+        _qboxip.height= 20;
+        _qboxip.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
 
         _input= new EmbedTextField();
         _input.selectable = false;
@@ -95,7 +106,7 @@ class ChannelNodeDlg extends CommDialog{
         _input.x = 200;
         _input.addEventListener( MouseEvent.CLICK, onInputMouseClick);
 
-        s.addChild( _qboxid);
+        s.addChild( _qboxip);
         s.addChild( _input);
         s.height = nme.Lib.current.stage.stageHeight/15;
         return s;

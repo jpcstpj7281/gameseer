@@ -49,7 +49,8 @@ class EditChannelDlg extends ListDialog{
     }
 
     public function createDlgs(){
-        _channel.addNode( QboxMgr.getInst()._qboxes[0], "in0");
+        var q = QboxMgr.getInst()._qboxes[0];
+        _channel.addNode( q, q._inputs.iterator().next() );
         for ( i in _channel._nodes){
             //trace("test");
         }
