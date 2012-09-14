@@ -34,7 +34,8 @@ class ChannelDlg extends ListDialog{
 
     public function cbPlus( ):Void{
         if ( QboxMgr.getInst()._qboxes.length == 0 ) return;
-        var qd = new ChannelNodeDlg(_listDialogMgr, QboxMgr.getInst()._qboxes[0]._ipv4 + ":" + "in0" );
+        var q = QboxMgr.getInst()._qboxes[0];
+        var qd = new ChannelNodeDlg(_listDialogMgr, q._ipv4 + ":" + q._inputs.iterator().next() );
         qd.show();
     }
 

@@ -84,7 +84,7 @@ class ScreenMgr {
 
     public function getScreenByQbox( qbox:Qbox){
         for ( i in _screens){
-            if ( i._qboxid == qbox._ipv4){
+            if ( i._qbox == qbox){
                 return i;
             }
         }

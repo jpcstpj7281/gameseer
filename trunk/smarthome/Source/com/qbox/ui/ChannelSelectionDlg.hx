@@ -81,7 +81,8 @@ class ChannelSelectionDlg extends ListFixedDlg{
                 if (ChannelMgr.getInst()._channels.length >8 ) return;
                 var c = ChannelMgr.getInst().createChannel();
                 var q = QboxMgr.getInst()._qboxes[0];
-                c._nodes.push( q._ipv4 +":"+q._inputs.iterator().next());
+                //c._nodes.push( q._ipv4 +":"+q._inputs.iterator().next());
+                c.addNode( q, q._inputs.iterator().next());
                 cast(_mgr, MainStage).addChannelSelect();
                 _channel = c;
                 alpha = 1;

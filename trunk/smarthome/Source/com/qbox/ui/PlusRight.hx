@@ -21,18 +21,20 @@ class PlusRight extends FixedDlg{
 
     public function cbPlus( ):Void{
         var arr = ScreenMgr.getInst().createColScreen();
+        var ms:MainStage = null;
         for ( i in arr){
             //if ( QboxMgr.getInst()._qboxes.length > 0 ){
-                i._qboxid = "127.0.0.1";
-                //i._output= "out0";
-                if ( Std.is(_mgr, MainStage) ){
-                    cast(_mgr, MainStage).resetScreenPlate();
-                }else{
-                    var qd = new ScreenDlg( cast _mgr, i);
-                    qd.show();
-                }
-                //}
+            i._qbox = QboxMgr.getInst().createQbox();
+            //i._output= "out0";
+            if ( Std.is(_mgr, MainStage) ){
+                ms = cast(_mgr, MainStage);
+            }else{
+                var qd = new ScreenDlg( cast _mgr, i);
+                qd.show();
+            }
+            //}
         }
+        if ( ms != null) ms.resetScreenPlate();
     }
 
     public override function onMouseClick( ):Void{
