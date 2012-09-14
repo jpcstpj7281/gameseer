@@ -27,8 +27,8 @@ class ScreenDlg extends ListDialog{
     var _delete:EmbedTextField;
     var _screen:Screen;
 
-    var _qboxid:EmbedTextField;
-    var _output:EmbedTextField;
+    var _qboxip:EmbedTextField;
+    //var _output:EmbedTextField;
     var _osdBtn:EmbedTextField;
     var _conn:EmbedTextField;
     var _s:Sprite;
@@ -45,23 +45,25 @@ class ScreenDlg extends ListDialog{
 
     public override function onMouseClick():Void{ }
 
-    function onQboxMouseClick( evt:MouseEvent ):Void{ 
-        var arr = QboxMgr.getInst()._qboxes;
-        for (i in 0...arr.length){
-            if ( _qboxid.text == arr[i]._ipv4){
-                var next = i+1;
-                if ( next == arr.length ){
-                    next=0;
-                }
-                _screen._qboxid = _qboxid.text = arr[next]._ipv4;
-                break;
-            }
-        }
-    }
+    //function onQboxMouseClick( evt:MouseEvent ):Void{ 
+    //trace("Test");
+        //var arr = QboxMgr.getInst()._qboxes;
+        //for (i in 0...arr.length){
+        //if ( _qboxip.text == arr[i]._ipv4){
+        //var next = i+1;
+        //if ( next == arr.length ){
+        //next=0;
+        //}
+        //_screen._qboxip = _qboxip.text = arr[next]._ipv4;
+        //break;
+        //}
+        //}
+        //}
+    /*
     function onOutputMouseClick( evt:MouseEvent ):Void{ 
         var arr = QboxMgr.getInst()._qboxes;
         for (i in 0...arr.length){
-            if ( _qboxid.text == arr[i]._ipv4){
+            if ( _qboxip.text == arr[i]._ipv4){
                 var output:Int = Std.parseInt( _output.text.substr( 3, _output.text.length -2) );
                 ++output;
                 if ( output == Lambda.count(arr[i]._outputs)){
@@ -72,75 +74,81 @@ class ScreenDlg extends ListDialog{
             }
         }
     }
+    */
 
     override function show(){
         if ( _s != null) {
-            if ( _qboxid != null){
-                _s.removeChild(_qboxid);
-                _s.removeChild(_output);
+            if ( _qboxip != null){
+                _s.removeChild(_qboxip);
+                //_s.removeChild(_output);
                 _s.removeChild(_pos);
                 _s.removeChild(_osdBtn);
             }
-            _qboxid= new EmbedTextField();
-            _qboxid.selectable = false;
-            _qboxid.text = _screen._qboxid;
-            _qboxid.scaleX = 3;
-            _qboxid.scaleY = 3;
-            _qboxid.width = 50;
-            _qboxid.height= 20;
-            _qboxid.x = 150;
-            _qboxid.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
 
-            /*
-            _output= new EmbedTextField();
-            _output.selectable = false;
-            _output.text = _screen._output;
-            _output.scaleX = 3;
-            _output.scaleY = 3;
-            _output.width = 50;
-            _output.height= 20;
-            _output.x = 300;
-            _output.addEventListener( MouseEvent.CLICK, onOutputMouseClick);
-            */
+                /*
+                   _output= new EmbedTextField();
+                   _output.selectable = false;
+                   _output.text = _screen._output;
+                   _output.scaleX = 3;
+                   _output.scaleY = 3;
+                   _output.width = 50;
+                   _output.height= 20;
+                   _output.x = 300;
+                   _output.addEventListener( MouseEvent.CLICK, onOutputMouseClick);
+                 */
 
-            _pos= new EmbedTextField();
-            _pos.selectable = false;
-            _pos.text = "screen:" + _screen._col+"|"+_screen._row;
-            _pos.scaleX = 3;
-            _pos.scaleY = 3;
-            _pos.width = 50;
-            _pos.height= 20;
+                _pos= new EmbedTextField();
+                _pos.selectable = false;
+                _pos.text = "screen:" + _screen._col+"|"+_screen._row;
+                _pos.type = INPUT;
+                _pos.scaleX = 3;
+                _pos.scaleY = 3;
+                _pos.width = 50;
+                _pos.height= 20;
 
-            _osdBtn= new EmbedTextField();
-            _osdBtn.selectable = false;
-            _osdBtn.text = "OSD";
-            _osdBtn.scaleX = 3;
-            _osdBtn.scaleY = 3;
-            _osdBtn.width = 20;
-            _osdBtn.height= 18;
-            _osdBtn.setBorder(true);
-            _osdBtn.x = nme.Lib.current.stage.stageWidth - 80;
-            _osdBtn.addEventListener( MouseEvent.CLICK, onOsdBtnMouseClick);
+                _osdBtn= new EmbedTextField();
+                _osdBtn.selectable = false;
+                _osdBtn.text = "OSD";
+                _osdBtn.scaleX = 3;
+                _osdBtn.scaleY = 3;
+                _osdBtn.width = 20;
+                _osdBtn.height= 18;
+                _osdBtn.setBorder(true);
+                _osdBtn.x = nme.Lib.current.stage.stageWidth - 80;
+                _osdBtn.addEventListener( MouseEvent.CLICK, onOsdBtnMouseClick);
+
+                _qboxip= new EmbedTextField();
+                _qboxip.selectable = false;
+                _qboxip.text = "127.0.0.1";
+                _qboxip.type = INPUT;
+                _qboxip.scaleX = 3;
+                _qboxip.scaleY = 3;
+                _qboxip.width = 50;
+                _qboxip.height= 16;
+                _qboxip.setBorder(true);
+                _qboxip.x = 250;
+                //_qboxip.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
+
             _s.addChild( _pos);
-            _s.addChild( _qboxid);
-            _s.addChild( _output);
+            _s.addChild( _qboxip);
+            //_s.addChild( _output);
             _s.addChild( _osdBtn);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
     }
     override function hide(){
-        if ( _s != null && _qboxid != null) {
-            _qboxid.removeEventListener(  MouseEvent.CLICK, onQboxMouseClick); 
-            _output.removeEventListener(  MouseEvent.CLICK, onOutputMouseClick); 
+        if ( _s != null && _qboxip != null) {
+            //_qboxip.removeEventListener(  MouseEvent.CLICK, onQboxMouseClick); 
+            //_output.removeEventListener(  MouseEvent.CLICK, onOutputMouseClick); 
             _osdBtn.removeEventListener(  MouseEvent.CLICK, onOsdBtnMouseClick); 
-            _s.removeChild(_qboxid);
+            _s.removeChild(_qboxip);
             _s.removeChild(_pos);
-            _s.removeChild(_output);
+            //_s.removeChild(_output);
             _s.removeChild(_osdBtn);
-            _qboxid = null;
+            _qboxip = null;
             _pos= null;
-            _output= null;
+            //_output= null;
             _osdBtn= null;
         }
         return super.hide();
