@@ -160,6 +160,7 @@ class Qbox extends SMConnection{
                 var input = args.get("in");
 
                 var wnd = srn.resurrectWnd( x, y, w, h, input );
+                wnd._screens.push( srn);
             }
         }
     }

@@ -99,8 +99,26 @@ class ScreenPlate extends CommDialog{
     }
 
     function createWnds(){
-        for ( i in WndMgr.getInst()._wnds){
+        _movingWnd = null;
 
+        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+        if ( ms.length > 0 ){
+            var m = ms[0];
+            var p = m.parent;
+            for ( i in 0...p.numChildren){
+                var w = p.getChildAt( p.numChildren - i -1 );
+                if ( Std.is(w, WndGraphicDlg) ){
+                    var wgd:WndGraphicDlg = cast( w, WndGraphicDlg);
+                    wgd.clear();
+                }
+            }
+        }
+
+        for ( i in WndMgr.getInst()._wnds){
+            trace("create wnd");
+            var win = new WndGraphicDlg(_mgr);
+            win.resurrectWnd(i);
+            win.show();
         }
     }
 
@@ -208,8 +226,6 @@ class ScreenPlate extends CommDialog{
                     }else if ( upy > (_screens.y +_screens.height)){
                         upy = _screens.y+_screens.height;
                     }
-
-
                     //open window
                     if ( upx - _downx > 90  && upy - _downy > 60 && ChannelMgr.getInst()._currSelected != null ) {
                         var win = new WndGraphicDlg(_mgr);
