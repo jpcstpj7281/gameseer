@@ -621,9 +621,17 @@ void init772(uint32_t chn,uint32_t flg)
 	}
 }
 
-void blue5160(uint32_t chn)
+void blue5160(uint32_t chn,uint32_t flg)
 {
-	set5160(chn,0x34,0x80);
+	DriverChip5160 s_c5160;
+	if(flg==1)
+	{
+		set5160(chn,0x34,0x19);
+	}
+	else
+	{
+		set5160(chn,0x34,0x11);
+	}
 }
 
 void blue772Out(uint32_t chn,uint32_t flg)
@@ -640,12 +648,13 @@ void init772more(uint32_t chn,uint32_t flg)
 
 	if(flg ==1)
 	{
-		s_c772.dev_C772_InitColorConversion(chn);
+		s_c772.dev_C772_InitIPConversion(chn);
+
 	}
 
 	if(flg ==2)
 	{
-		s_c772.dev_C772_InitIPConversion(chn);
+		s_c772.dev_C772_InitColorConversion(chn);
 	}
 
 	if(flg ==3)
@@ -666,11 +675,18 @@ void demoSD()
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
 	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
 
+	init5160(1);
+	init5160(2);
+	init772(1,1);
 	init772(2,1);
+//	init772more(2,1);
+//	init772more(2,2);
+//	init772more(2,3);
 
+//	setFpgaSelectChn(2,1);
 
-	s_c753.setInputChannelACT(1,702,480,131,39);
-	s_c753.setOutputChannelACT(1,702,480,20,10);
+	s_c753.setInputChannelACT(1,702,480,137,45);
+	s_c753.setOutputChannelACT(1,700,480,20,10);
 	s_c753.showWnd(1);
 
 //	s_c753.setInputChannelACT(2,1024,768,303,36);

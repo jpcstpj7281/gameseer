@@ -1546,8 +1546,10 @@ void AppScale::setOutputSize(uint32_t type)
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_65000KHZ);
 			 C753SetOutputHorizontalSync(0x053e);
 		     C753SetOutputVerticalSync(0x0324);
-		     C753SetHorizontalSyncResetDelay(1);
-		     C753SetVerticalSyncResetDelay(1);
+//		     C753SetHorizontalSyncResetDelay(1);
+//		     C753SetVerticalSyncResetDelay(1);
+     	     C753SetHorizontalSyncResetDelay(20);
+		     C753SetVerticalSyncResetDelay(4);
 
 
 		     debug_msg("setOutputSize 1024 X 768 @60Hz \n!");
@@ -1559,9 +1561,10 @@ void AppScale::setOutputSize(uint32_t type)
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_121750KHZ);
 			 C753SetOutputHorizontalSync(0x0746);
 			 C753SetOutputVerticalSync(0x043f);
-			 C753SetHorizontalSyncResetDelay(1);
-			 C753SetVerticalSyncResetDelay(1);
-
+			 //		     C753SetHorizontalSyncResetDelay(1);
+			 //		     C753SetVerticalSyncResetDelay(1);
+			      	     C753SetHorizontalSyncResetDelay(20);
+			 		     C753SetVerticalSyncResetDelay(4);
 
 
 			 debug_msg("setOutputSize 1440 X 1050 @60Hz \n!");
