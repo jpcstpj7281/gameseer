@@ -95,11 +95,12 @@ class WndGraphicDlg extends CommDialog{
         //addChild(_virtualWnd);
     }
 
-    public function resurrectWnd(x:Int, y:Int, w:Int, h:Int, c:Channel){
-        this.x = x;
-        this.y = y;
-        redrawWnd( w, h);
-        _channel = c;
+    public function resurrectWnd(wnd:Wnd){
+        this.x = wnd._virtualX;
+        this.y = wnd._virtualY;
+        redrawWnd( wnd._virtualWidth, wnd._virtualHeight);
+        _channel = wnd._channel;
+        _wnd = wnd;
     }
 
     public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel){

@@ -41,10 +41,20 @@ class Screen{
 
         var wnd = WndMgr.getInst().createWnd();
         wnd._virtualX = virtualX;
-        wnd._virtualY = virtualX;
+        wnd._virtualY = virtualY;
         wnd._virtualWidth = _virtualWidth;
         wnd._virtualHeight = _virtualHeight;
+        var nodes = new Array<String>();
+        nodes.push( _qbox._ipv4 + ":" +input);
+        var c = ChannelMgr.getInst().getChannel( nodes);
+        if ( c == null){
+            c = ChannelMgr.getInst().createChannel();
+            c.addNode( _qbox, input);
+        }
+        wnd._channel = c;
+        return wnd;
 
+        //trace("resurrectWnd");
     }
 
     public function setWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void ){
