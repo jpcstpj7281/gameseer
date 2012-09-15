@@ -696,6 +696,26 @@ void demoSD()
 
 }
 
+void demoRing()
+{
+	AppScale &s_c753=*AppScale::Instance();
+	s_c753.initHardware();
+	s_c753.initMemoryLineFeedWidth(1);
+	s_c753.initMemoryLineFeedWidth(2);
+
+	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
+	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
+
+
+	s_c753.setInputChannelACT(1,1024,768,303,36);
+	s_c753.setOutputChannelACT(1,1024,768,0,0);
+	s_c753.showWnd(1);
+
+
+
+
+}
+
 }
 #endif /* __cplusplus */
 
