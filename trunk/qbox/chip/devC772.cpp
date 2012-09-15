@@ -37,10 +37,6 @@ void DriverChip772::dev_C772_Set480(uint32_t chn)
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR1] = 0x0b;
 	bank0[CP_IP00C772_B0_OHSCT_ADDR] = 0x1e;
 	bank0[CP_IP00C772_B0_OVSCT_ADDR] = 0x05;
-//	bank0[CP_IP00C772_B0_OACTHST_ADDR1] = 0x27;
-//	bank0[CP_IP00C772_B0_OACTHST_ADDR2] = 0x01;
-//	bank0[CP_IP00C772_B0_OACTVST_ADDR1] = 0x21;
-//	bank0[CP_IP00C772_B0_OACTVST_ADDR2] = 0x00;
 	bank0[CP_IP00C772_B0_OACTHST_ADDR1] = 0x7b;
 	bank0[CP_IP00C772_B0_OACTHST_ADDR2] = 0x00;
 	bank0[CP_IP00C772_B0_OACTVST_ADDR1] = 0x24;
@@ -50,9 +46,9 @@ void DriverChip772::dev_C772_Set480(uint32_t chn)
 	bank0[CP_IP00C772_B0_OACTHW_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR1] = 0xe7;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR2] = 0x01;
-	bank0[CP_IP00C772_B0_OCCFTGB_ADDR1] = 0xea;
-	bank0[CP_IP00C772_B0_OCCFTGB_ADDR2] = 0x01;
+//	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x80;
 	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x00;
+
 
 	value.push_back(bank0);
 
@@ -188,26 +184,9 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 	bank0[CP_IP00C772_B0_OHSCT_ADDR]   =   	0x1e;
 	bank0[CP_IP00C772_B0_OVSCT_ADDR]   =   	0x05;
 	bank0[CP_IP00C772_B0_SYRDLY_ADDR]  =   	0x20;
-//	bank0[CP_IP00C772_B0_OVCYCLMIN_ADDR1] =   	0x00;
-//	bank0[CP_IP00C772_B0_OVCYCLMIN_ADDR2] =   	0x00;
+	bank0[CP_IP00C772_B0_OVCYCLMIN_ADDR1] =   	0x0b;
+	bank0[CP_IP00C772_B0_OVCYCLMIN_ADDR2] =   	0x02;
 	bank0[CP_IP00C772_B0_OSWP_ADDR]      =   	0x00;
-//	bank0[CP_IP00C772_B0_OACTHST_ADDR1]   =   	0x79;
-//	bank0[CP_IP00C772_B0_OACTHST_ADDR2]   =   	0x00;
-//	bank0[CP_IP00C772_B0_OACTHW_ADDR1]    =   	0xd0;
-//	bank0[CP_IP00C772_B0_OACTHW_ADDR2]    =   	0x02;
-//	bank0[CP_IP00C772_B0_OACTVST_ADDR1]   =   	0x28;
-//	bank0[CP_IP00C772_B0_OACTVST_ADDR2]   =   	0x00;
-//	bank0[CP_IP00C772_B0_OACTVW_ADDR1]    =   	0xe3;
-//	bank0[CP_IP00C772_B0_OACTVW_ADDR2]    =   	0x01;
-
-//	bank0[CP_IP00C772_B0_OAOI0HST_ADDR]   =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI0HEND_ADDR]  =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI0VST_ADDR]   =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI0VEND_ADDR]  =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI1HST_ADDR]   =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI1HEND_ADDR]  =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI1VST_ADDR]   =   	0x00;
-//	bank0[CP_IP00C772_B0_OAOI1VEND_ADDR]  =   	0x00;
 
 	bank0[CP_IP00C772_B0_OFILL_RED_ADDR]  =   	0x00;
 	bank0[CP_IP00C772_B0_OFILL_GREEN_ADDR]  =   0x00;
@@ -217,19 +196,6 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 //	bank0[CP_IP00C772_B0_OBKGD1_ADDR]  =   	0x00;
 
 	bank0[CP_IP00C772_B0_OIMGCT_ADDR]  =   	0x00;
-	bank0[CP_IP00C772_B0_OCCFTR_ADDR1]  =   0x9d;
-	bank0[CP_IP00C772_B0_OCCFTR_ADDR2]  =   0x05;
-	bank0[CP_IP00C772_B0_OCCFTB_ADDR1]  =   0x18;
-	bank0[CP_IP00C772_B0_OCCFTB_ADDR2]  =   0x27;
-	bank0[CP_IP00C772_B0_OCCFTGR_ADDR1]  =   0x25;
-	bank0[CP_IP00C772_B0_OCCFTGR_ADDR2]  =   0x1d;
-	bank0[CP_IP00C772_B0_OCCFTGB_ADDR1]  =   0xea;
-	bank0[CP_IP00C772_B0_OCCFTGB_ADDR2]  =   0x01;
-
-//	bank0[CP_IP00C772_B0_OCCFTRB_ADDR1]  =   0x11;
-//	bank0[CP_IP00C772_B0_OCCFTRB_ADDR2]  =   0x05;
-//	bank0[CP_IP00C772_B0_OCCFTBR_ADDR1]  =   0x05;
-//	bank0[CP_IP00C772_B0_OCCFTBR_ADDR2]  =   0x05;
 //	bank0[CP_IP00C772_B0_BGCT_ADDR]  =   0x05;
 //	bank0[CP_IP00C772_B0_GAINR_ADDR]  =   0x05;
 //	bank0[CP_IP00C772_B0_GAING_ADDR]  =   0x05;
@@ -356,16 +322,10 @@ void DriverChip772::dev_InitIP00c772(uint32_t chn)
 
 	value.push_back(bank2);
 
-//	dev_C772_InitColorConversion(chn);
-//	dev_C772_InitIPConversion(chn);
-//	dev_C772_InitLUT(chn);
+	dev_C772_InitColorConversion(chn);
+	dev_C772_InitIPConversion(chn);
+	dev_C772_InitLUT(chn);
 
-	map<uint8_t,uint8_t> bank3;
-	bank3[CP_IP00C772_RGBNK_ADDR] = 0x00;
-	bank3[CP_IP00C772_B0_OVCYCLMIN_ADDR1] = 0x0b;
-	bank3[CP_IP00C772_B0_OVCYCLMIN_ADDR2] = 0x02;
-
-	value.push_back(bank3);
 
 	dev_SPI_WriteMult(chn,value);
 }
@@ -378,18 +338,22 @@ void DriverChip772::dev_C772_InitColorConversion(uint32_t chn)
 	map<uint8_t,uint8_t> bank0;
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
-	bank0[CP_IP00C772_B0_OCCFTR_ADDR1] = 0x9d;
-	bank0[CP_IP00C772_B0_OCCFTR_ADDR2] = 0x05;
-	bank0[CP_IP00C772_B0_OCCFTB_ADDR1] = 0x18;
-	bank0[CP_IP00C772_B0_OCCFTB_ADDR2] = 0x07;
-	bank0[CP_IP00C772_B0_OCCFTGR_ADDR1] = 0x25;
-	bank0[CP_IP00C772_B0_OCCFTGR_ADDR2] = 0x1d;
-	bank0[CP_IP00C772_B0_OCCFTGB_ADDR1] = 0xea;
-	bank0[CP_IP00C772_B0_OCCFTGB_ADDR2] = 0x00;
-	bank0[CP_IP00C772_B0_OCCFTRB_ADDR1] = 0x00;
-	bank0[CP_IP00C772_B0_OCCFTRB_ADDR2] = 0x00;
-	bank0[CP_IP00C772_B0_OCCFTBR_ADDR1] = 0x00;
-	bank0[CP_IP00C772_B0_OCCFTBR_ADDR2] = 0x00;
+
+
+	bank0[CP_IP00C772_B0_OCCFTR_ADDR1]  =   0x9d;
+	bank0[CP_IP00C772_B0_OCCFTR_ADDR2]  =   0x05;
+	bank0[CP_IP00C772_B0_OCCFTB_ADDR1]  =   0x18;
+	bank0[CP_IP00C772_B0_OCCFTB_ADDR2]  =   0x07;
+	bank0[CP_IP00C772_B0_OCCFTGR_ADDR1]  =   0x25;
+	bank0[CP_IP00C772_B0_OCCFTGR_ADDR2]  =   0x1d;
+	bank0[CP_IP00C772_B0_OCCFTGB_ADDR1]  =   0xea;
+	bank0[CP_IP00C772_B0_OCCFTGB_ADDR2]  =   0x01;
+
+	bank0[CP_IP00C772_B0_OCCFTRB_ADDR1]  =   0x00;
+	bank0[CP_IP00C772_B0_OCCFTRB_ADDR2]  =   0x00;
+	bank0[CP_IP00C772_B0_OCCFTBR_ADDR1]  =   0x00;
+	bank0[CP_IP00C772_B0_OCCFTBR_ADDR2]  =   0x00;
+
 
 	value.push_back(bank0);
 	dev_SPI_WriteMult(chn,value);
@@ -435,40 +399,24 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 	list<map<uint8_t,uint8_t> > value;
 	map<uint8_t,uint8_t> bank0;
 
-//	bank0[CP_IP00C772_RGBNK_ADDR] = 0x02;
 	SPI_Write(chn,CP_IP00C772_RGBNK_ADDR,0x02);
 	// C772B2 LUTCOEF 00042000h
-//	bank0[CP_IP00C772_LUTCOEF_a] = 0x00;
-//	bank0[CP_IP00C772_LUTCOEF_b] = 0x20;
-//	bank0[CP_IP00C772_LUTCOEF_c] = 0x04;
-//	bank0[CP_IP00C772_LUTCOEF_d] = 0x00;
 
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x00);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x20);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x04);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
-//	bank0[CP_IP00C772_LUTWAD] =   0x00;
-//	bank0[CP_IP00C772_LUTWR] =    0xff;
-
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x00);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
 
     // C772B2 LUTCOEF 00139c01h
-//	bank0[CP_IP00C772_LUTCOEF_a] =  0x01;
-//	bank0[CP_IP00C772_LUTCOEF_b] = 0x9c;
-//	bank0[CP_IP00C772_LUTCOEF_c] = 0x13;
-//	bank0[CP_IP00C772_LUTCOEF_d] = 0x00;
 
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x01);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x9c);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x13);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
-//	bank0[CP_IP00C772_LUTWAD]=0x01;
-//	bank0[CP_IP00C772_LUTWR ]=0xff;
-//	bank0[CP_IP00C772_LUTWAD]=0x02;
-//	bank0[CP_IP00C772_LUTWR ]=0xff;
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x01);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x02);
@@ -477,21 +425,10 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00231802h
-//	bank0[CP_IP00C772_LUTCOEF_a]=0x02;
-//	bank0[CP_IP00C772_LUTCOEF_b]=0x18;
-//	bank0[CP_IP00C772_LUTCOEF_c]=0x23;
-//	bank0[CP_IP00C772_LUTCOEF_d]=0x00;
-
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x02);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x18);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x23);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
-
-
-//	bank0[CP_IP00C772_LUTWAD]=0x03;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x04;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x03);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -501,24 +438,10 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00329403h
-//    bank0[CP_IP00C772_LUTCOEF_a]=0x03;
-//    bank0[CP_IP00C772_LUTCOEF_b]=0x94;
-//    bank0[CP_IP00C772_LUTCOEF_c]=0x32;
-//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
-
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x03);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x94);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x32);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
-
-
-
-//    bank0[CP_IP00C772_LUTWAD]=0x05;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x06;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x07;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x05);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -531,25 +454,11 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00421004h
-//    bank0[CP_IP00C772_LUTCOEF_a]=0x04;
-//    bank0[CP_IP00C772_LUTCOEF_b]=0x10;
-//    bank0[CP_IP00C772_LUTCOEF_c]=0x42;
-//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
 
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x04);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x10);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x42);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
-
-
-//    bank0[CP_IP00C772_LUTWAD]=0x08;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x09;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x0a;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x0b;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x08);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -563,26 +472,10 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00518c05h
-//    bank0[CP_IP00C772_LUTCOEF_a]=0x05;
-//    bank0[CP_IP00C772_LUTCOEF_b]=0x8c;
-//    bank0[CP_IP00C772_LUTCOEF_c]=0x51;
-//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
-
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x05);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x8c);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x51);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
-
-
-
-//    bank0[CP_IP00C772_LUTWAD]=0x0c;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x0d;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x0e;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x0f;
-//    bank0[CP_IP00C772_LUTWR]= 0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x0c);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -596,26 +489,11 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00610806h
-//    bank0[CP_IP00C772_LUTCOEF_a]=0x06;
-//    bank0[CP_IP00C772_LUTCOEF_b]=0x08;
-//    bank0[CP_IP00C772_LUTCOEF_c]=0x61;
-//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
-
 
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x06);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x08);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x61);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
-
-
-//    bank0[CP_IP00C772_LUTWAD]=0x10;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x11;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x12;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x13;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x10);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -629,27 +507,11 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00708407h
-//    bank0[CP_IP00C772_LUTCOEF_a]=0x07;
-//    bank0[CP_IP00C772_LUTCOEF_b]=0x84;
-//    bank0[CP_IP00C772_LUTCOEF_c]=0x70;
-//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
-
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x07);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x84);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x70);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
-
-
-
-//    bank0[CP_IP00C772_LUTWAD]=0x14;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x15;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x16;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x17;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x14);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -663,35 +525,11 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
    // C772B2 LUTCOEF 00800008h
-//    bank0[CP_IP00C772_LUTCOEF_a]= 0x08;
-//    bank0[CP_IP00C772_LUTCOEF_b]= 0x00;
-//    bank0[CP_IP00C772_LUTCOEF_c]= 0x80;
-//    bank0[CP_IP00C772_LUTCOEF_d]= 0x00;
-
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x08);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x00);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x80);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
-
-
-
-//    bank0[CP_IP00C772_LUTWAD]=0x18;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x19;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x1a;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x1b;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x1c;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x1d;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x1e;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x1f;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x18);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);
@@ -713,82 +551,12 @@ void DriverChip772::dev_C772_InitLUT(uint32_t chn)
 
 
     // C772B2 LUTCOEF 00004000h
-//    bank0[CP_IP00C772_LUTCOEF_a]=0x00;
-//    bank0[CP_IP00C772_LUTCOEF_b]= 0x40;
-//    bank0[CP_IP00C772_LUTCOEF_c]=0x00;
-//    bank0[CP_IP00C772_LUTCOEF_d]=0x00;
-
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_a,0x00);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_b,0x40);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_c,0x00);
 	SPI_Write(chn,CP_IP00C772_LUTCOEF_d,0x00);
 
 
-
-//    bank0[CP_IP00C772_LUTWAD]=0x20;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x21;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x22;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x23;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x24;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x25;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x26;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x27;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x28;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x29;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x2a;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x2b;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x2c;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x2d;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x2e;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x2f;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x30;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x31;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x32;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x33;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x34;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x35;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x36;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x37;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x38;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x39;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x3a;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x3b;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x3c;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x3d;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x3e;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
-//    bank0[CP_IP00C772_LUTWAD]=0x3f;
-//    bank0[CP_IP00C772_LUTWR ]=0xff;
 //
 	SPI_Write(chn,CP_IP00C772_LUTWAD,0x20);
 	SPI_Write(chn,CP_IP00C772_LUTWR,0xff);

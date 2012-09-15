@@ -224,49 +224,26 @@ void DriverChip5160::dev_5160_GetManualGainValue(uint32_t byChannels,uint8_t &by
 
 void DriverChip5160::dev_5160_InitTVP5160(uint32_t byChannels)
 {
-//	list<map<uint8_t,uint8_t> > value;
-//
-//	map<uint8_t,uint8_t> bank0;
-//	bank0[0xee] = 0x01;
 	I2C_5160_Write(byChannels,0xee,0x01);
-//	bank0[0xea] = 0xb0;
 	I2C_5160_Write(byChannels,0xea,0xb0);
-//	bank0[0xe9] = 0x00;
 	I2C_5160_Write(byChannels,0xe9,0x00);
-//	bank0[0xe8] = 0x63;
 	I2C_5160_Write(byChannels,0xe8,0x63);
-//	bank0[0xe0] = 0x01;
 	I2C_5160_Write(byChannels,0xe0,0x01);
-//
-//	value.push_back(bank0);
-//
-//	map<uint8_t,uint8_t> bank1;
-//	bank1[0xee] = 0x00;
+
 	I2C_5160_Write(byChannels,0xee,0x00);
 //
-//	bank1[0x4] = 0xff;
 	I2C_5160_Write(byChannels,0x4,0xff);
-//	bank1[0x6] = 0x40;
 	I2C_5160_Write(byChannels,0x6,0x40);
-//	bank1[0xd] = 0x84;
 	I2C_5160_Write(byChannels,0xd,0x84);
-//	bank1[0x30] = 0x0f;
 	I2C_5160_Write(byChannels,0x30,0x0f);
-//	bank1[0x59] = 0x7;
 	I2C_5160_Write(byChannels,0x59,0x7);
-//	bank1[0x74] = 0xbf;
 	I2C_5160_Write(byChannels,0x74,0xbf);
-//	bank1[0x75] = 0x1a;
 	I2C_5160_Write(byChannels,0x75,0x1a);
-//	bank1[0x7f] = 0x1;
 	I2C_5160_Write(byChannels,0x7f,0x1);
-//	bank1[0x33] = 0x01;
+
 	I2C_5160_Write(byChannels,0x33,0x01);
-//	bank1[0x34] = 0x11;
 	I2C_5160_Write(byChannels,0x34,0x11);
-//	bank1[0x35] = 0x2a;
 	I2C_5160_Write(byChannels,0x35,0x2a);
-//	bank1[0x36] = 0xaf;
 	I2C_5160_Write(byChannels,0x36,0xaf);
 //
 //	//设置没有信号时输出蓝屏
