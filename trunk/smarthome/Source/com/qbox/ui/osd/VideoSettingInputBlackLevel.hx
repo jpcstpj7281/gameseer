@@ -23,23 +23,10 @@ class VideoSettingInputBlackLevel extends ValueSwitchDlg{
 
         _values.push("0 IRE");
         _values.push("7.5 IRE");
-    }
-
-    public override function createElement():Sprite{
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Input Black Level";
+        TXT= "Input Black Level";
 #else
-        img.text = "输入信号黑阶";
+        TXT= "输入信号黑阶";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

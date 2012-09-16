@@ -16,31 +16,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OptionRecoverPreset extends ListDialog{
+class OptionRecoverPreset extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Recover Preset";
+        TXT= "Recover Preset";
 #else
-        option.text = "恢复预设值";
+        TXT= "恢复预设值";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 100;
-        option.height= 20;
-        s.addChild( option);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

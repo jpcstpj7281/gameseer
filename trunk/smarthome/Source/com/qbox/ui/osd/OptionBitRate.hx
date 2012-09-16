@@ -25,23 +25,10 @@ class OptionBitRate extends ValueSwitchDlg{
         _values.push("9600");
         _values.push("57600");
         _values.push("19200");
-    }
-
-    public override function createElement():Sprite{
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Bit Rate";
+        TXT= "Bit Rate";
 #else
-        option.text = "比特率";
+        TXT= "比特率";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 100;
-        option.height= 20;
-        var s = super.createElement();
-        s.addChild( option);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

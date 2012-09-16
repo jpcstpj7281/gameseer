@@ -17,7 +17,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SpecialAmplificationSetting extends ListDialog{
+class SpecialAmplificationSetting extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -27,25 +27,10 @@ class SpecialAmplificationSetting extends ListDialog{
         i =new AmplificationVPercent(_listDialogMgr);
         i =new AmplificationHMovment(_listDialogMgr);
         i =new AmplificationVMovment(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "Amplification Setting";
+        TXT= "Amplification Setting";
 #else
-        special.text = "放大设定";
+        TXT= "放大设定";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 100;
-        special.height= 20;
-        s.addChild( special);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

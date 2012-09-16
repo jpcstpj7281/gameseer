@@ -24,23 +24,10 @@ class SpecialFanSetting extends ValueSwitchDlg{
 
         _values.push("自动");
         _values.push("全速转");
-    }
-
-    public override function createElement():Sprite{
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "Fan Setting";
+        TXT= "Fan Setting";
 #else
-        special.text = "风扇设定";
+        TXT= "风扇设定";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 100;
-        special.height= 20;
-        var s = super.createElement();
-        s.addChild( special);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

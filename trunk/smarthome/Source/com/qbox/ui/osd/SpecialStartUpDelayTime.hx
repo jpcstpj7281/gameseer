@@ -24,22 +24,10 @@ class SpecialStartUpDelayTime extends ValueBarDlg{
         addChild( createElement());
         _value = 0;
         _max= 10;
-    }
-    public override function createElement():Sprite{
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "Startup Delay Time";
+        TXT= "Startup Delay Time";
 #else
-        special.text = "开机延迟时间";
+        TXT= "开机延迟时间";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 100;
-        special.height= 20;
-        var s = super.createElement();
-        s.addChild( special);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

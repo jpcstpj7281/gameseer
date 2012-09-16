@@ -24,22 +24,10 @@ class FitnessInputSourceHPos extends ValueBarDlg{
         _value = 0;
         _max = 500;
         _min = -500;
-    }
-    public override function createElement():Sprite{
-        var fitness= new EmbedTextField();
-        fitness.selectable = false;
 #if neko
-        fitness.text = "Input Source H Position";
+        TXT= "Input Source H Position";
 #else
-        fitness.text = "输入信号水平位置";
+        TXT= "输入信号水平位置";
 #end
-        fitness.scaleX = 3;
-        fitness.scaleY = 3;
-        fitness.width = 100;
-        fitness.height= 20;
-        var s = super.createElement();
-        s.addChild( fitness);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

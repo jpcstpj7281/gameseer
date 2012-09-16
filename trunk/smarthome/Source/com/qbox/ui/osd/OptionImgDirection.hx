@@ -25,23 +25,10 @@ class OptionImgDirection extends ValueSwitchDlg{
         _values.push("前投反向");
         _values.push("背投反向");
         _values.push("前投");
-    }
-
-    public override function createElement():Sprite{
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Image Direction";
+        TXT= "Image Direction";
 #else
-        option.text = "图像方向";
+        TXT= "图像方向";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 100;
-        option.height= 20;
-        var s = super.createElement();
-        s.addChild( option);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

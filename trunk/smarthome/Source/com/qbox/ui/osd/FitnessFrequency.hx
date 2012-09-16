@@ -23,22 +23,10 @@ class FitnessFrequency extends ValueBarDlg{
         addChild( createElement());
         _value = 0;
         _max = 200;
-    }
-    public override function createElement():Sprite{
-        var fitness= new EmbedTextField();
-        fitness.selectable = false;
 #if neko
-        fitness.text = "Frequency";
+        TXT= "Frequency";
 #else
-        fitness.text = "频率";
+        TXT= "频率";
 #end
-        fitness.scaleX = 3;
-        fitness.scaleY = 3;
-        fitness.width = 100;
-        fitness.height= 20;
-        var s = super.createElement();
-        s.addChild( fitness);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

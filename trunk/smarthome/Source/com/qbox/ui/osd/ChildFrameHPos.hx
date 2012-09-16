@@ -24,22 +24,10 @@ class ChildFrameHPos extends ValueBarDlg{
         addChild( createElement());
         _value = 0;
         _max = 100;
-    }
-    public override function createElement():Sprite{
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Child Frame Horizontal Position";
+        TXT= "Child Frame Horizontal Position";
 #else
-        source.text = "子图像水平位置";
+        TXT= "子图像水平位置";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 100;
-        source.height= 20;
-        var s = super.createElement();
-        s.addChild( source);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

@@ -24,23 +24,10 @@ class SpecialDVIDigitalEQSetting extends ValueSwitchDlg{
 
         _values.push("高");
         _values.push("正常");
-    }
-
-    public override function createElement():Sprite{
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "DVI Digital EQ Setting";
+        TXT= "DVI Digital EQ Setting";
 #else
-        special.text = "DVI数码EQ设定";
+        TXT= "DVI数码EQ设定";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 100;
-        special.height= 20;
-        var s = super.createElement();
-        s.addChild( special);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

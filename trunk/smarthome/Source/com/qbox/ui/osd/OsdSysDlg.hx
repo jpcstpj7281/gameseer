@@ -17,7 +17,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdSysDlg extends ListDialog{
+class OsdSysDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -30,25 +30,10 @@ class OsdSysDlg extends ListDialog{
         i =new SysRunningTime(_listDialogMgr);
         i =new SysSoftwareVersion(_listDialogMgr);
         i =new SysLEDLightTemperature(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var sys= new EmbedTextField();
-        sys.selectable = false;
 #if neko
-        sys.text = "System Setting";
+        TXT= "System Setting";
 #else
-        sys.text = "系统设定";
+        TXT= "系统设定";
 #end
-        sys.scaleX = 3;
-        sys.scaleY = 3;
-        sys.width = 50;
-        sys.height= 20;
-        s.addChild( sys);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

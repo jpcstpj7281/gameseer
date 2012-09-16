@@ -88,18 +88,20 @@ class ScreenDlg extends ListDialog{
 #else
             _connBtn.text = "连接";
 #end
-            //trace("disconnect");
+            trace("disconnect");
         }else{
             _screen._qbox._ipv4 = _qboxip.text;
             _screen._qbox.connect();
-            //trace("connected");
             if (_screen._qbox._isFailed == false && _screen._qbox.isConected() ){
+                trace("connected");
                 _screen._qbox.connectedInit();
 #if neko
                 _connBtn.text = "disc";
 #else
                 _connBtn.text = "断开";
 #end
+            }else{
+                trace("connect failed");
             }
         }
     }
@@ -142,7 +144,7 @@ class ScreenDlg extends ListDialog{
             _osdBtn.scaleX = 3;
             _osdBtn.scaleY = 3;
             _osdBtn.width = 20;
-            _osdBtn.height= 18;
+            _osdBtn.height= 16;
             _osdBtn.setBorder(true);
             _osdBtn.x = nme.Lib.current.stage.stageWidth - 80;
             _osdBtn.addEventListener( MouseEvent.CLICK, onOsdBtnMouseClick);
@@ -214,7 +216,7 @@ class ScreenDlg extends ListDialog{
     public function createElement():Sprite{
         _s= new Sprite();
 
-        //new OsdImgDlg(_listDialogMgr);
+        new OsdImgDlg(_listDialogMgr);
         //new OsdFitnessDlg( _listDialogMgr);
         //new OsdSourceDlg(_listDialogMgr);
         //new OsdOptionDlg(_listDialogMgr);

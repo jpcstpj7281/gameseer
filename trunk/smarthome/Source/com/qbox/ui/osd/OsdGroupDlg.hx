@@ -17,7 +17,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdGroupDlg extends ListDialog{
+class OsdGroupDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -28,25 +28,10 @@ class OsdGroupDlg extends ListDialog{
         i =new GroupHorizontalIndex(_listDialogMgr);
         i =new GroupVerticalIndex(_listDialogMgr);
         i =new GroupMachineNumber(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var group= new EmbedTextField();
-        group.selectable = false;
 #if neko
-        group.text = "Group";
+        TXT= "Group";
 #else
-        group.text = "组屏设定";
+        TXT= "组屏设定";
 #end
-        group.scaleX = 3;
-        group.scaleY = 3;
-        group.width = 50;
-        group.height= 20;
-        s.addChild( group);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

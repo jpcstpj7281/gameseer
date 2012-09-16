@@ -25,23 +25,10 @@ class ImgColorGamutDlg extends ValueSwitchDlg{
         _values.push("WIDE");
         _values.push("R709");
         _values.push("NTSC");
-    }
-
-    public override function createElement():Sprite{
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Color Gamut";
+        TXT= "Color Gamut";
 #else
-        img.text = "色域";
+        TXT= "色域";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

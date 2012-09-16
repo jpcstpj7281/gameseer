@@ -16,7 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdOptionDlg extends ListDialog{
+class OsdOptionDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -29,25 +29,10 @@ class OsdOptionDlg extends ListDialog{
         i =new OptionMenuHorizontalPos(_listDialogMgr);
         i =new OptionMenuVerticalPos(_listDialogMgr);
         i =new OptionRecoverPreset(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Option";
+        TXT= "Option";
 #else
-        option.text = "选项设定";
+        TXT= "选项设定";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 50;
-        option.height= 20;
-        s.addChild( option);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

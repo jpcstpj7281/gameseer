@@ -16,7 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class ImgDlpSettingDlg extends ListDialog{
+class ImgDlpSettingDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -28,25 +28,11 @@ class ImgDlpSettingDlg extends ListDialog{
         i =new DlpSettingRedContrast(_listDialogMgr);
         i =new DlpSettingGreenContrast(_listDialogMgr);
         i =new DlpSettingBlueContrast(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "DLP setting";
+        TXT= "DLP setting";
 #else
-        img.text = "DLP设定";
+        TXT= "DLP设定";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        s.addChild( img);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
+
 }

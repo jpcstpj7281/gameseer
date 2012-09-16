@@ -24,23 +24,10 @@ class ChildFrameSwitch extends ValueSwitchDlg{
 
         _values.push("开启");
         _values.push("关闭");
-    }
-
-    public override function createElement():Sprite{
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Child Frame Function";
+        TXT = "Child Frame Function";
 #else
-        source.text = "子图像功能";
+        TXT = "子图像功能";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 100;
-        source.height= 20;
-        var s = super.createElement();
-        s.addChild( source);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

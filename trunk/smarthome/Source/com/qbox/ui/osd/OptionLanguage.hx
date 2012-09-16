@@ -23,23 +23,10 @@ class OptionLanguage extends ValueSwitchDlg{
 
         _values.push("简体中文");
         _values.push("English");
-    }
-
-    public override function createElement():Sprite{
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Language";
+        TXT= "Language";
 #else
-        option.text = "语言选择";
+        TXT= "语言选择";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 100;
-        option.height= 20;
-        var s = super.createElement();
-        s.addChild( option);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

@@ -26,25 +26,10 @@ class VideoSettingEnhanceMode extends ValueSwitchDlg{
         _values.push("开启");
         _values.push("关闭");
 #end
-    }
-
-    public override function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Enhance Mode";
+        TXT= "Enhance Mode";
 #else
-        img.text = "扩大模式";
+        TXT= "扩大模式";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        s.addChild( img);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

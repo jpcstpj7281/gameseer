@@ -25,22 +25,10 @@ class ImgColorTemperatureDlg extends ValueSwitchDlg{
         _values.push("6500K");
         _values.push("7500K");
         _values.push("9300K");
-    }
-    public override function createElement():Sprite{
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Color Temperature";
+        TXT= "Color Temperature";
 #else
-        img.text = "色温";
+        TXT= "色温";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

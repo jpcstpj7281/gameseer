@@ -17,31 +17,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class ChildFrameVideoSetting extends ListDialog{
+class ChildFrameVideoSetting extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Child Frame Video Setting";
+        TXT= "Child Frame Video Setting";
 #else
-        source.text = "子画面视频设定";
+        TXT= "子画面视频设定";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 100;
-        source.height= 20;
-        s.addChild( source);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

@@ -17,7 +17,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdSpecialDlg extends ListDialog{
+class OsdSpecialDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -33,25 +33,10 @@ class OsdSpecialDlg extends ListDialog{
         i =new SpecialDVIDigitalEQSetting(_listDialogMgr);
         i =new SpecialAmplificationSetting(_listDialogMgr);
         i =new SpecialFanSetting(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "Special Setting";
+        TXT= "Special Setting";
 #else
-        special.text = "特殊设定";
+        TXT= "特殊设定";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 50;
-        special.height= 20;
-        s.addChild( special);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

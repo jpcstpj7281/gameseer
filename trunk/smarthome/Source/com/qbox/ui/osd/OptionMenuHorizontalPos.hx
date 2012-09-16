@@ -23,22 +23,10 @@ class OptionMenuHorizontalPos extends ValueBarDlg{
         addChild( createElement());
         _value = 0;
         _max = 50;
-    }
-    public override function createElement():Sprite{
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Menu Horizontal Position";
+        TXT= "Menu Horizontal Position";
 #else
-        option.text = "菜单水平位置";
+        TXT= "菜单水平位置";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 100;
-        option.height= 20;
-        var s = super.createElement();
-        s.addChild( option);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

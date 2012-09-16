@@ -17,7 +17,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdSourceDlg extends ListDialog{
+class OsdSourceDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -30,25 +30,10 @@ class OsdSourceDlg extends ListDialog{
         i =new SourceChildFrameSetting2(_listDialogMgr);
         i =new SourceInputSourceStatusRecord(_listDialogMgr);
         i =new SourceUserMode(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Source";
+        TXT= "Source";
 #else
-        source.text = "信号源设定";
+        TXT= "信号源设定";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 50;
-        source.height= 20;
-        s.addChild( source);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

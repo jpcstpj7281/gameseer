@@ -25,22 +25,10 @@ class GroupVerticalNum extends ValueBarDlg{
         _value = 0;
         _min= 1;
         _max= 8;
-    }
-    public override function createElement():Sprite{
-        var group= new EmbedTextField();
-        group.selectable = false;
 #if neko
-        group.text = "Machine Vertical Number";
+        TXT= "Machine Vertical Number";
 #else
-        group.text = "单机垂直序号";
+        TXT= "单机垂直序号";
 #end
-        group.scaleX = 3;
-        group.scaleY = 3;
-        group.width = 100;
-        group.height= 20;
-        var s = super.createElement();
-        s.addChild( group);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

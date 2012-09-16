@@ -16,31 +16,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class FitnessAutoAdjust extends CommDialog{
+class FitnessAutoAdjust extends OsdCommDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var fitness= new EmbedTextField();
-        fitness.selectable = false;
 #if neko
-        fitness.text = "Auto Adjust";
+        TXT= "Auto Adjust";
 #else
-        fitness.text = "自动调节";
+        TXT= "自动调节";
 #end
-        fitness.scaleX = 3;
-        fitness.scaleY = 3;
-        fitness.width = 100;
-        fitness.height= 20;
-        s.addChild( fitness);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

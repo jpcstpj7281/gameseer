@@ -24,23 +24,10 @@ class InputFitnessGreenEnhance extends ValueBarDlg{
 
         _value = 0;
         _max = 255;
-    }
-    public override function createElement():Sprite{
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Green Enhance";
+        TXT= "Green Enhance";
 #else
-        img.text = "绿色增益";
+        TXT= "绿色增益";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }
