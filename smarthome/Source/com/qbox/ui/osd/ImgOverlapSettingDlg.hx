@@ -24,23 +24,11 @@ class ImgOverlapSettingDlg extends ValueSwitchDlg{
         _values.push("0%");
         _values.push("30%");
         _values.push("50%");
+#if neko
+        TXT= "Overlap Setting";
+#else
+        TXT= "重叠设定";
+#end
     }
 
-    public override function createElement():Sprite{
-        var img= new EmbedTextField();
-        img.selectable = false;
-#if neko
-        img.text = "Overlap Setting";
-#else
-        img.text = "重叠设定";
-#end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
-    }
 }

@@ -22,22 +22,42 @@ class ValueSwitchDlg extends CommDialog{
         super(dm);
         _value = 0;
         _values = new Array<String>();
+
+#if neko
+        TXT = "unknow";
+#else
+        TXT = "未知";
+#end
     }
 
     var _less:Sprite;
     var _more:Sprite;
-    var _g:Sprite;
+    var _s:Sprite;
     var _c:Sprite;
     var _v:EmbedTextField;
     var _value:Int;
     var _values:Array<String>;
     static var POSX:Int = 400;
     static var WIDTH:Int = 300;
+
+    var _promt:EmbedTextField;
+    var TXT:String;
+
     override function show(){
-        if ( _g != null) {
-            if ( _less != null){ _g.removeChild(_less); }
-            if ( _more != null){ _g.removeChild(_more); }
-            if ( _v!= null){ _g.removeChild(_v); }
+        if ( _s != null) {
+            if ( _less != null){ _s.removeChild(_less); }
+            if ( _more != null){ _s.removeChild(_more); }
+            if ( _v!= null){ _s.removeChild(_v); }
+            if ( _promt !=null) _s.removeChild(_promt);
+
+            _promt= new EmbedTextField();
+            _promt.selectable = false;
+            _promt.text = TXT;
+            _promt.scaleX = 3;
+            _promt.scaleY = 3;
+            _promt.width = 50;
+            _promt.height= 20;
+            _s.addChild( _promt);
 
             _v= new EmbedTextField();
             _v.selectable = false;
@@ -46,7 +66,7 @@ class ValueSwitchDlg extends CommDialog{
             _v.width = 50;
             _v.height= 20;
             _v.x = POSX+WIDTH/3;
-            _g.addChild( _v);
+            _s.addChild( _v);
 
             _less = new Sprite();
             _less.graphics.beginFill(0x888888);
@@ -56,7 +76,7 @@ class ValueSwitchDlg extends CommDialog{
             _less.graphics.lineTo( POSX -10, 10);
             _less.graphics.endFill();
             _less.addEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);
-            _g.addChild(_less);
+            _s.addChild(_less);
 
             _more= new Sprite();
             _more.graphics.beginFill(0x888888);
@@ -66,21 +86,18 @@ class ValueSwitchDlg extends CommDialog{
             _more.graphics.lineTo( POSX+WIDTH +10, 10);
             _more.graphics.endFill();
             _more.addEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
-            _g.addChild(_more);
+            _s.addChild(_more);
             if (_values!= null &&  _values.length > 0){ _v.text = _values[_value]; }
+            _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
     }
     override function hide(){
-        if ( _g != null && _c != null) {
-            _less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);
-            _more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
-            _g.removeChild(_less);
-            _g.removeChild(_more);
-            _g.removeChild(_v);
-            _v = null;
-            _less = null;
-            _more = null;
+        if ( _s != null ) {
+            if( _less !=null){_less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);_s.removeChild(_less);_less = null;}
+            if( _more != null){_more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick); _s.removeChild(_more); _more = null;}
+            if( _v != null){ _s.removeChild(_v); _v = null;}
+            if ( _promt != null){ _s.removeChild(_promt); _promt = null;}
         }
         return super.hide();
     }
@@ -101,9 +118,7 @@ class ValueSwitchDlg extends CommDialog{
         _v.text = _values[_value];
     }
     public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-        _g = new Sprite();
-        s.addChild (_g);
-        return s;
+        _s = new Sprite();
+        return _s;
     }
 }

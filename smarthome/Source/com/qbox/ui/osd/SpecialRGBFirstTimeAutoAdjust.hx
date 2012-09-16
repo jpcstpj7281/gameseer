@@ -24,23 +24,10 @@ class SpecialRGBFirstTimeAutoAdjust extends ValueSwitchDlg{
 
         _values.push("开启");
         _values.push("关闭");
-    }
-
-    public override function createElement():Sprite{
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "RGB First Time Auto Adjust";
+        TXT= "RGB First Time Auto Adjust";
 #else
-        special.text = "RGB第一次自动调节";
+        TXT= "RGB第一次自动调节";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 100;
-        special.height= 20;
-        var s = super.createElement();
-        s.addChild( special);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

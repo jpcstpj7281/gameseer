@@ -27,23 +27,10 @@ class OptionLightnessCurve extends ValueSwitchDlg{
         _values.push("GRAPHIC");
         _values.push("VIDEO");
         _values.push("LINEAR");
-    }
-
-    public override function createElement():Sprite{
-        var option= new EmbedTextField();
-        option.selectable = false;
 #if neko
-        option.text = "Lightness Curve";
+        TXT= "Lightness Curve";
 #else
-        option.text = "亮度曲线";
+        TXT= "亮度曲线";
 #end
-        option.scaleX = 3;
-        option.scaleY = 3;
-        option.width = 100;
-        option.height= 20;
-        var s = super.createElement();
-        s.addChild( option);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

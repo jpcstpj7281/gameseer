@@ -25,22 +25,10 @@ class ChildFrameAlpha extends ValueBarDlg{
         _value = 0;
         _min= 25;
         _max = 100;
-    }
-    public override function createElement():Sprite{
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Child Frame Alpha";
+        TXT= "Child Frame Alpha";
 #else
-        source.text = "子图像透明度";
+        TXT= "子图像透明度";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 100;
-        source.height= 20;
-        var s = super.createElement();
-        s.addChild( source);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

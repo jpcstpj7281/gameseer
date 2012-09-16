@@ -24,22 +24,10 @@ class ChildFrameVSize extends ValueBarDlg{
         addChild( createElement());
         _value = 0;
         _max = 10;
-    }
-    public override function createElement():Sprite{
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Child Frame Vertical Size";
+        TXT= "Child Frame Vertical Size";
 #else
-        source.text = "子图像垂直大小";
+        TXT= "子图像垂直大小";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 100;
-        source.height= 20;
-        var s = super.createElement();
-        s.addChild( source);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

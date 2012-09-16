@@ -23,11 +23,17 @@ class ValueBarDlg extends CommDialog{
         _min = 0;
         _value = 0;
         _max = 0;
+
+#if neko
+        TXT = "unknow";
+#else
+        TXT = "未知";
+#end
     }
 
     var _less:Sprite;
     var _more:Sprite;
-    var _g:Sprite;
+    var _s:Sprite;
     var _c:Sprite;
     var _v:EmbedTextField;
     var _value:Int;
@@ -35,12 +41,26 @@ class ValueBarDlg extends CommDialog{
     var _min:Int ;
     static var POSX:Int = 400;
     static var WIDTH:Int = 300;
+
+    var _promt:EmbedTextField;
+    var TXT:String;
+
     override function show(){
-        if ( _g != null) {
-            if ( _c != null){ _g.removeChild(_c); }
-            if ( _less != null){ _g.removeChild(_less); }
-            if ( _more != null){ _g.removeChild(_more); }
-            if ( _v!= null){ _g.removeChild(_v); }
+        if ( _s != null) {
+            if ( _c != null){ _s.removeChild(_c); }
+            if ( _less != null){ _s.removeChild(_less); }
+            if ( _more != null){ _s.removeChild(_more); }
+            if ( _v!= null){ _s.removeChild(_v); }
+            if ( _promt !=null) _s.removeChild(_promt);
+
+            _promt= new EmbedTextField();
+            _promt.selectable = false;
+            _promt.text = TXT;
+            _promt.scaleX = 3;
+            _promt.scaleY = 3;
+            _promt.width = 50;
+            _promt.height= 20;
+            _s.addChild( _promt);
 
             _v= new EmbedTextField();
             _v.selectable = false;
@@ -50,13 +70,13 @@ class ValueBarDlg extends CommDialog{
             _v.width = 100;
             _v.height= 20;
             _v.x = nme.Lib.current.stage.stageWidth - 50;
-            _g.addChild( _v);
+            _s.addChild( _v);
 
             _c = new Sprite();
             _c.graphics.beginFill(0x888888);
             _c.graphics.drawRect( POSX, 10,  WIDTH, 30);
             _c.addEventListener( MouseEvent.MOUSE_DOWN, onBarMouseDown);
-            _g.addChild(_c);
+            _s.addChild(_c);
 
             _less = new Sprite();
             _less.graphics.beginFill(0x888888);
@@ -66,7 +86,7 @@ class ValueBarDlg extends CommDialog{
             _less.graphics.lineTo( POSX -10, 10);
             _less.graphics.endFill();
             _less.addEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);
-            _g.addChild(_less);
+            _s.addChild(_less);
 
             _more= new Sprite();
             _more.graphics.beginFill(0x888888);
@@ -76,23 +96,18 @@ class ValueBarDlg extends CommDialog{
             _more.graphics.lineTo( POSX+WIDTH +10, 10);
             _more.graphics.endFill();
             _more.addEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
-            _g.addChild(_more);
+            _s.addChild(_more);
+            _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
     }
     override function hide(){
-        if ( _g != null && _c != null) {
-            _c.removeEventListener(  MouseEvent.MOUSE_DOWN, onBarMouseDown );
-            _less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);
-            _more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);
-            _g.removeChild(_c);
-            _g.removeChild(_v);
-            _g.removeChild(_less);
-            _g.removeChild(_more);
-            _c = null;
-            _less = null;
-            _v = null;
-            _more = null;
+        if ( _s != null ) {
+            if( _c != null) {_s.removeChild(_c); _c = null;_c.removeEventListener(  MouseEvent.MOUSE_DOWN, onBarMouseDown );}
+            if( _v != null) {_s.removeChild(_v); _v = null;}
+            if( _less != null) {_s.removeChild(_less); _less = null;_less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);}
+            if( _more != null) {_s.removeChild(_more); _more = null;_more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);}
+            if ( _promt != null){ _s.removeChild(_promt); _promt = null;}
         }
         return super.hide();
     }
@@ -116,7 +131,7 @@ class ValueBarDlg extends CommDialog{
     }
 
     public function onBarMouseDown( evt:MouseEvent){
-        if ( _g != null && _c != null){
+        if ( _s != null && _c != null){
             var lw = evt.localX - POSX;
             var rw = POSX + WIDTH - evt.localX;
 
@@ -142,9 +157,7 @@ class ValueBarDlg extends CommDialog{
     }
 
     public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-        _g = new Sprite();
-        s.addChild (_g);
-        return s;
+        _s = new Sprite();
+        return _s;
     }
 }

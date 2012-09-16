@@ -16,31 +16,16 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class VideoSettingForceMode extends ListDialog{
+class VideoSettingForceMode extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Force Mode";
+        TXT= "Force Mode";
 #else
-        img.text = "强制模式";
+        TXT= "强制模式";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        s.addChild( img);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

@@ -17,30 +17,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SysLEDLightTemperature extends CommDialog{
+class SysLEDLightTemperature extends OsdCommDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var sys= new EmbedTextField();
-        sys.selectable = false;
 #if neko
-        sys.text = "LED Light Temperature";
+        TXT= "LED Light Temperature";
 #else
-        sys.text = "LED光源温度";
+        TXT= "LED光源温度";
 #end
-        sys.scaleX = 3;
-        sys.scaleY = 3;
-        sys.width = 100;
-        sys.height= 20;
-        s.addChild( sys);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

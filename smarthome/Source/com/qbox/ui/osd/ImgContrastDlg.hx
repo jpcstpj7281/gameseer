@@ -25,23 +25,10 @@ class ImgContrastDlg extends ValueBarDlg{
         _value = 0;
         _max= 255;
 
-    }
-    public override function createElement():Sprite{
-
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Contrast";
+        TXT= "Contrast";
 #else
-        img.text = "对比度";
+        TXT= "对比度";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

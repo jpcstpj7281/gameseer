@@ -24,22 +24,10 @@ class VideoSettingDefinition extends ValueBarDlg{
 
         _value = 0;
         _max = 6;
-    }
-    public override function createElement():Sprite{
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Definition";
+        TXT= "Definition";
 #else
-        img.text = "清晰度";
+        TXT= "清晰度";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        var s = super.createElement();
-        s.addChild( img);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

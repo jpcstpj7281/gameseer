@@ -16,7 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class ImgVideoSettingDlg extends ListDialog{
+class ImgVideoSettingDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -30,25 +30,11 @@ class ImgVideoSettingDlg extends ListDialog{
         i =new VideoSettingForceMode(_listDialogMgr);
         i =new VideoSettingInputBlackLevel(_listDialogMgr);
         i =new VideoSettingEnhanceMode(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Video Setting";
+        TXT= "Video Setting";
 #else
-        img.text = "视频设定";
+        TXT= "视频设定";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        s.addChild( img);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
+
 }

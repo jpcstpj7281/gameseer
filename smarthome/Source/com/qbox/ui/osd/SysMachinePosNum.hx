@@ -17,30 +17,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SysMachinePosNum extends CommDialog{
+class SysMachinePosNum extends OsdCommDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var sys= new EmbedTextField();
-        sys.selectable = false;
 #if neko
-        sys.text = "Machine Position Number";
+        TXT= "Machine Position Number";
 #else
-        sys.text = "单机位置码";
+        TXT= "单机位置码";
 #end
-        sys.scaleX = 3;
-        sys.scaleY = 3;
-        sys.width = 100;
-        sys.height= 20;
-        s.addChild( sys);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

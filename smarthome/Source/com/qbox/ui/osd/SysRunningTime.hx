@@ -17,30 +17,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SysRunningTime extends CommDialog{
+class SysRunningTime extends OsdCommDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var sys= new EmbedTextField();
-        sys.selectable = false;
 #if neko
-        sys.text = "System running Time";
+        TXT= "System running Time";
 #else
-        sys.text = "系统运行时间";
+        TXT= "系统运行时间";
 #end
-        sys.scaleX = 3;
-        sys.scaleY = 3;
-        sys.width = 100;
-        sys.height= 20;
-        s.addChild( sys);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

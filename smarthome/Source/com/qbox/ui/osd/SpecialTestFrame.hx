@@ -17,31 +17,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SpecialTestFrame extends CommDialog{
+class SpecialTestFrame extends OsdCommDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var special= new EmbedTextField();
-        special.selectable = false;
 #if neko
-        special.text = "Test Frame";
+        TXT= "Test Frame";
 #else
-        special.text = "测试画面";
+        TXT= "测试画面";
 #end
-        special.scaleX = 3;
-        special.scaleY = 3;
-        special.width = 100;
-        special.height= 20;
-        s.addChild( special);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

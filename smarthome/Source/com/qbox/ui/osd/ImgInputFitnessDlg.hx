@@ -16,7 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class ImgInputFitnessDlg extends ListDialog{
+class ImgInputFitnessDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -28,25 +28,10 @@ class ImgInputFitnessDlg extends ListDialog{
         i =new InputFitnessRedEnhance(_listDialogMgr);
         i =new InputFitnessGreenEnhance(_listDialogMgr);
         i =new InputFitnessBlueEnhance(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var img= new EmbedTextField();
-        img.selectable = false;
 #if neko
-        img.text = "Input Fitness";
+        TXT= "Input Fitness";
 #else
-        img.text = "输入准位";
+        TXT= "输入准位";
 #end
-        img.scaleX = 3;
-        img.scaleY = 3;
-        img.width = 100;
-        img.height= 20;
-        s.addChild( img);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

@@ -17,30 +17,16 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SysModel extends CommDialog{
+class SysModel extends OsdCommDlg{
 
     public function new ( dm:CommDialogMgr){
         super(dm);
         addChild( createElement());
 
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var sys= new EmbedTextField();
-        sys.selectable = false;
 #if neko
-        sys.text = "Model";
+        TXT= "Model";
 #else
-        sys.text = "型号名称";
+        TXT= "型号名称";
 #end
-        sys.scaleX = 3;
-        sys.scaleY = 3;
-        sys.width = 100;
-        sys.height= 20;
-        s.addChild( sys);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

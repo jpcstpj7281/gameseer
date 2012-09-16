@@ -23,23 +23,10 @@ class FitnessAspectRatio extends ValueSwitchDlg{
 
         _values.push("4:3");
         _values.push("16:9");
-    }
-
-    public override function createElement():Sprite{
-        var fitness= new EmbedTextField();
-        fitness.selectable = false;
 #if neko
-        fitness.text = "Aspect Ratio";
+        TXT= "Aspect Ratio";
 #else
-        fitness.text = "长宽比";
+        TXT= "长宽比";
 #end
-        fitness.scaleX = 3;
-        fitness.scaleY = 3;
-        fitness.width = 100;
-        fitness.height= 20;
-        var s = super.createElement();
-        s.addChild( fitness);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

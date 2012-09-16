@@ -16,7 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class OsdFitnessDlg extends ListDialog{
+class OsdFitnessDlg extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -30,25 +30,10 @@ class OsdFitnessDlg extends ListDialog{
         i =new FitnessInputSourceVPos(_listDialogMgr);
         i =new FitnessPhase(_listDialogMgr);
         i =new FitnessFrequency(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var fitness= new EmbedTextField();
-        fitness.selectable = false;
 #if neko
-        fitness.text = "Fitness";
+        TXT= "Fitness";
 #else
-        fitness.text = "尺寸位置设定";
+        TXT= "尺寸位置设定";
 #end
-        fitness.scaleX = 3;
-        fitness.scaleY = 3;
-        fitness.width = 50;
-        fitness.height= 20;
-        s.addChild( fitness);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

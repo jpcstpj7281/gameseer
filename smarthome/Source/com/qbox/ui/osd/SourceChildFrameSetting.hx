@@ -17,7 +17,7 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
-class SourceChildFrameSetting extends ListDialog{
+class SourceChildFrameSetting extends OsdListDlg{
 
     public function new ( dm:ListDialogMgr){
         super(dm);
@@ -31,25 +31,10 @@ class SourceChildFrameSetting extends ListDialog{
         i =new ChildFrameAlpha(_listDialogMgr);
         i =new ChildFramePosSetting(_listDialogMgr);
         i =new ChildFrameVideoSetting(_listDialogMgr);
-    }
-
-    public function createElement():Sprite{
-        var s:Sprite = new Sprite();
-
-        var source= new EmbedTextField();
-        source.selectable = false;
 #if neko
-        source.text = "Child Frame Setting";
+        TXT= "Child Frame Setting";
 #else
-        source.text = "子画面设定";
+        TXT= "子画面设定";
 #end
-        source.scaleX = 3;
-        source.scaleY = 3;
-        source.width = 100;
-        source.height= 20;
-        s.addChild( source);
-
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }

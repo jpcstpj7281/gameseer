@@ -23,22 +23,10 @@ class FitnessPhase extends ValueBarDlg{
         addChild( createElement());
         _value = 0;
         _max = 63;
-    }
-    public override function createElement():Sprite{
-        var fitness= new EmbedTextField();
-        fitness.selectable = false;
 #if neko
-        fitness.text = "Phase";
+        TXT= "Phase";
 #else
-        fitness.text = "相位";
+        TXT= "相位";
 #end
-        fitness.scaleX = 3;
-        fitness.scaleY = 3;
-        fitness.width = 100;
-        fitness.height= 20;
-        var s = super.createElement();
-        s.addChild( fitness);
-        s.height = nme.Lib.current.stage.stageHeight/15;
-        return s;
     }
 }
