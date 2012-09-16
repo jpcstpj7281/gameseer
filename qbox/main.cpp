@@ -18,6 +18,20 @@
 #include "channel.h"
 #include "common.h"
 
+#include "vxWorks.h"
+#include "stdio.h"
+#include "netinet/in.h"
+#include "net/if.h"
+#include "netinet/if_ether.h"
+#include "sys/ioctl.h"
+#include "ioLib.h"
+#include "inetLib.h"
+#include "string.h"
+#include "netinet/in_var.h"
+#include "ipProto.h"
+#include "end.h"
+#include "private/muxLibP.h"
+extern struct in_ifaddr* in_ifaddr;
 
 #ifdef __cplusplus
     extern "C"{
@@ -25,6 +39,39 @@
 using namespace msg;
 
 
+
+
+int
+getmac()
+{
+  struct in_ifaddr* ia;
+  for (ia = in_ifaddr; ia != 0; ia = ia->ia_next)
+    {
+      struct ifnet* ifp = ia->ia_ifa.ifa_ifp;
+      if (ifp != 0)
+        {
+          int level;
+          IP_DRV_CTRL *pDrvCtrl;
+          END_OBJ *pEnd;
+          char PhyAddr[10];
+
+          if(ifp->if_type != M2_ifType_ethernetCsmacd)
+            {
+               continue;
+            }
+          //level = intLock();
+
+          pDrvCtrl = (IP_DRV_CTRL *)ifp->pCookie;
+
+          pEnd = PCOOKIE_TO_ENDOBJ(pDrvCtrl->pIpCookie);
+
+          pEnd->pFuncTable->ioctl(pEnd, EIOCGADDR, PhyAddr);
+          printf("%x:%x:%x:%x:%x:%x\n", PhyAddr[0], PhyAddr[1], PhyAddr[2], PhyAddr[3], PhyAddr[4], PhyAddr[5]);
+
+         // intUnlock(level);
+        }
+    }
+}
 
 void testMenu()
 {

@@ -129,7 +129,7 @@ void Windows::onPGetWindowsHandleReq(MsgInfo *msg,uint32_t connID)
     for(std::set<uint32_t>::iterator it=handle.begin();it!=handle.end();it++)
     {
         string key = "handleNum" + tostring(handleNum);
-        rsp.info[key] = (*it);
+        rsp.info[key] = tostring( (*it));
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
