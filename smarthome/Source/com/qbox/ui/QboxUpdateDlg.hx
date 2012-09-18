@@ -184,10 +184,14 @@ class QboxUpdateDlg extends CommDialog{
             _update= new EmbedTextField();
             _update.setBorder(true);
             _update.selectable = false;
+#if !neko
+            _update.text = "升级";
+#else
             _update.text = "update";
+#end
             _update.scaleX = 3;
             _update.scaleY = 3;
-            _update.width = 40;
+            _update.width = 20;
             _update.height= 16;
             _update.x = 690;
             _update.addEventListener( MouseEvent.CLICK, onUpdateBtnMouseClick);

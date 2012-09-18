@@ -73,7 +73,7 @@ class ListDialogMgr extends CommDialogMgr{
             trace("already add dialog: " + Type.getClassName( Type.getClass(instance)) );
             return;
         }
-        trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+        //trace("add dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
 
         var d = instance;
         //var height:Int = 20*3;

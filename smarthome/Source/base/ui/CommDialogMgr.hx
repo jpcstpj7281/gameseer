@@ -64,9 +64,9 @@ class CommDialogMgr  {
 
     public function clear():Void{
         for ( i in _instancesByDisplayOrder ){
-            trace("clearing dialog: "+ Type.getClassName( Type.getClass(i) ) );
+            //trace("clearing dialog: "+ Type.getClassName( Type.getClass(i) ) );
             i.clear();
-            trace("cleared dialog: "+ Type.getClassName( Type.getClass(i) ) );
+            //trace("cleared dialog: "+ Type.getClassName( Type.getClass(i) ) );
         }
         _instancesByDisplayOrder=[];
     }
@@ -84,13 +84,13 @@ class CommDialogMgr  {
     public function addDialog(  instance:CommDialog ):Void{
         if ( instance._uniqueId == null){
             instance._uniqueId = Std.string(haxe.Timer.stamp())+ Type.getClassName( Type.getClass(instance));
-            trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+            //trace("no _uniqueId dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
         }
         if ( contains(instance._uniqueId) ) {
             trace("already add dialog: " + Type.getClassName( Type.getClass(instance)) );
             return;
         }
-        trace("add Fixed dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
+        //trace("add Fixed dialog: " + Type.getClassName( Type.getClass(instance)) + " "+instance._uniqueId );
         _instancesByDisplayOrder.push(instance);
         //trace(_instancesByDisplayOrder.length);
         _dropPoint.addChild (instance);

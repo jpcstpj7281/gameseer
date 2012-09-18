@@ -39,7 +39,7 @@ class QboxesUpdateDlg extends ListDialog{
             _v.scaleX = 3;
             _v.scaleY = 3;
             _v.width = nme.Lib.current.stage.stageWidth /3;
-            _v.height= 20;
+            _v.height= 16;
             _g.addChild( _v);
 
 #if !neko
