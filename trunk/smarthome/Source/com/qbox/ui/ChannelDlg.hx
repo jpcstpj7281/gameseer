@@ -103,14 +103,14 @@ class ChannelDlg extends ListDialog{
         return super.show();
     }
     override function hide(){
-        if ( _s != null && _iptext!= null) {
-            _editBtn.removeEventListener(  MouseEvent.CLICK, onEditBtnMouseClick); 
-            _s.removeChild(_iptext);
-            _s.removeChild(_input);
-            _s.removeChild(_editBtn);
-            _iptext= null;
-            _input= null;
-            _editBtn= null;
+        if ( _s != null ) {
+            if ( _iptext != null) {_s.removeChild(_iptext);_iptext= null;}
+            if ( _input != null){ _s.removeChild(_input);_input= null;}
+            if ( _editBtn != null){
+                _s.removeChild(_editBtn);
+                _editBtn.removeEventListener(  MouseEvent.CLICK, onEditBtnMouseClick); 
+                _editBtn= null;
+            }
         }
         return super.hide();
     }

@@ -10,16 +10,15 @@ class EmbedTextField extends TextField {
     public function new (){
 
         super();
-#if android
-        if( Sys.systemName() == "Linux" ){
+#if (android||neko)
+        //if( Sys.systemName() == "Linux" ){
             if ( DataLoader.inst.textFormat_ != null){
                 defaultTextFormat = DataLoader.inst.textFormat_;
                 embedFonts = true;
             }
             //}
-        }
+            //}
 #end
-
     }
 
     public function setBorder( flag:Bool):Void{

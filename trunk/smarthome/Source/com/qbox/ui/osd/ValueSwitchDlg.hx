@@ -56,7 +56,7 @@ class ValueSwitchDlg extends CommDialog{
             _promt.scaleX = 3;
             _promt.scaleY = 3;
             _promt.width = 50;
-            _promt.height= 20;
+            _promt.height= 16;
             _s.addChild( _promt);
 
             _v= new EmbedTextField();
@@ -64,7 +64,7 @@ class ValueSwitchDlg extends CommDialog{
             _v.scaleX = 3;
             _v.scaleY = 3;
             _v.width = 50;
-            _v.height= 20;
+            _v.height= 16;
             _v.x = POSX+WIDTH/3;
             _s.addChild( _v);
 

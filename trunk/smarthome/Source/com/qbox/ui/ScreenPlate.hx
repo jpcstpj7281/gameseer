@@ -105,12 +105,16 @@ class ScreenPlate extends CommDialog{
         if ( ms.length > 0 ){
             var m = ms[0];
             var p = m.parent;
+            var arr = new Array<WndGraphicDlg>();
             for ( i in 0...p.numChildren){
                 var w = p.getChildAt( p.numChildren - i -1 );
                 if ( Std.is(w, WndGraphicDlg) ){
                     var wgd:WndGraphicDlg = cast( w, WndGraphicDlg);
-                    wgd.clear();
+                    arr.push(wgd);
                 }
+            }
+            for ( i in arr){
+                i.clear();
             }
         }
 

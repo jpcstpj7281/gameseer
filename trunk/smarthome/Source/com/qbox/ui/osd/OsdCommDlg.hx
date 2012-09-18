@@ -42,7 +42,7 @@ class OsdCommDlg extends CommDialog{
         _promt.scaleX = 3;
         _promt.scaleY = 3;
         _promt.width = 50;
-        _promt.height= 20;
+        _promt.height= 16;
         _s.addChild( _promt);
         _s.height = nme.Lib.current.stage.stageHeight/15;
         return super.show();

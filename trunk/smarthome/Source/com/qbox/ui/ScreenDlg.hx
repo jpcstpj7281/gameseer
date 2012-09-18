@@ -45,36 +45,6 @@ class ScreenDlg extends ListDialog{
 
     public override function onMouseClick():Void{ }
 
-    //function onQboxMouseClick( evt:MouseEvent ):Void{ 
-    //trace("Test");
-        //var arr = QboxMgr.getInst()._qboxes;
-        //for (i in 0...arr.length){
-        //if ( _qboxip.text == arr[i]._ipv4){
-        //var next = i+1;
-        //if ( next == arr.length ){
-        //next=0;
-        //}
-        //_screen._qboxip = _qboxip.text = arr[next]._ipv4;
-        //break;
-        //}
-        //}
-        //}
-    /*
-    function onOutputMouseClick( evt:MouseEvent ):Void{ 
-        var arr = QboxMgr.getInst()._qboxes;
-        for (i in 0...arr.length){
-            if ( _qboxip.text == arr[i]._ipv4){
-                var output:Int = Std.parseInt( _output.text.substr( 3, _output.text.length -2) );
-                ++output;
-                if ( output == Lambda.count(arr[i]._outputs)){
-                    output = 0;
-                }
-                _screen._output = _output.text = "out"+output;
-                break;
-            }
-        }
-    }
-    */
 
     function onConnBtnMouseClick( evt:MouseEvent ):Void{
 #if neko
@@ -132,18 +102,17 @@ class ScreenDlg extends ListDialog{
             _pos= new EmbedTextField();
             _pos.selectable = false;
             _pos.text = "screen:" + _screen._col+"|"+_screen._row;
-            _pos.type = INPUT;
             _pos.scaleX = 3;
             _pos.scaleY = 3;
             _pos.width = 50;
-            _pos.height= 20;
+            _pos.height= 16;
 
             _osdBtn= new EmbedTextField();
             _osdBtn.selectable = false;
             _osdBtn.text = "OSD";
             _osdBtn.scaleX = 3;
             _osdBtn.scaleY = 3;
-            _osdBtn.width = 20;
+            _osdBtn.width = 30;
             _osdBtn.height= 16;
             _osdBtn.setBorder(true);
             _osdBtn.x = nme.Lib.current.stage.stageWidth - 80;
@@ -167,9 +136,9 @@ class ScreenDlg extends ListDialog{
             }
             _connBtn.scaleX = 3;
             _connBtn.scaleY = 3;
-            _connBtn.width = 20;
+            _connBtn.width = 30;
             _connBtn.height= 16;
-            _connBtn.x = 320;
+            _connBtn.x = 420;
             _connBtn.addEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
 
             _qboxip= new EmbedTextField();
@@ -178,7 +147,7 @@ class ScreenDlg extends ListDialog{
             _qboxip.type = INPUT;
             _qboxip.scaleX = 3;
             _qboxip.scaleY = 3;
-            _qboxip.width = 50;
+            _qboxip.width = 74;
             _qboxip.height= 16;
             _qboxip.setBorder(true);
             _qboxip.x = 150;
