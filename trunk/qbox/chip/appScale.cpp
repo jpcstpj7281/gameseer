@@ -1340,10 +1340,12 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t
 {
 	if(hInput > hOutput)
 	{
+		uint16_t shrinkScale= hOutput * 65536 / (hInput - 1) + 1;
+
         uint8_t lut[24];
         float ratio, win;
 
-        uint16_t shrinkScale= hOutput * 65536 / (hInput - 1) + 1;
+
 
         ratio = (float)shrinkScale / 65536;
         if(ratio > 0.5)
@@ -1368,6 +1370,9 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t
 
         C753SetInputHorizontalShrinkScale(iChID,shrinkScale);
 
+        C753SetInputPortACTHorizontalWidth(iChID,hInput);
+        C753SetOutputPortACTHorizontalWidth(iChID, hOutput);
+
 	}
 	else if(hInput < hOutput)
 	{
@@ -1382,7 +1387,10 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t
         /*关闭缩小模块*/
         C753SetInputHorizontalShrinkControl(iChID, 0x00);
         C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
+
         C753SetOutputHorizontalZoomScale(iChID,zoomScale);
+
+        C753SetInputPortACTHorizontalWidth(iChID,hInput);
 	}
 	else
 	{
@@ -1390,29 +1398,34 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t
         C753SetInputHorizontalShrinkControl(iChID, 0x00);
         /*关闭放大模块*/
         C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
+
+        C753SetInputPortACTHorizontalWidth(iChID,hInput);
+        C753SetOutputPortACTHorizontalWidth(iChID, hOutput);
 	}
 
 
 	if(vInput > vOutput)
 	{
-        uint8_t lut[24];
-        float ratio, win;
 
         uint16_t shrinkScale= vOutput * 65536 / (vInput - 1) + 1;
 
-
-
-        ratio = (float)shrinkScale / 65536;
-        if(ratio > 0.5)
-        {
-            win = ratio;
-        }
-        else
-        {
-            win = 0.1;
-        }
-        calculate6SymbolLUT(&ratio, &win, lut);
-        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
+//        uint8_t lut[24];
+//        float ratio, win;
+//
+//
+//
+//
+//        ratio = (float)shrinkScale / 65536;
+//        if(ratio > 0.5)
+//        {
+//            win = ratio;
+//        }
+//        else
+//        {
+//            win = 0.1;
+//        }
+//        calculate6SymbolLUT(&ratio, &win, lut);
+//        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputVerticalShrinkCompensation(iChID, 0x00);
         /*6-symbol LUT*/
@@ -1421,6 +1434,10 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t
         C753SetOutputVerticalEnlargementControl(iChID, 0x00);
         C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
         C753SetInputVerticalShrinkScale(iChID, shrinkScale);
+
+
+        C753SetInputPortACTVerticalWidth(iChID,vInput);
+        C753SetOutputPortACTVerticalWidth(iChID,vOutput);
 	}
 	else if(vInput < vOutput)
 	{
@@ -1433,13 +1450,21 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t
         /*关闭缩小模块*/
         C753SetInputVerticalShrinkControl(iChID, 0x00);
         C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
+
+
         C753SetOutputVerticalZoomScale(iChID, zoomScale);
+
+
+        C753SetOutputPortACTVerticalWidth(iChID,vOutput);
 	}
 	else
 	{
         C753SetOutputVerticalEnlargementControl(iChID, 0x00);
         /*关闭缩小模块*/
         C753SetInputVerticalShrinkControl(iChID, 0x00);
+
+        C753SetInputPortACTVerticalWidth(iChID,vInput);
+        C753SetOutputPortACTVerticalWidth(iChID,vOutput);
 	}
 
 
@@ -1490,10 +1515,10 @@ void AppScale::initCLK()
 
 void AppScale::initScaleTable(uint32_t channelID)
 {
-	C753LoadInputHorizontalShrinkLookupTable(channelID, s_abyScaleShrinkCoefficient4SymbolTable);
-	C753LoadInputVerticalShrinkLookupTable(channelID, s_abyScaleShrinkCoefficient4SymbolTable);
-	C753LoadOutputHorizontalZoomLookupTable(channelID, s_abyScaleZoomCoefficient4SymbolTable);
-	C753LoadOutputVerticalZoomLookupTable(channelID, s_abyScaleZoomCoefficient4SymbolTable);
+	C753LoadInputHorizontalShrinkLookupTable(channelID, s_abyScaleShrinkCoefficient6SymbolTable);
+	C753LoadInputVerticalShrinkLookupTable(channelID, s_abyScaleShrinkCoefficient6SymbolTable);
+	C753LoadOutputHorizontalZoomLookupTable(channelID, s_abyScaleZoomCoefficient6SymbolTable);
+	C753LoadOutputVerticalZoomLookupTable(channelID, s_abyScaleZoomCoefficient6SymbolTable);
 
 	debug_msg("initScaleTable OK \n!");
 }

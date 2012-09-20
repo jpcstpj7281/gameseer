@@ -119,7 +119,7 @@ void SPIBus::dev_SPI_WriteMult(uint32_t chn,list<map<uint8_t,uint8_t> > value)
 
 void SPIBus::SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
 {
-	if(chn == DEV_SPI_C753_CHANNEL)
+	if(chn == 0)
 	{
 		printf("dev_SPI_Write 753 addr=%02x,value=%02x\n",addr,value);
 		dev_SPI_Write(DEV_SPI_C753_CHANNEL,addr,value);
@@ -154,8 +154,8 @@ void SPIBus::SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
 
 void SPIBus::SPI_Read(uint32_t chn,uint8_t addr,uint8_t &value)
 {
-	printf("dev_SPI_Read value=%02x\n",addr,value);
-	if(chn == DEV_SPI_C753_CHANNEL)
+	printf("dev_SPI_Read addr=%02x,value=%02x\n",addr,value);
+	if(chn == 0)
 	{
 		dev_SPI_Read(DEV_SPI_C753_CHANNEL,addr,&value);
 	}
