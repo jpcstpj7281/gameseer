@@ -67,3 +67,10 @@ msgType|msgID:  msg data msg
 
 !!!疑问:
 但两个窗同一个通道,我要一个窗是设置COLORKEY,一个是不设置的,怎么办
+
+
+
+//OSD 请求协议
+20|1: 
+
+//OSD 回调协议

@@ -18,19 +18,20 @@
 #include "channel.h"
 #include "common.h"
 
-#include "vxWorks.h"
+
+#ifndef __unix__
 #include "stdio.h"
 #include "netinet/in.h"
 #include "net/if.h"
 #include "netinet/if_ether.h"
-#include "sys/ioctl.h"
-#include "ioLib.h"
 #include "inetLib.h"
-#include "string.h"
-#include "netinet/in_var.h"
+#include "ioLib.h"
 #include "ipProto.h"
-#include "end.h"
+#include "netinet/in_var.h"
 #include "private/muxLibP.h"
+#include "end.h"
+#include "sys/ioctl.h"
+#endif
 extern struct in_ifaddr* in_ifaddr;
 
 #ifdef __cplusplus
@@ -41,8 +42,8 @@ using namespace msg;
 
 
 
-int
-getmac()
+#ifndef __unix__
+int getmac()
 {
   struct in_ifaddr* ia;
   for (ia = in_ifaddr; ia != 0; ia = ia->ia_next)
@@ -72,6 +73,7 @@ getmac()
         }
     }
 }
+#endif
 
 void testMenu()
 {
