@@ -362,27 +362,33 @@ void getC753ChnInput(uint32_t chn)
 
 
 
-void initMoney()
+void initMoney(uint32_t chn)
 {
 	AppScale s_c753;
 
-//	s_c753.C753SetOutputField0MemoryReadStartAddress(1, 0x00c00000);
-//	s_c753.C753SetOutputField1MemoryReadStartAddress(1, 0x00000000);
-//	s_c753.C753SetOutputField2MemoryReadStartAddress(1, 0x00400000);
-//	s_c753.C753SetOutputField3MemoryReadStartAddress(1, 0x00800000);
-//	s_c753.C753SetInputField0MemoryWriteStartAddress(1, 0x00000000);
-//	s_c753.C753SetInputField1MemoryWriteStartAddress(1, 0x00400000);
-//	s_c753.C753SetInputField2MemoryWriteStartAddress(1, 0x00800000);
-//	s_c753.C753SetInputField3MemoryWriteStartAddress(1, 0x00C00000);
+	if(chn == 1)
+	{
+		s_c753.C753SetOutputField0MemoryReadStartAddress(1, 0x00c00000);
+		s_c753.C753SetOutputField1MemoryReadStartAddress(1, 0x00000000);
+		s_c753.C753SetOutputField2MemoryReadStartAddress(1, 0x00400000);
+		s_c753.C753SetOutputField3MemoryReadStartAddress(1, 0x00800000);
+		s_c753.C753SetInputField0MemoryWriteStartAddress(1, 0x00000000);
+		s_c753.C753SetInputField1MemoryWriteStartAddress(1, 0x00400000);
+		s_c753.C753SetInputField2MemoryWriteStartAddress(1, 0x00800000);
+		s_c753.C753SetInputField3MemoryWriteStartAddress(1, 0x00C00000);
+	}
 
-	s_c753.C753SetOutputField0MemoryReadStartAddress(1, 0x00000000);
-	s_c753.C753SetOutputField1MemoryReadStartAddress(1, 0x00400000);
-	s_c753.C753SetOutputField2MemoryReadStartAddress(1, 0x00800000);
-	s_c753.C753SetOutputField3MemoryReadStartAddress(1, 0x00c00000);
-	s_c753.C753SetInputField0MemoryWriteStartAddress(1, 0x00000000);
-	s_c753.C753SetInputField1MemoryWriteStartAddress(1, 0x00400000);
-	s_c753.C753SetInputField2MemoryWriteStartAddress(1, 0x00800000);
-	s_c753.C753SetInputField3MemoryWriteStartAddress(1, 0x00C00000);
+	if(chn == 2)
+	{
+		s_c753.C753SetOutputField0MemoryReadStartAddress(2, 0x01c00000);
+		s_c753.C753SetOutputField1MemoryReadStartAddress(2, 0x01000000);
+		s_c753.C753SetOutputField2MemoryReadStartAddress(2, 0x01400000);
+		s_c753.C753SetOutputField3MemoryReadStartAddress(2, 0x01800000);
+		s_c753.C753SetInputField0MemoryWriteStartAddress(2, 0x01000000);
+		s_c753.C753SetInputField1MemoryWriteStartAddress(2, 0x01400000);
+		s_c753.C753SetInputField2MemoryWriteStartAddress(2, 0x01800000);
+		s_c753.C753SetInputField3MemoryWriteStartAddress(2, 0x01C00000);
+	}
 }
 
 
@@ -504,17 +510,19 @@ void topChannel(uint32_t channel)
 
 void testScale(uint32_t chId,uint32_t hInput,uint32_t vInput,uint32_t hOutput,uint32_t vOutput)
 {
-	AppScale s_c753;
+	AppScale &s_c753=*AppScale::Instance();
+
+//	s_c753.C753SetInputPortACTHorizontalWidth(chId,hInput);
+//	s_c753.C753SetInputPortACTVerticalWidth(chId,vInput);
+
+//	s_c753.C753SetOutputPortACTHorizontalWidth(chId, hOutput);
+//	s_c753.C753SetOutputPortACTVerticalWidth(chId,vOutput);
 
 
-	s_c753.initScaleTable(chId);
+//	s_c753.initScaleTable(chId);
 	s_c753.initScal(chId,hInput,hOutput,vInput,vOutput);
 
-	s_c753.C753SetInputPortACTHorizontalWidth(chId,hInput);
-	s_c753.C753SetInputPortACTVerticalWidth(chId,vInput);
 
-	s_c753.C753SetOutputPortACTHorizontalWidth(chId, hOutput);
-	s_c753.C753SetOutputPortACTVerticalWidth(chId,vOutput);
 
 }
 
@@ -544,6 +552,21 @@ void moveInput(uint32_t chid,int hPoint,int vPoint)
 {
 	AppScale s_c753;
 	s_c753.moveChannelInput(chid,hPoint,vPoint);
+}
+
+void setOutputSize(uint32_t chid,int hw,int vw)
+{
+	AppScale s_c753;
+	s_c753.C753SetOutputPortACTHorizontalWidth(chid,hw);
+	s_c753.C753SetOutputPortACTVerticalWidth(chid,vw);
+
+}
+
+void setInputSize(uint32_t chid,int hw,int vw)
+{
+	AppScale s_c753;
+	s_c753.C753SetInputPortACTHorizontalWidth(chid,hw);
+	s_c753.C753SetInputPortACTVerticalWidth(chid,vw);
 }
 
 void test5160()
@@ -669,8 +692,15 @@ void demoSD()
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initHardware();
+//	initMoney(1);
+//	initMoney(2);
 	s_c753.initMemoryLineFeedWidth(1);
 	s_c753.initMemoryLineFeedWidth(2);
+
+	s_c753.initScaleTable(1);
+	s_c753.initScaleTable(2);
+
+
 
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
 	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
@@ -686,7 +716,7 @@ void demoSD()
 //	setFpgaSelectChn(2,1);
 
 	s_c753.setInputChannelACT(1,702,480,137,45);
-	s_c753.setOutputChannelACT(1,700,480,20,10);
+	s_c753.setOutputChannelACT(1,700,480,0,0);
 	s_c753.showWnd(1);
 
 //	s_c753.setInputChannelACT(2,1024,768,303,36);
@@ -700,8 +730,13 @@ void demoRing()
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initHardware();
+
 	s_c753.initMemoryLineFeedWidth(1);
 	s_c753.initMemoryLineFeedWidth(2);
+
+	s_c753.initScaleTable(1);
+	s_c753.initScaleTable(2);
+
 
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
 	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
@@ -715,6 +750,38 @@ void demoRing()
 
 
 }
+
+//int setmac()
+//{
+// struct in_ifaddr* ia;
+// for (ia = in_ifaddr; ia != 0; ia = ia->ia_next)
+// {
+//  struct ifnet* ifp = ia->ia_ifa.ifa_ifp;
+//  if (ifp != 0)
+//  {
+//   int level;
+//   IP_DRV_CTRL *pDrvCtrl;
+//   END_OBJ *pEnd;
+//   unsigned char PhyAddr[10]={0x08,0x09,0x10,0x11,0x12,0x13};
+//
+//   if(ifp->if_type != M2_ifType_ethernetCsmacd)
+//   {
+//    continue;
+//   }
+//   level = intLock();
+//
+//   pDrvCtrl = (IP_DRV_CTRL *)ifp->pCookie;
+//
+//   pEnd = PCOOKIE_TO_ENDOBJ(pDrvCtrl->pIpCookie);
+//
+//   pEnd->pFuncTable->ioctl(pEnd, EIOCSADDR, PhyAddr); /*此函数中会将PhyAddr中的值写到arm9200的寄存器中，但是ifShow看到的mac地址还是旧的，因为ifShow取的                                                                                                        不是寄存器中的MAC，而是一个全局变量ifnet中的MAC*/
+//   //printf("%x:%x:%x:%x:%x:%x\n", PhyAddr[0], PhyAddr[1], PhyAddr[2], PhyAddr[3], PhyAddr[4], PhyAddr[5]);
+//
+//   intUnlock(level);
+//   break;
+//  }
+// }
+//}
 
 }
 #endif /* __cplusplus */
