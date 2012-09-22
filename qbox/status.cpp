@@ -94,13 +94,12 @@ void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
 
     uint32_t iTotal = EntSetting::Instance()->getInputTotal();
 
-    rsp.info["in0"] = EntSetting::Instance()->getInputInfoType(0);
     rsp.info["in1"] = EntSetting::Instance()->getInputInfoType(1);
     rsp.info["in2"] = EntSetting::Instance()->getInputInfoType(2);
     rsp.info["in3"] = EntSetting::Instance()->getInputInfoType(3);
     rsp.info["in4"] = EntSetting::Instance()->getInputInfoType(4);
     rsp.info["in5"] = EntSetting::Instance()->getInputInfoType(5);
-    if ( iTotal == 0 ) iTotal = 6;
+    rsp.info["in6"] = EntSetting::Instance()->getInputInfoType(6);
     rsp.info["total"] = tostring(iTotal);
 
     test_msg("onGetInPutReq Done\n",connID);
@@ -120,10 +119,10 @@ void Status::onGetOutPutReq(MsgInfo *msg,uint32_t connID)
 
     uint32_t iTotal = EntSetting::Instance()->getOutputTotal();
 
-    rsp.info["out0"] = EntSetting::Instance()->getOutputInfoType(0);
     rsp.info["out1"] = EntSetting::Instance()->getOutputInfoType(1);
     rsp.info["out2"] = EntSetting::Instance()->getOutputInfoType(2);
-    if ( iTotal == 0 ) iTotal = 3;
+    rsp.info["out3"] = EntSetting::Instance()->getOutputInfoType(3);
+    rsp.info["out4"] = EntSetting::Instance()->getOutputInfoType(4);
     rsp.info["total"] = tostring(iTotal);
 
 
@@ -133,18 +132,32 @@ void Status::onGetOutPutReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetInPutSizeReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onGetInPutSizeReq"<<" connID="<<connID << "in="<<atoi(msg->info["in"].c_str()) <<endl;
+	test_msg("onGetInPutSizeReq in==%d\n",atoi(msg->info["in"].c_str()));
 
-    string a;
+	 uint32_t ichid =atoi(msg->info["in"].c_str());
 
 
     MsgInfo rsp;
     rsp.msgType = PGetInPutSizeRsp::uri;
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
     rsp.info["in"] = msg->info["in"];
-    rsp.info["w"] = tostring(1024);
-    rsp.info["h"] = tostring(768);
 
+    uint32_t inputFlg = 0;
+    ichid =  EntSetting::Instance()->getInputInfoFlg(ichid);
+    if(ichid == USE_FLG_ONLINE)
+    {
+
+		uint32_t w,h;
+		EntSetting::Instance()->getInputInfoSize(ichid,w,h);
+		rsp.info["w"] = tostring(w);
+		rsp.info["h"] = tostring(h);
+    }
+    else
+    {
+    	rsp.info["error"] = tostring(ERROR_TYPE_NOSIGNAL);
+    	rsp.info["w"] = tostring(0);
+    	rsp.info["h"] = tostring(0);
+    }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 

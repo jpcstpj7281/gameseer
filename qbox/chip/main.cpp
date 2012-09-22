@@ -6,6 +6,7 @@
 
 #include "devTVP5160.h"
 #include "devC772.h"
+#include "chipInterface.h"
 
 #ifdef __cplusplus
     extern "C"{
@@ -391,20 +392,6 @@ void initMoney(uint32_t chn)
 	}
 }
 
-
-
-void initTest1400()
-{
-	debug_msg("initTest1400\n");
-	AppScale s_c753;
-	DriverChipICS307 s_ics307;
-
-	s_ics307.setPOCLK(ICS307_FREQUENCY_121750KHZ);
-	s_c753.initTest1400();
-	debug_msg("showWnd\n");
-	s_c753.showWnd(1);
-}
-
 void selectOutPut(uint32_t model)
 {
 	AppScale s_c753;
@@ -429,18 +416,6 @@ void setC753OutPutOAI0(uint32_t hStar,uint32_t hWidth,uint32_t VStar,uint32_t VW
 	s_c753.C753SetOutputPortOAOI0HorizontalEnd((uint16_t)hWidth);
 	s_c753.C753SetOutputPortOAOI0VerticalStart((uint16_t)VStar);
 	s_c753.C753SetOutputPortOAOI0VerticalEnd((uint16_t)VWidth);
-}
-
-
-
-void testMACRO()
-{
-	#ifdef __unix__
-		cout<<"unix!"<<endl;
-	#else
-		cout<<"vxWork!"<<endl;
-	#endif
-
 }
 
 void C753SetOutFill(uint32_t chn,uint32_t color,uint8_t model)
@@ -497,10 +472,6 @@ void demo()
 
 }
 
-
-
-
-
 void topChannel(uint32_t channel)
 {
 	AppScale s_c753;
@@ -520,7 +491,7 @@ void testScale(uint32_t chId,uint32_t hInput,uint32_t vInput,uint32_t hOutput,ui
 
 
 //	s_c753.initScaleTable(chId);
-	s_c753.initScal(chId,hInput,hOutput,vInput,vOutput);
+	s_c753.initScal(chId,hInput,vInput,hOutput,vOutput);
 
 
 
@@ -554,7 +525,7 @@ void moveInput(uint32_t chid,int hPoint,int vPoint)
 	s_c753.moveChannelInput(chid,hPoint,vPoint);
 }
 
-void setOutputSize(uint32_t chid,int hw,int vw)
+void setOutputArea(uint32_t chid,uint16_t hw,uint16_t vw)
 {
 	AppScale s_c753;
 	s_c753.C753SetOutputPortACTHorizontalWidth(chid,hw);
@@ -562,7 +533,7 @@ void setOutputSize(uint32_t chid,int hw,int vw)
 
 }
 
-void setInputSize(uint32_t chid,int hw,int vw)
+void setInputArea(uint32_t chid,uint16_t hw,uint16_t vw)
 {
 	AppScale s_c753;
 	s_c753.C753SetInputPortACTHorizontalWidth(chid,hw);

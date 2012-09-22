@@ -856,6 +856,29 @@ void DriverChip753::C753SetOutputPortACTHorizontalWidth(uint32_t iCh, uint16_t w
 		SPI_Write(0,REG_C753_B4_O2ACTHW_H, (wVal&0xff00)>>8);
 	}
 }
+
+void DriverChip753::C753GetOutputPortACTHorizontalWidth(uint32_t iCh, uint16_t &wVal)
+{
+
+	uint8_t valH = 0;
+	uint8_t valL = 0;
+
+	if(iCh == C753_OUTPUT_CHANNEL_1)
+	{
+		SPI_Write(0,REG_C753_BSC_RGBNK,2);
+		SPI_Read(0,REG_C753_B2_O1ACTHW_L, valL);
+		SPI_Read(0,REG_C753_B2_O1ACTHW_H, valH);
+	}
+	else if(iCh == C753_OUTPUT_CHANNEL_2)
+	{
+		SPI_Write(0,REG_C753_BSC_RGBNK,4);
+		SPI_Read(0,REG_C753_B4_O2ACTHW_L, valL);
+		SPI_Read(0,REG_C753_B4_O2ACTHW_H, valH);
+	}
+
+	wVal = valL| ((uint16_t)valH<<8);
+}
+
 void DriverChip753::C753SetOutputPortACTVerticalStart(uint32_t iCh, uint16_t wVal)
 {
     if(iCh == C753_OUTPUT_CHANNEL_1)
@@ -909,6 +932,27 @@ void DriverChip753::C753SetOutputPortACTVerticalWidth(uint32_t iCh, uint16_t wVa
         SPI_Write(0,REG_C753_B4_O2ACTVW_L, (wVal&0x00ff));
         SPI_Write(0,REG_C753_B4_O2ACTVW_H, (wVal&0xff00)>>8);
     }
+}
+
+void DriverChip753::C753GetOutputPortACTVerticalWidth(uint32_t iCh, uint16_t &wVal)
+{
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+        SPI_Write(0,REG_C753_BSC_RGBNK,2);
+        SPI_Read(0,REG_C753_B2_O1ACTVW_L, valL);
+        SPI_Read(0,REG_C753_B2_O1ACTVW_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+        SPI_Write(0,REG_C753_BSC_RGBNK,4);
+        SPI_Read(0,REG_C753_B4_O2ACTVW_L, valL);
+        SPI_Read(0,REG_C753_B4_O2ACTVW_H, valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
 }
 void DriverChip753::C753SetOutputPostEnlargementHorizontalEdgeEmphasisControl(uint32_t iCh, uint8_t byVal)
 {
@@ -1331,6 +1375,8 @@ void DriverChip753::C753SetInputFieldRecognitionControl(uint32_t iCh, uint8_t by
     }
 }
 
+
+
 void DriverChip753::C753SetInputDigitalInterfaceControl(uint32_t iCh, uint8_t byVal)
 {
     if(iCh == C753_INPUT_CHANNEL_1)
@@ -1413,6 +1459,28 @@ void DriverChip753::C753SetInputPortACTHorizontalWidth(uint32_t iCh, uint16_t wV
     }
 }
 
+void DriverChip753::C753GetInputPortACTHorizontalWidth(uint32_t iCh, uint16_t &wVal)
+{
+
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+    	SPI_Write(0,REG_C753_BSC_RGBNK,6);
+        SPI_Read(0,REG_C753_B6_I1ACTHW_L, valL);
+        SPI_Read(0,REG_C753_B6_I1ACTHW_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+    	SPI_Write(0,REG_C753_BSC_RGBNK,8);
+        SPI_Read(0,REG_C753_B8_I2ACTHW_L, valL);
+        SPI_Read(0,REG_C753_B8_I2ACTHW_H,valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
+}
+
 void DriverChip753::C753SetInputPortACTVerticalStart(uint32_t iCh, uint16_t wVal)
 {
     if(iCh == C753_INPUT_CHANNEL_1)
@@ -1431,8 +1499,6 @@ void DriverChip753::C753SetInputPortACTVerticalStart(uint32_t iCh, uint16_t wVal
 
 void DriverChip753::C753GetInputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal)
 {
-
-
     uint8_t valH = 0;
     uint8_t valL = 0;
 
@@ -1466,6 +1532,27 @@ void DriverChip753::C753SetInputPortACTVerticalWidth(uint32_t iCh, uint16_t wVal
         SPI_Write(0,REG_C753_B8_I2ACTVW_L, (wVal&0x00ff));
         SPI_Write(0,REG_C753_B8_I2ACTVW_H, (wVal&0xff00)>>8);
     }
+}
+
+void DriverChip753::C753GetInputPortACTVerticalWidth(uint32_t iCh, uint16_t &wVal)
+{
+    uint8_t valH = 0;
+    uint8_t valL = 0;
+
+    if(iCh == C753_OUTPUT_CHANNEL_1)
+    {
+    	SPI_Write(0,REG_C753_BSC_RGBNK,6);
+        SPI_Read(0,REG_C753_B6_I1ACTVW_L, valL);
+        SPI_Read(0,REG_C753_B6_I1ACTVW_H, valH);
+    }
+    else if(iCh == C753_OUTPUT_CHANNEL_2)
+    {
+    	SPI_Write(0,REG_C753_BSC_RGBNK,8);
+        SPI_Read(0,REG_C753_B8_I2ACTVW_L, valL);
+        SPI_Read(0,REG_C753_B8_I2ACTVW_H,valH);
+    }
+
+   	wVal = valL| ((uint16_t)valH<<8);
 }
 
 void DriverChip753::C753SetInputSignalSwap(uint32_t iCh, uint8_t byVal)

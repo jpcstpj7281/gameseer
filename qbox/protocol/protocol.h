@@ -18,6 +18,7 @@
 
 #define ERROR_TYPE_SUCCESS         0
 #define ERROR_TYPE_FALSE           1
+#define ERROR_TYPE_NOSIGNAL        2
 
 #define TYPE_WINDOW_STATUS_HIDE    0
 #define TYPE_WINDOW_STATUS_SHOW    1

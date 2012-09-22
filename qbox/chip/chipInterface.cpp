@@ -58,6 +58,35 @@ void moveInputChannel(uint32_t chid,int hPoint,int vPoint)
 	s_c753.moveChannelInput(chid,hPoint,vPoint);
 }
 
+
+void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw)
+{
+	AppScale &s_c753=*AppScale::Instance();
+
+	uint16_t outHw =0;
+	uint16_t outVw =0;
+
+
+	s_c753.C753GetOutputPortACTHorizontalWidth(chid,outHw);
+	s_c753.C753GetOutputPortACTVerticalWidth(chid,outVw);
+
+	s_c753.initScal(chid,hw,vw,outHw,outVw);
+}
+
+void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw)
+{
+	AppScale &s_c753=*AppScale::Instance();
+
+	uint16_t inputHw =0;
+	uint16_t inputVw =0;
+
+
+	s_c753.C753GetInputPortACTHorizontalWidth(chid,inputHw);
+	s_c753.C753GetInputPortACTVerticalWidth(chid,inputVw);
+
+	s_c753.initScal(chid,inputHw,inputVw,hw,vw);
+}
+
 void showChannel(uint32_t chn)
 {
 	AppScale &s_c753=*AppScale::Instance();
@@ -70,7 +99,20 @@ void hideChannel(uint32_t chn)
 	s_c753.hideWnd(chn);
 }
 
+void getSignalModel(uint32_t chn,uint32_t &model)
+{
+	DriverChipFPGA s_cfpga;
+	getSignalModel(chn,model);
+}
 
+void setChnSignalModel(uint32_t chn,uint32_t model)
+{
+	if(chn == 1 || chn== 2)
+	{
+		AppScale &s_c753=*AppScale::Instance();
+		s_c753.setInputSignalModel(chn,model);
+	}
+}
 
 
 //

@@ -169,6 +169,18 @@ enum OUTPUT_SIZE_TYPE
     TYPE_OUTPUT_SIZE_1440_1050 = 1,
 };
 
+
+
+struct InputInfo
+{
+	uint16_t hW;
+	uint16_t Vw;
+	uint16_t hStar;
+	uint16_t vStar;
+
+};
+
+
 static const ScalLUTIPTableT s_sLUTIPTable[] =
 {
 	{0x00, 0x00042000},  {0x01, 0x00139c01},  {0x02, 0x00139c01},  {0x03, 0x00231802},
@@ -239,6 +251,8 @@ public:
 
 	void topChannel(uint32_t channel);
 
+	void setInputSignalModel(uint32_t chId,uint32_t model);
+
 private:
 
 	static AppScale* m_instance;
@@ -265,7 +279,7 @@ private:
 	uint16_t m_horFp;
 	uint16_t m_verFp;
 
-
+	map<uint32_t,InputInfo> m_InputInfo;
 
 };
 };

@@ -89,8 +89,18 @@ AppScale::AppScale()
 
 
 //	initTimingIndexTable();
+    InputInfo info;
+    info.hW = 702;
+    info.Vw = 480;
+    info.hStar = 137;
+    info.vStar = 45;
+    m_InputInfo[TYPE_INPUT_SIZE_702_480] = info;
 
-
+    info.hW = 1024;
+    info.Vw = 768;
+    info.hStar = 303;
+    info.vStar = 36;
+    m_InputInfo[TYPE_INPUT_SIZE_1024_768] = info;
 
 }
 
@@ -1336,7 +1346,7 @@ void AppScale::initTest1400()
 
 }
 
-void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t hOutput,uint32_t vInput,uint32_t vOutput)
+void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t hOutput,uint32_t vOutput)
 {
 	if(hInput > hOutput)
 	{
@@ -1753,4 +1763,10 @@ AppScale* AppScale::Instance()
 	return m_instance;
 }
 
+
+void AppScale::setInputSignalModel(uint32_t chId,uint32_t model)
+{
+
+	setInputChannelACT(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,m_InputInfo[model].hStar,m_InputInfo[model].vStar);
+}
 

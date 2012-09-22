@@ -21,27 +21,31 @@ EntSetting::EntSetting()
 	m_ip = "192.168.1.190";
 
 
-	for(int i=0;i<6;i++)
+	for(int i=1;i<=6;i++)
 	{
 		setInputInfoFlg(i,USE_FLG_OFFLINE);
 		setInputInfoType(i,VIDEO_TYPE_DEFAULT);
 		setInputInfoSize(i,0,0);
 	}
 
-	for(int i=0;i<4;i++)
+	for(int i=1;i<=4;i++)
 	{
 		setOutputInfoFlg(i,USE_FLG_OFFLINE);
 		setOutputInfoType(i,VIDEO_TYPE_DEFAULT);
 		setOutputInfoSize(i,0,0);
 	}
 
-	for(int i=0;i<5;i++)
+	for(int i=1;i<5;i++)
 	{
 		setSlotStatusFlg(i,USE_FLG_OFFLINE);
 		setSlotStatusType(i,VIDEO_TYPE_DEFAULT);
 
 	}
 
+	//test
+	setInputInfoFlg(2,USE_FLG_ONLINE);
+	setInputInfoType(2,VIDEO_TYPE_CVBS);
+	setInputInfoSize(2,702,480);
 
 }
 

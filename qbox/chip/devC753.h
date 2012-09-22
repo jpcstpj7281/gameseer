@@ -188,13 +188,14 @@ public:
 	void C753SetOutputPortACTHorizontalWidth(uint32_t iCh, uint16_t wVal);
 
 	void C753GetOutputPortACTHorizontalStart(uint32_t iCh, uint16_t &wVal);
+	void C753GetOutputPortACTHorizontalWidth(uint32_t iCh, uint16_t &wVal);
 
 
 	void C753SetOutputPortACTVerticalStart(uint32_t iCh, uint16_t wVal);
 	void C753SetOutputPortACTVerticalWidth(uint32_t iCh, uint16_t wVal);
 
 	void C753GetOutputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal);
-
+	void C753GetOutputPortACTVerticalWidth(uint32_t iCh, uint16_t &wVal);
 
 
 	void C753SetOutputPostEnlargementHorizontalEdgeEmphasisControl(uint32_t iCh, uint8_t byVal);
@@ -239,6 +240,9 @@ public:
 
 	void C753GetInputPortACTHorizontalStart(uint32_t iCh, uint16_t &wVal);
 	void C753GetInputPortACTVerticalStart(uint32_t iCh, uint16_t &wVal);
+
+	void C753GetInputPortACTHorizontalWidth(uint32_t iCh, uint16_t &wVal);
+	void C753GetInputPortACTVerticalWidth(uint32_t iCh, uint16_t &wVal);
 
 
 	void C753SetInputSignalSwap(uint32_t iCh, uint8_t byVal);
