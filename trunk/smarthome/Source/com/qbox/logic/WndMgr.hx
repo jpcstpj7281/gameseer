@@ -29,8 +29,12 @@ class WndMgr {
         return c;
     }
 
-    public function removeWnd( wnd:Wnd):Void{
-        _wnds.remove(wnd);
+    inline public function removeWnd( wnd:Wnd):Void{ _wnds.remove(wnd); }
+    public function closeAll( ):Void{ 
+        for ( i in _wnds){
+            i.close();
+            removeWnd(i);
+        }
     }
 
     public function removeQbox( c:Wnd){

@@ -75,10 +75,10 @@ class QboxMgr {
         }
     }
     public function loadInputResolution():Void{ 
-        _qboxes[0].loadInputResolution();
+        _qboxes[0].loadInputsResolution();
     }
     public function loadOutputResolution():Void{ 
-        _qboxes[0].loadOutputResolution("out0");
+        _qboxes[0].loadOutputsResolution("out0");
     }
 
     public function loadQbox(){

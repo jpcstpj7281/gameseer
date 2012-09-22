@@ -71,7 +71,7 @@ class ChannelDlg extends ListDialog{
             _iptext.text = "Channel:";
             _iptext.scaleX = 3;
             _iptext.scaleY = 3;
-            _iptext.width = 50;
+            _iptext.width = 60;
             _iptext.height= 20;
 
             _input= new EmbedTextField();
