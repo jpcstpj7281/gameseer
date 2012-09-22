@@ -281,8 +281,8 @@ class NetworkMgr{
             var val:Bytes = data.sub( pos, vallen);
             pos+=vallen;
 
-            if ( vallen ==4 ) trace( "key: "+key+ " len: "+keylen + " intval: " + bytes2Int(val)+" len: " +vallen)  ;
-            else  trace( "key: "+key+ " len: "+keylen + " strval: "+val.readString(0, val.length)+ " len: " +vallen ) ;
+            //if ( vallen ==4 ) trace( "key: "+key+ " len: "+keylen + " intval: " + bytes2Int(val)+" len: " +vallen)  ;
+            trace( "key: "+key+ " len: "+keylen + " strval: "+val.readString(0, val.length)+ " len: " +vallen ) ;
 
             rspsMap.set( key, val);
             --num;

@@ -72,7 +72,8 @@ class ChannelNodeDlg extends CommDialog{
                     if ( Lambda.count(arr[i]._inputs) == 0){
                         _input.text = "null";
                     }else{
-                        _input.text = arr[i]._inputs.iterator().next();
+                        var key = arr[i]._inputs.keys().next();
+                        _input.text = key + "("+ arr[i]._inputs.get(key)+")";
                     }
                 }
                 _node = _qboxip.text +":"+_input.text;
@@ -92,7 +93,7 @@ class ChannelNodeDlg extends CommDialog{
         _qboxip.text = arr[0];
         _qboxip.scaleX = 3;
         _qboxip.scaleY = 3;
-        _qboxip.width = 50;
+        _qboxip.width = 60;
         _qboxip.height= 20;
         _qboxip.addEventListener( MouseEvent.CLICK, onQboxMouseClick);
 

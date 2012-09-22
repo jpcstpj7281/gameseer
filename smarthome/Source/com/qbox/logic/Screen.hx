@@ -83,10 +83,10 @@ class Screen{
             }
         }else{
             if ( x >= screenx && x <= screenx + _virtualWidth) {
-                trace(x);
-                trace(w);
-                trace(screenx);
-                trace(_virtualWidth);
+                //trace(x);
+                //trace(w);
+                //trace(screenx);
+                //trace(_virtualWidth);
                 if ( x+w >= screenx+_virtualWidth){
                     screenw = _virtualWidth + screenx - x;
                     //trace(screenw);
@@ -146,8 +146,8 @@ class Screen{
                 trace( screeny);
                 trace( screenw);
                 trace( screenh);
-                trace(pw);
-                trace(ph);
+                //trace(pw);
+                //trace(ph);
                 var qx = Math.round(screenx*pw);
                 var qy = Math.round(screeny*ph);
                 var qw = Math.round(screenw*pw);
@@ -172,8 +172,8 @@ class Screen{
             test.set("error","0");
             var pw = _resWidth /_virtualWidth ;
             var ph = _resHeight/_virtualHeight;
-            trace(_resHeight);
             trace(_resWidth);
+            trace(_resHeight);
             trace(_virtualHeight);
             trace(_virtualWidth);
             var qx = Math.round(screenx*pw);
@@ -285,7 +285,7 @@ class Screen{
         trace("closed wnd: "+_col+"|"+_row);
         _currCB = cbMoveWndFunc;
 #if !neko
-        var q = QboxMgr.getInst().getQboxByIp( _qbox._ipv4);
+        var q =  _qbox;
         if ( q != null){
             q.clearData();
             q.startListening( 12, cbCloseWnd, 2);
