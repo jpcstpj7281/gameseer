@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "devFPGA.h"
 #include "devFPGAAddr.h"
+#include "chipCommon.h"
 
 using namespace chip;
 
@@ -274,5 +275,70 @@ void DriverChipFPGA::getSelectInput(uint32_t iChID,uint16_t &input)
 
 	input++;
 }
+
+void DriverChipFPGA::getSignalModel(uint32_t chId,uint32_t &model)
+{
+	uint16_t wHs = 0;
+	uint16_t wVs = 0;
+
+	if(chId>=1 && chId<=6)
+	{
+		switch(chId)
+		{
+			case 1:
+			{
+				FPGA_Read(FPGA_HS_REGISTER_1_ADDR,wHs);
+				FPGA_Read(FPGA_VS_REGISTER_1_ADDR,wVs);
+				break;
+			}
+			case 2:
+			{
+				FPGA_Read(FPGA_HS_REGISTER_2_ADDR,wHs);
+				FPGA_Read(FPGA_VS_REGISTER_2_ADDR,wVs);
+				break;
+			}
+			case 3:
+			{
+				FPGA_Read(FPGA_HS_REGISTER_3_ADDR,wHs);
+				FPGA_Read(FPGA_VS_REGISTER_3_ADDR,wVs);
+				break;
+			}
+			case 4:
+			{
+				FPGA_Read(FPGA_HS_REGISTER_4_ADDR,wHs);
+				FPGA_Read(FPGA_VS_REGISTER_4_ADDR,wVs);
+				break;
+			}
+			case 5:
+			{
+				FPGA_Read(FPGA_HS_REGISTER_5_ADDR,wHs);
+				FPGA_Read(FPGA_VS_REGISTER_5_ADDR,wVs);
+				break;
+			}
+			case 6:
+			{
+				FPGA_Read(FPGA_HS_REGISTER_6_ADDR,wHs);
+				FPGA_Read(FPGA_VS_REGISTER_6_ADDR,wVs);
+				break;
+			}
+		}
+	}
+	else
+	{
+		debug_msg("getSignalModel chId Error!");
+	}
+
+
+	if(wHs > 700
+	   && wHs < 720
+	   && wVs > 480
+	   && wVs < 500)
+	{
+		model = TYPE_INPUT_SIZE_702_480;
+	}
+}
+
+
+
 
 

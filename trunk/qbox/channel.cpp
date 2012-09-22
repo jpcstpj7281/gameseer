@@ -17,7 +17,6 @@
 using namespace msg;
 using namespace ent;
 
-extern void setInputChannel(uint32_t chn,uint32_t hs,uint32_t vs,uint32_t hOffset,uint32_t vOffset);
 
 
 Channel::Channel()
@@ -59,7 +58,6 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 
 void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
 {
- //   cout<<"onPChangeInputReq"<<" connID="<<connID <<endl;
 
     uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
     uint32_t input = atoi(msg->info["in"].c_str());
@@ -75,8 +73,22 @@ void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
     }
 
 #ifndef __unix__
-    setInputChannel(1,1024,768,303,36);
-    setInputChannel(2,1024,768,303,36);
+    if(winHandle==1 || winHandle==2)
+    {
+    	uint32_t model = 0;
+    	getSignalModel(winHandle,model);
+
+    	if(TYPE_INPUT_SIZE_DEFAULT != model)
+    	{
+    		setChnSignalModel(winHandle,model);
+    	}
+    	else
+    	{
+    		rsp.info["error"] = tostring(ERROR_TYPE_NOSIGNAL);
+    	}
+    }
+
+
 #endif
 
 

@@ -17,7 +17,11 @@ void moveInputChannel(uint32_t chid,int hPoint,int vPoint);
 void showChannel(uint32_t chn);
 void hideChannel(uint32_t chn);
 
+void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
+void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 
+void getSignalModel(uint32_t chn,uint32_t &model);
+void setChnSignalModel(uint32_t chn,uint32_t model);
 
 }
 

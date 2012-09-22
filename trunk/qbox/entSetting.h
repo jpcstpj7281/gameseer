@@ -18,14 +18,6 @@ using namespace std;
 namespace ent
 {
 
-#define USE_FLG_OFFLINE			0
-#define USE_FLG_ONLINE			1
-
-const string VIDEO_TYPE_DEFAULT	 = 	"default";
-const string VIDEO_TYPE_CVBS	 = 	"cvbs";
-const string VIDEO_TYPE_RGB		 = 	"rgb";
-
-const string VIDEO_TYPE_RING	 = 	"ring";
 
 struct BroadInfo
 {
