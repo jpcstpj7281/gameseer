@@ -6,6 +6,7 @@
  */
 
 #include "entSetting.h"
+#include "common.h"
 
 
 using namespace ent;
