@@ -10,7 +10,7 @@ class EmbedTextField extends TextField {
     public function new (){
 
         super();
-#if (android||neko)
+#if (linux||android||neko)
         //if( Sys.systemName() == "Linux" ){
             if ( DataLoader.inst.textFormat_ != null){
                 defaultTextFormat = DataLoader.inst.textFormat_;

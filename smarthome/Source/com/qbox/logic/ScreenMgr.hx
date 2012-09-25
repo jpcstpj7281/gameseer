@@ -51,7 +51,8 @@ class ScreenMgr {
             var c = new Screen( _col-1, i);
             c._resWidth = _resWidth;
             c._resHeight = _resHeight;
-            _screens.push(c);
+            //_screens.push(c);
+            insertToScreens( c);
             arr.push(c);
         }
         return arr;
@@ -67,10 +68,24 @@ class ScreenMgr {
         for ( i in 0..._col ){
             var c = new Screen( i, _row-1);
             c._resHeight= _resHeight;
-            _screens.push(c);
+            //_screens.push(c);
+            insertToScreens( c);
             arr.push(c);
         }
         return arr;
+    }
+
+    public function insertToScreens( s:Screen){
+        for ( i in 0..._screens.length){
+            var t = _screens[i];
+            if ( s.isAfterOf( t) ){
+                continue;
+            }else{
+                _screens.insert(i, s);
+                return;
+            }
+        }
+        _screens.push(s);
     }
 
     public function removeQbox( c:Screen){

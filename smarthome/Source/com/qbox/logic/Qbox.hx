@@ -20,10 +20,10 @@ class Qbox extends SMConnection{
     public var _version:String;
     public function new(){
         super( "127.0.0.1", 5000);
+        _version = "1.0";
 
         _inputs = new Hash<String>();
-        _outputs= new Hash<String>();
-        _version = "1.0";
+        _outputs = new Hash<String>();
     }
 
     public function loadVersion(){
@@ -47,8 +47,9 @@ class Qbox extends SMConnection{
     function cbLoadInput( args:Dynamic){
         var inputs:Hash<String> = cast args;
         var total:Int = Std.parseInt( inputs.get("total"));
+        _inputs = new Hash<String>();
         for ( i in 1...7){
-            _inputs.set( "in"+i, inputs.get("in"+i) );
+            _inputs.set( ""+i, inputs.get(""+i) );
         }
         loadInputsResolution();
     }
@@ -63,19 +64,20 @@ class Qbox extends SMConnection{
     function cbLoadOutput( args:Dynamic){
         var outputs:Hash<String> = cast args;
         var total:Int = Std.parseInt( outputs.get("total"));
-        for ( i in 1...7){
+        _outputs = new Hash<String>();
+        for ( i in 1...5){
             _outputs.set( ""+i, outputs.get(""+i) );
         }
     }
 
     public function loadInputsResolution(){
         for ( i in 1...7){
-            var tmp = _inputs.get( "in"+i);
+            var tmp = _inputs.get( ""+i);
             if (tmp != "default"){
                 clearData();
                 startListening( 8, cbLoadInputsResolution, 1);
                 setMsg( 7, 1);
-                addKeyVal("in", Bytes.ofString("in"+i));
+                addKeyVal("in", Bytes.ofString(""+i));
                 sendData();
                 break;
             }
@@ -84,16 +86,16 @@ class Qbox extends SMConnection{
 
     function cbLoadInputsResolution( args:Dynamic){
         trace(args);
-        var input = Std.parseInt(args.get("in").sub( 2, 1) );
+        var input = Std.parseInt(args.get("in") );
         if ( input < 6){ 
             ++input;
             for ( i in input...7){
-                var tmp = _inputs.get( "in"+i);
+                var tmp = _inputs.get( ""+i);
                 if (tmp != "default"){
                     clearData();
                     startListening( 8, cbLoadInputsResolution, 1);
                     setMsg( 7, 1);
-                    addKeyVal("in", Bytes.ofString("in"+ input) );
+                    addKeyVal("in", Bytes.ofString(""+ input) );
                     sendData();
                     break;
                 }

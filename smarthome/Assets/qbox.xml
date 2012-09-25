@@ -29,6 +29,7 @@
     <item><type>left</type><name>left</name><extension>.png</extension><loc>img</loc></item>
     <item><type>right</type><name>right</name><extension>.png</extension><loc>img</loc></item>
     <item><type>file</type><name>file</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>ring</type><name>ring</name><extension>.png</extension><loc>img</loc></item>
 
 
 
