@@ -20,6 +20,8 @@ class Screen{
     public var _753s:Hash<Wnd>;
     public var _circles:Hash<Wnd>;
 
+    public var _ring:Array<Ring>;
+
     var _currCB:Dynamic->Screen->Void;
 
     //dont try to create this obj by your own, use ScreenMgr.create() instead.

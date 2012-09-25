@@ -32,12 +32,17 @@ class ScreenMgr {
     public var _virtualX:Int;
     public var _virtualY:Int;
 
+
+    public var _circleCount:Int;
+
     function new(){
         _screens =  new Array<Screen>();
         _col = 0;
         _row = 0;
         _width = _resWidth = 1024;
         _height = _resHeight = 768;
+
+        _circleCount = 0;
     }
 
     public function createColScreen( ):Array<Screen>{
