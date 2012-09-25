@@ -14,9 +14,11 @@ class Screen{
     public var _resWidth:Int;
     public var _resHeight:Int;
 
-    //public var _qboxid:String;
     //public var _output:String;
-    public var _qbox:Qbox;
+    public var _qbox(getQbox, setQbox):Qbox;
+
+    public var _753s:Hash<Wnd>;
+    public var _circles:Hash<Wnd>;
 
     var _currCB:Dynamic->Screen->Void;
 
@@ -24,6 +26,36 @@ class Screen{
     public function new( col:Int, row:Int){
         _col = col;
         _row = row;
+    }
+
+    public function isAfterOf( s:Screen):Bool{
+        if (_col >= s._col){
+            if ( _row>= s._row){
+                return true;
+            }
+        }else if ( _row> s._row){
+            return true;
+        }
+        return false;
+    }
+
+    function setQbox( qbox:Qbox):Qbox{
+        //trace("setQbox");
+        _qbox = qbox;
+        _753s= new Hash<Wnd>();
+        _circles = new Hash<Wnd>();
+        for ( i in qbox._outputs.keys()){
+            var val = qbox._outputs.get(i);
+            if ( val == "753s"){
+                _753s.set(i, null);
+            }else{
+                _circles.set(i, null);
+            }
+        }
+        return qbox;
+    }
+    function getQbox():Qbox{
+        return _qbox;
     }
 
     //open wnd by reachieve wnd data from qbox;
