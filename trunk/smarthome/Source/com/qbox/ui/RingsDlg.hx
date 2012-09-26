@@ -21,9 +21,10 @@ class RingsDlg extends ListFixedDlg{
         x = 90;
         y= nme.Lib.current.stage.stageHeight - 80;
 
-        new PlusDown(_listDialogMgr);
-        new PlusRight(_listDialogMgr);
+        new RingsPlate(_listDialogMgr);
     }
+
+
 
     public override function onMouseClick( ):Void{
         if ( QboxMgr.getInst()._qboxes.length <2) {
@@ -31,7 +32,6 @@ class RingsDlg extends ListFixedDlg{
             return;
         }
         if ( _mgr.isAnimating() == false){
-            _listDialogMgr.removeAllMovables();
         }
         super.onMouseClick();
     }
