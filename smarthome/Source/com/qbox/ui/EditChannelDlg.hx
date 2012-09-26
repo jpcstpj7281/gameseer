@@ -49,10 +49,15 @@ class EditChannelDlg extends ListDialog{
     }
 
     public function createDlgs(){
-        var q = QboxMgr.getInst()._qboxes[0];
-        _channel.addNode( q, q._inputs.iterator().next() );
-        for ( i in _channel._nodes){
-            //trace("test");
+        for ( q in  QboxMgr.getInst()._qboxes){
+            for ( k in q._inputs.keys() ){
+                if ( q._inputs.get(k) != "default"){
+                    _channel.addNode( q, k );
+                    //trace(k);
+                    //trace(q._inputs.get(k));
+                    break;
+                }
+            }
         }
     }
     public function createElement():Sprite{

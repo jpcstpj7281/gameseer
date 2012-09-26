@@ -49,7 +49,7 @@ class Qbox extends SMConnection{
         var total:Int = Std.parseInt( inputs.get("total"));
         _inputs = new Hash<String>();
         for ( i in 1...7){
-            _inputs.set( ""+i, inputs.get(""+i) );
+            _inputs.set( ""+i, inputs.get("in"+i) );
         }
         loadInputsResolution();
     }
@@ -66,7 +66,7 @@ class Qbox extends SMConnection{
         var total:Int = Std.parseInt( outputs.get("total"));
         _outputs = new Hash<String>();
         for ( i in 1...5){
-            _outputs.set( ""+i, outputs.get(""+i) );
+            _outputs.set( ""+i, outputs.get("out"+i) );
         }
     }
 
@@ -123,8 +123,8 @@ class Qbox extends SMConnection{
         loadInput();
         loadOutput();
         //loadOutputsResolution("out0");
-        //closeAllWnd();
-        loadWnds();
+        closeAllWnd();
+        //loadWnds();
         return true;
     }
 

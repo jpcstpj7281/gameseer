@@ -117,7 +117,6 @@ class ScreenPlate extends CommDialog{
                 i.clear();
             }
         }
-
         for ( i in WndMgr.getInst()._wnds){
             trace("create wnd");
             var win = new WndGraphicDlg(_mgr);

@@ -79,13 +79,26 @@ class ChannelSelectionDlg extends ListFixedDlg{
                     return;
                 }
                 if (ChannelMgr.getInst()._channels.length >8 ) return;
-                var c = ChannelMgr.getInst().createChannel();
-                var q = QboxMgr.getInst()._qboxes[0];
+
+                for ( q in  QboxMgr.getInst()._qboxes){
+                    for ( k in q._inputs.keys() ){
+                        if ( q._inputs.get(k) != "default"){
+                            var c = ChannelMgr.getInst().createChannel();
+                            c.addNode( q, k );
+                            cast(_mgr, MainStage).addChannelSelect();
+                            _channel = c;
+                            alpha = 1;
+                            //trace(k);
+                            //trace(q._inputs.get(k));
+                            break;
+                        }
+                    }
+                }
+                //var q = QboxMgr.getInst()._qboxes[0];
                 //c._nodes.push( q._ipv4 +":"+q._inputs.iterator().next());
-                c.addNode( q, q._inputs.iterator().next());
-                cast(_mgr, MainStage).addChannelSelect();
-                _channel = c;
-                alpha = 1;
+                //for ( i in q._inputs){
+                //c.addNode( q, q._inputs.keys().next());
+                //}
             }
         }
     }
