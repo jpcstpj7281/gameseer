@@ -64,6 +64,23 @@ class RingsPlate extends CommDialog{
             var s = new Sprite();
             i._virtualHeight = cast _RingHeight;
             i._virtualWidth = cast _RingWidth;
+
+            s.graphics.lineStyle( 2, 0x00FF00, 1 );
+            s.graphics.moveTo( (i._col+0.5) * _RingWidth, (i._row+0.5) * _RingHeight );
+            s.graphics.lineTo( (i._col+1) * _RingWidth, (i._row+0.5) * _RingHeight );
+            s.graphics.lineTo( (i._col+1) * _RingWidth-10, (i._row+0.5) * _RingHeight-10 );
+            s.graphics.lineTo( (i._col+1) * _RingWidth-10, (i._row+0.5) * _RingHeight+10 );
+            s.graphics.lineTo( (i._col+1) * _RingWidth, (i._row+0.5) * _RingHeight );
+            s.graphics.lineTo( (i._col+1+0.25) * _RingWidth, (i._row+0.5) * _RingHeight );
+
+            s.graphics.lineStyle( 2, 0x00FF00, 1 );
+            s.graphics.moveTo( (i._col+0.5) * _RingWidth, (i._row+0.5) * _RingHeight );
+            s.graphics.lineTo( (i._col+0.5) * _RingWidth, (i._row+1) * _RingHeight );
+            s.graphics.lineTo( (i._col+0.5) * _RingWidth+10, (i._row+1) * _RingHeight-10 );
+            s.graphics.lineTo( (i._col+0.5) * _RingWidth-10, (i._row+1) * _RingHeight-10 );
+            s.graphics.lineTo( (i._col+0.5) * _RingWidth, (i._row+1) * _RingHeight );
+            s.graphics.lineTo( (i._col+0.5) * _RingWidth, (i._row+1+0.25) * _RingHeight );
+
             s.graphics.lineStyle( 1, 0x000000, 1);
             s.graphics.moveTo( i._col * _RingWidth, i._row * _RingHeight );
             s.graphics.lineTo( (i._col+1) * _RingWidth, i._row * _RingHeight );
@@ -71,8 +88,9 @@ class RingsPlate extends CommDialog{
             s.graphics.lineTo( i._col * _RingWidth, (i._row+1) * _RingHeight );
             s.graphics.beginFill(0x888888);
             //s.graphics.drawRect( (i._col+0.5) * _RingWidth, i._row * _RingHeight, _RingWidth*0.5, _RingHeight);
-            s.graphics.drawRect( (i._col+0.5) * _RingWidth, i._row * _RingHeight, _RingWidth*0.5, _RingHeight);
+            s.graphics.drawRect( (i._col+0.25) * _RingWidth, (i._row+0.25) * _RingHeight, _RingWidth*0.5, _RingHeight*0.5);
             _screens.addChild(s);
+
         }
 
         _screens.x = Math.round( (width - _screens.width) /2);
@@ -107,7 +125,7 @@ class RingsPlate extends CommDialog{
     }
 
     override function show(){
-        trace("Test");
+        //trace("Test");
         createScreens();
         createWnds();
 
