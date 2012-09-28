@@ -1,4 +1,3 @@
-
 package com.qbox.logic;
 
 import base.data.DataLoader;
