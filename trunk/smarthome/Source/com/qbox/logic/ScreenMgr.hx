@@ -59,6 +59,7 @@ class ScreenMgr {
             insertToScreens( c);
             arr.push(c);
         }
+        RingMgr.getInst().refreshRingNode();
         return arr;
     }
 
@@ -76,6 +77,7 @@ class ScreenMgr {
             insertToScreens( c);
             arr.push(c);
         }
+        RingMgr.getInst().refreshRingNode();
         return arr;
     }
 
@@ -92,21 +94,21 @@ class ScreenMgr {
         _screens.push(s);
     }
 
-    public function removeQbox( c:Screen){
-        for ( i in _screens){
-            if ( c == i ){
-                _screens.remove( i ) ;
-                break;
-            }
-        }
-    }
+    //public function removeQbox( c:Screen){
+    //for ( i in _screens){
+    //if ( c == i ){
+    //_screens.remove( i ) ;
+    //break;
+    //}
+    //}
+    //}
 
-    public function getScreenByQbox( qbox:Qbox){
-        for ( i in _screens){
-            if ( i._qbox == qbox){
-                return i;
-            }
-        }
-        return null;
-    }
+    //public function getScreenByQbox( qbox:Qbox){
+    //for ( i in _screens){
+    //if ( i._qbox == qbox){
+    //return i;
+    //}
+    //}
+    //return null;
+    //}
 }
