@@ -139,6 +139,7 @@ class Qbox extends SMConnection{
         trace(args);
     }
 
+    /*
     function loadWnds(){
         clearData();
         startListening( 2, cbLoadWnds, 2);
@@ -157,7 +158,9 @@ class Qbox extends SMConnection{
             }
         }
     }
+    */
 
+    /*deprecated
     function loadWnd( out:String){
         clearData();
         startListening( 4, cbLoadWnd, 2);
@@ -186,4 +189,5 @@ class Qbox extends SMConnection{
             }
         }
     }
+    */
 }

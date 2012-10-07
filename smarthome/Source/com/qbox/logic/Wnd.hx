@@ -38,9 +38,29 @@ class Wnd{
         _virtualWidth = w;
         _virtualHeight = h;
         _channel =  channel;
+
+        var screens:Array<Screen> = new Array<Screen>();
+        for (i in ScreenMgr.getInst()._screens){ 
+            if ( ! i.isOutOfScreen( x,y,w,h)){ 
+                screens.push(i);
+            }
+        }
+
+        for ( i in screens){
+            if ( ! i.has753Available()){
+                trace("a screen already opened two windows!");
+                return false;
+            }
+        }
+
+        if ( screens.length> 1){
+            var ring = RingMgr.getInst().getCurrRingByScreens( screens);
+            trace(ring);
+        }
+
         for (i in ScreenMgr.getInst()._screens){ 
             ++_opCounter;
-            i.setWnd( x,y,w,h, cbSetWnd); 
+            i.setWnd( x,y,w,h, cbSetWnd);
         }
         return true;
     }
@@ -54,25 +74,33 @@ class Wnd{
         _screens.push( s);
         _handles.push( handle);
         if ( handle != "null"){
-            ++_opCounter;
-            s.setChannel( handle, _channel,  cbSetChannel);
-        }
-        --_opCounter;
-    }
-
-    function cbSetChannel( args:Dynamic, s:Screen):Void{
-        var error = args.get("error");
-        if (error == "1") { return; }
-        for ( i in 0..._screens.length){
-            if ( _screens[i] == s ){
-                if ( _handles[i] != "null"){
-                    ++_opCounter;
-                    s.showWnd( _handles[i], cbShowWnd );
+            //++_opCounter;
+            //s.setChannel( handle, _channel,  cbSetChannel);
+            for ( i in 0..._screens.length){
+                if ( _screens[i] == s ){
+                    if ( _handles[i] != "null"){
+                        ++_opCounter;
+                        s.showWnd( _handles[i], cbShowWnd );
+                    }
                 }
             }
         }
         --_opCounter;
     }
+
+    //function cbSetChannel( args:Dynamic, s:Screen):Void{
+    //var error = args.get("error");
+    //if (error == "1") { return; }
+    //for ( i in 0..._screens.length){
+    //if ( _screens[i] == s ){
+    //if ( _handles[i] != "null"){
+    //++_opCounter;
+    //s.showWnd( _handles[i], cbShowWnd );
+    //}
+    //}
+    //}
+    //--_opCounter;
+    //}
 
     function cbShowWnd( args:Dynamic){
         --_opCounter;

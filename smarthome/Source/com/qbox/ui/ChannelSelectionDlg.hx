@@ -74,13 +74,14 @@ class ChannelSelectionDlg extends ListFixedDlg{
                     //trace("unselected");
                 }
             }else{
-                if ( QboxMgr.getInst()._qboxes.length == 0) {
-                    trace("there is no qbox!");
-                    return;
-                }
-                if (ChannelMgr.getInst()._channels.length >8 ) return;
+                //if ( QboxMgr.getInst()._qboxes.length == 0) {
+                //trace("there is no qbox!");
+                //return;
+                //}
+                //if (ChannelMgr.getInst()._channels.length >8 ) return;
 
-                for ( q in  QboxMgr.getInst()._qboxes){
+                /*
+                for ( q in QboxMgr.getInst()._qboxes){
                     for ( k in q._inputs.keys() ){
                         if ( q._inputs.get(k) != "default"){
                             var c = ChannelMgr.getInst().createChannel();
@@ -94,6 +95,7 @@ class ChannelSelectionDlg extends ListFixedDlg{
                         }
                     }
                 }
+                */
                 //var q = QboxMgr.getInst()._qboxes[0];
                 //c._nodes.push( q._ipv4 +":"+q._inputs.iterator().next());
                 //for ( i in q._inputs){

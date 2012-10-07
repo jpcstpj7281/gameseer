@@ -3,21 +3,26 @@ package com.qbox.logic;
 import haxe.io.Bytes;
 
 
-class RingNode{
-    public var _col:Int;
-    public var _row:Int;
-    public var _next:RingNode;
-    public var _pre:RingNode;
-    public var _screen:Screen;
-}
-
 class Ring{
+
+    public var _nodes:Array<RingNode>;
+    public var _nodeIndex:Int;
+
+
     //only support ring out port 1 or ring out port 2 currently
-    public function new( ringPort:Int){
+    public function new( ){
+        _nodes = new Array<RingNode>();
+        _nodeIndex = 0;
     }
 
-    public function isAfterOf( s:Screen):Bool{
-        return false;
+    public function getScreens():Array<Screen>{
+        return null;
     }
 
+    public function isAvailable():Bool{
+        for ( i in _nodes){
+        }
+
+        return true;
+    }
 }

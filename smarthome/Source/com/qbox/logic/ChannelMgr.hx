@@ -25,7 +25,7 @@ class ChannelMgr {
     }
 
     public function createChannel():Channel{
-        var c = new Channel( ""+_channels.length );
+        var c = new Channel(  );
         _channels.push( c);
         return c;
     }
@@ -39,16 +39,16 @@ class ChannelMgr {
         }
     }
 
-    public function getChannel( nodes:Array<String>):Channel{
-        for ( i in _channels){
-            if ( i._nodes.length == nodes.length){
-                for ( index in 0...nodes.length){
-                    if( i._nodes[index] == nodes[index]){
-                        return i;
-                    }
-                }
-            }
-        }
-        return null;
-    }
+    //public function getChannel( nodes:Array<String>):Channel{
+    //for ( i in _channels){
+    //if ( i._nodes.length == nodes.length){
+    //for ( index in 0...nodes.length){
+    //if( i._nodes[index] == nodes[index]){
+    //return i;
+    //}
+    //}
+    //}
+    //}
+    //return null;
+    //}
 }
