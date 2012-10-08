@@ -16,7 +16,7 @@ class RingMgr{
     //Array< Qbox>, container of Qboxes.
     public var _rings:Array<Ring>;
     public var _ringNodes:Array<RingNode>;
-    public var _currRing:Ring;
+    public var _currSelected:Ring;
 
     function new(){
         _rings=  new Array<Ring>();
@@ -46,7 +46,7 @@ class RingMgr{
                 _ringNodes[i]._next[0] = _ringNodes[0];
             }
         }
-        _currRing = _rings[0];
+        _currSelected = _rings[0];
         trace( _rings[0]._nodes.length);
         ///////////////////////////////////////////////////////
     }
@@ -68,7 +68,7 @@ class RingMgr{
 
     public function isIncludedScreens(ss:Array<Screen>){
         var count:Int = 0;
-        for ( i in _currRing._nodes){
+        for ( i in _currSelected._nodes){
             for ( s in ss){
                 if ( i._col == s._col && i._row == s._row){
                     ++count;

@@ -1,4 +1,4 @@
-
+﻿
 package com.qbox.logic;
 
 
@@ -18,6 +18,7 @@ class Wnd{
     public var _virtualHeight:Int;
 
     public var _channel:Channel;
+    public var _ring:Ring;
 
     public var _opCounter:Int;
 
@@ -31,13 +32,14 @@ class Wnd{
         _opCounter= 0;
     }
 
-    public function open(x:Int, y:Int, w:Int, h:Int, channel:Channel){
+    public function open(x:Int, y:Int, w:Int, h:Int, channel:Channel, ring:Ring){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
         _virtualWidth = w;
         _virtualHeight = h;
         _channel =  channel;
+        _ring = ring;
 
         var screens:Array<Screen> = new Array<Screen>();
         for (i in ScreenMgr.getInst()._screens){ 
@@ -46,31 +48,61 @@ class Wnd{
             }
         }
 
+#if !neko
         for ( i in screens){
+            if ( ! i.isConected() ){
+                trace("screen: " + i._ipv4 +" not yet connect");
+                return false;
+            }
             if ( ! i.has753Available()){
-                trace("a screen already opened two windows!");
+                trace("screen: "+ i._ipv4 +" dont have resource to open window!");
                 return false;
             }
         }
 
-        if ( screens.length> 1){
-            var ring = RingMgr.getInst().getCurrRingByScreens( screens);
-            trace(ring);
+        if ( ring != null && ring._isRingSetup == false){
+            //ScreenMgr.getInst().setRing(ring);
+            //trace(ring);
+            ring.setupRing( this, cbRingSetup);
+        }else{
+            screens = ring.getScreens();
+            for (i in screens){
+                ++_opCounter;
+                i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd);
+            }
         }
-
-        for (i in ScreenMgr.getInst()._screens){ 
+#else
+        //trace(screens.length);
+        //trace(_screens.length);
+        for (i in screens){
             ++_opCounter;
             i.setWnd( x,y,w,h, cbSetWnd);
         }
+#end
         return true;
+    }
+
+    function cbRingSetup( args:Dynamic){
+        //var screens:Array<Screen> = new Array<Screen>();
+        //for (i in ScreenMgr.getInst()._screens){ 
+        //if ( ! i.isOutOfScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight)){ 
+        //screens.push(i);
+        //}
+        //}
+        var screens = _ring.getScreens();
+        for (i in screens){
+            ++_opCounter;
+            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd);
+        }
     }
 
     function cbSetWnd( args:Dynamic, s:Screen):Void{
         var error = args.get("error" );
-        if (error == "1") { return; }
+        if (error == "1") { trace( "There is a error occurred: "+s._ipv4+"!");return; }
         var handle = args.get("winHandle" );
-        //trace(s);
+        //trace(s._col);
         //trace(handle);
+        //trace(_screens.length);
         _screens.push( s);
         _handles.push( handle);
         if ( handle != "null"){
@@ -79,6 +111,8 @@ class Wnd{
             for ( i in 0..._screens.length){
                 if ( _screens[i] == s ){
                     if ( _handles[i] != "null"){
+                        //trace(_screens[i]);
+                        //trace(_handles[i]);
                         ++_opCounter;
                         s.showWnd( _handles[i], cbShowWnd );
                     }
@@ -107,23 +141,32 @@ class Wnd{
         trace("show window: "+ args);
     }
 
-    public function move( x:Int, y:Int){
+    public function move( x:Int, y:Int):Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
-        for (i in 0..._screens.length){ 
-            //trace(_screens[i]);
+        trace(_screens.length);
+        trace(_handles.length);
+        for (i in 0..._screens.length){
             ++_opCounter;
-            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd); 
+            //trace(_screens);
+            //trace(_screens[i]);
+            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd);
         }
         return true;
     }
 
-    function cbCloseBeforeOpenWnd( args:Dynamic, s:Screen){
-        _screens = new Array<Screen>();
-        _handles= new Array<String>();
+    function cbCloseBeforeOpenWnd( args:Dynamic, s:Screen):Void{
+        //trace(args);
+        //trace(_opCounter);
         --_opCounter;
-        open(_virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel);
+        if ( _opCounter == 0){
+            _screens = new Array<Screen>();
+            _handles= new Array<String>();
+            //trace("test");
+            open(_virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring);
+            //trace("test");
+        }
     }
 
     //function cbMoveWnd( args:Dynamic, s:Screen){

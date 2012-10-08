@@ -3,7 +3,7 @@ package com.qbox.logic;
 import base.data.DataLoader;
 
 
-class ScreenMgr {
+class ScreenMgr extends QboxMgr {
 
     public static var inst:ScreenMgr;
     inline public static function getInst():ScreenMgr{
@@ -42,6 +42,8 @@ class ScreenMgr {
         _height = _resHeight = 768;
 
         _circleCount = 0;
+
+        super();
     }
 
     public function createColScreen( ):Array<Screen>{

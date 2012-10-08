@@ -11,7 +11,7 @@ import base.ui.ListDialog;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Screen;
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ScreenMgr;
 
 import com.qbox.ui.osd.OsdFitnessDlg;
 import com.qbox.ui.osd.OsdGroupDlg;
@@ -52,7 +52,7 @@ class ScreenDlg extends ListDialog{
 #else
         if ( _connBtn.text == "断开"){
 #end
-            _screen._qbox.close();
+            _screen.close();
 #if neko
             _connBtn.text = "conn";
 #else
@@ -60,11 +60,11 @@ class ScreenDlg extends ListDialog{
 #end
             trace("disconnect");
         }else{
-            _screen._qbox._ipv4 = _qboxip.text;
-            _screen._qbox.connect();
-            if (_screen._qbox._isFailed == false && _screen._qbox.isConected() ){
+            _screen._ipv4 = _qboxip.text;
+            _screen.connect();
+            if (_screen._isFailed == false && _screen.isConected() ){
                 trace("connected");
-                _screen._qbox.connectedInit();
+                _screen.connectedInit();
 #if neko
                 _connBtn.text = "disc";
 #else
@@ -121,7 +121,7 @@ class ScreenDlg extends ListDialog{
             _connBtn= new EmbedTextField();
             _connBtn.setBorder(true);
             _connBtn.selectable = false;
-            if ( _screen._qbox._isFailed || !_screen._qbox.isConected() ){
+            if ( _screen._isFailed || !_screen.isConected() ){
 #if neko
                 _connBtn.text = "conn";
 #else

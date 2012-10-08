@@ -1,6 +1,6 @@
 ﻿package com.qbox.ui;
 
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ScreenMgr;
 import nme.events.MouseEvent;
 import base.ui.InputDialog;
 import base.ui.EmbedTextField;
@@ -78,7 +78,7 @@ class QboxesUpdateDlg extends ListDialog{
                 }
             }
 
-            for ( q in QboxMgr.getInst()._qboxes ){
+            for ( q in ScreenMgr.getInst()._qboxes ){
                 new QboxUpdateDlg(_listDialogMgr, q, dirs);
             }
 

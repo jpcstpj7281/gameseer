@@ -21,7 +21,7 @@ class ChannelDlg extends ListDialog{
     var _s:Sprite;
     var _input:EmbedTextField;
     var _iptext:EmbedTextField;
-    var _editBtn:EmbedTextField;
+    //var _editBtn:EmbedTextField;
     var _channel:Channel;
 
     public function new ( dm:ListDialogMgr, c:Channel){
@@ -29,42 +29,35 @@ class ChannelDlg extends ListDialog{
         _channel = c;
         addChild( createElement());
 
-        new PlusItemFixedDlg(_listDialogMgr, cbPlus);
     }
 
-    public function cbPlus( ):Void{
-        if ( QboxMgr.getInst()._qboxes.length == 0 ) return;
-        var q = QboxMgr.getInst()._qboxes[0];
-        var qd = new ChannelNodeDlg(_listDialogMgr, q._ipv4 + ":" + q._inputs.iterator().next() );
-        qd.show();
-    }
 
-    public function onEditBtnMouseClick( evt:MouseEvent ):Void{
-        for ( i in _channel._nodes){
-            new ChannelNodeDlg(_listDialogMgr, i);
-        }
-        super.onMouseClick();
-    }
-    override function onMouseClick():Void{}
-    public override function showParent():Void{
-        if ( _listDialogMgr._movableInstances.length >0 ){
-            var arr:Array<String> = new Array<String>();
-            for ( l in _listDialogMgr._movableInstances){
-                if ( Std.is( l , ChannelNodeDlg) ){
-                    arr.push( cast(l, ChannelNodeDlg)._node);
-                }
-            }
-            _channel._nodes = arr;
-        }
-        super.showParent();
-    }
+    //public function onEditBtnMouseClick( evt:MouseEvent ):Void{
+    //for ( i in _channel._nodes){
+    //new ChannelNodeDlg(_listDialogMgr, i);
+    //}
+    //super.onMouseClick();
+    //}
+    //override function onMouseClick():Void{}
+    //public override function showParent():Void{
+    //if ( _listDialogMgr._movableInstances.length >0 ){
+            //var arr:Array<String> = new Array<String>();
+            //for ( l in _listDialogMgr._movableInstances){
+            //if ( Std.is( l , ChannelNodeDlg) ){
+            //arr.push( cast(l, ChannelNodeDlg)._node);
+            //}
+            //}
+            //_channel._nodes = arr;
+            //}
+            //super.showParent();
+            //}
 
     override function show(){
         if ( _s != null) {
             if ( _iptext!= null){
                 _s.removeChild(_iptext);
                 _s.removeChild(_input);
-                _s.removeChild(_editBtn);
+                //_s.removeChild(_editBtn);
             }
             _iptext= new EmbedTextField();
             _iptext.selectable = false;
@@ -75,7 +68,7 @@ class ChannelDlg extends ListDialog{
             _iptext.height= 20;
 
             _input= new EmbedTextField();
-            _input.text = _channel._name;
+            _input.text = "channel";//_channel._name;
             _input.type = INPUT;
             _input.scaleX = 3;
             _input.scaleY = 3;
@@ -84,20 +77,20 @@ class ChannelDlg extends ListDialog{
             _input.setBorder(true);
             _input.x= 100;
 
-            _editBtn= new EmbedTextField();
-            _editBtn.selectable = false;
-            _editBtn.text = "Edit";
-            _editBtn.scaleX = 3;
-            _editBtn.scaleY = 3;
-            _editBtn.width = 20;
-            _editBtn.height= 18;
-            _editBtn.setBorder(true);
-            _editBtn.x = nme.Lib.current.stage.stageWidth - 80;
-            _editBtn.addEventListener( MouseEvent.CLICK, onEditBtnMouseClick);
+            //_editBtn= new EmbedTextField();
+            //_editBtn.selectable = false;
+            //_editBtn.text = "Edit";
+            //_editBtn.scaleX = 3;
+            //_editBtn.scaleY = 3;
+            //_editBtn.width = 20;
+            //_editBtn.height= 18;
+            //_editBtn.setBorder(true);
+            //_editBtn.x = nme.Lib.current.stage.stageWidth - 80;
+            //_editBtn.addEventListener( MouseEvent.CLICK, onEditBtnMouseClick);
 
             _s.addChild( _iptext);
             _s.addChild( _input);
-            _s.addChild( _editBtn);
+            //_s.addChild( _editBtn);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
@@ -106,11 +99,11 @@ class ChannelDlg extends ListDialog{
         if ( _s != null ) {
             if ( _iptext != null) {_s.removeChild(_iptext);_iptext= null;}
             if ( _input != null){ _s.removeChild(_input);_input= null;}
-            if ( _editBtn != null){
-                _s.removeChild(_editBtn);
-                _editBtn.removeEventListener(  MouseEvent.CLICK, onEditBtnMouseClick); 
-                _editBtn= null;
-            }
+            //if ( _editBtn != null){
+            //_s.removeChild(_editBtn);
+                //_editBtn.removeEventListener(  MouseEvent.CLICK, onEditBtnMouseClick); 
+                //_editBtn= null;
+                //}
         }
         return super.hide();
     }

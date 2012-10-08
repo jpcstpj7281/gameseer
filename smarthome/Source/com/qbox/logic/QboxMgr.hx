@@ -5,13 +5,13 @@ import base.data.DataLoader;
 
 class QboxMgr {
 
-    public static var inst:QboxMgr;
-    inline public static function getInst():QboxMgr{
-        if ( inst == null) {
-            inst = new QboxMgr();
-        }
-        return inst;
-    }
+    //public static var inst:QboxMgr;
+    //inline public static function getInst():QboxMgr{
+    //if ( inst == null) {
+    //inst = new QboxMgr();
+    //}
+    //return inst;
+    //}
     //Array< Qbox>, container of Qboxes.
     public var _qboxes:Array<Qbox>;
 

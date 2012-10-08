@@ -1,6 +1,6 @@
 package com.qbox.ui;
 
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ScreenMgr;
 import nme.events.MouseEvent;
 import base.ui.InputDialog;
 import base.ui.EmbedTextField;

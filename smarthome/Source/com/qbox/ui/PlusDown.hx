@@ -1,6 +1,6 @@
 package com.qbox.ui;
 
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ScreenMgr;
 import base.ui.FixedDlg;
 import base.ui.ListFixedDlg;
 import base.ui.CommDialogMgr;
@@ -22,16 +22,12 @@ class PlusDown extends FixedDlg{
         var arr = ScreenMgr.getInst().createRowScreen();
         var ms:MainStage = null;
         for ( i in arr){
-            //if ( QboxMgr.getInst()._qboxes.length > 0 ){
-            i._qbox = QboxMgr.getInst().createQbox();
-            //i._output= "out0";
             if ( Std.is(_mgr, MainStage) ){
                 ms = cast(_mgr, MainStage);
             }else{
                 var qd = new ScreenDlg( cast _mgr, i);
                 qd.show();
             }
-            //}
         }
         if ( ms != null) ms.resetScreenPlate();
     }
