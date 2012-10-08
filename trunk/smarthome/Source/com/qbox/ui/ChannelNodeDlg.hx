@@ -1,7 +1,7 @@
 package com.qbox.ui;
 
 import com.qbox.logic.Channel;
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ScreenMgr;
 
 import base.ui.EmbedTextField;
 import nme.display.Bitmap;
@@ -30,7 +30,7 @@ class ChannelNodeDlg extends CommDialog{
     }
 
     function onQboxMouseClick( evt:MouseEvent ):Void{ 
-        var arr = QboxMgr.getInst()._qboxes;
+        var arr = ScreenMgr.getInst()._qboxes;
         for (i in 0...arr.length){
             if ( _qboxip.text == arr[i]._ipv4){
                 var next = i+1;
@@ -44,7 +44,7 @@ class ChannelNodeDlg extends CommDialog{
         }
     }
     function onInputMouseClick( evt:MouseEvent ):Void{ 
-        var arr = QboxMgr.getInst()._qboxes;
+        var arr = ScreenMgr.getInst()._qboxes;
         for (i in 0...arr.length){
             if ( _qboxip.text == arr[i]._ipv4){
                 if ( _input.text != "null"){

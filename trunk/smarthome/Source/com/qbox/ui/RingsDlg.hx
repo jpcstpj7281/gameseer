@@ -1,6 +1,6 @@
 package com.qbox.ui;
 
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ScreenMgr;
 import base.ui.FixedDlg;
 import base.ui.ListFixedDlg;
 import base.ui.CommDialogMgr;
@@ -27,7 +27,7 @@ class RingsDlg extends ListFixedDlg{
 
 
     public override function onMouseClick( ):Void{
-        if ( QboxMgr.getInst()._qboxes.length <2) {
+        if ( ScreenMgr.getInst()._qboxes.length <2) {
             trace("have to define more than one qbox for RING!");
             return;
         }

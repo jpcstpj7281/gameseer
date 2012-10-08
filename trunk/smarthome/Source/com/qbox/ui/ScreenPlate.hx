@@ -14,6 +14,7 @@ import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;
 import com.qbox.logic.ChannelMgr;
 import com.qbox.logic.WndMgr;
+import com.qbox.logic.RingMgr;
 
 import com.pictionary.ui.DrawingDlgMgr;
 
@@ -230,9 +231,9 @@ class ScreenPlate extends CommDialog{
                         upy = _screens.y+_screens.height;
                     }
                     //open window
-                    if ( upx - _downx > 90  && upy - _downy > 60 && ChannelMgr.getInst()._currSelected != null ) {
+                    if ( upx - _downx > 90  && upy - _downy > 60 ){//&& ChannelMgr.getInst()._currSelected != null ) {
                         var win = new WndGraphicDlg(_mgr);
-                        win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy, ChannelMgr.getInst()._currSelected );
+                        win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
                         win.show();
                     }
                     else if ( upx - _downx < 5  && upy - _downy <5 ) {

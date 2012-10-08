@@ -16,6 +16,7 @@ import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;
 import com.qbox.logic.WndMgr;
 import com.qbox.logic.Channel;
+import com.qbox.logic.Ring;
 
 class WndGraphicDlg extends CommDialog{
 
@@ -27,7 +28,8 @@ class WndGraphicDlg extends CommDialog{
     public var _wnd:Wnd;
     public var _virtualWnd:Sprite;
 
-    public var _channel:Channel;
+    //public var _channel:Channel;
+    //public var _ring:Ring;
 
     var _redrawW:Float;
     var _redrawH:Float;
@@ -99,17 +101,17 @@ class WndGraphicDlg extends CommDialog{
         this.x = wnd._virtualX;
         this.y = wnd._virtualY;
         redrawWnd( wnd._virtualWidth, wnd._virtualHeight);
-        _channel = wnd._channel;
         _wnd = wnd;
     }
 
-    public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel){
+    public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel, ring:Ring){
         _wnd = WndMgr.getInst().createWnd();
-        _wnd.open( x,y,w,h, channel);
+        _wnd.open( x,y,w,h, channel, ring);
         redrawWnd(w,h);
         this.x = x;
         this.y = y;
-        _channel = channel;
+        //_channel = channel;
+        //_ring = ring;
     }
 
     public function closeWnd( ){
