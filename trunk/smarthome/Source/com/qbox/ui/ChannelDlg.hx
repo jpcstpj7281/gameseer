@@ -19,7 +19,7 @@ import com.qbox.logic.Channel;
 class ChannelDlg extends ListDialog{
 
     var _s:Sprite;
-    var _input:EmbedTextField;
+    //var _input:EmbedTextField;
     var _iptext:EmbedTextField;
     //var _editBtn:EmbedTextField;
     var _channel:Channel;
@@ -28,7 +28,6 @@ class ChannelDlg extends ListDialog{
         super(dm);
         _channel = c;
         addChild( createElement());
-
     }
 
 
@@ -56,26 +55,26 @@ class ChannelDlg extends ListDialog{
         if ( _s != null) {
             if ( _iptext!= null){
                 _s.removeChild(_iptext);
-                _s.removeChild(_input);
+                //_s.removeChild(_input);
                 //_s.removeChild(_editBtn);
             }
             _iptext= new EmbedTextField();
             _iptext.selectable = false;
-            _iptext.text = "Channel:";
+            _iptext.text = "Channel:"+ _channel._screen._ipv4+" col:"+_channel._screen._col+" row:"+_channel._screen._row+" in port:"+_channel._inport+" w:"+_channel._w+" h:"+_channel._h;
             _iptext.scaleX = 3;
             _iptext.scaleY = 3;
-            _iptext.width = 60;
+            _iptext.width = nme.Lib.current.stage.stageWidth;
             _iptext.height= 20;
 
-            _input= new EmbedTextField();
-            _input.text = "channel";//_channel._name;
-            _input.type = INPUT;
-            _input.scaleX = 3;
-            _input.scaleY = 3;
-            _input.width = 60;
-            _input.height= 16;
-            _input.setBorder(true);
-            _input.x= 100;
+            //_input= new EmbedTextField();
+            //_input.text = "channel";//_channel._name;
+            //_input.type = INPUT;
+            //_input.scaleX = 3;
+            //_input.scaleY = 3;
+            //_input.width = 60;
+            //_input.height= 16;
+            //_input.setBorder(true);
+            //_input.x= 100;
 
             //_editBtn= new EmbedTextField();
             //_editBtn.selectable = false;
@@ -89,7 +88,7 @@ class ChannelDlg extends ListDialog{
             //_editBtn.addEventListener( MouseEvent.CLICK, onEditBtnMouseClick);
 
             _s.addChild( _iptext);
-            _s.addChild( _input);
+            //_s.addChild( _input);
             //_s.addChild( _editBtn);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
@@ -98,7 +97,7 @@ class ChannelDlg extends ListDialog{
     override function hide(){
         if ( _s != null ) {
             if ( _iptext != null) {_s.removeChild(_iptext);_iptext= null;}
-            if ( _input != null){ _s.removeChild(_input);_input= null;}
+            //if ( _input != null){ _s.removeChild(_input);_input= null;}
             //if ( _editBtn != null){
             //_s.removeChild(_editBtn);
                 //_editBtn.removeEventListener(  MouseEvent.CLICK, onEditBtnMouseClick); 

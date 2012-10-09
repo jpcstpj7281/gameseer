@@ -6,6 +6,8 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 
 import com.qbox.logic.ChannelMgr;
+import com.qbox.logic.RingMgr;
+import com.qbox.logic.Ring;
 import nme.events.MouseEvent;
 import nme.events.Event;
 import nme.display.DisplayObject;
@@ -100,6 +102,20 @@ class MainStage extends ListDialogMgr {
         }
     }
 
+    public function showRingDlg( ):Void{
+        var cm = RingMgr.getInst()._rings;
+        var index:Int = 0;
+        for ( i in 0...cm.length){
+            ++index;
+            //trace("add ChannelSelectionDlg");
+            var c = new RingSelectDlg( this, cm[i], i);
+            if ( RingMgr.getInst()._currSelected ==cm[i]){
+                c.selected();
+            }
+        }
+        //new ChannelSelectionDlg( this, null, index);
+        //super.showListDialog();
+    }
     public function showChannelDlg( ):Void{
         var cm = ChannelMgr.getInst()._channels;
         var index:Int = 0;
@@ -111,7 +127,7 @@ class MainStage extends ListDialogMgr {
                 c.selected();
             }
         }
-        new ChannelSelectionDlg( this, null, index);
+        //new ChannelSelectionDlg( this, null, index);
         //super.showListDialog();
     }
 
@@ -128,11 +144,11 @@ class MainStage extends ListDialogMgr {
         }
     }
 
-    public function addChannelSelect(){
-        var cm = ChannelMgr.getInst()._channels;
-        var c = new ChannelSelectionDlg( this, null, cm.length);
-        c.show();
-    }
+    //public function addChannelSelect(){
+    //var cm = ChannelMgr.getInst()._channels;
+    //var c = new ChannelSelectionDlg( this, null, cm.length);
+    //c.show();
+    //}
 
     public function clearChannelSelecting(){
         for ( i in _instancesByDisplayOrder){
@@ -185,6 +201,7 @@ class MainStage extends ListDialogMgr {
             _isListening = true;
             //trace("super show: "+ _instancesByDisplayOrder.length);
             showChannelDlg();
+            showRingDlg();
             for ( i in 0..._movableInstances.length){//must use int! for i number
                 var d = _movableInstances[i];
                 d.show().delay(0.05 * i).onComplete(decreaseAnimationNum, []);

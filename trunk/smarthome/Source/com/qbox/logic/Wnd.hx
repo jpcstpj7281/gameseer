@@ -17,7 +17,7 @@ class Wnd{
     public var _virtualWidth:Int;
     public var _virtualHeight:Int;
 
-    public var _channel:Channel;
+    var _channel:Channel;
     public var _ring:Ring;
 
     public var _opCounter:Int;
@@ -41,15 +41,15 @@ class Wnd{
         _channel =  channel;
         _ring = ring;
 
-        var screens:Array<Screen> = new Array<Screen>();
+        _screens = new Array<Screen>();
         for (i in ScreenMgr.getInst()._screens){ 
             if ( ! i.isOutOfScreen( x,y,w,h)){ 
-                screens.push(i);
+                _screens.push(i);
             }
         }
 
 #if !neko
-        for ( i in screens){
+        for ( i in _screens){
             if ( ! i.isConected() ){
                 trace("screen: " + i._ipv4 +" not yet connect");
                 return false;
@@ -65,19 +65,21 @@ class Wnd{
             //trace(ring);
             ring.setupRing( this, cbRingSetup);
         }else{
-            screens = ring.getScreens();
-            for (i in screens){
-                ++_opCounter;
-                i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd);
+            _opCounter+=_screens.length;
+            for (i in _screens){
+                i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
             }
         }
 #else
         //trace(screens.length);
         //trace(_screens.length);
-        for (i in screens){
-            ++_opCounter;
-            i.setWnd( x,y,w,h, cbSetWnd);
+        //trace(channel == null);
+        //trace(ring == null);
+        _opCounter += _screens.length;
+        for (i in _screens){
+            i.setWnd( x,y,w,h, cbSetWnd, this);
         }
+        //trace(screens.length);
 #end
         return true;
     }
@@ -89,10 +91,9 @@ class Wnd{
         //screens.push(i);
         //}
         //}
-        var screens = _ring.getScreens();
-        for (i in screens){
-            ++_opCounter;
-            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd);
+        _opCounter+=_screens.length;
+        for (i in _screens){
+            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
         }
     }
 
@@ -103,22 +104,23 @@ class Wnd{
         //trace(s._col);
         //trace(handle);
         //trace(_screens.length);
-        _screens.push( s);
-        _handles.push( handle);
+        //_screens.push( s);
+        //_handles.push( handle);
+        //if ( handle != "null"){
+        //++_opCounter;
+        //s.setChannel( handle, _channel,  cbSetChannel);
+        //for ( i in 0..._screens.length){
+        //if ( _screens[i] == s ){
         if ( handle != "null"){
-            //++_opCounter;
-            //s.setChannel( handle, _channel,  cbSetChannel);
-            for ( i in 0..._screens.length){
-                if ( _screens[i] == s ){
-                    if ( _handles[i] != "null"){
-                        //trace(_screens[i]);
-                        //trace(_handles[i]);
-                        ++_opCounter;
-                        s.showWnd( _handles[i], cbShowWnd );
-                    }
-                }
-            }
+            //trace(_screens[i]);
+            //trace(_handles[i]);
+            ++_opCounter;
+            s.showWnd( handle, cbShowWnd );
         }
+        //}
+        //}
+        //}
+        //trace(_screens.length);
         --_opCounter;
     }
 
@@ -145,13 +147,14 @@ class Wnd{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
-        trace(_screens.length);
-        trace(_handles.length);
+        //trace(_screens.length);
+        //trace(_handles.length);
+        _opCounter+=_screens.length;
         for (i in 0..._screens.length){
-            ++_opCounter;
             //trace(_screens);
             //trace(_screens[i]);
-            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd);
+            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd, this);
+            //trace(_screens.length);
         }
         return true;
     }
@@ -161,8 +164,8 @@ class Wnd{
         //trace(_opCounter);
         --_opCounter;
         if ( _opCounter == 0){
-            _screens = new Array<Screen>();
-            _handles= new Array<String>();
+            //_screens = new Array<Screen>();
+            //_handles= new Array<String>();
             //trace("test");
             open(_virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring);
             //trace("test");
@@ -183,9 +186,9 @@ class Wnd{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualHeight = h;
         _virtualWidth = w;
+        _opCounter+=_screens.length;
         for (i in 0..._screens.length){ 
-            ++_opCounter;
-            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd); 
+            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd , this); 
         }
         return true;
     }
@@ -201,9 +204,9 @@ class Wnd{
     public function close(){
         //var ss = ScreenMgr.getInst()._screens;
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        _opCounter+=_screens.length;
         for (i in 0..._screens.length){ 
-            ++_opCounter;
-            _screens[i].closeWnd( _handles[i], cbCloseWnd); 
+            _screens[i].closeWnd( _handles[i], cbCloseWnd , this); 
         }
         return true;
     }

@@ -231,7 +231,7 @@ class ScreenPlate extends CommDialog{
                         upy = _screens.y+_screens.height;
                     }
                     //open window
-                    if ( upx - _downx > 90  && upy - _downy > 60 ){//&& ChannelMgr.getInst()._currSelected != null ) {
+                    if ( upx - _downx > 90  && upy - _downy > 60 && ChannelMgr.getInst()._currSelected != null ) {
                         var win = new WndGraphicDlg(_mgr);
                         win.openWnd( _downx, _downy, cast upx - _downx, cast upy - _downy, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
                         win.show();

@@ -21,21 +21,13 @@ class RingMgr{
     function new(){
         _rings=  new Array<Ring>();
         _ringNodes = new Array<RingNode>();
-    }
-
-    public function refreshRingNode(){
-        for ( i in ScreenMgr.getInst()._screens){
-            if ( ! hasRingNode( i._col, i._row) ){
-                createRingNode( i._col, i._row , i );
-            }
-        }
 
         /////////////////////for test ring of out port 1////////
         if ( _rings.length == 0 ){
             _rings.push( new Ring() );
         }
 
-        trace( _rings[0]._nodes.length);
+        //trace( _rings[0]._nodes.length);
         for ( i in _rings[0]._nodes.length..._ringNodes.length){
             _rings[0]._nodes.push( _ringNodes[i] );
             _ringNodes[i]._inport[0] = "1";
@@ -46,9 +38,17 @@ class RingMgr{
                 _ringNodes[i]._next[0] = _ringNodes[0];
             }
         }
-        _currSelected = _rings[0];
-        trace( _rings[0]._nodes.length);
+        //_currSelected = _rings[0];
+        //trace( _rings[0]._nodes.length);
         ///////////////////////////////////////////////////////
+    }
+
+    public function refreshRingNode(){
+        for ( i in ScreenMgr.getInst()._screens){
+            if ( ! hasRingNode( i._col, i._row) ){
+                createRingNode( i._col, i._row , i );
+            }
+        }
     }
 
     public function createRingNode( col:Int, row:Int, s:Screen){
