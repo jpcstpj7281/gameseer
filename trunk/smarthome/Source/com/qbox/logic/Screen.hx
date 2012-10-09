@@ -116,21 +116,27 @@ class Screen extends Qbox{
      */
 
 
-    public function isOutOfScreen(x:Int, y:Int, w:Int, h:Int ){
-        var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;
-        var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;
+    public function calcScreen(x:Int, y:Int, w:Int, h:Int ){
+        var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;//UI上的窗口X坐标,加入ScreenPlate的X偏移
+        var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口X坐标,加入ScreenPlate的Y偏移
         var screenw:Int = _virtualWidth;
         var screenh:Int = _virtualHeight;
         var isOutOfScreen = false;
+
+        var cutleft:Int = 0;
+        var cutright:Int = 0;
+        var cutup:Int = 0;
+        var cutdown:Int = 0;
         if ( x <screenx ){ 
             if (x + w > screenx ){
-                if ( x+w > screenx+_virtualWidth){
+                if ( x + w > screenx + _virtualWidth){
                     screenw = _virtualWidth;
-                    //trace(screenw);
                 }else{
-                    screenw =  w - screenx +x;
-                    //trace(screenw);
+                    screenw =  x + w - screenx ;
                 }
+                cutright = x + w - screenx - _virtualWidth;//可能是负
+                cutleft =  screenx - x;//一定是正
+                //窗口的X在这个屏左边,所以从0开始;
                 screenx = 0;
             }else{
                 isOutOfScreen = true;
@@ -138,17 +144,14 @@ class Screen extends Qbox{
             }
         }else{
             if ( x >= screenx && x <= screenx + _virtualWidth) {
-                //trace(x);
-                //trace(w);
-                //trace(screenx);
-                //trace(_virtualWidth);
                 if ( x+w >= screenx+_virtualWidth){
                     screenw = _virtualWidth + screenx - x;
-                    //trace(screenw);
                 }else{
                     screenw =  w;
-                    //trace(screenw);
                 }
+                cutleft = screenx - x; //一定是负
+                cutright = x + w - screenx - _virtualWidth;//可能是负
+                //窗口的X在屏右边,所以X到SCREEX的偏移位为这个子窗口的X
                 screenx = x - screenx;
             }else if ( x >screenx + _virtualWidth){
                 isOutOfScreen = true;
@@ -161,8 +164,12 @@ class Screen extends Qbox{
                 if ( y+h > screeny+_virtualHeight){
                     screenh = _virtualHeight;
                 }else{
-                    screenh = h - screeny +y;
+                    screenh = y + h - screeny;
                 }
+                cutdown= y + h - screeny - _virtualHeight;//可能是负
+                cutup= screeny - y;//一定是正
+                //窗口的Y在这个屏上边,所以从0开始;
+                y = 0;
             }else{
                 isOutOfScreen = true;
                 trace("outofscreen");
@@ -174,13 +181,33 @@ class Screen extends Qbox{
                 }else{
                     screenh = h;
                 }
+                cutdown= y + h - screeny - _virtualHeight;//可能是负
+                cutup= screeny - y;//一定是负
+                //窗口的y在屏下边,所以y到SCREEY的偏移位为这个子窗口的Y
                 screeny = y - screeny;
             }else if(  x > screeny + _virtualHeight){
                 isOutOfScreen = true;
                 trace("outofscreen");
             }
         }
-        return isOutOfScreen;
+
+        return { isOutScreen:isOutOfScreen, 
+            x:screenx, 
+            y:screeny, 
+            w:screenw, 
+            h:screenh, 
+            col:_col, 
+            row:_row, 
+            rw:_resWidth, 
+            rh:_resHeight, 
+            vw:_virtualWidth, 
+            vh:_virtualHeight,
+            cutLeft:cutleft,
+            cutRight:cutright,
+            cutUp:cutup,
+            cutDown:cutdown
+        };
+        //return isOutOfScreen;
     }
 
     public function setWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
@@ -202,46 +229,14 @@ class Screen extends Qbox{
             return false;
         }
 
-        var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;
-        var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;
-        var screenw:Int = _virtualWidth;
-        var screenh:Int = _virtualHeight;
-        var isOutOfScreen = false;
-        if ( x <screenx ){ 
-            if (x + w > screenx ){
-                if ( x+w > screenx+_virtualWidth){
-                    screenw = _virtualWidth;
-                    //trace(screenw);
-                }else{
-                    screenw =  w - screenx +x;
-                    //trace(screenw);
-                }
-                screenx = 0;
-            }else{
-                isOutOfScreen = true;
-                trace("outofscreen");
-            }
-        }else{
-            if ( x >= screenx && x <= screenx + _virtualWidth) {
-                //trace(x);
-                //trace(w);
-                //trace(screenx);
-                //trace(_virtualWidth);
-                if ( x+w >= screenx+_virtualWidth){
-                    screenw = _virtualWidth + screenx - x;
-                    //trace(screenw);
-                }else{
-                    screenw =  w;
-                    //trace(screenw);
-                }
-                screenx = x - screenx;
-            }else if ( x >screenx + _virtualWidth){
-                isOutOfScreen = true;
-                trace("outofscreen");
-            }
-        }
+        var obj = calcScreen( x, y, w, h);
+        var screenx = obj.x;
+        var screeny = obj.y;
+        var screenw = obj.w;
+        var screenh = obj.h;
+        var isOutOfScreen = obj.isOutScreen;
 
-        if ( !isOutOfScreen && y <screeny){
+        if ( ! isOutOfScreen && y <screeny){
             if (y + h > screeny ){
                 if ( y+h > screeny+_virtualHeight){
                     screenh = _virtualHeight;
@@ -308,10 +303,10 @@ class Screen extends Qbox{
             test.set("error","0");
             var pw = _resWidth /_virtualWidth ;
             var ph = _resHeight/_virtualHeight;
-            trace(_resWidth);
-            trace(_resHeight);
-            trace(_virtualHeight);
-            trace(_virtualWidth);
+            //trace(_resWidth);
+            //trace(_resHeight);
+            //trace(_virtualHeight);
+            //trace(_virtualWidth);
             var qx = Math.round(screenx*pw);
             var qy = Math.round(screeny*ph);
             var qw = Math.round(screenw*pw);

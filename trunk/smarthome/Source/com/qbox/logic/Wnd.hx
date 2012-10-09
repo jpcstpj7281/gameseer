@@ -1,14 +1,19 @@
 ﻿
 package com.qbox.logic;
 
+class InputSize{
+    public var x:Int;
+    public var y:Int;
+    public var w:Int;
+    public var h:Int;
+
+    public function new ( x:Int, y:Int, w:Int, h:Int){ this.x = x; this.y=y;this.w=w;this.h=h;}
+}
 
 class Wnd{
 
-    //var _x:Int;
-    //var _y:Int;
-    //var _w:Int;
-    //var _h:Int;
 
+    public var _inputSize:Array<InputSize>;
     public var _screens:Array<Screen>;
     public var _handles:Array<String>;
 
@@ -28,26 +33,93 @@ class Wnd{
         //_w = cast ScreenMgr.getInst()._width*0.6;
         //_h = cast ScreenMgr.getInst()._height*0.6;
         _screens= new Array<Screen>();
+        _inputSize = new Array<InputSize>();
         _handles= new Array<String>();
         _opCounter= 0;
     }
 
-    public function open(x:Int, y:Int, w:Int, h:Int, channel:Channel, ring:Ring){
+    public function open(x:Int, y:Int, w:Int, h:Int, c:Channel, ring:Ring){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
         _virtualWidth = w;
         _virtualHeight = h;
-        _channel =  channel;
+        _channel =  c;
         _ring = ring;
 
         _screens = new Array<Screen>();
+        _inputSize = new Array<InputSize>();
+        var vs = new Array<Dynamic>();
         for (i in ScreenMgr.getInst()._screens){ 
-            if ( ! i.isOutOfScreen( x,y,w,h)){ 
+            var obj = i.calcScreen( x,y,w,h);
+            if ( obj.isOutScreen == false){
                 _screens.push(i);
+                vs.push(obj);
             }
         }
 
+        if ( _screens.length > 1){
+            calcInputSize( _inputSize, _screens, vs);
+        }else{
+            _inputSize.push( new InputSize( 0, 0, c._w,c._h) );
+        }
+        return true;
+    }
+
+    function calcInputSize( inputSizeArr:Array<InputSize>, ssArr:Array<Screen>, sizeArr:Array<Dynamic>){
+
+
+        for ( i in  sizeArr){
+            if ( i.cutLeft >= 0){
+                if ( i.cutRight >= 0){
+                }
+            }else{
+            }
+        }
+
+        /*
+        var minCol:Int = 1024;
+        var minRow:Int = 1024;
+        var maxCol:Int = 0;
+        var maxRow:Int = 0;
+        for ( i in sizeArr){
+            if ( i.col < minCol){
+                minCol = i.col;
+            }
+            if ( i.row < minRow){
+                minRow = i.row;
+            }
+            if ( i.col > maxCol){
+                maxCol = i.col;
+            }
+            if ( i.row > maxRow){
+                maxRow = i.row;
+            }
+        }
+
+        for ( i in sizeArr){
+            var diffMinCol = i.col - minCol;
+            var diffMaxCol = maxCol - i.col;
+            var diffMinRow = i.row - minRow;
+            var diffMaxRow = maxRow - i.row;
+            
+
+        }
+
+
+        trace( minCol);
+        trace( minRow);
+        trace( maxCol);
+        trace( maxRow);
+        */
+    }
+
+
+    function cbSetChannelArea( args:Dynamic, s:Screen){
+        setWnd();
+    }
+
+    function setWnd(){
 #if !neko
         for ( i in _screens){
             if ( ! i.isConected() ){
@@ -71,15 +143,10 @@ class Wnd{
             }
         }
 #else
-        //trace(screens.length);
-        //trace(_screens.length);
-        //trace(channel == null);
-        //trace(ring == null);
         _opCounter += _screens.length;
         for (i in _screens){
-            i.setWnd( x,y,w,h, cbSetWnd, this);
+            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
         }
-        //trace(screens.length);
 #end
         return true;
     }
