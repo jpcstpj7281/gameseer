@@ -47,7 +47,10 @@ class ScreenMgr extends QboxMgr {
 #if neko
         ++_col;
         ++_row;
-        insertToScreens(new Screen(0, 0));
+        var s = new Screen(0, 0);
+        s._resWidth = _resWidth;
+        s._resHeight= _resHeight;
+        insertToScreens(s);
 #end
     }
 
