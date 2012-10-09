@@ -44,6 +44,11 @@ class ScreenMgr extends QboxMgr {
         _circleCount = 0;
 
         super();
+#if neko
+        ++_col;
+        ++_row;
+        insertToScreens(new Screen(0, 0));
+#end
     }
 
     public function createColScreen( ):Array<Screen>{

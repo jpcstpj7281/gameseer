@@ -20,7 +20,7 @@ class ChannelsDlg extends ListFixedDlg{
         x = 170;
         y= nme.Lib.current.stage.stageHeight - 80;
 
-        new PlusItemFixedDlg(_listDialogMgr, cbPlus);
+        //new PlusItemFixedDlg(_listDialogMgr, cbPlus);
     }
 
     public function cbPlus( ):Void{
@@ -38,7 +38,7 @@ class ChannelsDlg extends ListFixedDlg{
     }
 
     public override function onMouseClick( ):Void{
-        if ( ScreenMgr.getInst()._qboxes.length == 0) {
+        if ( ScreenMgr.getInst()._screens.length == 0) {
             trace("there is no qbox!");
             return;
         }

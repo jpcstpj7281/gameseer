@@ -22,6 +22,13 @@ class ChannelMgr {
 
     public function new(){
         _channels =  new Array<Channel>();
+#if neko
+        var c = createChannel();
+        c._w = 1024;
+        c._h = 768;
+        c._screen = ScreenMgr.getInst()._screens[0];
+        c._inport = "1";
+#end
     }
 
     public function createChannel():Channel{
@@ -30,7 +37,7 @@ class ChannelMgr {
         return c;
     }
 
-    public function removeQbox( c:Channel){
+    public function removeChannel( c:Channel){
         for ( i in _channels){
             if ( c == i ){
                 _channels.remove( i ) ;
