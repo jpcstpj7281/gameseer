@@ -8,7 +8,6 @@ import base.ui.CommDialogMgr;
 import base.ui.CommDialog;
 import base.ui.ListDialogMgr;
 import nme.display.Sprite;
-import nme.display.Bitmap;
 import base.data.DataLoader;
 import com.qbox.logic.ScreenMgr;
 import com.qbox.logic.Wnd;

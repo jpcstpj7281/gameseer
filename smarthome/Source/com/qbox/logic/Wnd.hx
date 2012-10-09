@@ -59,64 +59,48 @@ class Wnd{
         }
 
         if ( _screens.length > 1){
-            calcInputSize( _inputSize, _screens, vs);
+            calcInputSize( _inputSize, vs);
         }else{
             _inputSize.push( new InputSize( 0, 0, c._w,c._h) );
+        }
+
+        _opCounter += _screens.length;
+        for( i in 0..._screens.length){
+            _screens[i].setChannelArea( _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
+
         }
         return true;
     }
 
-    function calcInputSize( inputSizeArr:Array<InputSize>, ssArr:Array<Screen>, sizeArr:Array<Dynamic>){
+    function calcInputSize( inputSizeArr:Array<InputSize>,  sizeArr:Array<Dynamic>){
 
-
+        var xoffset = ScreenMgr.getInst()._virtualX;
+        var yoffset = ScreenMgr.getInst()._virtualY;
+        var inx = 0;
+        var iny = 0;
+        var inw = 0;
+        var inh = 0;
         for ( i in  sizeArr){
-            if ( i.cutLeft >= 0){
-                if ( i.cutRight >= 0){
-                }
+            if ( i.cutLeft > 0){
+                inx = Math.round( _channel._w * i.cutLeft / _virtualWidth);
+                inw = Math.round( _channel._w * i.w/ _virtualWidth);
             }else{
+                inx = 0;
+                //trace( _virtualWidth);
+                //trace( i.screenw);
+                //trace( _channel._w);
+                inw = Math.round( _channel._w * i.w / _virtualWidth);
             }
+            inputSizeArr.push( new InputSize( inx,iny,inw,inh ) );
         }
-
-        /*
-        var minCol:Int = 1024;
-        var minRow:Int = 1024;
-        var maxCol:Int = 0;
-        var maxRow:Int = 0;
-        for ( i in sizeArr){
-            if ( i.col < minCol){
-                minCol = i.col;
-            }
-            if ( i.row < minRow){
-                minRow = i.row;
-            }
-            if ( i.col > maxCol){
-                maxCol = i.col;
-            }
-            if ( i.row > maxRow){
-                maxRow = i.row;
-            }
-        }
-
-        for ( i in sizeArr){
-            var diffMinCol = i.col - minCol;
-            var diffMaxCol = maxCol - i.col;
-            var diffMinRow = i.row - minRow;
-            var diffMaxRow = maxRow - i.row;
-            
-
-        }
-
-
-        trace( minCol);
-        trace( minRow);
-        trace( maxCol);
-        trace( maxRow);
-        */
     }
 
 
     function cbSetChannelArea( args:Dynamic, s:Screen){
-        setWnd();
+        --_opCounter;
+        if ( _opCounter == 0){
+            setWnd();
+        }
     }
 
     function setWnd(){
@@ -132,10 +116,10 @@ class Wnd{
             }
         }
 
-        if ( ring != null && ring._isRingSetup == false){
+        if ( _ring != null && _ring._isRingSetup == false){
             //ScreenMgr.getInst().setRing(ring);
             //trace(ring);
-            ring.setupRing( this, cbRingSetup);
+            _ring.setupRing( this, cbRingSetup);
         }else{
             _opCounter+=_screens.length;
             for (i in _screens){

@@ -212,7 +212,7 @@ class Screen extends Qbox{
 
     public function setWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
-            trace("there is a set wnd operation processing.");
+            trace("there is a wnd operation processing.");
         }
 
         var availablePorts:String = null;
@@ -356,8 +356,11 @@ class Screen extends Qbox{
     }
 
     function cbSetChannelArea( args:Dynamic):Void{
-        if (_currCB != null) _currCB( args, this);
-        _currCB = null;
+        if (_currCB != null) {
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
     }
 
     public function hideWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
@@ -434,6 +437,25 @@ class Screen extends Qbox{
         }
     }
 
+    override function cbLoadOutput( args:Dynamic){
+        if ( args.get("error") == 0){
+
+            if ( args.exists("out1")){
+                _753ports.set( "1", null);
+            }
+            if ( args.exists("out2")){
+                _753ports.set( "2", null);
+            }
+            if ( args.exists("out3")){
+                _ringports.set( "3", null);
+            }
+            if ( args.exists("out4")){
+                _ringports.set( "3", null);
+            }
+            //for ( i in 1...5){ _outputs.set( ""+i, outputs.get("out"+i) ); }
+        }
+        super.cbLoadOutput(args);
+    }
 
     override function cbLoadInputsResolution( args:Dynamic){
         if (args.get("error") ==0){
@@ -478,8 +500,11 @@ class Screen extends Qbox{
     }
 
     function cbSetChannel( args:Dynamic):Void{
-        if (_currCB != null) _currCB( args, this);
-        _currCB = null;
+        if (_currCB != null){
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
     }
 
 

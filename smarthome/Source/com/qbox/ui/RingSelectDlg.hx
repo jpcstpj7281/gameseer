@@ -20,9 +20,10 @@ import com.pictionary.ui.DrawingDlgMgr;
 class RingSelectDlg extends ListFixedDlg{
 
     var _clicked:Sprite;
-    var _isSelected:Bool;
+    public var _isSelected:Bool;
     var _ring:Ring;
-    public function new ( dm:CommDialogMgr, ring:Ring, index:Int ){
+    var _cb:Ring->Void;
+    public function new ( dm:CommDialogMgr, ring:Ring, index:Int, cb:Ring->Void ){
         super(dm, new Bitmap( DataLoader.getInst().bms_.get("erase")));
 
         x = 500+100 * index;
@@ -30,6 +31,7 @@ class RingSelectDlg extends ListFixedDlg{
 
         _ring= ring;
         _isSelected = false;
+        _cb = cb;
     }
 
     override function show(){
@@ -55,10 +57,9 @@ class RingSelectDlg extends ListFixedDlg{
             _clicked.alpha = 0.5;
         }
         if ( !_isSelected ){
-            cast(_mgr, MainStage).clearChannelSelecting();
+            _cb(_ring);
             addChild(_clicked);
             _isSelected = true;
-            RingMgr.getInst()._currSelected = _ring;
         }
     }
 
