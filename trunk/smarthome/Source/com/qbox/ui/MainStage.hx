@@ -2,7 +2,6 @@ package com.qbox.ui;
 
 import base.ui.EmbedTextField;
 import nme.display.Sprite;
-import nme.display.Bitmap;
 import base.data.DataLoader;
 
 import com.qbox.logic.ChannelMgr;
@@ -108,13 +107,18 @@ class MainStage extends ListDialogMgr {
         for ( i in 0...cm.length){
             ++index;
             //trace("add ChannelSelectionDlg");
-            var c = new RingSelectDlg( this, cm[i], i);
+            var c = new RingSelectDlg( this, cm[i], i, cbChangedCurrRing);
             if ( RingMgr.getInst()._currSelected ==cm[i]){
                 c.selected();
             }
         }
         //new ChannelSelectionDlg( this, null, index);
         //super.showListDialog();
+    }
+
+    function cbChangedCurrRing(r:Ring){
+        clearChannelSelecting();
+        RingMgr.getInst()._currSelected = r;
     }
     public function showChannelDlg( ):Void{
         var cm = ChannelMgr.getInst()._channels;
@@ -133,15 +137,28 @@ class MainStage extends ListDialogMgr {
 
     public override function hideListDialog( ):Void{
         super.hideListDialog();
-        var arr:Array<ChannelSelectionDlg> = new Array<ChannelSelectionDlg>();
+        var arr = new Array<Dynamic>();
         for ( i in _instancesByDisplayOrder){
             if ( Std.is( i , ChannelSelectionDlg) ){
-                arr.push(cast i);
+                arr.push(i);
+            }
+            if ( Std.is( i , RingSelectDlg) ){
+                arr.push(i);
             }
         }
         for ( i in arr){
             remove(i);
         }
+
+        //var rarr = new Array<RingSelectDlg>();
+        //for ( i in _instancesByDisplayOrder){
+        //if ( Std.is( i , RingSelectDlg) ){
+        //arr.push(cast i);
+        //}
+        //}
+        //for ( i in arr){
+        //remove(i);
+        //}
     }
 
     //public function addChannelSelect(){

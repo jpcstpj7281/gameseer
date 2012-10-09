@@ -13,9 +13,9 @@ class Ring{
 
 
     //only support ring out port 1 or ring out port 2 currently
-    public function new( ){
+    public function new( index:Int){
         _nodes = new Array<RingNode>();
-        _nodeIndex = 0;
+        _nodeIndex = index;
         _isRingSetup = false;
         _count = 0;
     }
@@ -62,5 +62,14 @@ class Ring{
             ss.push(i._screen);
         }
         return ss;
+    }
+
+    public function getRingNode( col:Int, row:Int):RingNode{
+        for ( i in _nodes){
+            if ( col == i._col && row == i._row){
+                return i;
+            }
+        }
+        return null;
     }
 }

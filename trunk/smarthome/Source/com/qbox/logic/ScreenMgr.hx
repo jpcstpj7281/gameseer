@@ -19,15 +19,15 @@ class ScreenMgr extends QboxMgr {
     public var _col:Int;
     public var _row:Int;
 
-    public var _width:Int;
-    public var _height:Int;
+    public var _width:Int;//real resolution
+    public var _height:Int;//real resolution
 
     public var _resWidth:Int;
     public var _resHeight:Int;
 
     //virtual ui screen size;
-    public var _virtualWidth:Int;
-    public var _virtualHeight:Int;
+    public var _virtualWidth:Int;//all screen virtual width
+    public var _virtualHeight:Int;//all screen virtual height
     public var _virtualX:Int;
     public var _virtualY:Int;
 

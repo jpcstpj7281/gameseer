@@ -27,7 +27,7 @@ class RingsDlg extends ListFixedDlg{
 
 
     public override function onMouseClick( ):Void{
-        if ( ScreenMgr.getInst()._qboxes.length <2) {
+        if ( ScreenMgr.getInst()._screens.length <2) {
             trace("have to define more than one qbox for RING!");
             return;
         }
