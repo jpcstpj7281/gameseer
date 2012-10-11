@@ -46,6 +46,7 @@ class RingSelectDlg extends ListFixedDlg{
             if ( _clicked.parent != null ){
                 removeChild(_clicked);
             }
+            _cb(null);
         }
     }
 
@@ -72,7 +73,6 @@ class RingSelectDlg extends ListFixedDlg{
                     selected();
                     //trace("selected");
                 }else{
-                    ChannelMgr.getInst()._currSelected = null;
                     unselected();
                     //trace("unselected");
                 }

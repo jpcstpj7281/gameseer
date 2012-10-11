@@ -35,9 +35,9 @@ class RingMgr{
         /////////////////////for test ring of out port 1////////
 
         //trace( _rings[0]._nodes.length);
-        for ( i in _rings[0]._nodes.length..._ringNodes.length){
-            _rings[0]._nodes.push( _ringNodes[i] );
-            _rings[1]._nodes.push( _ringNodes[i] );
+        //for ( i in _rings[0]._nodes.length..._ringNodes.length){
+            //_rings[0]._nodes.push( _ringNodes[i] );
+            //_rings[1]._nodes.push( _ringNodes[i] );
             //_ringNodes[i]._inport[0] = "1";
             //_ringNodes[i]._outport[0] = "3";
             //if ( i >0 ){
@@ -45,7 +45,7 @@ class RingMgr{
             //_ringNodes[i-1]._next[0] = _ringNodes[i];
             //}else{
             //}
-        }
+            //}
         //_currSelected = _rings[0];
         //trace( _rings[0]._nodes.length);
         ///////////////////////////////////////////////////////
@@ -61,21 +61,31 @@ class RingMgr{
         _ringNodes.push(r );
     }
 
-    public function hasRingNode( col:Int, row:Int){
+    public function getRingNode( col:Int, row:Int){
         for ( i in _ringNodes){
             if(i._col == col&& i._row == row){
-                return true;
+                return i;
             }
         }
-        return false;
+        return null;
+    }
+    public function hasRingNode( col:Int, row:Int){
+        return getRingNode( col,row) != null;
     }
 
     public function isIncludedScreens(ss:Array<Screen>){
         var count:Int = 0;
-        for ( i in _currSelected._nodes){
-            for ( s in ss){
-                if ( i._col == s._col && i._row == s._row){
-                    ++count;
+        for ( i in _currSelected._heads){
+            var n = i;
+            while( n!= null){
+                for ( s in ss){
+                    if ( i._col == s._col && i._row == s._row){
+                        ++count;
+                        break;
+                    }
+                }
+                n = n._next[_currSelected._nodeIndex];
+                if ( n == i){
                     break;
                 }
             }

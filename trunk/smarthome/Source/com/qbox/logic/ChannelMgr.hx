@@ -27,7 +27,7 @@ class ChannelMgr {
         c._w = 1024;
         c._h = 768;
         c._screen = ScreenMgr.getInst()._screens[0];
-        c._inport = "1";
+        c._inport = "3";
 #end
     }
 
@@ -46,16 +46,33 @@ class ChannelMgr {
         }
     }
 
-    //public function getChannel( nodes:Array<String>):Channel{
-    //for ( i in _channels){
-    //if ( i._nodes.length == nodes.length){
-    //for ( index in 0...nodes.length){
-    //if( i._nodes[index] == nodes[index]){
-    //return i;
-    //}
-    //}
-    //}
-    //}
-    //return null;
-    //}
+    public function getChannelsWithOutRingPort( ):Array<Channel>{
+        var isRingPort:Bool = false;
+        var cs = new Array<Channel>();
+        for ( c in _channels){
+            isRingPort = false;
+            for ( rg in RingMgr.getInst()._rings){
+                for ( rn in rg._heads){
+                    var n = rn;
+                    while( n != null ){
+                        if ( c._screen == n._screen ){
+                            for ( i in n._inport){
+                                if ( c._inport == i){
+                                    isRingPort = true;
+                                }
+                            }
+                        }
+                        n = n._next[rg._nodeIndex];
+                        if ( n == rn){
+                            break;
+                        }
+                    }
+                }
+            }
+            if ( isRingPort == false){
+                cs.push( c);
+            }
+        }
+        return cs;
+    }
 }

@@ -20,7 +20,8 @@ class ChannelSelectionDlg extends ListFixedDlg{
     var _channel:Channel;
     var _clicked:Sprite;
     var _isSelected:Bool;
-    public function new ( dm:CommDialogMgr, channel:Channel, index:Int ){
+    var _cb:Channel->Void;
+    public function new ( dm:CommDialogMgr, channel:Channel, index:Int, cb:Channel->Void ){
         super(dm, new Bitmap( DataLoader.getInst().bms_.get("erase")));
 
         x = 100 * index;
@@ -28,6 +29,7 @@ class ChannelSelectionDlg extends ListFixedDlg{
 
         _channel = channel;
         _isSelected = false;
+        _cb = cb;
     }
 
     override function show(){
@@ -42,6 +44,7 @@ class ChannelSelectionDlg extends ListFixedDlg{
             if ( _clicked.parent != null ){
                 removeChild(_clicked);
             }
+            _cb( null);
         }
     }
 
@@ -53,10 +56,9 @@ class ChannelSelectionDlg extends ListFixedDlg{
             _clicked.alpha = 0.5;
         }
         if ( !_isSelected ){
-            cast(_mgr, MainStage).clearChannelSelecting();
+            _cb( _channel);
             addChild(_clicked);
             _isSelected = true;
-            ChannelMgr.getInst()._currSelected = _channel;
         }
     }
 
@@ -69,38 +71,10 @@ class ChannelSelectionDlg extends ListFixedDlg{
                     selected();
                     //trace("selected");
                 }else{
-                    ChannelMgr.getInst()._currSelected = null;
                     unselected();
                     //trace("unselected");
                 }
             }else{
-                //if ( QboxMgr.getInst()._qboxes.length == 0) {
-                //trace("there is no qbox!");
-                //return;
-                //}
-                //if (ChannelMgr.getInst()._channels.length >8 ) return;
-
-                /*
-                for ( q in QboxMgr.getInst()._qboxes){
-                    for ( k in q._inputs.keys() ){
-                        if ( q._inputs.get(k) != "default"){
-                            var c = ChannelMgr.getInst().createChannel();
-                            c.addNode( q, k );
-                            cast(_mgr, MainStage).addChannelSelect();
-                            _channel = c;
-                            alpha = 1;
-                            //trace(k);
-                            //trace(q._inputs.get(k));
-                            break;
-                        }
-                    }
-                }
-                */
-                //var q = QboxMgr.getInst()._qboxes[0];
-                //c._nodes.push( q._ipv4 +":"+q._inputs.iterator().next());
-                //for ( i in q._inputs){
-                //c.addNode( q, q._inputs.keys().next());
-                //}
             }
         }
     }

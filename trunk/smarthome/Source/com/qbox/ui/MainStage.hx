@@ -7,6 +7,7 @@ import base.data.DataLoader;
 import com.qbox.logic.ChannelMgr;
 import com.qbox.logic.RingMgr;
 import com.qbox.logic.Ring;
+import com.qbox.logic.Channel;
 import nme.events.MouseEvent;
 import nme.events.Event;
 import nme.display.DisplayObject;
@@ -116,17 +117,26 @@ class MainStage extends ListDialogMgr {
         //super.showListDialog();
     }
 
-    function cbChangedCurrRing(r:Ring){
+    function cbChangedCurrChannel( c:Channel){
         clearChannelSelecting();
-        RingMgr.getInst()._currSelected = r;
+        ChannelMgr.getInst()._currSelected = c;
+        resetScreenPlate();
     }
+
+    function cbChangedCurrRing(r:Ring){
+        clearRingSelecting();
+        RingMgr.getInst()._currSelected = r;
+        resetScreenPlate();
+    }
+
     public function showChannelDlg( ):Void{
-        var cm = ChannelMgr.getInst()._channels;
+        //var cm = ChannelMgr.getInst()._channels;
+        var cm = ChannelMgr.getInst().getChannelsWithOutRingPort();
         var index:Int = 0;
         for ( i in 0...cm.length){
             ++index;
             //trace("add ChannelSelectionDlg");
-            var c = new ChannelSelectionDlg( this, cm[i], i);
+            var c = new ChannelSelectionDlg( this, cm[i], i, cbChangedCurrChannel);
             if ( ChannelMgr.getInst()._currSelected ==cm[i]){
                 c.selected();
             }
@@ -167,6 +177,13 @@ class MainStage extends ListDialogMgr {
     //c.show();
     //}
 
+    public function clearRingSelecting(){
+        for ( i in _instancesByDisplayOrder){
+            if ( Std.is( i , RingSelectDlg) ){
+                cast (i, RingSelectDlg).unselected();
+            }
+        }
+    }
     public function clearChannelSelecting(){
         for ( i in _instancesByDisplayOrder){
             if ( Std.is( i , ChannelSelectionDlg) ){
