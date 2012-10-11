@@ -78,6 +78,8 @@ class ScreenPlate extends CommDialog{
         removeChild(_screens);
         _screens = new Sprite();
         addChildAt( _screens, 0);
+        var rg= RingMgr.getInst()._currSelected;
+        var c= ChannelMgr.getInst()._currSelected;
         for ( i in ScreenMgr.getInst()._screens){
             var s = new Sprite();
             i._virtualHeight = cast _screenHeight;
@@ -87,7 +89,18 @@ class ScreenPlate extends CommDialog{
             s.graphics.lineTo( (i._col+1) * _screenWidth, i._row * _screenHeight );
             s.graphics.lineTo( (i._col+1) * _screenWidth, (i._row+1) * _screenHeight );
             s.graphics.lineTo( i._col * _screenWidth, (i._row+1) * _screenHeight );
-            s.graphics.beginFill(0x888888);
+            //trace(rg ==null);
+            //trace(c ==null);
+            //if ( rg !=null) trace( rg.isInRing(i));
+            //if ( rg != null &&c != null) trace( c.isRingOfChannel(rg,i));
+            if ( rg != null&& rg.isInRing( i)&& c != null && c.isRingOfChannel( rg, i) ){
+                s.graphics.beginFill(0x008800);
+                //trace( ""+i._col +"|"+i._row);
+            }else if ( rg == null && c !=null && c._screen == i ){
+                s.graphics.beginFill(0x008800);
+            }else{
+                s.graphics.beginFill(0x888888);
+            }
             s.graphics.drawRect( i._col * _screenWidth, i._row * _screenHeight, _screenWidth, _screenHeight);
             _screens.addChild(s);
         }

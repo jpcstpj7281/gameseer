@@ -5,7 +5,7 @@ import haxe.io.Bytes;
 
 class Ring{
 
-    public var _nodes:Array<RingNode>;
+    public var _heads:Array<RingNode>;
     public var _nodeIndex:Int;
     public var _isRingSetup:Bool;
     public var _count:Int;
@@ -14,7 +14,7 @@ class Ring{
 
     //only support ring out port 1 or ring out port 2 currently
     public function new( index:Int){
-        _nodes = new Array<RingNode>();
+        _heads = new Array<RingNode>();
         _nodeIndex = index;
         _isRingSetup = false;
         _count = 0;
@@ -22,14 +22,14 @@ class Ring{
 
 
     public function isAvailable():Bool{
-        for ( i in _nodes){
+        for ( i in _heads){
         }
 
         return true;
     }
 
     public function setupRing( wnd:Wnd, cb:Dynamic->Void){
-        for ( i in _nodes){
+        for ( i in _heads){
 #if !neko
             if(i._screen.isConected() == false){
                 trace("there is a qbox not yet connected: "+ i._screen._ipv4);
@@ -58,18 +58,95 @@ class Ring{
 
     public function getScreens():Array<Screen>{
         var ss = new Array<Screen>();
-        for ( i in _nodes){
+        for ( i in _heads){
             ss.push(i._screen);
         }
         return ss;
     }
 
-    public function getRingNode( col:Int, row:Int):RingNode{
-        for ( i in _nodes){
+    public function isHead( rn:RingNode){
+        for ( i in _heads){
+            if (rn == i){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getRingHead( col:Int, row:Int):RingNode{
+        for ( i in _heads){
             if ( col == i._col && row == i._row){
                 return i;
             }
         }
         return null;
+    }
+
+    public function isInRing( s:Screen):Bool{
+        if ( _heads.length == 0 ) return false;
+        //trace(_heads.length);
+        for ( rn in _heads){
+            var n = rn;
+            while (n !=null ){
+                //trace(n._col);
+                //trace(n._row);
+                if ( n._screen == s){
+                    return true;
+                }
+                n = n._next[_nodeIndex];
+                if ( n == rn){
+                    break;
+                }
+            }
+        }
+        //trace("done");
+        return false;
+    }
+
+    public function newHead( rn:RingNode){
+        //trace( rn._col);
+        //trace( rn._row);
+        var tmp = rn._pre[_nodeIndex];
+        while(tmp != rn){
+            if ( tmp == null){ tmp = rn;break; }
+            tmp = tmp._pre[_nodeIndex];
+        }
+        eatHead( tmp);
+        _heads.push( tmp);
+        //trace( _heads.length);
+    }
+
+    public function eatHead( rn:RingNode){
+        var ate = new Array<RingNode>();
+        for ( i in _heads){
+            var next = rn;
+            while( next != null ){
+                if ( i == next){
+                    ate.push(i);
+                    break;
+                }
+                next = next._next[_nodeIndex];
+                if (next == rn){
+                    break;
+                }
+            }
+        }
+
+        for ( i in ate){
+            _heads.remove(i);
+        }
+    }
+
+    public function isCircled( head:RingNode):Bool{
+        var tmp = head._next[_nodeIndex];
+        var isCir= true;
+        while( tmp != head){
+            if ( tmp == null){
+                isCir= false;
+                break;
+            }
+            tmp = tmp._next[_nodeIndex];
+        }
+        return isCir;
     }
 }

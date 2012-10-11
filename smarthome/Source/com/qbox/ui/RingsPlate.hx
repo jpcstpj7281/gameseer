@@ -68,6 +68,9 @@ class RingsPlate extends CommDialog{
             i.unselected();
         }
         _currRing = r;
+        if ( _preFlag != null) _preFlag.isSelected = false;
+        _preFlag = null;
+
         createRing(r);
     }
 
@@ -93,7 +96,7 @@ class RingsPlate extends CommDialog{
             //i._virtualWidth = cast _RingWidth;
 
             if ( ring != null){
-                var node = ring.getRingNode( i._col, i._row);
+                var node = RingMgr.getInst().getRingNode( i._col, i._row);
                 if ( node != null){
                     var next = node._next[ring._nodeIndex];
                     var pre = node._pre[ring._nodeIndex];
@@ -323,6 +326,10 @@ class RingsPlate extends CommDialog{
                                 tmp._next[_currRing._nodeIndex] = null;
                             }
                             flag.screen._ringNode._pre[_currRing._nodeIndex] = _preFlag.screen._ringNode;
+                            if( !_currRing.isInRing( _preFlag.screen)){
+                                _currRing.newHead( _preFlag.screen._ringNode);
+                            }
+
                             //trace( flag.screen._col);
                             //trace( flag.screen._row);
                             //trace( _preFlag.screen._col);
