@@ -20,12 +20,6 @@ import nme.text.TextFormatAlign;
 
 import haxe.Timer;
 
-#if neko
-import neko.FileSystem;
-#else
-import cpp.FileSystem;
-#end
-
 class MainStage extends ListDialogMgr {
 
 
@@ -59,7 +53,9 @@ class MainStage extends ListDialogMgr {
         //name = "玩家";
         //}
 
+#if !flash
         new FileManagerDlg(this);
+#end
         //new QboxesDlg(this);
         new ChannelsDlg(this);
         new WndsDlg(this);
@@ -81,18 +77,6 @@ class MainStage extends ListDialogMgr {
         //new DrawingDlg( this, "SNS猜猜",0 );
         //var d = new DrawingDlg( this, "SNS drawing",0 );
 
-
-        /*
-        if(FileSystem.exists("assets")){
-            trace( FileSystem.fullPath("assets"));
-            var arr = FileSystem.readDirectory("assets");
-            for( i in arr){
-                if ( !FileSystem.isDirectory( "assets/"+i) ){
-                    trace(i);
-                }
-            }
-        }
-        */
     }
 
     public function resetScreenPlate():Void{

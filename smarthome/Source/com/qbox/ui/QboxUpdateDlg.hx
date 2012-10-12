@@ -22,10 +22,11 @@ import haxe.io.Bytes;
 import neko.FileSystem;
 import neko.io.File;
 import neko.io.FileInput;
-#else
+#elseif cpp
 import cpp.FileSystem;
 import cpp.io.File;
 import cpp.io.FileInput;
+#else
 #end
 class QboxUpdateDlg extends CommDialog{
     var _qbox:Qbox;
