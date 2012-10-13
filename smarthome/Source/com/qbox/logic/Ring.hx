@@ -56,10 +56,19 @@ class Ring{
         }
     }
 
-    public function getScreens():Array<Screen>{
+    public function getScreens( c:Channel):Array<Screen>{
         var ss = new Array<Screen>();
         for ( i in _heads){
-            ss.push(i._screen);
+            var n = i;
+            var circlePoint:RingNode =  null;
+            while ( n != circlePoint){
+                if ( n._screen == c._screen){
+                    circlePoint = n;
+                }
+                if ( circlePoint != null) ss.push(i._screen);
+                n = n._next[_nodeIndex];
+                if ( n == i && circlePoint == null ) break;
+            }
         }
         return ss;
     }

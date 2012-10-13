@@ -140,6 +140,7 @@ class Screen extends Qbox{
                 screenx = 0;
             }else{
                 isOutOfScreen = true;
+                screenx = screeny = screenh = screenw = 0;
                 trace("outofscreen");
             }
         }else{
@@ -155,6 +156,7 @@ class Screen extends Qbox{
                 screenx = x - screenx;
             }else if ( x >screenx + _virtualWidth){
                 isOutOfScreen = true;
+                screenx = screeny = screenh = screenw = 0;
                 trace("outofscreen");
             }
         }
@@ -172,6 +174,7 @@ class Screen extends Qbox{
                 y = 0;
             }else{
                 isOutOfScreen = true;
+                screenx = screeny = screenh = screenw = 0;
                 trace("outofscreen");
             }
         }else if ( !isOutOfScreen){
@@ -187,6 +190,7 @@ class Screen extends Qbox{
                 screeny = y - screeny;
             }else if(  x > screeny + _virtualHeight){
                 isOutOfScreen = true;
+                screenx = screeny = screenh = screenw = 0;
                 trace("outofscreen");
             }
         }
