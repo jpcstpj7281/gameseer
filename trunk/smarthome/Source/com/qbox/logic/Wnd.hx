@@ -198,18 +198,16 @@ class Wnd{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
-        //trace(_screens.length);
-        //trace(_handles.length);
         _opCounter+=_screens.length;
         for (i in 0..._screens.length){
-            //trace(_screens);
-            //trace(_screens[i]);
             _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd, this);
-            //trace(_screens.length);
         }
         return true;
     }
 
+    function cbHideBeforeMoveWnd( args:Dynamic, s:Screen):Void{
+    }
+    
     function cbCloseBeforeOpenWnd( args:Dynamic, s:Screen):Void{
         //trace(args);
         //trace(_opCounter);
