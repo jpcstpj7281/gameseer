@@ -24,7 +24,7 @@ class RingSelectDlg extends ListFixedDlg{
     var _ring:Ring;
     var _cb:Ring->Void;
     public function new ( dm:CommDialogMgr, ring:Ring, index:Int, cb:Ring->Void ){
-        super(dm, new Bitmap( DataLoader.getInst().bms_.get("erase")));
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("net")));
 
         x = 500+100 * index;
         y= nme.Lib.current.stage.stageHeight - 160;

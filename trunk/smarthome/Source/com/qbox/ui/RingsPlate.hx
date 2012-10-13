@@ -307,6 +307,11 @@ class RingsPlate extends CommDialog{
                             if ( flag.clickCount > ScreenFlag.InportNum){
                                 flag.isSelected = false;
                                 flag.clickCount = 0;
+                                var tmp = _preFlag.screen._ringNode._next[ _currRing._nodeIndex];
+                                if ( tmp != null && tmp._pre[_currRing._nodeIndex] != null){
+                                    tmp._pre[_currRing._nodeIndex] = null;
+                                }
+                                _preFlag.screen._ringNode._next[_currRing._nodeIndex] = null;
                                 _preFlag = null;
                             }
                         }
