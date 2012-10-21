@@ -67,7 +67,6 @@ class Wnd{
         _opCounter += _screens.length;
         for( i in 0..._screens.length){
             _screens[i].setChannelArea( _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
-
         }
         return true;
     }
