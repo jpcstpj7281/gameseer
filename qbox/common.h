@@ -41,7 +41,7 @@ enum INPUT_SIZE_TYPE
     TYPE_INPUT_SIZE_DEFAULT = 255,
 };
 
-#define test_msg (printf("%s[%d]:", __FILE__,__LINE__), printf)
+#define test_msg (printf("\n%s[%d]:", __FILE__,__LINE__), printf)
 
 
 const uint32_t USE_FLG_OFFLINE = 0;
@@ -67,6 +67,9 @@ extern void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 
 extern void getSignalModel(uint32_t chn,uint32_t &model);
 extern void setChnSignalModel(uint32_t chn,uint32_t model);
+
+extern void setChnSignalInput(uint32_t out,uint32_t in);
+extern void getChnSignalInput(uint32_t out,uint32_t &in);
 
 }
 #endif

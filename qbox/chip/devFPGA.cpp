@@ -281,6 +281,8 @@ void DriverChipFPGA::getSignalModel(uint32_t chId,uint32_t &model)
 	uint16_t wHs = 0;
 	uint16_t wVs = 0;
 
+	debug_msg("getSignalModel chId=%d!",chId);
+
 	if(chId>=1 && chId<=6)
 	{
 		switch(chId)
@@ -335,7 +337,14 @@ void DriverChipFPGA::getSignalModel(uint32_t chId,uint32_t &model)
 	   && wVs < 500)
 	{
 		model = TYPE_INPUT_SIZE_702_480;
+		debug_msg("getSignalModel TYPE_INPUT_SIZE_702_480");
 	}
+	else
+	{
+		model = TYPE_INPUT_SIZE_DEFAULT;
+		debug_msg("getSignalModel TYPE_INPUT_SIZE_DEFAULT");
+	}
+
 }
 
 

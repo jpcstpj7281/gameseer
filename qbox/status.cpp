@@ -84,7 +84,7 @@ void Status::onProtocolVersionReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
 {
-	test_msg("onGetInPutReq connID=%d\n",connID);
+	test_msg("onGetInPutReq connID=%d",connID);
 
 
     MsgInfo rsp;
@@ -110,8 +110,7 @@ void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetOutPutReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onGetOutPutReq"<<" connID="<<connID <<endl;
-
+	test_msg("onGetInPutReq connID=%d",connID);
     MsgInfo rsp;
 
     rsp.msgType = PGetOutPutRsp::uri;
@@ -132,7 +131,6 @@ void Status::onGetOutPutReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetInPutSizeReq(MsgInfo *msg,uint32_t connID)
 {
-	test_msg("onGetInPutSizeReq in==%d\n",atoi(msg->info["in"].c_str()));
 
 	 uint32_t ichid =atoi(msg->info["in"].c_str());
 
@@ -143,20 +141,24 @@ void Status::onGetInPutSizeReq(MsgInfo *msg,uint32_t connID)
     rsp.info["in"] = msg->info["in"];
 
     uint32_t inputFlg = 0;
-    ichid =  EntSetting::Instance()->getInputInfoFlg(ichid);
-    if(ichid == USE_FLG_ONLINE)
+    inputFlg =  EntSetting::Instance()->getInputInfoFlg(ichid);
+    if(inputFlg == USE_FLG_ONLINE)
     {
 
 		uint32_t w,h;
 		EntSetting::Instance()->getInputInfoSize(ichid,w,h);
 		rsp.info["w"] = tostring(w);
 		rsp.info["h"] = tostring(h);
+		test_msg("onGetInPutSizeReq OK in==%d",atoi(msg->info["in"].c_str()));
+
     }
     else
     {
     	rsp.info["error"] = tostring(ERROR_TYPE_NOSIGNAL);
     	rsp.info["w"] = tostring(0);
     	rsp.info["h"] = tostring(0);
+    	test_msg("onGetInPutSizeReq ERROR in==%d",atoi(msg->info["in"].c_str()));
+
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);

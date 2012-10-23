@@ -131,7 +131,7 @@ public:
 	void getWindowsHandle(std::set<uint32_t> &handle);
 	bool getWindowsInfo(uint32_t winHandle,WindowInfo &windowInfo);
 
-	uint32_t createWindow(uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
+	void createWindow(uint32_t windowNum,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
 	bool delWindow(uint32_t winHandle);
 
 	bool setLayer(uint32_t winHandle,uint32_t layer);

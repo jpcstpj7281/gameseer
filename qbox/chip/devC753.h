@@ -29,7 +29,7 @@ enum
 enum
 {
     C753_OUTPUT_CHANNEL_1 = 1,
-    C753_OUTPUT_CHANNEL_2
+    C753_OUTPUT_CHANNEL_2 = 2,
 };
 
 enum

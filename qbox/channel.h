@@ -25,7 +25,8 @@ public:
 
 private:
 
-	void onPChangeInputReq(MsgInfo *msg,uint32_t connID);
+	void onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID);
+	void onPGetSwitchInputReq(MsgInfo *msg,uint32_t connID);
 	void onPSetInPutPicReq(MsgInfo *msg,uint32_t connID);
 	void onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID);
 

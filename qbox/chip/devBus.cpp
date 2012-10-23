@@ -87,7 +87,7 @@ void SPIBus::dev_SPI_WriteMult(uint32_t chn,list<map<uint8_t,uint8_t> > value)
 			}
 			else
 			{
-				printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,itMap->first,itMap->second);
+//				printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,itMap->first,itMap->second);
 				switch(chn)
 				{
 					case 1:
@@ -121,12 +121,12 @@ void SPIBus::SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
 {
 	if(chn == 0)
 	{
-		printf("dev_SPI_Write 753 addr=%02x,value=%02x\n",addr,value);
+//		printf("dev_SPI_Write 753 addr=%02x,value=%02x\n",addr,value);
 		dev_SPI_Write(DEV_SPI_C753_CHANNEL,addr,value);
 	}
 	else
 	{
-		printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,addr,value);
+//		printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,addr,value);
 		switch(chn)
 		{
 			case 1:
@@ -154,7 +154,7 @@ void SPIBus::SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
 
 void SPIBus::SPI_Read(uint32_t chn,uint8_t addr,uint8_t &value)
 {
-	printf("dev_SPI_Read addr=%02x,value=%02x\n",addr,value);
+//	printf("dev_SPI_Read addr=%02x,value=%02x\n",addr,value);
 	if(chn == 0)
 	{
 		dev_SPI_Read(DEV_SPI_C753_CHANNEL,addr,&value);

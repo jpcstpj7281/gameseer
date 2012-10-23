@@ -12,14 +12,14 @@
 #define CHANNEL_MSGBASE  3
 
 
-struct PChangeInputReq
+struct PSetSwitchInputReq
 {
 	enum{uri=(CHANNEL_MSGBASE<<16|1)};
 	//winHandle->??? | in->???| //设置窗口输入讯号
 
 };
 
-struct PChangeInputRsp
+struct PSetSwitchInputRsp
 {
 	enum{uri=(CHANNEL_MSGBASE<<16|2)};
 	//error->??? //返回设置窗口输入讯号结果
@@ -37,6 +37,19 @@ struct PSetInPutPicRsp
 {
 	enum{uri=(CHANNEL_MSGBASE<<16|4)};
 	//error->??? //返回设置窗口显示图像结果
+};
+
+struct PGetSwitchInputReq
+{
+	enum{uri=(CHANNEL_MSGBASE<<16|5)};
+	//  //设置窗口显示图像
+
+};
+
+struct PGetSwitchInputRsp
+{
+	enum{uri=(CHANNEL_MSGBASE<<16|6)};
+	//error->??? | out0->???| out1->???| out2->???| out3->???|//返回设置窗口显示图像结果
 };
 
 struct PSetOutPutSizeReq
