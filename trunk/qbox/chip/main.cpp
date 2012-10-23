@@ -15,6 +15,7 @@
 using namespace chipApp;
 
 
+
 void set753(uint8_t byAdd,uint8_t byVal)
 {
 	AppScale s_c753;
@@ -559,8 +560,8 @@ void testC772()
 	uint8_t val1 = 0x0a;
 	uint8_t val = 0x00;
 
-	s_c772.SetBankRegister(1,val1);
-	s_c772.SetBankRegister(1,val);
+	s_c772.setBankRegister(1,val1);
+	s_c772.setBankRegister(1,val);
 	if(val1!=val)
 	{
 		debug_msg("testC772 error val1=%02x,val=%02x\n",val1,val);
@@ -569,29 +570,9 @@ void testC772()
 }
 
 
-void initSD480(uint32_t chn)
-{
-	debug_msg("initSD480\n");
-	DriverChip5160 s_c5160;
-	DriverChip772 s_c772;
-
-	s_c5160.dev_5160_InitTVP5160(chn);
-	s_c772.dev_InitIP00c772(chn);
-	s_c772.dev_C772_Set480(chn);
-}
 
 
 
-void initSD576(uint32_t chn)
-{
-	debug_msg("initSD576\n");
-	DriverChip5160 s_c5160;
-	DriverChip772 s_c772;
-
-	s_c5160.dev_5160_InitTVP5160(chn);
-	s_c772.dev_InitIP00c772(chn);
-	s_c772.dev_C772_Set576(chn);
-}
 
 void init5160(uint32_t chn)
 {
@@ -604,14 +585,14 @@ void init772(uint32_t chn,uint32_t flg)
 
 	DriverChip772 s_c772;
 
-	s_c772.dev_InitIP00c772(chn);
+	s_c772.dev_C772_Init(chn);
 	if(flg == 0)
 	{
-		s_c772.dev_C772_Set576(chn);
+		s_c772.set576(chn);
 	}
 	else
 	{
-		s_c772.dev_C772_Set480(chn);
+		s_c772.set480(chn);
 	}
 }
 
@@ -631,32 +612,12 @@ void blue5160(uint32_t chn,uint32_t flg)
 void blue772Out(uint32_t chn,uint32_t flg)
 {
 	DriverChip772 s_c772;
-	s_c772.dev_C772_SetBlueScreen(chn,flg);
+	s_c772.setBlueScreen(chn,flg);
 }
 
 
 
-void init772more(uint32_t chn,uint32_t flg)
-{
-	DriverChip772 s_c772;
 
-	if(flg ==1)
-	{
-		s_c772.dev_C772_InitIPConversion(chn);
-
-	}
-
-	if(flg ==2)
-	{
-		s_c772.dev_C772_InitColorConversion(chn);
-	}
-
-	if(flg ==3)
-	{
-		s_c772.dev_C772_InitLUT(chn);
-	}
-
-}
 
 
 void demoSD()
@@ -680,9 +641,6 @@ void demoSD()
 	init5160(2);
 	init772(1,1);
 	init772(2,1);
-//	init772more(2,1);
-//	init772more(2,2);
-//	init772more(2,3);
 
 //	setFpgaSelectChn(2,1);
 
@@ -715,6 +673,9 @@ void demoRing()
 
 	s_c753.setInputChannelACT(1,1024,768,303,36);
 	s_c753.setOutputChannelACT(1,1024,768,0,0);
+
+	s_c753.setInputChannelACT(2,1024,768,303,36);
+	s_c753.setOutputChannelACT(2,1024,768,0,0);
 	s_c753.showWnd(1);
 
 
@@ -722,37 +683,13 @@ void demoRing()
 
 }
 
-//int setmac()
-//{
-// struct in_ifaddr* ia;
-// for (ia = in_ifaddr; ia != 0; ia = ia->ia_next)
-// {
-//  struct ifnet* ifp = ia->ia_ifa.ifa_ifp;
-//  if (ifp != 0)
-//  {
-//   int level;
-//   IP_DRV_CTRL *pDrvCtrl;
-//   END_OBJ *pEnd;
-//   unsigned char PhyAddr[10]={0x08,0x09,0x10,0x11,0x12,0x13};
-//
-//   if(ifp->if_type != M2_ifType_ethernetCsmacd)
-//   {
-//    continue;
-//   }
-//   level = intLock();
-//
-//   pDrvCtrl = (IP_DRV_CTRL *)ifp->pCookie;
-//
-//   pEnd = PCOOKIE_TO_ENDOBJ(pDrvCtrl->pIpCookie);
-//
-//   pEnd->pFuncTable->ioctl(pEnd, EIOCSADDR, PhyAddr); /*此函数中会将PhyAddr中的值写到arm9200的寄存器中，但是ifShow看到的mac地址还是旧的，因为ifShow取的                                                                                                        不是寄存器中的MAC，而是一个全局变量ifnet中的MAC*/
-//   //printf("%x:%x:%x:%x:%x:%x\n", PhyAddr[0], PhyAddr[1], PhyAddr[2], PhyAddr[3], PhyAddr[4], PhyAddr[5]);
-//
-//   intUnlock(level);
-//   break;
-//  }
-// }
-//}
+void initSDBoard()
+{
+	init5160(1);
+	init5160(2);
+	init772(1,1);
+	init772(2,1);
+}
 
 }
 #endif /* __cplusplus */

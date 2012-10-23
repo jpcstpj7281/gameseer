@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "appScale.h"
 #include <math.h>
-
+#include "chipInterface.h"
 
 
 using namespace chip;
@@ -1348,30 +1348,54 @@ void AppScale::initTest1400()
 
 void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t hOutput,uint32_t vOutput)
 {
+	hideWnd(iChID);
+    C753SetOutputVerticalEnlargementControl(iChID, 0x00);
+    /*关闭缩小模块*/
+    C753SetInputVerticalShrinkControl(iChID, 0x00);
+
+    C753SetInputPortACTVerticalWidth(iChID,vInput);
+    C753SetOutputPortACTVerticalWidth(iChID,vInput);
+
+    /*关闭缩小模块*/
+     C753SetInputHorizontalShrinkControl(iChID, 0x00);
+     /*关闭放大模块*/
+     C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
+
+     C753SetInputPortACTHorizontalWidth(iChID,hInput);
+     C753SetOutputPortACTHorizontalWidth(iChID, hInput);
+
+
+
+	debug_msg("initScal ichid=%d,hInput:%d,vInput:%d,hOutput:%d,vOutput:%d\n",iChID,hInput,vInput,hOutput,vOutput);
 	if(hInput > hOutput)
 	{
-		uint16_t shrinkScale= hOutput * 65536 / (hInput - 1) + 1;
+		uint16_t shrinkScale= hOutput * 65536 / hInput  + 1;
 
-        uint8_t lut[24];
-        float ratio, win;
-
-
-
-        ratio = (float)shrinkScale / 65536;
-        if(ratio > 0.5)
-        {
-            win = ratio;
-        }
-        else
-        {
-            win = 0.1;
-        }
-        calculate6SymbolLUT(&ratio, &win, lut);
-        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
+//        uint8_t lut[24];
+//        float ratio, win;
+//
+//
+//
+//        ratio = (float)shrinkScale / 65536;
+//        if(ratio > 0.5)
+//        {
+//            win = ratio;
+//        }
+//        else
+//        {
+//            win = 0.1;
+//        }
+//        calculate6SymbolLUT(&ratio, &win, lut);
+//        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
+
+
+
+
         /*6-symbol LUT*/
         C753SetInputHorizontalShrinkControl(iChID, 0x07);
+
         /*关闭放大模块*/
         C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
         C753SetInputHorizontalShrinkInitialValue(iChID, 0x00);
@@ -1387,20 +1411,21 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	else if(hInput < hOutput)
 	{
 
-		 uint16_t zoomScale= hInput * 65536 / (hOutput + 1);
+		 uint16_t zoomScale= hInput * 65536 / (hOutput );
 
         /*
         *  配置放大寄存器
         */
+         /*关闭缩小模块*/
+//        C753SetInputHorizontalShrinkControl(iChID, 0x00);
+//        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
+
         /*6-symbol LUT*/
-        C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
-        /*关闭缩小模块*/
-        C753SetInputHorizontalShrinkControl(iChID, 0x00);
-        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
+         C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
+
 
         C753SetOutputHorizontalZoomScale(iChID,zoomScale);
 
-        C753SetInputPortACTHorizontalWidth(iChID,hInput);
 	}
 	else
 	{
@@ -1417,7 +1442,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	if(vInput > vOutput)
 	{
 
-        uint16_t shrinkScale= vOutput * 65536 / (vInput - 1) + 1;
+        uint16_t shrinkScale= vOutput * 65536 /vInput + 1;
 
 //        uint8_t lut[24];
 //        float ratio, win;
@@ -1438,11 +1463,17 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 //        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputVerticalShrinkCompensation(iChID, 0x00);
+
+
+
         /*6-symbol LUT*/
         C753SetInputVerticalShrinkControl(iChID, 0x07);
+
         /*关闭放大模块*/
         C753SetOutputVerticalEnlargementControl(iChID, 0x00);
         C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
+
+
         C753SetInputVerticalShrinkScale(iChID, shrinkScale);
 
 
@@ -1452,14 +1483,16 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	else if(vInput < vOutput)
 	{
 		uint16_t zoomScale= vInput * 65536 / (vOutput + 1);
+
+//	       /*关闭缩小模块*/
+//	        C753SetInputVerticalShrinkControl(iChID, 0x00);
+//	        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
+
         /*
         *  配置放大寄存器
         */
         /*6-symbol LUT*/
         C753SetOutputVerticalEnlargementControl(iChID, 0x07);
-        /*关闭缩小模块*/
-        C753SetInputVerticalShrinkControl(iChID, 0x00);
-        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
 
 
         C753SetOutputVerticalZoomScale(iChID, zoomScale);
@@ -1477,7 +1510,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
         C753SetOutputPortACTVerticalWidth(iChID,vOutput);
 	}
 
-
+	showWnd(iChID);
 }
 
 void AppScale::initChipDDR()
@@ -1497,7 +1530,7 @@ void AppScale::initChipDDR()
 	C753SetDLLControl6(0x00);
 	C753SetDLLControl7(0x00);
 	C753SetDLLControl8(0x02);
-	debug_msg("initCLK OK \n!");
+	debug_msg("initCLK OK !");
 }
 
 void AppScale::initCLK()
@@ -1520,7 +1553,7 @@ void AppScale::initCLK()
     /*通道2输出场指针延时改变时间*/
     C753SetFieldPropagationDelay2(0x04);
 
-	debug_msg("initChipDDR OK \n!");
+	debug_msg("initChipDDR OK !");
 }
 
 void AppScale::initScaleTable(uint32_t channelID)
@@ -1530,7 +1563,7 @@ void AppScale::initScaleTable(uint32_t channelID)
 	C753LoadOutputHorizontalZoomLookupTable(channelID, s_abyScaleZoomCoefficient6SymbolTable);
 	C753LoadOutputVerticalZoomLookupTable(channelID, s_abyScaleZoomCoefficient6SymbolTable);
 
-	debug_msg("initScaleTable OK \n!");
+	debug_msg("initScaleTable channelID=%d OK !",channelID);
 }
 
 void AppScale::initMemoryLineFeedWidth(uint32_t channelID)
@@ -1538,7 +1571,7 @@ void AppScale::initMemoryLineFeedWidth(uint32_t channelID)
 	C753SetMemoryReadLinefeedWidth(channelID, 0x10);
 	C753SetMemoryWriteLinefeedWidth(channelID, 0x10);
 
-	debug_msg("initMemoryLineFeedWidth OK \n!");
+	debug_msg("initMemoryLineFeedWidth channelID=%d OK !",channelID);
 }
 
 void AppScale::selectOutPutModel(uint32_t model)
@@ -1546,17 +1579,17 @@ void AppScale::selectOutPutModel(uint32_t model)
 	if(model == TYPE_OUTPUT_ACT)
 	{
 		C753SetOutputPortSyncControl(0x2341);
-		debug_msg("OutPut Model ACT \n!");
+		debug_msg("OutPut Model ACT !");
 	}
 	else if(model == TYPE_OUTPUT_AOI0)
 	{
 		C753SetOutputPortSyncControl(0x2351);
-		debug_msg("OutPut Model AOI0 \n!");
+		debug_msg("OutPut Model AOI0 !");
 	}
 	else if(model == TYPE_OUTPUT_AOI1)
 	{
 		C753SetOutputPortSyncControl(0x2359);
-		debug_msg("OutPut Model AOI1 \n!");
+		debug_msg("OutPut Model AOI1 !");
 	}
 
 
@@ -1567,7 +1600,7 @@ void  AppScale::setOutputBGColor(uint32_t bg0Color,uint32_t bg1Color)
 {
 	C753SetOutputBackground0(bg0Color);
 	C753SetOutputBackground1(bg1Color);
-	debug_msg("setOutputBGColor bg0Color=%X,bg1Color=%X \n!",bg0Color,bg1Color);
+	debug_msg("setOutputBGColor bg0Color=%X,bg1Color=%X !",bg0Color,bg1Color);
 }
 
 void AppScale::setOutputSize(uint32_t type)
@@ -1587,7 +1620,7 @@ void AppScale::setOutputSize(uint32_t type)
 		     C753SetVerticalSyncResetDelay(4);
 
 
-		     debug_msg("setOutputSize 1024 X 768 @60Hz \n!");
+		     debug_msg("setOutputSize 1024 X 768 @60Hz !");
 			 break;
 		 }
 
@@ -1596,18 +1629,16 @@ void AppScale::setOutputSize(uint32_t type)
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_121750KHZ);
 			 C753SetOutputHorizontalSync(0x0746);
 			 C753SetOutputVerticalSync(0x043f);
-			 //		     C753SetHorizontalSyncResetDelay(1);
-			 //		     C753SetVerticalSyncResetDelay(1);
-			      	     C753SetHorizontalSyncResetDelay(20);
-			 		     C753SetVerticalSyncResetDelay(4);
+      	     C753SetHorizontalSyncResetDelay(20);
+ 		     C753SetVerticalSyncResetDelay(4);
 
 
-			 debug_msg("setOutputSize 1440 X 1050 @60Hz \n!");
+			 debug_msg("setOutputSize 1440 X 1050 @60Hz !");
 			 break;
 		 }
 
 		 default:
-			 debug_msg("setOutputSize unknow \n!");
+			 debug_msg("setOutputSize unknow !");
 			 break;
 
 	 }
@@ -1622,7 +1653,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 	if(model == TYPE_OUTPUT_ACT)
 	{
 
-		debug_msg("Please set ACT \n!");
+		debug_msg("Please set ACT !");
 	}
 	else if(model == TYPE_OUTPUT_AOI0)
 	{
@@ -1678,11 +1709,11 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 
 void AppScale::setOutputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_t hs,uint16_t vs)
 {
-	debug_msg("setOutputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d\n",iChID,hw,vw,hs,vs);
+	debug_msg("setOutputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d",iChID,hw,vw,hs,vs);
 
 	uint16_t tempHs = hs + m_horFp;
 	uint16_t tempVs = vs + m_verFp;
-	debug_msg("setOutputChannelACT chid=%d  hw:%d,vw:%d,tempHs=%d,tempVs=%d\n",iChID,hw,vw,tempHs,tempVs);
+	debug_msg("setOutputChannelACT chid=%d  hw:%d,vw:%d,tempHs=%d,tempVs=%d",iChID,hw,vw,tempHs,tempVs);
 
     C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)tempHs);
     C753SetOutputPortACTHorizontalWidth(iChID, hw);
@@ -1701,7 +1732,7 @@ void AppScale::setOutputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16
 
 void AppScale::setInputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_t hs,uint16_t vs)
 {
-	debug_msg("setInputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d\n",iChID,hw,vw,hs,vs);
+	debug_msg("setInputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d",iChID,hw,vw,hs,vs);
 	C753SetInputPortACTHorizontalStart(iChID, (uint16_t)hs);
 	C753SetInputPortACTHorizontalWidth(iChID,hw);
 	C753SetInputPortACTVerticalStart(iChID, (uint16_t)vs);
@@ -1712,9 +1743,9 @@ void AppScale::moveChannelInput(uint32_t channel,int hPoint,int vPoint)
 {
 	uint16_t temp = 0;
 
-	debug_msg("move  hPoint:%d,vPoint:%d\n",hPoint,vPoint);
+	debug_msg("move  hPoint:%d,vPoint:%d",hPoint,vPoint);
 	C753GetInputPortACTHorizontalStart(channel,temp);
-	debug_msg("src  oldHS:%d,newHS:%d\n",temp, temp + hPoint);
+	debug_msg("src  oldHS:%d,newHS:%d",temp, temp + hPoint);
 	temp = temp + hPoint;
 	C753SetInputPortACTHorizontalStart(channel,temp);
 
@@ -1722,24 +1753,19 @@ void AppScale::moveChannelInput(uint32_t channel,int hPoint,int vPoint)
 	C753GetInputPortACTVerticalStart(channel,temp);
 	temp = temp + vPoint;
 	C753SetInputPortACTVerticalStart(channel,temp);
-	debug_msg("src  oldHS:%d,newHS:%d\n",temp, temp + vPoint);
+	debug_msg("src  oldHS:%d,newHS:%d",temp, temp + vPoint);
 }
 
 void AppScale::moveChannelOutput(uint32_t channel,int hPoint,int vPoint)
 {
-	uint16_t temp = 0;
-
-	debug_msg("move  hPoint:%d,vPoint:%d\n",hPoint,vPoint);
-	C753GetOutputPortACTHorizontalStart(channel,temp);
-	debug_msg("src  oldHS:%d,newHS:%d\n",temp, temp + hPoint);
-	temp = temp + hPoint;
-	C753SetOutputPortACTHorizontalStart(channel,temp);
+	uint16_t tempHs = hPoint + m_horFp;
+	uint16_t tempVs = vPoint + m_verFp;
 
 
-	C753GetOutputPortACTVerticalStart(channel,temp);
-	temp = temp + vPoint;
-	C753SetOutputPortACTVerticalStart(channel,temp);
-	debug_msg("src  oldHS:%d,newHS:%d\n",temp, temp + vPoint);
+	C753SetOutputPortACTHorizontalStart(channel,tempHs);
+
+
+	C753SetOutputPortACTVerticalStart(channel,tempVs);
 }
 
 void AppScale::topChannel(uint32_t channel)
@@ -1767,6 +1793,20 @@ AppScale* AppScale::Instance()
 void AppScale::setInputSignalModel(uint32_t chId,uint32_t model)
 {
 
+	debug_msg("setInputSignalModel  chId:%d,model:%d",chId,model);
 	setInputChannelACT(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,m_InputInfo[model].hStar,m_InputInfo[model].vStar);
+
+	uint16_t outHw =0;
+	uint16_t outVw =0;
+
+
+	C753GetOutputPortACTHorizontalWidth(chId,outHw);
+	C753GetOutputPortACTVerticalWidth(chId,outVw);
+
+	debug_msg("setInputSignalModel getOutput  chId:%d,outHw:%d,outVw:%d",chId,outHw,outVw);
+
+
+	initScal(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,outHw,outVw);
+
 }
 

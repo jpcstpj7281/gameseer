@@ -3,7 +3,7 @@
 
 
 
-#define debug_msg (printf("%s,%s[%d]:", __FILE__,__func__ ,__LINE__), printf)
+#define debug_msg (printf("\n%s,%s[%d]:", __FILE__,__func__ ,__LINE__), printf)
 
 enum INPUT_SIZE_TYPE
 {

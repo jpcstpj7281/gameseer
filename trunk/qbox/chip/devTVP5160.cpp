@@ -224,35 +224,141 @@ void DriverChip5160::dev_5160_GetManualGainValue(uint32_t byChannels,uint8_t &by
 
 void DriverChip5160::dev_5160_InitTVP5160(uint32_t byChannels)
 {
-	I2C_5160_Write(byChannels,0xee,0x01);
+
 	I2C_5160_Write(byChannels,0xea,0xb0);
 	I2C_5160_Write(byChannels,0xe9,0x00);
-	I2C_5160_Write(byChannels,0xe8,0x63);
+	I2C_5160_Write(byChannels,0xe8,0x60);
+	I2C_5160_Write(byChannels,0xe1,0x03);
+	I2C_5160_Write(byChannels,0xe1,0xb0);
+	I2C_5160_Write(byChannels,0xe1,0xb0);
+	I2C_5160_Write(byChannels,0xe1,0x01);
+
+	I2C_5160_Write(byChannels,0xea,0xb0);
+	I2C_5160_Write(byChannels,0xe9,0x00);
+	I2C_5160_Write(byChannels,0xe8,0x60);
+	I2C_5160_Write(byChannels,0xe1,0x02);
+	I2C_5160_Write(byChannels,0xe1,0xb0);
+	I2C_5160_Write(byChannels,0xe1,0xb0);
+	I2C_5160_Write(byChannels,0xe1,0x01);
+
+	I2C_5160_Write(byChannels,0xea,0x80);
+	I2C_5160_Write(byChannels,0xe9,0x0A);
+	I2C_5160_Write(byChannels,0xe8,0x68);
+	I2C_5160_Write(byChannels,0xe1,0x08);
+
+
+	I2C_5160_Write(byChannels,0xe9,0x0A);
+	I2C_5160_Write(byChannels,0xe8,0x10);
+	I2C_5160_Write(byChannels,0xe1,0x10);
+
+
+	I2C_5160_Write(byChannels,0xe9,0x00);
+	I2C_5160_Write(byChannels,0xe8,0x82);
+	I2C_5160_Write(byChannels,0xe0,0x10);
+
+	I2C_5160_Write(byChannels,0xe9,0x0A);
+	I2C_5160_Write(byChannels,0xe8,0x11);
+	I2C_5160_Write(byChannels,0xe0,0x03);
+
+	I2C_5160_Write(byChannels,0xe9,0x0A);
+	I2C_5160_Write(byChannels,0xe8,0x2A);
 	I2C_5160_Write(byChannels,0xe0,0x01);
 
-	I2C_5160_Write(byChannels,0xee,0x00);
-//
-	I2C_5160_Write(byChannels,0x4,0xff);
-	I2C_5160_Write(byChannels,0x6,0x40);
-	I2C_5160_Write(byChannels,0xd,0x84);
-	I2C_5160_Write(byChannels,0x30,0x0f);
-	I2C_5160_Write(byChannels,0x59,0x7);
-	I2C_5160_Write(byChannels,0x74,0xbf);
-	I2C_5160_Write(byChannels,0x75,0x1a);
-	I2C_5160_Write(byChannels,0x7f,0x1);
+	I2C_5160_Write(byChannels,0xe9,0x0A);
+	I2C_5160_Write(byChannels,0xe8,0x9c);
+	I2C_5160_Write(byChannels,0xe0,0x10);
 
-	I2C_5160_Write(byChannels,0x33,0x01);
+	I2C_5160_Write(byChannels,0xe9,0x0A);
+	I2C_5160_Write(byChannels,0xe8,0x3c);
+	I2C_5160_Write(byChannels,0xe0,0x03);
+
+	I2C_5160_Write(byChannels,0xea,0x08);
+	I2C_5160_Write(byChannels,0xe9,0x5c);
+	I2C_5160_Write(byChannels,0xe8,0x03);
+	I2C_5160_Write(byChannels,0xe1,0x00);
+	I2C_5160_Write(byChannels,0xe1,0x00);
+
+	I2C_5160_Write(byChannels,0xe8,0x80);
+	I2C_5160_Write(byChannels,0xe1,0x08);
+	I2C_5160_Write(byChannels,0xe1,0x08);
+
+	I2C_5160_Write(byChannels,0x08,0x00);
+	I2C_5160_Write(byChannels,0x0e,0x0c);
+
+	I2C_5160_Write(byChannels,0x00,0x00);
+	I2C_5160_Write(byChannels,0x02,0x00);
+	I2C_5160_Write(byChannels,0x03,0x00);
+	I2C_5160_Write(byChannels,0x04,0x3F);
+	I2C_5160_Write(byChannels,0x06,0x40);
+	I2C_5160_Write(byChannels,0x31,0x05);
+
+	I2C_5160_Write(byChannels,0x0D,0x80);
+	I2C_5160_Write(byChannels,0x59,0x07);
+
+	I2C_5160_Write(byChannels,0x33,0x00);
 	I2C_5160_Write(byChannels,0x34,0x11);
-	I2C_5160_Write(byChannels,0x35,0x2a);
-	I2C_5160_Write(byChannels,0x36,0xaf);
+	I2C_5160_Write(byChannels,0x35,0xeA);
+	I2C_5160_Write(byChannels,0x36,0xAF);
+	I2C_5160_Write(byChannels,0x75,0x1A);
+
+	// TVP5160 Direct I2C Registers
+//	WR_REG,VID_DEC,0x01,0x00,0x00 // Input Selection - CVBS CH1
+//	WR_REG,VID_DEC,0x01,0x02,0x00 // Auto Switch
+//	WR_REG,VID_DEC,0x01,0x03,0x00 // Power Down ?Normal Operation
+//	WR_REG,VID_DEC,0x01,0x04,0x3F // Auto Switch Mask
+//	WR_REG,VID_DEC,0x01,0x06,0x40 // Pedestal off
+//	WR_REG,VID_DEC,0x01,0x31,0x05 // GLCO in RTC mode
 //
-//	//设置没有信号时输出蓝屏
-//	bank1[0x5f] = 0x23;
-	I2C_5160_Write(byChannels,0x5f,0x23);
-//	bank1[0x60] = 0xd4;
-	I2C_5160_Write(byChannels,0x60,0xd4);
-//	bank1[0x61] = 0x72;
-	I2C_5160_Write(byChannels,0x61,0x72);
+//	WR_REG,VID_DEC,0x01,0x0D,0x80 // Chrominance Processing Ctrl 1 Reg ?3DYC Only Enabled
+//	WR_REG,VID_DEC,0x01,0x59,0x07 // Enabled SDRAM and set SDRAM size
+//
+//	WR_REG,VID_DEC,0x01,0x33,0x00 // Extended Coding Range, ITU-656
+//	WR_REG,VID_DEC,0x01,0x34,0x11 // Outputs Enabled
+//	WR_REG,VID_DEC,0x01,0x35,0xeA // GLCO and FID Enabled
+//	WR_REG,VID_DEC,0x01,0x36,0xAF // HS and VS Enabled
+//	WR_REG,VID_DEC,0x01,0x75,0x1A // F & V Bit Control
+
+//	I2C_5160_Write(byChannels,0xee,0x01);
+//
+//
+//	I2C_5160_Write(byChannels,0xea,0xb0);
+//	I2C_5160_Write(byChannels,0xe9,0x00);
+//	I2C_5160_Write(byChannels,0xe8,0x63);
+//
+//	I2C_5160_Write(byChannels,0xe0,0x01);
+//	I2C_5160_Write(byChannels,0xee,0x00);
+//
+//
+//	I2C_5160_Write(byChannels,0x4,0xff);
+//	I2C_5160_Write(byChannels,0x6,0x40);
+//	I2C_5160_Write(byChannels,0xd,0x84);
+//
+//	I2C_5160_Write(byChannels,0x30,0x0f);
+//
+//	I2C_5160_Write(byChannels,0x33,0x01);
+//	I2C_5160_Write(byChannels,0x34,0x11);
+//	I2C_5160_Write(byChannels,0x35,0x2a);
+//	I2C_5160_Write(byChannels,0x36,0xaf);
+//
+//	I2C_5160_Write(byChannels,0x59,0x7);
+//
+//
+//
+//	I2C_5160_Write(byChannels,0x74,0xbf);
+//	I2C_5160_Write(byChannels,0x75,0x1a);
+//	I2C_5160_Write(byChannels,0x7f,0x1);
+//
+//
+//
+//	//
+////	//设置没有信号时输出蓝屏
+//	I2C_5160_Write(byChannels,0x5f,0x23);
+//	I2C_5160_Write(byChannels,0x60,0xd4);
+//	I2C_5160_Write(byChannels,0x61,0x72);
+
+
+
+
 //
 //	value.push_back(bank1);
 //

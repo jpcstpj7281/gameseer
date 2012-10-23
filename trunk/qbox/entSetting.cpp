@@ -8,7 +8,6 @@
 #include "entSetting.h"
 #include "common.h"
 
-
 using namespace ent;
 
 
@@ -222,15 +221,9 @@ bool EntSetting::getWindowsInfo(uint32_t winHandle,WindowInfo &windowInfo)
 	return true;
 }
 
-uint32_t EntSetting::createWindow(uint32_t winX,uint32_t winY,uint32_t width,uint32_t height)
+void EntSetting::createWindow(uint32_t windowNum,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height)
 {
-	m_windowNum++;
 
-	if(m_windowNum >2)
-	{
-		m_windowNum--;
-		return 0;
-	}
 
 	WindowInfo info;
 	info.winX = winX;
@@ -238,10 +231,10 @@ uint32_t EntSetting::createWindow(uint32_t winX,uint32_t winY,uint32_t width,uin
 	info.width = width;
 	info.height = height;
 
-	m_windowInfo.insert(make_pair(m_windowNum,info));
+	m_windowInfo.insert(make_pair(windowNum,info));
 
 
-	return m_windowNum;
+
 }
 
 bool EntSetting::delWindow(uint32_t winHandle)

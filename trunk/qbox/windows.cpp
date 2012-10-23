@@ -81,7 +81,7 @@ uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPUpdateQboxReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPUpdateQboxReq"<<" connID="<<connID <<endl;
+	test_msg("onPUpdateQboxReq  connID=%d",connID );
     cout<<msg->info["totalLen"]<<" "<<msg->info["name"]<<endl;
 
     MsgInfo rsp;
@@ -114,7 +114,7 @@ void Windows::onPUpdateQboxReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPGetWindowsHandleReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPGetWindowsHandleReq"<<" connID="<<connID <<endl;
+	test_msg("onPGetWindowsHandleReq connID=%d",connID);
     MsgInfo rsp;
     rsp.msgType = PGetWindowsHandleRsp::uri;
 
@@ -138,17 +138,17 @@ void Windows::onPGetWindowsHandleReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPGetWindowsInfoReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPGetWindowsInfoReq"<<" connID="<<connID <<endl;
+	test_msg("onPGetWindowsInfoReq  connID=%d",connID);
     MsgInfo rsp;
     rsp.msgType = PGetWindowsInfoRsp::uri;
 
-    uint32_t winHandle  = atoi(msg->info["winHandle"].c_str());
+    uint32_t winHandle  = atoi(msg->info["out"].c_str());
 
     WindowInfo info;
     if( EntSetting::Instance()->getWindowsInfo(winHandle,info))
     {
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-        rsp.info["winHandle"]  =msg->info["winHandle"];
+        rsp.info["out"]  =msg->info["out"];
 
         rsp.info["x"]  = tostring(info.winX);
         rsp.info["y"]  = tostring(info.winY);
@@ -161,7 +161,7 @@ void Windows::onPGetWindowsInfoReq(MsgInfo *msg,uint32_t connID)
     else
     {
         rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-        rsp.info["winHandle"]  =msg->info["winHandle"];
+        rsp.info["out"]  =msg->info["out"];
     }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
@@ -172,51 +172,47 @@ void Windows::onPGetWindowsInfoReq(MsgInfo *msg,uint32_t connID)
 void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 {
 
-
-
     uint32_t winX = atoi(msg->info["x"].c_str());
     uint32_t winY = atoi(msg->info["y"].c_str());
     uint32_t winW = atoi(msg->info["w"].c_str());
     uint32_t winH = atoi(msg->info["h"].c_str());
     uint32_t winOut = atoi(msg->info["out"].c_str());
 
-    test_msg("onPCreateWindowsReq winX=%d,winY=%d,winW=%d,winH=%d,winOut=%d!\n",winX,winY,winW,winH,winOut);
+    test_msg("onPCreateWindowsReq winX=%d,winY=%d,winW=%d,winH=%d,winOut=%d!",winX,winY,winW,winH,winOut);
 
 
     MsgInfo rsp;
     rsp.msgType = PCreateWindowsRsp::uri;
 
-    uint32_t winHandle = 0;
+    test_msg("onPCreateWindowsReq winOut=%d!",winOut);
 
-    winHandle = EntSetting::Instance()->createWindow(winX,winY,winW,winH);
-    if(winHandle!=0)
-    {
-        test_msg("onPCreateWindowsReq winHandle=%d!\n",winHandle);
+
+    uint32_t model = 0;
+	getSignalModel(winOut,model);
+	if(TYPE_INPUT_SIZE_DEFAULT != model)
+	{
+		setChnSignalModel(winOut,model);
+	}
+	else
+	{
+		rsp.info["error"] = tostring(ERROR_TYPE_NOSIGNAL);
+	}
+
+
+
 #ifndef __unix__
-    	setOutputChannel(winHandle,winW,winH,winX,winY);
+    	test_msg("setOutputSize winOut=%d,winW=%d,winH=%d,!",winOut,winW,winH);
+    	setOutputSize(winOut,winW,winH);
+    	moveOutputChannel(winOut,winX,winY);
 #endif
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-        rsp.info["winHandle"] = tostring(winHandle);
-    }
-    else
-    {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-    }
+        rsp.info["out"] = tostring(winOut);
 
-    if(!EntSetting::Instance()->setLayer(winHandle,DEFINE_WINDOW_LAYER))
-    {
-        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-    }
+        EntSetting::Instance()->createWindow(winOut,winX,winY,winW,winH);
+        EntSetting::Instance()->setLayer(winOut,DEFINE_WINDOW_LAYER);
+        EntSetting::Instance()->setOutput(winOut,winOut);
+        EntSetting::Instance()->setShowStatus(winOut,TYPE_WINDOW_STATUS_HIDE);
 
-    if(!EntSetting::Instance()->setOutput(winHandle,winOut))
-    {
-        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-    }
-
-    if(!EntSetting::Instance()->setShowStatus(winHandle,TYPE_WINDOW_STATUS_HIDE))
-    {
-        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-    }
 
 
 
@@ -230,9 +226,9 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPSetWindowsLayerReq"<<" connID="<<connID <<endl;
+	test_msg("onPSetWindowsLayerReq connID=%d",connID);
 
-    uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+    uint32_t winHandle = atoi(msg->info["out"].c_str());
     uint32_t layer = atoi(msg->info["layer"].c_str());
 
     MsgInfo rsp;
@@ -254,8 +250,8 @@ void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 void Windows::onPSetWindowsShowStateReq(MsgInfo *msg,uint32_t connID)
 {
 
-    uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
-    test_msg("onPSetWindowsShowStateReq winHandle=%d,showState=%s!\n",winHandle,msg->info["showState"].c_str());
+    uint32_t winHandle = atoi(msg->info["out"].c_str());
+    test_msg("onPSetWindowsShowStateReq out=%d,showState=%s!",winHandle,msg->info["showState"].c_str());
 
 
     MsgInfo rsp;
@@ -294,8 +290,8 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
 {
 
 
-    uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
-    test_msg("onPDelWindowsReq winHandle=%d!\n",winHandle);
+    uint32_t winHandle = atoi(msg->info["out"].c_str());
+    test_msg("onPDelWindowsReq out=%d!",winHandle);
 
 
     MsgInfo rsp;
@@ -304,12 +300,12 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
     if(!EntSetting::Instance()->delWindow(winHandle))
     {
         rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-        test_msg("onPDelWindowsReq winHandle=%d Error!\n",winHandle);
+        test_msg("onPDelWindowsReq out=%d Error!",winHandle);
     }
     else
     {
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-        test_msg("onPDelWindowsReq winHandle=%d OK!\n",winHandle);
+        test_msg("onPDelWindowsReq out=%d OK!",winHandle);
 #ifndef __unix__
         hideChannel(winHandle);
 #endif
@@ -322,9 +318,9 @@ void Windows::onPDelWindowsReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onPMoveWindowsReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPMoveWindowsReq"<<" connID="<<connID <<endl;
+	test_msg("onPMoveWindowsReq  connID=%d",connID);
 
-    uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+    uint32_t winHandle = atoi(msg->info["out"].c_str());
     uint32_t winX = atoi(msg->info["x"].c_str());
     uint32_t winY = atoi(msg->info["y"].c_str());
     uint32_t winW = atoi(msg->info["w"].c_str());
@@ -349,7 +345,7 @@ void Windows::onPMoveWindowsReq(MsgInfo *msg,uint32_t connID)
 
 void Windows::onCloseAllReq(MsgInfo *msg,uint32_t connID)
 {
-    test_msg("onCloseAllReq !\n");
+    test_msg("onCloseAllReq !");
 
 
     MsgInfo rsp;

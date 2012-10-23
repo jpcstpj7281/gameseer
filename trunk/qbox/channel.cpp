@@ -35,9 +35,13 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 
     switch(msg->msgType)
     {
-        case PChangeInputReq::uri:
-            onPChangeInputReq(msg,connID);
+        case PSetSwitchInputReq::uri:
+            onPSetSwitchInputReq(msg,connID);
             break;
+
+        case PGetSwitchInputReq::uri:
+        	onPGetSwitchInputReq(msg,connID);
+        	break;
 
         case PSetInPutPicReq::uri:
         	onPSetInPutPicReq(msg,connID);
@@ -56,37 +60,25 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
     return 0;
 }
 
-void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
+void Channel::onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 {
 
-    uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+    uint32_t out = atoi(msg->info["out"].c_str());
     uint32_t input = atoi(msg->info["in"].c_str());
 
     MsgInfo rsp;
-    rsp.msgType = PChangeInputRsp::uri;
+    rsp.msgType = PSetSwitchInputRsp::uri;
 
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
-    if(!EntSetting::Instance()->setInput(winHandle,input))
+    if(!EntSetting::Instance()->setInput(out,input))
     {
     	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
 
 #ifndef __unix__
-    if(winHandle==1 || winHandle==2)
-    {
-    	uint32_t model = 0;
-    	getSignalModel(winHandle,model);
 
-    	if(TYPE_INPUT_SIZE_DEFAULT != model)
-    	{
-    		setChnSignalModel(winHandle,model);
-    	}
-    	else
-    	{
-    		rsp.info["error"] = tostring(ERROR_TYPE_NOSIGNAL);
-    	}
-    }
+    setChnSignalInput(out,input);
 
 
 #endif
@@ -98,9 +90,9 @@ void Channel::onPChangeInputReq(MsgInfo *msg,uint32_t connID)
 
 void Channel::onPSetInPutPicReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onPSetInPutPicReq"<<" connID="<<connID <<endl;
+	test_msg("onPSetInPutPicReq  connID=%d",connID);
 
-    uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+    uint32_t winHandle = atoi(msg->info["out"].c_str());
     uint32_t pic = atoi(msg->info["pic"].c_str());
 
     MsgInfo rsp;
@@ -124,7 +116,7 @@ void Channel::onPSetInPutPicReq(MsgInfo *msg,uint32_t connID)
 void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 {
 
-	uint32_t winHandle = atoi(msg->info["winHandle"].c_str());
+	uint32_t winHandle = atoi(msg->info["out"].c_str());
     uint32_t output = atoi(msg->info["in"].c_str());
     uint32_t width = atoi(msg->info["w"].c_str());
     uint32_t height = atoi(msg->info["h"].c_str());
@@ -153,7 +145,34 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 
 }
 
+void Channel::onPGetSwitchInputReq(MsgInfo *msg,uint32_t connID)
+{
 
+
+    MsgInfo rsp;
+    rsp.msgType = PSetSwitchInputRsp::uri;
+
+    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+
+
+#ifndef __unix__
+    uint32_t input=0;
+    getChnSignalInput(1,input);
+    rsp.info["out1"] = tostring(input);
+    getChnSignalInput(2,input);
+    rsp.info["out2"] = tostring(input);
+    getChnSignalInput(3,input);
+    rsp.info["out3"] = tostring(input);
+    getChnSignalInput(4,input);
+    rsp.info["out4"] = tostring(input);
+
+
+#endif
+
+
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+}
 
 
 
