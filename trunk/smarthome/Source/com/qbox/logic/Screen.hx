@@ -63,59 +63,6 @@ class Screen extends Qbox{
         return false;
     }
 
-    //function setQbox( qbox:Qbox):Qbox{
-    ////trace("setQbox");
-    //_qbox = qbox;
-    //_753ports= new Hash<Wnd>();
-    //_ringports = new Hash<Wnd>();
-    //for ( i in qbox._outputs.keys()){
-    //var val = qbox._outputs.get(i);
-    //if ( val == "753"){
-    //_753ports.set(i, null);
-    //}else{
-    //_ringports.set(i, null);
-    //}
-    //}
-    //return qbox;
-    //}
-    //function getQbox():Qbox{
-    //return _qbox;
-    //}
-
-    /* deprecated
-    //open wnd by reachieve wnd data from qbox;
-    public function resurrectWnd( resx:Int, resy:Int, resw:Int, resh:Int, input:String){
-    var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;
-    var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;
-
-    var pw:Float = _virtualWidth / _resWidth;
-    var ph:Float = _virtualHeight / _resHeight;
-
-    var virtualX =  Math.round( resx * pw + screenx);
-    var virtualY =  Math.round( resy * pw + screeny);
-    _virtualWidth=  Math.round( resw * pw);
-    _virtualHeight=  Math.round( resh * ph);
-
-    var wnd = WndMgr.getInst().createWnd();
-    wnd._virtualX = virtualX;
-    wnd._virtualY = virtualY;
-    wnd._virtualWidth = _virtualWidth;
-    wnd._virtualHeight = _virtualHeight;
-    var nodes = new Array<String>();
-    nodes.push( _qbox._ipv4 + ":" +input);
-    var c = ChannelMgr.getInst().getChannel( nodes);
-    if ( c == null){
-    c = ChannelMgr.getInst().createChannel();
-    c.addNode( _qbox, input);
-    }
-    wnd._channel = c;
-    return wnd;
-
-    //trace("resurrectWnd");
-    }
-     */
-
-
     public function calcScreen(x:Int, y:Int, w:Int, h:Int ){
         var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;//UI上的窗口X坐标,加入ScreenPlate的X偏移
         var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口X坐标,加入ScreenPlate的Y偏移
@@ -214,21 +161,33 @@ class Screen extends Qbox{
         //return isOutOfScreen;
     }
 
+    //correspond port of wnd, return a available port if cant find correspond port.
+    public function get753Port( wnd:Wnd):String{
+        for ( i in _753ports.keys()){
+            var w = _753ports.get(i);
+            if (  w == wnd){
+                return i;
+            }
+        }
+        return null;
+    }
+    public function getRingPort( wnd:Wnd):String{
+        for ( i in _ringports.keys()){
+            var w = _ringports.get(i);
+            if ( w == wnd){
+                return i;
+            }
+        }
+        return null;
+    }
+
     public function setWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
             trace("there is a wnd operation processing.");
         }
 
-        var availablePorts:String = null;
-        for ( i in _753ports.keys()){
-            var w = _753ports.get(i);
-            if ( w == null || w == wnd){
-                availablePorts = i;
-                _753ports.set( i, wnd);
-                break;
-            }
-        }
-        if ( availablePorts == null){
+        var port:String = get753Port(wnd);
+        if ( port == null){
             trace("There is no port available to set wnd");
             return false;
         }
@@ -299,11 +258,11 @@ class Screen extends Qbox{
             addKeyVal( "y", Bytes.ofString(Std.string(qy)));
             addKeyVal( "w", Bytes.ofString(Std.string(qw)));
             addKeyVal( "h", Bytes.ofString(Std.string(qh)));
-            addKeyVal( "out", Bytes.ofString(availablePorts));
+            addKeyVal( "out", Bytes.ofString(port));
             sendData();
 #else
             var test= new Hash<String>();
-            test.set("winHandle",availablePorts);
+            test.set("winHandle",port);
             test.set("error","0");
             var pw = _resWidth /_virtualWidth ;
             var ph = _resHeight/_virtualHeight;
@@ -474,7 +433,7 @@ class Screen extends Qbox{
         super.cbLoadInputsResolution(args);
     }
 
-    public function setChannel( winHandle:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
+    public function set753Channel( winHandle:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
         if (_currCB != null){ trace("there is a wnd processing."); }
         _currCB = cbSetChannelFunc;
 #if !neko
@@ -482,14 +441,37 @@ class Screen extends Qbox{
         if ( p != null){ 
             _753ports.set( winHandle, wnd);
         }else{
-            p = _ringports.get(winHandle);
-            if ( p != null){
-                _ringports.set( winHandle, wnd);
-            }else{
-                trace( "there is no port available to set channel!");
-                return;
-            }
+            trace( "there is no port available to set 753 channel!");
+            return;
         }
+        clearData();
+        startListening( 2, cbSetChannel, 3);
+        setMsg( 1, 3);
+        addKeyVal( "winHandle", Bytes.ofString(winHandle));
+        addKeyVal( "in", Bytes.ofString(input));
+        sendData();
+#else
+        var test= new Hash<String>();
+        test.set("error","0");
+        cbSetChannel(test);
+#end
+    }
+    public function setRingChannel( winHandle:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
+        if (_currCB != null){ trace("there is a wnd processing."); }
+        _currCB = cbSetChannelFunc;
+#if !neko
+        //var p = _753ports.get(winHandle);
+        //if ( p != null){ 
+        //_753ports.set( winHandle, wnd);
+        //}else{
+        var p = _ringports.get(winHandle);
+        if ( p != null){
+            _ringports.set( winHandle, wnd);
+        }else{
+            trace( "there is no port available to set Ring channel!");
+            return;
+        }
+        //}
         clearData();
         startListening( 2, cbSetChannel, 3);
         setMsg( 1, 3);
