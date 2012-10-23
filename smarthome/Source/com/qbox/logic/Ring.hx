@@ -37,7 +37,7 @@ class Ring{
             }
 #end
 
-            i._screen.setChannel( i._outport[_nodeIndex], i._inport[_nodeIndex], cbSetupRing, wnd);
+            i._screen.setRingChannel( i._outport[_nodeIndex], i._inport[_nodeIndex], cbSetupRing, wnd);
             ++_count;
         }
         _isRingSetup = true;
@@ -54,6 +54,9 @@ class Ring{
         if (_count == 0){
             _cb("");
         }
+    }
+
+    public function setup753( wnd:Wnd, ss:Array<Screen>, c:Channel,  cb:Dynamic->Void){
     }
 
     public function getScreens( c:Channel):Array<Screen>{
