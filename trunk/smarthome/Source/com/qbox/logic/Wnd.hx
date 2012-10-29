@@ -15,7 +15,13 @@ class Wnd{
 
     public var _inputSize:Array<InputSize>;
     public var _screens:Array<Screen>;
-    public var _handles:Array<String>;
+    public var _newinputSize:Array<InputSize>;
+    public var _newscreens:Array<Screen>;
+    public var _closescreens:Array<Screen>;
+    public var _createscreens:Array<Screen>;
+    public var _keepscreens:Array<Screen>;
+
+    //public var _handles:Array<String>;
 
     public var _virtualX:Int;
     public var _virtualY:Int;
@@ -34,7 +40,6 @@ class Wnd{
         //_h = cast ScreenMgr.getInst()._height*0.6;
         _screens= new Array<Screen>();
         _inputSize = new Array<InputSize>();
-        _handles= new Array<String>();
         _opCounter= 0;
     }
 
@@ -50,25 +55,49 @@ class Wnd{
         _screens = new Array<Screen>();
         _inputSize = new Array<InputSize>();
         var vs = new Array<Dynamic>();
-        for (i in ScreenMgr.getInst()._screens){ 
-            var obj = i.calcScreen( x,y,w,h);
-            if ( obj.isOutScreen == false){
-                _screens.push(i);
-                vs.push(obj);
+        if ( _ring != null){ //calculate screen if there is ring.
+            for (i in ScreenMgr.getInst()._screens){ 
+                var obj = i.calcScreen( x,y,w,h);
+                if ( obj.isOutScreen == false){
+                    _screens.push(i);
+                    vs.push(obj);
+                }
             }
+        }else{
+            _screens.push( c._screen);
         }
 
-        if ( _screens.length > 1){
+        if ( _screens.length > 1 && _ring != null){
             calcInputSize( _inputSize, vs);
         }else{
             _inputSize.push( new InputSize( 0, 0, c._w,c._h) );
         }
 
-        _opCounter += _screens.length;
-        for( i in 0..._screens.length){
-            _screens[i].setChannelArea( _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
-        }
+        setupChannel();
         return true;
+    }
+
+    public function setupChannel(){
+        if ( _ring == null){
+            if ( _channel._screen.has753Available() == true ){
+                _channel._screen.set753Channel(_channel._inport, cbSetupChannel, this);
+            }else{
+                trace("dont have 753 port available!");
+            }
+        }else{
+            if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel) == false){
+                trace("resource error");
+            }
+        }
+    }
+
+    function cbSetup753RingChannel( args:Dynamic){
+        trace(args);
+        setWnd();
+    }
+    function cbSetupChannel( args:Dynamic, s:Screen){
+        trace(args);
+        setWnd();
     }
 
     function calcInputSize( inputSizeArr:Array<InputSize>,  sizeArr:Array<Dynamic>){
@@ -95,23 +124,12 @@ class Wnd{
     }
 
 
-    function cbSetChannelArea( args:Dynamic, s:Screen){
-        --_opCounter;
-        if ( _opCounter == 0){
-            setWnd();
-        }
-    }
-
     function setWnd(){
 #if !neko
         for ( i in _screens){
-            if ( ! i.isConected() ){
-                trace("screen: " + i._ipv4 +" not yet connect");
-                return false;
-            }
-            if ( ! i.has753Available()){
-                trace("screen: "+ i._ipv4 +" dont have resource to open window!");
-                return false;
+            if ( i.get753Port( this ) == null ){
+                trace("screen: "+ i._ipv4 +" resource unexisted!");
+                return ;
             }
         }
 
@@ -119,74 +137,41 @@ class Wnd{
             //ScreenMgr.getInst().setRing(ring);
             //trace(ring);
             _ring.setupRing( this, cbRingSetup);
-        }else{
+            return ;
+        }
+#end
+        cbRingSetup(null);
+    }
+
+    function cbRingSetup( args:Dynamic){
+        _opCounter += _screens.length;
+        for( i in 0..._screens.length){
+            _screens[i].setChannelArea( _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
+        }
+
+    }
+    function cbSetChannelArea( args:Dynamic, s:Screen){
+        trace(args);
+        --_opCounter;
+        if ( _opCounter == 0){
             _opCounter+=_screens.length;
             for (i in _screens){
                 i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
             }
         }
-#else
-        _opCounter += _screens.length;
-        for (i in _screens){
-            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
-        }
-#end
-        return true;
     }
 
-    function cbRingSetup( args:Dynamic){
-        //var screens:Array<Screen> = new Array<Screen>();
-        //for (i in ScreenMgr.getInst()._screens){ 
-        //if ( ! i.isOutOfScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight)){ 
-        //screens.push(i);
-        //}
-        //}
-        _opCounter+=_screens.length;
-        for (i in _screens){
-            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
-        }
-    }
 
     function cbSetWnd( args:Dynamic, s:Screen):Void{
         var error = args.get("error" );
         if (error == "1") { trace( "There is a error occurred: "+s._ipv4+"!");return; }
-        var handle = args.get("winHandle" );
-        //trace(s._col);
-        //trace(handle);
-        //trace(_screens.length);
-        //_screens.push( s);
-        //_handles.push( handle);
-        //if ( handle != "null"){
-        //++_opCounter;
-        //s.setChannel( handle, _channel,  cbSetChannel);
-        //for ( i in 0..._screens.length){
-        //if ( _screens[i] == s ){
+        var handle = args.get("out" );
         if ( handle != "null"){
-            //trace(_screens[i]);
-            //trace(_handles[i]);
             ++_opCounter;
-            s.showWnd( handle, cbShowWnd );
+            s.showWnd( this, cbShowWnd );
         }
-        //}
-        //}
-        //}
-        //trace(_screens.length);
         --_opCounter;
     }
-
-    //function cbSetChannel( args:Dynamic, s:Screen):Void{
-    //var error = args.get("error");
-    //if (error == "1") { return; }
-    //for ( i in 0..._screens.length){
-    //if ( _screens[i] == s ){
-    //if ( _handles[i] != "null"){
-    //++_opCounter;
-    //s.showWnd( _handles[i], cbShowWnd );
-    //}
-    //}
-    //}
-    //--_opCounter;
-    //}
 
     function cbShowWnd( args:Dynamic){
         --_opCounter;
@@ -197,47 +182,109 @@ class Wnd{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
-        _opCounter+=_screens.length;
-        for (i in 0..._screens.length){
-            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd, this);
+
+        _newscreens = new Array<Screen>();
+        _newinputSize = new Array<InputSize>();
+        var vs = new Array<Dynamic>();
+        if ( _ring != null){ //calculate screen if there is ring.
+            for (i in ScreenMgr.getInst()._screens){ 
+                var obj = i.calcScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight);
+                if ( obj.isOutScreen == false){
+                    _newscreens.push(i);
+                    vs.push(obj);
+                }
+            }
+        }else{
+            _newscreens.push( _channel._screen);
+        }
+
+        if ( _newscreens.length > 1 && _ring != null){
+            calcInputSize( _newinputSize, vs);
+        }else{
+            _newinputSize.push( new InputSize( 0, 0, _channel._w,_channel._h) );
+        }
+
+        _createscreens = new Array<Screen>();
+        _closescreens = new Array<Screen>();
+        _keepscreens = new Array<Screen>();
+
+        var hasit:Bool = false;
+        for ( i in _screens){
+            hasit = false;
+            for ( n in _newscreens){
+                if ( i == n){
+                    _keepscreens.push( i);
+                    hasit = true;
+                    break;
+                }
+            }
+            if ( !hasit ){
+                _closescreens.push(i);
+            }
+        }
+
+        for ( i in _newscreens){
+            hasit = false;
+            for ( n in _keepscreens){
+                if ( i == n){
+                    hasit = true;
+                    break;
+                }
+            }
+            if ( !hasit){
+                _createscreens.push(i);
+            }
+        }
+
+        if ( _keepscreens.length > 0){
+            _opCounter+=_keepscreens.length;
+            for (i in 0..._keepscreens.length){
+                _keepscreens[i].hideWnd( this, cbHideBeforeMoveWnd);
+            }
+        }else{
+            ++_opCounter;
+            cbHideBeforeMoveWnd(null);
         }
         return true;
     }
 
-    function cbHideBeforeMoveWnd( args:Dynamic, s:Screen):Void{
-    }
-    
-    function cbCloseBeforeOpenWnd( args:Dynamic, s:Screen):Void{
-        //trace(args);
-        //trace(_opCounter);
+    function cbHideBeforeMoveWnd( args:Dynamic):Void{
+        trace(args);
         --_opCounter;
         if ( _opCounter == 0){
-            //_screens = new Array<Screen>();
-            //_handles= new Array<String>();
-            //trace("test");
-            open(_virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring);
-            //trace("test");
+            if ( _closescreens.length > 0){
+                _opCounter+=_closescreens.length;
+                for (i in 0..._closescreens.length){
+                    _closescreens[i].hideWnd( this, cbCloseBeforeMoveWnd);
+                }
+            }else{
+                ++_opCounter;
+                cbCloseBeforeMoveWnd( null);
+            }
         }
     }
 
-    //function cbMoveWnd( args:Dynamic, s:Screen){
-    //var error = args.get("error" );
-    //if (error == "1") { return; }
-    //var handle = args.get("winHandle" );
-    ////trace(handle);
-    //_screens.push( s);
-    //_handles.push( handle);
-    //s.showWnd( handle, cbShowWnd);
-    //}
+    function cbCloseBeforeMoveWnd( args:Dynamic):Void{
+        trace(args);
+        --_opCounter;
+        if ( _opCounter == 0){
+            if ( _createscreens.length > 0 ){
+                if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel) == false){
+                    trace("resource error");
+                }
+            }else{
+                setWnd();
+            }
+        }
+    }
+
+    function cbSet753BeforMoveWnd( args){
+    }
 
     public function resize( w:Int, h:Int){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualHeight = h;
         _virtualWidth = w;
-        _opCounter+=_screens.length;
-        for (i in 0..._screens.length){ 
-            _screens[i].closeWnd( _handles[i], cbCloseBeforeOpenWnd , this); 
-        }
         return true;
     }
 
@@ -254,7 +301,7 @@ class Wnd{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _opCounter+=_screens.length;
         for (i in 0..._screens.length){ 
-            _screens[i].closeWnd( _handles[i], cbCloseWnd , this); 
+            _screens[i].closeWnd( this, cbCloseWnd ); 
         }
         return true;
     }
