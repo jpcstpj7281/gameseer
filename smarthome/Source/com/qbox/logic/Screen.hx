@@ -228,7 +228,7 @@ class Screen extends Qbox{
         if (isOutOfScreen){
             trace(""+_col+"|"+_row+":Out of screen");
             var outofscreen = new Hash<String>();
-            outofscreen.set("winHandle","null");
+            outofscreen.set("out","null");
             outofscreen.set("error","0");
             cbSetWnd(outofscreen);
             return false;
@@ -262,7 +262,7 @@ class Screen extends Qbox{
             sendData();
 #else
             var test= new Hash<String>();
-            test.set("winHandle",port);
+            test.set("out",port);
             test.set("error","0");
             var pw = _resWidth /_virtualWidth ;
             var ph = _resHeight/_virtualHeight;
@@ -326,32 +326,42 @@ class Screen extends Qbox{
         }
     }
 
-    public function hideWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
+    public function hideWnd( wnd:Wnd, cbShowWnd:Dynamic->Void){
 #if !neko
+        var p = get753Port(wnd);
+        if ( p == null){
+            trace("null port error!");
+            return;
+        }
         clearData();
         startListening( 10, cbShowWnd, 2);
         setMsg( 9, 2);
-        addKeyVal( "winHandle", Bytes.ofString(handle));
+        addKeyVal( "out", Bytes.ofString(p));
         addKeyVal( "showState", Bytes.ofString("hide"));
         sendData();
 #else
         var test= new Hash<String>();
-        test.set("winHandle","1");
+        test.set("out","1");
         test.set("error","0");
         cbShowWnd(test);
 #end
     }
-    public function showWnd( handle:String, cbShowWnd:Dynamic->Void):Void{
+    public function showWnd( wnd:Wnd, cbShowWnd:Dynamic->Void):Void{
 #if !neko
+        var p = get753Port(wnd);
+        if ( p == null){
+            trace("null port error!");
+            return;
+        }
         clearData();
         startListening( 10, cbShowWnd, 2);
         setMsg( 9, 2);
-        addKeyVal( "winHandle", Bytes.ofString(handle));
+        addKeyVal( "out", Bytes.ofString(port));
         addKeyVal( "showState", Bytes.ofString("show"));
         sendData();
 #else
         var test= new Hash<String>();
-        test.set("winHandle","1");
+        test.set("out","1");
         test.set("error","0");
         cbShowWnd(test);
 #end
@@ -361,16 +371,17 @@ class Screen extends Qbox{
         return "handle";
     }
 
-    public function closeWnd( winHandle:String, cbCloseWndFunc:Dynamic->Screen->Void, wnd:Wnd ):Bool{
-        if ( winHandle == "null") return false;
+    public function closeWnd( wnd:Wnd, cbCloseWndFunc:Dynamic->Screen->Void):Bool{
         if (_currCB != null){ trace("there is a wnd operation processing."); }
         trace("closed wnd: "+_col+"|"+_row);
         _currCB = cbCloseWndFunc;
 
+        var out:String = null;
         for ( i in _753ports.keys()){
             var w = _753ports.get(i);
             if ( w == wnd){
                 _753ports.set(i, null);
+                out = i;
             }
         }
         for ( i in _ringports.keys()){
@@ -379,11 +390,14 @@ class Screen extends Qbox{
                 _ringports.set(i, null);
             }
         }
+        if ( out == null){
+            trace("close null port error!");
+        }
 #if !neko
         clearData();
         startListening( 12, cbCloseWnd, 2);
         setMsg( 11, 2);
-        addKeyVal( "winHandle", Bytes.ofString(winHandle));
+        addKeyVal( "out", Bytes.ofString(out));
         sendData();
 #else
         var test= new Hash<String>();
@@ -413,7 +427,7 @@ class Screen extends Qbox{
                 _ringports.set( "3", null);
             }
             if ( args.exists("out4")){
-                _ringports.set( "3", null);
+                _ringports.set( "4", null);
             }
             //for ( i in 1...5){ _outputs.set( ""+i, outputs.get("out"+i) ); }
         }
@@ -433,21 +447,24 @@ class Screen extends Qbox{
         super.cbLoadInputsResolution(args);
     }
 
-    public function set753Channel( winHandle:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
+    public function set753Channel( input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
         if (_currCB != null){ trace("there is a wnd processing."); }
         _currCB = cbSetChannelFunc;
 #if !neko
-        var p = _753ports.get(winHandle);
-        if ( p != null){ 
-            _753ports.set( winHandle, wnd);
-        }else{
-            trace( "there is no port available to set 753 channel!");
-            return;
+        var p = get753Port(wnd);
+        if ( p == null){ 
+            p = get753Port(null);
+            if ( p == null){
+                trace( "there is no port available to set 753 channel!");
+                return false;
+            }
+            else
+                _753ports.set(p, wnd);
         }
         clearData();
         startListening( 2, cbSetChannel, 3);
         setMsg( 1, 3);
-        addKeyVal( "winHandle", Bytes.ofString(winHandle));
+        addKeyVal( "out", Bytes.ofString(p));
         addKeyVal( "in", Bytes.ofString(input));
         sendData();
 #else
@@ -455,27 +472,23 @@ class Screen extends Qbox{
         test.set("error","0");
         cbSetChannel(test);
 #end
+        return true;
     }
-    public function setRingChannel( winHandle:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
+    public function setRingChannel( out:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
         if (_currCB != null){ trace("there is a wnd processing."); }
         _currCB = cbSetChannelFunc;
 #if !neko
-        //var p = _753ports.get(winHandle);
-        //if ( p != null){ 
-        //_753ports.set( winHandle, wnd);
-        //}else{
-        var p = _ringports.get(winHandle);
+        var p = _ringports.get(out);
         if ( p != null){
-            _ringports.set( winHandle, wnd);
+            _ringports.set( out, wnd);
         }else{
             trace( "there is no port available to set Ring channel!");
             return;
         }
-        //}
         clearData();
         startListening( 2, cbSetChannel, 3);
         setMsg( 1, 3);
-        addKeyVal( "winHandle", Bytes.ofString(winHandle));
+        addKeyVal( "out", Bytes.ofString(out));
         addKeyVal( "in", Bytes.ofString(input));
         sendData();
 #else
