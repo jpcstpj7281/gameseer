@@ -17,6 +17,7 @@
 #include "event.h"
 #include "channel.h"
 #include "common.h"
+#include "entSetting.h"
 
 
 #ifndef __unix__
@@ -38,7 +39,7 @@ extern struct in_ifaddr* in_ifaddr;
     extern "C"{
 
 using namespace msg;
-
+using namespace ent;
 
 
 
@@ -142,17 +143,68 @@ void runServer(int port)
 
 }
 
+
+void taskCheckInputSignal()
+{
+
+#ifndef __unix__
+
+	while(1)
+	{
+		for(int i=1;i<7;i++)
+		{
+//			test_msg("chech signal =%d",i);
+			uint32_t model = 0;
+			getSignalModel(i,model);
+			if(model != TYPE_INPUT_SIZE_DEFAULT)
+			{
+				EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_ONLINE);
+				if(model == TYPE_INPUT_SIZE_702_480)
+				{
+					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
+					EntSetting::Instance()->setInputInfoSize(i,702,480);
+				}
+				else if(model == TYPE_INPUT_SIZE_1024_768)
+				{
+					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+					EntSetting::Instance()->setInputInfoSize(i,1024,768);
+				}
+			}
+			else
+			{
+				EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_OFFLINE);
+				EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_DEFAULT);
+				EntSetting::Instance()->setInputInfoSize(i,0,0);
+			}
+		}
+
+		taskDelay(1000);
+	}
+
+#else
+#endif
+
+
+
+
+}
+
 #ifndef __unix__
 void enterApp()
 {
 	int ret = 0;
 	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,5000,0,0,0,0,0,0,0,0,0);
 
+	ret = taskSpawn("tCheckSignal", 155, 0x0002, 2*1024,(FUNCPTR) taskCheckInputSignal,0,0,0,0,0,0,0,0,0,0);
+
 }
 #endif
 
 
-
+void dumpEntSetting()
+{
+	EntSetting::Instance()->dumpAll();
+}
 
 
 

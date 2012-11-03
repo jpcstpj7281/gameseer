@@ -154,7 +154,7 @@ public:
 	string getSlotStatusType(uint32_t slot);
 
 
-
+	void dumpAll();
 
 protected:
 

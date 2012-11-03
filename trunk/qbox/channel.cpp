@@ -78,6 +78,7 @@ void Channel::onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 
 #ifndef __unix__
 
+    test_msg("onPSetSwitchInputReq  out=%d,input=%d",out,input);
     setChnSignalInput(out,input);
 
 
@@ -157,13 +158,13 @@ void Channel::onPGetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 
 #ifndef __unix__
     uint32_t input=0;
-    getChnSignalInput(1,input);
-    rsp.info["out1"] = tostring(input);
-    getChnSignalInput(2,input);
-    rsp.info["out2"] = tostring(input);
     getChnSignalInput(3,input);
-    rsp.info["out3"] = tostring(input);
+    rsp.info["out1"] = tostring(input);
     getChnSignalInput(4,input);
+    rsp.info["out2"] = tostring(input);
+    getChnSignalInput(1,input);
+    rsp.info["out3"] = tostring(input);
+    getChnSignalInput(2,input);
     rsp.info["out4"] = tostring(input);
 
 

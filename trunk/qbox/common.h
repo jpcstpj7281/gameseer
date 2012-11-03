@@ -36,7 +36,7 @@ enum OUTPUT_MODEL
 enum INPUT_SIZE_TYPE
 {
     TYPE_INPUT_SIZE_702_480 = 0,
-    TYPE_INPUT_SIZE_1024_768 = 1,
+    TYPE_INPUT_SIZE_1024_768 = 2,
 
     TYPE_INPUT_SIZE_DEFAULT = 255,
 };
@@ -65,8 +65,10 @@ extern void hideChannel(uint32_t chn);
 extern void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 extern void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 
-extern void getSignalModel(uint32_t chn,uint32_t &model);
-extern void setChnSignalModel(uint32_t chn,uint32_t model);
+extern void getSignalModel(uint32_t signal,uint32_t &model);
+
+extern void getChnModel(uint32_t chn,uint32_t &model);
+extern void setChnModel(uint32_t chn,uint32_t model);
 
 extern void setChnSignalInput(uint32_t out,uint32_t in);
 extern void getChnSignalInput(uint32_t out,uint32_t &in);

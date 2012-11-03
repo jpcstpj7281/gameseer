@@ -43,9 +43,11 @@ EntSetting::EntSetting()
 	}
 
 	//test
-	setInputInfoFlg(2,USE_FLG_ONLINE);
-	setInputInfoType(2,VIDEO_TYPE_CVBS);
-	setInputInfoSize(2,702,480);
+//	setInputInfoFlg(6,USE_FLG_ONLINE);
+//	setInputInfoType(6,VIDEO_TYPE_RGB);
+//	setInputInfoSize(6,1024,768);
+//
+//	setChnSignalInput(3,6);
 
 }
 
@@ -431,3 +433,29 @@ string EntSetting::getSlotStatusType(uint32_t slot)
 {
 	return m_slotStatus[slot].type;
 }
+
+
+
+void EntSetting::dumpAll()
+{
+	test_msg("Dump  inputStatus");
+	for(map<uint32_t,ChannelInfo>::iterator it=m_inputStatus.begin();it!=m_inputStatus.end();it++)
+	{
+		test_msg("input  signal=%d,type=%s,useFlg=%d,width=%d,height=%d",it->first,it->second.type.c_str(),it->second.useFlg,it->second.width,it->second.height);
+	}
+
+	test_msg("Dump  outputStatus");
+	for(map<uint32_t,ChannelInfo>::iterator it=m_outputStatus.begin();it!=m_outputStatus.end();it++)
+	{
+
+	}
+
+	test_msg("Dump  slotStatus");
+	for(map<uint32_t,BroadInfo>::iterator it=m_slotStatus.begin();it!=m_slotStatus.end();it++)
+	{
+
+	}
+
+}
+
+

@@ -21,8 +21,11 @@ void hideChannel(uint32_t chn);
 void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 
-void getSignalModel(uint32_t chn,uint32_t &model);
-void setChnSignalModel(uint32_t chn,uint32_t model);
+
+void getSignalModel(uint32_t signal,uint32_t &model);
+
+void getChnModel(uint32_t chn,uint32_t &model);
+void setChnModel(uint32_t chn,uint32_t model);
 
 void setChnSignalInput(uint32_t out,uint32_t in);
 void getChnSignalInput(uint32_t out,uint32_t &in);
