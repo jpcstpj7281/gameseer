@@ -624,8 +624,7 @@ void demoSD()
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initHardware();
-//	initMoney(1);
-//	initMoney(2);
+	s_c753.initMemory();
 	s_c753.initMemoryLineFeedWidth(1);
 	s_c753.initMemoryLineFeedWidth(2);
 

@@ -238,6 +238,7 @@ public:
 	void initCLK();
 
 	void initScaleTable(uint32_t channelID);
+	void initMemory();
 	void initMemoryLineFeedWidth(uint32_t channelID);
 	void selectOutPutModel(uint32_t model);
 
