@@ -19,6 +19,7 @@ void initOutputModel(uint32_t model)
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initHardware();
+	s_c753.initMemory();
 	s_c753.initMemoryLineFeedWidth(1);
 	s_c753.initMemoryLineFeedWidth(2);
 
