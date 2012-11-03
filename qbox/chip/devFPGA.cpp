@@ -190,102 +190,171 @@ void DriverChipFPGA::getInputInfo(uint32_t iChID,InputInfoT &inputInfo)
 
 void DriverChipFPGA::setSelectInput(uint32_t iChID,uint16_t input)
 {
+
+	uint32_t tempChid = 0;
+
+	if(iChID == 1 || iChID== 2)
+	{
+		tempChid = iChID +2;
+	}
+
+	if(iChID == 3 || iChID== 4)
+	{
+		tempChid = iChID -2;
+	}
+
+
+	uint16_t inputValue = 0;
 	if(input>=1 && input<=6)
 	{
-		switch(iChID)
-		{
-			case 1:
-			{
-				FPGA_Write(FPGA_SEL_1_ADDR,(input-1));
-				break;
-			}
-			case 2:
-			{
-				FPGA_Write(FPGA_SEL_2_ADDR,(input-1));
-				break;
-			}
-			case 3:
-			{
-				FPGA_Write(FPGA_SEL_3_ADDR,(input-1));
-				break;
-			}
-			case 4:
-			{
-				FPGA_Write(FPGA_SEL_4_ADDR,(input-1));
-				break;
-			}
-			case 5:
-			{
-				FPGA_Write(FPGA_SEL_5_ADDR,(input-1));
-				break;
-			}
-			case 6:
-			{
-				FPGA_Write(FPGA_SEL_6_ADDR,(input-1));
-				break;
-			}
-		}
 
+		if(input == 1)
+		{
+			inputValue = 1;
+		}
+		else
+		{
+			inputValue =  1 << (input -1);
+		}
 	}
 	else
 	{
 		printf("input Error!\n");
 	}
+
+
+	switch(tempChid)
+	{
+		case 1:
+		{
+			FPGA_Write(FPGA_SEL_1_ADDR,inputValue);
+			break;
+		}
+		case 2:
+		{
+			FPGA_Write(FPGA_SEL_2_ADDR,inputValue);
+			break;
+		}
+		case 3:
+		{
+			FPGA_Write(FPGA_SEL_3_ADDR,inputValue);
+			break;
+		}
+		case 4:
+		{
+			FPGA_Write(FPGA_SEL_4_ADDR,inputValue);
+			break;
+		}
+		case 5:
+		{
+			FPGA_Write(FPGA_SEL_5_ADDR,inputValue);
+			break;
+		}
+		case 6:
+		{
+			FPGA_Write(FPGA_SEL_6_ADDR,inputValue);
+			break;
+		}
+	}
+
 }
 
 
 void DriverChipFPGA::getSelectInput(uint32_t iChID,uint16_t &input)
 {
-	if(input>=1 && input<=6)
+	uint32_t tempChid = 0;
+
+	if(iChID == 1 || iChID== 2)
 	{
-		switch(iChID)
+		tempChid = iChID +2;
+	}
+
+	if(iChID == 3 || iChID== 4)
+	{
+		tempChid = iChID -2;
+	}
+
+
+	uint16_t tempValue = 0;
+
+	if(tempChid>=1 && tempChid<=6)
+	{
+		switch(tempChid)
 		{
 			case 1:
 			{
-				FPGA_Read(FPGA_SEL_1_ADDR,input);
+				FPGA_Read(FPGA_SEL_1_ADDR,tempValue);
 				break;
 			}
 			case 2:
 			{
-				FPGA_Read(FPGA_SEL_2_ADDR,input);
+				FPGA_Read(FPGA_SEL_2_ADDR,tempValue);
 				break;
 			}
 			case 3:
 			{
-				FPGA_Read(FPGA_SEL_3_ADDR,input);
+				FPGA_Read(FPGA_SEL_3_ADDR,tempValue);
 				break;
 			}
 			case 4:
 			{
-				FPGA_Read(FPGA_SEL_4_ADDR,input);
+				FPGA_Read(FPGA_SEL_4_ADDR,tempValue);
 				break;
 			}
 			case 5:
 			{
-				FPGA_Read(FPGA_SEL_5_ADDR,input);
+				FPGA_Read(FPGA_SEL_5_ADDR,tempValue);
 				break;
 			}
 			case 6:
 			{
-				FPGA_Read(FPGA_SEL_6_ADDR,input);
+				FPGA_Read(FPGA_SEL_6_ADDR,tempValue);
 				break;
 			}
 		}
 	}
 
-	input++;
+	if(tempValue ==1)
+	{
+		input =1;
+	}
+
+	if(tempValue == 2)
+	{
+		input =2;
+	}
+
+	if(tempValue == 4)
+	{
+		input =3;
+	}
+	if(tempValue == 8)
+	{
+		input =4;
+	}
+	if(tempValue == 16)
+	{
+		input =5;
+	}
+	if(tempValue == 32)
+	{
+		input =6;
+	}
 }
 
-void DriverChipFPGA::getSignalModel(uint32_t chId,uint32_t &model)
+void DriverChipFPGA::getSignalModel(uint32_t signal,uint32_t &model)
 {
 	uint16_t wHs = 0;
 	uint16_t wVs = 0;
 
-	debug_msg("getSignalModel chId=%d!",chId);
 
-	if(chId>=1 && chId<=6)
+//	debug_msg("getSignalModel signal=%d!",signal);
+
+
+
+	if(signal>=1 && signal<=6)
 	{
-		switch(chId)
+		switch(signal)
 		{
 			case 1:
 			{
@@ -330,6 +399,8 @@ void DriverChipFPGA::getSignalModel(uint32_t chId,uint32_t &model)
 		debug_msg("getSignalModel chId Error!");
 	}
 
+//	debug_msg("wHs=%d,wVs=%d!",wHs,wVs);
+
 
 	if(wHs > 700
 	   && wHs < 720
@@ -337,12 +408,22 @@ void DriverChipFPGA::getSignalModel(uint32_t chId,uint32_t &model)
 	   && wVs < 500)
 	{
 		model = TYPE_INPUT_SIZE_702_480;
-		debug_msg("getSignalModel TYPE_INPUT_SIZE_702_480");
+//		debug_msg("getSignalModel TYPE_INPUT_SIZE_702_480");
 	}
+	else if(wHs > 1000
+			   && wHs < 1100
+			   && wVs > 750
+			   && wVs < 780)
+	{
+		model = TYPE_INPUT_SIZE_1024_768;
+//		debug_msg("getSignalModel TYPE_INPUT_SIZE_1024_768");
+	}
+
+
 	else
 	{
 		model = TYPE_INPUT_SIZE_DEFAULT;
-		debug_msg("getSignalModel TYPE_INPUT_SIZE_DEFAULT");
+//		debug_msg("getSignalModel TYPE_INPUT_SIZE_DEFAULT");
 	}
 
 }

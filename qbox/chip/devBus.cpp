@@ -29,11 +29,11 @@ I2CBus::~I2CBus()
 
 void I2CBus::dev_5160_WriteMult(uint32_t chn,list<map<uint8_t,uint8_t> > value)
 {
-	debug_msg("WriteMult chn=%d, size=%d\n",chn,value.size());
+//	debug_msg("WriteMult chn=%d, size=%d\n",chn,value.size());
 
 	for(list<map<uint8_t,uint8_t> >::iterator itList = value.begin();itList!=value.end();itList++)
 	{
-		debug_msg("WriteMult map size=%d\n",itList->size());
+//		debug_msg("WriteMult map size=%d\n",itList->size());
 		for(map<uint8_t,uint8_t>::iterator itMap = itList->begin();itMap!=itList->end();itMap++)
 		{
 			uint8_t addr=0;

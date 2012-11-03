@@ -637,12 +637,12 @@ void demoSD()
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
 	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
 
-	init5160(1);
-	init5160(2);
-	init772(1,1);
-	init772(2,1);
+	init5160(3);
+	init5160(4);
+	init772(3,1);
+	init772(4,1);
 
-//	setFpgaSelectChn(2,1);
+	setFpgaSelectChn(2,1);
 
 	s_c753.setInputChannelACT(1,702,480,137,45);
 	s_c753.setOutputChannelACT(1,700,480,0,0);
@@ -678,6 +678,7 @@ void demoRing()
 	s_c753.setOutputChannelACT(2,1024,768,0,0);
 	s_c753.showWnd(1);
 
+	setFpgaSelectChn(3,6);
 
 
 

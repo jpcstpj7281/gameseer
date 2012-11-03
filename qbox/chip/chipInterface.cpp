@@ -103,10 +103,11 @@ void hideChannel(uint32_t chn)
 	s_c753.hideWnd(chn);
 }
 
-void getSignalModel(uint32_t chn,uint32_t &model)
+void getSignalModel(uint32_t signal,uint32_t &model)
 {
 	DriverChipFPGA s_cfpga;
-	s_cfpga.getSignalModel(chn,model);
+
+	s_cfpga.getSignalModel(signal,model);
 }
 
 void setChnSignalInput(uint32_t out,uint32_t in)
@@ -123,13 +124,30 @@ void getChnSignalInput(uint32_t out,uint32_t &in)
 	in = (uint32_t)input;
 }
 
-void setChnSignalModel(uint32_t chn,uint32_t model)
+void getChnModel(uint32_t chn,uint32_t &model)
+{
+	DriverChipFPGA s_cfpga;
+	debug_msg("getChnModel chId=%d!",chn);
+	uint16_t input=0;
+
+	s_cfpga.getSelectInput(chn,input);
+	s_cfpga.getSignalModel(input,model);
+
+
+}
+
+
+
+void setChnModel(uint32_t chn,uint32_t model)
 {
 	if(chn == 1 || chn== 2)
 	{
 		AppScale &s_c753=*AppScale::Instance();
+
 		s_c753.setInputSignalModel(chn,model);
 	}
+
+
 }
 
 

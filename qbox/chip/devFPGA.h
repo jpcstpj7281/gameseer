@@ -72,7 +72,9 @@ public:
 	void setSelectInput(uint32_t iChID,uint16_t input);
 	void getSelectInput(uint32_t iChID,uint16_t &input);
 
-	void getSignalModel(uint32_t chId,uint32_t &model);
+	void getSignalModel(uint32_t signal,uint32_t &model);
+
+
 
 private:
 
