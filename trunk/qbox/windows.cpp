@@ -210,6 +210,9 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
         EntSetting::Instance()->createWindow(winOut,winX,winY,winW,winH);
         EntSetting::Instance()->setLayer(winOut,DEFINE_WINDOW_LAYER);
+        uint32_t in = 0;
+        getChnSignalInput(winOut,in);
+        EntSetting::Instance()->setInput(winOut,in);
         EntSetting::Instance()->setOutput(winOut,winOut);
         EntSetting::Instance()->setShowStatus(winOut,TYPE_WINDOW_STATUS_HIDE);
 

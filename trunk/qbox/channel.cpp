@@ -71,19 +71,22 @@ void Channel::onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
-    if(!EntSetting::Instance()->setInput(out,input))
+//    if(!EntSetting::Instance()->setInput(out,input))
+//    {
+//    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+//    	test_msg("onPSetSwitchInputReq  error!out=%d,input=%d",out,input);
+//    }
+//    else
     {
-    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-    }
-
 #ifndef __unix__
 
-    test_msg("onPSetSwitchInputReq  out=%d,input=%d",out,input);
-    setChnSignalInput(out,input);
+		test_msg("onPSetSwitchInputReq  out=%d,input=%d",out,input);
+		setChnSignalInput(out,input);
 
 
 #endif
 
+    }
 
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 

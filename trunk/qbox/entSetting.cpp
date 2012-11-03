@@ -42,6 +42,7 @@ EntSetting::EntSetting()
 
 	}
 
+
 	//test
 //	setInputInfoFlg(6,USE_FLG_ONLINE);
 //	setInputInfoType(6,VIDEO_TYPE_RGB);
@@ -324,34 +325,35 @@ bool EntSetting::getOutput(uint32_t winHandle,uint32_t &channelOut)
 
 }
 
-bool EntSetting::setInput(uint32_t winHandle,uint32_t channelIn)
+bool EntSetting::setInput(uint32_t out,uint32_t channelIn)
 {
 	map<uint32_t,WindowInfo>::iterator it;
-	it = m_windowInfo.find(winHandle);
+	it = m_windowInfo.find(out);
 	if(it == m_windowInfo.end())
 	{
+		test_msg("EntSetting  setInput false winHandle=%d not find!",out);
 		return false;
 	}
 	else
 	{
-		m_windowInfo[winHandle].channelIn = channelIn;
+		m_windowInfo[out].channelIn = channelIn;
 	}
 	return true;
 }
 
 
-bool EntSetting::getInput(uint32_t winHandle,uint32_t &channelIn)
+bool EntSetting::getInput(uint32_t out,uint32_t &channelIn)
 {
 
 	map<uint32_t,WindowInfo>::iterator it;
-	it = m_windowInfo.find(winHandle);
+	it = m_windowInfo.find(out);
 	if(it == m_windowInfo.end())
 	{
 		return false;
 	}
 	else
 	{
-		channelIn = m_windowInfo[winHandle].channelIn;
+		channelIn = m_windowInfo[out].channelIn;
 	}
 
 	return true;
