@@ -69,7 +69,7 @@ extern void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_
 
 extern void getSignalModel(uint32_t signal,uint32_t &model);
 
-extern void getChnModel(uint32_t chn,uint32_t &model);
+extern void getChnModel(uint32_t chn,uint32_t &model,uint32_t &input);
 extern void setChnModel(uint32_t chn,uint32_t model);
 
 extern void setChnSignalInput(uint32_t out,uint32_t in);
