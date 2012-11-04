@@ -78,7 +78,7 @@ class Wnd{
         if ( _screens.length > 1 && _ring != null){
             calcInputSize( _inputSize, vs);
         }else{
-            _inputSize.push( new InputSize(  Math.round(c._w/2), 0,Math.round(c._w/2),c._h) );
+            _inputSize.push( new InputSize(  0, 0, c._w,c._h) );
         }
 
         setupChannel();
