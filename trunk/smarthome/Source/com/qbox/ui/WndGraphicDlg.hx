@@ -81,6 +81,11 @@ class WndGraphicDlg extends CommDialog{
         _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
         _virtualWnd.graphics.beginFill(0xFFFFFF, 1);
         _virtualWnd.graphics.drawRect( 0,0, _redrawW, _redrawH);
+
+
+        _virtualWnd.graphics.beginFill(0x000080, 1);
+        _virtualWnd.graphics.drawRect( 10,0, _redrawW - 20, 10);
+
         _virtualWnd.graphics.beginFill(0x808080, 1);
         _virtualWnd.graphics.drawRect( _redrawW-10,_redrawH-10, 10, 10);
         _virtualWnd.graphics.beginFill(0x808080, 1);
@@ -90,11 +95,8 @@ class WndGraphicDlg extends CommDialog{
     }
 
     public function resizeWnd( w:Int, h:Int){
-        //removeChild(_virtualWnd);
-        //_virtualWnd = new Sprite();
         _wnd.resize( w,h);
         redrawWnd(w,h);
-        //addChild(_virtualWnd);
     }
 
     public function resurrectWnd(wnd:Wnd){
@@ -104,14 +106,59 @@ class WndGraphicDlg extends CommDialog{
         _wnd = wnd;
     }
 
+    public function moveWnd( x:Int, y:Int){
+        var w:Int = _wnd._virtualWidth;
+        var h:Int = _wnd._virtualHeight;
+        var wx = ScreenMgr.getInst()._virtualX +ScreenMgr.getInst()._virtualWidth;
+        var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
+        if ( x < ScreenMgr.getInst()._virtualX){
+            _wnd._virtualWidth = w = w - (ScreenMgr.getInst()._virtualX - x);
+            this.x = ScreenMgr.getInst()._virtualX;
+        }else if ( x < wx ){
+            this.x = x;
+            if ( x+w > wx) _wnd._virtualWidth = w = wx - x;
+        }else{
+            return;
+        }
+        if ( y < ScreenMgr.getInst()._virtualY){
+            _wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
+            this.y = ScreenMgr.getInst()._virtualY;
+        }else if ( y < hy) {
+            this.y = y;
+            if ( y+h > hy) _wnd._virtualHeight = h = hy - y;
+        }else{
+            return;
+        }
+        redrawWnd(w,h);
+        _wnd.move( cast x, cast y);
+    }
+
     public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel, ring:Ring){
         _wnd = WndMgr.getInst().createWnd();
         _wnd.open( x,y,w,h, channel, ring);
+        var wx = ScreenMgr.getInst()._virtualX +ScreenMgr.getInst()._virtualWidth;
+        var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
+        if ( x < ScreenMgr.getInst()._virtualX){
+            _wnd._virtualWidth = w = w - (ScreenMgr.getInst()._virtualX - x);
+            this.x = ScreenMgr.getInst()._virtualX;
+        }else if ( x < wx ){
+            this.x = x;
+            if ( x+w > wx) _wnd._virtualWidth = w = wx - x;
+        }else{
+            return;
+        }
+        if ( y < ScreenMgr.getInst()._virtualY){
+            _wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
+            this.y = ScreenMgr.getInst()._virtualY;
+        }else if ( y < hy) {
+            this.y = y;
+            if ( y+h > hy) _wnd._virtualHeight = h = hy - y;
+        }else{
+            return;
+        }
         redrawWnd(w,h);
-        this.x = x;
-        this.y = y;
-        //_channel = channel;
-        //_ring = ring;
+        //trace(x);
+        //trace(y);
     }
 
     public function closeWnd( ){

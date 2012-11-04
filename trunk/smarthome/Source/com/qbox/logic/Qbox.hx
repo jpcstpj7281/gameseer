@@ -50,6 +50,7 @@ class Qbox extends SMConnection{
         _inputs = new Hash<String>();
         for ( i in 1...7){
             _inputs.set( ""+i, inputs.get("in"+i) );
+            //trace( inputs.get("in"+i));
         }
         loadInputsResolution();
     }
@@ -87,18 +88,16 @@ class Qbox extends SMConnection{
     function cbLoadInputsResolution( args:Dynamic){
         trace(args);
         var input = Std.parseInt(args.get("in") );
-        if ( input < 6){ 
+        while( input < 6){ 
             ++input;
-            for ( i in input...7){
-                var tmp = _inputs.get( ""+i);
-                if (tmp != "default"){
-                    clearData();
-                    startListening( 8, cbLoadInputsResolution, 1);
-                    setMsg( 7, 1);
-                    addKeyVal("in", Bytes.ofString(""+ input) );
-                    sendData();
-                    break;
-                }
+            var tmp = _inputs.get( ""+input);
+            if (tmp != "default"){
+                clearData();
+                startListening( 8, cbLoadInputsResolution, 1);
+                setMsg( 7, 1);
+                addKeyVal("in", Bytes.ofString(""+ input) );
+                sendData();
+                break;
             }
         }
     }
@@ -140,54 +139,54 @@ class Qbox extends SMConnection{
     }
 
     /*
-    function loadWnds(){
-        clearData();
-        startListening( 2, cbLoadWnds, 2);
-        setMsg( 1, 2);
-        sendData();
-    }
-    function cbLoadWnds( args:Dynamic){
-        var a:Hash<String> = args ;
-        if ( a.get("error") != "0"){
-            trace("get windows handle failed!");
-        }else{
-            for (i in a.keys()){
-                if ( i.substr(0, 9) == "handleNum"){
-                    loadWnd( a.get(i) );
-                }
-            }
-        }
-    }
-    */
+       function loadWnds(){
+       clearData();
+       startListening( 2, cbLoadWnds, 2);
+       setMsg( 1, 2);
+       sendData();
+       }
+       function cbLoadWnds( args:Dynamic){
+       var a:Hash<String> = args ;
+       if ( a.get("error") != "0"){
+       trace("get windows handle failed!");
+       }else{
+       for (i in a.keys()){
+       if ( i.substr(0, 9) == "handleNum"){
+       loadWnd( a.get(i) );
+       }
+       }
+       }
+       }
+     */
 
     /*deprecated
-    function loadWnd( out:String){
-        clearData();
-        startListening( 4, cbLoadWnd, 2);
-        setMsg( 3, 2);
-        addKeyVal("out", Bytes.ofString(out));
-        sendData();
-    }
+      function loadWnd( out:String){
+      clearData();
+      startListening( 4, cbLoadWnd, 2);
+      setMsg( 3, 2);
+      addKeyVal("out", Bytes.ofString(out));
+      sendData();
+      }
 
-    function cbLoadWnd( args:Dynamic){
-        if ( args.get("error") != "0"){
-            trace("get windows info failed!");
-        }else{
-            var srn = ScreenMgr.getInst().getScreenByQbox( this);
-            if ( srn == null) {
-                trace("dont have corresponse screen! qboxip: " + _ipv4);
-            }else{
-                var x = Std.parseInt( args.get("x"));
-                var y = Std.parseInt( args.get("y"));
-                var w = Std.parseInt( args.get("w"));
-                var h = Std.parseInt( args.get("h"));
+      function cbLoadWnd( args:Dynamic){
+      if ( args.get("error") != "0"){
+      trace("get windows info failed!");
+      }else{
+      var srn = ScreenMgr.getInst().getScreenByQbox( this);
+      if ( srn == null) {
+      trace("dont have corresponse screen! qboxip: " + _ipv4);
+      }else{
+      var x = Std.parseInt( args.get("x"));
+      var y = Std.parseInt( args.get("y"));
+      var w = Std.parseInt( args.get("w"));
+      var h = Std.parseInt( args.get("h"));
 
-                var input = args.get("in");
+      var input = args.get("in");
 
-                var wnd = srn.resurrectWnd( x, y, w, h, input );
-                wnd._screens.push( srn);
-            }
-        }
-    }
-    */
+      var wnd = srn.resurrectWnd( x, y, w, h, input );
+      wnd._screens.push( srn);
+      }
+      }
+      }
+     */
 }

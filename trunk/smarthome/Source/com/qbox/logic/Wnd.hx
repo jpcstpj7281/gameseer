@@ -28,6 +28,11 @@ class Wnd{
     public var _virtualWidth:Int;
     public var _virtualHeight:Int;
 
+    public var _virtualAreaX:Int;
+    public var _virtualAreaY:Int;
+    public var _virtualAreaW:Int;
+    public var _virtualAreaH:Int;
+
     var _channel:Channel;
     public var _ring:Ring;
 
@@ -41,6 +46,9 @@ class Wnd{
         _screens= new Array<Screen>();
         _inputSize = new Array<InputSize>();
         _opCounter= 0;
+    }
+
+    public function setArea( px:Float, py:Float, pw:Float, ph:Float){
     }
 
     public function open(x:Int, y:Int, w:Int, h:Int, c:Channel, ring:Ring){
@@ -70,7 +78,7 @@ class Wnd{
         if ( _screens.length > 1 && _ring != null){
             calcInputSize( _inputSize, vs);
         }else{
-            _inputSize.push( new InputSize( 0, 0, c._w,c._h) );
+            _inputSize.push( new InputSize(  Math.round(c._w/2), 0,Math.round(c._w/2),c._h) );
         }
 
         setupChannel();
@@ -92,7 +100,7 @@ class Wnd{
     }
 
     function cbSetup753RingChannel( args:Dynamic){
-        trace(args);
+        //trace(args);
         setWnd();
     }
     function cbSetupChannel( args:Dynamic, s:Screen){
@@ -114,10 +122,14 @@ class Wnd{
                 inw = Math.round( _channel._w * i.w/ _virtualWidth);
             }else{
                 inx = 0;
-                //trace( _virtualWidth);
-                //trace( i.screenw);
-                //trace( _channel._w);
                 inw = Math.round( _channel._w * i.w / _virtualWidth);
+            }
+            if ( i.cutUp> 0){
+                iny = Math.round( _channel._h * i.cutUp / _virtualHeight);
+                inh = Math.round( _channel._h * i.h/ _virtualHeight);
+            }else{
+                iny = 0;
+                inh = Math.round( _channel._h * i.h/ _virtualHeight);
             }
             inputSizeArr.push( new InputSize( inx,iny,inw,inh ) );
         }
@@ -136,20 +148,24 @@ class Wnd{
         if ( _ring != null && _ring._isRingSetup == false){
             //ScreenMgr.getInst().setRing(ring);
             //trace(ring);
-            _ring.setupRing( this, cbRingSetup);
-            return ;
+            trace("test");
+            trace(cbRingSetupToSetChannelArea);
+            _ring.setupRing( _channel, this, cbRingSetupToSetChannelArea);
+            return;
         }
 #end
-        cbRingSetup(null);
+        cbRingSetupToSetChannelArea(null);
     }
 
-    function cbRingSetup( args:Dynamic){
+    //set channel area after ring setup.
+    function cbRingSetupToSetChannelArea( args:Dynamic):Void{
         _opCounter += _screens.length;
         for( i in 0..._screens.length){
-            _screens[i].setChannelArea( _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
+                trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
+            _screens[i].setChannelArea(this, _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
         }
-
     }
+
     function cbSetChannelArea( args:Dynamic, s:Screen){
         trace(args);
         --_opCounter;
@@ -255,36 +271,45 @@ class Wnd{
             if ( _closescreens.length > 0){
                 _opCounter+=_closescreens.length;
                 for (i in 0..._closescreens.length){
-                    _closescreens[i].hideWnd( this, cbCloseBeforeMoveWnd);
+                    _closescreens[i].closeWnd( this, cbCloseBeforeMoveWnd);
                 }
             }else{
                 ++_opCounter;
-                cbCloseBeforeMoveWnd( null);
+                cbCloseBeforeMoveWnd( null, null);
             }
         }
     }
 
-    function cbCloseBeforeMoveWnd( args:Dynamic):Void{
+    function cbCloseBeforeMoveWnd( args:Dynamic, s:Screen):Void{
         trace(args);
         --_opCounter;
         if ( _opCounter == 0){
-            if ( _createscreens.length > 0 ){
+            if ( _createscreens.length > 0 && _ring != null ){
                 if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel) == false){
                     trace("resource error");
                 }
             }else{
-                setWnd();
+                _opCounter+=_screens.length;
+                for (i in _screens){
+                    i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+                }
             }
         }
     }
 
-    function cbSet753BeforMoveWnd( args){
+    function cbSetup753BeforMoveWnd( args){
+        _opCounter+=_createscreens.length;
+        for (i in _createscreens){
+            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+        }
+        _screens = _newscreens;
     }
 
     public function resize( w:Int, h:Int){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualHeight = h;
         _virtualWidth = w;
+        move( _virtualX, _virtualY);
         return true;
     }
 
