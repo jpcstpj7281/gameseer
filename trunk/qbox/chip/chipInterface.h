@@ -20,6 +20,7 @@ void hideChannel(uint32_t chn);
 
 void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
+void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw);
 
 
 void getSignalModel(uint32_t signal,uint32_t &model);
