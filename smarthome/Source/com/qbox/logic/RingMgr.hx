@@ -23,7 +23,6 @@ class RingMgr{
         _ringNodes = new Array<RingNode>();
         _rings.push( new Ring(0) );
         _rings.push( new Ring(1) );
-
     }
 
     public function refreshRingNode(){
@@ -33,7 +32,6 @@ class RingMgr{
             }
         }
         /////////////////////for test ring of out port 1////////
-
         //trace( _rings[0]._nodes.length);
         //for ( i in _rings[0]._nodes.length..._ringNodes.length){
             //_rings[0]._nodes.push( _ringNodes[i] );

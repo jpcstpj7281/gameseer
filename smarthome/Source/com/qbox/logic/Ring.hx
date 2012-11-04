@@ -9,7 +9,8 @@ class Ring{
     public var _nodeIndex:Int;
     public var _isRingSetup:Bool;
     public var _count:Int;
-    public var _cb:Dynamic->Void;
+    public var _cbRingSetup:Dynamic->Void;
+    public var _cb753Setup:Dynamic->Void;
 
 
     //only support ring out port 1 or ring out port 2 currently
@@ -20,76 +21,94 @@ class Ring{
         _count = 0;
     }
 
-
-    public function isAvailable():Bool{
-        for ( i in _heads){
-        }
-
-        return true;
-    }
-
-    public function setupRing( wnd:Wnd, cb:Dynamic->Void){
+    public function setupRing(c:Channel, wnd:Wnd, cb:Dynamic->Void){
         if ( _count > 0) {trace("_count:"+_count);return ;}
+        if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return;}
 
+        var rns = new Array<RingNode>();
         for ( i in _heads){
+            //trace( "test");
             var n = i;
             while (n !=null ){
-#if !neko
-                if(n._screen.isConected() == false){
-                    trace("there is a qbox not yet connected: "+ n._screen._ipv4);
-                    return;
-                }
-#end
-                n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, wnd);
-                ++_count;
+                rns.push( n);
                 n = n._next[_nodeIndex];
                 if ( n == i){
                     break;
                 }
             }
-
+        }
+        _cbRingSetup = cb;
+        _count += rns.length;
+        //trace(_count);
+        for ( n in rns){
+            trace( "set ring of qbox: "+ n._screen._ipv4);
+            if ( c._screen == n._screen){
+                n._screen.setRingChannel( n._outport[_nodeIndex], c._inport, cbSetupRing, wnd);
+            }else{
+                n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, wnd);
+            }
         }
         _isRingSetup = true;
-        _cb = cb;
     }
 
     function cbSetupRing( args:Dynamic, s:Screen){
         if ( args.get("error") == "1") {
             trace("there is a error occurred at qbox: "+ s._ipv4);
-            _cb("error");
+            trace( args);
+            _cbRingSetup("error");
+            _cbRingSetup = null;
             return;
         }
         --_count;
         if (_count == 0){
-            _cb("");
-            _cb = null;
+            var tmp = _cbRingSetup;
+            _cbRingSetup = null;
+            tmp(null);
         }
     }
 
     public function setup753( wnd:Wnd, ss:Array<Screen>, c:Channel,  cb:Dynamic->Void):Bool{
         if ( _count > 0) {trace("_count:"+_count);return false ;}
+        if ( _cb753Setup!= null) { trace("_cb753Setup not null!");return false;}
 
         for ( i in ss){
             if ( isInRing(i) == false )  {
-                trace("not in ring!");
+                trace("not in ring: "+ i._ipv4);
                 return false;
             }
-            if ( i.has753Available() ){
-                trace("not 753 available!");
+            if ( !i.has753Available() ){
+                trace("not 753 available: "+ i._ipv4);
+                return false;
             }
         }
 
+        _cb753Setup= cb;
+        _count += ss.length;
         for (i in ss){
-            ++_count;
             if ( i == c._screen){
-                i.set753Channel( c._inport, cbSetupRing, wnd);
+                i.set753Channel( c._inport, cbSetup753, wnd);
             }else{
-                i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetupRing, wnd);
+                i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
             }
         }
         return true;
     }
 
+    function cbSetup753( args:Dynamic, s:Screen){
+        if ( args.get("error") == "1") {
+            trace("there is a error occurred at qbox: "+ s._ipv4);
+            trace( args);
+            _cb753Setup("error");
+            _cb753Setup= null;
+            return;
+        }
+        --_count;
+        if (_count == 0){
+            var tmp = _cb753Setup;
+            _cb753Setup= null;
+            tmp(null);
+        }
+    }
     public function getScreens( c:Channel):Array<Screen>{
         var ss = new Array<Screen>();
         for ( i in _heads){

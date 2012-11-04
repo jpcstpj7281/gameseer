@@ -87,7 +87,7 @@ class Screen extends Qbox{
                 screenx = 0;
             }else{
                 isOutOfScreen = true;
-                screenx = screeny = screenh = screenw = 0;
+                screenh = screenw = 0;
                 trace("outofscreen");
             }
         }else{
@@ -103,7 +103,7 @@ class Screen extends Qbox{
                 screenx = x - screenx;
             }else if ( x >screenx + _virtualWidth){
                 isOutOfScreen = true;
-                screenx = screeny = screenh = screenw = 0;
+                screenh = screenw = 0;
                 trace("outofscreen");
             }
         }
@@ -121,7 +121,7 @@ class Screen extends Qbox{
                 y = 0;
             }else{
                 isOutOfScreen = true;
-                screenx = screeny = screenh = screenw = 0;
+                screenh = screenw = 0;
                 trace("outofscreen");
             }
         }else if ( !isOutOfScreen){
@@ -199,31 +199,6 @@ class Screen extends Qbox{
         var screenh = obj.h;
         var isOutOfScreen = obj.isOutScreen;
 
-        if ( ! isOutOfScreen && y <screeny){
-            if (y + h > screeny ){
-                if ( y+h > screeny+_virtualHeight){
-                    screenh = _virtualHeight;
-                }else{
-                    screenh = h - screeny +y;
-                }
-            }else{
-                isOutOfScreen = true;
-                trace("outofscreen");
-            }
-        }else if ( !isOutOfScreen){
-            if ( y >= screeny && y <= screeny + _virtualHeight){
-                if ( y+h >= screeny+_virtualHeight){
-                    screenh = _virtualHeight +screeny -y;
-                }else{
-                    screenh = h;
-                }
-                screeny = y - screeny;
-            }else if(  x > screeny + _virtualHeight){
-                isOutOfScreen = true;
-                trace("outofscreen");
-            }
-        }
-
         _currCB = cbSetWndFunc;
         if (isOutOfScreen){
             trace(""+_col+"|"+_row+":Out of screen");
@@ -298,14 +273,20 @@ class Screen extends Qbox{
         }
     }
 
-    public function setChannelArea( x:Int, y:Int, w:Int, h:Int, c:Channel, cb:Dynamic->Screen->Void){
-        if (_currCB != null){ trace("there is a wnd processing."); }
+    public function setChannelArea(wnd:Wnd, x:Int, y:Int, w:Int, h:Int, c:Channel, cb:Dynamic->Screen->Void){
+        if (_currCB != null){ trace("there is a wnd processing."); return;}
         _currCB = cb;
 #if !neko
+        var p = get753Port(wnd);
+        if ( p == null){
+            trace("null port error!");
+            return;
+        }
         clearData();
         startListening( 12, cbSetChannelArea, 3);
         setMsg( 11, 3);
         addKeyVal( "in", Bytes.ofString(c._inport));
+        addKeyVal( "out", Bytes.ofString(p));
         addKeyVal( "x", Bytes.ofString(""+x));
         addKeyVal( "y", Bytes.ofString(""+y));
         addKeyVal( "w", Bytes.ofString(""+w));
@@ -356,7 +337,7 @@ class Screen extends Qbox{
         clearData();
         startListening( 10, cbShowWnd, 2);
         setMsg( 9, 2);
-        addKeyVal( "out", Bytes.ofString(port));
+        addKeyVal( "out", Bytes.ofString(p));
         addKeyVal( "showState", Bytes.ofString("show"));
         sendData();
 #else
@@ -365,10 +346,6 @@ class Screen extends Qbox{
         test.set("error","0");
         cbShowWnd(test);
 #end
-    }
-
-    public function resizeWnd(x:Int, y:Int, w:Int, h:Int, handle:String):String{
-        return "handle";
     }
 
     public function closeWnd( wnd:Wnd, cbCloseWndFunc:Dynamic->Screen->Void):Bool{
@@ -434,6 +411,12 @@ class Screen extends Qbox{
         super.cbLoadOutput(args);
     }
 
+    override function loadInput(){
+        ChannelMgr.getInst().removeChannelByScreen(this);
+        WndMgr.getInst().closeAll();
+        super.loadInput();
+    }
+
     override function cbLoadInputsResolution( args:Dynamic){
         if (args.get("error") ==0){
             var c = ChannelMgr.getInst().createChannel();
@@ -443,24 +426,24 @@ class Screen extends Qbox{
             c._h = Std.parseInt(args.get("h"));
             _channels.push(c);
         }
-
+        //trace( args);
         super.cbLoadInputsResolution(args);
     }
 
     public function set753Channel( input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
-        if (_currCB != null){ trace("there is a wnd processing."); }
-        _currCB = cbSetChannelFunc;
+        if (_currCB != null){ trace("there is a wnd processing."); return false;}
 #if !neko
         var p = get753Port(wnd);
         if ( p == null){ 
             p = get753Port(null);
             if ( p == null){
-                trace( "there is no port available to set 753 channel!");
+                trace( "there is no 753 port available to set 753 channel!");
                 return false;
             }
             else
                 _753ports.set(p, wnd);
         }
+        _currCB = cbSetChannelFunc;
         clearData();
         startListening( 2, cbSetChannel, 3);
         setMsg( 1, 3);
@@ -479,10 +462,10 @@ class Screen extends Qbox{
         _currCB = cbSetChannelFunc;
 #if !neko
         var p = _ringports.get(out);
-        if ( p != null){
+        if ( p == null){
             _ringports.set( out, wnd);
         }else{
-            trace( "there is no port available to set Ring channel!");
+            trace( "there is no port:"+out+" available to set Ring channel!");
             return;
         }
         clearData();
@@ -506,5 +489,88 @@ class Screen extends Qbox{
         }
     }
 
+    public function resizeWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
+        if (_currCB != null){
+            trace("there is a wnd operation processing.");
+        }
+
+        var port:String = get753Port(wnd);
+        if ( port == null){
+            trace("There is no port available to set wnd");
+            return false;
+        }
+
+        var obj = calcScreen( x, y, w, h);
+        var screenx = obj.x;
+        var screeny = obj.y;
+        var screenw = obj.w;
+        var screenh = obj.h;
+        var isOutOfScreen = obj.isOutScreen;
+
+        _currCB = cbSetWndFunc;
+        if (isOutOfScreen){
+            trace(""+_col+"|"+_row+":Out of screen");
+            var outofscreen = new Hash<String>();
+            outofscreen.set("out","null");
+            outofscreen.set("error","0");
+            cbSetWnd(outofscreen);
+            return false;
+        }
+        else {
+            trace(""+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
+#if !neko
+            //calculate real window size
+            var pw = _resWidth /_virtualWidth ;
+            var ph = _resHeight/_virtualHeight;
+            //trace( "virtualX: "+screenx);
+            //trace( "virtualY: "+screeny);
+            //trace( "virtualW: "+screenw);
+            //trace( "virtualH: "+screenh);
+            var qx = Math.round(screenx*pw);
+            var qy = Math.round(screeny*ph);
+            var qw = Math.round(screenw*pw);
+            var qh = Math.round(screenh*ph);
+            trace("qbox x: "+qx);
+            trace("qbox y: "+qy);
+            trace("qbox w: "+qw);
+            trace("qbox h: "+qh);
+            clearData();
+            startListening( 6, cbSetWnd, 2);
+            setMsg( 5, 2);
+            addKeyVal( "x", Bytes.ofString(Std.string(qx)));
+            addKeyVal( "y", Bytes.ofString(Std.string(qy)));
+            addKeyVal( "w", Bytes.ofString(Std.string(qw)));
+            addKeyVal( "h", Bytes.ofString(Std.string(qh)));
+            addKeyVal( "out", Bytes.ofString(port));
+            sendData();
+#else
+            var test= new Hash<String>();
+            test.set("out",port);
+            test.set("error","0");
+            var pw = _resWidth /_virtualWidth ;
+            var ph = _resHeight/_virtualHeight;
+            //trace(_resWidth);
+            //trace(_resHeight);
+            //trace(_virtualHeight);
+            //trace(_virtualWidth);
+            var qx = Math.round(screenx*pw);
+            var qy = Math.round(screeny*ph);
+            var qw = Math.round(screenw*pw);
+            var qh = Math.round(screenh*ph);
+            trace("qbox x: "+qx);
+            trace("qbox y: "+qy);
+            trace("qbox w: "+qw);
+            trace("qbox h: "+qh);
+            test.set( "x", (Std.string(qx)));
+            test.set( "y", (Std.string(qy)));
+            test.set( "w", (Std.string(qw)));
+            test.set( "h", (Std.string(qh)));
+            //trace(test);
+            cbSetWnd(test);
+#end
+
+            return true;
+        }
+    }
 
 }

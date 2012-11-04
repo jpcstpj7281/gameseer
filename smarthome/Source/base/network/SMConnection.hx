@@ -107,7 +107,7 @@ class SMConnection extends Connection{
         //trace("test1");
         write( data );
         //trace("test1");
-        trace("sent out data len: "+ data.length);
+        trace("sent out data len: "+ data.length +" to "+_ipv4);
         _sendTime = Timer.stamp();
         return true;
     }
@@ -214,7 +214,7 @@ class SMConnection extends Connection{
         //trace("try to listen for response: msgidType "+ msgidType );
 
         var pos:Int = 0;
-        trace( "data len: "+ data.length);
+        trace( "data len: "+ data.length + " from " + _ipv4);
         while ( pos  < data.length ){
             var msgid:Int = NetworkMgr.bytes2Short( data, pos+16 );
             var msgType:Int= NetworkMgr.bytes2Short( data, pos+18);

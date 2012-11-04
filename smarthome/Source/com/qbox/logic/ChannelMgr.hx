@@ -31,6 +31,26 @@ class ChannelMgr {
 #end
     }
 
+    public function removeChannelByScreen( sn:Screen){
+        var cs = new Array<Channel>();
+        for ( i in _channels){
+            if ( i._screen == sn ){
+                cs.push( i );
+            }
+        }
+        for ( i in cs){
+            _channels.remove(i);
+        }
+    }
+    public function removeChannelByScreenInport( sn:Screen, inport:String){
+        for ( i in _channels){
+            if ( i._screen == sn && i._inport == inport){
+                _channels.remove(i);
+                break;
+            }
+        }
+    }
+
     public function createChannel():Channel{
         var c = new Channel(  );
         _channels.push( c);
