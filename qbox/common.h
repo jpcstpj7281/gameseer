@@ -62,8 +62,10 @@ extern void moveOutputChannel(uint32_t chid,int hPoint,int vPoint);
 extern void moveInputChannel(uint32_t chid,int hPoint,int vPoint);
 extern void showChannel(uint32_t chn);
 extern void hideChannel(uint32_t chn);
+
 extern void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 extern void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
+extern void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw);
 
 extern void getSignalModel(uint32_t signal,uint32_t &model);
 

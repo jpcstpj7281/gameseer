@@ -92,6 +92,12 @@ void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw)
 	s_c753.initScal(chid,inputHw,inputVw,hw,vw);
 }
 
+void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw)
+{
+	AppScale &s_c753=*AppScale::Instance();
+	s_c753.initScal(chid,iHw,iVw,oHw,oVw);
+}
+
 void showChannel(uint32_t chn)
 {
 	AppScale &s_c753=*AppScale::Instance();

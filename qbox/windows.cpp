@@ -202,7 +202,12 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
 #ifndef __unix__
     	test_msg("setOutputSize winOut=%d,winW=%d,winH=%d,!",winOut,winW,winH);
-    	setOutputSize(winOut,winW,winH);
+    	uint32_t inputW =0;
+    	uint32_t inputH =0;
+
+    	EntSetting::Instance()->getInputInfoSize(winOut,inputW,inputH);
+    	setScal(winOut,inputW,inputH,winW,winH);
+    	//setOutputSize(winOut,winW,winH);
     	moveOutputChannel(winOut,winX,winY);
 #endif
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
