@@ -1369,24 +1369,24 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	debug_msg("initScal ichid=%d,hInput:%d,vInput:%d,hOutput:%d,vOutput:%d\n",iChID,hInput,vInput,hOutput,vOutput);
 	if(hInput > hOutput)
 	{
-		uint16_t shrinkScale= hOutput * 65536 / hInput  + 1;
+		uint16_t shrinkScale= ((hOutput-1) * 65536 / (hInput-1) ) + 1;
 
-//        uint8_t lut[24];
-//        float ratio, win;
-//
-//
-//
-//        ratio = (float)shrinkScale / 65536;
-//        if(ratio > 0.5)
-//        {
-//            win = ratio;
-//        }
-//        else
-//        {
-//            win = 0.1;
-//        }
-//        calculate6SymbolLUT(&ratio, &win, lut);
-//        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
+        uint8_t lut[24];
+        float ratio, win;
+
+
+
+        ratio = (float)shrinkScale / 65536;
+        if(ratio > 0.5)
+        {
+            win = ratio;
+        }
+        else
+        {
+            win = 0.1;
+        }
+        calculate6SymbolLUT(&ratio, &win, lut);
+        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
 
@@ -1404,7 +1404,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 
         C753SetInputHorizontalShrinkScale(iChID,shrinkScale);
 
-        C753SetInputPortACTHorizontalWidth(iChID,hInput);
+ //       C753SetInputPortACTHorizontalWidth(iChID,hInput);
         C753SetOutputPortACTHorizontalWidth(iChID, hOutput);
 
 	}
@@ -1442,25 +1442,25 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	if(vInput > vOutput)
 	{
 
-        uint16_t shrinkScale= vOutput * 65536 /vInput + 1;
+        uint16_t shrinkScale= ((vOutput-1) * 65536 /(vInput-1)) + 1;
 
-//        uint8_t lut[24];
-//        float ratio, win;
-//
-//
-//
-//
-//        ratio = (float)shrinkScale / 65536;
-//        if(ratio > 0.5)
-//        {
-//            win = ratio;
-//        }
-//        else
-//        {
-//            win = 0.1;
-//        }
-//        calculate6SymbolLUT(&ratio, &win, lut);
-//        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
+        uint8_t lut[24];
+        float ratio, win;
+
+
+
+
+        ratio = (float)shrinkScale / 65536;
+        if(ratio > 0.5)
+        {
+            win = ratio;
+        }
+        else
+        {
+            win = 0.1;
+        }
+        calculate6SymbolLUT(&ratio, &win, lut);
+        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputVerticalShrinkCompensation(iChID, 0x00);
 
