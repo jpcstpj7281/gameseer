@@ -120,14 +120,14 @@ void Channel::onPSetInPutPicReq(MsgInfo *msg,uint32_t connID)
 void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 {
 
-	uint32_t winHandle = atoi(msg->info["out"].c_str());
-    uint32_t output = atoi(msg->info["in"].c_str());
+	uint32_t out = atoi(msg->info["out"].c_str());
+    uint32_t in = atoi(msg->info["in"].c_str());
     uint32_t width = atoi(msg->info["w"].c_str());
     uint32_t height = atoi(msg->info["h"].c_str());
     uint32_t channelX = atoi(msg->info["x"].c_str());
     uint32_t channelY = atoi(msg->info["y"].c_str());
 
-    test_msg("onPSetInPutShowAreaReq in=%d,w=%d,h=%d,x=%d,y=%d",output,width,height,channelX,channelY);
+    test_msg("onPSetInPutShowAreaReq out=%d,in=%d,w=%d,h=%d,x=%d,y=%d",out,in,width,height,channelX,channelY);
 
     MsgInfo rsp;
     rsp.msgType = PSetOutPutSizeRsp::uri;
@@ -135,11 +135,11 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
 
 
-    EntSetting::Instance()->setOutputInfoSize(output,width,height);
+    EntSetting::Instance()->setWindowInfo(out,channelX,channelY,width,height);
 
-    setInputSize(output,width,height);
+//    setInputSize(output,width,height);
 
-    rsp.info["out"] = tostring(output);
+    rsp.info["out"] = tostring(out);
     rsp.info["w"] = tostring(width);
     rsp.info["h"] = tostring(height);
     rsp.info["x"] =tostring(channelX);

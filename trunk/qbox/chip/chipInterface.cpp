@@ -94,6 +94,7 @@ void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw)
 
 void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw)
 {
+	debug_msg("setScal chid=%d,ihw=%d,ivw=%d,ohw=%d,ovw=%d!",chid,iHw,iVw,oHw,oVw);
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initScal(chid,iHw,iVw,oHw,oVw);
 }
@@ -131,14 +132,15 @@ void getChnSignalInput(uint32_t out,uint32_t &in)
 	in = (uint32_t)input;
 }
 
-void getChnModel(uint32_t chn,uint32_t &model)
+void getChnModel(uint32_t chn,uint32_t &model,uint32_t &input)
 {
 	DriverChipFPGA s_cfpga;
 	debug_msg("getChnModel chId=%d!",chn);
-	uint16_t input=0;
+	uint16_t tempInput=0;
 
-	s_cfpga.getSelectInput(chn,input);
-	s_cfpga.getSignalModel(input,model);
+	s_cfpga.getSelectInput(chn,tempInput);
+	s_cfpga.getSignalModel(tempInput,model);
+	input = tempInput;
 
 
 }

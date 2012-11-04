@@ -144,26 +144,26 @@ void Windows::onPGetWindowsInfoReq(MsgInfo *msg,uint32_t connID)
 
     uint32_t winHandle  = atoi(msg->info["out"].c_str());
 
-    WindowInfo info;
-    if( EntSetting::Instance()->getWindowsInfo(winHandle,info))
-    {
-        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-        rsp.info["out"]  =msg->info["out"];
-
-        rsp.info["x"]  = tostring(info.winX);
-        rsp.info["y"]  = tostring(info.winY);
-        rsp.info["w"]  = tostring(info.width);
-        rsp.info["h"]  = tostring(info.height);
-        rsp.info["in"]  = tostring(info.channelIn);
-        rsp.info["out"]  = tostring(info.channelOut);
-        rsp.info["layer"]  = tostring(info.layer);
-    }
-    else
-    {
-        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-        rsp.info["out"]  =msg->info["out"];
-    }
-
+//    WindowInfo info;
+//    if( EntSetting::Instance()->getWindowsInfo(winHandle,info))
+//    {
+//        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+//        rsp.info["out"]  =msg->info["out"];
+//
+//        rsp.info["x"]  = tostring(info.winX);
+//        rsp.info["y"]  = tostring(info.winY);
+//        rsp.info["w"]  = tostring(info.width);
+//        rsp.info["h"]  = tostring(info.height);
+//        rsp.info["in"]  = tostring(info.channelIn);
+//        rsp.info["out"]  = tostring(info.channelOut);
+//        rsp.info["layer"]  = tostring(info.layer);
+//    }
+//    else
+//    {
+//        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+//        rsp.info["out"]  =msg->info["out"];
+//    }
+//
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 
 
@@ -188,10 +188,12 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
 
     uint32_t model = 0;
-    getChnModel(winOut,model);
+    uint32_t input = 0;
+    getChnModel(winOut,model,input);
 	if(TYPE_INPUT_SIZE_DEFAULT != model)
 	{
 		setChnModel(winOut,model);
+
 	}
 	else
 	{
@@ -204,16 +206,19 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
     	test_msg("setOutputSize winOut=%d,winW=%d,winH=%d,!",winOut,winW,winH);
     	uint32_t inputW =0;
     	uint32_t inputH =0;
+    	uint32_t inputX =0;
+    	uint32_t inputY =0;
 
-    	EntSetting::Instance()->getInputInfoSize(winOut,inputW,inputH);
-    	setScal(winOut,inputW,inputH,winW,winH);
+    	EntSetting::Instance()->getWindowsInfo(winOut,inputX,inputY,inputW,inputH);
+
+    	setScal(winOut,(uint16_t)inputW,(uint16_t)inputH,(uint16_t)winW,(uint16_t)winH);
+    	moveInputChannel(winOut,inputX,inputY);
     	//setOutputSize(winOut,winW,winH);
     	moveOutputChannel(winOut,winX,winY);
 #endif
         rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
         rsp.info["out"] = tostring(winOut);
 
-        EntSetting::Instance()->createWindow(winOut,winX,winY,winW,winH);
         EntSetting::Instance()->setLayer(winOut,DEFINE_WINDOW_LAYER);
         uint32_t in = 0;
         getChnSignalInput(winOut,in);

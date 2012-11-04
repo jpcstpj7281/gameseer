@@ -208,23 +208,26 @@ void EntSetting::getWindowsHandle(std::set<uint32_t> &handle)
 	}
 }
 
-bool EntSetting::getWindowsInfo(uint32_t winHandle,WindowInfo &windowInfo)
+bool EntSetting::getWindowsInfo(uint32_t out,uint32_t &winX,uint32_t &winY,uint32_t &width,uint32_t &height)
 {
 	map<uint32_t,WindowInfo>::iterator it;
-	it = m_windowInfo.find(winHandle);
+	it = m_windowInfo.find(out);
 	if(it == m_windowInfo.end())
 	{
 		return false;
 	}
 	else
 	{
-		windowInfo = it->second;
+		winX = it->second.winX;
+		winY = it->second.winY;
+		width = it->second.width;
+		height = it->second.height;
 	}
 
 	return true;
 }
 
-void EntSetting::createWindow(uint32_t windowNum,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height)
+void EntSetting::setWindowInfo(uint32_t out,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height)
 {
 
 
@@ -234,7 +237,7 @@ void EntSetting::createWindow(uint32_t windowNum,uint32_t winX,uint32_t winY,uin
 	info.width = width;
 	info.height = height;
 
-	m_windowInfo.insert(make_pair(windowNum,info));
+	m_windowInfo.insert(make_pair(out,info));
 
 
 
