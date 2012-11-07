@@ -1510,7 +1510,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
         C753SetOutputPortACTVerticalWidth(iChID,vOutput);
 	}
 
-	showWnd(iChID);
+//	showWnd(iChID);
 }
 
 void AppScale::initChipDDR()

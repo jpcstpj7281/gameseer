@@ -144,26 +144,26 @@ void Windows::onPGetWindowsInfoReq(MsgInfo *msg,uint32_t connID)
 
     uint32_t winHandle  = atoi(msg->info["out"].c_str());
 
-//    WindowInfo info;
-//    if( EntSetting::Instance()->getWindowsInfo(winHandle,info))
-//    {
-//        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
-//        rsp.info["out"]  =msg->info["out"];
-//
-//        rsp.info["x"]  = tostring(info.winX);
-//        rsp.info["y"]  = tostring(info.winY);
-//        rsp.info["w"]  = tostring(info.width);
-//        rsp.info["h"]  = tostring(info.height);
-//        rsp.info["in"]  = tostring(info.channelIn);
-//        rsp.info["out"]  = tostring(info.channelOut);
-//        rsp.info["layer"]  = tostring(info.layer);
-//    }
-//    else
-//    {
-//        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
-//        rsp.info["out"]  =msg->info["out"];
-//    }
-//
+    WindowInfo info;
+    if( EntSetting::Instance()->getWindowsInfo(winHandle,info))
+    {
+        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+        rsp.info["out"]  =msg->info["out"];
+
+        rsp.info["x"]  = tostring(info.winX);
+        rsp.info["y"]  = tostring(info.winY);
+        rsp.info["w"]  = tostring(info.width);
+        rsp.info["h"]  = tostring(info.height);
+        rsp.info["in"]  = tostring(info.channelIn);
+        rsp.info["out"]  = tostring(info.channelOut);
+        rsp.info["layer"]  = tostring(info.layer);
+    }
+    else
+    {
+        rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+        rsp.info["out"]  =msg->info["out"];
+    }
+
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 
 
