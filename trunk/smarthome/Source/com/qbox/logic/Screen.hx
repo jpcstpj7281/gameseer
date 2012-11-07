@@ -535,6 +535,8 @@ class Screen extends Qbox{
             trace("qbox w: "+qw);
             trace("qbox h: "+qh);
             clearData();
+            //startListening( 14, cbSetWnd, 2);
+            //setMsg( 13, 2);
             startListening( 6, cbSetWnd, 2);
             setMsg( 5, 2);
             addKeyVal( "x", Bytes.ofString(Std.string(qx)));

@@ -15,7 +15,7 @@ class Wnd{
 
     public var _inputSize:Array<InputSize>;
     public var _screens:Array<Screen>;
-    public var _newinputSize:Array<InputSize>;
+    //public var _newinputSize:Array<InputSize>;
     public var _newscreens:Array<Screen>;
     public var _closescreens:Array<Screen>;
     public var _createscreens:Array<Screen>;
@@ -168,17 +168,17 @@ class Wnd{
 
         for ( i in  sizeArr){
             if ( i.cutLeft > 0){
-                inx = rx - ( i.cutLeft * rpw);
+                inx = rx + ( i.cutLeft * rpw);
                 inw = ( i.w * rpw);
             }else{
                 inx = rx;
                 inw = ( i.w * rpw);
             }
             if ( i.cutUp> 0){
-                iny = rx - ( i.cutUp * rph);
+                iny = ry + ( i.cutUp * rph);
                 inh = ( i.h * rph);
             }else{
-                iny = rx;
+                iny = ry;
                 inh = ( i.h * rph);
             }
             inputSizeArr.push( new InputSize( inx,iny,inw,inh ) );
@@ -233,14 +233,20 @@ class Wnd{
 
 
     function cbSetWnd( args:Dynamic, s:Screen):Void{
-        var error = args.get("error" );
-        if (error == "1") { trace( "There is a error occurred: "+s._ipv4+"!");return; }
-        var handle = args.get("out" );
-        if ( handle != "null"){
-            ++_opCounter;
-            s.showWnd( this, cbShowWnd );
-        }
+        //var error = args.get("error" );
+        //if (error == "1") { trace( "There is a error occurred: "+s._ipv4+"!");return; }
+        //var handle = args.get("out" );
+        //if ( handle != "null"){
+        //++_opCounter;
+        //s.showWnd( this, cbShowWnd );
+        //}
         --_opCounter;
+        if (_opCounter == 0){
+            _opCounter += _screens.length;
+            for (i in _screens){
+                i.showWnd( this, cbShowWnd);
+            }
+        }
     }
 
     function cbShowWnd( args:Dynamic){
@@ -254,7 +260,7 @@ class Wnd{
         _virtualY = y;
 
         _newscreens = new Array<Screen>();
-        _newinputSize = new Array<InputSize>();
+        _inputSize = new Array<InputSize>();
         var vs = new Array<Dynamic>();
         for (i in ScreenMgr.getInst()._screens){ 
             var obj = i.calcScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight);
@@ -264,7 +270,7 @@ class Wnd{
             }
         }
 
-        calcInputSize( _newinputSize, vs);
+        calcInputSize( _inputSize, vs);
 
         _createscreens = new Array<Screen>();
         _closescreens = new Array<Screen>();
@@ -327,7 +333,7 @@ class Wnd{
     }
 
     function cbCloseBeforeMoveWnd( args:Dynamic, s:Screen):Void{
-        trace(args);
+        //trace(args);
         --_opCounter;
         if ( _opCounter == 0){
             if ( _createscreens.length > 0 && _ring != null ){
@@ -337,15 +343,21 @@ class Wnd{
             }else{
                 _opCounter+=_screens.length;
                 for (i in _screens){
-                    i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+                    i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWnd, this);
                 }
             }
+        }
+    }
+    function cbResizeWnd( args, ss){
+        --_opCounter;
+        if ( _opCounter == 0){
+            cbSetup753RingBeforMoveWnd(args);
         }
     }
 
     function cbSetup753RingBeforMoveWnd( args){
         _screens = _newscreens;
-        _inputSize = _newinputSize;
+        //_inputSize = _newinputSize;
 
         if (  _ring != null){
             _opCounter += _screens.length;
@@ -363,9 +375,14 @@ class Wnd{
     function cbSetupChannelAreaBeforMoveWnd( args, ss){
         --_opCounter;
         if ( _opCounter == 0){
-            _opCounter+=_keepscreens.length;
-            for (i in _keepscreens){
-                i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWndBeforMoveWnd, this);
+            if ( _keepscreens.length > 0){
+                _opCounter+=_keepscreens.length;
+                for (i in _keepscreens){
+                    i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWndBeforMoveWnd, this);
+                }
+            }else{
+                ++_opCounter;
+                cbResizeWndBeforMoveWnd(null,null);
             }
         }
     }
@@ -373,9 +390,15 @@ class Wnd{
     function cbResizeWndBeforMoveWnd(args, ss){
         --_opCounter;
         if ( _opCounter == 0){
-            _opCounter+=_createscreens.length;
-            for (i in _createscreens){
-                i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+            if ( _createscreens.length > 0){
+                _opCounter+=_createscreens.length;
+                for (i in _createscreens){
+                    i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+                }
+            }
+            else{
+                ++_opCounter;
+                cbSetWnd(null, null);
             }
         }
     }
