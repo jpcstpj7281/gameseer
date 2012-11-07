@@ -2,12 +2,12 @@
 package com.qbox.logic;
 
 class InputSize{
-    public var x:Int;
-    public var y:Int;
-    public var w:Int;
-    public var h:Int;
+    public var x:Float;
+    public var y:Float;
+    public var w:Float;
+    public var h:Float;
 
-    public function new ( x:Int, y:Int, w:Int, h:Int){ this.x = x; this.y=y;this.w=w;this.h=h;}
+    public function new ( x:Float, y:Float, w:Float, h:Float){ this.x = x; this.y=y;this.w=w;this.h=h;}
 }
 
 class Wnd{
@@ -28,10 +28,10 @@ class Wnd{
     public var _virtualWidth:Float;
     public var _virtualHeight:Float;
 
-    public var _virtualAreaX:Int;
-    public var _virtualAreaY:Int;
-    public var _virtualAreaW:Int;
-    public var _virtualAreaH:Int;
+    public var _virtualAreaX:Float;
+    public var _virtualAreaY:Float;
+    public var _virtualAreaW:Float;
+    public var _virtualAreaH:Float;
 
     var _channel:Channel;
     public var _ring:Ring;
@@ -53,14 +53,50 @@ class Wnd{
     public function setRealArea( x:Int, y:Int, w:Int, h:Int){
         if ( _channel == null) return;
 
+        _virtualAreaW = (w / _channel._w) * _virtualWidth;
+        _virtualAreaH = (h / _channel._h) * _virtualHeight;
+        _virtualAreaX = (x / _channel._w) * _virtualWidth;
+        _virtualAreaY = (y / _channel._h) * _virtualHeight;
+
+        resizeWndChannelArea();
     }
 
     public function setVirtualArea( x:Float, y:Float, w:Float, h:Float){
+        if ( _channel == null) return;
+
         _virtualAreaX = x;
         _virtualAreaY = y;
         _virtualAreaW = w;
         _virtualAreaH = h;
+        resizeWndChannelArea();
     }
+
+    function resizeWndChannelArea(){
+        _inputSize = new Array<InputSize>();
+        var vs = new Array<Dynamic>();
+        for (i in _screens){ 
+            var obj = i.calcScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight);
+            if ( obj.isOutScreen == false){
+                vs.push(obj);
+            }
+        }
+        calcInputSize( _inputSize, vs);
+
+        _opCounter += _screens.length;
+        for( i in 0..._screens.length){
+            trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
+            _screens[i].setChannelArea(this, 
+                    Math.round(_inputSize[i].x), 
+                    Math.round(_inputSize[i].y), 
+                    Math.round(_inputSize[i].w), 
+                    Math.round(_inputSize[i].h), _channel, cbSetupChannelArea);
+        }
+    }
+
+    function cbSetupChannelArea( args, ss){
+        trace(args);
+    }
+
 
 
     public function open(x:Int, y:Int, w:Int, h:Int, c:Channel, ring:Ring){
@@ -71,6 +107,8 @@ class Wnd{
         _virtualHeight = h;
         _channel =  c;
         _ring = ring;
+
+        setRealArea( 0, 0, _channel._w, _channel._h);
 
         _screens = new Array<Screen>();
         _inputSize = new Array<InputSize>();
@@ -115,24 +153,33 @@ class Wnd{
 
         var xoffset = ScreenMgr.getInst()._virtualX;
         var yoffset = ScreenMgr.getInst()._virtualY;
-        var inx = 0;
-        var iny = 0;
-        var inw = 0;
-        var inh = 0;
+        var inx:Float = 0;
+        var iny:Float = 0;
+        var inw:Float = 0;
+        var inh:Float = 0;
+        var pw = _channel._w / _virtualWidth;
+        var ph = _channel._h / _virtualHeight;
+        var rx = _virtualAreaX * pw;
+        var ry = _virtualAreaY * ph;
+        var rw = _virtualAreaW * pw;
+        var rh = _virtualAreaH * ph;
+        var rpw = rw / _virtualWidth;
+        var rph = rh / _virtualHeight;
+
         for ( i in  sizeArr){
             if ( i.cutLeft > 0){
-                inx = Math.round( _channel._w * i.cutLeft / _virtualWidth);
-                inw = Math.round( _channel._w * i.w/ _virtualWidth);
+                inx = rx - ( i.cutLeft * rpw);
+                inw = ( i.w * rpw);
             }else{
-                inx = 0;
-                inw = Math.round( _channel._w * i.w / _virtualWidth);
+                inx = rx;
+                inw = ( i.w * rpw);
             }
             if ( i.cutUp> 0){
-                iny = Math.round( _channel._h * i.cutUp / _virtualHeight);
-                inh = Math.round( _channel._h * i.h/ _virtualHeight);
+                iny = rx - ( i.cutUp * rph);
+                inh = ( i.h * rph);
             }else{
-                iny = 0;
-                inh = Math.round( _channel._h * i.h/ _virtualHeight);
+                iny = rx;
+                inh = ( i.h * rph);
             }
             inputSizeArr.push( new InputSize( inx,iny,inw,inh ) );
         }
@@ -165,11 +212,15 @@ class Wnd{
         _opCounter += _screens.length;
         for( i in 0..._screens.length){
             trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
-            _screens[i].setChannelArea(this, _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
+            _screens[i].setChannelArea(this, 
+                    Math.round(_inputSize[i].x), 
+                    Math.round(_inputSize[i].y), 
+                    Math.round(_inputSize[i].w), 
+                    Math.round(_inputSize[i].h), _channel, cbSetChannelAreaBeforeCreateWnd);
         }
     }
 
-    function cbSetChannelArea( args:Dynamic, s:Screen){
+    function cbSetChannelAreaBeforeCreateWnd( args:Dynamic, s:Screen){
         trace(args);
         --_opCounter;
         if ( _opCounter == 0){
@@ -300,7 +351,11 @@ class Wnd{
             _opCounter += _screens.length;
             for( i in 0..._screens.length){
                 trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
-                _screens[i].setChannelArea(this, _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetupChannelAreaBeforMoveWnd);
+                _screens[i].setChannelArea(this, 
+                        Math.round(_inputSize[i].x), 
+                        Math.round(_inputSize[i].y), 
+                        Math.round(_inputSize[i].w), 
+                        Math.round(_inputSize[i].h), _channel, cbSetupChannelAreaBeforMoveWnd);
             }
         }
     }
