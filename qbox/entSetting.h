@@ -130,6 +130,7 @@ public:
 	uint32_t getWindowsTotal();
 	void getWindowsHandle(std::set<uint32_t> &handle);
 	bool getWindowsInfo(uint32_t out,uint32_t &winX,uint32_t &winY,uint32_t &width,uint32_t &height);
+	bool getWindowsInfo(uint32_t out,WindowInfo &info);
 
 	void setWindowInfo(uint32_t out,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
 	bool delWindow(uint32_t winHandle);

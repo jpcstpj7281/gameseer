@@ -227,17 +227,43 @@ bool EntSetting::getWindowsInfo(uint32_t out,uint32_t &winX,uint32_t &winY,uint3
 	return true;
 }
 
+bool EntSetting::getWindowsInfo(uint32_t out,WindowInfo &info)
+{
+	map<uint32_t,WindowInfo>::iterator it;
+	it = m_windowInfo.find(out);
+	if(it == m_windowInfo.end())
+	{
+		return false;
+	}
+	else
+	{
+		info.winX = it->second.winX;
+		info.winY = it->second.winY;
+		info.width = it->second.width;
+		info.height = it->second.height;
+		info.channelIn = it->second.channelIn;
+		info.channelOut = it->second.channelOut;
+		info.layer = it->second.layer;
+		info.showStatus = it->second.showStatus;
+
+
+
+	}
+
+	return true;
+}
+
 void EntSetting::setWindowInfo(uint32_t out,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height)
 {
 
 
-	WindowInfo info;
-	info.winX = winX;
-	info.winY = winY;
-	info.width = width;
-	info.height = height;
 
-	m_windowInfo.insert(make_pair(out,info));
+
+	m_windowInfo[out].winX = winX;
+	m_windowInfo[out].winY = winY;
+	m_windowInfo[out].width = width;
+	m_windowInfo[out].height = height;
+
 
 
 
