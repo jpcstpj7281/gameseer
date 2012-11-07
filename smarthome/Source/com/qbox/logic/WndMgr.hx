@@ -18,6 +18,8 @@ class WndMgr {
     //Array< Qbox>, container of Qboxes.
     public var _wnds:Array<Wnd>;
 
+    public var _maxLayer:Int;
+    public var _minLayer:Int;
 
     public function new(){
         _wnds =  new Array<Wnd>();
