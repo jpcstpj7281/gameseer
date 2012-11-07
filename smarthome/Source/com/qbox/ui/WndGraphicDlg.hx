@@ -94,7 +94,7 @@ class WndGraphicDlg extends CommDialog{
         _virtualWnd.graphics.drawRect( 0,0, 10, 10);
     }
 
-    public function resizeWnd( w:Int, h:Int){
+    public function resizeWnd( w:Float, h:Float){
         _wnd.resize( w,h);
         redrawWnd(w,h);
     }
@@ -107,8 +107,8 @@ class WndGraphicDlg extends CommDialog{
     }
 
     public function moveWnd( x:Int, y:Int){
-        var w:Int = _wnd._virtualWidth;
-        var h:Int = _wnd._virtualHeight;
+        var w:Float= _wnd._virtualWidth;
+        var h:Float= _wnd._virtualHeight;
         var wx = ScreenMgr.getInst()._virtualX +ScreenMgr.getInst()._virtualWidth;
         var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
         if ( x < ScreenMgr.getInst()._virtualX){

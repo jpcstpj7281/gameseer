@@ -63,17 +63,17 @@ class Screen extends Qbox{
         return false;
     }
 
-    public function calcScreen(x:Int, y:Int, w:Int, h:Int ){
-        var screenx:Int = _virtualWidth * _col + ScreenMgr.getInst()._virtualX;//UI上的窗口X坐标,加入ScreenPlate的X偏移
-        var screeny:Int = _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口X坐标,加入ScreenPlate的Y偏移
-        var screenw:Int = _virtualWidth;
-        var screenh:Int = _virtualHeight;
+    public function calcScreen(x:Float, y:Float, w:Float, h:Float){
+        var screenx:Float= _virtualWidth * _col + ScreenMgr.getInst()._virtualX;//UI上的窗口X坐标,加入ScreenPlate的X偏移
+        var screeny:Float= _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口X坐标,加入ScreenPlate的Y偏移
+        var screenw:Float= _virtualWidth;
+        var screenh:Float= _virtualHeight;
         var isOutOfScreen = false;
 
-        var cutleft:Int = 0;
-        var cutright:Int = 0;
-        var cutup:Int = 0;
-        var cutdown:Int = 0;
+        var cutleft:Float= 0;
+        var cutright:Float= 0;
+        var cutup:Float= 0;
+        var cutdown:Float= 0;
         if ( x <screenx ){ 
             if (x + w > screenx ){
                 if ( x + w > screenx + _virtualWidth){
@@ -181,7 +181,7 @@ class Screen extends Qbox{
         return null;
     }
 
-    public function setWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
+    public function setWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
             trace("there is a wnd operation processing.");
         }
@@ -489,7 +489,7 @@ class Screen extends Qbox{
         }
     }
 
-    public function resizeWnd(x:Int, y:Int, w:Int, h:Int, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
+    public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
             trace("there is a wnd operation processing.");
         }
