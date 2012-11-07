@@ -23,10 +23,10 @@ class Wnd{
 
     //public var _handles:Array<String>;
 
-    public var _virtualX:Int;
-    public var _virtualY:Int;
-    public var _virtualWidth:Int;
-    public var _virtualHeight:Int;
+    public var _virtualX:Float;
+    public var _virtualY:Float;
+    public var _virtualWidth:Float;
+    public var _virtualHeight:Float;
 
     public var _virtualAreaX:Int;
     public var _virtualAreaY:Int;
@@ -38,6 +38,8 @@ class Wnd{
 
     public var _opCounter:Int;
 
+    public var _layer:Int;
+
     public function new(){
         //_x = 0;
         //_y = 0;
@@ -48,8 +50,18 @@ class Wnd{
         _opCounter= 0;
     }
 
-    public function setArea( px:Float, py:Float, pw:Float, ph:Float){
+    public function setRealArea( x:Int, y:Int, w:Int, h:Int){
+        if ( _channel == null) return;
+
     }
+
+    public function setVirtualArea( x:Float, y:Float, w:Float, h:Float){
+        _virtualAreaX = x;
+        _virtualAreaY = y;
+        _virtualAreaW = w;
+        _virtualAreaH = h;
+    }
+
 
     public function open(x:Int, y:Int, w:Int, h:Int, c:Channel, ring:Ring){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
@@ -63,23 +75,14 @@ class Wnd{
         _screens = new Array<Screen>();
         _inputSize = new Array<InputSize>();
         var vs = new Array<Dynamic>();
-        if ( _ring != null){ //calculate screen if there is ring.
-            for (i in ScreenMgr.getInst()._screens){ 
-                var obj = i.calcScreen( x,y,w,h);
-                if ( obj.isOutScreen == false){
-                    _screens.push(i);
-                    vs.push(obj);
-                }
+        for (i in ScreenMgr.getInst()._screens){ 
+            var obj = i.calcScreen( x,y,w,h);
+            if ( obj.isOutScreen == false){
+                _screens.push(i);
+                vs.push(obj);
             }
-        }else{
-            _screens.push( c._screen);
         }
-
-        if ( _screens.length > 1 && _ring != null){
-            calcInputSize( _inputSize, vs);
-        }else{
-            _inputSize.push( new InputSize(  0, 0, c._w,c._h) );
-        }
+        calcInputSize( _inputSize, vs);
 
         setupChannel();
         return true;
@@ -161,7 +164,7 @@ class Wnd{
     function cbRingSetupToSetChannelArea( args:Dynamic):Void{
         _opCounter += _screens.length;
         for( i in 0..._screens.length){
-                trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
+            trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
             _screens[i].setChannelArea(this, _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetChannelArea);
         }
     }
@@ -194,7 +197,7 @@ class Wnd{
         trace("show window: "+ args);
     }
 
-    public function move( x:Int, y:Int):Bool{
+    public function move( x:Float, y:Float):Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
@@ -202,23 +205,15 @@ class Wnd{
         _newscreens = new Array<Screen>();
         _newinputSize = new Array<InputSize>();
         var vs = new Array<Dynamic>();
-        if ( _ring != null){ //calculate screen if there is ring.
-            for (i in ScreenMgr.getInst()._screens){ 
-                var obj = i.calcScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight);
-                if ( obj.isOutScreen == false){
-                    _newscreens.push(i);
-                    vs.push(obj);
-                }
+        for (i in ScreenMgr.getInst()._screens){ 
+            var obj = i.calcScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight);
+            if ( obj.isOutScreen == false){
+                _newscreens.push(i);
+                vs.push(obj);
             }
-        }else{
-            _newscreens.push( _channel._screen);
         }
 
-        if ( _newscreens.length > 1 && _ring != null){
-            calcInputSize( _newinputSize, vs);
-        }else{
-            _newinputSize.push( new InputSize( 0, 0, _channel._w,_channel._h) );
-        }
+        calcInputSize( _newinputSize, vs);
 
         _createscreens = new Array<Screen>();
         _closescreens = new Array<Screen>();
@@ -285,7 +280,7 @@ class Wnd{
         --_opCounter;
         if ( _opCounter == 0){
             if ( _createscreens.length > 0 && _ring != null ){
-                if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel) == false){
+                if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingBeforMoveWnd) == false){
                     trace("resource error");
                 }
             }else{
@@ -297,15 +292,40 @@ class Wnd{
         }
     }
 
-    function cbSetup753BeforMoveWnd( args){
-        _opCounter+=_createscreens.length;
-        for (i in _createscreens){
-            i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
-        }
+    function cbSetup753RingBeforMoveWnd( args){
         _screens = _newscreens;
+        _inputSize = _newinputSize;
+
+        if (  _ring != null){
+            _opCounter += _screens.length;
+            for( i in 0..._screens.length){
+                trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
+                _screens[i].setChannelArea(this, _inputSize[i].x, _inputSize[i].y, _inputSize[i].w, _inputSize[i].h, _channel, cbSetupChannelAreaBeforMoveWnd);
+            }
+        }
     }
 
-    public function resize( w:Int, h:Int){
+    function cbSetupChannelAreaBeforMoveWnd( args, ss){
+        --_opCounter;
+        if ( _opCounter == 0){
+            _opCounter+=_keepscreens.length;
+            for (i in _keepscreens){
+                i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWndBeforMoveWnd, this);
+            }
+        }
+    }
+
+    function cbResizeWndBeforMoveWnd(args, ss){
+        --_opCounter;
+        if ( _opCounter == 0){
+            _opCounter+=_createscreens.length;
+            for (i in _createscreens){
+                i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+            }
+        }
+    }
+
+    public function resize( w:Float, h:Float){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualHeight = h;
         _virtualWidth = w;

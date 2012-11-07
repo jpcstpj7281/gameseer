@@ -21,6 +21,22 @@ class WndDlg extends CommDialog{
     var _wt:EmbedTextField;
     var _ht:EmbedTextField;
     var _st:EmbedTextField;
+
+    var _x:EmbedTextField;
+    var _y:EmbedTextField;
+    var _w:EmbedTextField;
+    var _h:EmbedTextField;
+
+    var _ax:EmbedTextField;
+    var _ay:EmbedTextField;
+    var _aw:EmbedTextField;
+    var _ah:EmbedTextField;
+
+    var _axt:EmbedTextField;
+    var _ayt:EmbedTextField;
+    var _awt:EmbedTextField;
+    var _aht:EmbedTextField;
+
     var _s:Sprite;
 
     var _wnd:Wnd;
@@ -52,23 +68,47 @@ class WndDlg extends CommDialog{
             _wndtext.width = 50;
             _wndtext.height= 16;
 
+            _x= new EmbedTextField();
+            _x.scaleX = 3;
+            _x.scaleY = 3;
+            _x.width = 24;
+            _x.height= 16;
+            _x.x = 110;
+            _x.text = "x:";
+
             _xt= new EmbedTextField();
             _xt.type = INPUT;
             _xt.setBorder(true);
             _xt.scaleX = 3;
             _xt.scaleY = 3;
-            _xt.width = 30;
+            _xt.width = 24;
             _xt.height= 16;
-            _xt.x = 150;
+            _xt.x = 140;
+
+            _y= new EmbedTextField();
+            _y.scaleX = 3;
+            _y.scaleY = 3;
+            _y.width = 24;
+            _y.height= 16;
+            _y.x = 210;
+            _y.text = "y:";
 
             _yt= new EmbedTextField();
             _yt.type = INPUT;
             _yt.setBorder(true);
             _yt.scaleX = 3;
             _yt.scaleY = 3;
-            _yt.width = 30;
+            _yt.width = 24;
             _yt.height= 16;
-            _yt.x = 250;
+            _yt.x = 240;
+
+            _w= new EmbedTextField();
+            _w.scaleX = 3;
+            _w.scaleY = 3;
+            _w.width = 24;
+            _w.height= 16;
+            _w.x = 310;
+            _w.text = "w:";
 
             _wt= new EmbedTextField();
             _wt.type = INPUT;
@@ -76,18 +116,26 @@ class WndDlg extends CommDialog{
             _wt.text =""+ _wnd._virtualWidth;
             _wt.scaleX = 3;
             _wt.scaleY = 3;
-            _wt.width = 30;
+            _wt.width = 24;
             _wt.height= 16;
-            _wt.x = 350;
+            _wt.x = 345;
+
+            _h= new EmbedTextField();
+            _h.scaleX = 3;
+            _h.scaleY = 3;
+            _h.width = 24;
+            _h.height= 16;
+            _h.x = 415;
+            _h.text = "h:";
 
             _ht= new EmbedTextField();
             _ht.type = INPUT;
             _ht.setBorder(true);
             _ht.scaleX = 3;
             _ht.scaleY = 3;
-            _ht.width = 30;
+            _ht.width = 24;
             _ht.height= 16;
-            _ht.x = 450;
+            _ht.x = 445;
 
             _st= new EmbedTextField();
             _st.setBorder(true);
@@ -116,9 +164,13 @@ class WndDlg extends CommDialog{
             _ht.text = ""+h;
             _s.addChild( _wndtext);
             _s.addChild( _xt);
+            _s.addChild( _x);
             _s.addChild( _yt);
+            _s.addChild( _y);
             _s.addChild( _wt);
+            _s.addChild( _w);
             _s.addChild( _ht);
+            _s.addChild( _h);
             _s.addChild( _st);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
@@ -130,9 +182,13 @@ class WndDlg extends CommDialog{
         if ( _s != null ) {
             if ( _wndtext!= null) {_s.removeChild(_wndtext);_wndtext= null;}
             if ( _xt!= null){ _s.removeChild(_xt);_xt= null;}
+            if ( _x!= null){ _s.removeChild(_x);_x= null;}
             if ( _yt!= null){ _s.removeChild(_yt);_yt= null;}
+            if ( _y!= null){ _s.removeChild(_y);_y= null;}
             if ( _wt!= null){ _s.removeChild(_wt);_wt= null;}
+            if ( _w!= null){ _s.removeChild(_w);_w= null;}
             if ( _ht!= null){ _s.removeChild(_ht);_ht= null;}
+            if ( _h!= null){ _s.removeChild(_h);_h= null;}
             if ( _st!= null){ 
                 _st.removeEventListener(  MouseEvent.CLICK, onUpdateBtnMouseClick);
                 _s.removeChild(_st);
