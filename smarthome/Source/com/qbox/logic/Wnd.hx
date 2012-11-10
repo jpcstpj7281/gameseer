@@ -48,6 +48,29 @@ class Wnd{
         _screens= new Array<Screen>();
         _inputSize = new Array<InputSize>();
         _opCounter= 0;
+        _layer = 10;
+    }
+
+    public function setLayer( l:Int){
+        _layer = l;
+        _opCounter += _screens.length;
+        for ( i in _screens){
+            i.setLayer(_layer, cbSetLayer, this);
+        }
+    }
+
+    public function cbSetLayer( args, ss){
+        trace(args);
+    }
+
+    public function toFront():Bool{
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _layer == WndMgr.getInst()._maxLayer) return false;
+        _layer = ++WndMgr.getInst()._maxLayer ;
+#if !neko
+        setLayer(_layer);
+#end
+        return true;
     }
 
     public function setRealArea( x:Int, y:Int, w:Int, h:Int){
@@ -121,6 +144,7 @@ class Wnd{
             }
         }
         calcInputSize( _inputSize, vs);
+        //trace("test");
 
         setupChannel();
         return true;
@@ -240,6 +264,16 @@ class Wnd{
         //++_opCounter;
         //s.showWnd( this, cbShowWnd );
         //}
+        --_opCounter;
+        if (_opCounter == 0){
+            _opCounter += _screens.length;
+            for (i in _screens){
+                i.setLayer( _layer, cbSetLayerAfterSetWnd, this);
+            }
+        }
+    }
+
+    function cbSetLayerAfterSetWnd( args, ss){
         --_opCounter;
         if (_opCounter == 0){
             _opCounter += _screens.length;

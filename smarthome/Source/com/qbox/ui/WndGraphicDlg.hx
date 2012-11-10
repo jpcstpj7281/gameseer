@@ -133,6 +133,9 @@ class WndGraphicDlg extends CommDialog{
         _wnd.move( cast x, cast y);
     }
 
+    public function openWnd( x:Int, y:Int, w:Int, h:Int){
+    }
+
     public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel, ring:Ring){
         _wnd = WndMgr.getInst().createWnd();
         _wnd.open( x,y,w,h, channel, ring);
