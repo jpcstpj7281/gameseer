@@ -489,6 +489,36 @@ class Screen extends Qbox{
         }
     }
 
+    public function setLayer( l:Int,  cbSetLayerFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
+        if (_currCB != null){ trace("there is a wnd processing."); }
+        _currCB = cbSetLayerFunc;
+#if !neko
+        var p = get753Port(wnd);
+        if ( p == null) {
+            trace("cannot find port of wnd");
+            return;
+        }
+        clearData();
+        startListening( 8, cbSetLayer, 2);
+        setMsg( 7, 2);
+        addKeyVal( "out", Bytes.ofString(out));
+        addKeyVal( "layer", Bytes.ofString(l));
+        sendData();
+#else
+        var test= new Hash<String>();
+        test.set("error","0");
+        cbSetLayer(test);
+#end
+    }
+
+    function cbSetLayer( args:Dynamic):Void{
+        if (_currCB != null){
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
+    }
+
     public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
             trace("there is a wnd operation processing.");

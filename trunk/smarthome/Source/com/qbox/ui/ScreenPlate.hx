@@ -218,19 +218,35 @@ class ScreenPlate extends CommDialog{
                         //right down maximize
                         trace("max");
                         _movingWnd.shiftRightDownWnd( );
-                    }
-                    if (_movingWnd !=null && evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
+                    }else if (_movingWnd !=null && evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
                         //left up maximize
                         trace("max");
                         _movingWnd.shiftLeftUpWnd();
-                    }
-                    //close window
-                    if ( _movingWnd != null && evt.stageX >= _movingWnd.x + _movingWnd.width -10 && evt.stageY <= _movingWnd.y +10 ){
+                    }else if ( _movingWnd != null && evt.stageX >= _movingWnd.x + _movingWnd.width -10 && evt.stageY <= _movingWnd.y +10 ){
+                        //close window
                         trace("closeWnd");
                         _movingWnd.closeWnd();
                         _movingWnd.parent.removeChild(_movingWnd);
                         cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
                         WndMgr.getInst().removeWnd(_movingWnd._wnd);
+                    }else{
+                        //trace("test");
+                        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+                        if ( ms.length > 0 ){
+                            //swap windows
+                            var m = ms[0];
+                            var p = m.parent;
+                            for ( i in 0...p.numChildren){
+                                var w = p.getChildAt( i );
+                                if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
+                                    var dd:WndGraphicDlg = cast p;
+                                    if ( dd._wnd.toFront() ){
+                                        p.setChildIndex(w, p.numChildren -1 );
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }else{
 
@@ -250,26 +266,47 @@ class ScreenPlate extends CommDialog{
 
                     var w = upx - _downx;
                     var h = upy - _downy;
+
+
                     //open window
-                    if ( w > 90  && h > 60 && ChannelMgr.getInst()._currSelected != null ) {
-                        var win = new WndGraphicDlg(_mgr);
-                        win.openWnd( _downx, _downy, cast w, cast h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
-                        win.show();
-                    }
-                    else if ( w < 5  && h <5 ) {
-                        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
-                        if ( ms.length > 0 ){
-                            //swap windows
-                            var m = ms[0];
-                            var p = m.parent;
-                            for ( i in 0...p.numChildren){
-                                var w = p.getChildAt( i );
-                                if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                                    p.setChildIndex(w, p.numChildren -1 );
+                    if ( w > 30  && h > 30){
+                        if (  ChannelMgr.getInst()._currSelected != null ) {
+                            var win = new WndGraphicDlg(_mgr);
+                            win.openWnd( _downx, _downy, cast w, cast h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
+                            win.show();
+                        }else{
+                            var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+                            if ( ms.length > 0 ){
+                                //swap windows
+                                var m = ms[0];
+                                var p = m.parent;
+                                for ( i in 0...p.numChildren){
+                                    var w = p.getChildAt( p.numChildren  - 1 - i );
+                                    if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
+                                        var dd:WndGraphicDlg = cast p;
+                                        dd.setArea( _downx, _downy, cast w, cast h);
+                                        break;
+                                    }
                                 }
                             }
                         }
+
                     }
+                    //else if ( w < 5  && h <5 ) {
+                    ////trace("test");
+                    //var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+                    //if ( ms.length > 0 ){
+                    ////swap windows
+                    //var m = ms[0];
+                    //var p = m.parent;
+                    //for ( i in 0...p.numChildren){
+                    //var w = p.getChildAt( i );
+                    //if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
+                    //p.setChildIndex(w, p.numChildren -1 );
+                    //}
+                    //}
+                    //}
+                    //}
                 }
             }
         }

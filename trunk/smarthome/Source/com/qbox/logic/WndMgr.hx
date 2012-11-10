@@ -23,10 +23,13 @@ class WndMgr {
 
     public function new(){
         _wnds =  new Array<Wnd>();
+        _minLayer = 10;
+        _maxLayer = 10;
     }
 
     public function createWnd():Wnd{
         var c = new Wnd();
+        c._layer = _maxLayer+=1;
         _wnds.push( c);
         return c;
     }
