@@ -131,7 +131,7 @@ class ScreenPlate extends CommDialog{
             }
         }
         for ( i in WndMgr.getInst()._wnds){
-            trace("create wnd");
+            //trace("create wnd");
             var win = new WndGraphicDlg(_mgr);
             win.resurrectWnd(i);
             win.show();
@@ -179,10 +179,18 @@ class ScreenPlate extends CommDialog{
             _downx = cast evt.stageX;
             _downy = cast evt.stageY;
         }
+        if ( _movingWnd != null){
+            if (( evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 )){
+                _isResize = true;
+            }else if (/* (evt.stageX - _downx > 5 || evt.stageY - _downy > 5 || evt.stageX - _downx < -5 || evt.stageY - _downy <-5) &&*/ isInMoveBar( evt) ){
+                _isMoving = true;
+                //trace("move");
+            }
+        }
     }
 
     function isInMoveBar( evt:MouseEvent):Bool{
-        if ( _downy < _movingWnd.y + 10 ){
+        if ( _downy < _movingWnd.y + 10 && ( _downx > _movingWnd.x+10 && _downx < _movingWnd.x +_movingWnd.width - 10 ) ){
             return true;
         }
         return false;
@@ -190,14 +198,6 @@ class ScreenPlate extends CommDialog{
 
     function onThisMouseMove( evt:MouseEvent ):Void{ 
         if ( _isDown){
-            if ( _movingWnd != null){
-                if (_isResize ||( evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 )){
-                    _isResize = true;
-                }else if (!_isResize && (evt.stageX - _downx > 5 || evt.stageY - _downy > 5 || evt.stageX - _downx < -5 || evt.stageY - _downy <-5) && isInMoveBar( evt) ){
-                    _isMoving = true;
-                }
-            }
-
             //if ( !_screens.hitTestPoint( evt.stageX, evt.stageY)){
             //onThisMouseUp(evt);
             //}
@@ -207,20 +207,21 @@ class ScreenPlate extends CommDialog{
         if ( _isDown ){
             if ( _isMoving && _movingWnd !=null ){
                 _movingWnd.moveWnd( cast evt.stageX - _movex, cast evt.stageY - _movey);
-            }else if ( _isResize && _movingWnd != null){
+            }else if ( _isResize && _movingWnd != null && evt.stageX != _downx && evt.stageY != _downy){
                 var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
                 var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
                 //resize window
                 _movingWnd.resizeWnd( w , h);
+                //trace("resize");
             }else{
                 if ( evt.stageX == _downx && evt.stageY == _downy ){
                     if (_movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){
                         //right down maximize
-                        trace("max");
+                        trace("right down max");
                         _movingWnd.shiftRightDownWnd( );
                     }else if (_movingWnd !=null && evt.stageX < _movingWnd.x + 10 && evt.stageY < _movingWnd.y +10 ){
                         //left up maximize
-                        trace("max");
+                        trace("left up max");
                         _movingWnd.shiftLeftUpWnd();
                     }else if ( _movingWnd != null && evt.stageX >= _movingWnd.x + _movingWnd.width -10 && evt.stageY <= _movingWnd.y +10 ){
                         //close window
@@ -239,7 +240,7 @@ class ScreenPlate extends CommDialog{
                             for ( i in 0...p.numChildren){
                                 var w = p.getChildAt( i );
                                 if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                                    var dd:WndGraphicDlg = cast p;
+                                    var dd:WndGraphicDlg = cast w;
                                     if ( dd._wnd.toFront() ){
                                         p.setChildIndex(w, p.numChildren -1 );
                                     }
@@ -264,8 +265,8 @@ class ScreenPlate extends CommDialog{
                         upy = _screens.y+_screens.height;
                     }
 
-                    var w = upx - _downx;
-                    var h = upy - _downy;
+                    var w:Float = upx - _downx;
+                    var h:Float = upy - _downy;
 
 
                     //open window
@@ -281,16 +282,20 @@ class ScreenPlate extends CommDialog{
                                 var m = ms[0];
                                 var p = m.parent;
                                 for ( i in 0...p.numChildren){
-                                    var w = p.getChildAt( p.numChildren  - 1 - i );
-                                    if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                                        var dd:WndGraphicDlg = cast p;
-                                        dd.setArea( _downx, _downy, cast w, cast h);
+                                    var win = p.getChildAt( p.numChildren  - 1 - i );
+                                    if ( Std.is(win, WndGraphicDlg) && win.hitTestPoint( evt.stageX, evt.stageY) ){
+                                        var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
+                                        dd.createArea( _downx, _downy, w, h);
+                                        break;
+                                    }
+                                    if ( Std.is(win, WndGraphicDlg) && win.hitTestPoint( _downx, _downy) ){
+                                        var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
+                                        dd.createArea( _downx, _downy, w, h);
                                         break;
                                     }
                                 }
                             }
                         }
-
                     }
                     //else if ( w < 5  && h <5 ) {
                     ////trace("test");

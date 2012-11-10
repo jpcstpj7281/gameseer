@@ -49,6 +49,7 @@ class Wnd{
         _inputSize = new Array<InputSize>();
         _opCounter= 0;
         _layer = 10;
+        _virtualAreaX = _virtualAreaY = _virtualAreaW = _virtualAreaH = 0;
     }
 
     public function setLayer( l:Int){
@@ -73,8 +74,9 @@ class Wnd{
         return true;
     }
 
-    public function setRealArea( x:Int, y:Int, w:Int, h:Int){
-        if ( _channel == null) return;
+    public function setRealArea( x:Int, y:Int, w:Int, h:Int):Bool{
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _channel == null) {trace("null channel!");return false;}
 
         _virtualAreaW = (w / _channel._w) * _virtualWidth;
         _virtualAreaH = (h / _channel._h) * _virtualHeight;
@@ -82,16 +84,21 @@ class Wnd{
         _virtualAreaY = (y / _channel._h) * _virtualHeight;
 
         resizeWndChannelArea();
+        return true;
     }
 
-    public function setVirtualArea( x:Float, y:Float, w:Float, h:Float){
-        if ( _channel == null) return;
+    public function setVirtualArea( x:Float, y:Float, w:Float, h:Float):Bool{
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _channel == null) {trace("null channel!");return false;}
 
         _virtualAreaX = x;
         _virtualAreaY = y;
         _virtualAreaW = w;
         _virtualAreaH = h;
+#if !neko
         resizeWndChannelArea();
+#end
+        return true;
     }
 
     function resizeWndChannelArea(){
@@ -293,6 +300,7 @@ class Wnd{
         _virtualX = x;
         _virtualY = y;
 
+
         _newscreens = new Array<Screen>();
         _inputSize = new Array<InputSize>();
         var vs = new Array<Dynamic>();
@@ -338,6 +346,8 @@ class Wnd{
             }
         }
 
+
+#if !neko
         if ( _keepscreens.length > 0){
             _opCounter+=_keepscreens.length;
             for (i in 0..._keepscreens.length){
@@ -347,6 +357,7 @@ class Wnd{
             ++_opCounter;
             cbHideBeforeMoveWnd(null);
         }
+#end
         return true;
     }
 

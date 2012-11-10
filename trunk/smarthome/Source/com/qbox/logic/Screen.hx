@@ -522,6 +522,7 @@ class Screen extends Qbox{
     public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
             trace("there is a wnd operation processing.");
+            return false;
         }
 
         var port:String = get753Port(wnd);
