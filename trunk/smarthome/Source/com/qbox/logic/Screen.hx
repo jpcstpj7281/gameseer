@@ -501,8 +501,8 @@ class Screen extends Qbox{
         clearData();
         startListening( 8, cbSetLayer, 2);
         setMsg( 7, 2);
-        addKeyVal( "out", Bytes.ofString(out));
-        addKeyVal( "layer", Bytes.ofString(l));
+        addKeyVal( "out", Bytes.ofString(p));
+        addKeyVal( "layer", Bytes.ofString(""+l));
         sendData();
 #else
         var test= new Hash<String>();

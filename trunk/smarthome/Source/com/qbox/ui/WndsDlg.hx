@@ -18,7 +18,6 @@ class WndsDlg extends ListFixedDlg{
         x = 250;
         y= nme.Lib.current.stage.stageHeight - 80;
 
-        //new PlusItemFixedDlg(_listDialogMgr, cbPlusWnd);
     }
 
     public function cbPlusWnd( ):Void{
@@ -30,6 +29,7 @@ class WndsDlg extends ListFixedDlg{
         if ( _mgr.isAnimating() == false){
             _listDialogMgr.removeAllMovables();
 
+            new WndMenuFixedDlg(_listDialogMgr);
             for ( c in WndMgr.getInst()._wnds){
                 new WndDlg(_listDialogMgr, c);
             }

@@ -105,6 +105,7 @@ class MainStage extends ListDialogMgr {
         clearChannelSelecting();
         ChannelMgr.getInst()._currSelected = c;
         resetScreenPlate();
+        if ( c != null) _screenPlate.changedCurrChannel( c );
     }
 
     function cbChangedCurrRing(r:Ring){

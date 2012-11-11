@@ -14,6 +14,7 @@ import com.qbox.logic.Wnd;
 import com.qbox.logic.ChannelMgr;
 import com.qbox.logic.WndMgr;
 import com.qbox.logic.RingMgr;
+import com.qbox.logic.Channel;
 
 import com.pictionary.ui.DrawingDlgMgr;
 
@@ -203,13 +204,62 @@ class ScreenPlate extends CommDialog{
             //}
         }
     }
+
+    function getSelectedWnd():WndGraphicDlg{
+        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+        if ( ms.length > 0 ){
+            //swap windows
+            var m = ms[0];
+            var p = m.parent;
+            for ( i in 0...p.numChildren){
+                var w = p.getChildAt( i );
+                if ( Std.is(w, WndGraphicDlg) ){
+                    var dd:WndGraphicDlg = cast w;
+                    if ( dd._wnd._isSelected){
+                        return dd;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function unselectAllWnd():Void{
+        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+        if ( ms.length > 0 ){
+            //swap windows
+            var m = ms[0];
+            var p = m.parent;
+            for ( i in 0...p.numChildren){
+                var w = p.getChildAt( i );
+                if ( Std.is(w, WndGraphicDlg) ){
+                    var dd:WndGraphicDlg = cast w;
+                    if ( dd._wnd != null && dd._wnd._isSelected){
+                        dd.switchSelect();
+                    }
+                }
+            }
+        }
+    }
+
+    public function changedCurrChannel( c:Channel){
+        var w = getSelectedWnd();
+        if ( w != null){
+            w._wnd.changeChannel(c);
+        }
+    }
+
     function onThisMouseUp( evt:MouseEvent ):Void{ 
         if ( _isDown ){
             if ( _isMoving && _movingWnd !=null ){
+                unselectAllWnd();
+                _movingWnd._wnd._isSelected = true;
                 _movingWnd.moveWnd( cast evt.stageX - _movex, cast evt.stageY - _movey);
             }else if ( _isResize && _movingWnd != null && evt.stageX != _downx && evt.stageY != _downy){
                 var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
                 var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
+                unselectAllWnd();
+                _movingWnd._wnd._isSelected = true;
                 //resize window
                 _movingWnd.resizeWnd( w , h);
                 //trace("resize");
@@ -231,22 +281,33 @@ class ScreenPlate extends CommDialog{
                         cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
                         WndMgr.getInst().removeWnd(_movingWnd._wnd);
                     }else{
-                        //trace("test");
+                        var firstHit = true;
                         var ms = cast(_mgr, ListDialogMgr)._movableInstances;
                         if ( ms.length > 0 ){
                             //swap windows
                             var m = ms[0];
                             var p = m.parent;
+                            var setTop:WndGraphicDlg = null;
                             for ( i in 0...p.numChildren){
                                 var w = p.getChildAt( i );
-                                if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                                    var dd:WndGraphicDlg = cast w;
-                                    if ( dd._wnd.toFront() ){
-                                        p.setChildIndex(w, p.numChildren -1 );
+                                if ( Std.is(w, WndGraphicDlg) ){
+                                    if ( w.hitTestPoint( evt.stageX, evt.stageY) && firstHit){
+                                        var dd:WndGraphicDlg = cast w;
+                                        if ( dd._wnd.toFront() ){
+                                            dd.switchSelect();
+                                            setTop = dd;
+                                        }
+                                        firstHit = false;
+                                        continue;
+                                    }else{
+                                        var dd:WndGraphicDlg = cast w;
+                                        if ( dd._wnd._isSelected){
+                                            dd.switchSelect();
+                                        }
                                     }
-                                    break;
                                 }
                             }
+                            if (setTop != null) p.setChildIndex(setTop, p.numChildren -1 );
                         }
                     }
                 }else{
@@ -273,7 +334,9 @@ class ScreenPlate extends CommDialog{
                     if ( w > 30  && h > 30){
                         if (  ChannelMgr.getInst()._currSelected != null ) {
                             var win = new WndGraphicDlg(_mgr);
+                            unselectAllWnd();
                             win.openWnd( _downx, _downy, cast w, cast h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
+                            win.switchSelect();
                             win.show();
                         }else{
                             var ms = cast(_mgr, ListDialogMgr)._movableInstances;
@@ -283,12 +346,7 @@ class ScreenPlate extends CommDialog{
                                 var p = m.parent;
                                 for ( i in 0...p.numChildren){
                                     var win = p.getChildAt( p.numChildren  - 1 - i );
-                                    if ( Std.is(win, WndGraphicDlg) && win.hitTestPoint( evt.stageX, evt.stageY) ){
-                                        var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
-                                        dd.createArea( _downx, _downy, w, h);
-                                        break;
-                                    }
-                                    if ( Std.is(win, WndGraphicDlg) && win.hitTestPoint( _downx, _downy) ){
+                                    if ( Std.is(win, WndGraphicDlg) && ( win.hitTestPoint( evt.stageX, evt.stageY)  || win.hitTestPoint(_downx, _downy) )){
                                         var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
                                         dd.createArea( _downx, _downy, w, h);
                                         break;
@@ -297,21 +355,6 @@ class ScreenPlate extends CommDialog{
                             }
                         }
                     }
-                    //else if ( w < 5  && h <5 ) {
-                    ////trace("test");
-                    //var ms = cast(_mgr, ListDialogMgr)._movableInstances;
-                    //if ( ms.length > 0 ){
-                    ////swap windows
-                    //var m = ms[0];
-                    //var p = m.parent;
-                    //for ( i in 0...p.numChildren){
-                    //var w = p.getChildAt( i );
-                    //if ( Std.is(w, WndGraphicDlg) && w.hitTestPoint( evt.stageX, evt.stageY) ){
-                    //p.setChildIndex(w, p.numChildren -1 );
-                    //}
-                    //}
-                    //}
-                    //}
                 }
             }
         }

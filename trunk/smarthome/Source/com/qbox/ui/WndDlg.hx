@@ -22,16 +22,6 @@ class WndDlg extends CommDialog{
     var _ht:EmbedTextField;
     var _st:EmbedTextField;
 
-    var _x:EmbedTextField;
-    var _y:EmbedTextField;
-    var _w:EmbedTextField;
-    var _h:EmbedTextField;
-
-    var _ax:EmbedTextField;
-    var _ay:EmbedTextField;
-    var _aw:EmbedTextField;
-    var _ah:EmbedTextField;
-
     var _axt:EmbedTextField;
     var _ayt:EmbedTextField;
     var _awt:EmbedTextField;
@@ -54,6 +44,10 @@ class WndDlg extends CommDialog{
             if (_yt!= null)_s.removeChild(_yt);
             if (_wt!= null)_s.removeChild(_wt);
             if (_ht!= null)_s.removeChild(_ht);
+            if (_axt!= null)_s.removeChild(_axt);
+            if (_ayt!= null)_s.removeChild(_ayt);
+            if (_awt!= null)_s.removeChild(_awt);
+            if (_aht!= null)_s.removeChild(_aht);
             if (_st!= null)_s.removeChild(_st);
 
             _wndtext= new EmbedTextField();
@@ -68,14 +62,6 @@ class WndDlg extends CommDialog{
             _wndtext.width = 50;
             _wndtext.height= 16;
 
-            _x= new EmbedTextField();
-            _x.scaleX = 3;
-            _x.scaleY = 3;
-            _x.width = 24;
-            _x.height= 16;
-            _x.x = 110;
-            _x.text = "x:";
-
             _xt= new EmbedTextField();
             _xt.type = INPUT;
             _xt.setBorder(true);
@@ -83,15 +69,7 @@ class WndDlg extends CommDialog{
             _xt.scaleY = 3;
             _xt.width = 24;
             _xt.height= 16;
-            _xt.x = 140;
-
-            _y= new EmbedTextField();
-            _y.scaleX = 3;
-            _y.scaleY = 3;
-            _y.width = 24;
-            _y.height= 16;
-            _y.x = 210;
-            _y.text = "y:";
+            _xt.x = 110;
 
             _yt= new EmbedTextField();
             _yt.type = INPUT;
@@ -100,33 +78,16 @@ class WndDlg extends CommDialog{
             _yt.scaleY = 3;
             _yt.width = 24;
             _yt.height= 16;
-            _yt.x = 240;
-
-            _w= new EmbedTextField();
-            _w.scaleX = 3;
-            _w.scaleY = 3;
-            _w.width = 24;
-            _w.height= 16;
-            _w.x = 310;
-            _w.text = "w:";
+            _yt.x = 190;
 
             _wt= new EmbedTextField();
             _wt.type = INPUT;
             _wt.setBorder(true);
-            _wt.text =""+ _wnd._virtualWidth;
             _wt.scaleX = 3;
             _wt.scaleY = 3;
             _wt.width = 24;
             _wt.height= 16;
-            _wt.x = 345;
-
-            _h= new EmbedTextField();
-            _h.scaleX = 3;
-            _h.scaleY = 3;
-            _h.width = 24;
-            _h.height= 16;
-            _h.x = 415;
-            _h.text = "h:";
+            _wt.x = 270;
 
             _ht= new EmbedTextField();
             _ht.type = INPUT;
@@ -135,7 +96,44 @@ class WndDlg extends CommDialog{
             _ht.scaleY = 3;
             _ht.width = 24;
             _ht.height= 16;
-            _ht.x = 445;
+            _ht.x = 350;
+
+            _axt= new EmbedTextField();
+            _axt.type = INPUT;
+            _axt.setBorder(true);
+            _axt.scaleX = 3;
+            _axt.scaleY = 3;
+            _axt.width = 24;
+            _axt.height= 16;
+            _axt.x = 430;
+
+            _ayt= new EmbedTextField();
+            _ayt.type = INPUT;
+            _ayt.setBorder(true);
+            _ayt.scaleX = 3;
+            _ayt.scaleY = 3;
+            _ayt.width = 24;
+            _ayt.height= 16;
+            _ayt.x = 510;
+
+            _awt= new EmbedTextField();
+            _awt.type = INPUT;
+            _awt.setBorder(true);
+            _awt.scaleX = 3;
+            _awt.scaleY = 3;
+            _awt.width = 24;
+            _awt.height= 16;
+            _awt.x = 590;
+
+            _aht= new EmbedTextField();
+            _aht.type = INPUT;
+            _aht.setBorder(true);
+            _aht.scaleX = 3;
+            _aht.scaleY = 3;
+            _aht.width = 24;
+            _aht.height= 16;
+            _aht.x = 670;
+
 
             _st= new EmbedTextField();
             _st.setBorder(true);
@@ -149,7 +147,7 @@ class WndDlg extends CommDialog{
             _st.scaleY = 3;
             _st.width = 30;
             _st.height= 16;
-            _st.x = 550;
+            _st.x = 900;
             _st.addEventListener( MouseEvent.CLICK, onUpdateBtnMouseClick);
 
             var pw:Float = ScreenMgr.getInst()._resWidth/ScreenMgr.getInst()._virtualWidth;
@@ -158,19 +156,29 @@ class WndDlg extends CommDialog{
             var y = Math.round( (_wnd._virtualY - ScreenMgr.getInst()._virtualY) *ph);
             var w = Math.round( _wnd._virtualWidth*pw);
             var h = Math.round( _wnd._virtualHeight*ph);
+            var apw:Float = _wnd._channel._w / _wnd._virtualWidth;
+            var aph:Float = _wnd._channel._h / _wnd._virtualHeight;
+            var ax = Math.round(_wnd._virtualAreaX *apw );
+            var ay = Math.round(_wnd._virtualAreaY *aph );
+            var aw = Math.round(_wnd._virtualAreaW *apw);
+            var ah = Math.round(_wnd._virtualAreaH *aph);
             _xt.text = ""+x;
             _yt.text = ""+y;
             _wt.text = ""+w;
             _ht.text = ""+h;
+            _axt.text = ""+ax;
+            _ayt.text = ""+ay;
+            _awt.text = ""+aw;
+            _aht.text = ""+ah;
             _s.addChild( _wndtext);
             _s.addChild( _xt);
-            _s.addChild( _x);
             _s.addChild( _yt);
-            _s.addChild( _y);
             _s.addChild( _wt);
-            _s.addChild( _w);
             _s.addChild( _ht);
-            _s.addChild( _h);
+            _s.addChild( _axt);
+            _s.addChild( _ayt);
+            _s.addChild( _awt);
+            _s.addChild( _aht);
             _s.addChild( _st);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
@@ -182,13 +190,14 @@ class WndDlg extends CommDialog{
         if ( _s != null ) {
             if ( _wndtext!= null) {_s.removeChild(_wndtext);_wndtext= null;}
             if ( _xt!= null){ _s.removeChild(_xt);_xt= null;}
-            if ( _x!= null){ _s.removeChild(_x);_x= null;}
             if ( _yt!= null){ _s.removeChild(_yt);_yt= null;}
-            if ( _y!= null){ _s.removeChild(_y);_y= null;}
             if ( _wt!= null){ _s.removeChild(_wt);_wt= null;}
-            if ( _w!= null){ _s.removeChild(_w);_w= null;}
             if ( _ht!= null){ _s.removeChild(_ht);_ht= null;}
-            if ( _h!= null){ _s.removeChild(_h);_h= null;}
+            if ( _axt!= null){ _s.removeChild(_axt);_axt= null;}
+            if ( _ayt!= null){ _s.removeChild(_ayt);_ayt= null;}
+            if ( _awt!= null){ _s.removeChild(_awt);_awt= null;}
+            if ( _aht!= null){ _s.removeChild(_aht);_aht= null;}
+
             if ( _st!= null){ 
                 _st.removeEventListener(  MouseEvent.CLICK, onUpdateBtnMouseClick);
                 _s.removeChild(_st);
@@ -210,10 +219,10 @@ class WndDlg extends CommDialog{
         var y = Math.round( Std.parseInt( _yt.text )/ph)+ ScreenMgr.getInst()._virtualY;
         var w = Math.round( Std.parseInt( _wt.text )/pw);
         var h = Math.round( Std.parseInt( _ht.text )/ph);
-        trace( x);
-        trace( y);
-        trace( w);
-        trace( h);
+        //trace( x);
+        //trace( y);
+        //trace( w);
+        //trace( h);
         _wnd.reset(x,y, w,h );
     }
 }
