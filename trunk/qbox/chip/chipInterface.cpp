@@ -75,6 +75,8 @@ void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw)
 	s_c753.C753GetOutputPortACTHorizontalWidth(chid,outHw);
 	s_c753.C753GetOutputPortACTVerticalWidth(chid,outVw);
 
+	debug_msg("setInputSize getOut HW=%d,VW=%d!",outHw,outVw);
+
 	s_c753.initScal(chid,hw,vw,outHw,outVw);
 }
 
@@ -159,7 +161,11 @@ void setChnModel(uint32_t chn,uint32_t model)
 
 }
 
-
+void topChannel(uint32_t channel)
+{
+	AppScale &s_c753=*AppScale::Instance();
+	s_c753.topChannel(channel);
+}
 
 
 

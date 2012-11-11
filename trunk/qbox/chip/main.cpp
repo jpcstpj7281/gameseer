@@ -473,7 +473,7 @@ void demo()
 
 }
 
-void topChannel(uint32_t channel)
+void testTopChannel(uint32_t channel)
 {
 	AppScale s_c753;
 	s_c753.topChannel(channel);
