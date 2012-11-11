@@ -1,6 +1,7 @@
 package com.qbox.ui;
 
 import com.qbox.logic.ScreenMgr;
+import com.qbox.logic.WndMgr;
 import base.ui.FixedDlg;
 import base.ui.ListFixedDlg;
 import base.ui.CommDialogMgr;
@@ -25,6 +26,7 @@ class PlusRight extends FixedDlg{
         for ( i in arr){
             if ( Std.is(_mgr, MainStage) ){
                 ms = cast(_mgr, MainStage);
+                WndMgr.getInst().closeAll();
             }else{
                 var qd = new ScreenDlg( cast _mgr, i);
                 qd.show();

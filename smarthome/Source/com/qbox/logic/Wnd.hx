@@ -33,12 +33,14 @@ class Wnd{
     public var _virtualAreaW:Float;
     public var _virtualAreaH:Float;
 
-    var _channel:Channel;
+    public var _channel:Channel;
     public var _ring:Ring;
 
     public var _opCounter:Int;
 
     public var _layer:Int;
+
+    public var _isSelected:Bool;
 
     public function new(){
         //_x = 0;
@@ -50,6 +52,7 @@ class Wnd{
         _opCounter= 0;
         _layer = 10;
         _virtualAreaX = _virtualAreaY = _virtualAreaW = _virtualAreaH = 0;
+        _isSelected = false;
     }
 
     public function setLayer( l:Int){
@@ -61,12 +64,13 @@ class Wnd{
     }
 
     public function cbSetLayer( args, ss){
+        --_opCounter;
         trace(args);
     }
 
     public function toFront():Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
-        if ( _layer == WndMgr.getInst()._maxLayer) return false;
+        if ( _layer == WndMgr.getInst()._maxLayer) return true;
         _layer = ++WndMgr.getInst()._maxLayer ;
 #if !neko
         setLayer(_layer);
@@ -123,8 +127,54 @@ class Wnd{
         }
     }
 
+    public function changeChannel( c:Channel){
+        if ( _channel != null && _channel !=c ){
+            _channel = c;
+            _opCounter+=_screens.length;
+            for (i in 0..._screens.length){
+                _screens[i].hideWnd( this, cbChangeChannel1);
+            }
+        }
+    }
+    public function cbChangeChannel1(a1):Void{
+        --_opCounter;
+        if ( _opCounter == 0){
+            ++_opCounter;
+            _channel._screen.set753Channel(_channel._inport, cbChangeChannel2, this);
+        }
+    }
+
+    function cbChangeChannel2( a1, a2):Void{
+        --_opCounter;
+        if (_opCounter == 0){
+            setVirtualArea( _virtualAreaX, _virtualAreaY, _virtualAreaW, _virtualAreaH);
+        }
+    }
+
     function cbSetupChannelArea( args, ss){
-        trace(args);
+        --_opCounter;
+        showWnd( cbDescCountFunc1);
+    }
+
+    function cbDescCountFunc2( a1:Dynamic, a2:Dynamic):Void{
+        --_opCounter;
+        if (_opCounter == 0){
+            trace("finish operation!");
+        }
+    }
+
+    function cbDescCountFunc1( args:Dynamic):Void{
+        --_opCounter;
+        if (_opCounter == 0){
+            trace("finish operation!");
+        }
+    }
+
+    function showWnd( cb:Dynamic->Void ){
+        _opCounter += _screens.length;
+        for (i in _screens){
+            i.showWnd( this, cb);
+        }
     }
 
 
@@ -414,6 +464,9 @@ class Wnd{
                         Math.round(_inputSize[i].w), 
                         Math.round(_inputSize[i].h), _channel, cbSetupChannelAreaBeforMoveWnd);
             }
+        }else{
+            ++_opCounter;
+            cbSetupChannelAreaBeforMoveWnd(null, null);
         }
     }
 
