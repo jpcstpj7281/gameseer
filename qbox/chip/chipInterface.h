@@ -31,6 +31,8 @@ void setChnModel(uint32_t chn,uint32_t model);
 void setChnSignalInput(uint32_t out,uint32_t in);
 void getChnSignalInput(uint32_t out,uint32_t &in);
 
+void topChannel(uint32_t channel);
+
 }
 
 #endif /* __cplusplus */

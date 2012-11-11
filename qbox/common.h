@@ -75,6 +75,8 @@ extern void setChnModel(uint32_t chn,uint32_t model);
 extern void setChnSignalInput(uint32_t out,uint32_t in);
 extern void getChnSignalInput(uint32_t out,uint32_t &in);
 
+extern void topChannel(uint32_t channel);
+
 }
 #endif
 

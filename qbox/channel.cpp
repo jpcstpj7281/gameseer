@@ -137,7 +137,21 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 
     EntSetting::Instance()->setWindowInfo(out,channelX,channelY,width,height);
 
-//    setInputSize(output,width,height);
+    moveInputChannel(out,channelX,channelY);
+    setInputSize(out,width,height);
+
+    uint32_t hw = 0;
+    uint32_t vw = 0;
+    EntSetting::Instance()->getOutputInfoSize(out,hw,vw);
+    if(vw ==0 && hw==0)
+    {
+
+    }
+    else
+    {
+    	setOutputSize(out,hw,vw);
+    }
+
 
     rsp.info["out"] = tostring(out);
     rsp.info["w"] = tostring(width);

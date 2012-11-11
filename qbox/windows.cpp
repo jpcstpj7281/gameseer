@@ -220,6 +220,8 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
         rsp.info["out"] = tostring(winOut);
 
         EntSetting::Instance()->setLayer(winOut,DEFINE_WINDOW_LAYER);
+
+        EntSetting::Instance()->setOutputInfoSize(winOut,winW,winH);
         uint32_t in = 0;
         getChnSignalInput(winOut,in);
         EntSetting::Instance()->setInput(winOut,in);
@@ -241,18 +243,34 @@ void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 {
 	test_msg("onPSetWindowsLayerReq connID=%d",connID);
 
-    uint32_t winHandle = atoi(msg->info["out"].c_str());
+    uint32_t out = atoi(msg->info["out"].c_str());
     uint32_t layer = atoi(msg->info["layer"].c_str());
 
     MsgInfo rsp;
     rsp.msgType = PSetWindowsLayerRsp::uri;
 
 
-    if(!EntSetting::Instance()->setLayer(winHandle,layer))
+    if(!EntSetting::Instance()->setLayer(out,layer))
     {
         rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
     }
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+
+    uint32_t layer1 = 0;
+    EntSetting::Instance()->getLayer(1,layer1);
+
+    uint32_t layer2 = 0;
+    EntSetting::Instance()->getLayer(2,layer2);
+
+    if(layer1 > layer2)
+    {
+    	topChannel(1);
+    }
+
+    if(layer2 > layer1)
+    {
+    	topChannel(2);
+    }
 
 
 

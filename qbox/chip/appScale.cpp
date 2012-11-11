@@ -1411,6 +1411,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	else if(hInput < hOutput)
 	{
 
+//		C753SetOutputPortACTHorizontalWidth(iChID, hOutput);
 		 uint16_t zoomScale= hInput * 65536 / (hOutput );
 
         /*
@@ -1483,10 +1484,6 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	else if(vInput < vOutput)
 	{
 		uint16_t zoomScale= vInput * 65536 / (vOutput + 1);
-
-//	       /*关闭缩小模块*/
-//	        C753SetInputVerticalShrinkControl(iChID, 0x00);
-//	        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
 
         /*
         *  配置放大寄存器
