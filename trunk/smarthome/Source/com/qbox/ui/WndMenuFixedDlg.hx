@@ -43,6 +43,8 @@ class WndMenuFixedDlg extends CommDialog{
             if (_aw!= null)_s.removeChild(_aw);
             if (_ah!= null)_s.removeChild(_ah);
 
+            var offset = 550;
+
             _x= new EmbedTextField();
             _x.scaleX = 3;
             _x.scaleY = 3;
@@ -80,7 +82,7 @@ class WndMenuFixedDlg extends CommDialog{
             _ax.scaleY = 3;
             _ax.width = 24;
             _ax.height= 16;
-            _ax.x = 430;
+            _ax.x = offset;
             _ax.text = "ax";
 
             _ay= new EmbedTextField();
@@ -88,7 +90,7 @@ class WndMenuFixedDlg extends CommDialog{
             _ay.scaleY = 3;
             _ay.width = 24;
             _ay.height= 16;
-            _ay.x = 510;
+            _ay.x = offset+80;
             _ay.text = "ay";
 
             _aw= new EmbedTextField();
@@ -96,7 +98,7 @@ class WndMenuFixedDlg extends CommDialog{
             _aw.scaleY = 3;
             _aw.width = 24;
             _aw.height= 16;
-            _aw.x = 590;
+            _aw.x = offset+160;
             _aw.text = "aw";
 
             _ah= new EmbedTextField();
@@ -104,7 +106,7 @@ class WndMenuFixedDlg extends CommDialog{
             _ah.scaleY = 3;
             _ah.width = 24;
             _ah.height= 16;
-            _ah.x = 670;
+            _ah.x = offset+240;
             _ah.text = "ah";
 
             _s.addChild( _x);

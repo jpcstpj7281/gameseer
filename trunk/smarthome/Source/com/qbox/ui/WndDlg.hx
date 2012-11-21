@@ -26,6 +26,7 @@ class WndDlg extends CommDialog{
     var _ayt:EmbedTextField;
     var _awt:EmbedTextField;
     var _aht:EmbedTextField;
+    var _ct:EmbedTextField;
 
     var _s:Sprite;
 
@@ -49,6 +50,7 @@ class WndDlg extends CommDialog{
             if (_awt!= null)_s.removeChild(_awt);
             if (_aht!= null)_s.removeChild(_aht);
             if (_st!= null)_s.removeChild(_st);
+            if (_ct!= null)_s.removeChild(_ct);
 
             _wndtext= new EmbedTextField();
             _wndtext.selectable = false;
@@ -62,6 +64,7 @@ class WndDlg extends CommDialog{
             _wndtext.width = 50;
             _wndtext.height= 16;
 
+            var offset = 550;
             _xt= new EmbedTextField();
             _xt.type = INPUT;
             _xt.setBorder(true);
@@ -105,7 +108,7 @@ class WndDlg extends CommDialog{
             _axt.scaleY = 3;
             _axt.width = 24;
             _axt.height= 16;
-            _axt.x = 430;
+            _axt.x = offset;
 
             _ayt= new EmbedTextField();
             _ayt.type = INPUT;
@@ -114,7 +117,7 @@ class WndDlg extends CommDialog{
             _ayt.scaleY = 3;
             _ayt.width = 24;
             _ayt.height= 16;
-            _ayt.x = 510;
+            _ayt.x = offset+80;
 
             _awt= new EmbedTextField();
             _awt.type = INPUT;
@@ -123,7 +126,7 @@ class WndDlg extends CommDialog{
             _awt.scaleY = 3;
             _awt.width = 24;
             _awt.height= 16;
-            _awt.x = 590;
+            _awt.x = offset+160;
 
             _aht= new EmbedTextField();
             _aht.type = INPUT;
@@ -132,7 +135,7 @@ class WndDlg extends CommDialog{
             _aht.scaleY = 3;
             _aht.width = 24;
             _aht.height= 16;
-            _aht.x = 670;
+            _aht.x = offset+240;
 
 
             _st= new EmbedTextField();
@@ -147,8 +150,23 @@ class WndDlg extends CommDialog{
             _st.scaleY = 3;
             _st.width = 30;
             _st.height= 16;
-            _st.x = 900;
+            _st.x = 430;
             _st.addEventListener( MouseEvent.CLICK, onUpdateBtnMouseClick);
+
+            _ct= new EmbedTextField();
+            _ct.setBorder(true);
+#if !neko
+            _ct.text = "更新";
+#else
+            _ct.text = "update";
+#end
+            _ct.selectable = false;
+            _ct.scaleX = 3;
+            _ct.scaleY = 3;
+            _ct.width = 30;
+            _ct.height= 16;
+            _ct.x = offset+320;
+            _ct.addEventListener( MouseEvent.CLICK, onUpdateAreaBtnMouseClick);
 
             var pw:Float = ScreenMgr.getInst()._resWidth/ScreenMgr.getInst()._virtualWidth;
             var ph:Float = ScreenMgr.getInst()._resHeight/ScreenMgr.getInst()._virtualHeight;
@@ -180,6 +198,7 @@ class WndDlg extends CommDialog{
             _s.addChild( _awt);
             _s.addChild( _aht);
             _s.addChild( _st);
+            _s.addChild( _ct);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
 
@@ -203,6 +222,11 @@ class WndDlg extends CommDialog{
                 _s.removeChild(_st);
                 _st= null;
             }
+            if ( _ct!= null){ 
+                _ct.removeEventListener(  MouseEvent.CLICK, onUpdateAreaBtnMouseClick);
+                _s.removeChild(_ct);
+                _ct= null;
+            }
         }
         return super.hide();
     }
@@ -212,13 +236,37 @@ class WndDlg extends CommDialog{
         return _s;
     }
 
+    function onUpdateAreaBtnMouseClick( evt:MouseEvent){
+        var ax = Math.round( Std.parseInt( _axt.text) );
+        var ay = Math.round( Std.parseInt( _ayt.text) );
+        var aw = Math.round( Std.parseInt( _awt.text) );
+        var ah = Math.round( Std.parseInt( _aht.text) );
+        if (ax >=_wnd._channel._w){ _axt.text = ""+(ax = _wnd._channel._w - 1); }
+        if (ay >=_wnd._channel._h){ _ayt.text = ""+(ay = _wnd._channel._h - 1); }
+        if (aw + ax >_wnd._channel._w){ _awt.text = ""+(aw = _wnd._channel._w - ax); }
+        if (ah + ay >_wnd._channel._h){ _aht.text = ""+(ah = _wnd._channel._h - ay); }
+        _wnd.setRealArea(ax, ay, aw, ah);
+    }
     function onUpdateBtnMouseClick( evt:MouseEvent){
         var pw:Float = ScreenMgr.getInst()._resWidth/ScreenMgr.getInst()._virtualWidth;
         var ph:Float = ScreenMgr.getInst()._resHeight/ScreenMgr.getInst()._virtualHeight;
         var x = Math.round( Std.parseInt( _xt.text )/pw + ScreenMgr.getInst()._virtualX);
-        var y = Math.round( Std.parseInt( _yt.text )/ph)+ ScreenMgr.getInst()._virtualY;
+        var y = Math.round( Std.parseInt( _yt.text )/ph+ ScreenMgr.getInst()._virtualY);
         var w = Math.round( Std.parseInt( _wt.text )/pw);
         var h = Math.round( Std.parseInt( _ht.text )/ph);
+
+        var ax = Math.round( Std.parseInt( _axt.text) );
+        var ay = Math.round( Std.parseInt( _ayt.text) );
+        var aw = Math.round( Std.parseInt( _awt.text) );
+        var ah = Math.round( Std.parseInt( _aht.text) );
+        if (ax >=_wnd._channel._w){ _axt.text = ""+(ax = _wnd._channel._w - 1); }
+        if (ay >=_wnd._channel._h){ _ayt.text = ""+(ay = _wnd._channel._h - 1); }
+        if (aw + ax >_wnd._channel._w){ _awt.text = ""+(aw = _wnd._channel._w - ax); }
+        if (ah + ay >_wnd._channel._h){ _aht.text = ""+(ah = _wnd._channel._h - ay); }
+        _wnd._virtualAreaX = (ax / _wnd._channel._w) * _wnd._virtualWidth;
+        _wnd._virtualAreaY = (ay / _wnd._channel._h) * _wnd._virtualHeight;
+        _wnd._virtualAreaW = (aw / _wnd._channel._w) * _wnd._virtualWidth;
+        _wnd._virtualAreaH = (ah / _wnd._channel._h) * _wnd._virtualHeight;
         //trace( x);
         //trace( y);
         //trace( w);
