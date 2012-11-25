@@ -86,7 +86,7 @@ class RingsPlate extends CommDialog{
         _RingWidth = sw;
         _RingHeight= sh;
 
-        removeChild(_screens);
+        if (_screens.parent != null) removeChild(_screens);
         _screens = new Sprite();
         addChildAt( _screens, 0);
         for ( flag in _screenFlags){
@@ -263,6 +263,7 @@ class RingsPlate extends CommDialog{
         nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_DOWN, onThisMouseDown);
         nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onThisMouseMove);
         nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_UP, onThisMouseUp);
+        if ( _screens != null && _screens.parent != null) removeChild(_screens);
         return super.hide();
     }
 

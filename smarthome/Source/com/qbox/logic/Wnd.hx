@@ -1,5 +1,4 @@
-﻿
-package com.qbox.logic;
+﻿package com.qbox.logic;
 
 class InputSize{
     public var x:Float;
