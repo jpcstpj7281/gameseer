@@ -7,7 +7,8 @@ import base.ui.ListDialogMgr;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import com.qbox.logic.QboxMgr;
+import com.qbox.logic.ModeMgr;
+import com.qbox.logic.Mode;
 
 import com.pictionary.ui.DrawingDlgMgr;
 class ModeMgrDlg extends ListFixedDlg{
@@ -16,17 +17,26 @@ class ModeMgrDlg extends ListFixedDlg{
         x = 490;
         y= nme.Lib.current.stage.stageHeight - 80;
 
-        new ModeDlg(_listDialogMgr);
+        new PlusItemFixedDlg(_listDialogMgr, cbPlus );
+    }
+
+    public function cbPlus(){
+
+        var m = ModeMgr.getInst().createMode();
+        if ( m != null){
+            var md = new ModeDlg(_listDialogMgr, m);
+            md.show();
+        }
     }
 
     public override function onMouseClick( ):Void{
-        //if ( _mgr.isAnimating() == false){
-        //_listDialogMgr.removeAllMovables();
+        if ( _mgr.isAnimating() == false){
+            _listDialogMgr.removeAllMovables();
 
-            //for ( q in QboxMgr.getInst()._qboxes ){
-                //new QboxUpdateDlg(_listDialogMgr, q);
-                //}
-                //}
+            for ( i in ModeMgr.getInst()._modes ){
+                new ModeDlg(_listDialogMgr, i);
+            }
+        }
         super.onMouseClick();
     }
 }

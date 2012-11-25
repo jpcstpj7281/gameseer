@@ -9,17 +9,7 @@ import base.data.DataLoader;
 import base.ui.CommDialog;
 import base.ui.ListDialog;
 
-import com.qbox.logic.Qbox;
-import com.qbox.logic.Screen;
-import com.qbox.logic.ScreenMgr;
-
-import com.qbox.ui.osd.OsdFitnessDlg;
-import com.qbox.ui.osd.OsdGroupDlg;
-import com.qbox.ui.osd.OsdImgDlg;
-import com.qbox.ui.osd.OsdOptionDlg;
-import com.qbox.ui.osd.OsdSourceDlg;
-import com.qbox.ui.osd.OsdSpecialDlg;
-import com.qbox.ui.osd.OsdSysDlg;
+import com.qbox.logic.Mode;
 
 class ModeDlg extends ListDialog{
 
@@ -28,23 +18,27 @@ class ModeDlg extends ListDialog{
 
     var _qboxip:EmbedTextField;
     //var _output:EmbedTextField;
+    var _deleteBtn:EmbedTextField;
     var _saveBtn:EmbedTextField;
-    var _connBtn:EmbedTextField;
     var _s:Sprite;
 
-    public function new ( dm:ListDialogMgr){
+    var _mode:Mode;
+
+    public function new ( dm:ListDialogMgr, m:Mode){
+        _mode = m;
         super(dm);
         addChild( createElement());
+
     }
 
-    public function onSaveBtnMouseClick( evt:MouseEvent ):Void{
-        super.onMouseClick();
+    function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
+        trace("delete");
     }
 
     public override function onMouseClick():Void{ }
 
-
-    function onConnBtnMouseClick( evt:MouseEvent ):Void{
+    function onSaveBtnMouseClick( evt:MouseEvent ):Void{
+        _mode.save();
     }
 
     override function show(){
@@ -53,8 +47,8 @@ class ModeDlg extends ListDialog{
                 _s.removeChild(_qboxip);
                 //_s.removeChild(_output);
                 _s.removeChild(_pos);
+                _s.removeChild(_deleteBtn);
                 _s.removeChild(_saveBtn);
-                _s.removeChild(_connBtn);
             }
 
 
@@ -66,32 +60,32 @@ class ModeDlg extends ListDialog{
             _pos.width = 50;
             _pos.height= 16;
 
+            _deleteBtn= new EmbedTextField();
+            _deleteBtn.selectable = false;
+            _deleteBtn.text = "Delete";
+            _deleteBtn.scaleX = 3;
+            _deleteBtn.scaleY = 3;
+            _deleteBtn.width = 30;
+            _deleteBtn.height= 16;
+            _deleteBtn.setBorder(true);
+            _deleteBtn.x = nme.Lib.current.stage.stageWidth - 80;
+            _deleteBtn.addEventListener( MouseEvent.CLICK, onDeleteBtnMouseClick);
+
             _saveBtn= new EmbedTextField();
+            _saveBtn.setBorder(true);
             _saveBtn.selectable = false;
-            _saveBtn.text = "OSD";
             _saveBtn.scaleX = 3;
             _saveBtn.scaleY = 3;
             _saveBtn.width = 30;
             _saveBtn.height= 16;
-            _saveBtn.setBorder(true);
-            _saveBtn.x = nme.Lib.current.stage.stageWidth - 80;
+            _saveBtn.x = nme.Lib.current.stage.stageWidth - 180;
+            _saveBtn.text = "Save";
             _saveBtn.addEventListener( MouseEvent.CLICK, onSaveBtnMouseClick);
-
-            _connBtn= new EmbedTextField();
-            _connBtn.setBorder(true);
-            _connBtn.selectable = false;
-            _connBtn.scaleX = 3;
-            _connBtn.scaleY = 3;
-            _connBtn.width = 30;
-            _connBtn.height= 16;
-            _connBtn.x = 420;
-            _connBtn.text = "test";
-            _connBtn.addEventListener( MouseEvent.CLICK, onConnBtnMouseClick);
 
             _s.addChild( _pos);
             //_s.addChild( _output);
+            _s.addChild( _deleteBtn);
             _s.addChild( _saveBtn);
-            _s.addChild( _connBtn);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
@@ -100,17 +94,17 @@ class ModeDlg extends ListDialog{
         if ( _s != null && _qboxip != null) {
             //_qboxip.removeEventListener(  MouseEvent.CLICK, onQboxMouseClick); 
             //_output.removeEventListener(  MouseEvent.CLICK, onOutputMouseClick); 
+            _deleteBtn.removeEventListener(  MouseEvent.CLICK, onDeleteBtnMouseClick); 
             _saveBtn.removeEventListener(  MouseEvent.CLICK, onSaveBtnMouseClick); 
-            _connBtn.removeEventListener(  MouseEvent.CLICK, onConnBtnMouseClick); 
             _s.removeChild(_qboxip);
             _s.removeChild(_pos);
             //_s.removeChild(_output);
+            _s.removeChild(_deleteBtn);
             _s.removeChild(_saveBtn);
-            _s.removeChild(_connBtn);
             _qboxip = null;
             _pos= null;
+            _deleteBtn= null;
             _saveBtn= null;
-            _connBtn= null;
             //_output= null;
         }
         return super.hide();
@@ -118,15 +112,6 @@ class ModeDlg extends ListDialog{
 
     public function createElement():Sprite{
         _s= new Sprite();
-
-        new OsdImgDlg(_listDialogMgr);
-        //new OsdFitnessDlg( _listDialogMgr);
-        //new OsdSourceDlg(_listDialogMgr);
-        //new OsdOptionDlg(_listDialogMgr);
-        //new OsdGroupDlg(_listDialogMgr);
-        //new OsdSpecialDlg(_listDialogMgr);
-        //new OsdSysDlg(_listDialogMgr);
-
         return _s;
     }
 }
