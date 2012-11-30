@@ -24,7 +24,7 @@ class ModeMgrDlg extends ListFixedDlg{
 
         var m = ModeMgr.getInst().createMode();
         if ( m != null){
-            var md = new ModeDlg(_listDialogMgr, m);
+            var md = new ModeDlg(_listDialogMgr, m, refresh);
             md.show();
         }
     }
@@ -34,9 +34,18 @@ class ModeMgrDlg extends ListFixedDlg{
             _listDialogMgr.removeAllMovables();
 
             for ( i in ModeMgr.getInst()._modes ){
-                new ModeDlg(_listDialogMgr, i);
+                new ModeDlg(_listDialogMgr, i, refresh);
             }
         }
         super.onMouseClick();
+    }
+
+    public function refresh():Void{
+        _listDialogMgr.removeAllMovables();
+
+        for ( i in ModeMgr.getInst()._modes ){
+            var m = new ModeDlg(_listDialogMgr, i, refresh);
+            m.show();
+        }
     }
 }

@@ -10,6 +10,7 @@ import base.ui.CommDialog;
 import base.ui.ListDialog;
 
 import com.qbox.logic.Mode;
+import com.qbox.logic.ModeMgr;
 
 class ModeDlg extends ListDialog{
 
@@ -19,36 +20,42 @@ class ModeDlg extends ListDialog{
     var _qboxip:EmbedTextField;
     //var _output:EmbedTextField;
     var _deleteBtn:EmbedTextField;
+    var _loadBtn:EmbedTextField;
     var _saveBtn:EmbedTextField;
     var _s:Sprite;
 
     var _mode:Mode;
 
-    public function new ( dm:ListDialogMgr, m:Mode){
+    var _cbDelete:Void->Void;
+
+    public function new ( dm:ListDialogMgr, m:Mode, cbdelete:Void->Void){
         _mode = m;
         super(dm);
         addChild( createElement());
 
+        _cbDelete = cbdelete;
     }
 
     function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
-        trace("delete");
+        ModeMgr.getInst().deleteMode(_mode);
+        _cbDelete();
     }
 
     public override function onMouseClick():Void{ }
 
-    function onSaveBtnMouseClick( evt:MouseEvent ):Void{
-        _mode.save();
+    function onSaveBtnMouseClick( evt:MouseEvent ):Void{ _mode.save(); }
+    function onLoadBtnMouseClick( evt:MouseEvent ):Void{
+        _mode.load();
     }
 
     override function show(){
         if ( _s != null) {
-            if ( _qboxip != null){
-                _s.removeChild(_qboxip);
+            if ( _saveBtn != null){
                 //_s.removeChild(_output);
                 _s.removeChild(_pos);
                 _s.removeChild(_deleteBtn);
                 _s.removeChild(_saveBtn);
+                _s.removeChild(_loadBtn);
             }
 
 
@@ -82,28 +89,37 @@ class ModeDlg extends ListDialog{
             _saveBtn.text = "Save";
             _saveBtn.addEventListener( MouseEvent.CLICK, onSaveBtnMouseClick);
 
+            _loadBtn= new EmbedTextField();
+            _loadBtn.setBorder(true);
+            _loadBtn.selectable = false;
+            _loadBtn.scaleX = 3;
+            _loadBtn.scaleY = 3;
+            _loadBtn.width = 30;
+            _loadBtn.height= 16;
+            _loadBtn.x = nme.Lib.current.stage.stageWidth - 280;
+            _loadBtn.text = "Load";
+            _loadBtn.addEventListener( MouseEvent.CLICK, onLoadBtnMouseClick);
+
             _s.addChild( _pos);
-            //_s.addChild( _output);
             _s.addChild( _deleteBtn);
             _s.addChild( _saveBtn);
+            _s.addChild( _loadBtn);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
     }
     override function hide(){
-        if ( _s != null && _qboxip != null) {
-            //_qboxip.removeEventListener(  MouseEvent.CLICK, onQboxMouseClick); 
-            //_output.removeEventListener(  MouseEvent.CLICK, onOutputMouseClick); 
+        if ( _s != null && _saveBtn!= null) {
             _deleteBtn.removeEventListener(  MouseEvent.CLICK, onDeleteBtnMouseClick); 
             _saveBtn.removeEventListener(  MouseEvent.CLICK, onSaveBtnMouseClick); 
-            _s.removeChild(_qboxip);
+            _loadBtn.removeEventListener(  MouseEvent.CLICK, onLoadBtnMouseClick); 
             _s.removeChild(_pos);
-            //_s.removeChild(_output);
             _s.removeChild(_deleteBtn);
             _s.removeChild(_saveBtn);
-            _qboxip = null;
+            _s.removeChild(_loadBtn);
             _pos= null;
             _deleteBtn= null;
+            _loadBtn= null;
             _saveBtn= null;
             //_output= null;
         }

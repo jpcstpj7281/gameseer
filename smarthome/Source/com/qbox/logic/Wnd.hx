@@ -178,7 +178,7 @@ class Wnd{
 
 
 
-    public function open(x:Int, y:Int, w:Int, h:Int, c:Channel, ring:Ring){
+    public function open(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
