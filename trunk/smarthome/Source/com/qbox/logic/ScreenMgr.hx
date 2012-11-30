@@ -44,14 +44,48 @@ class ScreenMgr extends QboxMgr {
         _circleCount = 0;
 
         super();
-#if neko
-        ++_col;
-        ++_row;
-        var s = new Screen(0, 0);
-        s._resWidth = _resWidth;
-        s._resHeight= _resHeight;
-        insertToScreens(s);
-#end
+        //#if neko
+        //++_col;
+        //++_row;
+        //var s = new Screen(0, 0);
+        //s._resWidth = _resWidth;
+        //s._resHeight= _resHeight;
+        //insertToScreens(s);
+        //#end
+    }
+
+    public function getFirstScreenByIP( ip:String):Screen{
+        for ( i in _screens){
+            if ( ip == i._ipv4){
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public function getScreen( col:Int, row:Int, ip:String):Screen{
+        for ( i in _screens){
+            if ( col == i._col && row == i._row && ip == i._ipv4){
+                return i;
+            }
+        }
+        return null;
+    }
+    public function hasScreen( col:Int, row:Int, ip:String):Bool{
+        return getScreen( col, row, ip) != null;
+    }
+
+    public function createSpecificScreen( col:Int, row:Int, ip:String ):Screen{
+        if ( _col <= col) _col = col + 1;
+        if ( _row <= row) _row = row + 1;
+
+        var c = new Screen(col, row);
+        c._resWidth = _resWidth;
+        c._resHeight = _resHeight;
+        c._ipv4 = ip;
+        insertToScreens( c);
+        RingMgr.getInst().refreshRingNode();
+        return c;
     }
 
     public function createColScreen( ):Array<Screen>{
@@ -102,6 +136,31 @@ class ScreenMgr extends QboxMgr {
             }
         }
         _screens.push(s);
+
+        recalcScreens();
+    }
+
+    public function recalcScreens(){
+        var width:Int = nme.Lib.current.stage.stageWidth ;
+        var height:Int = nme.Lib.current.stage.stageHeight - 180;
+
+        var screenWidth = width/_col;
+        var screenHeight = height/_row;
+        if ( screenHeight > screenWidth *6/9){
+            screenHeight = screenWidth *6/9;
+        }
+        if ( screenWidth> screenHeight *9/6){
+            screenWidth= screenHeight *9/6;
+        }
+        _virtualWidth = cast screenWidth* _col;
+        _virtualHeight = cast screenHeight* _row;
+
+        for ( i in _screens){
+            i._virtualHeight = cast screenHeight;
+            i._virtualWidth = cast screenWidth;
+        }
+        _virtualX = Math.round( (width - screenWidth * _col) /2);
+        _virtualY = 0;
     }
 
     //public function removeQbox( c:Screen){

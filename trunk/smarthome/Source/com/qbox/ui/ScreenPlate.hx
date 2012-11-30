@@ -57,39 +57,24 @@ class ScreenPlate extends CommDialog{
         if ( col == 0 && row == 0 ) {
             return;
         }
-        var width:Int = nme.Lib.current.stage.stageWidth ;
-        var height:Int = nme.Lib.current.stage.stageHeight - 180;
 
-        _screenWidth = width/col;
-        _screenHeight = height/row;
-        if ( _screenHeight > _screenWidth *6/9){
-            _screenHeight = _screenWidth *6/9;
-        }
-        if ( _screenWidth> _screenHeight *9/6){
-            _screenWidth= _screenHeight *9/6;
-        }
 
-        ScreenMgr.getInst()._virtualWidth = cast _screenWidth* col;
-        ScreenMgr.getInst()._virtualHeight = cast _screenHeight* row;
-        //trace( ScreenMgr.getInst()._virtualHeight);
-        //trace( ScreenMgr.getInst()._virtualWidth);
-
-        //trace(_screenHeight);
-        //trace(_screenWidth);
         removeChild(_screens);
         _screens = new Sprite();
         addChildAt( _screens, 0);
         var rg= RingMgr.getInst()._currSelected;
         var c= ChannelMgr.getInst()._currSelected;
+
+        _screenWidth = ScreenMgr.getInst()._virtualWidth ;
+        _screenHeight = ScreenMgr.getInst()._virtualHeight;
+
         for ( i in ScreenMgr.getInst()._screens){
             var s = new Sprite();
-            i._virtualHeight = cast _screenHeight;
-            i._virtualWidth = cast _screenWidth;
             s.graphics.lineStyle( 1, 0x000000, 1);
-            s.graphics.moveTo( i._col * _screenWidth, i._row * _screenHeight );
-            s.graphics.lineTo( (i._col+1) * _screenWidth, i._row * _screenHeight );
-            s.graphics.lineTo( (i._col+1) * _screenWidth, (i._row+1) * _screenHeight );
-            s.graphics.lineTo( i._col * _screenWidth, (i._row+1) * _screenHeight );
+            s.graphics.moveTo( i._col * i._virtualWidth, i._row * _screenHeight );
+            s.graphics.lineTo( (i._col+1) * i._virtualWidth, i._row * _screenHeight );
+            s.graphics.lineTo( (i._col+1) * i._virtualWidth, (i._row+1) * _screenHeight );
+            s.graphics.lineTo( i._col * i._virtualWidth, (i._row+1) * _screenHeight );
             //trace(rg ==null);
             //trace(c ==null);
             //if ( rg !=null) trace( rg.isInRing(i));
@@ -102,13 +87,12 @@ class ScreenPlate extends CommDialog{
             }else{
                 s.graphics.beginFill(0x888888);
             }
-            s.graphics.drawRect( i._col * _screenWidth, i._row * _screenHeight, _screenWidth, _screenHeight);
+            s.graphics.drawRect( i._col * i._virtualWidth, i._row * _screenHeight, i._virtualWidth, _screenHeight);
             _screens.addChild(s);
         }
 
-        _screens.x = Math.round( (width - _screens.width) /2);
-        ScreenMgr.getInst()._virtualX= cast _screens.x;
-        ScreenMgr.getInst()._virtualY= cast _screens.y;
+        _screens.x = ScreenMgr.getInst()._virtualX;
+        _screens.y = ScreenMgr.getInst()._virtualY;
 
     }
 

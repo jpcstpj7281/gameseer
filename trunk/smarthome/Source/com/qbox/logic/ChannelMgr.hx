@@ -22,13 +22,6 @@ class ChannelMgr {
 
     public function new(){
         _channels =  new Array<Channel>();
-#if neko
-        var c = createChannel();
-        c._w = 1024;
-        c._h = 768;
-        c._screen = ScreenMgr.getInst()._screens[0];
-        c._inport = "3";
-#end
     }
 
     public function removeChannelByScreen( sn:Screen){
@@ -64,6 +57,18 @@ class ChannelMgr {
                 break;
             }
         }
+    }
+
+    inline public function hasChannel( ip:String, inport:String, w:Int, h:Int):Bool{
+        return getChannel( ip, inport, w, h) != null;
+    }
+    public function getChannel( ip:String, inport:String, w:Int, h:Int):Channel{
+        for ( i in _channels){
+            if( i._screen._ipv4 == ip && i._inport == inport && i._w == w && i._h == h){
+                return i;
+            }
+        }
+        return null;
     }
 
     public function getChannelsWithOutRingPort( ):Array<Channel>{

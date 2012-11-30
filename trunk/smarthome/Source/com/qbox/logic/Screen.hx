@@ -64,6 +64,8 @@ class Screen extends Qbox{
     }
 
     public function calcScreen(x:Float, y:Float, w:Float, h:Float){
+        trace(_virtualWidth);
+        trace(ScreenMgr.getInst()._virtualX);
         var screenx:Float= _virtualWidth * _col + ScreenMgr.getInst()._virtualX;//UI上的窗口X坐标,加入ScreenPlate的X偏移
         var screeny:Float= _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口X坐标,加入ScreenPlate的Y偏移
         var screenw:Float= _virtualWidth;

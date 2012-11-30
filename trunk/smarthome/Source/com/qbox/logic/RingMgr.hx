@@ -49,7 +49,12 @@ class RingMgr{
         ///////////////////////////////////////////////////////
     }
 
-    public function createRingNode( col:Int, row:Int, s:Screen){
+    public function createRingNode( col:Int, row:Int, s:Screen):RingNode{
+        for ( i in _ringNodes){
+            if ( i._col == col && i._row == row && i._screen == s){
+                return i;
+            }
+        }
         var r = new RingNode( col, row, s);
         s._ringNode = r;
         r._inport.push("1");
@@ -57,6 +62,16 @@ class RingMgr{
         r._outport.push("3");
         r._outport.push("4");
         _ringNodes.push(r );
+        return r;
+    }
+
+    public function getRingNodeByIP(ip:String ){
+        for ( i in _ringNodes){
+            if(i._screen._ipv4 == ip){
+                return i;
+            }
+        }
+        return null;
     }
 
     public function getRingNode( col:Int, row:Int){
@@ -67,6 +82,7 @@ class RingMgr{
         }
         return null;
     }
+    
     public function hasRingNode( col:Int, row:Int){
         return getRingNode( col,row) != null;
     }

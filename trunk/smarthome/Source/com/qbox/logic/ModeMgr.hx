@@ -18,18 +18,24 @@ class ModeMgr{
 
     public function new(){
         _modes =  new Array<Mode>();
-        //trace(data);
-        var count:Int = 0;
         while(true){
-            var data = DataLoader.getInst().getData( "mode"+count++ );
-            if ( data != null){
-                var c = new Mode(_modes.length);
+            var c = new Mode(_modes.length);
+            if( c.hasData()){
                 _modes.push( c);
-                c.load(data);
-            }else{
+            }
+            else{
                 break;
             }
         }
+    }
+
+    public function deleteMode( m:Mode):Void{
+        for ( i in m._id..._modes.length){
+            DataLoader.getInst().saveData( "mode"+_modes[i]._id, null);
+            -- _modes[i]._id;
+            _modes[i].save();
+        }
+        _modes.remove(m);
     }
 
     public function createMode():Mode{
@@ -39,7 +45,7 @@ class ModeMgr{
             data = DataLoader.getInst().getData( "mode"+ m._id );
         }
         var c = null;
-        if ( data != null){
+        if ( data != null || _modes.length == 0){
             c = new Mode(_modes.length);
             _modes.push( c);
         }

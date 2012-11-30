@@ -63,6 +63,7 @@ class Config extends Sprite
     public function loadConf(evt:Event = null) {
         if ( isLoaded_ ) return;
 
+        trace("test");
 #if (flash )
         var h:Http = new Http(host + basePath + confFileName);
         h.onData = parseData;
