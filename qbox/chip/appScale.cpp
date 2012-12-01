@@ -1575,26 +1575,27 @@ void AppScale::initMemory()
 //	  0x01C00000, 0x01000000, 0x01400000, 0x01800000,
 //	  /*ISFLD0      ISFLD1      ISFLD2      ISFLD3*/
 //	  0x01000000, 0x01400000, 0x01800000, 0x01C00000
+//	7FBC00
 
 
-	C753SetOutputField0MemoryReadStartAddress(1, 0x00000000);
+	C753SetOutputField0MemoryReadStartAddress(1, 0x00c00000);
 	C753SetOutputField1MemoryReadStartAddress(1, 0x00000000);
-	C753SetOutputField2MemoryReadStartAddress(1, 0x00000000);
-	C753SetOutputField3MemoryReadStartAddress(1, 0x00000000);
-	C753SetInputField0MemoryWriteStartAddress(1, 0x00000000);
+	C753SetOutputField2MemoryReadStartAddress(1, 0x00400000);
+	C753SetOutputField3MemoryReadStartAddress(1, 0x00800000);
+	C753SetInputField0MemoryWriteStartAddress(1, 0x00c00000);
 	C753SetInputField1MemoryWriteStartAddress(1, 0x00000000);
-	C753SetInputField2MemoryWriteStartAddress(1, 0x00000000);
-	C753SetInputField3MemoryWriteStartAddress(1, 0x00000000);
+	C753SetInputField2MemoryWriteStartAddress(1, 0x00400000);
+	C753SetInputField3MemoryWriteStartAddress(1, 0x00800000);
 
 
-	C753SetOutputField0MemoryReadStartAddress(2, 0x01000000);
+	C753SetOutputField0MemoryReadStartAddress(2, 0x01c00000);
 	C753SetOutputField1MemoryReadStartAddress(2, 0x01000000);
-	C753SetOutputField2MemoryReadStartAddress(2, 0x01000000);
-	C753SetOutputField3MemoryReadStartAddress(2, 0x01000000);
-	C753SetInputField0MemoryWriteStartAddress(2, 0x01000000);
+	C753SetOutputField2MemoryReadStartAddress(2, 0x01400000);
+	C753SetOutputField3MemoryReadStartAddress(2, 0x01800000);
+	C753SetInputField0MemoryWriteStartAddress(2, 0x01c00000);
 	C753SetInputField1MemoryWriteStartAddress(2, 0x01000000);
-	C753SetInputField2MemoryWriteStartAddress(2, 0x01000000);
-	C753SetInputField3MemoryWriteStartAddress(2, 0x01000000);
+	C753SetInputField2MemoryWriteStartAddress(2, 0x01400000);
+	C753SetInputField3MemoryWriteStartAddress(2, 0x01800000);
 }
 
 void AppScale::initMemoryLineFeedWidth(uint32_t channelID)
@@ -1765,6 +1766,8 @@ void AppScale::setInputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_
 {
 	debug_msg("setInputChannelACT chid=%d  hw:%d,vw:%d,hs=%d,vs=%d",iChID,hw,vw,hs,vs);
 	C753SetInputPortACTHorizontalStart(iChID, (uint16_t)hs);
+	m_inputOffsetHS = hs;
+	m_inputOffsetVS = vs;
 	C753SetInputPortACTHorizontalWidth(iChID,hw);
 	C753SetInputPortACTVerticalStart(iChID, (uint16_t)vs);
 	C753SetInputPortACTVerticalWidth(iChID,vw);
@@ -1777,12 +1780,12 @@ void AppScale::moveChannelInput(uint32_t channel,int hPoint,int vPoint)
 	debug_msg("move  hPoint:%d,vPoint:%d",hPoint,vPoint);
 	C753GetInputPortACTHorizontalStart(channel,temp);
 	debug_msg("src  oldHS:%d,newHS:%d",temp, temp + hPoint);
-	temp = temp + hPoint;
+	temp = m_inputOffsetHS + hPoint;
 	C753SetInputPortACTHorizontalStart(channel,temp);
 
 
 	C753GetInputPortACTVerticalStart(channel,temp);
-	temp = temp + vPoint;
+	temp = m_inputOffsetVS + vPoint;
 	C753SetInputPortACTVerticalStart(channel,temp);
 	debug_msg("src  oldHS:%d,newHS:%d",temp, temp + vPoint);
 }
