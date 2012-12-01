@@ -57,6 +57,7 @@ class MainStage extends ListDialogMgr {
         new FileManagerDlg(this);
 #end
         new ModeMgrDlg(this);
+        new TaskMgrDlg(this);
         //new QboxesDlg(this);
         new ChannelsDlg(this);
         new WndsDlg(this);
