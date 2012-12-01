@@ -34,7 +34,9 @@ void DriverChip772::set480(uint32_t chn)
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 	bank0[CP_IP00C772_B0_OHCYCL_ADDR1] = 0x58;
+	bank0[CP_IP00C772_B0_OHCYCL_ADDR2] = 0x03;
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR1] = 0x0b;
+	bank0[CP_IP00C772_B0_OVCYCL_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OHSCT_ADDR] = 0x1e;
 	bank0[CP_IP00C772_B0_OVSCT_ADDR] = 0x05;
 	bank0[CP_IP00C772_B0_OACTHST_ADDR1] = 0x7b;
@@ -46,8 +48,7 @@ void DriverChip772::set480(uint32_t chn)
 	bank0[CP_IP00C772_B0_OACTHW_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR1] = 0xe7;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR2] = 0x01;
-//	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x80;
-	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x00;
+	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x80;
 
 
 	value.push_back(bank0);
@@ -98,7 +99,9 @@ void DriverChip772::set576(uint32_t chn)
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 	bank0[CP_IP00C772_B0_OHCYCL_ADDR1] = 0x5e;
+	bank0[CP_IP00C772_B0_OHCYCL_ADDR2] = 0x03;
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR1] = 0x6f;
+	bank0[CP_IP00C772_B0_OVCYCL_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OHSCT_ADDR] = 0x1f;
 	bank0[CP_IP00C772_B0_OVSCT_ADDR] = 0x04;
 	bank0[CP_IP00C772_B0_OACTHST_ADDR1] = 0x82;
@@ -111,7 +114,7 @@ void DriverChip772::set576(uint32_t chn)
 	bank0[CP_IP00C772_B0_OACTVW_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OCCFTGB_ADDR1] = 0xea;
 	bank0[CP_IP00C772_B0_OCCFTGB_ADDR2] = 0x01;
-	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x00;
+	bank0[CP_IP00C772_B0_OIMGCT_ADDR] = 0x80;
 
 	value.push_back(bank0);
 
@@ -340,7 +343,7 @@ void DriverChip772::initColorConversion(uint32_t chn)
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
 
-
+//	bank0[CP_IP00C772_B0_OCCFTR_ADDR1]  =   0x9d;
 	bank0[CP_IP00C772_B0_OCCFTR_ADDR1]  =   0x9d;
 	bank0[CP_IP00C772_B0_OCCFTR_ADDR2]  =   0x05;
 	bank0[CP_IP00C772_B0_OCCFTB_ADDR1]  =   0x18;
@@ -821,7 +824,7 @@ void DriverChip772::initBaseReg(uint32_t byChannel)
 
 	SPI_Write(byChannel,CP_IP00C772_MCT_ADDR,0x03);
 	SPI_Write(byChannel,CP_IP00C772_RTCT_ADDR,0x00);
-	SPI_Write(byChannel,CP_IP00C772_MISC_ADDR,0x08);
+	SPI_Write(byChannel,CP_IP00C772_MISC_ADDR,0x00);
 	SPI_Write(byChannel,CP_IP00C772_MEMCT_ADDR,0x29);
 	SPI_Write(byChannel,CP_IP00C772_RSTCT_ADDR,0x00);
 
@@ -832,6 +835,7 @@ void DriverChip772::dev_C772_Init(uint32_t byChannel)
 	initBaseReg(byChannel);
 
 	SPI_Write(byChannel,CP_IP00C772_B0_OSYCT_ADDR,0x41);
+	SPI_Write(byChannel,CP_IP00C772_B0_OSWP_ADDR,0x04);
 
 	setOutputSyncCycle(byChannel,858,525);
 	setHorAndVerSyncCtrl(byChannel,POL_LOW,30,POL_LOW,5);

@@ -280,6 +280,10 @@ private:
 	uint16_t m_horFp;
 	uint16_t m_verFp;
 
+	uint16_t m_inputOffsetHS;
+	uint16_t m_inputOffsetVS;
+
+
 	map<uint32_t,InputInfo> m_InputInfo;
 
 };

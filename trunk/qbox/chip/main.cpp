@@ -636,10 +636,10 @@ void demoSD()
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
 	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
 
-	init5160(3);
-	init5160(4);
-	init772(3,1);
-	init772(4,1);
+	init5160(1);
+	init5160(2);
+	init772(1,1);
+	init772(2,1);
 
 	setFpgaSelectChn(2,1);
 
@@ -658,6 +658,8 @@ void demoRing()
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initHardware();
+	s_c753.initMemory();
+
 
 	s_c753.initMemoryLineFeedWidth(1);
 	s_c753.initMemoryLineFeedWidth(2);
@@ -677,8 +679,50 @@ void demoRing()
 	s_c753.setOutputChannelACT(2,1024,768,0,0);
 	s_c753.showWnd(1);
 
-	setFpgaSelectChn(3,6);
+	setFpgaSelectChn(1,2);
 
+
+
+}
+
+
+void testMemory(uint32_t chId,uint32_t addr)
+{
+	AppScale &s_c753=*AppScale::Instance();
+	switch(chId)
+	{
+	case 0:
+		s_c753.C753SetOutputField0MemoryReadStartAddress(1, addr);
+		break;
+	case 1:
+		s_c753.C753SetOutputField1MemoryReadStartAddress(1, addr);
+		break;
+
+	case 2:
+		s_c753.C753SetOutputField2MemoryReadStartAddress(1, addr);
+		break;
+
+	case 3:
+		s_c753.C753SetOutputField3MemoryReadStartAddress(1, addr);
+		break;
+
+	case 4:
+		s_c753.C753SetInputField0MemoryWriteStartAddress(1, addr);
+		break;
+
+	case 5:
+		s_c753.C753SetInputField1MemoryWriteStartAddress(1, addr);
+		break;
+
+	case 6:
+		s_c753.C753SetInputField2MemoryWriteStartAddress(1, addr);
+		break;
+
+	case 7:
+		s_c753.C753SetInputField3MemoryWriteStartAddress(1, addr);
+		break;
+
+	}
 
 
 }
@@ -689,6 +733,90 @@ void initSDBoard()
 	init5160(2);
 	init772(1,1);
 	init772(2,1);
+}
+
+
+void dump772(uint32_t chn)
+{
+	uint8_t byAddr=0x0a;
+	uint8_t byVal1=0x00;
+
+	debug_msg("Test C772 Base  Bank\n",byAddr,byVal1);
+
+	byAddr = 0x00;
+	dev_SPI_Read(chn,byAddr,&byVal1);
+	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
+
+
+	for(byAddr=0x01;byAddr<=0x07;byAddr++)
+	{
+		dev_SPI_Read(chn,byAddr,&byVal1);
+		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
+	}
+
+	byAddr = 0x00;
+	dev_SPI_Write(chn,byAddr,0x00);
+	dev_SPI_Read(chn,byAddr,&byVal1);
+	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
+
+
+	for(byAddr=0x08;byAddr<=0x61;byAddr++)
+	{
+		dev_SPI_Read(chn,byAddr,&byVal1);
+		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
+	}
+
+	byAddr = 0x00;
+	dev_SPI_Write(chn,byAddr,0x01);
+	dev_SPI_Read(chn,byAddr,&byVal1);
+	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
+
+
+	for(byAddr=0x08;byAddr<=0x2d;byAddr++)
+	{
+		dev_SPI_Read(chn,byAddr,&byVal1);
+		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
+	}
+
+
+	byAddr = 0x00;
+	dev_SPI_Write(chn,byAddr,0x02);
+	dev_SPI_Read(chn,byAddr,&byVal1);
+	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
+
+
+	for(byAddr=0x08;byAddr<=0x49;byAddr++)
+	{
+		dev_SPI_Read(chn,byAddr,&byVal1);
+		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
+	}
+
+	byAddr = 0x00;
+	dev_SPI_Write(chn,byAddr,0x03);
+	dev_SPI_Read(chn,byAddr,&byVal1);
+	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
+
+
+	for(byAddr=0x08;byAddr<=0x1E;byAddr++)
+	{
+		dev_SPI_Read(chn,byAddr,&byVal1);
+		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
+	}
+
+	byAddr = 0x00;
+	dev_SPI_Write(chn,byAddr,0x04);
+	dev_SPI_Read(chn,byAddr,&byVal1);
+	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
+
+
+	for(byAddr=0x08;byAddr<=0x31;byAddr++)
+	{
+		dev_SPI_Read(chn,byAddr,&byVal1);
+		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
+	}
+
+
+
 }
 
 }
