@@ -9,11 +9,13 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 import com.qbox.logic.ModeMgr;
 import com.qbox.logic.Mode;
+import com.qbox.logic.TaskMgr;
+import com.qbox.logic.Task;
 
-class ModeMgrDlg extends ListFixedDlg{
+class TaskMgrDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
         super(dm, new Bitmap( DataLoader.getInst().bms_.get("file")));
-        x = 490;
+        x = 570;
         y= nme.Lib.current.stage.stageHeight - 80;
 
         new PlusItemFixedDlg(_listDialogMgr, cbPlus );
@@ -21,9 +23,9 @@ class ModeMgrDlg extends ListFixedDlg{
 
     public function cbPlus(){
 
-        var m = ModeMgr.getInst().createMode();
+        var m = TaskMgr.getInst().create();
         if ( m != null){
-            var md = new ModeDlg(_listDialogMgr, m, refresh);
+            var md = new TaskDlg(_listDialogMgr, m, refresh);
             md.show();
         }
     }
@@ -32,8 +34,8 @@ class ModeMgrDlg extends ListFixedDlg{
         if ( _mgr.isAnimating() == false){
             _listDialogMgr.removeAllMovables();
 
-            for ( i in ModeMgr.getInst()._modes ){
-                new ModeDlg(_listDialogMgr, i, refresh);
+            for ( i in TaskMgr.getInst()._tasks){
+                new TaskDlg(_listDialogMgr, i, refresh);
             }
         }
         super.onMouseClick();
@@ -42,8 +44,8 @@ class ModeMgrDlg extends ListFixedDlg{
     public function refresh():Void{
         _listDialogMgr.removeAllMovables();
 
-        for ( i in ModeMgr.getInst()._modes ){
-            var m = new ModeDlg(_listDialogMgr, i, refresh);
+        for ( i in TaskMgr.getInst()._tasks){
+            var m = new TaskDlg(_listDialogMgr, i, refresh);
             m.show();
         }
     }

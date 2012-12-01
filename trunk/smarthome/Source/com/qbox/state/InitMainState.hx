@@ -15,6 +15,9 @@ import com.qbox.logic.QboxMgr;
 
 import base.ui.CommDialog;
 
+import com.qbox.logic.ModeMgr;
+import com.qbox.logic.TaskMgr;
+
 class InitMainState extends State{
 
     var q:Qbox;
@@ -24,6 +27,8 @@ class InitMainState extends State{
     }
 
     override function fromState(s:State):Void{
+        ModeMgr.getInst();
+        TaskMgr.getInst();
         MainStage.getInst().resetDlgs();
 
         //if( q != null&& q.isConected()){
