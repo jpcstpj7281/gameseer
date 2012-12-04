@@ -49,12 +49,6 @@ class Job{
 
     public function run( date:Date){
 
-        if ( date.getTime() >= _startDate.getTime()){
-            start();
-        }
-        if ( date.getTime() >= _endDate.getTime()){
-            stop();
-        }
 
         //trace(date.getDate());
         //trace(date.getFullYear());
