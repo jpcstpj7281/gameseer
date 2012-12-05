@@ -42,9 +42,9 @@ class TaskMgr{
     }
 
     public function deleteTask( m:Task):Void{
-        for ( i in m._id..._tasks.length){
-            DataLoader.getInst().saveData( "Task"+_tasks[i]._id, null);
-            -- _tasks[i]._id;
+        for ( i in m._index..._tasks.length){
+            DataLoader.getInst().saveData( "Task"+_tasks[i]._index, null);
+            -- _tasks[i]._index;
             _tasks[i].save();
         }
         _tasks.remove(m);
@@ -54,7 +54,7 @@ class TaskMgr{
         var data:String = null;
         if ( _tasks.length>0){
             var m = _tasks[_tasks.length-1];
-            data = DataLoader.getInst().getData( "Task"+ m._id );
+            data = DataLoader.getInst().getData( "Task"+ m._index );
         }
         var c = null;
         if ( data != null || _tasks.length == 0){

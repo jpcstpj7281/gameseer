@@ -4,20 +4,21 @@ import hxjson2.JSON;
 import base.data.DataLoader;
 class Mode{
 
-    public var _id:Int;
+    public var _index:Int;
+    public var _name:String;
 
-    public function new(id:Int){
-        _id = id;
+    public function new(index:Int){
+        _index = index;
     }
 
     public function close(){
     }
 
     public function hasData(){
-        return  DataLoader.getInst().getData( "mode"+_id ) != null;
+        return  DataLoader.getInst().getData( "mode"+_index ) != null;
     }
     public function load():Bool{
-        var data:String = DataLoader.getInst().getData( "mode"+_id );
+        var data:String = DataLoader.getInst().getData( "mode"+_index );
         trace(data);
 
         if ( data == null) return false;
@@ -212,7 +213,7 @@ class Mode{
         var sb = new StringBuf();
         var count:Int = 0;
         var cm = ChannelMgr.getInst().getChannelsWithOutRingPort();
-        sb.add( "mode:"+_id+"%");
+        sb.add( "mode:"+_index+"%");
         for ( i in cm){
             sb.add( "chn:"+ count++ +":");
             var w = Std.string(i._w);
@@ -327,6 +328,6 @@ class Mode{
         }
         sb.add("%");
         var data =  sb.toString();
-        DataLoader.getInst().saveData( "mode"+_id, data);
+        DataLoader.getInst().saveData( "mode"+_index, data);
     }
 }
