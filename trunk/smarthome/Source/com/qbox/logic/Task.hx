@@ -6,7 +6,7 @@ import base.data.DataLoader;
 
 class Task{
 
-    public var _id:Int;
+    public var _index:Int;
 
     public var _startDate:Date;
     public var _endDate:Date;
@@ -15,8 +15,8 @@ class Task{
 
     public var _jobs:Array<Job>;
 
-    public function new(id:Int){
-        _id = id;
+    public function new(index:Int){
+        _index = index;
         _startDate = Date.fromTime( Date.now().getTime()+ 5000);
         _endDate = Date.now();
         _preDelay = 0;
@@ -27,10 +27,10 @@ class Task{
     }
 
     public function hasData(){
-        return  DataLoader.getInst().getData( "task"+_id ) != null;
+        return  DataLoader.getInst().getData( "task"+_index ) != null;
     }
     public function load():Bool{
-        var data:String = DataLoader.getInst().getData( "task"+_id );
+        var data:String = DataLoader.getInst().getData( "task"+_index );
         trace(data);
         return true;
     }
