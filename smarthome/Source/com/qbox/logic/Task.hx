@@ -10,17 +10,17 @@ class Task{
 
     public var _startDate:Date;
     public var _endDate:Date;
-    public var _preDelay:Int;
-    public var _postDelay:Int;
 
     public var _jobs:Array<Job>;
+
+    public var _isRunning:Bool;
+
+    public var _currJobIndex:Int;
 
     public function new(index:Int){
         _index = index;
         _startDate = Date.fromTime( Date.now().getTime()+ 5000);
         _endDate = Date.now();
-        _preDelay = 0;
-        _postDelay = 0;
     }
 
     public function close(){
@@ -29,11 +29,13 @@ class Task{
     public function hasData(){
         return  DataLoader.getInst().getData( "task"+_index ) != null;
     }
+
     public function load():Bool{
         var data:String = DataLoader.getInst().getData( "task"+_index );
         trace(data);
         return true;
     }
+
     public function save(){
         var sb = new StringBuf();
         var ts = TaskMgr.getInst()._tasks;
@@ -46,9 +48,12 @@ class Task{
         }
     }
 
-    public function start(){
+    inline public function start(){
+        _isRunning = true;
     }
-    public function stop(){
+
+    inline public function stop(){
+        _isRunning = false;
     }
 
     public function run( date:Date){
@@ -59,6 +64,15 @@ class Task{
         if ( date.getTime() >= _endDate.getTime()){
             stop();
         }
+
+        if (_isRunning){
+            if ( _currJobIndex < _jobs.length){
+                if ( !_jobs[_currJobIndex].run(date)){
+                    ++_currJobIndex;
+                }
+            }
+        }
+
 
         //trace(date.getDate());
         //trace(date.getFullYear());
