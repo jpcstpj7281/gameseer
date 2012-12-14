@@ -14,7 +14,7 @@ import com.qbox.logic.Task;
 
 class TaskMgrDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
-        super(dm, new Bitmap( DataLoader.getInst().bms_.get("file")));
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("timer")));
         x = 570;
         y= nme.Lib.current.stage.stageHeight - 80;
 
@@ -22,7 +22,6 @@ class TaskMgrDlg extends ListFixedDlg{
     }
 
     public function cbPlus(){
-
         var m = TaskMgr.getInst().create();
         if ( m != null){
             var md = new TaskDlg(_listDialogMgr, m, refresh);
@@ -43,7 +42,6 @@ class TaskMgrDlg extends ListFixedDlg{
 
     public function refresh():Void{
         _listDialogMgr.removeAllMovables();
-
         for ( i in TaskMgr.getInst()._tasks){
             var m = new TaskDlg(_listDialogMgr, i, refresh);
             m.show();

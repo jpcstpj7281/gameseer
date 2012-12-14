@@ -12,7 +12,7 @@ import com.qbox.logic.Mode;
 
 class ModeMgrDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
-        super(dm, new Bitmap( DataLoader.getInst().bms_.get("file")));
+        super(dm, new Bitmap( DataLoader.getInst().bms_.get("mode")));
         x = 490;
         y= nme.Lib.current.stage.stageHeight - 80;
 
