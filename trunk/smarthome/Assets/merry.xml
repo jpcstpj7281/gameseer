@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<config>
+
+    <!--<item><type>font</type><name>simfang</name><extension>.ttf</extension><loc>font</loc></item>-->
+    <!--<item><type>trunk</type><name>Y5</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>cmd</type><name>Y9</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>btn_edit</type><name>F1</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>btn_return</type><name>F2</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>bluedot</type><name>bluedot</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>orangedot</type><name>orangedot</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>mic</type><name>mic</name><extension>.png</extension><loc>img</loc></item>-->
+    <!--<item><type>exit</type><name>exit</name><extension>.png</extension><loc>img</loc></item>-->
+	<item><type>f1</type><name>f1</name><extension>.jpg</extension><loc>merry</loc></item>
+	<item><type>f2</type><name>f2</name><extension>.jpg</extension><loc>merry</loc></item>
+	<item><type>f3</type><name>f3</name><extension>.jpg</extension><loc>merry</loc></item>
+	<item><type>f4</type><name>f4</name><extension>.jpg</extension><loc>merry</loc></item>
+	<item><type>f5</type><name>f5</name><extension>.jpg</extension><loc>merry</loc></item>
+
+
+    <!--
+    <device><id>0</id><name>中控</name></device>
+    -->
+</config>

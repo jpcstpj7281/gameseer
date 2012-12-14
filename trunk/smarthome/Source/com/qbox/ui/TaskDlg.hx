@@ -10,7 +10,10 @@ import base.ui.CommDialog;
 import base.ui.ListDialog;
 
 import com.qbox.logic.Task;
+import com.qbox.logic.Job;
 import com.qbox.logic.TaskMgr;
+import com.qbox.ui.JobDlg;
+
 
 class TaskDlg extends ListDialog{
 
@@ -29,12 +32,63 @@ class TaskDlg extends ListDialog{
 
     var _cbDelete:Void->Void;
 
+    var _oldReturnCB:Void->Void;
+
     public function new ( dm:ListDialogMgr, m:Task, cbdelete:Void->Void){
         _task = m;
         super(dm);
         addChild( createElement());
 
         _cbDelete = cbdelete;
+
+        new PlusTimerFixedDlg(_listDialogMgr, cbPlusTimer );
+        new PlusJumperFixedDlg(_listDialogMgr, cbPlusJumper);
+        new PlusModeExecFixedDlg(_listDialogMgr, cbPlusModeExec);
+        _oldReturnCB = _listDialogMgr._returnCallback ;
+        _listDialogMgr._returnCallback  = returnCallback ;
+    }
+
+    function returnCallback(){
+        _task.save();
+        _oldReturnCB();
+    }
+
+
+    public function cbPlusJumper(){ 
+        var m = _task.createJumper();
+        if ( m != null){
+            var md = new JumpToStepJobDlg(_listDialogMgr, _task, m, refresh);
+            md.show();
+        }
+    }
+    public function cbPlusModeExec(){ 
+        var m = _task.createModeExec();
+        if ( m != null){
+            var md = new ModeExecJobDlg(_listDialogMgr, _task, m, refresh);
+            md.show();
+        }
+    }
+    public function cbPlusTimer(){
+        var m = _task.createTimer();
+        if ( m != null){
+            var md = new TimeCountJobDlg(_listDialogMgr, _task, m, refresh);
+            md.show();
+        }
+    }
+
+    public function refresh():Void{
+        _listDialogMgr.removeAllMovables();
+        for ( i in _task._jobs){
+            var m:ListDialog = null;
+            if ( Std.is( i, TimeCountJob)){
+                m = new TimeCountJobDlg(_listDialogMgr, _task, i, refresh);
+            }else if ( Std.is(i, JumpToStepJob)){
+                m = new JumpToStepJobDlg(_listDialogMgr, _task, i, refresh);
+            }else if ( Std.is(i, ModeExecJob) ){
+                m = new ModeExecJobDlg(_listDialogMgr, _task, i, refresh);
+            }
+            m.show();
+        }
     }
 
     function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
@@ -47,6 +101,7 @@ class TaskDlg extends ListDialog{
     function onSaveBtnMouseClick( evt:MouseEvent ):Void{ _task.save(); }
     function onLoadBtnMouseClick( evt:MouseEvent ):Void{ _task.load(); }
     function onEditBtnMouseClick( evt:MouseEvent ):Void{
+        refresh();
         super.onMouseClick();
     }
 
@@ -64,7 +119,7 @@ class TaskDlg extends ListDialog{
 
             _pos= new EmbedTextField();
             _pos.selectable = false;
-            _pos.text = "Task:" ;
+            _pos.text = "Task:" + _task._index;
             _pos.scaleX = 3;
             _pos.scaleY = 3;
             _pos.width = 50;

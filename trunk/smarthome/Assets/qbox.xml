@@ -31,6 +31,9 @@
     <item><type>file</type><name>file</name><extension>.png</extension><loc>img</loc></item>
     <item><type>ring</type><name>ring</name><extension>.png</extension><loc>img</loc></item>
     <item><type>net</type><name>net</name><extension>.jpg</extension><loc>img</loc></item>
+    <item><type>timer</type><name>timer</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>jumper</type><name>jumper</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>mode</type><name>mode</name><extension>.png</extension><loc>img</loc></item>
 
 
 
