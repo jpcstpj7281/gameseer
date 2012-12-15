@@ -20,9 +20,10 @@ class Task{
 
     public function new(index:Int){
         _index = index;
-        _startDate = Date.fromTime( Date.now().getTime()+ 5000);
-        _endDate = Date.now();
+        _startDate = null;
+        _endDate = null;
         _jobs = new Array<Job>();
+        _currJobIndex = 0;
     }
 
     public function close(){
@@ -69,44 +70,58 @@ class Task{
         _jobs.remove(m);
     }
 
-    public function createTimer():Job{
+    public function createTimer():TimeCountJob{
         var c = new TimeCountJob(_jobs.length, this, 10000);
         _jobs.push( c);
         return c;
     }
-    public function createJumper():Job{
-        var c = new JumpToStepJob(_jobs.length, this, 0);
+    public function createJumper():JumpToStepJob{
+        var c = new JumpToStepJob(_jobs.length, this, 0, 3);
         _jobs.push( c);
         return c;
     }
-    public function createModeExec():Job{
+    public function createModeExec():ModeExecJob{
         var c = new ModeExecJob(_jobs.length, this, 0);
         _jobs.push( c);
         return c;
     }
 
-    inline public function start(){
+    public function start(){
         _isRunning = true;
+        trace("start task");
     }
 
-    inline public function stop(){
+    public function stop(){
         _isRunning = false;
+        for ( i in _jobs){
+            if ( i._isRunning ){
+                i.stop(Date.now());
+            }
+        }
+        trace("stop task");
     }
 
     public function run( date:Date){
 
-        if ( date.getTime() >= _startDate.getTime()){
+        if ( _startDate != null && date.getTime() >= _startDate.getTime()){
             start();
         }
-        if ( date.getTime() >= _endDate.getTime()){
+        if ( _endDate != null && date.getTime() >= _endDate.getTime()){
             stop();
         }
 
         if (_isRunning){
             if ( _currJobIndex < _jobs.length){
+                if(! _jobs[_currJobIndex]._isRunning){
+                    _jobs[_currJobIndex].start(date);
+                }
                 if ( !_jobs[_currJobIndex].run(date)){
                     ++_currJobIndex;
                 }
+            }
+            else{
+                stop();
+                _currJobIndex = 0;
             }
         }
 

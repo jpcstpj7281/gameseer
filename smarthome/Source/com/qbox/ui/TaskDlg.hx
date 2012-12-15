@@ -12,6 +12,7 @@ import base.ui.ListDialog;
 import com.qbox.logic.Task;
 import com.qbox.logic.Job;
 import com.qbox.logic.TaskMgr;
+import com.qbox.logic.ModeMgr;
 import com.qbox.ui.JobDlg;
 
 
@@ -23,9 +24,9 @@ class TaskDlg extends ListDialog{
     var _qboxip:EmbedTextField;
     //var _output:EmbedTextField;
     var _deleteBtn:EmbedTextField;
-    var _loadBtn:EmbedTextField;
+    //var _loadBtn:EmbedTextField;
+    //var _saveBtn:EmbedTextField;
     var _editBtn:EmbedTextField;
-    var _saveBtn:EmbedTextField;
     var _s:Sprite;
 
     var _task:Task;
@@ -44,6 +45,7 @@ class TaskDlg extends ListDialog{
         new PlusTimerFixedDlg(_listDialogMgr, cbPlusTimer );
         new PlusJumperFixedDlg(_listDialogMgr, cbPlusJumper);
         new PlusModeExecFixedDlg(_listDialogMgr, cbPlusModeExec);
+        new PlayDlg(_listDialogMgr, _task);
         _oldReturnCB = _listDialogMgr._returnCallback ;
         _listDialogMgr._returnCallback  = returnCallback ;
     }
@@ -55,6 +57,10 @@ class TaskDlg extends ListDialog{
 
 
     public function cbPlusJumper(){ 
+        if ( _task._jobs.length == 0) {
+            trace("cannot add jumper if there is no job");
+            return;
+        }
         var m = _task.createJumper();
         if ( m != null){
             var md = new JumpToStepJobDlg(_listDialogMgr, _task, m, refresh);
@@ -62,6 +68,10 @@ class TaskDlg extends ListDialog{
         }
     }
     public function cbPlusModeExec(){ 
+        if ( ModeMgr.getInst()._modes.length == 0) {
+            trace("cannot add mode executor if there is no mode");
+            return;
+        }
         var m = _task.createModeExec();
         if ( m != null){
             var md = new ModeExecJobDlg(_listDialogMgr, _task, m, refresh);
@@ -81,11 +91,11 @@ class TaskDlg extends ListDialog{
         for ( i in _task._jobs){
             var m:ListDialog = null;
             if ( Std.is( i, TimeCountJob)){
-                m = new TimeCountJobDlg(_listDialogMgr, _task, i, refresh);
+                m = new TimeCountJobDlg(_listDialogMgr, _task, cast i, refresh);
             }else if ( Std.is(i, JumpToStepJob)){
-                m = new JumpToStepJobDlg(_listDialogMgr, _task, i, refresh);
+                m = new JumpToStepJobDlg(_listDialogMgr, _task, cast i, refresh);
             }else if ( Std.is(i, ModeExecJob) ){
-                m = new ModeExecJobDlg(_listDialogMgr, _task, i, refresh);
+                m = new ModeExecJobDlg(_listDialogMgr, _task, cast i, refresh);
             }
             m.show();
         }
@@ -98,8 +108,8 @@ class TaskDlg extends ListDialog{
 
     public override function onMouseClick():Void{ }
 
-    function onSaveBtnMouseClick( evt:MouseEvent ):Void{ _task.save(); }
-    function onLoadBtnMouseClick( evt:MouseEvent ):Void{ _task.load(); }
+    //function onSaveBtnMouseClick( evt:MouseEvent ):Void{ _task.save(); }
+    //function onLoadBtnMouseClick( evt:MouseEvent ):Void{ _task.load(); }
     function onEditBtnMouseClick( evt:MouseEvent ):Void{
         refresh();
         super.onMouseClick();
@@ -107,12 +117,12 @@ class TaskDlg extends ListDialog{
 
     override function show(){
         if ( _s != null) {
-            if ( _saveBtn != null){
+            if ( _pos != null){
                 //_s.removeChild(_output);
                 _s.removeChild(_pos);
                 _s.removeChild(_deleteBtn);
-                _s.removeChild(_saveBtn);
-                _s.removeChild(_loadBtn);
+                //_s.removeChild(_saveBtn);
+                //_s.removeChild(_loadBtn);
                 _s.removeChild(_editBtn);
             }
 
@@ -136,27 +146,27 @@ class TaskDlg extends ListDialog{
             _deleteBtn.x = nme.Lib.current.stage.stageWidth - 80;
             _deleteBtn.addEventListener( MouseEvent.CLICK, onDeleteBtnMouseClick);
 
-            _saveBtn= new EmbedTextField();
-            _saveBtn.setBorder(true);
-            _saveBtn.selectable = false;
-            _saveBtn.scaleX = 3;
-            _saveBtn.scaleY = 3;
-            _saveBtn.width = 30;
-            _saveBtn.height= 16;
-            _saveBtn.x = nme.Lib.current.stage.stageWidth - 180;
-            _saveBtn.text = "Save";
-            _saveBtn.addEventListener( MouseEvent.CLICK, onSaveBtnMouseClick);
-
-            _loadBtn= new EmbedTextField();
-            _loadBtn.setBorder(true);
-            _loadBtn.selectable = false;
-            _loadBtn.scaleX = 3;
-            _loadBtn.scaleY = 3;
-            _loadBtn.width = 30;
-            _loadBtn.height= 16;
-            _loadBtn.x = nme.Lib.current.stage.stageWidth - 280;
-            _loadBtn.text = "Load";
-            _loadBtn.addEventListener( MouseEvent.CLICK, onLoadBtnMouseClick);
+            //_saveBtn= new EmbedTextField();
+            //_saveBtn.setBorder(true);
+            //_saveBtn.selectable = false;
+            //_saveBtn.scaleX = 3;
+            //_saveBtn.scaleY = 3;
+            //_saveBtn.width = 30;
+            //_saveBtn.height= 16;
+            //_saveBtn.x = nme.Lib.current.stage.stageWidth - 180;
+            //_saveBtn.text = "Save";
+            //_saveBtn.addEventListener( MouseEvent.CLICK, onSaveBtnMouseClick);
+            //
+            //_loadBtn= new EmbedTextField();
+            //_loadBtn.setBorder(true);
+            //_loadBtn.selectable = false;
+            //_loadBtn.scaleX = 3;
+            //_loadBtn.scaleY = 3;
+            //_loadBtn.width = 30;
+            //_loadBtn.height= 16;
+            //_loadBtn.x = nme.Lib.current.stage.stageWidth - 280;
+            //_loadBtn.text = "Load";
+            //_loadBtn.addEventListener( MouseEvent.CLICK, onLoadBtnMouseClick);
 
             _editBtn= new EmbedTextField();
             _editBtn.setBorder(true);
@@ -171,29 +181,28 @@ class TaskDlg extends ListDialog{
 
             _s.addChild( _pos);
             _s.addChild( _deleteBtn);
-            _s.addChild( _saveBtn);
-            _s.addChild( _loadBtn);
+            //_s.addChild( _saveBtn);
+            //_s.addChild( _loadBtn);
             _s.addChild( _editBtn);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
         return super.show();
     }
     override function hide(){
-        if ( _s != null && _saveBtn!= null) {
+        if ( _s != null && _pos != null) {
             _deleteBtn.removeEventListener(  MouseEvent.CLICK, onDeleteBtnMouseClick); 
-            _saveBtn.removeEventListener(  MouseEvent.CLICK, onSaveBtnMouseClick); 
-            _loadBtn.removeEventListener(  MouseEvent.CLICK, onLoadBtnMouseClick); 
+            //_saveBtn.removeEventListener(  MouseEvent.CLICK, onSaveBtnMouseClick); 
+            //_loadBtn.removeEventListener(  MouseEvent.CLICK, onLoadBtnMouseClick); 
             _s.removeChild(_pos);
             _s.removeChild(_deleteBtn);
-            _s.removeChild(_saveBtn);
-            _s.removeChild(_loadBtn);
+            //_s.removeChild(_saveBtn);
+            //_s.removeChild(_loadBtn);
             _s.removeChild(_editBtn);
             _pos= null;
             _deleteBtn= null;
-            _loadBtn= null;
+            //_loadBtn= null;
+            //_saveBtn= null;
             _editBtn= null;
-            _saveBtn= null;
-            //_output= null;
         }
         return super.hide();
     }
