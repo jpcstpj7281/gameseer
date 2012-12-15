@@ -29,7 +29,6 @@ class TaskMgr{
                 break;
             }
         }
-
         _timer = new Timer(300);
         _timer.run = trun;
     }

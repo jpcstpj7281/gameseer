@@ -34,6 +34,7 @@
     <item><type>timer</type><name>timer</name><extension>.png</extension><loc>img</loc></item>
     <item><type>jumper</type><name>jumper</name><extension>.png</extension><loc>img</loc></item>
     <item><type>mode</type><name>mode</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>play</type><name>play</name><extension>.png</extension><loc>img</loc></item>
 
 
 
