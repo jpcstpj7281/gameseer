@@ -38,6 +38,9 @@ class WndDlg extends CommDialog{
         addChild( createElement());
     }
 
+    public function cbDone():Void{
+    }
+
     override function show(){
         if ( _s != null) {
             if (_wndtext!= null) _s.removeChild(_wndtext);
@@ -271,6 +274,6 @@ class WndDlg extends CommDialog{
         //trace( y);
         //trace( w);
         //trace( h);
-        _wnd.reset(x,y, w,h );
+        _wnd.reset(x,y, w,h ,cbDone);
     }
 }

@@ -117,21 +117,29 @@ class JumpToStepJob extends Job {
 class ModeExecJob extends Job { 
 
     public var _modeIndex:Int;
+    var _isDone:Bool;
 
     public function new (index:Int, task:Task, modeIndex:Int = 0){
         super(index, task);
         _modeIndex = modeIndex ;
     }
 
+    function cbDone(){
+        _isDone = true;
+    }
+
     override public function run(date:Date):Bool{
         if ( _isRunning){
             var ms = ModeMgr.getInst()._modes;
             if ( ms.length > _modeIndex){
-                ms[_modeIndex].load();
+                _isDone = false;
+                ms[_modeIndex].load(cbDone);
                 if (_cbRun!= null) _cbRun();
             }
-            stop(date);
-            return false;
+            if (_isDone){
+                stop(date);
+                return false;
+            }else return true;
         }
         return false;
     }

@@ -64,7 +64,7 @@ class ChannelMgr {
     }
     public function getChannel( ip:String, inport:String, w:Int, h:Int):Channel{
         for ( i in _channels){
-            if( i._screen._ipv4 == ip && i._inport == inport && i._w == w && i._h == h){
+            if( i._screen != null && i._screen._ipv4 == ip && i._inport == inport && i._w == w && i._h == h){
                 return i;
             }
         }

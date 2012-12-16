@@ -45,7 +45,11 @@ class ModeDlg extends ListDialog{
 
     function onSaveBtnMouseClick( evt:MouseEvent ):Void{ _mode.save(); }
     function onLoadBtnMouseClick( evt:MouseEvent ):Void{
-        _mode.load();
+        _mode.load(cbDone);
+    }
+
+    function cbDone(){
+        trace("finish loading mode");
     }
 
     override function show(){

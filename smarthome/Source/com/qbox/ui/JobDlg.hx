@@ -446,8 +446,13 @@ class JumpToStepJobDlg extends ListDialog{
         cannceEdit();
         alpha = 1;
     }
-    function onRun():Void{ if ( _counter!= null) _counter.text = "" + _job._current; }
-    function onStop():Void{ if ( _counter!= null) _counter.text = "" + _job._counter; alpha = 0.5; }
+    function onRun():Void{ 
+        if ( _counter!= null) _counter.text = "" + _job._current; 
+    }
+    function onStop():Void{ 
+        if ( _counter!= null) _counter.text = "" + _job._counter; 
+        alpha = 0.5; 
+    }
 
     function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
         _task.deleteJob(_job);
