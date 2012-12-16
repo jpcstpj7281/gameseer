@@ -235,7 +235,9 @@ class Mode{
         _cbDone = cbDone;
 
         if ( WndMgr.getInst()._wnds.length > 0){
-            WndMgr.getInst().closeAll( onLoadingWnds);
+            WndMgr.getInst().closeAll( cbLoad);
+        }else{
+            cbLoad();
         }
         return true;
     }
