@@ -543,6 +543,7 @@ class Wnd{
         var error = args.get("error" );
         if (error == "1") { trace("close wnd failed");return; }
         else trace("close wnd succeed");
+
         --_opCounter;
         if (_cbDone != null && _opCounter == 0){
             var tmp = _cbDone;
