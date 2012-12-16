@@ -411,9 +411,10 @@ class Screen extends Qbox{
         super.cbLoadOutput(args);
     }
 
+    function cbCloseWnds(){}
     override function loadInput(){
         ChannelMgr.getInst().removeChannelByScreen(this);
-        WndMgr.getInst().closeAll();
+        WndMgr.getInst().closeAll(cbCloseWnds);
         super.loadInput();
     }
 

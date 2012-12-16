@@ -21,11 +21,8 @@ class Mode{
         return  DataLoader.getInst().getData( "mode"+_index ) != null;
     }
 
-    public function load( cbDone:Void->Void ):Bool{
-        if ( _cbDone != null) {trace("mode possessd!"); return false;}
-        _cbDone = cbDone;
+    public function cbLoad():Void{
         _currLoadWnds = new Array<Wnd>();
-
         var data:String = DataLoader.getInst().getData( "mode"+_index );
         trace(data);
 
@@ -67,6 +64,7 @@ class Mode{
                                     rets = ScreenMgr.getInst().createSpecificScreen( col, row, ip);
 #if !neko
                                     rets.connect();
+                                    rets.connectedInit();
 #end
                                 }
                                 keepscreens.push(rets);
@@ -115,7 +113,7 @@ class Mode{
                                     c._w = w;
                                     c._h = h;
                                     c._screen = ScreenMgr.getInst().getScreen(col, row, ip);
-                                    c._inport = "3";
+                                    c._inport = inport;
                                 }
                             }
                         }
@@ -230,11 +228,28 @@ class Mode{
             }
         }
 
+    }
+
+    public function load( cbDone:Void->Void ):Bool{
+        if ( _cbDone != null) {trace("mode possessd!"); return false;}
+        _cbDone = cbDone;
+
+        if ( WndMgr.getInst()._wnds.length > 0){
+            WndMgr.getInst().closeAll( onLoadingWnds);
+        }
         return true;
     }
 
     public function onLoadingWnds():Void{
-        if ( _currLoadWnds == null && _currLoadWnds.length <= 0){
+
+        trace("loading window..."+ _currLoadWnds.length);
+
+        var wnd:Wnd = null;
+        if (_currLoadWnds != null && _currLoadWnds.length > 0){
+            wnd = _currLoadWnds[0];
+            _currLoadWnds.remove(wnd);
+        }
+        if ( wnd ==  null){
             var tmp = _cbDone;
             _cbDone = null;
             tmp();
@@ -242,9 +257,6 @@ class Mode{
             return;
         }
 
-        trace("loading window...");
-        var wnd = _currLoadWnds[0];
-        _currLoadWnds.remove(wnd);
         wnd.resurrectWnd(onLoadingWnds);
     }
 

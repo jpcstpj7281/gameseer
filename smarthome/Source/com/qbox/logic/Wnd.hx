@@ -41,7 +41,7 @@ class Wnd{
 
     public var _isSelected:Bool;
 
-    var _cbShowWnd:Void->Void;
+    var _cbDone:Void->Void;
 
     public function new(){
         //_x = 0;
@@ -184,12 +184,13 @@ class Wnd{
 
 
     inline public function resurrectWnd(cb:Void->Void){
-        open( _virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring, cb);
+        return open( _virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring, cb);
     }
 
     public function open(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring, cb:Void->Void ){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
-        if ( _cbShowWnd != null) {trace("_cbShowWnd not null"); _cbShowWnd = cb;}
+        if ( _cbDone != null) {trace("_cbDone not null"); return false; }
+        _cbDone = cb;
 
         _virtualX = x;
         _virtualY = y;
@@ -346,16 +347,17 @@ class Wnd{
     function cbShowWnd( args:Dynamic){
         --_opCounter;
         trace("show window: "+ args);
-        if (_cbShowWnd != null && _opCounter == 0){
-            var tmp = _cbShowWnd;
-            _cbShowWnd = null;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
             tmp();
         }
     }
 
     public function move( x:Float, y:Float, cb:Void->Void ):Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
-        if ( _cbShowWnd != null) {trace("_cbShowWnd not null"); _cbShowWnd = cb;}
+        if ( _cbDone != null) {trace("_cbDone not null"); return false;}
+        _cbDone = cb;
 
         _virtualX = x;
         _virtualY = y;
@@ -524,9 +526,13 @@ class Wnd{
         resize(w, h, cb);
         return true;
     }
-    public function close(){
+
+    public function close( cb:Void->Void){
         //var ss = ScreenMgr.getInst()._screens;
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _cbDone != null) {trace("_cbDone not null"); return false;}
+        _cbDone = cb;
+
         _opCounter+=_screens.length;
         for (i in 0..._screens.length){ 
             _screens[i].closeWnd( this, cbCloseWnd ); 
@@ -538,6 +544,11 @@ class Wnd{
         if (error == "1") { trace("close wnd failed");return; }
         else trace("close wnd succeed");
         --_opCounter;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp();
+        }
     }
 
 }
