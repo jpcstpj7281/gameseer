@@ -298,8 +298,9 @@ class WndGraphicDlg extends CommDialog{
         return true;
     }
 
+    function cbCloseWnd():Void{}
     public function closeWnd( ){
-        _wnd.close();
+        _wnd.close(cbCloseWnd);
         _virtualWnd.graphics.clear();
         removeChild(_virtualWnd);
         _virtualWnd = null;

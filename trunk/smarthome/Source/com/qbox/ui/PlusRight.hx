@@ -20,13 +20,14 @@ class PlusRight extends FixedDlg{
         y= nme.Lib.current.stage.stageHeight - 80;
     }
 
+    function cbCloseWnd(){}
     public function cbPlus( ):Void{
         var arr = ScreenMgr.getInst().createColScreen();
         var ms:MainStage = null;
         for ( i in arr){
             if ( Std.is(_mgr, MainStage) ){
                 ms = cast(_mgr, MainStage);
-                WndMgr.getInst().closeAll();
+                WndMgr.getInst().closeAll(cbCloseWnd);
             }else{
                 var qd = new ScreenDlg( cast _mgr, i);
                 qd.show();

@@ -6,6 +6,8 @@ import base.data.DataLoader;
 class WndMgr {
 
     public static var inst:WndMgr;
+    var _opCounter:Int;
+    var _cbDone:Void->Void;
     inline public static function getInst():WndMgr{
         if ( inst == null) {
             inst = new WndMgr();
@@ -25,6 +27,7 @@ class WndMgr {
         _wnds =  new Array<Wnd>();
         _minLayer = 10;
         _maxLayer = 10;
+        _opCounter = 0;
     }
 
     public function createWnd():Wnd{
@@ -35,10 +38,23 @@ class WndMgr {
     }
 
     inline public function removeWnd( wnd:Wnd):Void{ _wnds.remove(wnd); }
-    public function closeAll( ):Void{ 
+    public function closeAll( cb:Void->Void ):Void{ 
+        if (_opCounter > 0 ){ trace("_opCounter not zero"); return;}
+        _opCounter = _wnds.length;
+        _cbDone = cb;
         for ( i in _wnds){
-            i.close();
+            i.close( cbCloseAll);
             removeWnd(i);
+        }
+    }
+
+    function cbCloseAll():Void{
+        --_opCounter;
+        if (_opCounter == 0 && _cbDone != null){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp();
+            return;
         }
     }
 
