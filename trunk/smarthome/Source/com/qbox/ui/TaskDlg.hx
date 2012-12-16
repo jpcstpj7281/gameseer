@@ -48,6 +48,9 @@ class TaskDlg extends ListDialog{
         new PlayDlg(_listDialogMgr, _task);
         _oldReturnCB = _listDialogMgr._returnCallback ;
         _listDialogMgr._returnCallback  = returnCallback ;
+
+        _task._cbStop = onStop;
+        _task._cbStart = onStart;
     }
 
     function returnCallback(){
@@ -55,6 +58,27 @@ class TaskDlg extends ListDialog{
         _oldReturnCB();
     }
 
+    function onStart(){
+        if( _task._isRunning){
+            for ( i in cast(_listDialogMgr, ListDialogMgr)._movableInstances){
+                if(Std.is(i, ModeExecJobDlg)){
+                    cast (i, ModeExecJobDlg).cannceEdit();
+                }if(Std.is(i, JumpToStepJobDlg) ){
+                    cast (i, JumpToStepJobDlg).cannceEdit();
+                }if(Std.is(i, TimeCountJobDlg) ){
+                    cast (i, TimeCountJobDlg).cannceEdit();
+                }
+                i.alpha = 0.5;
+            }
+        }
+    }
+    function onStop(){
+        if( !_task._isRunning){
+            for ( i in cast(_listDialogMgr, ListDialogMgr)._movableInstances){
+                i.alpha = 1;
+            }
+        }
+    }
 
     public function cbPlusJumper(){ 
         if ( _task._jobs.length == 0) {
@@ -67,6 +91,7 @@ class TaskDlg extends ListDialog{
             md.show();
         }
     }
+
     public function cbPlusModeExec(){ 
         if ( ModeMgr.getInst()._modes.length == 0) {
             trace("cannot add mode executor if there is no mode");

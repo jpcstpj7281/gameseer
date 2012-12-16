@@ -150,8 +150,7 @@ class Ring{
         for ( rn in _heads){
             var n = rn;
             while (n !=null ){
-                //trace(n._col);
-                //trace(n._row);
+                //trace("ring"+n._col+n._row+n._screen._ipv4);
                 if ( n._screen == s){
                     return true;
                 }

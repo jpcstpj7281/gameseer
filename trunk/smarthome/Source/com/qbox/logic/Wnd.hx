@@ -41,6 +41,8 @@ class Wnd{
 
     public var _isSelected:Bool;
 
+    var _cbShowWnd:Void->Void;
+
     public function new(){
         //_x = 0;
         //_y = 0;
@@ -52,6 +54,10 @@ class Wnd{
         _layer = 10;
         _virtualAreaX = _virtualAreaY = _virtualAreaW = _virtualAreaH = 0;
         _isSelected = false;
+    }
+
+    public function isPossessd():Bool{
+        return _opCounter > 0;
     }
 
     public function setLayer( l:Int){
@@ -177,9 +183,14 @@ class Wnd{
     }
 
 
+    inline public function resurrectWnd(cb:Void->Void){
+        open( _virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring, cb);
+    }
 
-    public function open(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring){
+    public function open(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring, cb:Void->Void ){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _cbShowWnd != null) {trace("_cbShowWnd not null"); _cbShowWnd = cb;}
+
         _virtualX = x;
         _virtualY = y;
         _virtualWidth = w;
@@ -313,13 +324,6 @@ class Wnd{
 
 
     function cbSetWnd( args:Dynamic, s:Screen):Void{
-        //var error = args.get("error" );
-        //if (error == "1") { trace( "There is a error occurred: "+s._ipv4+"!");return; }
-        //var handle = args.get("out" );
-        //if ( handle != "null"){
-        //++_opCounter;
-        //s.showWnd( this, cbShowWnd );
-        //}
         --_opCounter;
         if (_opCounter == 0){
             _opCounter += _screens.length;
@@ -342,13 +346,19 @@ class Wnd{
     function cbShowWnd( args:Dynamic){
         --_opCounter;
         trace("show window: "+ args);
+        if (_cbShowWnd != null && _opCounter == 0){
+            var tmp = _cbShowWnd;
+            _cbShowWnd = null;
+            tmp();
+        }
     }
 
-    public function move( x:Float, y:Float):Bool{
+    public function move( x:Float, y:Float, cb:Void->Void ):Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _cbShowWnd != null) {trace("_cbShowWnd not null"); _cbShowWnd = cb;}
+
         _virtualX = x;
         _virtualY = y;
-
 
         _newscreens = new Array<Screen>();
         _inputSize = new Array<InputSize>();
@@ -394,8 +404,6 @@ class Wnd{
                 _createscreens.push(i);
             }
         }
-
-
 #if !neko
         if ( _keepscreens.length > 0){
             _opCounter+=_keepscreens.length;
@@ -500,20 +508,20 @@ class Wnd{
         }
     }
 
-    public function resize( w:Float, h:Float){
+    public function resize( w:Float, h:Float, cb:Void->Void){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualHeight = h;
         _virtualWidth = w;
-        move( _virtualX, _virtualY);
+        move( _virtualX, _virtualY, cb);
         return true;
     }
 
     //WndDlg will invoke this
-    public function reset(x:Int, y:Int, w:Int, h:Int){
+    public function reset(x:Int, y:Int, w:Int, h:Int, cb:Void->Void){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
-        resize(w, h);
+        resize(w, h, cb);
         return true;
     }
     public function close(){

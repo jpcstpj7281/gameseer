@@ -57,8 +57,6 @@ class ScreenPlate extends CommDialog{
         if ( col == 0 && row == 0 ) {
             return;
         }
-
-
         removeChild(_screens);
         _screens = new Sprite();
         addChildAt( _screens, 0);
@@ -75,8 +73,7 @@ class ScreenPlate extends CommDialog{
             s.graphics.lineTo( (i._col+1) * i._virtualWidth, i._row * _screenHeight );
             s.graphics.lineTo( (i._col+1) * i._virtualWidth, (i._row+1) * _screenHeight );
             s.graphics.lineTo( i._col * i._virtualWidth, (i._row+1) * _screenHeight );
-            //trace(rg ==null);
-            //trace(c ==null);
+            //if ( rg != null) trace(""+ i._col + i._row+i._ipv4);
             //if ( rg !=null) trace( rg.isInRing(i));
             //if ( rg != null &&c != null) trace( c.isRingOfChannel(rg,i));
             if ( rg != null&& rg.isInRing( i)&& c != null && c.isRingOfChannel( rg, i) ){
@@ -246,7 +243,6 @@ class ScreenPlate extends CommDialog{
                 _movingWnd._wnd._isSelected = true;
                 //resize window
                 _movingWnd.resizeWnd( w , h);
-                //trace("resize");
             }else{
                 if ( evt.stageX == _downx && evt.stageY == _downy ){
                     if (_movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){

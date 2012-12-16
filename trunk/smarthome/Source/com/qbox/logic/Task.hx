@@ -18,6 +18,9 @@ class Task{
 
     public var _currJobIndex:Int;
 
+    public var _cbStart:Void->Void;
+    public var _cbStop:Void->Void;
+
     public function new(index:Int){
         _index = index;
         _startDate = null;
@@ -88,6 +91,7 @@ class Task{
 
     public function start(){
         _isRunning = true;
+        if (_cbStart != null) _cbStart();
         trace("start task");
     }
 
@@ -98,6 +102,7 @@ class Task{
                 i.stop(Date.now());
             }
         }
+        if (_cbStop!= null) _cbStop();
         trace("stop task");
     }
 
