@@ -59,12 +59,12 @@ class ChannelMgr {
         }
     }
 
-    inline public function hasChannel( ip:String, inport:String, w:Int, h:Int):Bool{
-        return getChannel( ip, inport, w, h) != null;
+    inline public function hasChannel( ip:String, inport:String, w:Int, h:Int, col:Int, row:Int):Bool{
+        return getChannel( ip, inport, w, h, col, row) != null;
     }
-    public function getChannel( ip:String, inport:String, w:Int, h:Int):Channel{
+    public function getChannel( ip:String, inport:String, w:Int, h:Int, col:Int, row:Int):Channel{
         for ( i in _channels){
-            if( i._screen != null && i._screen._ipv4 == ip && i._inport == inport && i._w == w && i._h == h){
+            if( i._screen != null && i._screen._ipv4 == ip && i._screen._col == col && i._screen._row == row && i._inport == inport && i._w == w && i._h == h){
                 return i;
             }
         }

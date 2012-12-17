@@ -59,23 +59,34 @@ class TaskDlg extends ListDialog{
     }
 
     function onStart(){
-        if( _task._isRunning){
-            for ( i in cast(_listDialogMgr, ListDialogMgr)._movableInstances){
-                if(Std.is(i, ModeExecJobDlg)){
-                    cast (i, ModeExecJobDlg).cannceEdit();
-                }if(Std.is(i, JumpToStepJobDlg) ){
-                    cast (i, JumpToStepJobDlg).cannceEdit();
-                }if(Std.is(i, TimeCountJobDlg) ){
-                    cast (i, TimeCountJobDlg).cannceEdit();
+        for ( i in cast(_listDialogMgr, ListDialogMgr)._movableInstances){
+            if(Std.is(i, ModeExecJobDlg)){
+                var m = cast (i, ModeExecJobDlg);
+                if ( m.alpha > 0){
+                    m.cannceEdit();
+                    i.alpha = 0.5;
                 }
-                i.alpha = 0.5;
+            }if(Std.is(i, JumpToStepJobDlg) ){
+                var m = cast (i, JumpToStepJobDlg);
+                if ( m.alpha > 0){
+                    m.cannceEdit();
+                    i.alpha = 0.5;
+                }
+            }if(Std.is(i, TimeCountJobDlg) ){
+                var m = cast (i, TimeCountJobDlg);
+                if ( m.alpha >0){
+                    m.cannceEdit();
+                    i.alpha = 0.5;
+                }
             }
         }
     }
     function onStop(){
         if( !_task._isRunning){
             for ( i in cast(_listDialogMgr, ListDialogMgr)._movableInstances){
-                i.alpha = 1;
+                if ( alpha > 0){
+                    i.alpha = 1;
+                }
             }
         }
     }

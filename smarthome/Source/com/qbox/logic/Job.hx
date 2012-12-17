@@ -3,6 +3,8 @@ package com.qbox.logic;
 import hxjson2.JSON;
 import base.data.DataLoader;
 
+import com.qbox.ui.MainStage;
+
 class TimeCountJob extends Job { 
 
     public var _countTime:Int;
@@ -125,6 +127,7 @@ class ModeExecJob extends Job {
     }
 
     function cbDone(){
+        MainStage.getInst().resetScreenPlate();
         _isDone = true;
     }
 
