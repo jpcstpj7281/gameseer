@@ -40,12 +40,17 @@ class WndMgr {
     inline public function removeWnd( wnd:Wnd):Void{ _wnds.remove(wnd); }
     public function closeAll( cb:Void->Void ):Void{ 
         if (_opCounter > 0 ){ trace("_opCounter not zero"); return;}
-        _opCounter = _wnds.length;
+        if (_cbDone != null ){ trace("_cbDone not null"); return;}
         _cbDone = cb;
-        for ( i in _wnds){
+
+        _opCounter += _wnds.length;
+
+        var tmps:Array<Wnd> = _wnds;
+        _wnds = new Array<Wnd>();
+        for ( i in tmps){
             i.close( cbCloseAll);
-            removeWnd(i);
         }
+
     }
 
     function cbCloseAll():Void{

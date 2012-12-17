@@ -141,6 +141,7 @@ class Wnd{
             }
         }
     }
+
     public function cbChangeChannel1(a1):Void{
         --_opCounter;
         if ( _opCounter == 0){
@@ -199,6 +200,7 @@ class Wnd{
         _channel =  c;
         _ring = ring;
 
+#if !neko
         setRealArea( 0, 0, _channel._w, _channel._h);
 
         _screens = new Array<Screen>();
@@ -213,8 +215,11 @@ class Wnd{
         }
         calcInputSize( _inputSize, vs);
         //trace("test");
-
         setupChannel();
+#else
+        ++_opCounter ;
+        cbShowWnd(null);
+#end
         return true;
     }
 
@@ -533,15 +538,20 @@ class Wnd{
         if ( _cbDone != null) {trace("_cbDone not null"); return false;}
         _cbDone = cb;
 
+#if !neko
         _opCounter+=_screens.length;
         for (i in 0..._screens.length){ 
             _screens[i].closeWnd( this, cbCloseWnd ); 
         }
+
+#else
+        _opCounter+=1;
+        cbCloseWnd(null, null);
+#end
         return true;
     }
     function cbCloseWnd( args:Dynamic, s:Screen){
-        var error = args.get("error" );
-        if (error == "1") { trace("close wnd failed");return; }
+        if ( args != null && args.get("error") == "1") { trace("close wnd failed");return; }
         else trace("close wnd succeed");
 
         --_opCounter;

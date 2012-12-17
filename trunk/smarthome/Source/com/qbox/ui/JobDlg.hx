@@ -53,19 +53,25 @@ class TimeCountJobDlg extends ListDialog{
         _job._cbStop = onStop;
     }
     function onStart():Void{ 
-        cannceEdit();
-        alpha = 1;
+        if ( alpha > 0){
+            cannceEdit();
+            alpha = 1;
+        }
     }
     function onRun():Void{ 
+        if ( alpha > 0){
         if ( _inHour != null) _inHour.text = ""+_job.getRemainHours();
         if ( _inSec != null) _inSec.text = ""+_job.getRemainSeconds();
         if ( _inMinute!= null) _inMinute.text = ""+_job.getRemainMinutes();
+        }
     }
     function onStop():Void{ 
+        if ( alpha > 0){
         if ( _inHour != null) _inHour.text = ""+_job.getRemainHours();
         if ( _inSec != null) _inSec.text = ""+_job.getRemainSeconds();
         if ( _inMinute!= null) _inMinute.text = ""+_job.getRemainMinutes();
         alpha = 0.5;
+        }
     }
     function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
         _task.deleteJob(_job);
@@ -262,11 +268,15 @@ class ModeExecJobDlg extends ListDialog{
         _job._cbStop = onStop;
     }
     function onStart():Void{ 
+        if ( alpha > 0){
         cannceEdit();
         alpha = 1;
+        }
     }
     function onStop():Void{ 
+        if ( alpha > 0){
         alpha = 0.5;
+        }
     }
 
     function onDeleteBtnMouseClick( evt:MouseEvent ):Void{
@@ -443,15 +453,21 @@ class JumpToStepJobDlg extends ListDialog{
         _job._cbStop = onStop;
     }
     function onStart():Void{ 
-        cannceEdit();
-        alpha = 1;
+        if ( alpha > 0){
+            cannceEdit();
+            alpha = 1;
+        }
     }
     function onRun():Void{ 
-        if ( _counter!= null) _counter.text = "" + _job._current; 
+        if ( alpha > 0){
+            if ( _counter!= null) _counter.text = "" + _job._current; 
+        }
     }
     function onStop():Void{ 
-        if ( _counter!= null) _counter.text = "" + _job._counter; 
-        alpha = 0.5; 
+        if ( alpha > 0){
+            if ( _counter!= null) _counter.text = "" + _job._counter; 
+            alpha = 0.5; 
+        }
     }
 
     function onDeleteBtnMouseClick( evt:MouseEvent ):Void{

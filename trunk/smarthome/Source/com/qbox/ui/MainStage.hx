@@ -84,7 +84,7 @@ class MainStage extends ListDialogMgr {
     public function resetScreenPlate():Void{
         if ( _screenPlate != null){
             _screenPlate.hide();
-            _screenPlate.show();
+            //_screenPlate.show();
         }
     }
 

@@ -63,16 +63,16 @@ class ScreenMgr extends QboxMgr {
         return null;
     }
 
-    public function getScreen( col:Int, row:Int, ip:String):Screen{
+    public function getScreen( col:Int, row:Int):Screen{
         for ( i in _screens){
-            if ( col == i._col && row == i._row && ip == i._ipv4){
+            if ( col == i._col && row == i._row ){
                 return i;
             }
         }
         return null;
     }
-    public function hasScreen( col:Int, row:Int, ip:String):Bool{
-        return getScreen( col, row, ip) != null;
+    public function hasScreen( col:Int, row:Int):Bool{
+        return getScreen( col, row) != null;
     }
 
     public function createSpecificScreen( col:Int, row:Int, ip:String ):Screen{

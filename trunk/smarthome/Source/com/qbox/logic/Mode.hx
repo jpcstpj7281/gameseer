@@ -59,7 +59,7 @@ class Mode{
                                 var ip:String = datas[0];
                                 var col:Int = Std.parseInt(datas[1]);
                                 var row:Int = Std.parseInt(datas[2]);
-                                var rets = ScreenMgr.getInst().getScreen( col, row, ip);
+                                var rets = ScreenMgr.getInst().getScreen( col, row);
                                 if ( rets == null){
                                     rets = ScreenMgr.getInst().createSpecificScreen( col, row, ip);
 #if !neko
@@ -107,12 +107,12 @@ class Mode{
                                 var inport = datas[3];
                                 var w = Std.parseInt(datas[4]);
                                 var h = Std.parseInt(datas[5]);
-                                var ret = ChannelMgr.getInst().hasChannel(ip, inport, w, h);
+                                var ret = ChannelMgr.getInst().hasChannel(ip, inport, w, h, col, row);
                                 if ( !ret){
                                     var c = ChannelMgr.getInst().createChannel();
                                     c._w = w;
                                     c._h = h;
-                                    c._screen = ScreenMgr.getInst().getScreen(col, row, ip);
+                                    c._screen = ScreenMgr.getInst().getScreen(col, row);
                                     c._inport = inport;
                                 }
                             }
@@ -191,30 +191,36 @@ class Mode{
                             var ah = datas[7];
                             var layer = datas[8];
                             var cip = datas[9];
-                            var cinport = datas[10];
-                            var cw = datas[11];
-                            var ch = datas[12];
-                            var ringindex = datas[13];
-                            var win = WndMgr.getInst().createWnd();
+                            var col = Std.parseInt(datas[10]);
+                            var row = Std.parseInt(datas[11]);
+                            var cinport = datas[12];
+                            var cw = datas[13];
+                            var ch = datas[14];
+                            var ringindex = datas[15];
+                            var chn = ChannelMgr.getInst().getChannel( cip, cinport, Std.parseInt(cw), Std.parseInt(ch), col, row );
+                            if (chn != null){
+                                var win = WndMgr.getInst().createWnd();
+                                win._channel = chn;
+                                var ring:Ring = null;
+                                if ( ringindex != "null"){
+                                    ring = RingMgr.getInst()._rings[ Std.parseInt(ringindex)];
+                                }
 
-                            win._channel = ChannelMgr.getInst().getChannel( cip, cinport, Std.parseInt(cw), Std.parseInt(ch) );
-                            var ring:Ring = null;
-                            if ( ringindex != "null"){
-                                ring = RingMgr.getInst()._rings[ Std.parseInt(ringindex)];
+                                win._layer = Std.parseInt(layer);
+
+                                win._virtualAreaX = Std.parseFloat(ax);
+                                win._virtualAreaY = Std.parseFloat(ay);
+                                win._virtualAreaW = Std.parseFloat(aw);
+                                win._virtualAreaH = Std.parseFloat(ah);
+                                win._virtualX = x;
+                                win._virtualY = y;
+                                win._virtualWidth = w;
+                                win._virtualHeight = h;
+
+                                _currLoadWnds.push( win);
+                            }else{
+                                trace("a window without correspond channel!");
                             }
-
-                            win._layer = Std.parseInt(layer);
-
-                            win._virtualAreaX = Std.parseFloat(ax);
-                            win._virtualAreaY = Std.parseFloat(ay);
-                            win._virtualAreaW = Std.parseFloat(aw);
-                            win._virtualAreaH = Std.parseFloat(ah);
-                            win._virtualX = x;
-                            win._virtualY = y;
-                            win._virtualWidth = w;
-                            win._virtualHeight = h;
-
-                            _currLoadWnds.push( win);
                         }
                     }
                 }
@@ -244,7 +250,6 @@ class Mode{
 
     public function onLoadingWnds():Void{
 
-        trace("loading window..."+ _currLoadWnds.length);
 
         var wnd:Wnd = null;
         if (_currLoadWnds != null && _currLoadWnds.length > 0){
@@ -259,6 +264,7 @@ class Mode{
             return;
         }
 
+        trace("loading window..."+ _currLoadWnds.length);
         wnd.resurrectWnd(onLoadingWnds);
     }
 
@@ -371,6 +377,10 @@ class Mode{
             sb.add(i._layer);
             sb.add(",");
             sb.add(i._channel._screen._ipv4);
+            sb.add(",");
+            sb.add(i._channel._screen._col);
+            sb.add(",");
+            sb.add(i._channel._screen._row);
             sb.add(",");
             sb.add(i._channel._inport);
             sb.add(",");

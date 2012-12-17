@@ -102,7 +102,7 @@ class Task{
                 i.stop(Date.now());
             }
         }
-        if (_cbStop!= null) _cbStop();
+        if (_cbStop!= null) { _cbStop(); }
         trace("stop task");
     }
 
