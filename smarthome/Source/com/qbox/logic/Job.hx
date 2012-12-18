@@ -129,6 +129,7 @@ class ModeExecJob extends Job {
     function cbDone(){
         MainStage.getInst().resetScreenPlate();
         _isDone = true;
+        trace("test");
     }
 
     override public function run(date:Date):Bool{

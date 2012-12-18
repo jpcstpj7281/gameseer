@@ -103,10 +103,10 @@ class ValueBarDlg extends CommDialog{
     }
     override function hide(){
         if ( _s != null ) {
-            if( _c != null) {_s.removeChild(_c); _c = null;_c.removeEventListener(  MouseEvent.MOUSE_DOWN, onBarMouseDown );}
+            if( _c != null) {_s.removeChild(_c); _c.removeEventListener(  MouseEvent.MOUSE_DOWN, onBarMouseDown );_c = null;}
             if( _v != null) {_s.removeChild(_v); _v = null;}
-            if( _less != null) {_s.removeChild(_less); _less = null;_less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);}
-            if( _more != null) {_s.removeChild(_more); _more = null;_more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);}
+            if( _less != null) {_s.removeChild(_less); _less.removeEventListener( MouseEvent.MOUSE_DOWN, onLessMouseClick);_less = null;}
+            if( _more != null) {_s.removeChild(_more); _more.removeEventListener( MouseEvent.MOUSE_DOWN, onMoreMouseClick);_more = null;}
             if ( _promt != null){ _s.removeChild(_promt); _promt = null;}
         }
         return super.hide();
