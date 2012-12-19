@@ -76,6 +76,8 @@ extern void setChnSignalInput(uint32_t out,uint32_t in);
 extern void getChnSignalInput(uint32_t out,uint32_t &in);
 
 extern void topChannel(uint32_t channel);
+extern void init5160(uint32_t chn);
+extern void init772(uint32_t chn,uint32_t flg);
 
 }
 #endif

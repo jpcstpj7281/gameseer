@@ -132,7 +132,11 @@ void runServer(int port)
 
 #ifndef __unix__
 	taskDelay(100);
+
+	init5160(4);
+	init772(4,1);
 	initOutputModel(TYPE_MODEL_1024_768);
+
 #else
 #endif
 
