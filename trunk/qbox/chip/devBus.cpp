@@ -87,7 +87,7 @@ void SPIBus::dev_SPI_WriteMult(uint32_t chn,list<map<uint8_t,uint8_t> > value)
 			}
 			else
 			{
-				printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,itMap->first,itMap->second);
+//				printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,itMap->first,itMap->second);
 				switch(chn)
 				{
 					case 1:
@@ -126,7 +126,7 @@ void SPIBus::SPI_Write(uint32_t chn,uint8_t addr,uint8_t value)
 	}
 	else
 	{
-		printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,addr,value);
+//		printf("dev_SPI_Write 772 chn=%d addr=%02x,value=%02x\n",chn,addr,value);
 		switch(chn)
 		{
 			case 1:

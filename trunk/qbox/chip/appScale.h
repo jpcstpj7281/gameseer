@@ -254,6 +254,15 @@ public:
 
 	void setInputSignalModel(uint32_t chId,uint32_t model);
 
+
+
+
+
+
+
+	void setOSDSize(uint32_t wide,uint32_t high);
+	void setOSDPosition(uint32_t posX,uint32_t posY);
+
 private:
 
 	static AppScale* m_instance;
