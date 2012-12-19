@@ -33,6 +33,10 @@ void getChnSignalInput(uint32_t out,uint32_t &in);
 
 void topChannel(uint32_t channel);
 
+void init5160(uint32_t chn);
+void init772(uint32_t chn,uint32_t flg);
+
+
 }
 
 #endif /* __cplusplus */

@@ -167,6 +167,27 @@ void topChannel(uint32_t channel)
 	s_c753.topChannel(channel);
 }
 
+void init5160(uint32_t chn)
+{
+	DriverChip5160 s_c5160;
+	s_c5160.dev_5160_InitTVP5160(chn);
+}
+
+void init772(uint32_t chn,uint32_t flg)
+{
+
+	DriverChip772 s_c772;
+
+	s_c772.dev_C772_Init(chn);
+	if(flg == 0)
+	{
+		s_c772.set576(chn);
+	}
+	else
+	{
+		s_c772.set480(chn);
+	}
+}
 
 
 
