@@ -19,13 +19,6 @@ namespace chip
 
 
 
-enum Chip_type
-{
-	TYPE_CHIP_5160=0,
-	TYPE_CHIP_C753,
-	TYPE_CHIP_C772,
-	TYPE_CHIP_9388A,
-};
 
 class I2CBus
 {

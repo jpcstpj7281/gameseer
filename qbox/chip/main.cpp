@@ -20,7 +20,7 @@ void set753(uint8_t byAdd,uint8_t byVal)
 {
 	AppScale s_c753;
 	debug_msg("Test C753 addr=%02x,byVal=%02x\n",byAdd,byVal);
-	s_c753.SPI_Write(TYPE_CHIP_C753,byAdd,byVal);
+	s_c753.SPI_Write(0,byAdd,byVal);
 }
 
 
@@ -29,7 +29,7 @@ void get753(uint8_t byAdd)
 
 	uint8_t byVal=0;
 	AppScale s_c753;
-	s_c753.SPI_Read(TYPE_CHIP_C753,byAdd,byVal);
+	s_c753.SPI_Read(0,byAdd,byVal);
 	debug_msg("addr=%02x,val=%02x\n",byAdd,byVal);
 }
 
@@ -818,6 +818,95 @@ void dump772(uint32_t chn)
 
 
 }
+
+void setOSD(uint16_t posX,uint16_t posY,uint16_t w,uint16_t h)
+{
+	AppScale s_c753;
+	s_c753.C753SetOSDStartAddress(0x00c00000);
+	s_c753.C753SetOSDMemoryLinefeedWidth(100);
+
+	s_c753.setOSDSize(w,h);
+	s_c753.setOSDPosition(posX,posY);
+
+
+}
+
+void setOSDData(uint32_t w,uint32_t offset)
+{
+	AppScale s_c753;
+	uint32_t memAddr = 0x00c00000;
+
+	s_c753.C753SetCPUWriteAddress(memAddr);
+    for(int i = 0; i < w; i++)
+    {
+    	s_c753.C753WritePixel((uint8_t)0xff,(uint8_t)0x00,(uint8_t)0x00,(uint8_t)0x00);
+    	//memAddr=memAddr + offset;
+
+    }
+}
+
+void setOSDAddr(uint32_t addr)
+{
+	AppScale s_c753;
+	s_c753.C753SetOSDStartAddress(addr);
+
+
+}
+
+void test753Mem()
+{
+	AppScale s_c753;
+	   /*测试内存的读写*/
+
+	 uint8_t   val1 = 0x00;
+	 uint8_t   val2 = 0x00;
+	 uint32_t    memAddr = 0x00c00000;
+	 s_c753.C753SetCPUWriteAddress(memAddr);
+	 for(uint32_t i = 0; i < 50; i++)
+	 {
+		 /*C753SetCPUWriteAddress(memAddr);*/
+		 s_c753.C753SetCPUData(val1);
+		 val1++;
+	 }
+	 s_c753.C753SetCPUData(0x00);
+
+	 val1 = 0x00;
+	 memAddr = 0x00c00000 - 1;
+	 s_c753.C753SetCPUReadAddress(memAddr);
+	 s_c753.C753GetCPUData(val2);
+	 for(uint32_t i = 0; i < 50; i++)
+	 {
+		 /*C753SetCPUReadAddress(memAddr);*/
+		 s_c753.C753GetCPUData(val2);
+		 if(val2 != val1)
+		 {
+			 debug_msg("can not read memory[val_in=0x%02x val_out=0x%02x index=%d]\n", val1, val2, i);
+	         //return ;
+	     }
+	     val1++;
+	 }
+}
+
+
+void testSetDLP(uint8_t addr,uint16_t value)
+{
+	uint16_t status;
+	uint8_t data;
+	debug_msg("Write DLP addr=%02x,val=%02x\n",addr,value);
+	dev_DLP_Write(addr,((value>>8)&0xff));
+	dev_DLP_Write(addr,(value&0xff));
+
+}
+
+void testGetDLP(uint8_t addr,uint8_t value)
+{
+	uint8_t byVal=0;
+	dev_DLP_Read(addr,&byVal);
+	debug_msg("Read DLP addr=%02x,val=%02x\n",addr,byVal);
+
+}
+
+
 
 }
 #endif /* __cplusplus */

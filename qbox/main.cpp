@@ -163,11 +163,13 @@ void taskCheckInputSignal()
 				{
 					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
 					EntSetting::Instance()->setInputInfoSize(i,702,480);
+					test_msg("chech signal =%d,702_480",i);
 				}
 				else if(model == TYPE_INPUT_SIZE_1024_768)
 				{
 					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
 					EntSetting::Instance()->setInputInfoSize(i,1024,768);
+					test_msg("chech signal =%d,1024_768",i);
 				}
 			}
 			else

@@ -130,13 +130,13 @@ void AppScale::chipTest()
     for(regAddr = 0x08, i = 0x08; i < 0x48; i++, regAddr++)
     {
         val1 = regAddr;
-        SPI_Write(TYPE_CHIP_C753, regAddr, val1);
+        SPI_Write(0, regAddr, val1);
     }
 
     for(regAddr = 0x08, i = 0x08; i < 0x48; i++, regAddr++)
     {
         val1 = regAddr;
-        SPI_Read(TYPE_CHIP_C753, regAddr,val2);
+        SPI_Read(0, regAddr,val2);
         if(val2 != val1)
         {
             //SPCMsgErr("can not read bank register value[val1=0x%02x val2=0x%02x addr=0x%02x]\n", val1, val2, regAddr, 0);
@@ -1843,4 +1843,28 @@ void AppScale::setInputSignalModel(uint32_t chId,uint32_t model)
 	initScal(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,outHw,outVw);
 
 }
+
+void AppScale::setOSDSize(uint32_t wide,uint32_t high)
+{
+
+	debug_msg("setOSDSize  wide:%d,high:%d",wide,high);
+
+	C753SetOSDACTHorizontalWidth(wide);
+	C753SetOSDACTVerticalWidth(high);
+
+}
+
+void AppScale::setOSDPosition(uint32_t posX,uint32_t posY)
+{
+
+	debug_msg("setOSDSize  posX:%d,posY:%d",posX,posY);
+
+	C753SetOSDACTHorizontalStart(posX);
+	C753SetOSDACTVerticalStart(posY);
+
+}
+
+
+
+
 
