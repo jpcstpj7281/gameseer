@@ -60,7 +60,6 @@ class ModeMgr{
     inline public function removeMode( Mode:Mode):Void{ _modes.remove(Mode); }
     public function closeAll( ):Void{ 
         for ( i in _modes){
-            i.close();
             removeMode(i);
         }
     }

@@ -120,28 +120,34 @@ class ModeExecJob extends Job {
 
     public var _modeIndex:Int;
     var _isDone:Bool;
+    var _isLoading:Bool;
 
     public function new (index:Int, task:Task, modeIndex:Int = 0){
         super(index, task);
         _modeIndex = modeIndex ;
+        _isLoading = false;
     }
 
     function cbDone(){
         MainStage.getInst().resetScreenPlate();
         _isDone = true;
-        trace("test");
     }
 
     override public function run(date:Date):Bool{
         if ( _isRunning){
             var ms = ModeMgr.getInst()._modes;
-            if ( ms.length > _modeIndex){
+            if ( ms.length > _modeIndex && _isLoading == false){
                 _isDone = false;
+                _isLoading = true;
+                trace("test");
                 ms[_modeIndex].load(cbDone);
+            }
+            if (_isLoading ){
                 if (_cbRun!= null) _cbRun();
             }
             if (_isDone){
                 stop(date);
+                _isLoading = false;
                 return false;
             }else return true;
         }

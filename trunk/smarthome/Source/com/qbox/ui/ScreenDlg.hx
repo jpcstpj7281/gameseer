@@ -45,6 +45,7 @@ class ScreenDlg extends ListDialog{
 
     public override function onMouseClick():Void{ }
 
+    function cbConnectInit():Void{}
 
     function onConnBtnMouseClick( evt:MouseEvent ):Void{
 #if neko
@@ -64,7 +65,7 @@ class ScreenDlg extends ListDialog{
             _screen.connect();
             if (_screen._isFailed == false && _screen.isConected() ){
                 trace("connected");
-                _screen.connectedInit();
+                _screen.connectedInit(cbConnectInit);
 #if neko
                 _connBtn.text = "disc";
 #else

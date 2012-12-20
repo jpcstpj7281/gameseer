@@ -18,12 +18,17 @@ class Qbox extends SMConnection{
     public var _outputs:Hash<String>;
 
     public var _version:String;
+
+    var _initCounter:Int;
+    var _cbInited:Void->Void;
+
     public function new(){
         super( "127.0.0.1", 5000);
         _version = "1.0";
 
         _inputs = new Hash<String>();
         _outputs = new Hash<String>();
+        _initCounter = 0;
     }
 
     public function loadVersion(){
@@ -69,6 +74,7 @@ class Qbox extends SMConnection{
         for ( i in 1...5){
             _outputs.set( ""+i, outputs.get("out"+i) );
         }
+        cbConnectedInit();
     }
 
     public function loadInputsResolution(){
@@ -100,6 +106,7 @@ class Qbox extends SMConnection{
                 break;
             }
         }
+        cbConnectedInit();
     }
     public function loadOutputsResolution( out:String){
         clearData();
@@ -118,12 +125,23 @@ class Qbox extends SMConnection{
         //}
     }
 
-    public function connectedInit():Bool{
+    function cbConnectedInit():Void{
+        --_initCounter;
+        if (_initCounter==0){
+            var tmp = _cbInited;
+            _cbInited = null;
+            tmp();
+        }
+    }
+
+    public function connectedInit( cb:Void->Void):Bool{
+        if (_initCounter>0){trace("_initCounter > 0");return false;}
+        _cbInited = cb;
+
+        _initCounter +=3;
         loadInput();
         loadOutput();
-        //loadOutputsResolution("out0");
         closeAllWnd();
-        //loadWnds();
         return true;
     }
 
@@ -135,6 +153,7 @@ class Qbox extends SMConnection{
     }
 
     function cbCloseAllWnd( args:Dynamic){
+        cbConnectedInit();
         trace(args);
     }
 
