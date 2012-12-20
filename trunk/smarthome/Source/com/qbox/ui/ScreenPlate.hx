@@ -235,7 +235,9 @@ class ScreenPlate extends CommDialog{
             if ( _isMoving && _movingWnd !=null ){
                 unselectAllWnd();
                 _movingWnd._wnd._isSelected = true;
-                _movingWnd.moveWnd( cast evt.stageX - _movex, cast evt.stageY - _movey);
+                if(_movingWnd.moveWnd( cast evt.stageX - _movex, cast evt.stageY - _movey)==false){
+                    trace("failed to move window");
+                };
             }else if ( _isResize && _movingWnd != null && evt.stageX != _downx && evt.stageY != _downy){
                 var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
                 var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
@@ -259,7 +261,6 @@ class ScreenPlate extends CommDialog{
                         _movingWnd.closeWnd();
                         _movingWnd.parent.removeChild(_movingWnd);
                         cast(_mgr, ListDialogMgr)._movableInstances.remove(_movingWnd);
-                        WndMgr.getInst().removeWnd(_movingWnd._wnd);
                     }else{
                         var firstHit = true;
                         var ms = cast(_mgr, ListDialogMgr)._movableInstances;
@@ -315,9 +316,14 @@ class ScreenPlate extends CommDialog{
                         if (  ChannelMgr.getInst()._currSelected != null ) {
                             var win = new WndGraphicDlg(_mgr);
                             unselectAllWnd();
-                            win.openWnd( _downx, _downy, cast w, cast h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
-                            win.switchSelect();
-                            win.show();
+                            if(win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected)){
+                                win.switchSelect();
+                                win.show();
+                            } else{
+                                win.clear();
+                                cast(_mgr, ListDialogMgr)._movableInstances.remove(win);
+                                trace("failed to open window, no resource or busy!");
+                            }
                         }else{
                             var ms = cast(_mgr, ListDialogMgr)._movableInstances;
                             if ( ms.length > 0 ){

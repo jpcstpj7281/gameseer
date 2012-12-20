@@ -442,8 +442,7 @@ class Screen extends Qbox{
                 trace( "screen: "+_ipv4 +"there is no 753 port available to set 753 channel!");
                 return false;
             }
-            else
-                _753ports.set(p, wnd);
+            else _753ports.set(p, wnd);
         }
         _currCB = cbSetChannelFunc;
         clearData();

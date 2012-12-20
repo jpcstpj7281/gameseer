@@ -88,17 +88,17 @@ class Ring{
             if ( i == c._screen){
                 if ( i.get753Port(wnd) == null){
                     i.set753Channel( c._inport, cbSetup753, wnd);
-                    trace("screen "+i._ipv4 +"set up 753 to channel port: "+c._inport);
+                    trace("screen "+i._ipv4 +" set up 753 to channel port: "+c._inport);
                 }else{
-                    trace("screen "+i._ipv4 +"already set up 753 to channel port: "+c._inport);
+                    trace("screen "+i._ipv4 +" already set up 753 to channel port: "+c._inport);
                     cbSetup753(null, null);
                 }
             }else{
                 if ( i.get753Port(wnd) == null){
                     i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
-                    trace("screen "+i._ipv4 +"set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
+                    trace("screen "+i._ipv4 +" set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
                 }else{
-                    trace("screen "+i._ipv4 +"already set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
+                    trace("screen "+i._ipv4 +" already set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
                     cbSetup753(null, null);
                 }
             }
