@@ -6,7 +6,6 @@ import base.data.DataLoader;
 class WndMgr {
 
     public static var inst:WndMgr;
-    var _opCounter:Int;
     var _cbDone:Void->Void;
     inline public static function getInst():WndMgr{
         if ( inst == null) {
@@ -27,7 +26,6 @@ class WndMgr {
         _wnds =  new Array<Wnd>();
         _minLayer = 10;
         _maxLayer = 10;
-        _opCounter = 0;
     }
 
     public function createWnd():Wnd{
@@ -39,28 +37,27 @@ class WndMgr {
 
     inline public function removeWnd( wnd:Wnd):Void{ _wnds.remove(wnd); }
     public function closeAll( cb:Void->Void ):Void{ 
-        if (_opCounter > 0 ){ trace("_opCounter not zero"); return;}
-        if (_cbDone != null ){ trace("_cbDone not null"); return;}
         _cbDone = cb;
-
-        _opCounter += _wnds.length;
-
-        var tmps:Array<Wnd> = _wnds;
-        _wnds = new Array<Wnd>();
-        for ( i in tmps){
-            i.close( cbCloseAll);
-        }
-
+        cbCloseAll();
     }
 
     function cbCloseAll():Void{
-        --_opCounter;
-        if (_opCounter == 0 && _cbDone != null){
+        var wnd:Wnd= null;
+        if (_wnds!= null && _wnds.length > 0){
+            wnd= _wnds[0];
+            _wnds.remove(wnd);
+        }
+
+        if ( wnd==  null){
             var tmp = _cbDone;
             _cbDone = null;
             tmp();
+            trace("closed all wnds");
             return;
         }
+
+        trace("close wnd screen..."+ _wnds.length);
+        wnd.close(cbCloseAll);
     }
 
     public function removeQbox( c:Wnd){

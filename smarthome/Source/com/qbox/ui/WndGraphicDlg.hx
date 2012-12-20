@@ -63,16 +63,41 @@ class WndGraphicDlg extends CommDialog{
     public function shiftLeftUpWnd( isMax:Bool = true){
         if (_isPossessd ) return false;
         if ( isMax){
+            //calculate whether is this width already left up max of current screen;
+            var px = this.x - ScreenMgr.getInst()._virtualX;
+            var py = this.y - ScreenMgr.getInst()._virtualY;
+            var totalcol = ScreenMgr.getInst()._col;
+            var totalrow = ScreenMgr.getInst()._row;
+            var vw = ScreenMgr.getInst()._virtualWidth/totalcol;
+            var vh = ScreenMgr.getInst()._virtualHeight/totalrow;
+            var minCol:Float = ScreenMgr.getInst()._virtualX;
+            var minRow:Float = ScreenMgr.getInst()._virtualY;
+
+            for ( i in 0...totalcol){
+                var cw = vw * (totalcol - i-1) ;
+                if ( px > cw){
+                    minCol = cw;
+                    break;
+                }
+            }
+            for ( i in 0...totalrow){
+                var ch = vh * (totalrow - i -1);
+                if ( py > ch){
+                    minRow= ch;
+                    break;
+                }
+            }
+
             var rx = _wnd._virtualWidth + _wnd._virtualX;
             var dy = _wnd._virtualHeight + _wnd._virtualY;
 
-            x=_wnd._virtualX = ScreenMgr.getInst()._virtualX;
-            y=_wnd._virtualY = ScreenMgr.getInst()._virtualY;
+            this.x=_wnd._virtualX = ScreenMgr.getInst()._virtualX + minCol;
+            this.y=_wnd._virtualY = ScreenMgr.getInst()._virtualY + minRow;
 
-            var w =  rx -  _wnd._virtualX;
-            var h =  dy - _wnd._virtualY;
+            _wnd._virtualWidth =  rx -  _wnd._virtualX;
+            _wnd._virtualHeight =  dy - _wnd._virtualY;
 
-            return resizeWnd(w,h);
+            return resizeWnd(_wnd._virtualWidth,_wnd._virtualHeight);
         }
         return false;
     }
@@ -80,9 +105,38 @@ class WndGraphicDlg extends CommDialog{
     public function shiftRightDownWnd( isMax:Bool = true){
         if (_isPossessd ) return false;
         if ( isMax){
-            var w =  ScreenMgr.getInst()._virtualWidth +ScreenMgr.getInst()._virtualX -  _wnd._virtualX;
-            var h =  ScreenMgr.getInst()._virtualHeight +ScreenMgr.getInst()._virtualY - _wnd._virtualY;
 
+            //calculate whether is this width already right down max of current screen;
+            var px = this.x + _redrawW;
+            var py = this.y + _redrawH;
+            var totalcol = ScreenMgr.getInst()._col;
+            var totalrow = ScreenMgr.getInst()._row;
+            var vw = ScreenMgr.getInst()._virtualWidth/totalcol;
+            var vh = ScreenMgr.getInst()._virtualHeight/totalrow;
+            var maxCol:Float = vw *totalcol;
+            var maxRow:Float = vh *totalrow;
+
+            for ( i in 0...totalcol){
+                var cw = vw * (i+1) ;
+                if ( px < cw){
+                    maxCol = cw;
+                    break;
+                }
+            }
+            for ( i in 0...totalrow){
+                var ch = vh * (i+1);
+                if ( py < ch){
+                    maxRow= ch;
+                    break;
+                }
+            }
+            //trace(px);
+            //trace(py);
+            //trace( maxCol);
+            //trace( maxRow);
+
+            var w = maxCol - _wnd._virtualX;
+            var h = maxRow - _wnd._virtualY;
             return resizeWnd(w,h);
         }
         return false;
@@ -153,9 +207,13 @@ class WndGraphicDlg extends CommDialog{
         //trace(_wnd._virtualAreaW);
         //trace(_wnd._virtualAreaH);
 
-        _wnd.resize( w,h, cbDone);
         _redrawW = w;
         _redrawH = h;
+#if !neko
+        _wnd.resize( w,h, cbDone);
+#else
+        cbDone();
+#end
         return true;
     }
 
@@ -176,7 +234,7 @@ class WndGraphicDlg extends CommDialog{
         var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
         if ( x < ScreenMgr.getInst()._virtualX){
             //_wnd._virtualWidth = w = w - (ScreenMgr.getInst()._virtualX - x);
-            this.x = ScreenMgr.getInst()._virtualX;
+            x = this.x = ScreenMgr.getInst()._virtualX;
         }else if ( x < wx ){
             if ( wx < x+w) {
                 x = this.x = wx - w;
@@ -189,7 +247,7 @@ class WndGraphicDlg extends CommDialog{
         }
         if ( y < ScreenMgr.getInst()._virtualY){
             //_wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
-            this.y = ScreenMgr.getInst()._virtualY;
+            y = this.y = ScreenMgr.getInst()._virtualY;
         }else if ( y < hy) {
             if ( hy < y+h) {
                 y = this.y = hy - h;
@@ -269,9 +327,11 @@ class WndGraphicDlg extends CommDialog{
         redrawWnd(_redrawW,_redrawH);
     }
 
-    public function openWnd( x:Int, y:Int, w:Int, h:Int, channel:Channel, ring:Ring){
+    public function openWnd( x:Float, y:Float, w:Float, h:Float, channel:Channel, ring:Ring){
         if (_isPossessd ) return false;
         _isPossessd = true;
+
+        _wnd = WndMgr.getInst().createWnd();
         //calculate the wnd size in screen.
         var wx = ScreenMgr.getInst()._virtualX +ScreenMgr.getInst()._virtualWidth;
         var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
@@ -281,16 +341,21 @@ class WndGraphicDlg extends CommDialog{
         }else if ( x < wx ){
             this.x = x;
             if ( x+w > wx) _wnd._virtualWidth = w = wx - x;
-        }else return false;
+        }else {
+            WndMgr.getInst().removeWnd(_wnd);
+            return false;
+        }
         if ( y < ScreenMgr.getInst()._virtualY){
             _wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
             this.y = ScreenMgr.getInst()._virtualY;
         }else if ( y < hy) {
             this.y = y;
             if ( y+h > hy) _wnd._virtualHeight = h = hy - y;
-        }else return false;
+        }else {
+            WndMgr.getInst().removeWnd(_wnd);
+            return false;
+        }
 
-        _wnd = WndMgr.getInst().createWnd();
         _redrawW = w;
         _redrawH = h;
         _wnd.open( x,y,w,h, channel, ring, cbDone);

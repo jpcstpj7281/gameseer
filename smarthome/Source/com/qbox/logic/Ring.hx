@@ -76,7 +76,7 @@ class Ring{
                 trace("not in ring: "+ i._ipv4);
                 return false;
             }
-            if ( !i.has753Available() ){
+            if ( !i.has753Available() && i.get753Port(wnd) ==null ){
                 trace("not 753 available: "+ i._ipv4);
                 return false;
             }
@@ -86,22 +86,33 @@ class Ring{
         _count += ss.length;
         for (i in ss){
             if ( i == c._screen){
-                i.set753Channel( c._inport, cbSetup753, wnd);
+                if ( i.get753Port(wnd) == null){
+                    i.set753Channel( c._inport, cbSetup753, wnd);
+                    trace("screen "+i._ipv4 +"set up 753 to channel port: "+c._inport);
+                }else{
+                    trace("screen "+i._ipv4 +"already set up 753 to channel port: "+c._inport);
+                    cbSetup753(null, null);
+                }
             }else{
-                i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
+                if ( i.get753Port(wnd) == null){
+                    i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
+                    trace("screen "+i._ipv4 +"set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
+                }else{
+                    trace("screen "+i._ipv4 +"already set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
+                    cbSetup753(null, null);
+                }
             }
         }
         return true;
     }
 
     function cbSetup753( args:Dynamic, s:Screen){
-        if ( args.get("error") == "1") {
+        if ( args != null && args.get("error") == "1") {
             trace("there is a error occurred at qbox: "+ s._ipv4);
-            trace( args);
             _cb753Setup("error");
-            _cb753Setup= null;
             return;
         }
+
         --_count;
         if (_count == 0){
             var tmp = _cb753Setup;

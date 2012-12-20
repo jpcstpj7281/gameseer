@@ -83,14 +83,20 @@ class Wnd{
         return true;
     }
 
-    public function setRealArea( x:Int, y:Int, w:Int, h:Int):Bool{
-        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
-        if ( _channel == null) {trace("null channel!");return false;}
+    public function setRealAreaOnly( x:Int, y:Int, w:Int, h:Int){
 
         _virtualAreaW = (w / _channel._w) * _virtualWidth;
         _virtualAreaH = (h / _channel._h) * _virtualHeight;
         _virtualAreaX = (x / _channel._w) * _virtualWidth;
         _virtualAreaY = (y / _channel._h) * _virtualHeight;
+
+    }
+
+    public function setRealArea( x:Int, y:Int, w:Int, h:Int):Bool{
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _channel == null) {trace("null channel!");return false;}
+
+        setRealAreaOnly(x,y,w,h);
 
         resizeWndChannelArea();
         return true;
@@ -132,6 +138,11 @@ class Wnd{
         }
     }
 
+    function cbSetupChannelArea( args, ss){
+        --_opCounter;
+        showWnd( cbDescCountFunc1);
+    }
+
     public function changeChannel( c:Channel){
         if ( _channel != null && _channel !=c ){
             _channel = c;
@@ -157,10 +168,6 @@ class Wnd{
         }
     }
 
-    function cbSetupChannelArea( args, ss){
-        --_opCounter;
-        showWnd( cbDescCountFunc1);
-    }
 
     function cbDescCountFunc2( a1:Dynamic, a2:Dynamic):Void{
         --_opCounter;
@@ -201,7 +208,7 @@ class Wnd{
         _ring = ring;
 
 #if !neko
-        setRealArea( 0, 0, _channel._w, _channel._h);
+        setRealAreaOnly( 0, 0, _channel._w, _channel._h);
 
         _screens = new Array<Screen>();
         _inputSize = new Array<InputSize>();
@@ -214,7 +221,7 @@ class Wnd{
             }
         }
         calcInputSize( _inputSize, vs);
-        //trace("test");
+        ////trace("test");
         setupChannel();
 #else
         ++_opCounter ;
@@ -238,7 +245,7 @@ class Wnd{
     }
 
     function cbSetup753RingChannel( args:Dynamic){
-        //trace(args);
+        trace(args);
         setWnd();
     }
     function cbSetupChannel( args:Dynamic, s:Screen){
@@ -287,7 +294,7 @@ class Wnd{
 #if !neko
         for ( i in _screens){
             if ( i.get753Port( this ) == null ){
-                trace("screen: "+ i._ipv4 +" resource unexisted!");
+                trace("screen: "+ i._ipv4 +" 753 resource unexisted!");
                 return ;
             }
         }
@@ -295,8 +302,8 @@ class Wnd{
         if ( _ring != null && _ring._isRingSetup == false){
             //ScreenMgr.getInst().setRing(ring);
             //trace(ring);
-            trace("test");
-            trace(cbRingSetupToSetChannelArea);
+            ////trace("test");
+            //trace(cbRingSetupToSetChannelArea);
             _ring.setupRing( _channel, this, cbRingSetupToSetChannelArea);
             return;
         }
@@ -428,17 +435,21 @@ class Wnd{
     function cbHideBeforeMoveWnd( args:Dynamic):Void{
         trace(args);
         --_opCounter;
+        //trace("test");
         if ( _opCounter == 0){
             if ( _closescreens.length > 0){
                 _opCounter+=_closescreens.length;
                 for (i in 0..._closescreens.length){
                     _closescreens[i].closeWnd( this, cbCloseBeforeMoveWnd);
+        //trace("test");
                 }
             }else{
                 ++_opCounter;
                 cbCloseBeforeMoveWnd( null, null);
+        //trace("test");
             }
         }
+        //trace("test");
     }
 
     function cbCloseBeforeMoveWnd( args:Dynamic, s:Screen):Void{
@@ -446,16 +457,21 @@ class Wnd{
         --_opCounter;
         if ( _opCounter == 0){
             if ( _createscreens.length > 0 && _ring != null ){
-                if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingBeforMoveWnd) == false){
+        //trace("test");
+                if ( _ring.setup753( this, _newscreens,  _channel, cbSetup753RingBeforMoveWnd) == false){
                     trace("resource error");
                 }
-            }else{
-                _opCounter+=_screens.length;
-                for (i in _screens){
+            }else if( _keepscreens.length> 0 ){
+                _opCounter+=_keepscreens.length;
+                for (i in _keepscreens){
                     i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWnd, this);
+        //trace("test");
                 }
+            }else{
+                trace("***error, move to nowhere!");
             }
         }
+        //trace("test");
     }
     function cbResizeWnd( args, ss){
         --_opCounter;
@@ -466,8 +482,7 @@ class Wnd{
 
     function cbSetup753RingBeforMoveWnd( args){
         _screens = _newscreens;
-        //_inputSize = _newinputSize;
-
+        //trace("test");
         if (  _ring != null){
             _opCounter += _screens.length;
             for( i in 0..._screens.length){
@@ -477,8 +492,10 @@ class Wnd{
                         Math.round(_inputSize[i].y), 
                         Math.round(_inputSize[i].w), 
                         Math.round(_inputSize[i].h), _channel, cbSetupChannelAreaBeforMoveWnd);
+        //trace("test");
             }
         }else{
+        //trace("test");
             ++_opCounter;
             cbSetupChannelAreaBeforMoveWnd(null, null);
         }
@@ -550,6 +567,7 @@ class Wnd{
 #end
         return true;
     }
+
     function cbCloseWnd( args:Dynamic, s:Screen){
         if ( args != null && args.get("error") == "1") { trace("close wnd failed");return; }
         else trace("close wnd succeed");

@@ -88,7 +88,7 @@ class Screen extends Qbox{
             }else{
                 isOutOfScreen = true;
                 screenh = screenw = 0;
-                trace("outofscreen");
+                trace("screen: "+_ipv4+" outofscreen");
             }
         }else{
             if ( x >= screenx && x <= screenx + _virtualWidth) {
@@ -104,7 +104,7 @@ class Screen extends Qbox{
             }else if ( x >screenx + _virtualWidth){
                 isOutOfScreen = true;
                 screenh = screenw = 0;
-                trace("outofscreen");
+                trace("screen: "+ _ipv4 +" outofscreen");
             }
         }
 
@@ -122,7 +122,7 @@ class Screen extends Qbox{
             }else{
                 isOutOfScreen = true;
                 screenh = screenw = 0;
-                trace("outofscreen");
+                trace("screen: "+_ipv4 +"outofscreen");
             }
         }else if ( !isOutOfScreen){
             if ( y >= screeny && y <= screeny + _virtualHeight){
@@ -138,7 +138,7 @@ class Screen extends Qbox{
             }else if(  x > screeny + _virtualHeight){
                 isOutOfScreen = true;
                 screenx = screeny = screenh = screenw = 0;
-                trace("outofscreen");
+                trace("screen: "+_ipv4 +"outofscreen");
             }
         }
 
@@ -163,6 +163,7 @@ class Screen extends Qbox{
 
     //correspond port of wnd, return a available port if cant find correspond port.
     public function get753Port( wnd:Wnd):String{
+        //trace( Lambda.count(_753ports));
         for ( i in _753ports.keys()){
             var w = _753ports.get(i);
             if (  w == wnd){
@@ -183,12 +184,12 @@ class Screen extends Qbox{
 
     public function setWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
-            trace("there is a wnd operation processing.");
+            trace("screen: "+_ipv4+"there is a wnd operation processing.");
         }
 
         var port:String = get753Port(wnd);
         if ( port == null){
-            trace("There is no port available to set wnd");
+            trace("screen: "+_ipv4 +"There is no port available to set wnd");
             return false;
         }
 
@@ -201,7 +202,7 @@ class Screen extends Qbox{
 
         _currCB = cbSetWndFunc;
         if (isOutOfScreen){
-            trace(""+_col+"|"+_row+":Out of screen");
+            trace("screen: "+_ipv4 + " "+_col+"|"+_row+":Out of screen");
             var outofscreen = new Hash<String>();
             outofscreen.set("out","null");
             outofscreen.set("error","0");
@@ -209,7 +210,7 @@ class Screen extends Qbox{
             return false;
         }
         else {
-            trace(""+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
+            trace("screen: "+_ipv4 +" "+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
 #if !neko
             //calculate real window size
             var pw = _resWidth /_virtualWidth ;
@@ -279,7 +280,7 @@ class Screen extends Qbox{
 #if !neko
         var p = get753Port(wnd);
         if ( p == null){
-            trace("null port error!");
+            trace("screen: "+ _ipv4 + " null port error!");
             return;
         }
         clearData();
@@ -350,7 +351,7 @@ class Screen extends Qbox{
 
     public function closeWnd( wnd:Wnd, cbCloseWndFunc:Dynamic->Screen->Void):Bool{
         if (_currCB != null){ trace("there is a wnd operation processing."); }
-        trace("closed wnd: "+_col+"|"+_row);
+        trace("screen: "+_ipv4 +" closed wnd: "+_col+"|"+_row);
         _currCB = cbCloseWndFunc;
 
         var out:String = null;
@@ -368,7 +369,7 @@ class Screen extends Qbox{
             }
         }
         if ( out == null){
-            trace("close null port error!");
+            trace("screen: +"+_ipv4+"close null port error!");
         }
 #if !neko
         clearData();
@@ -432,13 +433,13 @@ class Screen extends Qbox{
     }
 
     public function set753Channel( input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
-        if (_currCB != null){ trace("there is a wnd processing."); return false;}
+        if (_currCB != null){ trace("screen: "+_ipv4+"there is a wnd processing."); return false;}
 #if !neko
         var p = get753Port(wnd);
         if ( p == null){ 
             p = get753Port(null);
             if ( p == null){
-                trace( "there is no 753 port available to set 753 channel!");
+                trace( "screen: "+_ipv4 +"there is no 753 port available to set 753 channel!");
                 return false;
             }
             else
@@ -466,7 +467,7 @@ class Screen extends Qbox{
         if ( p == null){
             _ringports.set( out, wnd);
         }else{
-            trace( "there is no port:"+out+" available to set Ring channel!");
+            trace("screen: "+_ipv4 +"there is no port:"+out+" available to set Ring channel!");
             return;
         }
         clearData();
@@ -491,12 +492,12 @@ class Screen extends Qbox{
     }
 
     public function setLayer( l:Int,  cbSetLayerFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
-        if (_currCB != null){ trace("there is a wnd processing."); }
+        if (_currCB != null){ trace("screen: "+_ipv4 +"there is a wnd processing."); }
         _currCB = cbSetLayerFunc;
 #if !neko
         var p = get753Port(wnd);
         if ( p == null) {
-            trace("cannot find port of wnd");
+            trace("screen: "+_ipv4 +"cannot find port of wnd");
             return;
         }
         clearData();
@@ -522,13 +523,13 @@ class Screen extends Qbox{
 
     public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
-            trace("there is a wnd operation processing.");
+            trace("screen: "+_ipv4+" there is a wnd operation processing.");
             return false;
         }
 
         var port:String = get753Port(wnd);
         if ( port == null){
-            trace("There is no port available to set wnd");
+            trace("screen: " + _ipv4 +" there is no correspond port to resize wnd");
             return false;
         }
 
@@ -541,7 +542,7 @@ class Screen extends Qbox{
 
         _currCB = cbSetWndFunc;
         if (isOutOfScreen){
-            trace(""+_col+"|"+_row+":Out of screen");
+            trace("screen: "+_ipv4 +" "+_col+"|"+_row+":Out of screen");
             var outofscreen = new Hash<String>();
             outofscreen.set("out","null");
             outofscreen.set("error","0");
@@ -549,7 +550,7 @@ class Screen extends Qbox{
             return false;
         }
         else {
-            trace(""+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
+            trace("screen: "+_ipv4+" "+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
 #if !neko
             //calculate real window size
             var pw = _resWidth /_virtualWidth ;
