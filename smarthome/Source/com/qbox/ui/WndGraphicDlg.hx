@@ -91,13 +91,13 @@ class WndGraphicDlg extends CommDialog{
             var rx = _wnd._virtualWidth + _wnd._virtualX;
             var dy = _wnd._virtualHeight + _wnd._virtualY;
 
-            this.x=_wnd._virtualX = ScreenMgr.getInst()._virtualX + minCol;
-            this.y=_wnd._virtualY = ScreenMgr.getInst()._virtualY + minRow;
+            _wnd._virtualX = ScreenMgr.getInst()._virtualX + minCol;
+            _wnd._virtualY = ScreenMgr.getInst()._virtualY + minRow;
 
-            _wnd._virtualWidth =  rx -  _wnd._virtualX;
-            _wnd._virtualHeight =  dy - _wnd._virtualY;
+            var w =  rx -  _wnd._virtualX;
+            var h =  dy - _wnd._virtualY;
 
-            return resizeWnd(_wnd._virtualWidth,_wnd._virtualHeight);
+            return resizeWnd(w,h);
         }
         return false;
     }
@@ -149,6 +149,8 @@ class WndGraphicDlg extends CommDialog{
         _ay = _wnd._virtualAreaY;
         _aw = _wnd._virtualAreaW;
         _ah = _wnd._virtualAreaH;
+        this.x = _wnd._virtualX;
+        this.y = _wnd._virtualY;
 
         _virtualWnd.graphics.clear();
         _virtualWnd.graphics.lineStyle( 1, 0x121212, 1);
@@ -188,11 +190,11 @@ class WndGraphicDlg extends CommDialog{
         if (_isPossessd ) return false;
         _isPossessd = true;
 
-        if ( ScreenMgr.getInst()._virtualWidth +ScreenMgr.getInst()._virtualX -  this.x - w < 0){
-            w = ScreenMgr.getInst()._virtualWidth + ScreenMgr.getInst()._virtualX - this.x;
+        if ( ScreenMgr.getInst()._virtualWidth +ScreenMgr.getInst()._virtualX -  _wnd._virtualX - w < 0){
+            w = ScreenMgr.getInst()._virtualWidth + ScreenMgr.getInst()._virtualX - _wnd._virtualX;
         }
-        if ( ScreenMgr.getInst()._virtualHeight +ScreenMgr.getInst()._virtualY - this.y - h < 0 ){
-            h = ScreenMgr.getInst()._virtualHeight + ScreenMgr.getInst()._virtualY - this.y;
+        if ( ScreenMgr.getInst()._virtualHeight +ScreenMgr.getInst()._virtualY - _wnd._virtualY - h < 0 ){
+            h = ScreenMgr.getInst()._virtualHeight + ScreenMgr.getInst()._virtualY - _wnd._virtualY;
         }
 
         var pw = w / _wnd._virtualWidth;
@@ -218,13 +220,11 @@ class WndGraphicDlg extends CommDialog{
     }
 
     public function resurrectWnd(wnd:Wnd){
-        this.x = wnd._virtualX;
-        this.y = wnd._virtualY;
         _wnd = wnd;
         redrawWnd( wnd._virtualWidth, wnd._virtualHeight);
     }
 
-    public function moveWnd( x:Float, y:Float){
+    public function moveWnd( x:Float, y:Float):Bool{
         if (_isPossessd ) return false;
         _isPossessd = true;
 
@@ -258,10 +258,9 @@ class WndGraphicDlg extends CommDialog{
         }else{
             return false;
         }
-        _wnd.move( x, y, cbDone);
         _redrawW = w;
         _redrawH = h;
-        return true;
+        return _wnd.move( x, y, cbDone);
     }
 
     public function moveArea( x:Int, y:Int){
@@ -291,8 +290,6 @@ class WndGraphicDlg extends CommDialog{
                 ay = y - this.y;
             }
         }
-
-
         if ( _wnd.setVirtualArea( ax, ay, aw, ah) ){
             redrawWnd(_redrawW, _redrawH);
             return true;
@@ -358,12 +355,12 @@ class WndGraphicDlg extends CommDialog{
 
         _redrawW = w;
         _redrawH = h;
-        _wnd.open( x,y,w,h, channel, ring, cbDone);
-
-        return true;
+        return _wnd.open( x,y,w,h, channel, ring, cbDone);
     }
 
-    function cbCloseWnd():Void{}
+    function cbCloseWnd():Void{
+        WndMgr.getInst().removeWnd(_wnd);
+    }
     public function closeWnd( ){
         _wnd.close(cbCloseWnd);
         _virtualWnd.graphics.clear();

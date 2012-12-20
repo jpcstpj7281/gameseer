@@ -156,16 +156,12 @@ class Wnd{
     public function cbChangeChannel1(a1):Void{
         --_opCounter;
         if ( _opCounter == 0){
-            ++_opCounter;
             _channel._screen.set753Channel(_channel._inport, cbChangeChannel2, this);
         }
     }
 
     function cbChangeChannel2( a1, a2):Void{
-        --_opCounter;
-        if (_opCounter == 0){
-            setVirtualArea( _virtualAreaX, _virtualAreaY, _virtualAreaW, _virtualAreaH);
-        }
+        setRealArea( 0,0,_channel._w, _channel._h);
     }
 
 
@@ -222,34 +218,34 @@ class Wnd{
         }
         calcInputSize( _inputSize, vs);
         ////trace("test");
-        setupChannel();
+        return setupChannel();
 #else
         ++_opCounter ;
         cbShowWnd(null);
-#end
         return true;
+#end
     }
 
-    public function setupChannel(){
+    public function setupChannel():Bool{
         if ( _ring == null){
-            if ( _channel._screen.has753Available() == true ){
+            if ( _channel._screen.has753Available() ){
                 _channel._screen.set753Channel(_channel._inport, cbSetupChannel, this);
+                return true;
             }else{
                 trace("dont have 753 port available!");
+                return false;
             }
         }else{
-            if ( _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel) == false){
-                trace("resource error");
-            }
+            return _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel);
         }
     }
 
     function cbSetup753RingChannel( args:Dynamic){
-        trace(args);
+        trace("wnd 753 ring channel setted!");
         setWnd();
     }
     function cbSetupChannel( args:Dynamic, s:Screen){
-        trace(args);
+        trace("wnd channel setted!");
         setWnd();
     }
 
@@ -382,6 +378,13 @@ class Wnd{
             if ( obj.isOutScreen == false){
                 _newscreens.push(i);
                 vs.push(obj);
+            }
+        }
+
+        for( i in _newscreens){
+            if ( i.get753Port( this) == null){
+                trace("no enough 753 port!");
+                return false;
             }
         }
 
@@ -552,7 +555,6 @@ class Wnd{
     public function close( cb:Void->Void){
         //var ss = ScreenMgr.getInst()._screens;
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
-        if ( _cbDone != null) {trace("_cbDone not null"); return false;}
         _cbDone = cb;
 
 #if !neko
