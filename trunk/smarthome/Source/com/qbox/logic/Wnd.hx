@@ -288,18 +288,7 @@ class Wnd{
 
     function setWnd(){
 #if !neko
-        for ( i in _screens){
-            if ( i.get753Port( this ) == null ){
-                trace("screen: "+ i._ipv4 +" 753 resource unexisted!");
-                return ;
-            }
-        }
-
-        if ( _ring != null && _ring._isRingSetup == false){
-            //ScreenMgr.getInst().setRing(ring);
-            //trace(ring);
-            ////trace("test");
-            //trace(cbRingSetupToSetChannelArea);
+        if ( _ring != null ){
             _ring.setupRing( _channel, this, cbRingSetupToSetChannelArea);
             return;
         }
