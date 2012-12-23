@@ -7,7 +7,7 @@ class Ring{
 
     public var _heads:Array<RingNode>;
     public var _nodeIndex:Int;
-    public var _isRingSetup:Bool;
+    //public var _isRingSetup:Bool;
     public var _count:Int;
     public var _cbRingSetup:Dynamic->Void;
     public var _cb753Setup:Dynamic->Void;
@@ -17,14 +17,11 @@ class Ring{
     public function new( index:Int){
         _heads = new Array<RingNode>();
         _nodeIndex = index;
-        _isRingSetup = false;
+        //_isRingSetup = false;
         _count = 0;
     }
 
-    public function setupRing(c:Channel, wnd:Wnd, cb:Dynamic->Void){
-        if ( _count > 0) {trace("_count:"+_count);return ;}
-        if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return;}
-
+    public function getRingNodeIfRingAvailable(c:Channel, wnd:Wnd ):Array<RingNode>{
         var rns = new Array<RingNode>();
         for ( i in _heads){
             //trace( "test");
@@ -37,25 +34,52 @@ class Ring{
                 }
             }
         }
-        _cbRingSetup = cb;
-        _count += rns.length;
-        //trace(_count);
+
         for ( n in rns){
-            trace( "set ring of qbox: "+ n._screen._ipv4);
+            var out:String = null;
             if ( c._screen == n._screen){
-                n._screen.setRingChannel( n._outport[_nodeIndex], c._inport, cbSetupRing, wnd);
+                out = c._inport;
             }else{
-                n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, wnd);
+                out = n._inport[_nodeIndex];
+            }
+            var p:Wnd = n._screen._ringports.get(out);
+            if ( p != null && p != wnd){
+                return null;
             }
         }
-        _isRingSetup = true;
+        return rns;
+    }
+
+    public function setupRing(c:Channel, wnd:Wnd, cb:Dynamic->Void):Bool{
+        if ( _count > 0) {trace("_count:"+_count);return false;}
+        if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return false;}
+
+        var isSucceed= true;
+        var rns = getRingNodeIfRingAvailable( c, wnd);
+        if ( rns != null){
+            _cbRingSetup = cb;
+            _count += rns.length;
+            for ( n in rns){
+                trace( "set ring of qbox: "+ n._screen._ipv4);
+                if ( c._screen == n._screen){
+                    if( n._screen.setRingChannel( n._outport[_nodeIndex], c._inport, cbSetupRing, wnd)){
+                        isSucceed = false;
+                    }else{ cbSetupRing(null,null); }
+                }else{
+                    if(n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, wnd)){
+                        isSucceed = false;
+                    }else{ cbSetupRing(null,null); }
+                }
+            }
+        }
+        return false;
     }
 
     function cbSetupRing( args:Dynamic, s:Screen){
-        if ( args.get("error") == "1") {
+        if ( args!= null && args.get("error") == "1") {
             trace("there is a error occurred at qbox: "+ s._ipv4);
-            trace( args);
-            _cbRingSetup("error");
+            var tmp = _cbRingSetup;
+            tmp("error");
             _cbRingSetup = null;
             return;
         }
@@ -85,22 +109,23 @@ class Ring{
         _cb753Setup= cb;
         _count += ss.length;
         for (i in ss){
+            //var p = i.get753Port(wnd);
             if ( i == c._screen){
-                if ( i.get753Port(wnd) == null){
+                //if ( p == null ){
                     i.set753Channel( c._inport, cbSetup753, wnd);
                     trace("screen "+i._ipv4 +" set up 753 to channel port: "+c._inport);
-                }else{
-                    trace("screen "+i._ipv4 +" already set up 753 to channel port: "+c._inport);
-                    cbSetup753(null, null);
-                }
+                    //}else{
+                    //trace("screen "+i._ipv4 +" already set up 753 to channel port: "+c._inport);
+                    //cbSetup753(null, null);
+                    //}
             }else{
-                if ( i.get753Port(wnd) == null){
+                //if ( p == null  ){
                     i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
                     trace("screen "+i._ipv4 +" set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
-                }else{
-                    trace("screen "+i._ipv4 +" already set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
-                    cbSetup753(null, null);
-                }
+                    //}else{
+                    //trace("screen "+i._ipv4 +" already set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
+                    //cbSetup753(null, null);
+                    //}
             }
         }
         return true;

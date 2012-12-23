@@ -225,13 +225,14 @@ class Mode{
                         var ringindex = datas[15];
                         var chn = ChannelMgr.getInst().getChannel( cip, cinport, Std.parseInt(cw), Std.parseInt(ch), col, row );
                         if (chn != null){
-                            var win = WndMgr.getInst().createWnd();
+                            var l= Std.parseInt(layer);
+                            WndMgr.getInst().setIfBiggerLayer(l);
+                            var win = WndMgr.getInst().createWnd(l);
                             win._channel = chn;
                             var ring:Ring = null;
                             if ( ringindex != "null"){
                                 win._ring = RingMgr.getInst()._rings[ Std.parseInt(ringindex)];
                             }
-                            win._layer = Std.parseInt(layer);
                             win._virtualAreaX = Std.parseFloat(ax);
                             win._virtualAreaY = Std.parseFloat(ay);
                             win._virtualAreaW = Std.parseFloat(aw);
@@ -250,7 +251,7 @@ class Mode{
             }
         }
         if (_currLoadWnds.length > 0){
-            onLoadingWnds();
+            onLoadingWnds(true);
         }else{
             var tmp = _cbDone;
             _cbDone = null;
@@ -285,7 +286,7 @@ class Mode{
 #end
     }
 
-    public function onLoadingWnds():Void{
+    public function onLoadingWnds(args):Void{
 
         var wnd:Wnd = null;
         if (_currLoadWnds != null && _currLoadWnds.length > 0){

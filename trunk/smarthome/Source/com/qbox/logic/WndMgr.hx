@@ -28,20 +28,50 @@ class WndMgr {
         _maxLayer = 10;
     }
 
-    public function createWnd():Wnd{
+    public function setIfBiggerLayer( l:Int){
+        if ( l > _maxLayer){
+            _maxLayer = l;
+        }
+    }
+
+    public function setExistedWndLayerMax(wnd:Wnd){
+        if( wnd._layer < _maxLayer ){
+            wnd._layer = _maxLayer+=1;
+            _wnds.remove(wnd);
+            _wnds.push(wnd);
+        }
+    }
+
+    public function createWnd( layer:Int = 0):Wnd{
         var c = new Wnd();
-        c._layer = _maxLayer+=1;
+        if ( layer == 0) c._layer = _maxLayer+=1;
+        else {
+            c._layer = layer;
+            for ( i in 0..._wnds.length){
+                if ( layer < _wnds[i]._layer){
+                    _wnds.insert( i, c);
+                    trace("test");
+                    return c;
+                }
+            }
+        }
+        trace("test");
         _wnds.push( c);
         return c;
+
+        //var c = new Wnd();
+        //c._layer = _maxLayer+=1;
+        //_wnds.push( c);
+        //return c;
     }
 
     inline public function removeWnd( wnd:Wnd):Void{ _wnds.remove(wnd); }
     public function closeAll( cb:Void->Void ):Void{ 
         _cbDone = cb;
-        cbCloseAll();
+        cbCloseAll(true);
     }
 
-    function cbCloseAll():Void{
+    function cbCloseAll( args):Void{
         var wnd:Wnd= null;
         if (_wnds!= null && _wnds.length > 0){
             wnd= _wnds[0];
