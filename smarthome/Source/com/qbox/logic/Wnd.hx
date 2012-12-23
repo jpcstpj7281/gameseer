@@ -41,7 +41,7 @@ class Wnd{
 
     public var _isSelected:Bool;
 
-    var _cbDone:Void->Void;
+    var _cbDone:Dynamic->Void;
 
     public function new(){
         //_x = 0;
@@ -60,17 +60,18 @@ class Wnd{
         return _opCounter > 0;
     }
 
-    public function setLayer( l:Int){
+    function setLayer( l:Int):Bool{
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _layer = l;
         _opCounter += _screens.length;
         for ( i in _screens){
             i.setLayer(_layer, cbSetLayer, this);
         }
+        return true;
     }
 
     public function cbSetLayer( args, ss){
         --_opCounter;
-        trace(args);
     }
 
     public function toFront():Bool{
@@ -83,22 +84,20 @@ class Wnd{
         return true;
     }
 
-    public function setRealAreaOnly( x:Int, y:Int, w:Int, h:Int){
-
+    public function setRealAreaOnly( x:Float, y:Float, w:Float, h:Float){
         _virtualAreaW = (w / _channel._w) * _virtualWidth;
         _virtualAreaH = (h / _channel._h) * _virtualHeight;
         _virtualAreaX = (x / _channel._w) * _virtualWidth;
         _virtualAreaY = (y / _channel._h) * _virtualHeight;
-
     }
 
-    public function setRealArea( x:Int, y:Int, w:Int, h:Int):Bool{
+    public function setRealArea( x:Float, y:Float, w:Float, h:Float):Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         if ( _channel == null) {trace("null channel!");return false;}
 
         setRealAreaOnly(x,y,w,h);
 
-        resizeWndChannelArea();
+        resizeChannelArea();
         return true;
     }
 
@@ -111,12 +110,12 @@ class Wnd{
         _virtualAreaW = w;
         _virtualAreaH = h;
 #if !neko
-        resizeWndChannelArea();
+        resizeChannelArea();
 #end
         return true;
     }
 
-    function resizeWndChannelArea(){
+    function resizeChannelArea(){
         _inputSize = new Array<InputSize>();
         var vs = new Array<Dynamic>();
         for (i in _screens){ 
@@ -140,27 +139,48 @@ class Wnd{
 
     function cbSetupChannelArea( args, ss){
         --_opCounter;
-        showWnd( cbDescCountFunc1);
+        if ( _opCounter == 0){
+            showWnd( cbDescCountFunc1);
+        }
     }
 
     public function changeChannel( c:Channel){
         if ( _channel != null && _channel !=c ){
             _channel = c;
-            _opCounter+=_screens.length;
-            for (i in 0..._screens.length){
-                _screens[i].hideWnd( this, cbChangeChannel1);
-            }
+            //_opCounter+=_screens.length;
+            //for (i in 0..._screens.length){
+            //_screens[i].hideWnd( this, cbChangeChannel1);
+            //}
+            ++_opCounter;
+            cbChangeChannel1( null);
         }
     }
 
     public function cbChangeChannel1(a1):Void{
         --_opCounter;
-        if ( _opCounter == 0){
-            _channel._screen.set753Channel(_channel._inport, cbChangeChannel2, this);
+        if (_opCounter == 0){
+            if( _ring != null && _ring.getRingNodeIfRingAvailable(_channel, this) != null){
+                if(! _ring.setupRing( _channel, this, cbChangeChannel2)){
+                    trace("failed to setup ring");
+                }
+            }else{
+                trace("test");
+                _channel._screen.set753Channel(_channel._inport, cbChangeChannel4, this);
+            }
         }
     }
 
-    function cbChangeChannel2( a1, a2):Void{
+    function cbChangeChannel2( a1):Void{
+        if (_ring != null){
+            trace("test");
+            _ring.setup753( this, _screens,  _channel, cbChangeChannel3);
+        }
+    }
+
+    function cbChangeChannel4( a1,a2):Void{
+        cbChangeChannel3(a1);
+    }
+    function cbChangeChannel3( a1):Void{
         setRealArea( 0,0,_channel._w, _channel._h);
     }
 
@@ -187,11 +207,11 @@ class Wnd{
     }
 
 
-    inline public function resurrectWnd(cb:Void->Void){
+    inline public function resurrectWnd(cb:Dynamic->Void){
         return open( _virtualX, _virtualY, _virtualWidth, _virtualHeight, _channel, _ring, cb);
     }
 
-    public function open(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring, cb:Void->Void ){
+    public function open(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring, cb:Dynamic->Void ){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         if ( _cbDone != null) {trace("_cbDone not null"); return false; }
         _cbDone = cb;
@@ -228,15 +248,20 @@ class Wnd{
 
     public function setupChannel():Bool{
         if ( _ring == null){
-            if ( _channel._screen.has753Available() ){
-                _channel._screen.set753Channel(_channel._inport, cbSetupChannel, this);
-                return true;
-            }else{
+            if ( _channel._screen.has753Available()){
+                return _channel._screen.set753Channel(_channel._inport, cbSetupChannel, this);
+            }
+            else{
                 trace("dont have 753 port available!");
                 return false;
             }
         }else{
-            return _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel);
+            if ( _ring.getRingNodeIfRingAvailable( _channel, this) != null){
+                return _ring.setup753( this, _screens,  _channel, cbSetup753RingChannel);
+            }else{
+                trace("ring: "+_ring._nodeIndex+" not available!");
+                return false;
+            }
         }
     }
 
@@ -257,8 +282,8 @@ class Wnd{
         var iny:Float = 0;
         var inw:Float = 0;
         var inh:Float = 0;
-        var pw = _channel._w / _virtualWidth;
-        var ph = _channel._h / _virtualHeight;
+        var pw:Float = _channel._w / _virtualWidth;
+        var ph:Float = _channel._h / _virtualHeight;
         var rx = _virtualAreaX * pw;
         var ry = _virtualAreaY * ph;
         var rw = _virtualAreaW * pw;
@@ -286,14 +311,18 @@ class Wnd{
     }
 
 
-    function setWnd(){
+    function setWnd():Bool{
 #if !neko
-        if ( _ring != null ){
-            _ring.setupRing( _channel, this, cbRingSetupToSetChannelArea);
-            return;
+        if ( _ring != null){
+            if( _ring.setupRing( _channel, this, cbRingSetupToSetChannelArea)){
+                trace("failed to setup Ring!");
+                return false;
+            }
+            return true;
         }
 #end
         cbRingSetupToSetChannelArea(null);
+        return true;
     }
 
     //set channel area after ring setup.
@@ -325,6 +354,7 @@ class Wnd{
         --_opCounter;
         if (_opCounter == 0){
             _opCounter += _screens.length;
+            //trace("**************"+_layer+"*************");
             for (i in _screens){
                 i.setLayer( _layer, cbSetLayerAfterSetWnd, this);
             }
@@ -344,14 +374,14 @@ class Wnd{
     function cbShowWnd( args:Dynamic){
         --_opCounter;
         trace("show window: "+ args);
-        if (_cbDone != null && _opCounter == 0){
+        if (_opCounter == 0){
             var tmp = _cbDone;
             _cbDone = null;
-            tmp();
+            tmp(true);
         }
     }
 
-    public function move( x:Float, y:Float, cb:Void->Void ):Bool{
+    public function move( x:Float, y:Float, cb:Dynamic->Void ):Bool{
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         if ( _cbDone != null) {trace("_cbDone not null"); return false;}
         _cbDone = cb;
@@ -367,12 +397,17 @@ class Wnd{
             if ( obj.isOutScreen == false){
                 _newscreens.push(i);
                 vs.push(obj);
+                trace( i._ipv4);
+                trace( obj.x);
+                trace( obj.y);
+                trace( obj.w);
+                trace( obj.h);
             }
         }
 
         for( i in _newscreens){
             if ( i.get753Port( this) == null){
-                trace("no enough 753 port!");
+                trace("screen: "+i._ipv4 +" no enough 753 port!");
                 return false;
             }
         }
@@ -433,12 +468,12 @@ class Wnd{
                 _opCounter+=_closescreens.length;
                 for (i in 0..._closescreens.length){
                     _closescreens[i].closeWnd( this, cbCloseBeforeMoveWnd);
-        //trace("test");
+                    //trace("test");
                 }
             }else{
                 ++_opCounter;
                 cbCloseBeforeMoveWnd( null, null);
-        //trace("test");
+                //trace("test");
             }
         }
         //trace("test");
@@ -449,7 +484,7 @@ class Wnd{
         --_opCounter;
         if ( _opCounter == 0){
             if ( _createscreens.length > 0 && _ring != null ){
-        //trace("test");
+                //trace("test");
                 if ( _ring.setup753( this, _newscreens,  _channel, cbSetup753RingBeforMoveWnd) == false){
                     trace("resource error");
                 }
@@ -457,7 +492,7 @@ class Wnd{
                 _opCounter+=_keepscreens.length;
                 for (i in _keepscreens){
                     i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWnd, this);
-        //trace("test");
+                    //trace("test");
                 }
             }else{
                 trace("***error, move to nowhere!");
@@ -484,10 +519,10 @@ class Wnd{
                         Math.round(_inputSize[i].y), 
                         Math.round(_inputSize[i].w), 
                         Math.round(_inputSize[i].h), _channel, cbSetupChannelAreaBeforMoveWnd);
-        //trace("test");
+                //trace("test");
             }
         }else{
-        //trace("test");
+            //trace("test");
             ++_opCounter;
             cbSetupChannelAreaBeforMoveWnd(null, null);
         }
@@ -524,16 +559,15 @@ class Wnd{
         }
     }
 
-    public function resize( w:Float, h:Float, cb:Void->Void){
+    public function resize( w:Float, h:Float, cb:Dynamic->Void){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualHeight = h;
         _virtualWidth = w;
-        move( _virtualX, _virtualY, cb);
-        return true;
+        return move( _virtualX, _virtualY, cb);
     }
 
     //WndDlg will invoke this
-    public function reset(x:Int, y:Int, w:Int, h:Int, cb:Void->Void){
+    public function reset(x:Float, y:Float, w:Float, h:Float, cb:Dynamic->Void){
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _virtualX = x;
         _virtualY = y;
@@ -541,7 +575,7 @@ class Wnd{
         return true;
     }
 
-    public function close( cb:Void->Void){
+    public function close( cb:Dynamic->Void){
         //var ss = ScreenMgr.getInst()._screens;
         if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
         _cbDone = cb;
@@ -551,7 +585,6 @@ class Wnd{
         for (i in 0..._screens.length){ 
             _screens[i].closeWnd( this, cbCloseWnd ); 
         }
-
 #else
         _opCounter+=1;
         cbCloseWnd(null, null);
@@ -567,7 +600,7 @@ class Wnd{
         if (_cbDone != null && _opCounter == 0){
             var tmp = _cbDone;
             _cbDone = null;
-            tmp();
+            tmp(true);
         }
     }
 

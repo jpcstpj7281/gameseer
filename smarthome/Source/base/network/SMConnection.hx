@@ -235,7 +235,8 @@ class SMConnection extends Connection{
             }
             //trace("diapatching msg id type: " +msgidType);
             var func = _listeners.get( msgidType);
-            _listeners.remove( msgidType);
+            _listeners.set( msgidType, null);
+            //_listeners.remove( msgidType);
             if ( func == null){
                 trace("***There is not coresponsing incoming data handler! msgType: " + msgidType);
                 //return ;

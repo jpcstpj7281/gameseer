@@ -49,11 +49,24 @@ class WndGraphicDlg extends CommDialog{
 
     }
 
-    public function switchSelect(){
-        _wnd._isSelected = !_wnd._isSelected;
-        redrawWnd(_redrawW, _redrawH);
+    //public function switchSelect(){
+    //_wnd._isSelected = !_wnd._isSelected;
+    //redrawWnd(_redrawW, _redrawH);
+    //}
+
+    public function unselect(){
+        if(_wnd._isSelected ){
+            _wnd._isSelected = false;
+            redrawWnd(_redrawW, _redrawH);
+        }
     }
 
+    public function select(){
+        if(!_wnd._isSelected ){
+            _wnd._isSelected = true;
+            redrawWnd(_redrawW, _redrawH);
+        }
+    }
     override function show (){
         //trace("test");
         return super.show();
@@ -64,8 +77,8 @@ class WndGraphicDlg extends CommDialog{
         if (_isPossessd ) return false;
         if ( isMax){
             //calculate whether is this width already left up max of current screen;
-            var px = this.x - ScreenMgr.getInst()._virtualX;
-            var py = this.y - ScreenMgr.getInst()._virtualY;
+            var px = _wnd._virtualX - ScreenMgr.getInst()._virtualX;
+            var py = _wnd._virtualY - ScreenMgr.getInst()._virtualY;
             var totalcol = ScreenMgr.getInst()._col;
             var totalrow = ScreenMgr.getInst()._row;
             var vw = ScreenMgr.getInst()._virtualWidth/totalcol;
@@ -107,8 +120,8 @@ class WndGraphicDlg extends CommDialog{
         if ( isMax){
 
             //calculate whether is this width already right down max of current screen;
-            var px = this.x + _redrawW;
-            var py = this.y + _redrawH;
+            var px = _wnd._virtualX + _redrawW;
+            var py = _wnd._virtualY + _redrawH;
             var totalcol = ScreenMgr.getInst()._col;
             var totalrow = ScreenMgr.getInst()._row;
             var vw = ScreenMgr.getInst()._virtualWidth/totalcol;
@@ -209,11 +222,14 @@ class WndGraphicDlg extends CommDialog{
         //trace(_wnd._virtualAreaW);
         //trace(_wnd._virtualAreaH);
 
+#if !neko
+        if(_wnd.resize( w,h, cbDone)){
+            _redrawW = w;
+            _redrawH = h;
+        };
+#else
         _redrawW = w;
         _redrawH = h;
-#if !neko
-        _wnd.resize( w,h, cbDone);
-#else
         cbDone();
 #end
         return true;
@@ -234,33 +250,37 @@ class WndGraphicDlg extends CommDialog{
         var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
         if ( x < ScreenMgr.getInst()._virtualX){
             //_wnd._virtualWidth = w = w - (ScreenMgr.getInst()._virtualX - x);
-            x = this.x = ScreenMgr.getInst()._virtualX;
+            x = _wnd._virtualX = ScreenMgr.getInst()._virtualX;
         }else if ( x < wx ){
             if ( wx < x+w) {
-                x = this.x = wx - w;
+                x = _wnd._virtualX = wx - w;
                 //trace("Test");
             }else{
-                this.x = x;
+                _wnd._virtualX = x;
             }
         }else{
             return false;
         }
         if ( y < ScreenMgr.getInst()._virtualY){
             //_wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
-            y = this.y = ScreenMgr.getInst()._virtualY;
+            y = _wnd._virtualY = ScreenMgr.getInst()._virtualY;
         }else if ( y < hy) {
             if ( hy < y+h) {
-                y = this.y = hy - h;
+                y = _wnd._virtualY = hy - h;
                 //trace("Test");
             }else{
-                this.y = y;
+                _wnd._virtualY = y;
             }
         }else{
             return false;
         }
-        _redrawW = w;
-        _redrawH = h;
-        return _wnd.move( x, y, cbDone);
+        if(_wnd.move( x, y, cbDone)){
+            _redrawW = w;
+            _redrawH = h;
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function moveArea( x:Int, y:Int){
@@ -269,25 +289,25 @@ class WndGraphicDlg extends CommDialog{
         var aw = _wnd._virtualAreaW;
         var ah = _wnd._virtualAreaH;
 
-        if ( x < this.x){
+        if ( x < _wnd._virtualX){
             ax = 0;
         }
         else{
-            if ( x + aw > _wnd._virtualWidth + this.x){
+            if ( x + aw > _wnd._virtualWidth + _wnd._virtualX){
                 ax = _wnd._virtualWidth - aw;
             }
             else{
-                ax = x - this.x;
+                ax = x - _wnd._virtualX;
             }
         }
-        if ( y < this.y){
+        if ( y < _wnd._virtualY){
             ay = 0;
         }else{
-            if ( y + ah > _wnd._virtualHeight + this.y){
+            if ( y + ah > _wnd._virtualHeight + _wnd._virtualY){
                 ay = _wnd._virtualHeight - ah;
             }
             else{
-                ay = y - this.y;
+                ay = y - _wnd._virtualY;
             }
         }
         if ( _wnd.setVirtualArea( ax, ay, aw, ah) ){
@@ -298,12 +318,12 @@ class WndGraphicDlg extends CommDialog{
     }
 
     public function createArea( ix:Float, iy:Float, iw:Float,ih:Float){
-        var ax:Float = ix - this.x;
-        var ay:Float = iy - this.y;
+        var ax:Float = ix - _wnd._virtualX;
+        var ay:Float = iy - _wnd._virtualY;
         var aw:Float = iw;
         var ah:Float = ih;
-        var wx:Float = _wnd._virtualWidth + this.x;
-        var wy:Float = _wnd._virtualHeight + this.y;
+        var wx:Float = _wnd._virtualWidth + _wnd._virtualX;
+        var wy:Float = _wnd._virtualHeight + _wnd._virtualY;
         if ( ix + iw > wx) {
             aw = _wnd._virtualWidth - ax;
         }
@@ -319,7 +339,7 @@ class WndGraphicDlg extends CommDialog{
         return false;
     }
 
-    function cbDone():Void{ 
+    function cbDone( args ):Void{ 
         _isPossessd = false; 
         redrawWnd(_redrawW,_redrawH);
     }
@@ -334,9 +354,9 @@ class WndGraphicDlg extends CommDialog{
         var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
         if ( x < ScreenMgr.getInst()._virtualX){
             _wnd._virtualWidth = w = w - (ScreenMgr.getInst()._virtualX - x);
-            this.x = ScreenMgr.getInst()._virtualX;
+            _wnd._virtualX = ScreenMgr.getInst()._virtualX;
         }else if ( x < wx ){
-            this.x = x;
+            _wnd._virtualX = x;
             if ( x+w > wx) _wnd._virtualWidth = w = wx - x;
         }else {
             WndMgr.getInst().removeWnd(_wnd);
@@ -344,9 +364,9 @@ class WndGraphicDlg extends CommDialog{
         }
         if ( y < ScreenMgr.getInst()._virtualY){
             _wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
-            this.y = ScreenMgr.getInst()._virtualY;
+            _wnd._virtualY = ScreenMgr.getInst()._virtualY;
         }else if ( y < hy) {
-            this.y = y;
+            _wnd._virtualY = y;
             if ( y+h > hy) _wnd._virtualHeight = h = hy - y;
         }else {
             WndMgr.getInst().removeWnd(_wnd);
@@ -358,7 +378,7 @@ class WndGraphicDlg extends CommDialog{
         return _wnd.open( x,y,w,h, channel, ring, cbDone);
     }
 
-    function cbCloseWnd():Void{
+    function cbCloseWnd(args):Void{
         WndMgr.getInst().removeWnd(_wnd);
     }
     public function closeWnd( ){

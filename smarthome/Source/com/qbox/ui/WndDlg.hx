@@ -38,7 +38,7 @@ class WndDlg extends CommDialog{
         addChild( createElement());
     }
 
-    public function cbDone():Void{
+    public function cbDone(args):Void{
     }
 
     override function show(){

@@ -101,6 +101,7 @@ class ScreenPlate extends CommDialog{
             var m = ms[0];
             var p = m.parent;
             var arr = new Array<WndGraphicDlg>();
+            //delete wnds
             for ( i in 0...p.numChildren){
                 var w = p.getChildAt( p.numChildren - i -1 );
                 if ( Std.is(w, WndGraphicDlg) ){
@@ -112,6 +113,7 @@ class ScreenPlate extends CommDialog{
                 i.clear();
             }
         }
+        //create wnds
         for ( i in WndMgr.getInst()._wnds){
             //trace("create wnd");
             var win = new WndGraphicDlg(_mgr);
@@ -139,6 +141,7 @@ class ScreenPlate extends CommDialog{
     }
 
     function onThisMouseDown( evt:MouseEvent ):Void{
+        if ( alpha == 0) return;
         var ms = cast(_mgr, ListDialogMgr)._movableInstances;
         if ( ms.length > 0 ){
             var m = ms[0];
@@ -179,11 +182,6 @@ class ScreenPlate extends CommDialog{
     }
 
     function onThisMouseMove( evt:MouseEvent ):Void{ 
-        if ( _isDown){
-            //if ( !_screens.hitTestPoint( evt.stageX, evt.stageY)){
-            //onThisMouseUp(evt);
-            //}
-        }
     }
 
     function getSelectedWnd():WndGraphicDlg{
@@ -205,6 +203,39 @@ class ScreenPlate extends CommDialog{
         return null;
     }
 
+    function resortWnd():Void{
+        var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+        if ( ms.length > 0 ){
+            //swap windows
+            var m = ms[0];
+            var p = m.parent;
+            for ( c in WndMgr.getInst()._wnds){
+                for ( i in 0...p.numChildren){
+                    var w = p.getChildAt( i );
+                    if ( Std.is(w, WndGraphicDlg) ){
+                        var dd:WndGraphicDlg = cast w;
+                        if (dd._wnd == c){
+                            p.setChildIndex(dd, p.numChildren -1 );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function selectWnd( w:WndGraphicDlg):Void{
+
+        //trace(w._wnd._layer);
+        trace(WndMgr.getInst()._maxLayer);
+        if ( w._wnd._layer < WndMgr.getInst()._maxLayer){
+            WndMgr.getInst().setExistedWndLayerMax( w._wnd);
+            resortWnd();
+            w.select();
+        }
+        w._wnd._isSelected = true;
+    }
+
     function unselectAllWnd():Void{
         var ms = cast(_mgr, ListDialogMgr)._movableInstances;
         if ( ms.length > 0 ){
@@ -216,7 +247,7 @@ class ScreenPlate extends CommDialog{
                 if ( Std.is(w, WndGraphicDlg) ){
                     var dd:WndGraphicDlg = cast w;
                     if ( dd._wnd != null && dd._wnd._isSelected){
-                        dd.switchSelect();
+                        dd.unselect();
                     }
                 }
             }
@@ -231,20 +262,23 @@ class ScreenPlate extends CommDialog{
     }
 
     function onThisMouseUp( evt:MouseEvent ):Void{ 
+        if ( alpha == 0) return;
         if ( _isDown ){
-            if ( _isMoving && _movingWnd !=null ){
+            if ( _isMoving && _movingWnd !=null && (_downx != evt.stageX || _downy != evt.stageY)){
                 unselectAllWnd();
-                _movingWnd._wnd._isSelected = true;
-                if(_movingWnd.moveWnd( cast evt.stageX - _movex, cast evt.stageY - _movey)==false){
+                selectWnd(_movingWnd);
+                if(!_movingWnd.moveWnd( evt.stageX - _movex, evt.stageY - _movey)){
                     trace("failed to move window");
-                };
+                }
             }else if ( _isResize && _movingWnd != null && evt.stageX != _downx && evt.stageY != _downy){
-                var w:Int = cast _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
-                var h:Int = cast _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
-                unselectAllWnd();
-                _movingWnd._wnd._isSelected = true;
+                var w:Float= _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
+                var h:Float= _movingWnd.height + evt.stageY - _movingWnd.y - _movey;
                 //resize window
-                _movingWnd.resizeWnd( w , h);
+                unselectAllWnd();
+                selectWnd(_movingWnd);
+                if(!_movingWnd.resizeWnd( w , h)){
+                    trace("failed to resize window");
+                }
             }else{
                 if ( evt.stageX == _downx && evt.stageY == _downy ){
                     if (_movingWnd != null && evt.stageX > _movingWnd.x + _movingWnd.width -10 && evt.stageY > _movingWnd.y + _movingWnd.height -10 ){
@@ -275,7 +309,7 @@ class ScreenPlate extends CommDialog{
                                     if ( w.hitTestPoint( evt.stageX, evt.stageY) && firstHit){
                                         var dd:WndGraphicDlg = cast w;
                                         if ( dd._wnd.toFront() ){
-                                            dd.switchSelect();
+                                            dd.select();
                                             setTop = dd;
                                         }
                                         firstHit = false;
@@ -283,7 +317,7 @@ class ScreenPlate extends CommDialog{
                                     }else{
                                         var dd:WndGraphicDlg = cast w;
                                         if ( dd._wnd._isSelected){
-                                            dd.switchSelect();
+                                            dd.unselect();
                                         }
                                     }
                                 }
@@ -317,7 +351,7 @@ class ScreenPlate extends CommDialog{
                             var win = new WndGraphicDlg(_mgr);
                             unselectAllWnd();
                             if(win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected)){
-                                win.switchSelect();
+                                win.select();
                                 win.show();
                             } else{
                                 win.clear();

@@ -8,8 +8,8 @@ class Screen extends Qbox{
     public var _col:Int;
     public var _row:Int;
 
-    public var _virtualWidth:Int;
-    public var _virtualHeight:Int;
+    public var _virtualWidth:Float;
+    public var _virtualHeight:Float;
 
     public var _resWidth:Int;
     public var _resHeight:Int;
@@ -74,6 +74,7 @@ class Screen extends Qbox{
         var cutright:Float= 0;
         var cutup:Float= 0;
         var cutdown:Float= 0;
+
         if ( x <screenx ){ 
             if (x + w > screenx ){
                 if ( x + w > screenx + _virtualWidth){
@@ -91,7 +92,7 @@ class Screen extends Qbox{
                 trace("screen: "+_ipv4+" outofscreen");
             }
         }else{
-            if ( x >= screenx && x <= screenx + _virtualWidth) {
+            if ( x >= screenx && x < screenx + _virtualWidth) {
                 if ( x+w >= screenx+_virtualWidth){
                     screenw = _virtualWidth + screenx - x;
                 }else{
@@ -101,7 +102,7 @@ class Screen extends Qbox{
                 cutright = x + w - screenx - _virtualWidth;//可能是负
                 //窗口的X在屏右边,所以X到SCREEX的偏移位为这个子窗口的X
                 screenx = x - screenx;
-            }else if ( x >screenx + _virtualWidth){
+            }else if ( x >= screenx + _virtualWidth){
                 isOutOfScreen = true;
                 screenh = screenw = 0;
                 trace("screen: "+ _ipv4 +" outofscreen");
@@ -125,7 +126,7 @@ class Screen extends Qbox{
                 trace("screen: "+_ipv4 +"outofscreen");
             }
         }else if ( !isOutOfScreen){
-            if ( y >= screeny && y <= screeny + _virtualHeight){
+            if ( y >= screeny && y < screeny + _virtualHeight){
                 if ( y+h >= screeny+_virtualHeight){
                     screenh = _virtualHeight +screeny -y;
                 }else{
@@ -135,13 +136,12 @@ class Screen extends Qbox{
                 cutup= screeny - y;//一定是负
                 //窗口的y在屏下边,所以y到SCREEY的偏移位为这个子窗口的Y
                 screeny = y - screeny;
-            }else if(  x > screeny + _virtualHeight){
+            }else if(  x >= screeny + _virtualHeight){
                 isOutOfScreen = true;
                 screenx = screeny = screenh = screenw = 0;
                 trace("screen: "+_ipv4 +"outofscreen");
             }
         }
-
         return { isOutScreen:isOutOfScreen, 
             x:screenx, 
             y:screeny, 
@@ -163,7 +163,6 @@ class Screen extends Qbox{
 
     //correspond port of wnd, return a available port if cant find correspond port.
     public function get753Port( wnd:Wnd):String{
-        //trace( Lambda.count(_753ports));
         for ( i in _753ports.keys()){
             var w = _753ports.get(i);
             if (  w == wnd){
@@ -286,7 +285,7 @@ class Screen extends Qbox{
         clearData();
         startListening( 12, cbSetChannelArea, 3);
         setMsg( 11, 3);
-        addKeyVal( "in", Bytes.ofString(c._inport));
+        //addKeyVal( "in", Bytes.ofString(c._inport));
         addKeyVal( "out", Bytes.ofString(p));
         addKeyVal( "x", Bytes.ofString(""+x));
         addKeyVal( "y", Bytes.ofString(""+y));
@@ -458,16 +457,26 @@ class Screen extends Qbox{
 #end
         return true;
     }
-    public function setRingChannel( out:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
+    public function setRingChannel( out:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
         if (_currCB != null){ trace("there is a wnd processing."); }
         _currCB = cbSetChannelFunc;
 #if !neko
-        var p = _ringports.get(out);
+        var p = getRingPort(wnd);
         if ( p == null){
-            _ringports.set( out, wnd);
+            p = getRingPort(null);
+            if ( p == null){
+                trace( "screen: "+_ipv4 +"there is ring port available to set channel: "+input+"!");
+                return false;
+            }
         }else{
-            trace("screen: "+_ipv4 +"there is no port:"+out+" available to set Ring channel!");
-            return;
+            _ringports.set( out, wnd);
+            //if ( wnd == p){
+            //var done= new Hash<String>();
+            //done.set("error","0");
+            //cbSetChannel(done);
+            //return true;
+            //}
+            //else return false;
         }
         clearData();
         startListening( 2, cbSetChannel, 3);
@@ -480,6 +489,7 @@ class Screen extends Qbox{
         test.set("error","0");
         cbSetChannel(test);
 #end
+        return true;
     }
 
     function cbSetChannel( args:Dynamic):Void{
@@ -499,6 +509,7 @@ class Screen extends Qbox{
             trace("screen: "+_ipv4 +"cannot find port of wnd");
             return;
         }
+        //trace("**************"+l+"*************");
         clearData();
         startListening( 8, cbSetLayer, 2);
         setMsg( 7, 2);
