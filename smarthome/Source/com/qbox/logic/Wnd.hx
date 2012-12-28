@@ -406,7 +406,7 @@ class Wnd{
         }
 
         for( i in _newscreens){
-            if ( i.get753Port( this) == null){
+            if ( i.get753Port( this) == null && i.get753Port(null) == null){
                 trace("screen: "+i._ipv4 +" no enough 753 port!");
                 return false;
             }
