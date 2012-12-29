@@ -6,7 +6,7 @@ import base.state.State;
 import nme.Lib;
 import nme.events.Event;
 
-import base.common.Tools;
+//import base.common.Tools;
 
 class StateMachine{
 
@@ -106,7 +106,7 @@ class StateMachine{
 
     public function toState( stateid:String) :Void{
         var state:State = _allStates.get(stateid );
-        Tools.assert( state != null );
+        //Tools.assert( state != null );
 
         _statePath.generateStatePath( _curState, state);
 
