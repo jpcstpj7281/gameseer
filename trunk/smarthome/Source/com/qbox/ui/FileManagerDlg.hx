@@ -9,7 +9,6 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 import com.qbox.logic.QboxMgr;
 
-import com.pictionary.ui.DrawingDlgMgr;
 class FileManagerDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
         super(dm, new Bitmap( DataLoader.getInst().bms_.get("file")));

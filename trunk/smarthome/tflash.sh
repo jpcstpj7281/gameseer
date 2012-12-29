@@ -1,3 +1,3 @@
 #! /bin/bash
-haxelib run nme build maintest.nmml flash
+haxelib run nme build test.nmml flash
 cp ./Export/flash/bin/TestMain.swf ./

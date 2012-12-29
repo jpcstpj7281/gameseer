@@ -72,12 +72,9 @@ class MainStage extends ListDialogMgr {
         //new SubjectsDlg( this);
 #end
         //new UserNameInputDlg( this, name, 0, "输入名称:");
-        //new ConnDrawingDlg( this);
 #if !flash
         //new HostDialog( this  );
 #end
-        //new DrawingDlg( this, "SNS猜猜",0 );
-        //var d = new DrawingDlg( this, "SNS drawing",0 );
 
     }
 

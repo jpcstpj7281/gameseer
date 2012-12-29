@@ -16,7 +16,6 @@ import com.qbox.logic.WndMgr;
 import com.qbox.logic.RingMgr;
 import com.qbox.logic.Channel;
 
-import com.pictionary.ui.DrawingDlgMgr;
 
 
 class ScreenPlate extends CommDialog{

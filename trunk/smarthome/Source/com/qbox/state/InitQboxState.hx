@@ -7,7 +7,6 @@ import base.state.LoadConfState;
 import base.state.InitNetworkState;
 import base.state.StateMachine;
 import base.state.InitBaseState;
-import base.state.InitSocialState;
 
 class InitQboxState extends State{
 

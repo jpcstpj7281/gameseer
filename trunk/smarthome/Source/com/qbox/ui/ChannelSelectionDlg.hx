@@ -13,7 +13,6 @@ import com.qbox.logic.Wnd;
 import com.qbox.logic.Channel;
 import com.qbox.logic.ChannelMgr;
 
-import com.pictionary.ui.DrawingDlgMgr;
 
 class ChannelSelectionDlg extends ListFixedDlg{
 
