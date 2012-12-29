@@ -12,6 +12,7 @@
     <set name="BUILD_DIR" value="Export" />
 
     <classpath name="Source" />
+    <classpath name="Source/Caffeine-hx" />
 
     <haxelib name="nme" />
     <haxelib name="actuate" />

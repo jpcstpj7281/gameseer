@@ -230,7 +230,7 @@ class WndGraphicDlg extends CommDialog{
 #else
         _redrawW = w;
         _redrawH = h;
-        cbDone();
+        cbDone(null);
 #end
         return true;
     }

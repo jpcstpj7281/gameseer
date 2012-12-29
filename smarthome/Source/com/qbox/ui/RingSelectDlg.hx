@@ -15,7 +15,6 @@ import com.qbox.logic.ChannelMgr;
 import com.qbox.logic.Ring;
 import com.qbox.logic.RingMgr;
 
-import com.pictionary.ui.DrawingDlgMgr;
 
 class RingSelectDlg extends ListFixedDlg{
 

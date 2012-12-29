@@ -1,3 +1,3 @@
 #! /bin/bash
 
-haxelib run nme test maintest.nmml neko
+haxelib run nme test test.nmml neko

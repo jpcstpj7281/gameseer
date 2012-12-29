@@ -12,7 +12,6 @@ import base.data.DataLoader;
 import com.qbox.logic.ChannelMgr;
 import com.qbox.logic.Channel;
 
-import com.pictionary.ui.DrawingDlgMgr;
 class ChannelsDlg extends ListFixedDlg{
     public function new ( dm:CommDialogMgr ){
         super(dm, new Bitmap( DataLoader.getInst().bms_.get("channel")));

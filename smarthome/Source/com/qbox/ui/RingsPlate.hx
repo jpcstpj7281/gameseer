@@ -17,7 +17,6 @@ import com.qbox.logic.RingMgr;
 import com.qbox.logic.Ring;
 import com.qbox.logic.Screen;
 
-import com.pictionary.ui.DrawingDlgMgr;
 
 
 class ScreenFlag{
