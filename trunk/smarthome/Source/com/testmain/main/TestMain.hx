@@ -470,6 +470,7 @@ import org.aswing.ViewportLayout;
 import org.aswing.WeightBoxLayout;
 import org.aswing.WindowLayout;
 import org.aswing.WindowOrderFocusTraversalPolicy;
+/*
 class TestMain 
 {
 
@@ -488,7 +489,6 @@ class TestMain
     {  
         AsWingManager.initAsStandard( Lib.current);
 
-
         var sp:org.aswing.JLabel= new  org.aswing.JLabel("*****sdew中文");
 
         sp.setSizeWH(100, 30);
@@ -506,3 +506,49 @@ class TestMain
         tt.show(); 
     }
 }
+*/
+
+import nme.display.Sprite;
+
+import nme.display.Stage;
+import nme.display.StageAlign;
+import nme.display.StageScaleMode;
+import nme.Lib;
+import nme.text.TextField;
+import base.conf.Config;
+import base.state.StateMachine;
+import com.ac.state.InitACState;
+
+
+#if flash
+import base.common.FlashConnect;
+#end
+
+class TestMain extends Sprite {
+
+    static public function main()
+    {
+#if flash FlashConnect.redirect(); #end
+        Lib.current.addChild (new TestMain());
+    }
+
+    public function new () {
+
+        super ();
+        initialize ();
+    }
+
+    private function initialize ():Void {
+        Lib.current.stage.align = StageAlign.TOP_LEFT;
+        Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+
+        Config.ScaleX = Lib.current.stage.stageWidth / 480;
+        Config.ScaleY = Lib.current.stage.stageHeight / 320;
+
+        Config.confFileName = "qbox.xml";
+        Config.appName = "Qbox";
+        var is= new InitACState();
+        is.init(StateMachine.getInst());
+    }
+}
+
