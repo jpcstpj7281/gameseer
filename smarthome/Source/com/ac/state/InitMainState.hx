@@ -232,6 +232,7 @@ import org.aswing.MultipleAssetIcon;
 import org.aswing.MutableListModel;
 import org.aswing.Orientable;
 
+/*
 import org.aswing.plaf.AdjusterUI;
 import org.aswing.plaf.ArrayUIResource;
 import org.aswing.plaf.ASColorUIResource;
@@ -361,6 +362,7 @@ import org.aswing.plaf.TableUI;
 import org.aswing.plaf.TreeUI;
 import org.aswing.plaf.UIResource;
 import org.aswing.plaf.UIStyleTune;
+*/
 
 import org.aswing.RepaintManager;
 
@@ -483,24 +485,26 @@ class InitMainState extends State{
     override function fromState(s:State):Void{
         AsWingManager.initAsStandard( Lib.current);
 
-        var sp:org.aswing.JLabel= new  org.aswing.JLabel("*****sdew中文");
+        //var s = new Component();
+        //Lib.current.addChild(s);
 
+        var sp:org.aswing.JLabel= new  org.aswing.JLabel("*****sdew中文");
         sp.setSizeWH(100, 30);
         sp.setLocationXY(10, 10);
         Lib.current.addChild(sp);
+
         var jb:JButton = new JButton("__ewwesew中文");
         jb.setSizeWH(100, 20);
         jb.setLocationXY(300, 300);
-
         Lib.current.addChild(jb);
-        var tt : JFrame = new JFrame( Lib.current,"TestAswing中文");
 
+        var tt : JFrame = new JFrame( Lib.current,"TestAswing中文");
         tt.setSizeWH(300,200);
         tt.setLocationXY(100,100);
         tt.show(); 
-        var b = tt.getClipBounds();
-        trace(b);
-        trace(tt.isDragEnabled());
+        //var b = tt.getClipBounds();
+        //trace(b);
+        //trace(tt.isDragEnabled());
     }
 
     override function run():Bool{

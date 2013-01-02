@@ -18,7 +18,6 @@
     <haxelib name="actuate" />
     <haxelib name="format" />
     <haxelib name="hxs" />
-    <haxelib name="aswing" />
 
     <assets path="Assets" rename="assets" include="*" exclude="nme.svg" />
 
