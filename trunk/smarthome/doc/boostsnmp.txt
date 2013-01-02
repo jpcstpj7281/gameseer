@@ -1,0 +1,229 @@
+ Boost asio with Net-Snmp
+Asio is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach. Net-SNMP is open source implementation for SNMP protocol. Here I will show you how to integrate Net-SNMP to Boost Asio asynchronous model.
+Step 1 - Wrap SNMP socket with boost socket
+
+// The glue between asio's sockets and the net-snmp library.
+class snmp_connection
+{
+    public:                                  
+        snmp_connection(boost::asio::io_service& io_service)
+        : snmp_socket_(io_service),
+          snmp_handle_(NULL) {};
+        ~snmp_connection() {
+            snmp_sess_close(this->snmp_handle_); 
+        }
+        void connect(long version, const string& peername, const string& community);
+        void async_snmp_get(const string& snmp_oid, SNMPHandler handler);
+        void async_snmp_set(const string& snmp_oid, const int type, const string& value, SNMPHandler handler);
+    private:
+        udp::socket snmp_socket_;
+        void *snmp_handle_;
+};
+
+void snmp_connection::connect(long version, const string& peername, const string& community){
+
+
+    struct snmp_session sess;
+    snmp_sess_init(&sess);   /* initialize session */
+    sess.version = SNMP_VERSION_2c;
+    sess.peername = strdup(peername.c_str());
+    sess.community = reinterpret_cast<u_char*>(strdup(community.c_str()));
+    sess.community_len = community.size();
+    sess.callback = asynch_response;
+    snmp_handle_ = snmp_sess_open(&sess);
+    free(sess.peername);
+    free(sess.community);
+    netsnmp_transport *transport  = snmp_sess_transport( snmp_handle_ );
+    snmp_socket_.assign(boost::asio::ip::udp::v4(), transport->sock);
+    // Put the socket into non-blocking mode.
+    udp::socket::non_blocking_io non_blocking_io(true);
+    snmp_socket_.io_control(non_blocking_io);    
+}
+
+
+
+Here we created snmp_connection class, which is the glue between asio's socket and the net-snmp socket. 
+It contains the following: 
+
+    Boost UDP socket - SNMP sockets are usually UDP Sockets.
+    Session handler ¨C Net-SNMP Single API for thread safety.
+    io::service ¨C to register out boost socket to it for read/writ monitoring.
+
+
+In the connect function we assign the SNMP native socket to the boost socket and change the socket for none blocking. This will ensure that the send and read operations will not block and will return immediately.
+
+
+
+Step 2 - Create SNMP request and SNMP response completion  handlers
+
+typedef boost::function<void(string)> SNMPHandler;
+
+
+
+class snmp_connection
+{
+    public:                                  
+        snmp_connection(boost::asio::io_service& io_service)
+        : snmp_socket_(io_service),
+          snmp_handle_(NULL) {};
+        ~snmp_connection() {
+            snmp_sess_close(this->snmp_handle_); 
+        }
+        void connect(long version, const string& peername, const string& community);
+        void async_snmp_get(const string& snmp_oid, SNMPHandler handler);
+        void async_snmp_set(const string& snmp_oid, const int type, const string& value, SNMPHandler handler);
+
+    private:
+
+        void handle_snmp_req(const boost::system::error_code &ec, std::size_t bytes_transferred, 
+        struct snmp_pdu *pdu, SNMPHandler handler);
+        void handle_snmp_res(const boost::system::error_code &ec, std::size_t bytes_transferred, 
+        SNMPHandler handler);
+
+
+        udp::socket snmp_socket_;
+        void *snmp_handle_;
+};
+
+
+
+void snmp_connection::async_snmp_get(const string& snmp_oid, SNMPHandler handler) {
+    
+    struct snmp_pdu *pdu = NULL;
+    oid anOID[MAX_OID_LEN];
+    size_t anOID_len = MAX_OID_LEN;
+    
+    pdu = snmp_pdu_create(SNMP_MSG_GET);   
+    if (!snmp_parse_oid(snmp_oid.c_str(), anOID, &anOID_len)) {
+        snmp_perror(snmp_oid.c_str());
+        cout << "error snmp_parse_oid" << endl;
+    }    
+    
+    snmp_add_null_var(pdu, anOID, anOID_len);
+    snmp_socket_.async_send(
+          boost::asio::null_buffers(),
+          boost::bind(&snmp_connection::handle_snmp_req,
+            this, boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred, pdu, handler));
+}
+
+
+
+
+void snmp_connection::handle_snmp_req(const boost::system::error_code &ec, std::size_t bytes_transferred,
+           struct snmp_pdu *pdu, SNMPHandler handler)
+{
+    if (this->snmp_socket_.is_open()){
+        if (ec) {
+            cout << "error snmp_connection::handle_snmp_req" << endl;
+        } else {
+            // Notify net-snmp library that it can perform a write. 
+            snmp_sess_send(snmp_handle_, pdu);
+            snmp_socket_.async_receive(  boost::asio::null_buffers(), 
+                boost::bind(&snmp_connection::handle_snmp_res, this, 
+                           boost::asio::placeholders::error,boost::asio::placeholders::bytes_transferred, handler));
+        }
+    }    
+}
+
+
+void snmp_connection::handle_snmp_res(const boost::system::error_code &ec, std::size_t bytes_transferred, 
+           SNMPHandler handler)
+
+
+ 
+{
+    if (this->snmp_socket_.is_open()) {
+        if (ec) {
+            cout << "error snmp_connection::handle_snmp_res" << endl;
+        } else {      
+            fd_set snmp_fds;
+            FD_ZERO(&snmp_fds);
+            FD_SET(snmp_socket_.native(), &snmp_fds);
+            snmp_sess_read(snmp_handle_, &snmp_fds);
+        }
+    }
+}
+
+
+The async_snmp_get is responsible for creating the snmp get message and letting ios::service know that it is ready for send by calling async_send. we are using null_buffer because we don't want that asio will write the data, instead we provide a handle_snmp_req completion  handler which will write the data using net-snmp API.
+
+
+The handle_snmp_req is the snmp socket write completion handler, which responsible for writing to the SNMP socket. It will call snmp_sess_send API to send the SNMP request and call async_receive to let io::service know we are waiting for response, meaning we are ready for read. is the snmp socket write completion handler, which responsible to writing to the SNMP socket.
+
+
+
+The handle_snmp_res is the SNMP socket read completion handler, which responsible for reading from the SNMP socket. It will call snmp_sess_read API to read the data from the response.
+
+
+
+Step 3 - Grubbing the result adding completion handle to async_snmp_get
+
+int asynch_response(int operation, struct snmp_session *sp, int reqid,
+      struct snmp_pdu *pdu, void *magic)
+{
+
+  if (operation == NETSNMP_CALLBACK_OP_RECEIVED_MESSAGE) {
+    char buf[1024];
+    
+    if (pdu->errstat == SNMP_ERR_NOERROR) {
+        cout << "SNMP_ERR_NOERROR" << endl;
+        if(pdu->variables) {
+            //print_variable(pdu->variables->name, pdu->variables->name_length,  pdu->variables);
+            snprint_variable(buf, sizeof(buf), pdu->variables->name, pdu->variables->name_length, pdu->variables);
+//            snmp_connection::response_ = buf;
+        }
+    }
+
+  }
+  return 1;
+}
+
+
+
+void snmp_connection::handle_snmp_res(const boost::system::error_code &ec, std::size_t bytes_transferred, 
+           SNMPHandler handler) 
+{
+    if (this->snmp_socket_.is_open()) {
+        if (ec) {
+            cout << "error snmp_connection::handle_snmp_res" << endl;
+        } else {      
+            fd_set snmp_fds;
+            FD_ZERO(&snmp_fds);
+            FD_SET(snmp_socket_.native(), &snmp_fds);
+            snmp_sess_read(snmp_handle_, &snmp_fds);
+            handler(snmp_response);
+        }
+    }
+}
+
+
+
+
+
+typedef boost::function<void(string)> SNMPHandler The async_snmp_get is the definition of our SNMP completion handler, which will execute after getting the response. The function input type is string, which is the SNMP response and returns void. you can define this function as you like.
+the async_response is the net-snmp callback function to execute in the snmp_sess_read. we provided it when we called snmp_sess_open. In this callback the SNMP library will provide us the result in the pdu parameter. now we can save it in static parameter snmp_response.
+
+Here I will show how to use the wrapper interface we created.
+
+void snmp_print(string result, int num){
+    cout << "result " << result << endl;
+    cout << "num " << num << endl;    
+}
+
+
+
+
+
+int main () {
+    boost::asio::io_service io_service;
+    snmp_connection snmp_conn(io_service);
+    snmp_conn.connect(SNMP_VERSION_2c,string("192.168.1.1"), string("public"));
+    snmp_conn.async_snmp_get(string(".1.3.6.1.2.1.1.4.0"), boost::bind(snmp_print,_1,3));
+    io_service.run();
+}
+
+
+First we provide our SNMP completion handler (void snmp_print(string result, int num). You can see that our completion handle take more parameter then the SNMPHandler. we will use boost::bind to our additional parameter in our case int num is bind to 3. _1 - is a string place holder for the passing of the snmp_response. Second we call connect to connect to the remote SNMP server. And Third we call async_snmp_get with an OID and SNMP completion handler. In our example the completion handler need to be from type
+
+boost::function<void(string,...)>.
