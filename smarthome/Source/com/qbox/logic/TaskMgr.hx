@@ -16,7 +16,7 @@ class TaskMgr{
 
     //Array< Qbox>, container of Qboxes.
     public var _tasks:Array<Task>;
-    public var _timer:Timer;
+    //public var _timer:Timer;
 
     public function new(){
         _tasks =  new Array<Task>();
@@ -29,14 +29,16 @@ class TaskMgr{
                 break;
             }
         }
-        _timer = new Timer(300);
-        _timer.run = trun;
+        //_timer = new Timer(300);
+        Lib.current.addEventListener(Event.ENTER_FRAME, loop);
+        //_timer.run = trun;
     }
 
 
     function trun(){
+        var d  = Date.now();
         for( i in _tasks){
-            i.run( Date.now() );
+            i.run( d );
         }
     }
 
