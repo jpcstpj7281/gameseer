@@ -89,6 +89,7 @@ AppScale::AppScale()
 
 
 //	initTimingIndexTable();
+
     InputInfo info;
     info.hW = 702;
     info.Vw = 480;
@@ -96,11 +97,39 @@ AppScale::AppScale()
     info.vStar = 45;
     m_InputInfo[TYPE_INPUT_SIZE_702_480] = info;
 
+
+
+    info.hW = 800;
+    info.Vw = 600;
+    info.hStar = 95;
+    info.vStar = 22;
+    m_InputInfo[TYPE_INPUT_SIZE_800_600] = info;
+
     info.hW = 1024;
     info.Vw = 768;
     info.hStar = 303;
     info.vStar = 36;
-    m_InputInfo[TYPE_INPUT_SIZE_1024_768] = info;
+    m_InputInfo[TYPE_INPUT_SIZE_1024_768_60] = info;
+
+    info.hW = 1280;
+    info.Vw = 1024;
+    info.hStar = 255;
+    info.vStar = 37;
+    m_InputInfo[TYPE_INPUT_SIZE_1280_1024_60] = info;
+
+    info.hW = 1600;
+    info.Vw = 1200;
+    info.hStar = 303;
+    info.vStar = 36;
+    m_InputInfo[TYPE_INPUT_SIZE_1600_1200_60] = info;
+
+
+    info.hW = 702;
+    info.Vw = 480;
+    info.hStar = 137;
+    info.vStar = 45;
+    m_InputInfo[TYPE_INPUT_SIZE_DEFAULT] = info;
+
 
 }
 
@@ -462,297 +491,6 @@ void AppScale::hideWnd(uint32_t iChID)
 
 void AppScale::openChannel(uint32_t iChID)
 {
-
-    /*
-    *  配置输入部分寄存器
-    */
-//    if(s_asScaleChInfo[iChID].iImageType == SCAL_IMAGE_IPFIELD)
-//    {
-//        /*IFLD[0]=PIFLD IFLD[1] toggles every 2 fields*/
-//        /*水平同步信号低电平有效*/
-//        /*垂直同步信号低电平有效*/
-//        C753SetInputPortSyncControl(num, 0x06);
-//    }
-//    else
-//    {
-        /*IFLD 0到3循环*/
-        /*水平同步信号低电平有效*/
-        /*垂直同步信号低电平有效*/
-    C753SetInputPortSyncControl(iChID, 0x01);
-//    }
-    C753SetInputImageControl(iChID, 0x00);
-    /*设置输入图像区域*/
-    C753SetInputPortACTHorizontalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wInputStartX + m_asScaleChInfo[iChID].wInputClipOffsetX + m_asScaleChInfo[iChID].sswInputAdjustStartX - 1));
-    C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth);
-    C753SetInputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wInputStartY + m_asScaleChInfo[iChID].wInputClipOffsetY + m_asScaleChInfo[iChID].sswInputAdjustStartY + 1));
-    /*由于图像下边缘闪烁，高度补充4行数据*/
-    C753SetInputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wInputClipHeight + m_asScaleChInfo[iChID].sswInputAdjustHeight + 4);
-    if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_ZOOM)
-    {
-        /*放大比率大于2倍时要在输入宽度补偿2个像素，否则补偿1个像素*/
-        if(m_asScaleChInfo[iChID].wScaleFactorUpH < 32768)
-        {
-            C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 2);
-        }
-        else
-        {
-            C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 1);
-        }
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_SHRINK)
-    {
-        /*缩小时要将输入宽度设置成等于输出宽度*/
-        C753SetInputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wOutputActWidth);
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_BOTH)
-    {
-        /*缩小时要将输入宽度设置成等于缩小前的宽度*/
-        C753SetInputPortACTHorizontalWidth(iChID, SCAL_FRAME_LINE_MAX);
-    }
-    /*
-    *  配置输出部分寄存器
-    */
-    C753SetOutputImageControl(iChID, 0x02);
-
-    /*配置OAOI区域为图像输出区域 防止放大时图像叠加产生顶层图像超出*/
-    if(iChID == C753_OUTPUT_CHANNEL_1)
-    {
-        C753SetOutputPortOAOI1HorizontalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX));
-        C753SetOutputPortOAOI1HorizontalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX + m_asScaleChInfo[iChID].wOutputClipWidth));
-        C753SetOutputPortOAOI1VerticalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + 0));
-        C753SetOutputPortOAOI1VerticalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + m_asScaleChInfo[iChID].wOutputClipHeight + 1));
-    }
-    else if(iChID == C753_OUTPUT_CHANNEL_2)
-    {
-        C753SetOutputPortOAOI2HorizontalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX));
-        C753SetOutputPortOAOI2HorizontalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputClipOffsetX + m_asScaleChInfo[iChID].wOutputClipWidth));
-        C753SetOutputPortOAOI2VerticalStart((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + 0));
-        C753SetOutputPortOAOI2VerticalEnd((uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputClipOffsetY + m_asScaleChInfo[iChID].wOutputClipHeight + 1));
-    }
-    /*输出图像区域*/
-    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartX + m_asScaleChInfo[iChID].wOutputActOffsetX));
-    C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wOutputActWidth);
-    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY + 0));
-    C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 1);
-
-    if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_ZOOM)
-    {
-        /*放大比率大于2倍时要将输出宽度设置成等于输入宽度加上补偿2个像素，否则补偿1个像素*/
-        if(m_asScaleChInfo[iChID].wScaleFactorUpH < 32768)
-        {
-            C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 2);
-        }
-        else
-        {
-            C753SetOutputPortACTHorizontalWidth(iChID, m_asScaleChInfo[iChID].wInputClipWidth + m_asScaleChInfo[iChID].sswInputAdjustWidth + 1);
-        }
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_BOTH)
-    {
-        /*放大时要将输出宽度设置成等于放大前的宽度*/
-        C753SetOutputPortACTHorizontalWidth(iChID, SCAL_FRAME_LINE_MAX);
-    }
-
-    if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_ZOOM)
-    {
-        /*C753bug 放大时放大的图像层会下移1-2个像素*/
-        C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY - 2));
-        C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 3);
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_BOTH)
-    {
-        /*C753bug 放大时放大的图像层会下移1-2个像素*/
-        C753SetOutputPortACTVerticalStart(iChID, (uint16_t)(m_asScaleChInfo[iChID].wOutputStartY + m_asScaleChInfo[iChID].wOutputActOffsetY - 2));
-        C753SetOutputPortACTVerticalWidth(iChID, m_asScaleChInfo[iChID].wOutputActHeight + 3);
-    }
-
-    if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_SHRINK)
-    {
-        /*
-        *  配置缩小寄存器
-        */
-        uint8_t lut[24];
-        float ratio, win;
-
-        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownH / 65536;
-        if(ratio > 0.5)
-        {
-            win = ratio;
-        }
-        else
-        {
-            win = 0.1;
-        }
-        calculate6SymbolLUT(&ratio, &win, lut);
-        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
-        C753SetInputShrinkCompensationControl(iChID, 0x00);
-        C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
-        /*6-symbol LUT*/
-        C753SetInputHorizontalShrinkControl(iChID, 0x07);
-        /*关闭放大模块*/
-        C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
-        C753SetInputHorizontalShrinkInitialValue(iChID, 0x00);
-        C753SetInputHorizontalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownH);
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_ZOOM)
-    {
-        /*
-        *  配置放大寄存器
-        */
-        /*6-symbol LUT*/
-        C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
-        /*关闭缩小模块*/
-        C753SetInputHorizontalShrinkControl(iChID, 0x00);
-        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
-        C753SetOutputHorizontalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpH);
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeH == SCAL_MODE_BOTH)
-    {
-        uint8_t lut[24];
-        float ratio, win;
-
-        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownH / 65536;
-        if(ratio > 0.5)
-        {
-            win = ratio;
-        }
-        else
-        {
-            win = 0.1;
-        }
-        calculate6SymbolLUT(&ratio, &win, lut);
-        C753LoadInputHorizontalShrinkLookupTable(iChID, lut);
-        C753SetInputShrinkCompensationControl(iChID, 0x00);
-        C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
-        /*6-symbol LUT*/
-        C753SetInputHorizontalShrinkControl(iChID, 0x07);
-        C753SetInputHorizontalShrinkInitialValue(iChID, 0x00);
-        C753SetInputHorizontalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownH);
-        /*6-symbol LUT*/
-        C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
-        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
-        C753SetOutputHorizontalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpH);
-    }
-    else
-    {
-        /*关闭缩小模块*/
-        C753SetInputHorizontalShrinkControl(iChID, 0x00);
-        /*关闭放大模块*/
-        C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
-    }
-
-    if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_SHRINK)
-    {
-        /*
-        *  配置缩小寄存器
-        */
-        uint8_t lut[24];
-        float ratio, win;
-
-        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownV / 65536;
-        if(ratio > 0.5)
-        {
-            win = ratio;
-        }
-        else
-        {
-            win = 0.1;
-        }
-        calculate6SymbolLUT(&ratio, &win, lut);
-        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
-        C753SetInputShrinkCompensationControl(iChID, 0x00);
-        C753SetInputVerticalShrinkCompensation(iChID, 0x00);
-        /*6-symbol LUT*/
-        C753SetInputVerticalShrinkControl(iChID, 0x07);
-        /*关闭放大模块*/
-        C753SetOutputVerticalEnlargementControl(iChID, 0x00);
-        C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
-        C753SetInputVerticalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownV);
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_ZOOM)
-    {
-        /*
-        *  配置放大寄存器
-        */
-        /*6-symbol LUT*/
-        C753SetOutputVerticalEnlargementControl(iChID, 0x07);
-        /*关闭缩小模块*/
-        C753SetInputVerticalShrinkControl(iChID, 0x00);
-        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
-        C753SetOutputVerticalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpV);
-    }
-    else if(m_asScaleChInfo[iChID].sswScaleModeV == SCAL_MODE_BOTH)
-    {
-        uint8_t lut[24];
-        float ratio, win;
-
-        ratio = (float)m_asScaleChInfo[iChID].wScaleFactorDownV / 65536;
-        if(ratio > 0.5)
-        {
-            win = ratio;
-        }
-        else
-        {
-            win = 0.1;
-        }
-        calculate6SymbolLUT(&ratio, &win, lut);
-        C753LoadInputVerticalShrinkLookupTable(iChID, lut);
-        C753SetInputShrinkCompensationControl(iChID, 0x00);
-        C753SetInputVerticalShrinkCompensation(iChID, 0x00);
-        /*6-symbol LUT*/
-        C753SetInputVerticalShrinkControl(iChID, 0x07);
-        C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
-        C753SetInputVerticalShrinkScale(iChID, m_asScaleChInfo[iChID].wScaleFactorDownV);
-        /*6-symbol LUT*/
-        C753SetOutputVerticalEnlargementControl(iChID, 0x07);
-        C753SetOutputVerticalEnlargementInitialValue(iChID, 0x00);
-        C753SetOutputVerticalZoomScale(iChID, m_asScaleChInfo[iChID].wScaleFactorUpV);
-    }
-    else
-    {
-        /*关闭放大模块*/
-        C753SetOutputVerticalEnlargementControl(iChID, 0x00);
-        /*关闭缩小模块*/
-        C753SetInputVerticalShrinkControl(iChID, 0x00);
-    }
-
-    /*
-    *  其他寄存器
-    */
-    /*通道已经打开，由于信号分辨率发生变化，要重新设置缩放参数
-    *叠加层次保持不变，所以在这里返回
-    */
-    if(m_asScaleChInfo[iChID].iChStatus == SCAL_STATUS_REOPEN)
-        return;
-
-    if(iChID == C753_OUTPUT_CHANNEL_1)
-    {
-        /*叠加控制 side 1*/
-        C753SetOverlayControl(0x00);
-        /*打开通道1*/
-        if(m_asScaleChInfo[iChID].iChStatus == SCAL_STATUS_OPEN)
-        {
-            C753SetMainControl(iChID,0x03);
-        }
-        else
-        {
-            C753SetMainControl(iChID,0x02);
-        }
-    }
-    else if(iChID == C753_OUTPUT_CHANNEL_2)
-    {
-        /*叠加控制 side 2*/
-        C753SetOverlayControl(0x01);
-        /*打开通道2*/
-        if(m_asScaleChInfo[iChID].iChStatus == SCAL_STATUS_OPEN)
-        {
-        	C753SetMainControl(iChID,0x07);
-        }
-        else
-        {
-        	C753SetMainControl(iChID,0x06);
-        }
-    }
 }
 
 void AppScale::pauseChannel(uint32_t iChID)
@@ -1029,128 +767,6 @@ void AppScale::readBackground(uint32_t iChID, int32_t iIndex, uint16_t wWidth, u
 
 void AppScale::openChannelTest()
 {
-    int i;
-    uint32_t iChID=1;
-
-    printf("openChannelTest\n");
-
-    /*配置传输寄存器*/
-    /*RTCT4=000B RTCT3=000B RTCT2=110B RTCT1=101B RTCT0=011B*/
-    C753SetRegisterValueTransferControl(0x01AB);
-    /*
-    *  配置输入部分寄存器
-    */
-    /*RGB 30-bit 输入*/
-    C753SetInputFormatControl(iChID, 0x00);
-    /*IFLD 0到3循环*/
-    /*水平同步信号低电平有效*/
-    /*垂直同步信号低电平有效*/
-    C753SetInputPortSyncControl(iChID, 0x02);
-    /*关闭场信号自动识别*/
-    C753SetInputFieldRecognitionControl(iChID, 0x00);
-    /*PIACT区域外图像为0 PIACT POL*/
-    C753SetInputDigitalInterfaceControl(iChID, 0x00);
-    /*
-    *  配置输出部分寄存器
-    */
-    C753SetOutputPortSyncControl(0x2350);
-    /*OFLDC输出同步方式，OFLD1=0, OFLD2=0*/
-    /*POACT active high Select AOI3*/
-    /*C753SetOutputSyncControl(0x0068);*/
-    /*通道1输出场指针延时改变时间*/
-    C753SetFieldPropagationDelay1(0x04);
-    /*通道2输出场指针延时改变时间*/
-    C753SetFieldPropagationDelay2(0x04);
-    /*背景图像*/
-    C753SetOutputBackground0(0x00);
-    C753SetOutputBackground1(0x00);
-    /*POCLKO 输出使能*/
-    C753SetPOCLKControl(0x03);
-    /*POCLK PLL配置*/
-    C753SetPOCLKPLLControl(0x81);
-    C753SetPOCLKReferenceDividing(0x07);
-    C753SetPOCLKFeedbackDividing(0x0f);
-
-    printf("initHardware PCL OK \n!");
-
-
-    uint16_t startX=0;
-    uint16_t startY=0;
-    uint16_t width=0;
-    uint16_t height=0;
-
-
-    C753SetOutputPortOAOI1HorizontalStart((uint16_t)163);
-    C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1178);
-    C753SetOutputPortOAOI1VerticalStart((uint16_t)34);
-    C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
-
-    /*输出图像区域*/
-    C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
-    C753SetOutputPortACTHorizontalWidth(iChID, 1024);
-    C753SetOutputPortACTVerticalStart(iChID, (uint16_t)34);
-    C753SetOutputPortACTVerticalWidth(iChID,769);
-
-
-    printf("initHardware OUTPUT PORT OK \n!");
-
-    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-    /*
-    *  配置图像数据存储器
-    */
-
-    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
-    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
-    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
-    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
-    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
-    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
-    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
-    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
-
-
-    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
-    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
-
-        /*配置IP转换的输出区域*/
-        C753SetIPConversionOutputPortHorizontalSyncCycle(iChID, 0x04b6);
-        C753SetIPConversionOutputPortVerticalSyncCycle(iChID, 0x0fff);
-        C753SetIPConversionForcedSyncResetDelay(iChID, 0x40);
-        C753SetIPConversionOutputPortActiveAreaHorizontalStart(iChID, 0x0020);
-        C753SetIPConversionOutputPortActiveAreaHorizontalWidth(iChID, 0x02d0);
-        C753SetIPConversionOutputPortActiveAreaVerticalStart(iChID, 0x0008);
-        C753SetIPConversionOutputPortActiveAreaVerticalWidth(iChID, 0x01e5);
-        /*配置IP转换运动自适应补偿滤波器系数*/
-        C753SetMovementNRControl(iChID, 0x17);
-        C753SetHorizontalMovementValueNRCoefficient(iChID, 0x01, 0x01, 0x02, 0x08);
-        C753SetVerticalMovementValueGain(iChID, 0x00, 0x00, 0x00, 0x00);
-        C753SetHorizontalMovementValueGain(iChID, 0x08, 0x08, 0x10, 0x18);
-        C753SetVerticalDirectionMAXFilter(iChID, 0x07);
-        C753SetMovementCoefficientNR(iChID, 0x01);
-        /*配置IP转换的内存配置*/
-
-        C753SetIPConversionField0MemoryReadStartAddress(iChID, 0x00400000);
-        C753SetIPConversionField1MemoryReadStartAddress(iChID, 0x00800000);
-        C753SetIPConversionField0MemoryWriteStartAddress(iChID,	0x00401000);
-        C753SetIPConversionField1MemoryWriteStartAddress(iChID, 0x00400000);
-        C753SetIPConversionField2MemoryWriteStartAddress(iChID, 0x00801000);
-        C753SetIPConversionField3MemoryWriteStartAddress(iChID, 0x00800000);
-        C753SetIPConversionMovementValueReadStartAddress(iChID, 0x00C00000);
-
-
-        C753SetIPConversionMemoryLinefeedWidth(iChID, 0x08);
-        C753SetTemporalNRReadStartAddressSelect(iChID, 0x01);
-
-        /*配置IP转换表参数*/
-        for(i = 0; i < sizeof(s_sLUTIPTable)/sizeof(s_sLUTIPTable[0]); i++)
-        {
-            C753SetLUTCoefficient(iChID, s_sLUTIPTable[i].dwCoef);
-            C753SetLUTWriteAddress(iChID, s_sLUTIPTable[i].byAddr);
-            C753SetLUTWriteEnable(iChID, 0xff);
-        }
 
 }
 
@@ -1348,6 +964,8 @@ void AppScale::initTest1400()
 
 void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t hOutput,uint32_t vOutput)
 {
+
+	vOutput = vOutput +3;
 	hideWnd(iChID);
     C753SetOutputVerticalEnlargementControl(iChID, 0x00);
     /*关闭缩小模块*/
@@ -1403,8 +1021,10 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 
 
         C753SetInputHorizontalShrinkScale(iChID,shrinkScale);
+    	debug_msg("HorizontalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
 
- //       C753SetInputPortACTHorizontalWidth(iChID,hInput);
+
+        C753SetInputPortACTHorizontalWidth(iChID,hOutput);
         C753SetOutputPortACTHorizontalWidth(iChID, hOutput);
 
 	}
@@ -1476,6 +1096,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 
 
         C753SetInputVerticalShrinkScale(iChID, shrinkScale);
+        debug_msg("VerticalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
 
 
         C753SetInputPortACTVerticalWidth(iChID,vInput);
@@ -1697,7 +1318,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
 
 			m_horFp = 296;
-			m_verFp = 35;
+			m_verFp = 33;
 
 		}
 		else if(size == TYPE_OUTPUT_SIZE_1440_1050)
@@ -1708,7 +1329,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			 C753SetOutputPortOAOI0VerticalEnd((uint16_t)1085);
 
 			 m_horFp = 241;
-			 m_verFp = 35;
+			 m_verFp = 33;
 
 		}
 
@@ -1724,7 +1345,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
 
 			m_horFp = 296;
-			m_verFp = 35;
+			m_verFp = 33;
 		}
 		else if(size == TYPE_OUTPUT_SIZE_1440_1050)
 		{
@@ -1734,7 +1355,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			C753SetOutputPortOAOI1VerticalEnd((uint16_t)1085);
 
 			m_horFp = 241;
-			m_verFp = 35;
+			m_verFp = 33;
 		}
 	}
 }
@@ -1750,7 +1371,7 @@ void AppScale::setOutputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16
     C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)tempHs);
     C753SetOutputPortACTHorizontalWidth(iChID, hw);
     C753SetOutputPortACTVerticalStart(iChID, (uint16_t)tempVs);
-    C753SetOutputPortACTVerticalWidth(iChID,vw);
+    C753SetOutputPortACTVerticalWidth(iChID,vw+3);
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
     	C753SetOutputImageControl(iChID,0x02);
@@ -1863,6 +1484,31 @@ void AppScale::setOSDPosition(uint32_t posX,uint32_t posY)
 	C753SetOSDACTVerticalStart(posY);
 
 }
+
+void AppScale::dumpLut()
+{
+	debug_msg("dumpLut!");
+	uint8_t h[24]={0};
+	uint8_t v[24]={0};
+
+
+	C753DumpLoadInputHorizontalShrinkLookupTable(1,h);
+	C753DumpLoadInputVerticalShrinkLookupTable(1,v);
+
+	printf("\n Horizontal LUT\n");
+	for(int i=0;i<24;i++)
+	{
+		printf("%02X ",h[i]);
+	}
+	printf("\n tVertical LUT\n");
+	for(int i=0;i<24;i++)
+	{
+		printf("%02X ",v[i]);
+	}
+	printf("\n");
+}
+
+
 
 
 

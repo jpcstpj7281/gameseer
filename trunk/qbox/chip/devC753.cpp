@@ -1902,6 +1902,7 @@ void DriverChip753::C753LoadInputHorizontalShrinkLookupTable(uint32_t iCh, const
         }
     }
 }
+
 void DriverChip753::C753LoadInputVerticalShrinkLookupTable(uint32_t iCh, const uint8_t *pbyVal)
 {
     int i;
@@ -1920,6 +1921,52 @@ void DriverChip753::C753LoadInputVerticalShrinkLookupTable(uint32_t iCh, const u
         for(i = 0; i < 24; i++)
         {
             SPI_Write(0,REG_C753_B8_VSLUTCH2_0+i, pbyVal[i]);
+        }
+    }
+}
+
+
+void DriverChip753::C753DumpLoadInputHorizontalShrinkLookupTable(uint32_t iCh,uint8_t *pbyVal)
+{
+    int i;
+
+    if(iCh == C753_INPUT_CHANNEL_1)
+    {
+        SPI_Write(0,REG_C753_BSC_RGBNK,6);
+        for(i = 0; i < 24; i++)
+        {
+            SPI_Read(0,REG_C753_B6_HSLUTCH1_0+i, pbyVal[i]);
+        }
+    }
+    else if(iCh == C753_INPUT_CHANNEL_2)
+    {
+        SPI_Write(0,REG_C753_BSC_RGBNK,8);
+        for(i = 0; i < 24; i++)
+        {
+        	SPI_Read(0,REG_C753_B8_HSLUTCH2_0+i, pbyVal[i]);
+        }
+    }
+}
+
+
+void DriverChip753::C753DumpLoadInputVerticalShrinkLookupTable(uint32_t iCh,uint8_t *pbyVal)
+{
+    int i;
+
+    if(iCh == C753_INPUT_CHANNEL_1)
+    {
+        SPI_Write(0,REG_C753_BSC_RGBNK,6);
+        for(i = 0; i < 24; i++)
+        {
+        	SPI_Read(0,REG_C753_B6_VSLUTCH1_0+i, pbyVal[i]);
+        }
+    }
+    else if(iCh == C753_INPUT_CHANNEL_2)
+    {
+        SPI_Write(0,REG_C753_BSC_RGBNK,8);
+        for(i = 0; i < 24; i++)
+        {
+        	SPI_Read(0,REG_C753_B8_VSLUTCH2_0+i, pbyVal[i]);
         }
     }
 }

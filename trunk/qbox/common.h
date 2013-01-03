@@ -36,10 +36,17 @@ enum OUTPUT_MODEL
 enum INPUT_SIZE_TYPE
 {
     TYPE_INPUT_SIZE_702_480 = 0,
-    TYPE_INPUT_SIZE_1024_768 = 2,
+
+    TYPE_INPUT_SIZE_800_600 = 2,
+    TYPE_INPUT_SIZE_1024_768_60 = 3,
+    TYPE_INPUT_SIZE_1280_1024_60 = 4,
+    TYPE_INPUT_SIZE_1600_1200_60 = 5,
 
     TYPE_INPUT_SIZE_DEFAULT = 255,
+
 };
+
+
 
 #define test_msg (printf("\n%s[%d]:", __FILE__,__LINE__), printf)
 
@@ -69,7 +76,7 @@ extern void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_
 
 extern void getSignalModel(uint32_t signal,uint32_t &model);
 
-extern void getChnModel(uint32_t chn,uint32_t &model,uint32_t &input);
+extern void getChnModel(uint32_t chn,uint32_t &model);
 extern void setChnModel(uint32_t chn,uint32_t model);
 
 extern void setChnSignalInput(uint32_t out,uint32_t in);

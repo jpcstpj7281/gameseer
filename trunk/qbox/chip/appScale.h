@@ -263,6 +263,8 @@ public:
 	void setOSDSize(uint32_t wide,uint32_t high);
 	void setOSDPosition(uint32_t posX,uint32_t posY);
 
+	void dumpLut();
+
 private:
 
 	static AppScale* m_instance;

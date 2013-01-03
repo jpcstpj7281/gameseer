@@ -341,7 +341,8 @@ int IServer::Server()
 		{
 			test_msg("new connection client[%d] %s:%d\n", m_conn_amount,inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 			m_server = sd;
-			m_fd[sd] = sd;
+
+			m_fd[sd%MAX_CLIENT_ACCEPT] = sd;
 			server_proc(sd);
 		}
     }
