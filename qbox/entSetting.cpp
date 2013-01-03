@@ -84,6 +84,15 @@ void EntSetting::setInputInfoSize(uint32_t chId,uint32_t width,uint32_t height)
 	m_inputStatus[chId].height = height;
 }
 
+void EntSetting::setInputModel(uint32_t chId,uint32_t model)
+{
+	m_inputStatus[chId].model = model;
+}
+
+uint32_t EntSetting::getInputModel(uint32_t chId)
+{
+	return m_inputStatus[chId].model;
+}
 
 uint32_t EntSetting::getInputInfoFlg(uint32_t chId)
 {

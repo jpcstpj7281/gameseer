@@ -160,31 +160,64 @@ void taskCheckInputSignal()
 //			test_msg("chech signal =%d",i);
 			uint32_t model = 0;
 			getSignalModel(i,model);
-			if(model != TYPE_INPUT_SIZE_DEFAULT)
+
+			if(model != EntSetting::Instance()->getInputModel(i))
 			{
-				EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_ONLINE);
-				if(model == TYPE_INPUT_SIZE_702_480)
+				if(model != TYPE_INPUT_SIZE_DEFAULT)
 				{
-					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
-					EntSetting::Instance()->setInputInfoSize(i,702,480);
-					test_msg("chech signal =%d,702_480",i);
+					EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_ONLINE);
+					if(model == TYPE_INPUT_SIZE_702_480)
+					{
+						EntSetting::Instance()->setInputModel(i,model);
+
+						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
+						EntSetting::Instance()->setInputInfoSize(i,702,480);
+						test_msg("check signal =%d,702_480",i);
+
+					}
+					else if(model == TYPE_INPUT_SIZE_800_600)
+					{
+						EntSetting::Instance()->setInputModel(i,model);
+						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+						EntSetting::Instance()->setInputInfoSize(i,800,600);
+						test_msg("check signal =%d,800_600",i);
+					}
+					else if(model == TYPE_INPUT_SIZE_1024_768_60)
+					{
+						EntSetting::Instance()->setInputModel(i,model);
+						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+						EntSetting::Instance()->setInputInfoSize(i,1024,768);
+						test_msg("check signal =%d,1024_768",i);
+					}
+					else if(model == TYPE_INPUT_SIZE_1280_1024_60)
+					{
+						EntSetting::Instance()->setInputModel(i,model);
+						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+						EntSetting::Instance()->setInputInfoSize(i,1280,1024);
+						test_msg("check signal =%d,1280_1024",i);
+					}
+
+
+					else if(model == TYPE_INPUT_SIZE_1600_1200_60)
+					{
+						EntSetting::Instance()->setInputModel(i,model);
+						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+						EntSetting::Instance()->setInputInfoSize(i,1600,1200);
+						test_msg("check signal =%d,1600_1200",i);
+					}
 				}
-				else if(model == TYPE_INPUT_SIZE_1024_768)
+
+				else
 				{
-					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
-					EntSetting::Instance()->setInputInfoSize(i,1024,768);
-					test_msg("chech signal =%d,1024_768",i);
+					EntSetting::Instance()->setInputModel(i,model);
+					EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_OFFLINE);
+					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_DEFAULT);
+					EntSetting::Instance()->setInputInfoSize(i,0,0);
 				}
-			}
-			else
-			{
-				EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_OFFLINE);
-				EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_DEFAULT);
-				EntSetting::Instance()->setInputInfoSize(i,0,0);
 			}
 		}
 
-		taskDelay(1000);
+		taskDelay(10);
 	}
 
 #else
@@ -201,7 +234,7 @@ void enterApp()
 	int ret = 0;
 	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,5000,0,0,0,0,0,0,0,0,0);
 
-	ret = taskSpawn("tCheckSignal", 155, 0x0002, 2*1024,(FUNCPTR) taskCheckInputSignal,0,0,0,0,0,0,0,0,0,0);
+	ret = taskSpawn("tCheckSignal", 125, 0x0002, 2*1024,(FUNCPTR) taskCheckInputSignal,0,0,0,0,0,0,0,0,0,0);
 
 }
 #endif

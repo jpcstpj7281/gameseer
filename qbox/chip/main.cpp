@@ -658,7 +658,7 @@ void demoRing()
 	s_c753.setOutputChannelACT(2,1024,768,0,0);
 	s_c753.showWnd(1);
 
-	setFpgaSelectChn(1,2);
+	setFpgaSelectChn(1,4);
 
 
 
@@ -885,7 +885,42 @@ void testGetDLP(uint8_t addr,uint8_t value)
 
 }
 
+void dump753Lut()
+{
+	AppScale s_c753;
+	s_c753.dumpLut();
+}
 
+void set753ScalPara(uint16_t uHscal,uint16_t uVscal)
+{
+	AppScale s_c753;
+	s_c753.C753SetInputHorizontalShrinkScale(1,uHscal);
+	s_c753.C753SetInputVerticalShrinkScale(1,uVscal);
+}
+
+void set753OutH(uint32_t uHscal)
+{
+	AppScale s_c753;
+	s_c753.C753SetOutputPortACTHorizontalWidth(1,uHscal);
+}
+
+void set753OutV(uint32_t uVscal)
+{
+	AppScale s_c753;
+	s_c753.C753SetOutputPortACTVerticalWidth(1,uVscal);
+}
+
+void set753InH(uint32_t uHscal)
+{
+	AppScale s_c753;
+	s_c753.C753SetInputPortACTHorizontalWidth(1,uHscal);
+}
+
+void set753InV(uint32_t uVscal)
+{
+	AppScale s_c753;
+	s_c753.C753SetInputPortACTVerticalWidth(1,uVscal);
+}
 
 }
 #endif /* __cplusplus */

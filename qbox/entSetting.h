@@ -43,6 +43,7 @@ struct ChannelInfo
 	uint32_t useFlg;
 	uint32_t width;
 	uint32_t height;
+	uint32_t model;
 	string   type;
 
 	ChannelInfo& operator = (const ChannelInfo& info)
@@ -53,6 +54,7 @@ struct ChannelInfo
 		useFlg = info.useFlg;
 		width = info.width;
 		height = info.height;
+		model = info.model;
 		type = info.type;
 
 
@@ -154,6 +156,9 @@ public:
 	uint32_t getSlotStatusFlg(uint32_t slot);
 	string getSlotStatusType(uint32_t slot);
 
+
+	void setInputModel(uint32_t chId,uint32_t model);
+	uint32_t getInputModel(uint32_t chId);
 
 	void dumpAll();
 

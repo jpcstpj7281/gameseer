@@ -134,7 +134,7 @@ void getChnSignalInput(uint32_t out,uint32_t &in)
 	in = (uint32_t)input;
 }
 
-void getChnModel(uint32_t chn,uint32_t &model,uint32_t &input)
+void getChnModel(uint32_t chn,uint32_t &model)
 {
 	DriverChipFPGA s_cfpga;
 	debug_msg("getChnModel chId=%d!",chn);
@@ -142,7 +142,7 @@ void getChnModel(uint32_t chn,uint32_t &model,uint32_t &input)
 
 	s_cfpga.getSelectInput(chn,tempInput);
 	s_cfpga.getSignalModel(tempInput,model);
-	input = tempInput;
+
 
 
 }

@@ -25,7 +25,7 @@ void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw);
 
 void getSignalModel(uint32_t signal,uint32_t &model);
 
-void getChnModel(uint32_t chn,uint32_t &model,uint32_t &input);
+void getChnModel(uint32_t chn,uint32_t &model);
 void setChnModel(uint32_t chn,uint32_t model);
 
 void setChnSignalInput(uint32_t out,uint32_t in);

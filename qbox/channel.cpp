@@ -83,6 +83,16 @@ void Channel::onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 		test_msg("onPSetSwitchInputReq  out=%d,input=%d",out,input);
 		setChnSignalInput(out,input);
 
+//		taskDelay(10);
+
+	    uint32_t model = 0;
+	    uint32_t inputModel = 0;
+	    getChnModel(out,model);
+		test_msg("setChnModel  out=%d,model:%d  !",out,model);
+		setChnModel(out,model);
+
+
+
 
 #endif
 

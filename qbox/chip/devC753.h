@@ -267,8 +267,16 @@ public:
 	void C753SetInputVerticalShrinkScale(uint32_t iCh, uint16_t wVal);
 	void C753SetInputHorizontalShrinkCompensation(uint32_t iCh, uint8_t byVal);
 	void C753SetInputVerticalShrinkCompensation(uint32_t iCh, uint8_t byVal);
+
 	void C753LoadInputHorizontalShrinkLookupTable(uint32_t iCh, const uint8_t *pbyVal);
 	void C753LoadInputVerticalShrinkLookupTable(uint32_t iCh, const uint8_t *pbyVal);
+
+
+	void C753DumpLoadInputHorizontalShrinkLookupTable(uint32_t iCh,uint8_t *pbyVal);
+	void C753DumpLoadInputVerticalShrinkLookupTable(uint32_t iCh, uint8_t *pbyVal);
+
+
+
 	/*Bank 7/9 function*/
 	void C753SetInputImageCharacteristicsMeasurementControl(uint32_t iCh, uint8_t byVal);
 	void C753SetInputMeasurementHorizontalStart(uint32_t iCh, uint16_t wVal);

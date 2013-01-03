@@ -257,6 +257,10 @@ void DriverChipFPGA::setSelectInput(uint32_t iChID,uint16_t input)
 		}
 	}
 
+
+
+
+
 }
 
 
@@ -407,19 +411,43 @@ void DriverChipFPGA::getSignalModel(uint32_t signal,uint32_t &model)
 	   && wVs > 480
 	   && wVs < 500)
 	{
-		model = TYPE_INPUT_SIZE_702_480;
-//		debug_msg("getSignalModel TYPE_INPUT_SIZE_702_480");
+//		if(signal ==1 || signal ==2)
+//		{
+//			model = TYPE_INPUT_SIZE_702_480_RING;
+//		}
+//		else
+		{
+			model = TYPE_INPUT_SIZE_702_480;
+		}
+	}
+	else if(wHs > 790
+			   && wHs < 810
+			   && wVs > 590
+			   && wVs < 610)
+	{
+		model = TYPE_INPUT_SIZE_800_600;
 	}
 	else if(wHs > 1000
 			   && wHs < 1100
 			   && wVs > 750
 			   && wVs < 780)
 	{
-		model = TYPE_INPUT_SIZE_1024_768;
-//		debug_msg("getSignalModel TYPE_INPUT_SIZE_1024_768");
+		model = TYPE_INPUT_SIZE_1024_768_60;
 	}
-
-
+	else if(wHs > 1200
+			   && wHs < 1350
+			   && wVs > 1000
+			   && wVs < 1100)
+	{
+		model = TYPE_INPUT_SIZE_1280_1024_60;
+	}
+	else if(wHs > 1580
+			   && wHs < 1680
+			   && wVs > 1180
+			   && wVs < 1280)
+	{
+		model = TYPE_INPUT_SIZE_1600_1200_60;
+	}
 	else
 	{
 		model = TYPE_INPUT_SIZE_DEFAULT;

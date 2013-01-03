@@ -188,8 +188,7 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
 
     uint32_t model = 0;
-    uint32_t input = 0;
-    getChnModel(winOut,model,input);
+    getChnModel(winOut,model);
 	if(TYPE_INPUT_SIZE_DEFAULT != model)
 	{
 		setChnModel(winOut,model);
