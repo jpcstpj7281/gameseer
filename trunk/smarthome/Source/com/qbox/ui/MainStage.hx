@@ -65,8 +65,8 @@ class MainStage extends ListDialogMgr {
         new RingsDlg(this);
         _screenPlate = new ScreenPlate(this);
 
-        new PlusDown(this);
-        new PlusRight(this);
+        //new PlusDown(this);
+        //new PlusRight(this);
 #if !neko
         //new base.ui.SocialBinderDlg(this);
         //new SubjectsDlg( this);

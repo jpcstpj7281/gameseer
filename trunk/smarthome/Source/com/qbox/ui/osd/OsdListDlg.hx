@@ -40,7 +40,7 @@ class OsdListDlg extends ListDialog{
         _promt.text = TXT;
         _promt.scaleX = 3;
         _promt.scaleY = 3;
-        _promt.width = 50;
+        _promt.width = 150;
         _promt.height= 16;
         _s.addChild( _promt);
         _s.height = nme.Lib.current.stage.stageHeight/15;

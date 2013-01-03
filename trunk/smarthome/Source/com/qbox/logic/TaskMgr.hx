@@ -2,6 +2,8 @@ package com.qbox.logic;
 
 import base.data.DataLoader;
 import haxe.Timer;
+import nme.Lib;
+import nme.events.Event;
 
 
 class TaskMgr{
@@ -30,12 +32,12 @@ class TaskMgr{
             }
         }
         //_timer = new Timer(300);
-        Lib.current.addEventListener(Event.ENTER_FRAME, loop);
+        Lib.current.addEventListener(Event.ENTER_FRAME, trun);
         //_timer.run = trun;
     }
 
 
-    function trun(){
+    function trun( evt:Event ){
         var d  = Date.now();
         for( i in _tasks){
             i.run( d );
