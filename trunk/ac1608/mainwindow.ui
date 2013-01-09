@@ -41,7 +41,7 @@ Gain
 Control</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="gateNom">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -55,7 +55,7 @@ Control</string>
 NOM</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="highPass">
     <property name="geometry">
      <rect>
       <x>250</x>
@@ -69,7 +69,7 @@ NOM</string>
 Pass</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="peq4Band">
     <property name="geometry">
      <rect>
       <x>340</x>
@@ -83,7 +83,7 @@ Pass</string>
 PEQ</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="level16CH">
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -96,7 +96,7 @@ PEQ</string>
      <string>Level</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="meter16CH">
     <property name="geometry">
      <rect>
       <x>520</x>
@@ -109,7 +109,7 @@ PEQ</string>
      <string>Meter</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="matrixMixer">
     <property name="geometry">
      <rect>
       <x>610</x>
@@ -123,7 +123,7 @@ PEQ</string>
 Mixer</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_8">
+   <widget class="QPushButton" name="level4CH">
     <property name="geometry">
      <rect>
       <x>700</x>
@@ -136,7 +136,7 @@ Mixer</string>
      <string>Level</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_9">
+   <widget class="QPushButton" name="nom">
     <property name="geometry">
      <rect>
       <x>790</x>
@@ -149,7 +149,7 @@ Mixer</string>
      <string>NOM</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_10">
+   <widget class="QPushButton" name="peq5Band">
     <property name="geometry">
      <rect>
       <x>880</x>
@@ -163,7 +163,7 @@ Mixer</string>
 PEQ</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_11">
+   <widget class="QPushButton" name="meter4CH">
     <property name="geometry">
      <rect>
       <x>1000</x>
@@ -1486,34 +1486,6 @@ Receive</string>
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <zorder>progressBar_55</zorder>
-     <zorder>m0_55</zorder>
-     <zorder>t35_55</zorder>
-     <zorder>tn100_55</zorder>
-     <zorder>m15_55</zorder>
-     <zorder>m25_55</zorder>
-     <zorder>m90_55</zorder>
-     <zorder>m105_55</zorder>
-     <zorder>m120_55</zorder>
-     <zorder>m135_55</zorder>
-     <zorder>m45_55</zorder>
-     <zorder>m60_55</zorder>
-     <zorder>m75_55</zorder>
-     <zorder>t20_55</zorder>
-     <zorder>t5_55</zorder>
-     <zorder>tn10_55</zorder>
-     <zorder>tn25_55</zorder>
-     <zorder>tn40_55</zorder>
-     <zorder>tn55_55</zorder>
-     <zorder>tn70_55</zorder>
-     <zorder>tn85_55</zorder>
-     <zorder>m35_55</zorder>
-     <zorder>t0_55</zorder>
-     <zorder>value_55</zorder>
-     <zorder>dB_55</zorder>
-     <zorder>number_55</zorder>
-     <zorder>line_55</zorder>
-     <zorder>widget_14</zorder>
     </widget>
     <widget class="QWidget" name="widget_4" native="true">
      <property name="geometry">
@@ -3574,34 +3546,6 @@ Receive</string>
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <zorder>progressBar</zorder>
-     <zorder>line</zorder>
-     <zorder>m0</zorder>
-     <zorder>t35</zorder>
-     <zorder>tn100</zorder>
-     <zorder>m15</zorder>
-     <zorder>m25</zorder>
-     <zorder>m90</zorder>
-     <zorder>m105</zorder>
-     <zorder>m120</zorder>
-     <zorder>m135</zorder>
-     <zorder>m45</zorder>
-     <zorder>m60</zorder>
-     <zorder>m75</zorder>
-     <zorder>t20</zorder>
-     <zorder>t5</zorder>
-     <zorder>tn10</zorder>
-     <zorder>tn25</zorder>
-     <zorder>tn40</zorder>
-     <zorder>tn55</zorder>
-     <zorder>tn70</zorder>
-     <zorder>tn85</zorder>
-     <zorder>m35</zorder>
-     <zorder>t0</zorder>
-     <zorder>value</zorder>
-     <zorder>dB</zorder>
-     <zorder>number</zorder>
-     <zorder>line</zorder>
     </widget>
     <widget class="QWidget" name="widget_11" native="true">
      <property name="geometry">
@@ -6899,24 +6843,6 @@ Receive</string>
       </property>
      </widget>
     </widget>
-    <zorder>number</zorder>
-    <zorder>number</zorder>
-    <zorder>widget_6</zorder>
-    <zorder>widget_10</zorder>
-    <zorder>widget_13</zorder>
-    <zorder>widget_4</zorder>
-    <zorder>widget_14</zorder>
-    <zorder>widget_7</zorder>
-    <zorder>widget_2</zorder>
-    <zorder>widget</zorder>
-    <zorder>widget_11</zorder>
-    <zorder>widget_5</zorder>
-    <zorder>widget_12</zorder>
-    <zorder>widget_15</zorder>
-    <zorder>widget_8</zorder>
-    <zorder>widget_3</zorder>
-    <zorder>widget_9</zorder>
-    <zorder>widget_16</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
@@ -11064,24 +10990,6 @@ Receive</string>
      </widget>
     </widget>
    </widget>
-   <zorder>inputGainControl</zorder>
-   <zorder>pushButton_2</zorder>
-   <zorder>pushButton_3</zorder>
-   <zorder>pushButton_4</zorder>
-   <zorder>pushButton_5</zorder>
-   <zorder>pushButton_6</zorder>
-   <zorder>pushButton_7</zorder>
-   <zorder>pushButton_8</zorder>
-   <zorder>pushButton_9</zorder>
-   <zorder>pushButton_10</zorder>
-   <zorder>pushButton_11</zorder>
-   <zorder>pushButton_12</zorder>
-   <zorder>pushButton_13</zorder>
-   <zorder>pushButton_14</zorder>
-   <zorder>groupBox</zorder>
-   <zorder>line</zorder>
-   <zorder>groupBox_2</zorder>
-   <zorder>groupBox_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

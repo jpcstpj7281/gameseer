@@ -21,8 +21,8 @@ SOURCES += main.cpp\
     highpasswnd.cpp \
     peq4bandwnd.cpp \
     gatenomwnd.cpp \
-    meters.cpp \
-    matrixmixer.cpp \
+    meterswnd.cpp \
+    matrixmixerwnd.cpp \
     peq5bandwnd.cpp \
     level8chwnd.cpp \
     deviceswnd.cpp
@@ -35,8 +35,8 @@ HEADERS  += mainwindow.h \
     highpasswnd.h \
     peq4bandwnd.h \
     gatenomwnd.h \
-    meters.h \
-    matrixmixer.h \
+    meterswnd.h \
+    matrixmixerwnd.h \
     peq5bandwnd.h \
     level8chwnd.h \
     deviceswnd.h
@@ -49,8 +49,8 @@ FORMS    += mainwindow.ui \
     highpasswnd.ui \
     peq4bandwnd.ui \
     gatenomwnd.ui \
-    meters.ui \
-    matrixmixer.ui \
     peq5bandwnd.ui \
     level8chwnd.ui \
-    deviceswnd.ui
+    deviceswnd.ui \
+    meterswnd.ui \
+    matrixmixerwnd.ui
