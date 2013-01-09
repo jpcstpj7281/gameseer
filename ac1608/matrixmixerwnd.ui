@@ -2,8 +2,8 @@
  <author/>
  <comment/>
  <exportmacro/>
- <class>MatrixMixer</class>
- <widget name="MatrixMixer" class="QWidget">
+ <class>MatrixMixerWnd</class>
+ <widget name="MatrixMixerWnd" class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
