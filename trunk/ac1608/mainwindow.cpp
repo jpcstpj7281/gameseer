@@ -13,6 +13,8 @@
 #include "PEQ4BandWnd.h"
 #include "PEQ5BandWnd.h"
 #include "PresetWnd.h"
+#include <QAction.h>
+#include <QLineEdit.h>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -21,8 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
     ,gateNOMWnd_(new GateNOMWnd)
     ,highPassWnd_(new HighPassWnd)
     ,peq4BandWnd_(new PEQ4BandWnd)
+    ,changePasswordWnd_(new ChangePasswordWnd)
 {
     ui->setupUi(this);
+    connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionChangePsw_clicked(QAction*)));
 }
 
 MainWindow::~MainWindow()
@@ -32,6 +36,7 @@ MainWindow::~MainWindow()
     delete gateNOMWnd_;
     delete highPassWnd_;
     delete peq4BandWnd_;
+    delete changePasswordWnd_;
 }
 
 void MainWindow::on_inputGainControl_clicked()
@@ -73,6 +78,16 @@ void MainWindow::on_peq4Band_clicked()
 
 }
 
+void MainWindow::on_actionChangePsw_clicked( QAction* action){
+    if (action->objectName() != "actionChangePsw" ) return;
+
+
+    if ( changePasswordWnd_->isVisible()){
+        changePasswordWnd_->raise();
+    }else{
+        changePasswordWnd_->show();
+    }
+}
 
 void MainWindow::closeEvent(QCloseEvent * ){
     QCoreApplication::exit();
