@@ -30,12 +30,15 @@ class ModeMgr{
     }
 
     public function deleteMode( m:Mode):Void{
+        DataLoader.getInst().saveData( "mode"+m._index, null);
+        _modes.remove(m);
         for ( i in m._index..._modes.length){
-            DataLoader.getInst().saveData( "mode"+_modes[i]._index, null);
+            //if ( _modes[i] == m){
+            //}
             -- _modes[i]._index;
             _modes[i].save();
         }
-        _modes.remove(m);
+        DataLoader.getInst().saveData( "mode"+_modes.length, null);
     }
 
     public function createMode():Mode{

@@ -253,11 +253,12 @@ class ScreenPlate extends CommDialog{
         }
     }
 
-    public function changedCurrChannel( c:Channel){
+    public function changedCurrChannel( c:Channel):Bool{
         var w = getSelectedWnd();
         if ( w != null){
-            w._wnd.changeChannel(c);
+            return w._wnd.changeChannel(c);
         }
+        return null;
     }
 
     function onThisMouseUp( evt:MouseEvent ):Void{ 

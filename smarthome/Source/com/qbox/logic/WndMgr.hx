@@ -42,6 +42,16 @@ class WndMgr {
         }
     }
 
+    public function getWndsByChannel( c:Channel):Array<Wnd>{
+        var wnds = new Array<Wnd>();
+        for ( i in _wnds){
+            if ( i._channel == c){
+                wnds.push( i);
+            }
+        }
+        return wnds;
+    }
+
     public function createWnd( layer:Int = 0):Wnd{
         var c = new Wnd();
         if ( layer == 0) c._layer = _maxLayer+=1;
