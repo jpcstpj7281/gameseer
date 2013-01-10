@@ -29,11 +29,12 @@ class MainWindow : public QMainWindow
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
-        private slots:
-            void on_inputGainControl_clicked();
+    private slots:
+        void on_inputGainControl_clicked();
         void on_gateNom_clicked();
         void on_highPass_clicked();
         void on_peq4Band_clicked();
+        void on_actionChangePsw_clicked(QAction*);
 
     private:
         Ui::MainWindow *ui;
