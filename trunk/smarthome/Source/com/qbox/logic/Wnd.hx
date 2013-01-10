@@ -144,16 +144,21 @@ class Wnd{
         }
     }
 
-    public function changeChannel( c:Channel){
+    public function changeChannel( c:Channel):Bool{
         if ( _channel != null && _channel !=c ){
-            _channel = c;
-            //_opCounter+=_screens.length;
-            //for (i in 0..._screens.length){
-            //_screens[i].hideWnd( this, cbChangeChannel1);
-            //}
-            ++_opCounter;
-            cbChangeChannel1( null);
+            var wnds = WndMgr.getInst().getWndsByChannel(c);
+            if (wnds.length == 1){
+                _channel = c;
+                //_opCounter+=_screens.length;
+                //for (i in 0..._screens.length){
+                //_screens[i].hideWnd( this, cbChangeChannel1);
+                //}
+                ++_opCounter;
+                cbChangeChannel1( null);
+                return true;
+            }
         }
+        return false;
     }
 
     public function cbChangeChannel1(a1):Void{
