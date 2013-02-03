@@ -22,9 +22,9 @@ import com.qbox.logic.Screen;
 class ScreenFlag{
     public var isSelected:Bool;
     public var screen:Screen;
-    public var clickCount:Int;
-    static public var InportNum = 1;
-    public function new ( s:Screen){ screen = s;isSelected= false;clickCount = 0;}
+    public var inputCount:Int;
+    static public var InportNum = 6;
+    public function new ( s:Screen){ screen = s;isSelected= false;inputCount = 0;}
 }
 
 class RingsPlate extends CommDialog{
@@ -193,6 +193,30 @@ class RingsPlate extends CommDialog{
             s.graphics.beginFill(0x888888);
             //s.graphics.drawRect( (i._col+0.5) * _RingWidth, i._row * _RingHeight, _RingWidth*0.5, _RingHeight);
             s.graphics.drawRect( (i._col+0.25) * _RingWidth, (i._row+0.25) * _RingHeight, _RingWidth*0.5, _RingHeight*0.5);
+            
+            if ( ring != null){
+                for ( it in 0...6){
+                    var portstring = "" + (it +1);
+                    if ( portstring == flag.screen._ringNode._inport[ring._nodeIndex] ){
+                        s.graphics.beginFill(0x00FF00);
+                        s.graphics.drawRect( (i._col+0.25) * _RingWidth, (i._row+0.25) * _RingHeight + _RingHeight /12 * it , _RingHeight /16, _RingHeight /16);
+                    }else{
+                        s.graphics.beginFill(0x0000FF);
+                        s.graphics.drawRect( (i._col+0.25) * _RingWidth, (i._row+0.25) * _RingHeight + _RingHeight /12 * it , _RingHeight /16, _RingHeight /16);
+                    }
+                }
+                for ( it in 0...2){
+                    var portstring = "" + (it +3);
+                    if ( portstring == flag.screen._ringNode._outport[ring._nodeIndex] ){
+                        s.graphics.beginFill(0x00FF00);
+                        s.graphics.drawRect( (i._col+0.75) * _RingWidth, (i._row+0.25) * _RingHeight + _RingHeight /12 * it , _RingHeight /16, _RingHeight /16);
+                    }else{
+                        s.graphics.beginFill(0x0000FF);
+                        s.graphics.drawRect( (i._col+0.75) * _RingWidth, (i._row+0.25) * _RingHeight + _RingHeight /12 * it , _RingHeight /16, _RingHeight /16);
+                    }
+                }
+            }
+
             if ( flag.isSelected== true){
                 s.graphics.beginFill(0x333333, 0.5);
                 s.graphics.drawRect( (i._col) * _RingWidth, (i._row) * _RingHeight, _RingWidth, _RingHeight);
@@ -242,7 +266,7 @@ class RingsPlate extends CommDialog{
         if (_currRing == null){
             _currRing = RingMgr.getInst()._rings[0];
         }
-        
+
         if ( _rs[_currRing._nodeIndex]._isSelected){
             createRing(_currRing);
         }else{
@@ -293,54 +317,54 @@ class RingsPlate extends CommDialog{
     }
     function onThisMouseUp( evt:MouseEvent ):Void{ 
         if ( _isDown ){
-            if ( evt.stageX > _downx -5 && evt.stageX < _downx +5 && evt.stageY > _downy-5 && evt.stageY < _downy +5){
+            if ( _currRing != null && evt.stageX > _downx -5 && evt.stageX < _downx +5 && evt.stageY > _downy-5 && evt.stageY < _downy +5){
                 var col = Std.int(_downx / _RingWidth);
                 var row = Std.int(_downy / _RingHeight);
                 var flag = getScreenFlag( col, row);
                 if ( flag != null){
-                    if (_preFlag == flag|| _preFlag == null){
-                        if ( flag.isSelected == false){
-                            flag.isSelected= true;
-                            _preFlag = flag;
-                        }else{
-                            ++flag.clickCount;
-                            if ( flag.clickCount > ScreenFlag.InportNum){
-                                flag.isSelected = false;
-                                flag.clickCount = 0;
-                                var tmp = _preFlag.screen._ringNode._next[ _currRing._nodeIndex];
-                                if ( tmp != null && tmp._pre[_currRing._nodeIndex] != null){
-                                    tmp._pre[_currRing._nodeIndex] = null;
-                                }
-                                _preFlag.screen._ringNode._next[_currRing._nodeIndex] = null;
-                                _preFlag = null;
-                            }
+                    if (_preFlag == flag){
+                        ++flag.inputCount;
+                        if ( flag.inputCount >= ScreenFlag.InportNum){
+                            flag.inputCount = 0;
                         }
-                    }else{
-                        if (_preFlag.isSelected ){
-                            _preFlag.isSelected = false;
-                            _preFlag.clickCount = 0;
-                            flag.isSelected = true;
-                            ++flag.clickCount;
-                            var tmp = _preFlag.screen._ringNode._next[ _currRing._nodeIndex];
-                            if ( tmp != null && tmp._pre[_currRing._nodeIndex] != null){
-                                tmp._pre[_currRing._nodeIndex] = null;
-                            }
-                            _preFlag.screen._ringNode._next[ _currRing._nodeIndex] = flag.screen._ringNode;
-                            tmp = flag.screen._ringNode._pre[_currRing._nodeIndex];
-                            if( tmp != null && tmp._next[_currRing._nodeIndex] != null){
-                                tmp._next[_currRing._nodeIndex] = null;
-                            }
-                            flag.screen._ringNode._pre[_currRing._nodeIndex] = _preFlag.screen._ringNode;
-                            if( !_currRing.isInRing( _preFlag.screen)){
-                                _currRing.newHead( _preFlag.screen._ringNode);
-                            }
+                        flag.screen._ringNode._inport[_currRing._nodeIndex] = ""+ (flag.inputCount +1);
+                        //flag.isSelected = false;
+                        var tmp = _preFlag.screen._ringNode._next[ _currRing._nodeIndex];
+                        if ( tmp != null && tmp._pre[_currRing._nodeIndex] != null){
+                            tmp._pre[_currRing._nodeIndex] = null;
+                        }
+                    }else if( _preFlag == null){
+                        flag.isSelected= true;
+                        flag.inputCount = Std.parseInt(flag.screen._ringNode._inport[_currRing._nodeIndex]) -1;
+                        _preFlag = flag;
+                    }
+                    else{
+                        if (_preFlag.isSelected ) _preFlag.isSelected = false;
+                        //_preFlag.inputCount = 0;
+                        flag.isSelected = true;
+                        ++flag.inputCount;
+                        flag.inputCount = Std.parseInt(flag.screen._ringNode._inport[_currRing._nodeIndex]) -1;
+                        //flag.screen._ringNode._inport[ _currRing._nodeIndex] = ""+(flag.inputCount+1);
+                        var tmp = _preFlag.screen._ringNode._next[ _currRing._nodeIndex];
+                        if ( tmp != null && tmp._pre[_currRing._nodeIndex] != null){
+                            tmp._pre[_currRing._nodeIndex] = null;
+                        }
+                        _preFlag.screen._ringNode._next[ _currRing._nodeIndex] = flag.screen._ringNode;
+                        tmp = flag.screen._ringNode._pre[_currRing._nodeIndex];
+                        if( tmp != null && tmp._next[_currRing._nodeIndex] != null){
+                            tmp._next[_currRing._nodeIndex] = null;
+                        }
+                        flag.screen._ringNode._pre[_currRing._nodeIndex] = _preFlag.screen._ringNode;
+                        if( !_currRing.isInRing( _preFlag.screen)){
+                            _currRing.newHead( _preFlag.screen._ringNode);
+                        }
 
-                            //trace( flag.screen._col);
-                            //trace( flag.screen._row);
-                            //trace( _preFlag.screen._col);
-                            //trace( _preFlag.screen._row);
-                            _preFlag = flag;
-                        }
+                        //trace( flag.screen._col);
+                        //trace( flag.screen._row);
+                        //trace( _preFlag.screen._col);
+                        //trace( _preFlag.screen._row);
+                        _preFlag = flag;
+
                     }
                     createRing( _currRing);
                 }else{
