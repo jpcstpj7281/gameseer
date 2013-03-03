@@ -30,6 +30,8 @@ private:
 	void onPCommonEventUpLoadRsp(MsgInfo *msg,uint32_t connID);
 	void onPImportanceEventUpLoadRsp(MsgInfo *msg,uint32_t connID);
 
+	void onPDLPCTRLReq(MsgInfo *msg,uint32_t connID);
+
 
 };
 

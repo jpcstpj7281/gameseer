@@ -40,6 +40,10 @@ uint32_t Event::onMsgReq(MsgInfo *msg,uint32_t connID)
         	onPImportanceEventUpLoadRsp(msg,connID);
             break;
 
+        case PDLPCTRLReq::uri:
+        	onPDLPCTRLReq(msg,connID);
+        	break;
+
         default:
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
@@ -92,6 +96,30 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
 }
 
+void Event::onPDLPCTRLReq(MsgInfo *msg,uint32_t connID)
+{
+    cout<<"onPDLPCTRLReq"<<" connID="<<connID <<endl;
+
+    uint8_t dwAddr;
+    uint8_t dwCount;
+    uint8_t byDate[128] = {0};
+
+    dwAddr = atoi(msg->info["addr"].c_str());
+    dwCount = atoi(msg->info["len"].c_str());
+
+    cout<<"Date="<<msg->info["value"].c_str() <<endl;
+
+    DLPI2c(dwAddr,dwCount,(uint8_t*)msg->info["value"].c_str());
+
+    MsgInfo rsp;
+
+    rsp.msgType = PDLPCTRLRsp::uri;
+
+
+    rsp.info["result"] = tostring(0);
+    MsgHandler::Instance()->broadcastMsg(&rsp);
+
+}
 
 
 

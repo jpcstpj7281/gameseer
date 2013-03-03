@@ -42,6 +42,13 @@ extern void dev_DLP_Write(uint8_t addr,uint8_t value);
 extern void dev_DLP_Read(uint8_t addr,uint8_t *value);
 
 extern void ICS307_config(unsigned long  val);
+extern unsigned char GpioValGet_Slot0();
+extern unsigned char GpioValGet_Slot1();
+extern unsigned char GpioValGet_Slot2();
+
+
+extern void DLPI2cWritePage(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
+
 
 
 

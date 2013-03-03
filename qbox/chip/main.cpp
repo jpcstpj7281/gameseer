@@ -867,13 +867,13 @@ void test753Mem()
 }
 
 
-void testSetDLP(uint8_t addr,uint16_t value)
+
+void testSetDLP(uint8_t addr,uint8_t value)
 {
 	uint16_t status;
 	uint8_t data;
 	debug_msg("Write DLP addr=%02x,val=%02x\n",addr,value);
-	dev_DLP_Write(addr,((value>>8)&0xff));
-	dev_DLP_Write(addr,(value&0xff));
+	dev_DLP_Write(addr,value);
 
 }
 
@@ -921,6 +921,17 @@ void set753InV(uint32_t uVscal)
 	AppScale s_c753;
 	s_c753.C753SetInputPortACTVerticalWidth(1,uVscal);
 }
+
+
+void testSlot()
+{
+	uint8_t S0 = GpioValGet_Slot0();
+	uint8_t S1 = GpioValGet_Slot1();
+	uint8_t S2 = GpioValGet_Slot2();
+
+	debug_msg("Read Slot0=%02x,Slot1=%02x,Slot2=%02x\n",S0,S1,S2);
+}
+
 
 }
 #endif /* __cplusplus */
