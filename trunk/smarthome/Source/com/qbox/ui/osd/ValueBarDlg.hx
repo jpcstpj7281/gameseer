@@ -15,6 +15,7 @@ import base.data.DataLoader;
 import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
+import com.qbox.logic.Screen;
 
 class ValueBarDlg extends CommDialog{
 
@@ -31,6 +32,7 @@ class ValueBarDlg extends CommDialog{
 #end
     }
 
+    var _screen:Screen;
     var _less:Sprite;
     var _more:Sprite;
     var _s:Sprite;
@@ -128,6 +130,7 @@ class ValueBarDlg extends CommDialog{
         var rw = percent * (_max - _value);
         //drawBar( Math.round(lw), Math.round(rw));
         drawBar( lw, rw);
+        dispatch( _value);
     }
 
     public function onBarMouseDown( evt:MouseEvent){
@@ -139,8 +142,12 @@ class ValueBarDlg extends CommDialog{
             _value = Math.round(lp * (_max - _min)) + _min;
             //drawBar( Math.round(lw), Math.round(rw));
             drawBar( lw, rw);
+        dispatch( _value);
         }
     }
+    public function dispatch( value:Int):Void{
+    }
+
     function drawBar( leftWidth:Float, rightWidth:Float){
         if (  _c != null){
             trace(leftWidth);

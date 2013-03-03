@@ -273,6 +273,32 @@ class Screen extends Qbox{
         }
     }
 
+    public function setOsd( addr:String, len:String,  value:Bytes, cb:Dynamic->Screen->Void){
+        if (_currCB != null){ trace("there is a wnd processing."); return;}
+        _currCB = cb;
+
+#if !neko
+        clearData();
+        startListening( 2, cbSetChannelArea, 32);
+        setMsg( 1, 32);
+        addKeyVal( "addr", Bytes.ofString(addr));
+        addKeyVal( "len", Bytes.ofString(len));
+        addKeyVal( "value", value);
+        sendData();
+#else
+        var test= new Hash<String>();
+        test.set("error","0");
+        cbSetOsd(test);
+#end
+    }
+    function cbSetOsd( args:Dynamic):Void{
+        if (_currCB != null) {
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
+    }
+
     public function setChannelArea(wnd:Wnd, x:Int, y:Int, w:Int, h:Int, c:Channel, cb:Dynamic->Screen->Void){
         if (_currCB != null){ trace("there is a wnd processing."); return;}
         _currCB = cb;
