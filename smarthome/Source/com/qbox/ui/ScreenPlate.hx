@@ -258,7 +258,7 @@ class ScreenPlate extends CommDialog{
         if ( w != null){
             return w._wnd.changeChannel(c);
         }
-        return null;
+        return true;
     }
 
     function onThisMouseUp( evt:MouseEvent ):Void{ 

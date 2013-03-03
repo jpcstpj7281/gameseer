@@ -55,7 +55,7 @@ class Qbox extends SMConnection{
         _inputs = new Hash<String>();
         for ( i in 1...7){
             _inputs.set( ""+i, inputs.get("in"+i) );
-            //trace( inputs.get("in"+i));
+            //trace("input: "+ inputs.get("in"+i));
         }
         loadInputsResolution();
     }

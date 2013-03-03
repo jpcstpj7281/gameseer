@@ -190,7 +190,7 @@ class ScreenDlg extends ListDialog{
     public function createElement():Sprite{
         _s= new Sprite();
 
-        new OsdImgDlg(_listDialogMgr);
+        new OsdImgDlg(_listDialogMgr, _screen);
         new OsdFitnessDlg( _listDialogMgr);
         new OsdSourceDlg(_listDialogMgr);
         new OsdOptionDlg(_listDialogMgr);

@@ -84,6 +84,8 @@ class ChannelMgr {
                             for ( i in n._inport){
                                 if ( c._inport == i){
                                     isRingPort = true;
+                                    trace(n._screen._ipv4);
+                                    trace(i);
                                 }
                             }
                         }

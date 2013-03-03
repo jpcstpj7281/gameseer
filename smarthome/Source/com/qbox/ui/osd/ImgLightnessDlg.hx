@@ -16,19 +16,42 @@ import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
+import com.qbox.logic.Screen;
+
+import haxe.io.Bytes;
+import haxe.io.BytesBuffer;
 
 class ImgLightnessDlg extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr){
+    public function new ( dm:CommDialogMgr, s:Screen){
         super(dm);
         addChild( createElement());
 
         _value = 0;
         _max = 255;
 #if neko
-        TXT= "Lightness";
+        TXT= "Blightness";
 #else
         TXT= "亮度";
 #end
+
+        _screen = s;
     }
+
+    override function dispatch(value:Int):Void{
+        var bs:BytesBuffer  = new BytesBuffer();
+        var shift:Int = _value<< 2;
+        bs.addByte(shift >> 8);
+        bs.addByte(shift);
+        bs.addByte(shift >> 8);
+        bs.addByte(shift);
+        bs.addByte(shift >> 8);
+        bs.addByte(shift);
+        //bs.addByte(0x16);
+        //bs.addByte(0x16);
+        _screen.setOsd( Std.string(0x0a), Std.string(6), bs.getBytes(), cbFunc);
+    }
+    function cbFunc( a, s):Void{
+    }
+    
 }

@@ -145,8 +145,9 @@ class Wnd{
     }
 
     public function changeChannel( c:Channel):Bool{
-        if ( _channel != null && _channel !=c ){
+        if ( _channel !=c ){
             var wnds = WndMgr.getInst().getWndsByChannel(c);
+            //trace( wnds.length);
             if (wnds.length == 1){
                 _channel = c;
                 //_opCounter+=_screens.length;
