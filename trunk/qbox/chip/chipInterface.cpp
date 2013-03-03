@@ -190,5 +190,22 @@ void init772(uint32_t chn,uint32_t flg)
 }
 
 
+void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate)
+{
+
+	debug_msg("dwAddr = 0x%02X dwCount=%d!",dwAddr,dwCount);
+
+	for(int i=0;i<dwCount;i++)
+	{
+		debug_msg("count=%d,date=0x%02X!",i,*(byDate+i));
+	}
+
+
+	DLPI2cWritePage(dwAddr,dwCount,byDate);
+
+
+
+}
+
 
 

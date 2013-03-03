@@ -86,6 +86,8 @@ extern void topChannel(uint32_t channel);
 extern void init5160(uint32_t chn);
 extern void init772(uint32_t chn,uint32_t flg);
 
+extern void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
+
 }
 #endif
 
