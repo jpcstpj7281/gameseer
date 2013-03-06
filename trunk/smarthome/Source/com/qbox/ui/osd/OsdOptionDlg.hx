@@ -18,17 +18,17 @@ import com.qbox.logic.Channel;
 
 class OsdOptionDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new OptionLanguage(_listDialogMgr);
-        i =new OptionImgDirection(_listDialogMgr);
-        i =new OptionBitRate(_listDialogMgr);
-        i =new OptionLightnessCurve(_listDialogMgr);
-        i =new OptionMenuHorizontalPos(_listDialogMgr);
-        i =new OptionMenuVerticalPos(_listDialogMgr);
-        i =new OptionRecoverPreset(_listDialogMgr);
+        var i:CommDialog = new OptionLanguage(_listDialogMgr, s);
+        i =new OptionImgDirection(_listDialogMgr, s);
+        i =new OptionBitRate(_listDialogMgr, s);
+        i =new OptionLightnessCurve(_listDialogMgr, s);
+        i =new OptionMenuHorizontalPos(_listDialogMgr, s);
+        i =new OptionMenuVerticalPos(_listDialogMgr, s);
+        i =new OptionRecoverPreset(_listDialogMgr, s);
 #if neko
         TXT= "Option";
 #else

@@ -18,8 +18,8 @@ import com.qbox.logic.Qbox;
 
 class ChildFrameSwitch extends ValueSwitchDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
         _values.push("开启");

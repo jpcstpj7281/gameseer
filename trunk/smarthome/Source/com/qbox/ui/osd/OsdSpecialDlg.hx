@@ -19,20 +19,20 @@ import com.qbox.logic.Channel;
 
 class OsdSpecialDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new SpecialStartUpDelayTime(_listDialogMgr);
-        i =new SpecialImgFrameworkLock(_listDialogMgr);
-        i =new SpecialRGBFirstTimeAutoAdjust(_listDialogMgr);
-        i =new SpecialAGCSetting(_listDialogMgr);
-        i =new SpecialTestFrame(_listDialogMgr);
-        i =new SpecialHSGAdjustSetting(_listDialogMgr);
-        i =new SpecialForceModeSetting(_listDialogMgr);
-        i =new SpecialDVIDigitalEQSetting(_listDialogMgr);
-        i =new SpecialAmplificationSetting(_listDialogMgr);
-        i =new SpecialFanSetting(_listDialogMgr);
+        var i:CommDialog = new SpecialStartUpDelayTime(_listDialogMgr, s);
+        i =new SpecialImgFrameworkLock(_listDialogMgr, s);
+        i =new SpecialRGBFirstTimeAutoAdjust(_listDialogMgr, s);
+        i =new SpecialAGCSetting(_listDialogMgr, s);
+        i =new SpecialTestFrame(_listDialogMgr, s);
+        i =new SpecialHSGAdjustSetting(_listDialogMgr, s);
+        i =new SpecialForceModeSetting(_listDialogMgr, s);
+        i =new SpecialDVIDigitalEQSetting(_listDialogMgr, s);
+        i =new SpecialAmplificationSetting(_listDialogMgr, s);
+        i =new SpecialFanSetting(_listDialogMgr, s);
 #if neko
         TXT= "Special Setting";
 #else

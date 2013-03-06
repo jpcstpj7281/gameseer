@@ -19,8 +19,8 @@ import com.qbox.logic.Channel;
 
 class GroupVerticalIndex extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
         _value = 0;
         _min= 1;

@@ -19,18 +19,18 @@ import com.qbox.logic.Channel;
 
 class SourceChildFrameSetting extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog =new ChildFrameSwitch(_listDialogMgr);
-        i =new ChildFrameHSize(_listDialogMgr);
-        i =new ChildFrameVSize(_listDialogMgr);
-        i =new ChildFrameHPos(_listDialogMgr);
-        i =new ChildFrameVPos(_listDialogMgr);
-        i =new ChildFrameAlpha(_listDialogMgr);
-        i =new ChildFramePosSetting(_listDialogMgr);
-        i =new ChildFrameVideoSetting(_listDialogMgr);
+        var i:CommDialog =new ChildFrameSwitch(_listDialogMgr, s);
+        i =new ChildFrameHSize(_listDialogMgr, s);
+        i =new ChildFrameVSize(_listDialogMgr, s);
+        i =new ChildFrameHPos(_listDialogMgr, s);
+        i =new ChildFrameVPos(_listDialogMgr, s);
+        i =new ChildFrameAlpha(_listDialogMgr, s);
+        i =new ChildFramePosSetting(_listDialogMgr, s);
+        i =new ChildFrameVideoSetting(_listDialogMgr, s);
 #if neko
         TXT= "Child Frame Setting";
 #else

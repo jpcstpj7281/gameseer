@@ -18,7 +18,7 @@ import com.qbox.logic.Channel;
 
 class ImgDynamicBlackSettingDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 

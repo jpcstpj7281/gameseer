@@ -14,11 +14,12 @@ import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
+import com.qbox.logic.Screen;
 
 class SourceOption extends ValueSwitchDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
         _values.push("DVI数码-模拟");

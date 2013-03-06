@@ -18,8 +18,8 @@ import com.qbox.logic.Channel;
 
 class FitnessAutoAdjust extends OsdCommDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
 #if neko

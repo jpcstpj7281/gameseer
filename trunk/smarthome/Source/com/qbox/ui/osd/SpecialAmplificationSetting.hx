@@ -19,14 +19,14 @@ import com.qbox.logic.Channel;
 
 class SpecialAmplificationSetting extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog =new AmplificationHPercent(_listDialogMgr);
-        i =new AmplificationVPercent(_listDialogMgr);
-        i =new AmplificationHMovment(_listDialogMgr);
-        i =new AmplificationVMovment(_listDialogMgr);
+        var i:CommDialog =new AmplificationHPercent(_listDialogMgr, s);
+        i =new AmplificationVPercent(_listDialogMgr, s);
+        i =new AmplificationHMovment(_listDialogMgr, s);
+        i =new AmplificationVMovment(_listDialogMgr, s);
 #if neko
         TXT= "Amplification Setting";
 #else

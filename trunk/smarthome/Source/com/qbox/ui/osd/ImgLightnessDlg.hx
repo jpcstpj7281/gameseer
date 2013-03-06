@@ -24,7 +24,7 @@ import haxe.io.BytesBuffer;
 class ImgLightnessDlg extends ValueBarDlg{
 
     public function new ( dm:CommDialogMgr, s:Screen){
-        super(dm);
+        super(dm, s);
         addChild( createElement());
 
         _value = 0;
@@ -35,7 +35,6 @@ class ImgLightnessDlg extends ValueBarDlg{
         TXT= "亮度";
 #end
 
-        _screen = s;
     }
 
     override function dispatch(value:Int):Void{

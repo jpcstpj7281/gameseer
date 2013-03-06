@@ -17,8 +17,8 @@ import com.qbox.logic.Qbox;
 
 class OptionLanguage extends ValueSwitchDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
         _values.push("简体中文");
