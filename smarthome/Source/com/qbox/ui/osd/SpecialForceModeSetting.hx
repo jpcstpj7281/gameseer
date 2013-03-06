@@ -19,7 +19,7 @@ import com.qbox.logic.Channel;
 
 class SpecialForceModeSetting extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 

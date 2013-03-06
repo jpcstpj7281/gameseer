@@ -15,19 +15,20 @@ import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
+import com.qbox.logic.Screen;
 
 class ImgDlpSettingDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s:Screen){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog =new DlpSettingRedLightness(_listDialogMgr);
-        i =new DlpSettingGreenLightness(_listDialogMgr);
-        i =new DlpSettingBlueLightness(_listDialogMgr);
-        i =new DlpSettingRedContrast(_listDialogMgr);
-        i =new DlpSettingGreenContrast(_listDialogMgr);
-        i =new DlpSettingBlueContrast(_listDialogMgr);
+        var i:CommDialog =new DlpSettingRedLightness(_listDialogMgr, s);
+        i =new DlpSettingGreenLightness(_listDialogMgr, s);
+        i =new DlpSettingBlueLightness(_listDialogMgr, s);
+        i =new DlpSettingRedContrast(_listDialogMgr, s);
+        i =new DlpSettingGreenContrast(_listDialogMgr, s);
+        i =new DlpSettingBlueContrast(_listDialogMgr, s);
 #if neko
         TXT= "DLP setting";
 #else

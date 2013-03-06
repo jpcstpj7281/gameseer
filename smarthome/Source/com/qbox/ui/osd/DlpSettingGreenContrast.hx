@@ -16,10 +16,11 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
+import com.qbox.logic.Screen;
 class DlpSettingGreenContrast extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s:Screen){
+        super(dm, s);
         addChild( createElement());
 
         _value = 0;

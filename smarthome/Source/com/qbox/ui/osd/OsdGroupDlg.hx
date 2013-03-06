@@ -19,15 +19,15 @@ import com.qbox.logic.Channel;
 
 class OsdGroupDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new GroupHorizontalNum(_listDialogMgr);
-        i =new GroupVerticalNum(_listDialogMgr);
-        i =new GroupHorizontalIndex(_listDialogMgr);
-        i =new GroupVerticalIndex(_listDialogMgr);
-        i =new GroupMachineNumber(_listDialogMgr);
+        var i:CommDialog = new GroupHorizontalNum(_listDialogMgr, s);
+        i =new GroupVerticalNum(_listDialogMgr, s);
+        i =new GroupHorizontalIndex(_listDialogMgr, s);
+        i =new GroupVerticalIndex(_listDialogMgr, s);
+        i =new GroupMachineNumber(_listDialogMgr, s);
 #if neko
         TXT= "Group";
 #else

@@ -18,8 +18,8 @@ import com.qbox.logic.Channel;
 
 class FitnessHPos extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
         _value = 0;

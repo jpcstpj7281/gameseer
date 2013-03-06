@@ -19,17 +19,17 @@ import com.qbox.logic.Channel;
 
 class OsdSourceDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new SourceOption(_listDialogMgr);
-        i = new SourceChildFrameSourceOption(_listDialogMgr);
-        i =new SourceChildFrame2SourceOption(_listDialogMgr);
-        i =new SourceChildFrameSetting(_listDialogMgr);
-        i =new SourceChildFrameSetting2(_listDialogMgr);
-        i =new SourceInputSourceStatusRecord(_listDialogMgr);
-        i =new SourceUserMode(_listDialogMgr);
+        var i:CommDialog = new SourceOption(_listDialogMgr, s);
+        i = new SourceChildFrameSourceOption(_listDialogMgr, s);
+        i =new SourceChildFrame2SourceOption(_listDialogMgr, s);
+        i =new SourceChildFrameSetting(_listDialogMgr, s);
+        i =new SourceChildFrameSetting2(_listDialogMgr, s);
+        i =new SourceInputSourceStatusRecord(_listDialogMgr, s);
+        i =new SourceUserMode(_listDialogMgr, s);
 #if neko
         TXT= "Source";
 #else

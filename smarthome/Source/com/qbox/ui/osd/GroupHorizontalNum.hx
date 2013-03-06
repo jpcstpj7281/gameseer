@@ -19,8 +19,8 @@ import com.qbox.logic.Channel;
 
 class GroupHorizontalNum extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
         _value = 0;
         _min= 1;

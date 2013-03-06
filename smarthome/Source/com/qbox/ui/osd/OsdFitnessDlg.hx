@@ -18,18 +18,18 @@ import com.qbox.logic.Channel;
 
 class OsdFitnessDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new FitnessAspectRatio(_listDialogMgr);
-        i = new FitnessAutoAdjust(_listDialogMgr);
-        i =new FitnessHPos(_listDialogMgr);
-        i =new FitnessVPos(_listDialogMgr);
-        i =new FitnessInputSourceHPos(_listDialogMgr);
-        i =new FitnessInputSourceVPos(_listDialogMgr);
-        i =new FitnessPhase(_listDialogMgr);
-        i =new FitnessFrequency(_listDialogMgr);
+        var i:CommDialog = new FitnessAspectRatio(_listDialogMgr, s);
+        i = new FitnessAutoAdjust(_listDialogMgr, s);
+        i =new FitnessHPos(_listDialogMgr, s);
+        i =new FitnessVPos(_listDialogMgr, s);
+        i =new FitnessInputSourceHPos(_listDialogMgr, s);
+        i =new FitnessInputSourceVPos(_listDialogMgr, s);
+        i =new FitnessPhase(_listDialogMgr, s);
+        i =new FitnessFrequency(_listDialogMgr, s);
 #if neko
         TXT= "Fitness";
 #else

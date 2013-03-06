@@ -18,8 +18,8 @@ import com.qbox.logic.Channel;
 
 class FitnessPhase extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
         _value = 0;
         _max = 63;

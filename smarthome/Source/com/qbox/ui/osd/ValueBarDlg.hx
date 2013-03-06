@@ -19,12 +19,13 @@ import com.qbox.logic.Screen;
 
 class ValueBarDlg extends CommDialog{
 
-    public function new ( dm:CommDialogMgr){
+    public function new ( dm:CommDialogMgr, s:Screen){
         super(dm);
         _min = 0;
         _value = 0;
         _max = 0;
 
+        _screen = s;
 #if neko
         TXT = "unknow";
 #else

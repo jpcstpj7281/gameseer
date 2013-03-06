@@ -19,17 +19,17 @@ import com.qbox.logic.Channel;
 
 class OsdSysDlg extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog =new SysModel(_listDialogMgr);
-        i =new SysMachinePosNum(_listDialogMgr);
-        i =new SysSource(_listDialogMgr);
-        i =new SysImgResolution(_listDialogMgr);
-        i =new SysRunningTime(_listDialogMgr);
-        i =new SysSoftwareVersion(_listDialogMgr);
-        i =new SysLEDLightTemperature(_listDialogMgr);
+        var i:CommDialog =new SysModel(_listDialogMgr, s);
+        i =new SysMachinePosNum(_listDialogMgr, s);
+        i =new SysSource(_listDialogMgr, s);
+        i =new SysImgResolution(_listDialogMgr, s);
+        i =new SysRunningTime(_listDialogMgr, s);
+        i =new SysSoftwareVersion(_listDialogMgr, s);
+        i =new SysLEDLightTemperature(_listDialogMgr, s);
 #if neko
         TXT= "System Setting";
 #else

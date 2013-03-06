@@ -191,12 +191,12 @@ class ScreenDlg extends ListDialog{
         _s= new Sprite();
 
         new OsdImgDlg(_listDialogMgr, _screen);
-        new OsdFitnessDlg( _listDialogMgr);
-        new OsdSourceDlg(_listDialogMgr);
-        new OsdOptionDlg(_listDialogMgr);
-        new OsdGroupDlg(_listDialogMgr);
-        new OsdSpecialDlg(_listDialogMgr);
-        new OsdSysDlg(_listDialogMgr);
+        new OsdFitnessDlg( _listDialogMgr, _screen);
+        new OsdSourceDlg(_listDialogMgr, _screen);
+        new OsdOptionDlg(_listDialogMgr, _screen);
+        new OsdGroupDlg(_listDialogMgr, _screen);
+        new OsdSpecialDlg(_listDialogMgr, _screen);
+        new OsdSysDlg(_listDialogMgr, _screen);
 
         return _s;
     }

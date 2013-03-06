@@ -15,14 +15,16 @@ import base.data.DataLoader;
 import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
+import com.qbox.logic.Screen;
 
 class ValueSwitchDlg extends CommDialog{
 
-    public function new ( dm:CommDialogMgr){
+    public function new ( dm:CommDialogMgr, s:Screen){
         super(dm);
         _value = 0;
         _values = new Array<String>();
 
+        _screen = s;
 #if neko
         TXT = "unknow";
 #else
@@ -30,6 +32,7 @@ class ValueSwitchDlg extends CommDialog{
 #end
     }
 
+    var _screen:Screen;
     var _less:Sprite;
     var _more:Sprite;
     var _s:Sprite;

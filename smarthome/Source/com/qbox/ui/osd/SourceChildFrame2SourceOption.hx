@@ -19,8 +19,8 @@ import com.qbox.logic.Channel;
 
 class SourceChildFrame2SourceOption extends ValueSwitchDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
         _values.push("复合视频");

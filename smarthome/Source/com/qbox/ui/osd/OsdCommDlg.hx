@@ -16,12 +16,14 @@ import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
+import com.qbox.logic.Screen;
 
 class OsdCommDlg extends CommDialog{
 
 
-    public function new ( dm:CommDialogMgr){
+    public function new ( dm:CommDialogMgr, s:Screen){
         super(dm);
+        _screen = s;
 #if neko
         TXT= "unknow";
 #else
@@ -29,6 +31,7 @@ class OsdCommDlg extends CommDialog{
 #end
     }
 
+    var _screen:Screen;
     var _s:Sprite;
     var _promt:EmbedTextField;
     var TXT:String;

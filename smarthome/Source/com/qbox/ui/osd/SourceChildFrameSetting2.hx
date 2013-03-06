@@ -18,7 +18,7 @@ import com.qbox.logic.Channel;
 
 class SourceChildFrameSetting2 extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s){
         super(dm);
         addChild( createElement());
 

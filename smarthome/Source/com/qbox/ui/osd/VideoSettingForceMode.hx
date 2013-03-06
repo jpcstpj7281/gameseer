@@ -16,9 +16,10 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
+import com.qbox.logic.Screen;
 class VideoSettingForceMode extends OsdListDlg{
 
-    public function new ( dm:ListDialogMgr){
+    public function new ( dm:ListDialogMgr, s:Screen){
         super(dm);
         addChild( createElement());
 

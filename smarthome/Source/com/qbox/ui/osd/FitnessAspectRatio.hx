@@ -17,8 +17,8 @@ import com.qbox.logic.Qbox;
 
 class FitnessAspectRatio extends ValueSwitchDlg{
 
-    public function new ( dm:CommDialogMgr){
-        super(dm);
+    public function new ( dm:CommDialogMgr, s){
+        super(dm, s);
         addChild( createElement());
 
         _values.push("4:3");
