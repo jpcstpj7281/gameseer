@@ -13,7 +13,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    snmpnet.cpp \
+    mainwindow.cpp \
     presetwnd.cpp \
     copyparamwnd.cpp \
     changepasswordwnd.cpp \
@@ -27,7 +28,8 @@ SOURCES += main.cpp\
     level8chwnd.cpp \
     deviceswnd.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  +=  snmpnet.h \
+    mainwindow.h \
     presetwnd.h \
     copyparamwnd.h \
     changepasswordwnd.h \
@@ -54,3 +56,15 @@ FORMS    += mainwindow.ui \
     deviceswnd.ui \
     meterswnd.ui \
     matrixmixerwnd.ui
+
+
+LIBS += -lws2_32
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd
+else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
+
+
+
+INCLUDEPATH += $$PWD/inc
+DEPENDPATH += $$PWD/inc

@@ -16,6 +16,9 @@
 #include <QAction.h>
 #include <QLineEdit.h>
 
+#include "snmpnet.h"
+#include <net-snmp/net-snmp-config.h>
+#include <net-snmp/net-snmp-includes.h>
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
@@ -27,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionChangePsw_clicked(QAction*)));
+    connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
+
+	
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +84,12 @@ void MainWindow::on_peq4Band_clicked()
 
 }
 
+void MainWindow::on_actionCopyParam_clicked(QAction* action){
+
+    //sn.snmpmain();
+	SnmpNet::instance()->walk("1.3.6.1.4.1.2680.1.1.3");
+	//SnmpNet::instance()->get(".1.3.6.1.4.1.2680.1.1.3.4.0");
+}
 void MainWindow::on_actionChangePsw_clicked( QAction* action){
     if (action->objectName() != "actionChangePsw" ) return;
 
