@@ -35,6 +35,8 @@ class MainWindow : public QMainWindow
         void on_highPass_clicked();
         void on_peq4Band_clicked();
         void on_actionChangePsw_clicked(QAction*);
+        void on_actionCopyParam_clicked(QAction*);
+
 
     private:
         Ui::MainWindow *ui;
