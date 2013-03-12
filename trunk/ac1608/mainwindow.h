@@ -13,9 +13,10 @@ class HighPassWnd;
 class Level8CHWnd;
 class MatrixMixerWnd;
 class MetersWnd;
-class PEQ4BandWnd;
-class PEQ5BandWnd;
+
+class PEQWnd;
 class PresetWnd;
+class HomePage;
 
 
 namespace Ui {
@@ -49,7 +50,6 @@ class MainWindow : public QMainWindow
         void on_inputGainControl_clicked();
         void on_gateNom_clicked();
         void on_highPass_clicked();
-        void on_peq4Band_clicked();
         void on_actionChangePsw_clicked(QAction*);
         void on_actionCopyParam_clicked(QAction*);
 		void tabChanged (int);
@@ -70,10 +70,11 @@ class MainWindow : public QMainWindow
         Level8CHWnd *level8CHWnd_;
         MatrixMixerWnd *matrixMixerWnd_;
         MetersWnd *metersWnd_;
-        PEQ4BandWnd *peq4BandWnd_;
-        PEQ5BandWnd *peq5BandWnd_;
+
+		PEQWnd *peqWnd_;
         PresetWnd *presetWnd_;
 		DevicesWnd *deviceswnd_;
+		HomePage * homepage_;
 
         void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);

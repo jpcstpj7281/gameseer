@@ -13,7 +13,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+homepage.cpp \
 configmgr.cpp \
+peqwnd.cpp \
     snmpnet.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
@@ -21,15 +23,15 @@ configmgr.cpp \
     changepasswordwnd.cpp \
     inputgainctrlwnd.cpp \
     highpasswnd.cpp \
-    peq4bandwnd.cpp \
     gatenomwnd.cpp \
     meterswnd.cpp \
     matrixmixerwnd.cpp \
-    peq5bandwnd.cpp \
     level8chwnd.cpp \
     deviceswnd.cpp
 
 HEADERS  +=  snmpnet.h \
+homepage.h \
+peqwnd.h \
     configmgr.h \
 	mainwindow.h \
     presetwnd.h \
@@ -37,23 +39,21 @@ HEADERS  +=  snmpnet.h \
     changepasswordwnd.h \
     inputgainctrlwnd.h \
     highpasswnd.h \
-    peq4bandwnd.h \
     gatenomwnd.h \
     meterswnd.h \
     matrixmixerwnd.h \
-    peq5bandwnd.h \
     level8chwnd.h \
     deviceswnd.h
 
 FORMS    += mainwindow.ui \
+homepage.ui \
+peqwnd.ui \
     presetwnd.ui \
     copyparamwnd.ui \
     changepasswordwnd.ui \
     inputgainctrlwnd.ui \
     highpasswnd.ui \
-    peq4bandwnd.ui \
     gatenomwnd.ui \
-    peq5bandwnd.ui \
     level8chwnd.ui \
     deviceswnd.ui \
     meterswnd.ui \

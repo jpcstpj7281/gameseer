@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>340</x>
      <y>30</y>
      <width>201</width>
      <height>21</height>
@@ -34,7 +34,7 @@
   <widget class="Line" name="line">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>26</x>
      <y>70</y>
      <width>881</width>
      <height>16</height>
@@ -426,7 +426,7 @@ Gain</string>
   <widget class="Line" name="line_2">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>26</x>
      <y>110</y>
      <width>881</width>
      <height>16</height>
@@ -439,7 +439,7 @@ Gain</string>
   <widget class="Line" name="line_3">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>26</x>
      <y>150</y>
      <width>881</width>
      <height>16</height>
@@ -452,7 +452,7 @@ Gain</string>
   <widget class="Line" name="line_4">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>26</x>
      <y>190</y>
      <width>881</width>
      <height>16</height>
@@ -465,7 +465,7 @@ Gain</string>
   <widget class="Line" name="line_5">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>26</x>
      <y>230</y>
      <width>881</width>
      <height>16</height>
@@ -479,7 +479,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -492,7 +492,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -505,7 +505,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -518,7 +518,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -531,7 +531,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -544,7 +544,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -557,7 +557,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -570,7 +570,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>500</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -583,7 +583,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>850</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -596,7 +596,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>550</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -609,7 +609,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -622,7 +622,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -635,7 +635,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -648,7 +648,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -661,7 +661,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>650</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -674,7 +674,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>900</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
@@ -687,7 +687,7 @@ Gain</string>
    <property name="geometry">
     <rect>
      <x>800</x>
-     <y>80</y>
+     <y>77</y>
      <width>16</width>
      <height>471</height>
     </rect>
