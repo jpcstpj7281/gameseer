@@ -11,6 +11,7 @@
 
 #include <QMainWindow>
 
+
 SnmpNet* SnmpNet::inst = 0;
 SnmpNet *SnmpNet::instance(){
 	if ( inst) return inst;
@@ -19,6 +20,7 @@ SnmpNet *SnmpNet::instance(){
 SnmpNet::SnmpNet()
 {
 	SOCK_STARTUP;
+	init_snmp("ac1608");
 }
 SnmpNet::~SnmpNet()
 {
@@ -34,14 +36,141 @@ SnmpNet::~SnmpNet()
 #define NETSNMP_DS_WALK_DONT_GET_REQUESTED	        5
 #define NETSNMP_DS_WALK_TIME_RESULTS_SINGLE	        6
 
-void SnmpNet::addAsyncGet(char* snmpoid, char* ip, char* community){
-	SnmpObj* so = new SnmpObj( snmpoid, ip, community);
-	_oids[ &(so->id)] = so;
-
+int asynch_response(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic){
+	return SnmpNet::instance()->asynch_response_impl(operation,  sp,  reqid, pdu, magic);
 }
 
+void SnmpNet::addAsyncGet(char* snmpoid, char* ip, char* community ,SnmpCallbackFunc callback){
+	SnmpObj* so = new SnmpObj( snmpoid, ip, community, callback);
+	_oids.push_back(  so );
+}
+//void SnmpNet::removeAsyncGet(char* snmpoid, char* ip, char* community ,SnmpCallback * callback){
+//	_removeList.push_back(  SnmpObj( snmpoid, ip, community, callback));
+//}
 
+int SnmpNet::asynch_response_impl(int operation, struct snmp_session *sp, int reqid, snmp_pdu *pdu, void *magic){
 
+	SnmpObj *so = (SnmpObj *)magic;
+	//snmp_pdu *req;
+
+	if (operation == NETSNMP_CALLBACK_OP_RECEIVED_MESSAGE) {
+		//if (so->callback){
+			if( so->callback( STAT_SUCCESS, so->sess, pdu, so) == SnmpCallback::RequestAgain) { //再发一次
+				//每个host对应了3个oid，对每个都要发送包
+				//asynchronous发送第一个包，这里对其他的oid发送包
+
+				//下面的程序跟asynchronous中处理相同
+				//if (host->current_oid->Name) {
+				//snmp_pdu *req = snmp_clone_pdu(pdu);
+				//snmp_add_null_var(req, , );
+				//if (!snmp_send(so->sess, req)){
+				//	snmp_perror("snmp_send");
+				//	snmp_free_pdu(pdu);
+				//	qDebug()<<"Snmp error: SnmpNet::asynch_response_impl!";
+				//}
+				return 0;
+			}
+			else{
+				_removeList.push_back(so);
+			}
+		//}
+		qDebug()<<"Received message: SnmpNet::asynch_response_impl!";
+	}else if(operation == NETSNMP_CALLBACK_OP_TIMED_OUT) {
+		qDebug()<<"Time out: SnmpNet::asynch_response_impl!";
+		return isConnected() ? 0 :1;
+	}
+	//else print_result(STAT_TIMEOUT, host->sess, pdu);
+	return 1;
+}
+
+bool initSession( SnmpObj* so){
+	snmp_pdu *req;
+	snmp_session sess;
+
+	snmp_sess_init( &sess); 
+	sess.version = SNMP_VERSION_1;
+	sess.peername = so->ip;
+	sess.community = (u_char*)so->community;
+	sess.community_len = strlen(so->community);
+	sess.callback = asynch_response;
+	sess.callback_magic = (void*)so;
+	sess.retries = INT_MAX;
+
+	//初始化和打开后返回的session不同
+	so->sessp = (snmp_session*)snmp_sess_open(&sess);
+	if ( so->sessp )
+		so->sess = snmp_sess_session(so->sessp);
+	if (!so->sess){
+		qDebug()<<"Qession error!";
+		return false;
+	}
+
+	const	QStringList qsl = QString(so->snmpoid).split( QChar('.'));
+	oid		soid[MAX_OID_LEN];
+	size_t  soidlen = 0;
+	for ( int i = 0; i < qsl.size(); ++i){
+		if ( ! qsl[i].isEmpty() ){
+			soid[soidlen++] = qsl[i].toInt();
+		}
+	}
+
+	req = snmp_pdu_create(SNMP_MSG_GET);
+	snmp_add_null_var(req, soid, soidlen);
+
+	if (!snmp_sess_send(so->sessp, req)){
+	//if (!snmp_sess_async_send(so->sessp, req, asynch_response,(void*)so )){
+		snmp_perror("snmp_send");
+		snmp_free_pdu(req);
+		return false;
+	}
+	return true;
+}
+
+void SnmpNet::run(){
+
+	for ( SnmpMap::iterator it= _oids.begin(); it != _oids.end(); ++it){
+		SnmpObj* so = *it;
+		if ( !so->sess){
+			initSession(so);
+		}else{
+		}
+
+	}
+
+	while ( !_oids.empty() ) {
+		for ( SnmpMap::iterator it = _oids.begin(); it != _oids.end(); ++it){
+			void* sessp = (*it)->sessp;
+			int fds = 0, block = 1;
+			fd_set fdset;
+			struct timeval timeout;
+
+			FD_ZERO(&fdset);//把fd_set清零
+			snmp_sess_select_info( sessp, &fds, &fdset, &timeout, &block);
+			//多路复用，直接这么用就行了
+			fds = select(fds, &fdset, NULL, NULL, block ? NULL : &timeout);
+			if (fds < 0) {
+				perror("select failed");
+				exit(1);
+			}
+			//fds返回的是等待处理的io数目
+			if (fds)
+				snmp_sess_read(sessp, &fdset);//到这里就会调用callback
+			else
+				snmp_sess_timeout(sessp);
+
+		}
+
+		for( RemoveList::iterator it = _removeList.begin(); it!=_removeList.end(); ++it){
+			SnmpObj* curr = *it;
+			SnmpMap::iterator found = std::find(_oids.begin(), _oids.end(), curr );// _oids.find( curr.uniqueId() );
+			SnmpObj * so = *found;
+			snmp_sess_close(so->sessp);
+			if ( found != _oids.end() ) _oids.erase(found );
+		}
+		_removeList.clear();
+	}
+
+}
 
 int netsnmpCallback(int a, netsnmp_session * sess, int b , netsnmp_pdu * pdu, void * val){
 	netsnmp_variable_list *vars;
@@ -84,7 +213,7 @@ void SnmpNet::get( char* snmpoid, char* ip , char* community  ){
 	}
 	
 
-	init_snmp("ac1608");
+	//init_snmp("ac1608");
 	snmp_sess_init( &session );
 	session.version = SNMP_VERSION_1;
 	session.community = (u_char*)community;
@@ -201,7 +330,7 @@ void SnmpNet::walk( char* snmpoid, char* ip, char* community  )
 	}
 	end_oid[end_len-1]++;
 
-	init_snmp("ac1608");
+	//init_snmp("ac1608");
 	snmp_sess_init( &session );
 	session.version = SNMP_VERSION_1;
 	session.community = (u_char*)community;
