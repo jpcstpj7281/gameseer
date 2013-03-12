@@ -1,16 +1,41 @@
-#include "inputgainctrlwnd.h"
-#include "ui_inputgainctrlwnd.h"
+#include "homepage.h"
+#include "ui_homepage.h"
+
 
 #include <qprogressbar>
 #include <QSlider>
 #include <QList>
 #include <QDebug>
 
-InputGainCtrlWnd::InputGainCtrlWnd(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::InputGainCtrlWnd)
+HomePage::HomePage(QWidget *parent):
+    QWidget(parent)
+	,ui(new Ui::HomePage)
 {
     ui->setupUi(this);
+	QList<QProgressBar *> qpl  = findChildren<QProgressBar*>( );
+	for ( QList<QProgressBar *>::Iterator it = qpl.begin(); it != qpl.end(); ++it){
+		QProgressBar * qpb = *it;
+		qDebug()<<qpb->objectName();
+		if (qpb){
+		qpb->setValue(10);
+		//qpb->setStyleSheet(
+		//	" QProgressBar:vertical {"
+		//	"width:100px;"
+		//	"height:100px;"
+		//	"border: 1px solid grey;"
+		//	"border-radius: 3px;"
+		//	//"background: white;"
+		//	"text-align: bottom;"
+		//	"margin-bottom: 20px;"
+		//	"background-color: #ffffff;"
+		//	"}"
+		//	"QProgressBar::chunk:vertical{ "
+		//	"width: 100px;"
+		//	"}"
+		//	);
+		}
+	}
+	
 
 	QList<QSlider *> qsl = findChildren<QSlider*>( );
 	for ( QList<QSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
@@ -51,7 +76,8 @@ InputGainCtrlWnd::InputGainCtrlWnd(QWidget *parent) :
 	}
 }
 
-InputGainCtrlWnd::~InputGainCtrlWnd()
+HomePage::~HomePage()
 {
     delete ui;
 }
+

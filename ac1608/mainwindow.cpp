@@ -10,9 +10,9 @@
 #include "Level8CHWnd.h"
 #include "MatrixMixerWnd.h"
 #include "MetersWnd.h"
-#include "PEQ4BandWnd.h"
-#include "PEQ5BandWnd.h"
 #include "PresetWnd.h"
+#include "homepage.h"
+#include "peqwnd.h"
 #include <QAction.h>
 #include <QLineEdit.h>
 #include <QTabWidget.h>
@@ -34,15 +34,27 @@ MainWindow::MainWindow(QWidget *parent)
     ,inputGainCtrlWnd_(new InputGainCtrlWnd)
     ,gateNOMWnd_(new GateNOMWnd)
     ,highPassWnd_(new HighPassWnd)
-    ,peq4BandWnd_(new PEQ4BandWnd)
     ,changePasswordWnd_(new ChangePasswordWnd)
 	,deviceswnd_(new DevicesWnd)
+	,homepage_(new HomePage)
+	,matrixMixerWnd_(new MatrixMixerWnd)
+	,peqWnd_(new PEQWnd)
+
 {
     ui->setupUi(this);
 
 	_tab = findChild<QTabWidget*>( "tabWidget");
 
+	_tab->addTab(homepage_, "Homepage" );
 	_tab->addTab(deviceswnd_, "Devices" );
+	_tab->addTab(changePasswordWnd_, "Password" );
+	_tab->addTab(inputGainCtrlWnd_, "Input" );
+	_tab->addTab(gateNOMWnd_, "Gate" );
+	_tab->addTab(highPassWnd_, "HighPass" );
+	_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
+	_tab->addTab(peqWnd_, "PEQ" );
+	
+	deviceswnd_->initAddresses();
 
 	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
 
@@ -54,7 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::tabChanged (int index){
 	QWidget* currWidget = _tab->widget( index);
 	if ( currWidget == deviceswnd_){
-		deviceswnd_->initAddresses();
 	}
 }
 MainWindow::~MainWindow()
@@ -63,7 +74,6 @@ MainWindow::~MainWindow()
     delete inputGainCtrlWnd_;
     delete gateNOMWnd_;
     delete highPassWnd_;
-    delete peq4BandWnd_;
     delete changePasswordWnd_;
 }
 
@@ -96,15 +106,6 @@ void MainWindow::on_gateNom_clicked()
     }
 }
 
-void MainWindow::on_peq4Band_clicked()
-{
-    if ( peq4BandWnd_->isVisible()){
-        peq4BandWnd_->hide();
-    }else{
-        peq4BandWnd_->show();
-    }
-
-}
 void MainWindow::on_actionChangePsw_clicked( QAction* action){
     if (action->objectName() != "actionChangePsw" ) return;
 

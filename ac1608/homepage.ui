@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>HomePage</class>
+ <widget class="QWidget" name="HomePage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -22,10 +22,10 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>490</y>
-     <width>651</width>
-     <height>251</height>
+     <x>40</x>
+     <y>10</y>
+     <width>671</width>
+     <height>441</height>
     </rect>
    </property>
    <property name="font">
@@ -57,8 +57,8 @@
    <widget class="QWidget" name="widget_6" native="true">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>40</y>
+      <x>210</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -469,8 +469,8 @@
    <widget class="QWidget" name="widget_10" native="true">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>40</y>
+      <x>370</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -881,8 +881,8 @@
    <widget class="QWidget" name="widget_13" native="true">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>40</y>
+      <x>490</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -1293,8 +1293,8 @@
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>40</y>
+      <x>130</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -1705,8 +1705,8 @@
    <widget class="QWidget" name="widget_14" native="true">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>40</y>
+      <x>530</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -2117,8 +2117,8 @@
    <widget class="QWidget" name="widget_7" native="true">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>40</y>
+      <x>250</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -2529,8 +2529,8 @@
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
+      <x>50</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -2941,9 +2941,9 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>40</y>
-      <width>40</width>
+      <x>10</x>
+      <y>30</y>
+      <width>46</width>
       <height>191</height>
      </rect>
     </property>
@@ -3353,8 +3353,8 @@
    <widget class="QWidget" name="widget_11" native="true">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>40</y>
+      <x>410</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -3765,8 +3765,8 @@
    <widget class="QWidget" name="widget_5" native="true">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>40</y>
+      <x>170</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -4173,12 +4173,40 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>progressBar_47</zorder>
+    <zorder>m0_47</zorder>
+    <zorder>t35_47</zorder>
+    <zorder>tn100_47</zorder>
+    <zorder>m15_47</zorder>
+    <zorder>m25_47</zorder>
+    <zorder>m90_47</zorder>
+    <zorder>m105_47</zorder>
+    <zorder>m120_47</zorder>
+    <zorder>m135_47</zorder>
+    <zorder>m45_47</zorder>
+    <zorder>m60_47</zorder>
+    <zorder>m75_47</zorder>
+    <zorder>t20_47</zorder>
+    <zorder>t5_47</zorder>
+    <zorder>tn10_47</zorder>
+    <zorder>tn25_47</zorder>
+    <zorder>tn40_47</zorder>
+    <zorder>tn55_47</zorder>
+    <zorder>tn70_47</zorder>
+    <zorder>tn85_47</zorder>
+    <zorder>m35_47</zorder>
+    <zorder>t0_47</zorder>
+    <zorder>value_47</zorder>
+    <zorder>dB_47</zorder>
+    <zorder>number_47</zorder>
+    <zorder>line_47</zorder>
+    <zorder>widget</zorder>
    </widget>
    <widget class="QWidget" name="widget_12" native="true">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>40</y>
+      <x>450</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -4589,8 +4617,8 @@
    <widget class="QWidget" name="widget_15" native="true">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>40</y>
+      <x>570</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -5001,8 +5029,8 @@
    <widget class="QWidget" name="widget_8" native="true">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>40</y>
+      <x>290</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -5413,8 +5441,8 @@
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>40</y>
+      <x>90</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -5825,8 +5853,8 @@
    <widget class="QWidget" name="widget_9" native="true">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>40</y>
+      <x>330</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -6237,8 +6265,8 @@
    <widget class="QWidget" name="widget_16" native="true">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>40</y>
+      <x>610</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -6646,14 +6674,272 @@
      </property>
     </widget>
    </widget>
+   <widget class="QSlider" name="verticalSlider">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_2">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_3">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_4">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_5">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_6">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_7">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_8">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_9">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_10">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_11">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_12">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_13">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_14">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_15">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_16">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <zorder>widget_6</zorder>
+   <zorder>widget_10</zorder>
+   <zorder>widget_13</zorder>
+   <zorder>widget_4</zorder>
+   <zorder>widget_14</zorder>
+   <zorder>widget_7</zorder>
+   <zorder>widget_2</zorder>
+   <zorder>widget</zorder>
+   <zorder>widget_11</zorder>
+   <zorder>widget_5</zorder>
+   <zorder>widget_12</zorder>
+   <zorder>widget_15</zorder>
+   <zorder>widget_8</zorder>
+   <zorder>widget_3</zorder>
+   <zorder>widget_9</zorder>
+   <zorder>widget_16</zorder>
+   <zorder>widget_17</zorder>
+   <zorder>widget_18</zorder>
+   <zorder>widget_19</zorder>
+   <zorder>widget_20</zorder>
+   <zorder>widget_21</zorder>
+   <zorder>widget_22</zorder>
+   <zorder>widget_23</zorder>
+   <zorder>widget_24</zorder>
+   <zorder>widget_25</zorder>
+   <zorder>widget_26</zorder>
+   <zorder>widget_46</zorder>
+   <zorder>widget_27</zorder>
+   <zorder>widget_29</zorder>
+   <zorder>widget_45</zorder>
+   <zorder>widget_28</zorder>
+   <zorder>widget_30</zorder>
+   <zorder>line_47</zorder>
+   <zorder>verticalSlider</zorder>
+   <zorder>verticalSlider</zorder>
+   <zorder>verticalSlider_2</zorder>
+   <zorder>verticalSlider_3</zorder>
+   <zorder>verticalSlider_4</zorder>
+   <zorder>verticalSlider_5</zorder>
+   <zorder>verticalSlider_6</zorder>
+   <zorder>verticalSlider_7</zorder>
+   <zorder>verticalSlider_8</zorder>
+   <zorder>verticalSlider_9</zorder>
+   <zorder>verticalSlider_10</zorder>
+   <zorder>verticalSlider_11</zorder>
+   <zorder>verticalSlider_12</zorder>
+   <zorder>verticalSlider_13</zorder>
+   <zorder>verticalSlider_14</zorder>
+   <zorder>verticalSlider_15</zorder>
+   <zorder>verticalSlider_16</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>690</x>
-     <y>470</y>
+     <x>730</x>
+     <y>10</y>
      <width>91</width>
-     <height>251</height>
+     <height>441</height>
     </rect>
    </property>
    <property name="title">
@@ -6663,7 +6949,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>40</y>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -7075,7 +7361,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>40</y>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -7483,14 +7769,40 @@
      </property>
     </widget>
    </widget>
+   <widget class="QSlider" name="verticalSlider_17">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_18">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>220</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>480</y>
-     <width>331</width>
-     <height>251</height>
+     <x>40</x>
+     <y>460</y>
+     <width>671</width>
+     <height>241</height>
     </rect>
    </property>
    <property name="title">
@@ -7499,8 +7811,8 @@
    <widget class="QWidget" name="widget_35" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>40</y>
+      <x>10</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -7911,8 +8223,8 @@
    <widget class="QWidget" name="widget_36" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
+      <x>50</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -8323,8 +8635,8 @@
    <widget class="QWidget" name="widget_37" native="true">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>40</y>
+      <x>90</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -8735,8 +9047,8 @@
    <widget class="QWidget" name="widget_38" native="true">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>40</y>
+      <x>130</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -9147,8 +9459,8 @@
    <widget class="QWidget" name="widget_39" native="true">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>40</y>
+      <x>170</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -9559,8 +9871,8 @@
    <widget class="QWidget" name="widget_40" native="true">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>40</y>
+      <x>210</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -9971,8 +10283,8 @@
    <widget class="QWidget" name="widget_41" native="true">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>40</y>
+      <x>250</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -10383,8 +10695,8 @@
    <widget class="QWidget" name="widget_42" native="true">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>40</y>
+      <x>290</x>
+      <y>30</y>
       <width>46</width>
       <height>191</height>
      </rect>
@@ -10792,197 +11104,116 @@
      </property>
     </widget>
    </widget>
+   <widget class="QSlider" name="verticalSlider_19">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_20">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_21">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_22">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_23">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_24">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_25">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="verticalSlider_26">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>30</y>
+      <width>30</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
-  <widget class="QPushButton" name="peq4Band">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>50</y>
-     <width>51</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>4Band
-PEQ</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="level4CH">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>50</y>
-     <width>51</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Level</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="gateNom">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>50</y>
-     <width>51</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Gate
-NOM</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="meter16CH">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>50</y>
-     <width>51</width>
-     <height>161</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Meter</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_13">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>180</y>
-     <width>81</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CobraNet
-Receive</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="meter4CH">
-   <property name="geometry">
-    <rect>
-     <x>970</x>
-     <y>50</y>
-     <width>61</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Meter</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="nom">
-   <property name="geometry">
-    <rect>
-     <x>760</x>
-     <y>50</y>
-     <width>51</width>
-     <height>141</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>NOM</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="level16CH">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>50</y>
-     <width>51</width>
-     <height>161</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Level</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="highPass">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>50</y>
-     <width>51</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>High
-Pass</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="matrixMixer">
-   <property name="geometry">
-    <rect>
-     <x>580</x>
-     <y>50</y>
-     <width>51</width>
-     <height>161</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Matrix
-Mixer</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_14">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>180</y>
-     <width>51</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Router</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_12">
-   <property name="geometry">
-    <rect>
-     <x>850</x>
-     <y>140</y>
-     <width>181</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CobraNet Transmit</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="inputGainControl">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>50</y>
-     <width>81</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Input 
-Gain 
-Control</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="peq5Band">
-   <property name="geometry">
-    <rect>
-     <x>850</x>
-     <y>50</y>
-     <width>61</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>5Band
-PEQ</string>
-   </property>
-  </widget>
+  <zorder>groupBox</zorder>
+  <zorder>groupBox_2</zorder>
+  <zorder>groupBox_3</zorder>
+  <zorder>widget_35</zorder>
+  <zorder>widget</zorder>
  </widget>
  <resources/>
  <connections/>
