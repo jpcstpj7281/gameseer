@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,6 +13,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+configmgr.cpp \
     snmpnet.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
@@ -29,7 +30,8 @@ SOURCES += main.cpp\
     deviceswnd.cpp
 
 HEADERS  +=  snmpnet.h \
-    mainwindow.h \
+    configmgr.h \
+	mainwindow.h \
     presetwnd.h \
     copyparamwnd.h \
     changepasswordwnd.h \

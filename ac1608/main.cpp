@@ -1,5 +1,7 @@
 #include "mainwindow.h"
+#include "configmgr.h"
 #include <QApplication>
+
 
 int main(int argc, char *argv[])
 {
@@ -7,5 +9,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     
-    return a.exec();
+    auto rs = a.exec();
+
+	delete ConfigMgr::instance();
+	return rs;
 }
