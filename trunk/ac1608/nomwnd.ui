@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>NOMWnd</class>
+ <widget class="QWidget" name="NOMWnd">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>781</width>
-    <height>587</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -17,9 +23,9 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>80</y>
-     <width>411</width>
-     <height>501</height>
+     <y>60</y>
+     <width>691</width>
+     <height>591</height>
     </rect>
    </property>
    <property name="font">
@@ -33,44 +39,26 @@
    <widget class="QLabel" name="label_133">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>101</width>
+      <x>68</x>
+      <y>40</y>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <pointsize>10</pointsize>
      </font>
     </property>
     <property name="text">
      <string>NoiseGate Status</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_134">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH1 NoiseGate</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_135">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>50</y>
+      <x>290</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -85,10 +73,10 @@
    <widget class="QSlider" name="verticalSlider">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>285</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -98,8 +86,8 @@
    <widget class="QRadioButton" name="radioButton_13">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>80</y>
+      <x>174</x>
+      <y>71</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -111,8 +99,8 @@
    <widget class="QLabel" name="label_136">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>50</y>
+      <x>340</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -127,10 +115,10 @@
    <widget class="QSlider" name="verticalSlider_2">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>335</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -140,8 +128,8 @@
    <widget class="QLabel" name="label_137">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>50</y>
+      <x>390</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -156,10 +144,10 @@
    <widget class="QSlider" name="verticalSlider_3">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>385</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -169,8 +157,8 @@
    <widget class="QLabel" name="label_138">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>50</y>
+      <x>440</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -185,10 +173,10 @@
    <widget class="QSlider" name="verticalSlider_4">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>435</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -198,8 +186,8 @@
    <widget class="QLabel" name="label_139">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>50</y>
+      <x>490</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -214,10 +202,10 @@
    <widget class="QSlider" name="verticalSlider_5">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>485</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -227,8 +215,8 @@
    <widget class="QLabel" name="label_140">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>50</y>
+      <x>540</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -243,10 +231,10 @@
    <widget class="QSlider" name="verticalSlider_6">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>535</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -256,8 +244,8 @@
    <widget class="QLabel" name="label_141">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>50</y>
+      <x>590</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -272,10 +260,10 @@
    <widget class="QSlider" name="verticalSlider_7">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>585</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -285,8 +273,8 @@
    <widget class="QLabel" name="label_142">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>50</y>
+      <x>640</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -301,10 +289,10 @@
    <widget class="QSlider" name="verticalSlider_8">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>80</y>
-      <width>19</width>
-      <height>160</height>
+      <x>635</x>
+      <y>90</y>
+      <width>30</width>
+      <height>200</height>
      </rect>
     </property>
     <property name="orientation">
@@ -314,39 +302,21 @@
    <widget class="QRadioButton" name="radioButton_14">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>100</y>
+      <x>174</x>
+      <y>103</y>
       <width>16</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_143">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH2 NoiseGate</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_15">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>120</y>
+      <x>174</x>
+      <y>134</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -355,29 +325,11 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_144">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH3 NoiseGate</string>
-    </property>
-   </widget>
    <widget class="QRadioButton" name="radioButton_16">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>140</y>
+      <x>174</x>
+      <y>165</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -389,8 +341,8 @@
    <widget class="QRadioButton" name="radioButton_17">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>160</y>
+      <x>174</x>
+      <y>196</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -399,65 +351,11 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_145">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>180</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH6 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_146">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>160</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH5 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_147">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>140</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH4 NoiseGate</string>
-    </property>
-   </widget>
    <widget class="QRadioButton" name="radioButton_18">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>180</y>
+      <x>174</x>
+      <y>227</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -469,8 +367,8 @@
    <widget class="QRadioButton" name="radioButton_19">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>200</y>
+      <x>174</x>
+      <y>258</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -482,88 +380,34 @@
    <widget class="QRadioButton" name="radioButton_20">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>220</y>
+      <x>174</x>
+      <y>289</y>
       <width>16</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_148">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>240</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH9 NoiseGate</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_21">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>260</y>
+      <x>174</x>
+      <y>350</y>
       <width>16</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_149">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>280</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH11 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_150">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>220</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH8 NoiseGate</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_22">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>300</y>
+      <x>174</x>
+      <y>412</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -572,65 +416,11 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_151">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>260</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH10 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_152">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>300</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH12 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_153">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>200</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string> CH7 NoiseGate</string>
-    </property>
-   </widget>
    <widget class="QRadioButton" name="radioButton_23">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>240</y>
+      <x>174</x>
+      <y>320</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -642,8 +432,8 @@
    <widget class="QRadioButton" name="radioButton_24">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>280</y>
+      <x>174</x>
+      <y>381</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -655,8 +445,8 @@
    <widget class="QRadioButton" name="radioButton_25">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>320</y>
+      <x>174</x>
+      <y>443</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -668,106 +458,21 @@
    <widget class="QRadioButton" name="radioButton_26">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>340</y>
+      <x>174</x>
+      <y>474</y>
       <width>16</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_154">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>360</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH15 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_27">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>380</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_156">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>340</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH14 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_157">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>380</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH16 NoiseGate</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_159">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>320</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>CH13 NoiseGate</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_29">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>360</y>
+      <x>174</x>
+      <y>505</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -779,8 +484,8 @@
    <widget class="QLabel" name="label_155">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>260</y>
+      <x>300</x>
+      <y>320</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -797,8 +502,8 @@
    <widget class="QLabel" name="label_158">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>280</y>
+      <x>300</x>
+      <y>340</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -815,8 +520,8 @@
    <widget class="QLabel" name="label_160">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>300</y>
+      <x>300</x>
+      <y>360</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -833,8 +538,8 @@
    <widget class="QLabel" name="label_161">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>260</y>
+      <x>410</x>
+      <y>320</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -854,8 +559,8 @@
    <widget class="QLabel" name="label_162">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>280</y>
+      <x>410</x>
+      <y>340</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -875,8 +580,8 @@
    <widget class="QLabel" name="label_163">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>300</y>
+      <x>410</x>
+      <y>360</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -893,7 +598,382 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="label_153">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>258</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH7 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_151">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>350</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH10 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_154">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>505</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH15 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_149">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>381</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH11 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_156">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>474</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH14 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_27">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>536</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_157">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>536</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH16 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_143">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>103</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH2 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_134">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>71</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH1 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_147">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>165</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH4 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_159">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>443</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH13 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_146">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>196</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH5 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_150">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>289</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH8 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_148">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>320</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH9 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_145">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>227</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH6 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_144">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>134</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> CH3 NoiseGate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_152">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>412</y>
+      <width>98</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>CH12 NoiseGate</string>
+    </property>
+   </widget>
+   <zorder>label_133</zorder>
+   <zorder>label_134</zorder>
+   <zorder>label_135</zorder>
+   <zorder>verticalSlider</zorder>
+   <zorder>radioButton_13</zorder>
+   <zorder>label_136</zorder>
+   <zorder>verticalSlider_2</zorder>
+   <zorder>label_137</zorder>
+   <zorder>verticalSlider_3</zorder>
+   <zorder>label_138</zorder>
+   <zorder>verticalSlider_4</zorder>
+   <zorder>label_139</zorder>
+   <zorder>verticalSlider_5</zorder>
+   <zorder>label_140</zorder>
+   <zorder>verticalSlider_6</zorder>
+   <zorder>label_141</zorder>
+   <zorder>verticalSlider_7</zorder>
+   <zorder>label_142</zorder>
+   <zorder>verticalSlider_8</zorder>
+   <zorder>radioButton_14</zorder>
+   <zorder>label_143</zorder>
+   <zorder>radioButton_15</zorder>
+   <zorder>label_144</zorder>
+   <zorder>radioButton_16</zorder>
+   <zorder>radioButton_17</zorder>
+   <zorder>label_145</zorder>
+   <zorder>label_146</zorder>
+   <zorder>label_147</zorder>
+   <zorder>radioButton_18</zorder>
+   <zorder>radioButton_19</zorder>
+   <zorder>radioButton_20</zorder>
+   <zorder>label_148</zorder>
+   <zorder>radioButton_21</zorder>
+   <zorder>label_149</zorder>
+   <zorder>label_150</zorder>
+   <zorder>radioButton_22</zorder>
+   <zorder>label_151</zorder>
+   <zorder>label_152</zorder>
+   <zorder>label_153</zorder>
+   <zorder>radioButton_23</zorder>
+   <zorder>radioButton_24</zorder>
+   <zorder>radioButton_25</zorder>
+   <zorder>radioButton_26</zorder>
+   <zorder>label_154</zorder>
+   <zorder>radioButton_27</zorder>
+   <zorder>label_156</zorder>
+   <zorder>label_157</zorder>
+   <zorder>label_159</zorder>
+   <zorder>radioButton_29</zorder>
+   <zorder>label_155</zorder>
+   <zorder>label_158</zorder>
+   <zorder>label_160</zorder>
+   <zorder>label_161</zorder>
+   <zorder>label_162</zorder>
+   <zorder>label_163</zorder>
+   <zorder>radioButton_27</zorder>
+   <zorder>label_157</zorder>
+   <zorder>label_146</zorder>
+   <zorder>label_148</zorder>
+   <zorder>label_159</zorder>
+   <zorder>label_150</zorder>
+   <zorder>label_152</zorder>
+   <zorder>label_147</zorder>
+   <zorder>label_156</zorder>
+   <zorder>label_134</zorder>
+   <zorder>label_144</zorder>
+   <zorder>label_153</zorder>
+   <zorder>label_154</zorder>
+   <zorder>label_145</zorder>
+   <zorder>label_149</zorder>
+   <zorder>label_143</zorder>
+   <zorder>label_151</zorder>
   </widget>
+  <zorder>groupBox_13</zorder>
+  <zorder>label_157</zorder>
  </widget>
  <resources/>
  <connections/>

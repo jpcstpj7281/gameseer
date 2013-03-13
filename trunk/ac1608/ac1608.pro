@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml
+QT       += core gui xml declarative
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,6 +16,8 @@ SOURCES += main.cpp\
 homepage.cpp \
 configmgr.cpp \
 peqwnd.cpp \
+nomwnd.cpp \
+cobranetwnd.cpp \
     snmpnet.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
@@ -32,6 +34,8 @@ peqwnd.cpp \
 HEADERS  +=  snmpnet.h \
 homepage.h \
 peqwnd.h \
+nomwnd.h \
+cobranetwnd.h \
     configmgr.h \
 	mainwindow.h \
     presetwnd.h \
@@ -48,6 +52,8 @@ peqwnd.h \
 FORMS    += mainwindow.ui \
 homepage.ui \
 peqwnd.ui \
+nomwnd.ui \
+cobranetwnd.ui \
     presetwnd.ui \
     copyparamwnd.ui \
     changepasswordwnd.ui \

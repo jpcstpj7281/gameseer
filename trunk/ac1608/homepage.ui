@@ -63,7 +63,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_48">
+    <widget class="MyProgressBar" name="progressBar_48">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -465,6 +465,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_48</zorder>
+    <zorder>t35_48</zorder>
+    <zorder>tn100_48</zorder>
+    <zorder>m15_48</zorder>
+    <zorder>m25_48</zorder>
+    <zorder>m90_48</zorder>
+    <zorder>m105_48</zorder>
+    <zorder>m120_48</zorder>
+    <zorder>m135_48</zorder>
+    <zorder>m45_48</zorder>
+    <zorder>m60_48</zorder>
+    <zorder>m75_48</zorder>
+    <zorder>t20_48</zorder>
+    <zorder>t5_48</zorder>
+    <zorder>tn10_48</zorder>
+    <zorder>tn25_48</zorder>
+    <zorder>tn40_48</zorder>
+    <zorder>tn55_48</zorder>
+    <zorder>tn70_48</zorder>
+    <zorder>tn85_48</zorder>
+    <zorder>m35_48</zorder>
+    <zorder>t0_48</zorder>
+    <zorder>value_48</zorder>
+    <zorder>dB_48</zorder>
+    <zorder>number_48</zorder>
+    <zorder>line_48</zorder>
+    <zorder>progressBar_48</zorder>
    </widget>
    <widget class="QWidget" name="widget_10" native="true">
     <property name="geometry">
@@ -475,7 +502,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_52">
+    <widget class="MyProgressBar" name="progressBar_52">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -877,6 +904,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_52</zorder>
+    <zorder>t35_52</zorder>
+    <zorder>tn100_52</zorder>
+    <zorder>m15_52</zorder>
+    <zorder>m25_52</zorder>
+    <zorder>m90_52</zorder>
+    <zorder>m105_52</zorder>
+    <zorder>m120_52</zorder>
+    <zorder>m135_52</zorder>
+    <zorder>m45_52</zorder>
+    <zorder>m60_52</zorder>
+    <zorder>m75_52</zorder>
+    <zorder>t20_52</zorder>
+    <zorder>t5_52</zorder>
+    <zorder>tn10_52</zorder>
+    <zorder>tn25_52</zorder>
+    <zorder>tn40_52</zorder>
+    <zorder>tn55_52</zorder>
+    <zorder>tn70_52</zorder>
+    <zorder>tn85_52</zorder>
+    <zorder>m35_52</zorder>
+    <zorder>t0_52</zorder>
+    <zorder>value_52</zorder>
+    <zorder>dB_52</zorder>
+    <zorder>number_52</zorder>
+    <zorder>line_52</zorder>
+    <zorder>progressBar_52</zorder>
    </widget>
    <widget class="QWidget" name="widget_13" native="true">
     <property name="geometry">
@@ -887,7 +941,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_55">
+    <widget class="MyProgressBar" name="progressBar_55">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -1289,6 +1343,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_55</zorder>
+    <zorder>t35_55</zorder>
+    <zorder>tn100_55</zorder>
+    <zorder>m15_55</zorder>
+    <zorder>m25_55</zorder>
+    <zorder>m90_55</zorder>
+    <zorder>m105_55</zorder>
+    <zorder>m120_55</zorder>
+    <zorder>m135_55</zorder>
+    <zorder>m45_55</zorder>
+    <zorder>m60_55</zorder>
+    <zorder>m75_55</zorder>
+    <zorder>t20_55</zorder>
+    <zorder>t5_55</zorder>
+    <zorder>tn10_55</zorder>
+    <zorder>tn25_55</zorder>
+    <zorder>tn40_55</zorder>
+    <zorder>tn55_55</zorder>
+    <zorder>tn70_55</zorder>
+    <zorder>tn85_55</zorder>
+    <zorder>m35_55</zorder>
+    <zorder>t0_55</zorder>
+    <zorder>value_55</zorder>
+    <zorder>dB_55</zorder>
+    <zorder>number_55</zorder>
+    <zorder>line_55</zorder>
+    <zorder>progressBar_55</zorder>
    </widget>
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
@@ -1299,7 +1380,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_46">
+    <widget class="MyProgressBar" name="progressBar_46">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -1701,6 +1782,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_46</zorder>
+    <zorder>t35_46</zorder>
+    <zorder>tn100_46</zorder>
+    <zorder>m15_46</zorder>
+    <zorder>m25_46</zorder>
+    <zorder>m90_46</zorder>
+    <zorder>m105_46</zorder>
+    <zorder>m120_46</zorder>
+    <zorder>m135_46</zorder>
+    <zorder>m45_46</zorder>
+    <zorder>m60_46</zorder>
+    <zorder>m75_46</zorder>
+    <zorder>t20_46</zorder>
+    <zorder>t5_46</zorder>
+    <zorder>tn10_46</zorder>
+    <zorder>tn25_46</zorder>
+    <zorder>tn40_46</zorder>
+    <zorder>tn55_46</zorder>
+    <zorder>tn70_46</zorder>
+    <zorder>tn85_46</zorder>
+    <zorder>m35_46</zorder>
+    <zorder>t0_46</zorder>
+    <zorder>value_46</zorder>
+    <zorder>dB_46</zorder>
+    <zorder>number_46</zorder>
+    <zorder>line_46</zorder>
+    <zorder>progressBar_46</zorder>
    </widget>
    <widget class="QWidget" name="widget_14" native="true">
     <property name="geometry">
@@ -1711,7 +1819,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_56">
+    <widget class="MyProgressBar" name="progressBar_56">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -2113,6 +2221,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_56</zorder>
+    <zorder>t35_56</zorder>
+    <zorder>tn100_56</zorder>
+    <zorder>m15_56</zorder>
+    <zorder>m25_56</zorder>
+    <zorder>m90_56</zorder>
+    <zorder>m105_56</zorder>
+    <zorder>m120_56</zorder>
+    <zorder>m135_56</zorder>
+    <zorder>m45_56</zorder>
+    <zorder>m60_56</zorder>
+    <zorder>m75_56</zorder>
+    <zorder>t20_56</zorder>
+    <zorder>t5_56</zorder>
+    <zorder>tn10_56</zorder>
+    <zorder>tn25_56</zorder>
+    <zorder>tn40_56</zorder>
+    <zorder>tn55_56</zorder>
+    <zorder>tn70_56</zorder>
+    <zorder>tn85_56</zorder>
+    <zorder>m35_56</zorder>
+    <zorder>t0_56</zorder>
+    <zorder>value_56</zorder>
+    <zorder>dB_56</zorder>
+    <zorder>number_56</zorder>
+    <zorder>line_56</zorder>
+    <zorder>progressBar_56</zorder>
    </widget>
    <widget class="QWidget" name="widget_7" native="true">
     <property name="geometry">
@@ -2123,7 +2258,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_49">
+    <widget class="MyProgressBar" name="progressBar_49">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -2525,6 +2660,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_49</zorder>
+    <zorder>t35_49</zorder>
+    <zorder>tn100_49</zorder>
+    <zorder>m15_49</zorder>
+    <zorder>m25_49</zorder>
+    <zorder>m90_49</zorder>
+    <zorder>m105_49</zorder>
+    <zorder>m120_49</zorder>
+    <zorder>m135_49</zorder>
+    <zorder>m45_49</zorder>
+    <zorder>m60_49</zorder>
+    <zorder>m75_49</zorder>
+    <zorder>t20_49</zorder>
+    <zorder>t5_49</zorder>
+    <zorder>tn10_49</zorder>
+    <zorder>tn25_49</zorder>
+    <zorder>tn40_49</zorder>
+    <zorder>tn55_49</zorder>
+    <zorder>tn70_49</zorder>
+    <zorder>tn85_49</zorder>
+    <zorder>m35_49</zorder>
+    <zorder>t0_49</zorder>
+    <zorder>value_49</zorder>
+    <zorder>dB_49</zorder>
+    <zorder>number_49</zorder>
+    <zorder>line_49</zorder>
+    <zorder>progressBar_49</zorder>
    </widget>
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
@@ -2535,7 +2697,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_44">
+    <widget class="MyProgressBar" name="progressBar_44">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -2937,6 +3099,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_44</zorder>
+    <zorder>t35_44</zorder>
+    <zorder>tn100_44</zorder>
+    <zorder>m15_44</zorder>
+    <zorder>m25_44</zorder>
+    <zorder>m90_44</zorder>
+    <zorder>m105_44</zorder>
+    <zorder>m120_44</zorder>
+    <zorder>m135_44</zorder>
+    <zorder>m45_44</zorder>
+    <zorder>m60_44</zorder>
+    <zorder>m75_44</zorder>
+    <zorder>t20_44</zorder>
+    <zorder>t5_44</zorder>
+    <zorder>tn10_44</zorder>
+    <zorder>tn25_44</zorder>
+    <zorder>tn40_44</zorder>
+    <zorder>tn55_44</zorder>
+    <zorder>tn70_44</zorder>
+    <zorder>tn85_44</zorder>
+    <zorder>m35_44</zorder>
+    <zorder>t0_44</zorder>
+    <zorder>value_44</zorder>
+    <zorder>dB_44</zorder>
+    <zorder>number_44</zorder>
+    <zorder>line_44</zorder>
+    <zorder>progressBar_44</zorder>
    </widget>
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
@@ -2947,7 +3136,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar">
+    <widget class="MyProgressBar" name="progressBar">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -3349,6 +3538,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0</zorder>
+    <zorder>t35</zorder>
+    <zorder>tn100</zorder>
+    <zorder>m15</zorder>
+    <zorder>m25</zorder>
+    <zorder>m90</zorder>
+    <zorder>m105</zorder>
+    <zorder>m120</zorder>
+    <zorder>m135</zorder>
+    <zorder>m45</zorder>
+    <zorder>m60</zorder>
+    <zorder>m75</zorder>
+    <zorder>t20</zorder>
+    <zorder>t5</zorder>
+    <zorder>tn10</zorder>
+    <zorder>tn25</zorder>
+    <zorder>tn40</zorder>
+    <zorder>tn55</zorder>
+    <zorder>tn70</zorder>
+    <zorder>tn85</zorder>
+    <zorder>m35</zorder>
+    <zorder>t0</zorder>
+    <zorder>value</zorder>
+    <zorder>dB</zorder>
+    <zorder>number</zorder>
+    <zorder>line</zorder>
+    <zorder>progressBar</zorder>
    </widget>
    <widget class="QWidget" name="widget_11" native="true">
     <property name="geometry">
@@ -3359,7 +3575,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_53">
+    <widget class="MyProgressBar" name="progressBar_53">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -3761,6 +3977,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_53</zorder>
+    <zorder>t35_53</zorder>
+    <zorder>tn100_53</zorder>
+    <zorder>m15_53</zorder>
+    <zorder>m25_53</zorder>
+    <zorder>m90_53</zorder>
+    <zorder>m105_53</zorder>
+    <zorder>m120_53</zorder>
+    <zorder>m135_53</zorder>
+    <zorder>m45_53</zorder>
+    <zorder>m60_53</zorder>
+    <zorder>m75_53</zorder>
+    <zorder>t20_53</zorder>
+    <zorder>t5_53</zorder>
+    <zorder>tn10_53</zorder>
+    <zorder>tn25_53</zorder>
+    <zorder>tn40_53</zorder>
+    <zorder>tn55_53</zorder>
+    <zorder>tn70_53</zorder>
+    <zorder>tn85_53</zorder>
+    <zorder>m35_53</zorder>
+    <zorder>t0_53</zorder>
+    <zorder>value_53</zorder>
+    <zorder>dB_53</zorder>
+    <zorder>number_53</zorder>
+    <zorder>line_53</zorder>
+    <zorder>progressBar_53</zorder>
    </widget>
    <widget class="QWidget" name="widget_5" native="true">
     <property name="geometry">
@@ -3771,7 +4014,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_47">
+    <widget class="MyProgressBar" name="progressBar_47">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -4173,7 +4416,6 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <zorder>progressBar_47</zorder>
     <zorder>m0_47</zorder>
     <zorder>t35_47</zorder>
     <zorder>tn100_47</zorder>
@@ -4200,7 +4442,7 @@
     <zorder>dB_47</zorder>
     <zorder>number_47</zorder>
     <zorder>line_47</zorder>
-    <zorder>widget</zorder>
+    <zorder>progressBar_47</zorder>
    </widget>
    <widget class="QWidget" name="widget_12" native="true">
     <property name="geometry">
@@ -4211,7 +4453,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_54">
+    <widget class="MyProgressBar" name="progressBar_54">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -4613,6 +4855,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_54</zorder>
+    <zorder>t35_54</zorder>
+    <zorder>tn100_54</zorder>
+    <zorder>m15_54</zorder>
+    <zorder>m25_54</zorder>
+    <zorder>m90_54</zorder>
+    <zorder>m105_54</zorder>
+    <zorder>m120_54</zorder>
+    <zorder>m135_54</zorder>
+    <zorder>m45_54</zorder>
+    <zorder>m60_54</zorder>
+    <zorder>m75_54</zorder>
+    <zorder>t20_54</zorder>
+    <zorder>t5_54</zorder>
+    <zorder>tn10_54</zorder>
+    <zorder>tn25_54</zorder>
+    <zorder>tn40_54</zorder>
+    <zorder>tn55_54</zorder>
+    <zorder>tn70_54</zorder>
+    <zorder>tn85_54</zorder>
+    <zorder>m35_54</zorder>
+    <zorder>t0_54</zorder>
+    <zorder>value_54</zorder>
+    <zorder>dB_54</zorder>
+    <zorder>number_54</zorder>
+    <zorder>line_54</zorder>
+    <zorder>progressBar_54</zorder>
    </widget>
    <widget class="QWidget" name="widget_15" native="true">
     <property name="geometry">
@@ -4623,7 +4892,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_57">
+    <widget class="MyProgressBar" name="progressBar_57">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -5025,6 +5294,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_57</zorder>
+    <zorder>t35_57</zorder>
+    <zorder>tn100_57</zorder>
+    <zorder>m15_57</zorder>
+    <zorder>m25_57</zorder>
+    <zorder>m90_57</zorder>
+    <zorder>m105_57</zorder>
+    <zorder>m120_57</zorder>
+    <zorder>m135_57</zorder>
+    <zorder>m45_57</zorder>
+    <zorder>m60_57</zorder>
+    <zorder>m75_57</zorder>
+    <zorder>t20_57</zorder>
+    <zorder>t5_57</zorder>
+    <zorder>tn10_57</zorder>
+    <zorder>tn25_57</zorder>
+    <zorder>tn40_57</zorder>
+    <zorder>tn55_57</zorder>
+    <zorder>tn70_57</zorder>
+    <zorder>tn85_57</zorder>
+    <zorder>m35_57</zorder>
+    <zorder>t0_57</zorder>
+    <zorder>value_57</zorder>
+    <zorder>dB_57</zorder>
+    <zorder>number_57</zorder>
+    <zorder>line_57</zorder>
+    <zorder>progressBar_57</zorder>
    </widget>
    <widget class="QWidget" name="widget_8" native="true">
     <property name="geometry">
@@ -5035,7 +5331,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_50">
+    <widget class="MyProgressBar" name="progressBar_50">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -5437,6 +5733,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_50</zorder>
+    <zorder>t35_50</zorder>
+    <zorder>tn100_50</zorder>
+    <zorder>m15_50</zorder>
+    <zorder>m25_50</zorder>
+    <zorder>m90_50</zorder>
+    <zorder>m105_50</zorder>
+    <zorder>m120_50</zorder>
+    <zorder>m135_50</zorder>
+    <zorder>m45_50</zorder>
+    <zorder>m60_50</zorder>
+    <zorder>m75_50</zorder>
+    <zorder>t20_50</zorder>
+    <zorder>t5_50</zorder>
+    <zorder>tn10_50</zorder>
+    <zorder>tn25_50</zorder>
+    <zorder>tn40_50</zorder>
+    <zorder>tn55_50</zorder>
+    <zorder>tn70_50</zorder>
+    <zorder>tn85_50</zorder>
+    <zorder>m35_50</zorder>
+    <zorder>t0_50</zorder>
+    <zorder>value_50</zorder>
+    <zorder>dB_50</zorder>
+    <zorder>number_50</zorder>
+    <zorder>line_50</zorder>
+    <zorder>progressBar_50</zorder>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
@@ -5447,7 +5770,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_45">
+    <widget class="MyProgressBar" name="progressBar_45">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -5849,6 +6172,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_45</zorder>
+    <zorder>t35_45</zorder>
+    <zorder>tn100_45</zorder>
+    <zorder>m15_45</zorder>
+    <zorder>m25_45</zorder>
+    <zorder>m90_45</zorder>
+    <zorder>m105_45</zorder>
+    <zorder>m120_45</zorder>
+    <zorder>m135_45</zorder>
+    <zorder>m45_45</zorder>
+    <zorder>m60_45</zorder>
+    <zorder>m75_45</zorder>
+    <zorder>t20_45</zorder>
+    <zorder>t5_45</zorder>
+    <zorder>tn10_45</zorder>
+    <zorder>tn25_45</zorder>
+    <zorder>tn40_45</zorder>
+    <zorder>tn55_45</zorder>
+    <zorder>tn70_45</zorder>
+    <zorder>tn85_45</zorder>
+    <zorder>m35_45</zorder>
+    <zorder>t0_45</zorder>
+    <zorder>value_45</zorder>
+    <zorder>dB_45</zorder>
+    <zorder>number_45</zorder>
+    <zorder>line_45</zorder>
+    <zorder>progressBar_45</zorder>
    </widget>
    <widget class="QWidget" name="widget_9" native="true">
     <property name="geometry">
@@ -5859,7 +6209,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_51">
+    <widget class="MyProgressBar" name="progressBar_51">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -6261,6 +6611,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_51</zorder>
+    <zorder>t35_51</zorder>
+    <zorder>tn100_51</zorder>
+    <zorder>m15_51</zorder>
+    <zorder>m25_51</zorder>
+    <zorder>m90_51</zorder>
+    <zorder>m105_51</zorder>
+    <zorder>m120_51</zorder>
+    <zorder>m135_51</zorder>
+    <zorder>m45_51</zorder>
+    <zorder>m60_51</zorder>
+    <zorder>m75_51</zorder>
+    <zorder>t20_51</zorder>
+    <zorder>t5_51</zorder>
+    <zorder>tn10_51</zorder>
+    <zorder>tn25_51</zorder>
+    <zorder>tn40_51</zorder>
+    <zorder>tn55_51</zorder>
+    <zorder>tn70_51</zorder>
+    <zorder>tn85_51</zorder>
+    <zorder>m35_51</zorder>
+    <zorder>t0_51</zorder>
+    <zorder>value_51</zorder>
+    <zorder>dB_51</zorder>
+    <zorder>number_51</zorder>
+    <zorder>line_51</zorder>
+    <zorder>progressBar_51</zorder>
    </widget>
    <widget class="QWidget" name="widget_16" native="true">
     <property name="geometry">
@@ -6271,7 +6648,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_58">
+    <widget class="MyProgressBar" name="progressBar_58">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -6673,6 +7050,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_58</zorder>
+    <zorder>t35_58</zorder>
+    <zorder>tn100_58</zorder>
+    <zorder>m15_58</zorder>
+    <zorder>m25_58</zorder>
+    <zorder>m90_58</zorder>
+    <zorder>m105_58</zorder>
+    <zorder>m120_58</zorder>
+    <zorder>m135_58</zorder>
+    <zorder>m45_58</zorder>
+    <zorder>m60_58</zorder>
+    <zorder>m75_58</zorder>
+    <zorder>t20_58</zorder>
+    <zorder>t5_58</zorder>
+    <zorder>tn10_58</zorder>
+    <zorder>tn25_58</zorder>
+    <zorder>tn40_58</zorder>
+    <zorder>tn55_58</zorder>
+    <zorder>tn70_58</zorder>
+    <zorder>tn85_58</zorder>
+    <zorder>m35_58</zorder>
+    <zorder>t0_58</zorder>
+    <zorder>value_58</zorder>
+    <zorder>dB_58</zorder>
+    <zorder>number_58</zorder>
+    <zorder>line_58</zorder>
+    <zorder>progressBar_58</zorder>
    </widget>
    <widget class="QSlider" name="verticalSlider">
     <property name="geometry">
@@ -6882,56 +7286,6 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <zorder>widget_6</zorder>
-   <zorder>widget_10</zorder>
-   <zorder>widget_13</zorder>
-   <zorder>widget_4</zorder>
-   <zorder>widget_14</zorder>
-   <zorder>widget_7</zorder>
-   <zorder>widget_2</zorder>
-   <zorder>widget</zorder>
-   <zorder>widget_11</zorder>
-   <zorder>widget_5</zorder>
-   <zorder>widget_12</zorder>
-   <zorder>widget_15</zorder>
-   <zorder>widget_8</zorder>
-   <zorder>widget_3</zorder>
-   <zorder>widget_9</zorder>
-   <zorder>widget_16</zorder>
-   <zorder>widget_17</zorder>
-   <zorder>widget_18</zorder>
-   <zorder>widget_19</zorder>
-   <zorder>widget_20</zorder>
-   <zorder>widget_21</zorder>
-   <zorder>widget_22</zorder>
-   <zorder>widget_23</zorder>
-   <zorder>widget_24</zorder>
-   <zorder>widget_25</zorder>
-   <zorder>widget_26</zorder>
-   <zorder>widget_46</zorder>
-   <zorder>widget_27</zorder>
-   <zorder>widget_29</zorder>
-   <zorder>widget_45</zorder>
-   <zorder>widget_28</zorder>
-   <zorder>widget_30</zorder>
-   <zorder>line_47</zorder>
-   <zorder>verticalSlider</zorder>
-   <zorder>verticalSlider</zorder>
-   <zorder>verticalSlider_2</zorder>
-   <zorder>verticalSlider_3</zorder>
-   <zorder>verticalSlider_4</zorder>
-   <zorder>verticalSlider_5</zorder>
-   <zorder>verticalSlider_6</zorder>
-   <zorder>verticalSlider_7</zorder>
-   <zorder>verticalSlider_8</zorder>
-   <zorder>verticalSlider_9</zorder>
-   <zorder>verticalSlider_10</zorder>
-   <zorder>verticalSlider_11</zorder>
-   <zorder>verticalSlider_12</zorder>
-   <zorder>verticalSlider_13</zorder>
-   <zorder>verticalSlider_14</zorder>
-   <zorder>verticalSlider_15</zorder>
-   <zorder>verticalSlider_16</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
@@ -6954,7 +7308,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_75">
+    <widget class="MyProgressBar" name="progressBar_75">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -7356,6 +7710,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_75</zorder>
+    <zorder>t35_75</zorder>
+    <zorder>tn100_75</zorder>
+    <zorder>m15_75</zorder>
+    <zorder>m25_75</zorder>
+    <zorder>m90_75</zorder>
+    <zorder>m105_75</zorder>
+    <zorder>m120_75</zorder>
+    <zorder>m135_75</zorder>
+    <zorder>m45_75</zorder>
+    <zorder>m60_75</zorder>
+    <zorder>m75_75</zorder>
+    <zorder>t20_75</zorder>
+    <zorder>t5_75</zorder>
+    <zorder>tn10_75</zorder>
+    <zorder>tn25_75</zorder>
+    <zorder>tn40_75</zorder>
+    <zorder>tn55_75</zorder>
+    <zorder>tn70_75</zorder>
+    <zorder>tn85_75</zorder>
+    <zorder>m35_75</zorder>
+    <zorder>t0_75</zorder>
+    <zorder>value_75</zorder>
+    <zorder>dB_75</zorder>
+    <zorder>number_75</zorder>
+    <zorder>line_75</zorder>
+    <zorder>progressBar_75</zorder>
    </widget>
    <widget class="QWidget" name="widget_34" native="true">
     <property name="geometry">
@@ -7366,7 +7747,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_76">
+    <widget class="MyProgressBar" name="progressBar_76">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -7768,6 +8149,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_76</zorder>
+    <zorder>t35_76</zorder>
+    <zorder>tn100_76</zorder>
+    <zorder>m15_76</zorder>
+    <zorder>m25_76</zorder>
+    <zorder>m90_76</zorder>
+    <zorder>m105_76</zorder>
+    <zorder>m120_76</zorder>
+    <zorder>m135_76</zorder>
+    <zorder>m45_76</zorder>
+    <zorder>m60_76</zorder>
+    <zorder>m75_76</zorder>
+    <zorder>t20_76</zorder>
+    <zorder>t5_76</zorder>
+    <zorder>tn10_76</zorder>
+    <zorder>tn25_76</zorder>
+    <zorder>tn40_76</zorder>
+    <zorder>tn55_76</zorder>
+    <zorder>tn70_76</zorder>
+    <zorder>tn85_76</zorder>
+    <zorder>m35_76</zorder>
+    <zorder>t0_76</zorder>
+    <zorder>value_76</zorder>
+    <zorder>dB_76</zorder>
+    <zorder>number_76</zorder>
+    <zorder>line_76</zorder>
+    <zorder>progressBar_76</zorder>
    </widget>
    <widget class="QSlider" name="verticalSlider_17">
     <property name="geometry">
@@ -7817,7 +8225,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_77">
+    <widget class="MyProgressBar" name="progressBar_77">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -8219,6 +8627,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_77</zorder>
+    <zorder>t35_77</zorder>
+    <zorder>tn100_77</zorder>
+    <zorder>m15_77</zorder>
+    <zorder>m25_77</zorder>
+    <zorder>m90_77</zorder>
+    <zorder>m105_77</zorder>
+    <zorder>m120_77</zorder>
+    <zorder>m135_77</zorder>
+    <zorder>m45_77</zorder>
+    <zorder>m60_77</zorder>
+    <zorder>m75_77</zorder>
+    <zorder>t20_77</zorder>
+    <zorder>t5_77</zorder>
+    <zorder>tn10_77</zorder>
+    <zorder>tn25_77</zorder>
+    <zorder>tn40_77</zorder>
+    <zorder>tn55_77</zorder>
+    <zorder>tn70_77</zorder>
+    <zorder>tn85_77</zorder>
+    <zorder>m35_77</zorder>
+    <zorder>t0_77</zorder>
+    <zorder>value_77</zorder>
+    <zorder>dB_77</zorder>
+    <zorder>number_77</zorder>
+    <zorder>line_77</zorder>
+    <zorder>progressBar_77</zorder>
    </widget>
    <widget class="QWidget" name="widget_36" native="true">
     <property name="geometry">
@@ -8229,7 +8664,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_78">
+    <widget class="MyProgressBar" name="progressBar_78">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -8631,6 +9066,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_78</zorder>
+    <zorder>t35_78</zorder>
+    <zorder>tn100_78</zorder>
+    <zorder>m15_78</zorder>
+    <zorder>m25_78</zorder>
+    <zorder>m90_78</zorder>
+    <zorder>m105_78</zorder>
+    <zorder>m120_78</zorder>
+    <zorder>m135_78</zorder>
+    <zorder>m45_78</zorder>
+    <zorder>m60_78</zorder>
+    <zorder>m75_78</zorder>
+    <zorder>t20_78</zorder>
+    <zorder>t5_78</zorder>
+    <zorder>tn10_78</zorder>
+    <zorder>tn25_78</zorder>
+    <zorder>tn40_78</zorder>
+    <zorder>tn55_78</zorder>
+    <zorder>tn70_78</zorder>
+    <zorder>tn85_78</zorder>
+    <zorder>m35_78</zorder>
+    <zorder>t0_78</zorder>
+    <zorder>value_78</zorder>
+    <zorder>dB_78</zorder>
+    <zorder>number_78</zorder>
+    <zorder>line_78</zorder>
+    <zorder>progressBar_78</zorder>
    </widget>
    <widget class="QWidget" name="widget_37" native="true">
     <property name="geometry">
@@ -8641,7 +9103,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_79">
+    <widget class="MyProgressBar" name="progressBar_79">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -9043,6 +9505,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_79</zorder>
+    <zorder>t35_79</zorder>
+    <zorder>tn100_79</zorder>
+    <zorder>m15_79</zorder>
+    <zorder>m25_79</zorder>
+    <zorder>m90_79</zorder>
+    <zorder>m105_79</zorder>
+    <zorder>m120_79</zorder>
+    <zorder>m135_79</zorder>
+    <zorder>m45_79</zorder>
+    <zorder>m60_79</zorder>
+    <zorder>m75_79</zorder>
+    <zorder>t20_79</zorder>
+    <zorder>t5_79</zorder>
+    <zorder>tn10_79</zorder>
+    <zorder>tn25_79</zorder>
+    <zorder>tn40_79</zorder>
+    <zorder>tn55_79</zorder>
+    <zorder>tn70_79</zorder>
+    <zorder>tn85_79</zorder>
+    <zorder>m35_79</zorder>
+    <zorder>t0_79</zorder>
+    <zorder>value_79</zorder>
+    <zorder>dB_79</zorder>
+    <zorder>number_79</zorder>
+    <zorder>line_79</zorder>
+    <zorder>progressBar_79</zorder>
    </widget>
    <widget class="QWidget" name="widget_38" native="true">
     <property name="geometry">
@@ -9053,7 +9542,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_80">
+    <widget class="MyProgressBar" name="progressBar_80">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -9455,6 +9944,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_80</zorder>
+    <zorder>t35_80</zorder>
+    <zorder>tn100_80</zorder>
+    <zorder>m15_80</zorder>
+    <zorder>m25_80</zorder>
+    <zorder>m90_80</zorder>
+    <zorder>m105_80</zorder>
+    <zorder>m120_80</zorder>
+    <zorder>m135_80</zorder>
+    <zorder>m45_80</zorder>
+    <zorder>m60_80</zorder>
+    <zorder>m75_80</zorder>
+    <zorder>t20_80</zorder>
+    <zorder>t5_80</zorder>
+    <zorder>tn10_80</zorder>
+    <zorder>tn25_80</zorder>
+    <zorder>tn40_80</zorder>
+    <zorder>tn55_80</zorder>
+    <zorder>tn70_80</zorder>
+    <zorder>tn85_80</zorder>
+    <zorder>m35_80</zorder>
+    <zorder>t0_80</zorder>
+    <zorder>value_80</zorder>
+    <zorder>dB_80</zorder>
+    <zorder>number_80</zorder>
+    <zorder>line_80</zorder>
+    <zorder>progressBar_80</zorder>
    </widget>
    <widget class="QWidget" name="widget_39" native="true">
     <property name="geometry">
@@ -9465,7 +9981,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_82">
+    <widget class="MyProgressBar" name="progressBar_82">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -9867,6 +10383,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_82</zorder>
+    <zorder>t35_82</zorder>
+    <zorder>tn100_82</zorder>
+    <zorder>m15_82</zorder>
+    <zorder>m25_82</zorder>
+    <zorder>m90_82</zorder>
+    <zorder>m105_82</zorder>
+    <zorder>m120_82</zorder>
+    <zorder>m135_82</zorder>
+    <zorder>m45_82</zorder>
+    <zorder>m60_82</zorder>
+    <zorder>m75_82</zorder>
+    <zorder>t20_82</zorder>
+    <zorder>t5_82</zorder>
+    <zorder>tn10_82</zorder>
+    <zorder>tn25_82</zorder>
+    <zorder>tn40_82</zorder>
+    <zorder>tn55_82</zorder>
+    <zorder>tn70_82</zorder>
+    <zorder>tn85_82</zorder>
+    <zorder>m35_82</zorder>
+    <zorder>t0_82</zorder>
+    <zorder>value_82</zorder>
+    <zorder>dB_82</zorder>
+    <zorder>number_82</zorder>
+    <zorder>line_82</zorder>
+    <zorder>progressBar_82</zorder>
    </widget>
    <widget class="QWidget" name="widget_40" native="true">
     <property name="geometry">
@@ -9877,7 +10420,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_83">
+    <widget class="MyProgressBar" name="progressBar_83">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -10279,6 +10822,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_83</zorder>
+    <zorder>t35_83</zorder>
+    <zorder>tn100_83</zorder>
+    <zorder>m15_83</zorder>
+    <zorder>m25_83</zorder>
+    <zorder>m90_83</zorder>
+    <zorder>m105_83</zorder>
+    <zorder>m120_83</zorder>
+    <zorder>m135_83</zorder>
+    <zorder>m45_83</zorder>
+    <zorder>m60_83</zorder>
+    <zorder>m75_83</zorder>
+    <zorder>t20_83</zorder>
+    <zorder>t5_83</zorder>
+    <zorder>tn10_83</zorder>
+    <zorder>tn25_83</zorder>
+    <zorder>tn40_83</zorder>
+    <zorder>tn55_83</zorder>
+    <zorder>tn70_83</zorder>
+    <zorder>tn85_83</zorder>
+    <zorder>m35_83</zorder>
+    <zorder>t0_83</zorder>
+    <zorder>value_83</zorder>
+    <zorder>dB_83</zorder>
+    <zorder>number_83</zorder>
+    <zorder>line_83</zorder>
+    <zorder>progressBar_83</zorder>
    </widget>
    <widget class="QWidget" name="widget_41" native="true">
     <property name="geometry">
@@ -10289,7 +10859,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_85">
+    <widget class="MyProgressBar" name="progressBar_85">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -10691,6 +11261,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_85</zorder>
+    <zorder>t35_85</zorder>
+    <zorder>tn100_85</zorder>
+    <zorder>m15_85</zorder>
+    <zorder>m25_85</zorder>
+    <zorder>m90_85</zorder>
+    <zorder>m105_85</zorder>
+    <zorder>m120_85</zorder>
+    <zorder>m135_85</zorder>
+    <zorder>m45_85</zorder>
+    <zorder>m60_85</zorder>
+    <zorder>m75_85</zorder>
+    <zorder>t20_85</zorder>
+    <zorder>t5_85</zorder>
+    <zorder>tn10_85</zorder>
+    <zorder>tn25_85</zorder>
+    <zorder>tn40_85</zorder>
+    <zorder>tn55_85</zorder>
+    <zorder>tn70_85</zorder>
+    <zorder>tn85_85</zorder>
+    <zorder>m35_85</zorder>
+    <zorder>t0_85</zorder>
+    <zorder>value_85</zorder>
+    <zorder>dB_85</zorder>
+    <zorder>number_85</zorder>
+    <zorder>line_85</zorder>
+    <zorder>progressBar_85</zorder>
    </widget>
    <widget class="QWidget" name="widget_42" native="true">
     <property name="geometry">
@@ -10701,7 +11298,7 @@
       <height>191</height>
      </rect>
     </property>
-    <widget class="QProgressBar" name="progressBar_86">
+    <widget class="MyProgressBar" name="progressBar_86">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -11103,6 +11700,33 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+    <zorder>m0_86</zorder>
+    <zorder>t35_86</zorder>
+    <zorder>tn100_86</zorder>
+    <zorder>m15_86</zorder>
+    <zorder>m25_86</zorder>
+    <zorder>m90_86</zorder>
+    <zorder>m105_86</zorder>
+    <zorder>m120_86</zorder>
+    <zorder>m135_86</zorder>
+    <zorder>m45_86</zorder>
+    <zorder>m60_86</zorder>
+    <zorder>m75_86</zorder>
+    <zorder>t20_86</zorder>
+    <zorder>t5_86</zorder>
+    <zorder>tn10_86</zorder>
+    <zorder>tn25_86</zorder>
+    <zorder>tn40_86</zorder>
+    <zorder>tn55_86</zorder>
+    <zorder>tn70_86</zorder>
+    <zorder>tn85_86</zorder>
+    <zorder>m35_86</zorder>
+    <zorder>t0_86</zorder>
+    <zorder>value_86</zorder>
+    <zorder>dB_86</zorder>
+    <zorder>number_86</zorder>
+    <zorder>line_86</zorder>
+    <zorder>progressBar_86</zorder>
    </widget>
    <widget class="QSlider" name="verticalSlider_19">
     <property name="geometry">
@@ -11212,9 +11836,15 @@
   <zorder>groupBox</zorder>
   <zorder>groupBox_2</zorder>
   <zorder>groupBox_3</zorder>
-  <zorder>widget_35</zorder>
-  <zorder>widget</zorder>
+  <zorder>line</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header>homepage.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

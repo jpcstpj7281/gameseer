@@ -13,9 +13,11 @@
 #include "PresetWnd.h"
 #include "homepage.h"
 #include "peqwnd.h"
+#include "nomwnd.h"
 #include <QAction.h>
 #include <QLineEdit.h>
 #include <QTabWidget.h>
+#include <CobraNetWnd.h>
 
 #include "snmpnet.h"
 #include "configmgr.h"
@@ -39,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
 	,homepage_(new HomePage)
 	,matrixMixerWnd_(new MatrixMixerWnd)
 	,peqWnd_(new PEQWnd)
+	,nomWnd_(new NOMWnd)
+	,presetWnd_(new PresetWnd)
+	,cobraNetWnd_(new CobraNetWnd)
 
 {
     ui->setupUi(this);
@@ -51,15 +56,19 @@ MainWindow::MainWindow(QWidget *parent)
 	_tab->addTab(inputGainCtrlWnd_, "Input" );
 	_tab->addTab(gateNOMWnd_, "Gate" );
 	_tab->addTab(highPassWnd_, "HighPass" );
-	_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
 	_tab->addTab(peqWnd_, "PEQ" );
+	_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
+	_tab->addTab(nomWnd_, "NOMWnd" );
+	_tab->addTab(presetWnd_, "PresetWnd" );
+	_tab->addTab(cobraNetWnd_, "CobraNetWnd" );
 	
 	deviceswnd_->initAddresses();
 
 	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
 
-    //connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionChangePsw_clicked(QAction*)));
-    //connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
+    connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionChangePsw_clicked(QAction*)));
+    connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
+	connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionEdit_clicked(QAction*)));
 }
 
 
@@ -129,33 +138,46 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	t->setColumnWidth( 0, 150);
 	t->setColumnWidth( 2, 100);
 	t->setColumnWidth( 3, 100);
-	t->setColumnWidth( 1, (int)(t->width() - 400) );
+	t->setColumnWidth( 4, 100);
+	t->setColumnWidth( 5, 100);
+	t->setColumnWidth( 1, (int)(t->width() - 600) );
 
 
 }
 
-SnmpCallback::RequestStatus dispatchFunc(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-	//netsnmp_variable_list *vars;
-	//for (vars = pdu->variables; vars; vars = vars->next_variable){
-	//print_variable(pdu->variables->name, pdu->variables->name_length, vars);
-	const int len = 1024;
-	char buf[len];
-	memset( buf, 0, 1024);
-	snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
-	qDebug()<<buf;
-
-	//}
-	return SnmpCallback::RequestAgain;
-}
+//SnmpCallback::RequestStatus dispatchFunc(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
+//	//netsnmp_variable_list *vars;
+//	//for (vars = pdu->variables; vars; vars = vars->next_variable){
+//	//print_variable(pdu->variables->name, pdu->variables->name_length, vars);
+//	const int len = 1024;
+//	char buf[len];
+//	memset( buf, 0, 1024);
+//	snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
+//	qDebug()<<buf;
+//
+//	//}
+//	return SnmpCallback::RequestAgain;
+//}
 
 void MainWindow::on_actionCopyParam_clicked(QAction* action){
-
+	if (action->objectName() != "action_copy_param" ) return;
     //sn.snmpmain();
 	//SnmpNet::instance()->walk("1.3.6.1.4.1.2680.1.1.3");
 	//SnmpNet::instance()->get(".1.3.6.1.4.1.2680.1.1.3.4.0");
 	//SnmpNet::instance()->addAsyncGet(".1.3.6.1.4.1.2680.1.1.3.4.0", "192.168.1.100", "public", std::bind<SnmpCallbackFunc>( dispatchFunc, _1, _2, _3, _4));
 	//SnmpNet::instance()->addAsyncGet(".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.4", "192.168.1.100", "public",  std::bind<SnmpCallbackFunc>( dispatchFunc, _1, _2, _3, _4));
-	SnmpNet::instance()->addAsyncGet(".1.3.6.1.2.1.1.3.0", "192.168.1.100", "public",  std::bind<SnmpCallbackFunc >( dispatchFunc, _1, _2, _3, _4));
-	SnmpNet::instance()->run();
+
+	//SnmpNet::instance()->addAsyncGet(".1.3.6.1.2.1.1.3.0", "192.168.1.100", "public",  std::bind<SnmpCallbackFunc >( dispatchFunc, _1, _2, _3, _4));
+	//SnmpNet::instance()->listenAddress( "192.168.1.100", std::bind<SnmpCallbackFunc >( dispatchFunc, _1, _2, _3, _4));
 	//ConfigMgr::instance();
+}
+void MainWindow::on_actionEdit_clicked(QAction* action){
+	if (action->objectName() != "action_mode_edit" ) return;
+	if (action->isChecked()) {
+		qDebug()<<"check";
+	}else{
+		qDebug()<<"uncheck";
+	}
+
+	
 }

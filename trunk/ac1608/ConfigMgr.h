@@ -22,7 +22,12 @@ class ConfigMgr{
 	QFile *_file;
 
 	
+	bool isOidEditable_;
 public :
+
+	inline bool isOidEditable(){ return isOidEditable_;}
+
+	inline void setOidEditable( bool flag){	 isOidEditable_ = flag;	}
 
 	~ConfigMgr();
 
