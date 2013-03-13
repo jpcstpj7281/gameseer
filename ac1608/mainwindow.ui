@@ -71,12 +71,19 @@
      <string>工具(&amp;T)</string>
     </property>
     <addaction name="actionPreset"/>
-    <addaction name="action_Ctrl_J"/>
+    <addaction name="action_copy_param"/>
     <addaction name="separator"/>
     <addaction name="actionChangePsw"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>模式</string>
+    </property>
+    <addaction name="action_mode_edit"/>
+   </widget>
    <addaction name="menu_F"/>
    <addaction name="menu_T"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action">
@@ -127,7 +134,7 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="action_Ctrl_J">
+  <action name="action_copy_param">
    <property name="text">
     <string>一對多参数复制 Ctrl+J</string>
    </property>
@@ -138,6 +145,25 @@
   <action name="actionChangePsw">
    <property name="text">
     <string>修改密碼</string>
+   </property>
+  </action>
+  <action name="action_mode_control">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>控制</string>
+   </property>
+  </action>
+  <action name="action_mode_edit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>编辑OID</string>
    </property>
   </action>
  </widget>

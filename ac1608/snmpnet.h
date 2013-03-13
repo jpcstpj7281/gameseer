@@ -9,6 +9,8 @@
 
 #include <net-snmp/types.h>
 #include <functional>
+#include <QMutex>
+#include <QFuture>
 
 class SnmpObj;
 
@@ -16,28 +18,35 @@ struct SnmpCallback{
 enum RequestStatus { 
 	RequestStop, 
 	RequestAgain 
+
 };
 };
 typedef std::function< SnmpCallback::RequestStatus ( int , snmp_session*, snmp_pdu*, SnmpObj*)> SnmpCallbackFunc;
 
 class SnmpObj{
 public:
-	SnmpObj(char* snmpoid, char* ip, char* community,SnmpCallbackFunc callback ):sess(0){
-		this->snmpoid = snmpoid;
-		this->ip = ip;
-		this->community = community;
-		this->callback = callback;
+	SnmpObj(std::string &snmpoid, std::string & ip, std::string & community,SnmpCallbackFunc callback ):
+	  sess(0)
+	  ,snmpoid(snmpoid)
+	  ,ip(ip)
+	  ,community(community)
+	  ,callback(callback){
+		//this->snmpoid = snmpoid;
+		//this->ip = ip;
+		//this->community = community;
+		//this->callback = callback;
 	}
 
-	inline bool equal(char* snmpoid, char* ip, char* community )const {
-		return strcmp(this->snmpoid, snmpoid)?false:strcmp(this->ip, ip)?false:strcmp(this->community, community)?false:true;
+	inline bool equal(std::string& snmpoid, std::string& ip, std::string& community )const {
+		return this->snmpoid==snmpoid?false:this->ip==ip?false:this->community==community?false:true;
 	}
-	inline bool equal( const SnmpObj& obj) const {
+	inline bool equal( SnmpObj& obj) const {
 		return this == &obj ? true :equal( obj.snmpoid, obj.ip, obj.community);
 	}
-	char* snmpoid;
-	char* ip;
-	char* community;
+
+	std::string snmpoid;
+	std::string ip;
+	std::string community;
 	SnmpCallbackFunc callback;
 	netsnmp_variable_list* vars;
 	snmp_session *sess;
@@ -53,37 +62,48 @@ class SnmpNet
 
 	static SnmpNet* inst;
 	SnmpNet();
-	~SnmpNet();
-
-	typedef std::vector<SnmpObj*> SnmpMap;
-	typedef std::vector<SnmpObj*> RemoveList;
-
-	SnmpMap _oids;
-	RemoveList _removeList;
 	
+
+	typedef std::vector<SnmpObj*> AddressList;
+
+
+	AddressList snmpList_;
+
+	AddressList removeList_;
+	
+	std::string switchToAddress_;
 
 	int asynch_response_impl(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);
+
+	QMutex snmpLock_;
+	static void run();
+	volatile bool running_;
+	QFuture<void>  future_;
 public:
-
-
+	~SnmpNet();
 	static SnmpNet *instance();
-    
-	void run();
 
-    void walk(char* snmpoid, char* ip ="192.168.1.100", char* community = "public");
-	
-	void get(char* snmpoid, char* ip ="192.168.1.100", char* community = "public" );
+	void stop();
+	void listenAddress( const char * ip , SnmpCallbackFunc callback);
 
-	void addAsyncGet(char* snmpoid, char* ip , char* community  , SnmpCallbackFunc callback );
-	//void removeAsyncGet(char* snmpoid, char* ip ="192.168.1.100", char* community = "public" ,SnmpCallback * callback = 0);
-	void addAsyncWalk(char* snmpoid, char* ip , char* community , SnmpCallbackFunc callback);
-	//void removeAsyncWalk(char* snmpoid, char* ip ="192.168.1.100", char* community = "public" ,SnmpCallback * callback = 0);
+	bool switchAsyncSnmpAddress(const  char * ip);
 
-	bool isConnected(char* ip ="192.168.1.100"){
+	void addAsyncGet(const char* snmpoid, const char* ip , const char* community  , SnmpCallbackFunc callback );
+	void addAsyncWalk(const char* snmpoid, const char* ip , const char* community , SnmpCallbackFunc callback);
+
+
+	//for current listening address
+	void addAsyncGet(const char* snmpoid, const char* community  , SnmpCallbackFunc callback ); 
+
+	bool isConnected(const char* ip ="192.168.1.100"){
 		return true;
 	}
 
 	friend int asynch_response(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);
+
+	//test purpose
+	void walk(char* snmpoid, char* ip ="192.168.1.100", char* community = "public");
+	void get(char* snmpoid, char* ip ="192.168.1.100", char* community = "public" );
 };
 
 static int asynch_response(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);

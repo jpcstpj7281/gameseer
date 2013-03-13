@@ -16,7 +16,10 @@ class MetersWnd;
 
 class PEQWnd;
 class PresetWnd;
+
 class HomePage;
+class NOMWnd;
+class CobraNetWnd;
 
 
 namespace Ui {
@@ -52,6 +55,8 @@ class MainWindow : public QMainWindow
         void on_highPass_clicked();
         void on_actionChangePsw_clicked(QAction*);
         void on_actionCopyParam_clicked(QAction*);
+		void on_actionEdit_clicked(QAction*);
+
 		void tabChanged (int);
 
     private:
@@ -70,11 +75,12 @@ class MainWindow : public QMainWindow
         Level8CHWnd *level8CHWnd_;
         MatrixMixerWnd *matrixMixerWnd_;
         MetersWnd *metersWnd_;
-
+		NOMWnd * nomWnd_;
 		PEQWnd *peqWnd_;
         PresetWnd *presetWnd_;
 		DevicesWnd *deviceswnd_;
 		HomePage * homepage_;
+		CobraNetWnd * cobraNetWnd_;
 
         void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);

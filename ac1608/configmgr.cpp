@@ -43,7 +43,7 @@ void ConfigMgr::makeDefault(){
 	file.close();
 }
 
-ConfigMgr::ConfigMgr()
+ConfigMgr::ConfigMgr():isOidEditable_(false)
 {
 	_doc  = new QDomDocument();
 	QFile file( "ac1608.xml" );

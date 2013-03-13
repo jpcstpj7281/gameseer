@@ -2,6 +2,7 @@
 <root>
     <addresses>
         <address location="home" ip="192.168.1.100"/>
+        <address location="home" ip="192.168.1.101"/>
     </addresses>
     <devices/>
 </root>

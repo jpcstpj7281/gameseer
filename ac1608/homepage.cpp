@@ -7,6 +7,15 @@
 #include <QList>
 #include <QDebug>
 
+void MyProgressBar::mouseDoubleClickEvent ( QMouseEvent * event ){
+	static int i= 0;
+		qDebug()<<"event"<<i++;
+}
+
+void HomePage::progressBarClicked(){
+	qDebug()<<"clicked!";
+}
+
 HomePage::HomePage(QWidget *parent):
     QWidget(parent)
 	,ui(new Ui::HomePage)
@@ -15,6 +24,7 @@ HomePage::HomePage(QWidget *parent):
 	QList<QProgressBar *> qpl  = findChildren<QProgressBar*>( );
 	for ( QList<QProgressBar *>::Iterator it = qpl.begin(); it != qpl.end(); ++it){
 		QProgressBar * qpb = *it;
+		connect( qpb, SIGNAL(clicked ()), this, SLOT(progressBarClicked()));
 		qDebug()<<qpb->objectName();
 		if (qpb){
 		qpb->setValue(10);
@@ -40,7 +50,7 @@ HomePage::HomePage(QWidget *parent):
 	QList<QSlider *> qsl = findChildren<QSlider*>( );
 	for ( QList<QSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
 		QSlider* qs = *it;
-		qDebug()<<qs->objectName();
+		//qDebug()<<qs->objectName();
 		qs->setValue( 80);
 		qs->setStyleSheet(
 			"QSlider { "

@@ -1,14 +1,14 @@
-#include "inputgainctrlwnd.h"
-#include "ui_inputgainctrlwnd.h"
+#include "nomwnd.h"
+#include "ui_nomwnd.h"
 
 #include <qprogressbar>
 #include <QSlider>
 #include <QList>
 #include <QDebug>
 
-InputGainCtrlWnd::InputGainCtrlWnd(QWidget *parent) :
+NOMWnd::NOMWnd(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::InputGainCtrlWnd)
+    ui(new Ui::NOMWnd)
 {
     ui->setupUi(this);
 
@@ -51,7 +51,7 @@ InputGainCtrlWnd::InputGainCtrlWnd(QWidget *parent) :
 	}
 }
 
-InputGainCtrlWnd::~InputGainCtrlWnd()
+NOMWnd::~NOMWnd()
 {
     delete ui;
 }
