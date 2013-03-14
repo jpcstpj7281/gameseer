@@ -13,8 +13,8 @@ void ConfigMgr::makeDefault(){
 	QFile file( "ac1608.xml" );
     if ( !file.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
 
-	delete _doc;
-	QDomDocument &doc = *(_doc = new QDomDocument() );
+	delete doc_;
+	QDomDocument &doc = *(doc_ = new QDomDocument() );
 
 	QDomProcessingInstruction instruction;
 	instruction = doc.createProcessingInstruction( "xml", "version = \'1.0\'" );
@@ -41,15 +41,17 @@ void ConfigMgr::makeDefault(){
 	doc.save( out, 4 );
 
 	file.close();
+
+
 }
 
 ConfigMgr::ConfigMgr():isOidEditable_(false)
 {
-	_doc  = new QDomDocument();
+	doc_  = new QDomDocument();
 	QFile file( "ac1608.xml" );
-	QDomDocument &doc(*_doc);
+	QDomDocument &doc(*doc_);
 
-	if ( !file.open( QIODevice::ReadOnly  ) || !_doc->setContent( &file) )
+	if ( !file.open( QIODevice::ReadOnly  ) || !doc_->setContent( &file) )
 	{
 		file.close();
 		makeDefault();
@@ -76,21 +78,48 @@ ConfigMgr::ConfigMgr():isOidEditable_(false)
 
 	//QDomElement address = addresses.firstChildElement();
 	//qDebug()<<address.nodeName();
+	loadDefaultConfig();
 
-
+		getOid(QString("mute1"));
 }
+
+void ConfigMgr::loadDefaultConfig(){
+	defaultDoc_  = new QDomDocument();
+	QFile file( "default.xml" );
+	QDomDocument &doc(*defaultDoc_);
+
+	if ( !file.open( QIODevice::ReadOnly  ) || !doc_->setContent( &file) )
+	{
+		defaultDoc_ = doc_;
+		file.close();
+		return ;
+	}
+	file.close();
+
+	QDomElement root = doc.documentElement();
+	if ( root.nodeName()!= XML_ROOT){
+		defaultDoc_ = doc_;
+		return;
+	}
+}
+
 ConfigMgr::~ConfigMgr()
 {	
 	QFile file1( "ac1608.xml" );
 	if ( !file1.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
 
 	QTextStream out( &file1 );
-	_doc->save( out, 4 );
+	doc_->save( out, 4 );
+
+	if ( defaultDoc_ != doc_ ) delete defaultDoc_;
+
+	delete doc_;
+	
 }
 
 
 QDomElement ConfigMgr::getAddressElem(){
-	QDomElement root = _doc->documentElement();
+	QDomElement root = doc_->documentElement();
 	if ( root.nodeName()!= XML_ROOT){
 		return QDomElement();
 	}
@@ -102,3 +131,64 @@ QDomElement ConfigMgr::getAddressElem(){
 
 	return addresses;
 }
+
+QString ConfigMgr::getOid( QString &id){
+	if ( id.isEmpty() ) return "";
+	QDomElement root = doc_->documentElement();
+
+	QDomNodeList items = root.elementsByTagName("component");
+	QString oid;
+	for(int i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( id == elem.nodeName() ){
+			oid = elem.attribute("oid");
+		}
+	}
+	return oid;
+}
+
+QString ConfigMgr::getDefaultOid( QString &id){
+	QDomElement root = defaultDoc_->documentElement();
+
+	QDomNodeList items = root.elementsByTagName("component");
+	QString oid;
+	for(int i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( id == elem.nodeName() ){
+			oid = elem.attribute("oid");
+		}
+	}
+	return oid;
+}
+
+void ConfigMgr::setOid( QString &id, QString &oid){
+	QDomElement root = doc_->documentElement();
+
+	
+
+	QDomNodeList items = root.elementsByTagName("component");
+	bool found = false;
+	for(int i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( elem.attribute("id") == id ){
+			elem.setAttribute("id", id);
+			elem.setAttribute("oid", oid);
+			found = true;
+			break;
+		}
+	}
+	if ( found == false){
+		QDomNodeList items = root.elementsByTagName("components");
+		QDomNode node = items.at(0);
+		QDomElement elm = doc_->createElement( "component");
+		elm.setAttribute ("id", id);
+		elm.setAttribute( "oid", oid);
+		node.insertAfter( elm, QDomElement());
+
+	}
+
+}
+

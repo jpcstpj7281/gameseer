@@ -17,6 +17,9 @@ homepage.cpp \
 configmgr.cpp \
 peqwnd.cpp \
 nomwnd.cpp \
+oidprogressbar.cpp\
+oidinputdlg.cpp \
+oidpushbtn.cpp \
 cobranetwnd.cpp \
     snmpnet.cpp \
     mainwindow.cpp \
@@ -35,6 +38,9 @@ HEADERS  +=  snmpnet.h \
 homepage.h \
 peqwnd.h \
 nomwnd.h \
+oidprogressbar.h\
+oidinputdlg.h \
+oidpushbtn.h \
 cobranetwnd.h \
     configmgr.h \
 	mainwindow.h \
@@ -53,6 +59,7 @@ FORMS    += mainwindow.ui \
 homepage.ui \
 peqwnd.ui \
 nomwnd.ui \
+oidinputdlg.ui \
 cobranetwnd.ui \
     presetwnd.ui \
     copyparamwnd.ui \

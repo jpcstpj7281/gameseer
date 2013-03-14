@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <list>
 #include <set>
 #include <QString>
 #include <net-snmp/net-snmp-config.h>
@@ -25,12 +26,14 @@ typedef std::function< SnmpCallback::RequestStatus ( int , snmp_session*, snmp_p
 
 class SnmpObj{
 public:
-	SnmpObj(std::string &snmpoid, std::string & ip, std::string & community,SnmpCallbackFunc callback ):
-	  sess(0)
-	  ,snmpoid(snmpoid)
+	SnmpObj(std::string &snmpoid, std::string & ip, std::string & community,SnmpCallbackFunc callback, QVariant var = QVariant(), snmp_session *sess = 0, void* sessp=0 ):
+	  snmpoid(snmpoid)
 	  ,ip(ip)
 	  ,community(community)
-	  ,callback(callback){
+	  ,callback(callback)
+	  ,var(var)
+	  ,sess(sess)
+	  ,sessp(sessp){
 		//this->snmpoid = snmpoid;
 		//this->ip = ip;
 		//this->community = community;
@@ -48,9 +51,9 @@ public:
 	std::string ip;
 	std::string community;
 	SnmpCallbackFunc callback;
-	netsnmp_variable_list* vars;
 	snmp_session *sess;
 	void* sessp;
+	QVariant var;
 //private:
 //	QString uniqueid;
 };
@@ -64,18 +67,22 @@ class SnmpNet
 	SnmpNet();
 	
 
-	typedef std::vector<SnmpObj*> AddressList;
-
+	typedef std::list<SnmpObj*> AddressList;
+	typedef std::map<std::string, SnmpObj*> AddressSetMap;
 
 	AddressList snmpList_;
 
 	AddressList removeList_;
+
+	AddressSetMap setMap_;
 	
 	std::string switchToAddress_;
+	std::string currAddress_;;
 
 	int asynch_response_impl(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);
 
-	QMutex snmpLock_;
+	QMutex getLock_;
+
 	static void run();
 	volatile bool running_;
 	QFuture<void>  future_;
@@ -94,6 +101,7 @@ public:
 
 	//for current listening address
 	void addAsyncGet(const char* snmpoid, const char* community  , SnmpCallbackFunc callback ); 
+	void addAsyncSet(const char* snmpoid, const char* community  , SnmpCallbackFunc callback , QVariant value ); 
 
 	bool isConnected(const char* ip ="192.168.1.100"){
 		return true;

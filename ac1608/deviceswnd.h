@@ -86,8 +86,6 @@ private:
 
 	void newAddress(Ac1608Address * aa = NULL);
 
-	
-
 	AddressMap addresses_;
 	Ac1608Address* currConnAddress_;
 
@@ -95,7 +93,6 @@ private:
 
     Ui::DevicesWnd *ui;
 
-	
 	SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
 
 	QMutex locker_;
