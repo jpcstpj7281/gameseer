@@ -26,14 +26,9 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 {
     ui->setupUi(this);
 
-	//model_   = new QStandardItemModel(0, 4, this); 
-
 	tableDevices_ = findChild<QTableWidget* >("tableDevices");
 	tableDevices_->setColumnCount( 6);
 
-
-
-	//tableDevices_->setModel(model_);
 	QStringList sl;
 	sl.push_back( "IP");
 	sl.push_back( "Device Location");
@@ -43,11 +38,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	sl.push_back( "Operation");
 	tableDevices_->setHorizontalHeaderLabels(sl );
 
-	//newAddress();
-
 	connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
-
-
 	connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 	connect( tableDevices_, SIGNAL(cellActivated(int,int)), this, SLOT(cellActivated(int,int)));
 	connect( tableDevices_, SIGNAL(cellEntered(int,int)), this, SLOT(cellEntered(int,int)));
@@ -210,14 +201,9 @@ SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback(int status, snmp_se
 			aa->snmpResponseTime = GetTickCount();
 		}
 	}
-	//const int len = 1024;
-	//char buf[len];
-	//memset( buf, 0, 1024);
-	//snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
-	//qDebug()<<buf;
-	//qDebug()<<so->ip.c_str();
 	return SnmpCallback::RequestAgain;
 }
+
 void DevicesWnd::timerEvent ( QTimerEvent * event ){
 	size_t t = GetTickCount();
 	for (AddressMap::iterator it = addresses_.begin(); it != addresses_.end(); ++it){

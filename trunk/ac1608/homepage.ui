@@ -23,9 +23,9 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>10</y>
-     <width>671</width>
-     <height>441</height>
+     <y>0</y>
+     <width>681</width>
+     <height>451</height>
     </rect>
    </property>
    <property name="font">
@@ -57,13 +57,13 @@
    <widget class="QWidget" name="widget_6" native="true">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>220</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_48">
+    <widget class="OIDProgressBar" name="progressBar6">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -395,10 +395,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_48">
+    <widget class="Line" name="line_48">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value6">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -412,6 +425,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_48">
@@ -431,38 +447,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_48">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>6</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_48">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_48</zorder>
@@ -487,22 +471,21 @@
     <zorder>tn85_48</zorder>
     <zorder>m35_48</zorder>
     <zorder>t0_48</zorder>
-    <zorder>value_48</zorder>
-    <zorder>dB_48</zorder>
-    <zorder>number_48</zorder>
     <zorder>line_48</zorder>
-    <zorder>progressBar_48</zorder>
+    <zorder>progressBar6</zorder>
+    <zorder>value6</zorder>
+    <zorder>dB_48</zorder>
    </widget>
    <widget class="QWidget" name="widget_10" native="true">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>380</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_52">
+    <widget class="OIDProgressBar" name="progressBar10">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -834,10 +817,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_52">
+    <widget class="Line" name="line_52">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value10">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -851,6 +847,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_52">
@@ -870,38 +869,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_52">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>10</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_52">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_52</zorder>
@@ -926,22 +893,23 @@
     <zorder>tn85_52</zorder>
     <zorder>m35_52</zorder>
     <zorder>t0_52</zorder>
-    <zorder>value_52</zorder>
-    <zorder>dB_52</zorder>
-    <zorder>number_52</zorder>
     <zorder>line_52</zorder>
-    <zorder>progressBar_52</zorder>
+    <zorder>progressBar10</zorder>
+    <zorder>value10</zorder>
+    <zorder>dB_52</zorder>
+    <zorder>value10</zorder>
+    <zorder>dB_52</zorder>
    </widget>
    <widget class="QWidget" name="widget_13" native="true">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>500</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_55">
+    <widget class="OIDProgressBar" name="progressBar13">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -1273,10 +1241,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_55">
+    <widget class="Line" name="line_55">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value13">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -1290,6 +1271,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_55">
@@ -1309,38 +1293,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_55">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>13</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_55">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_55</zorder>
@@ -1365,22 +1317,21 @@
     <zorder>tn85_55</zorder>
     <zorder>m35_55</zorder>
     <zorder>t0_55</zorder>
-    <zorder>value_55</zorder>
-    <zorder>dB_55</zorder>
-    <zorder>number_55</zorder>
     <zorder>line_55</zorder>
-    <zorder>progressBar_55</zorder>
+    <zorder>progressBar13</zorder>
+    <zorder>value13</zorder>
+    <zorder>dB_55</zorder>
    </widget>
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>140</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_46">
+    <widget class="OIDProgressBar" name="progressBar4">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -1712,10 +1663,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_46">
+    <widget class="Line" name="line_46">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -1729,6 +1693,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_46">
@@ -1748,38 +1715,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_46">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>4</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_46">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_46</zorder>
@@ -1804,22 +1739,21 @@
     <zorder>tn85_46</zorder>
     <zorder>m35_46</zorder>
     <zorder>t0_46</zorder>
-    <zorder>value_46</zorder>
-    <zorder>dB_46</zorder>
-    <zorder>number_46</zorder>
     <zorder>line_46</zorder>
-    <zorder>progressBar_46</zorder>
+    <zorder>progressBar4</zorder>
+    <zorder>value4</zorder>
+    <zorder>dB_46</zorder>
    </widget>
    <widget class="QWidget" name="widget_14" native="true">
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>540</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_56">
+    <widget class="OIDProgressBar" name="progressBar14">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -2151,10 +2085,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_56">
+    <widget class="Line" name="line_56">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value14">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -2168,6 +2115,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_56">
@@ -2187,38 +2137,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_56">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>14</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_56">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_56</zorder>
@@ -2243,22 +2161,21 @@
     <zorder>tn85_56</zorder>
     <zorder>m35_56</zorder>
     <zorder>t0_56</zorder>
-    <zorder>value_56</zorder>
-    <zorder>dB_56</zorder>
-    <zorder>number_56</zorder>
     <zorder>line_56</zorder>
-    <zorder>progressBar_56</zorder>
+    <zorder>progressBar14</zorder>
+    <zorder>value14</zorder>
+    <zorder>dB_56</zorder>
    </widget>
    <widget class="QWidget" name="widget_7" native="true">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>260</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_49">
+    <widget class="OIDProgressBar" name="progressBar7">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -2590,10 +2507,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_49">
+    <widget class="Line" name="line_49">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -2607,6 +2537,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_49">
@@ -2626,38 +2559,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_49">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>7</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_49">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_49</zorder>
@@ -2682,22 +2583,21 @@
     <zorder>tn85_49</zorder>
     <zorder>m35_49</zorder>
     <zorder>t0_49</zorder>
-    <zorder>value_49</zorder>
-    <zorder>dB_49</zorder>
-    <zorder>number_49</zorder>
     <zorder>line_49</zorder>
-    <zorder>progressBar_49</zorder>
+    <zorder>progressBar7</zorder>
+    <zorder>value7</zorder>
+    <zorder>dB_49</zorder>
    </widget>
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>60</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_44">
+    <widget class="OIDProgressBar" name="progressBar2">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -3029,10 +2929,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_44">
+    <widget class="Line" name="line_44">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -3046,6 +2959,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_44">
@@ -3065,38 +2981,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_44">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>2</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_44">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_44</zorder>
@@ -3121,22 +3005,21 @@
     <zorder>tn85_44</zorder>
     <zorder>m35_44</zorder>
     <zorder>t0_44</zorder>
-    <zorder>value_44</zorder>
-    <zorder>dB_44</zorder>
-    <zorder>number_44</zorder>
     <zorder>line_44</zorder>
-    <zorder>progressBar_44</zorder>
+    <zorder>progressBar2</zorder>
+    <zorder>value2</zorder>
+    <zorder>dB_44</zorder>
    </widget>
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar">
+    <widget class="OIDProgressBar" name="progressBar1">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -3468,7 +3351,7 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value">
+    <widget class="QLabel" name="value1">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -3485,6 +3368,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB">
@@ -3504,25 +3390,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>1</string>
      </property>
     </widget>
     <widget class="Line" name="line">
@@ -3560,22 +3427,21 @@
     <zorder>tn85</zorder>
     <zorder>m35</zorder>
     <zorder>t0</zorder>
-    <zorder>value</zorder>
+    <zorder>value1</zorder>
     <zorder>dB</zorder>
-    <zorder>number</zorder>
     <zorder>line</zorder>
-    <zorder>progressBar</zorder>
+    <zorder>progressBar1</zorder>
    </widget>
    <widget class="QWidget" name="widget_11" native="true">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>420</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_53">
+    <widget class="OIDProgressBar" name="progressBar11">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -3907,10 +3773,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_53">
+    <widget class="Line" name="line_53">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value11">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -3924,6 +3803,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_53">
@@ -3943,38 +3825,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_53">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>11</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_53">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_53</zorder>
@@ -3999,22 +3849,21 @@
     <zorder>tn85_53</zorder>
     <zorder>m35_53</zorder>
     <zorder>t0_53</zorder>
-    <zorder>value_53</zorder>
-    <zorder>dB_53</zorder>
-    <zorder>number_53</zorder>
     <zorder>line_53</zorder>
-    <zorder>progressBar_53</zorder>
+    <zorder>progressBar11</zorder>
+    <zorder>value11</zorder>
+    <zorder>dB_53</zorder>
    </widget>
    <widget class="QWidget" name="widget_5" native="true">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>180</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_47">
+    <widget class="OIDProgressBar" name="progressBar5">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -4346,10 +4195,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_47">
+    <widget class="Line" name="line_47">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -4363,6 +4225,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_47">
@@ -4382,38 +4247,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_47">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>5</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_47">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_47</zorder>
@@ -4438,22 +4271,21 @@
     <zorder>tn85_47</zorder>
     <zorder>m35_47</zorder>
     <zorder>t0_47</zorder>
-    <zorder>value_47</zorder>
-    <zorder>dB_47</zorder>
-    <zorder>number_47</zorder>
     <zorder>line_47</zorder>
-    <zorder>progressBar_47</zorder>
+    <zorder>progressBar5</zorder>
+    <zorder>value5</zorder>
+    <zorder>dB_47</zorder>
    </widget>
    <widget class="QWidget" name="widget_12" native="true">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>460</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_54">
+    <widget class="OIDProgressBar" name="progressBar_54">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -4785,10 +4617,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_54">
+    <widget class="Line" name="line_54">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value12">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -4802,6 +4647,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_54">
@@ -4821,38 +4669,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_54">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>12</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_54">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_54</zorder>
@@ -4877,22 +4693,23 @@
     <zorder>tn85_54</zorder>
     <zorder>m35_54</zorder>
     <zorder>t0_54</zorder>
-    <zorder>value_54</zorder>
-    <zorder>dB_54</zorder>
-    <zorder>number_54</zorder>
     <zorder>line_54</zorder>
     <zorder>progressBar_54</zorder>
+    <zorder>value12</zorder>
+    <zorder>dB_54</zorder>
+    <zorder>value12</zorder>
+    <zorder>dB_54</zorder>
    </widget>
    <widget class="QWidget" name="widget_15" native="true">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>580</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_57">
+    <widget class="OIDProgressBar" name="progressBar15">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -5224,10 +5041,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_57">
+    <widget class="Line" name="line_57">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value15">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -5241,6 +5071,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_57">
@@ -5260,38 +5093,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_57">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>15</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_57">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_57</zorder>
@@ -5316,22 +5117,21 @@
     <zorder>tn85_57</zorder>
     <zorder>m35_57</zorder>
     <zorder>t0_57</zorder>
-    <zorder>value_57</zorder>
-    <zorder>dB_57</zorder>
-    <zorder>number_57</zorder>
     <zorder>line_57</zorder>
-    <zorder>progressBar_57</zorder>
+    <zorder>progressBar15</zorder>
+    <zorder>value15</zorder>
+    <zorder>dB_57</zorder>
    </widget>
    <widget class="QWidget" name="widget_8" native="true">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>300</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_50">
+    <widget class="OIDProgressBar" name="progressBar8">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -5663,10 +5463,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_50">
+    <widget class="Line" name="line_50">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value8">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -5680,6 +5493,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_50">
@@ -5699,38 +5515,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_50">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>8</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_50">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_50</zorder>
@@ -5755,22 +5539,21 @@
     <zorder>tn85_50</zorder>
     <zorder>m35_50</zorder>
     <zorder>t0_50</zorder>
-    <zorder>value_50</zorder>
-    <zorder>dB_50</zorder>
-    <zorder>number_50</zorder>
     <zorder>line_50</zorder>
-    <zorder>progressBar_50</zorder>
+    <zorder>progressBar8</zorder>
+    <zorder>value8</zorder>
+    <zorder>dB_50</zorder>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>100</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_45">
+    <widget class="OIDProgressBar" name="progressBar3">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -6102,10 +5885,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_45">
+    <widget class="Line" name="line_45">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -6119,6 +5915,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_45">
@@ -6138,38 +5937,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_45">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>3</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_45">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_45</zorder>
@@ -6194,22 +5961,21 @@
     <zorder>tn85_45</zorder>
     <zorder>m35_45</zorder>
     <zorder>t0_45</zorder>
-    <zorder>value_45</zorder>
-    <zorder>dB_45</zorder>
-    <zorder>number_45</zorder>
     <zorder>line_45</zorder>
-    <zorder>progressBar_45</zorder>
+    <zorder>progressBar3</zorder>
+    <zorder>value3</zorder>
+    <zorder>dB_45</zorder>
    </widget>
    <widget class="QWidget" name="widget_9" native="true">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>340</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_51">
+    <widget class="OIDProgressBar" name="progressBar9">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -6541,10 +6307,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_51">
+    <widget class="Line" name="line_51">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value9">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -6558,6 +6337,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_51">
@@ -6577,38 +6359,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_51">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>9</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_51">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_51</zorder>
@@ -6633,22 +6383,21 @@
     <zorder>tn85_51</zorder>
     <zorder>m35_51</zorder>
     <zorder>t0_51</zorder>
-    <zorder>value_51</zorder>
-    <zorder>dB_51</zorder>
-    <zorder>number_51</zorder>
     <zorder>line_51</zorder>
-    <zorder>progressBar_51</zorder>
+    <zorder>progressBar9</zorder>
+    <zorder>value9</zorder>
+    <zorder>dB_51</zorder>
    </widget>
    <widget class="QWidget" name="widget_16" native="true">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>620</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_58">
+    <widget class="OIDProgressBar" name="progressBar16">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -6980,10 +6729,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_58">
+    <widget class="Line" name="line_58">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value16">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -6997,6 +6759,9 @@
      </property>
      <property name="text">
       <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="dB_58">
@@ -7016,38 +6781,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_58">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>16</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_58">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_58</zorder>
@@ -7072,228 +6805,2172 @@
     <zorder>tn85_58</zorder>
     <zorder>m35_58</zorder>
     <zorder>t0_58</zorder>
-    <zorder>value_58</zorder>
-    <zorder>dB_58</zorder>
-    <zorder>number_58</zorder>
     <zorder>line_58</zorder>
-    <zorder>progressBar_58</zorder>
+    <zorder>progressBar16</zorder>
+    <zorder>value16</zorder>
+    <zorder>dB_58</zorder>
    </widget>
-   <widget class="QSlider" name="verticalSlider">
+   <widget class="QLabel" name="number">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_44">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_45">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_46">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_47">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_48">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_49">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_50">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_51">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_52">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>10</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_53">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>11</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_54">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>12</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_55">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>13</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_56">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>14</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_57">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>15</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="number_58">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>16</string>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute1">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp1">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp3">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute3">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp4">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute4">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp5">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute5">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp6">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute6">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp7">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute7">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp8">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute8">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp9">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute9">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp10">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute10">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp11">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute11">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp12">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute12">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp13">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute13">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp14">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute14">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp15">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute15">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp16">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute16">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_17" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider1">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>OpenHandCursor</cursorShape>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_59">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_23">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_23">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_2">
+   <widget class="QWidget" name="widget_18" native="true">
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider2">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_87">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_24">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_24">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_3">
+   <widget class="QWidget" name="widget_19" native="true">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider3">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_88">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_25">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_25">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_4">
+   <widget class="QWidget" name="widget_20" native="true">
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider4">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_89">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_27">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_27">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_5">
+   <widget class="QWidget" name="widget_21" native="true">
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider5">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_90">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_28">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_28">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+    <zorder>verticalSlider5</zorder>
+    <zorder>line_90</zorder>
+    <zorder>value_28</zorder>
+    <zorder>dB_28</zorder>
+    <zorder>value_28</zorder>
+    <zorder>dB_28</zorder>
    </widget>
-   <widget class="QSlider" name="verticalSlider_6">
+   <widget class="QWidget" name="widget_22" native="true">
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider6">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_92">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_29">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_29">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_7">
+   <widget class="QWidget" name="widget_23" native="true">
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider7">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_93">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_30">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_30">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_8">
+   <widget class="QWidget" name="widget_24" native="true">
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider8">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_94">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_31">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_31">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_9">
+   <widget class="QWidget" name="widget_25" native="true">
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider9">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_95">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_32">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_32">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_10">
+   <widget class="QWidget" name="widget_26" native="true">
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider10">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_96">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_33">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_33">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_11">
+   <widget class="QWidget" name="widget_27" native="true">
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider11">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_97">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_34">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_34">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_12">
+   <widget class="QWidget" name="widget_28" native="true">
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider12">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_98">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_35">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_35">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_13">
+   <widget class="QWidget" name="widget_29" native="true">
     <property name="geometry">
      <rect>
       <x>500</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider13">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_99">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_36">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_36">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_14">
+   <widget class="QWidget" name="widget_30" native="true">
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider14">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_100">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_37">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_37">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_15">
+   <widget class="QWidget" name="widget_31" native="true">
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider15">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_101">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_38">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_38">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="verticalSlider_16">
+   <widget class="QWidget" name="widget_32" native="true">
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <widget class="OIDSlider" name="verticalSlider16">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_102">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_39">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_39">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
+   <zorder>widget_6</zorder>
+   <zorder>widget_10</zorder>
+   <zorder>widget_13</zorder>
+   <zorder>widget_4</zorder>
+   <zorder>widget_14</zorder>
+   <zorder>widget_7</zorder>
+   <zorder>widget_2</zorder>
+   <zorder>widget</zorder>
+   <zorder>widget_11</zorder>
+   <zorder>widget_5</zorder>
+   <zorder>widget_12</zorder>
+   <zorder>widget_15</zorder>
+   <zorder>widget_8</zorder>
+   <zorder>widget_3</zorder>
+   <zorder>widget_9</zorder>
+   <zorder>widget_16</zorder>
+   <zorder>number</zorder>
+   <zorder>number_44</zorder>
+   <zorder>number_45</zorder>
+   <zorder>number_46</zorder>
+   <zorder>number_47</zorder>
+   <zorder>number_48</zorder>
+   <zorder>number_49</zorder>
+   <zorder>number_50</zorder>
+   <zorder>number_51</zorder>
+   <zorder>number_52</zorder>
+   <zorder>number_53</zorder>
+   <zorder>number_54</zorder>
+   <zorder>number_55</zorder>
+   <zorder>number_56</zorder>
+   <zorder>number_57</zorder>
+   <zorder>number_58</zorder>
+   <zorder>mute1</zorder>
+   <zorder>amp1</zorder>
+   <zorder>amp2</zorder>
+   <zorder>mute2</zorder>
+   <zorder>amp3</zorder>
+   <zorder>mute3</zorder>
+   <zorder>amp4</zorder>
+   <zorder>mute4</zorder>
+   <zorder>amp5</zorder>
+   <zorder>mute5</zorder>
+   <zorder>amp6</zorder>
+   <zorder>mute6</zorder>
+   <zorder>amp7</zorder>
+   <zorder>mute7</zorder>
+   <zorder>amp8</zorder>
+   <zorder>mute8</zorder>
+   <zorder>amp9</zorder>
+   <zorder>mute9</zorder>
+   <zorder>amp10</zorder>
+   <zorder>mute10</zorder>
+   <zorder>amp11</zorder>
+   <zorder>mute11</zorder>
+   <zorder>amp12</zorder>
+   <zorder>mute12</zorder>
+   <zorder>amp13</zorder>
+   <zorder>mute13</zorder>
+   <zorder>amp14</zorder>
+   <zorder>mute14</zorder>
+   <zorder>amp15</zorder>
+   <zorder>mute15</zorder>
+   <zorder>amp16</zorder>
+   <zorder>mute16</zorder>
+   <zorder>verticalSlider1</zorder>
+   <zorder>widget_17</zorder>
+   <zorder>widget_18</zorder>
+   <zorder>widget_19</zorder>
+   <zorder>widget_20</zorder>
+   <zorder>widget_21</zorder>
+   <zorder>widget_22</zorder>
+   <zorder>widget_23</zorder>
+   <zorder>widget_24</zorder>
+   <zorder>widget_25</zorder>
+   <zorder>widget_26</zorder>
+   <zorder>widget_27</zorder>
+   <zorder>widget_28</zorder>
+   <zorder>widget_29</zorder>
+   <zorder>widget_30</zorder>
+   <zorder>widget_31</zorder>
+   <zorder>widget_32</zorder>
+   <zorder>widget_18</zorder>
+   <zorder>widget_19</zorder>
+   <zorder>widget_20</zorder>
+   <zorder>widget_21</zorder>
+   <zorder>widget_22</zorder>
+   <zorder>widget_23</zorder>
+   <zorder>widget_24</zorder>
+   <zorder>widget_25</zorder>
+   <zorder>widget_26</zorder>
+   <zorder>widget_27</zorder>
+   <zorder>widget_28</zorder>
+   <zorder>widget_29</zorder>
+   <zorder>widget_30</zorder>
+   <zorder>widget_31</zorder>
+   <zorder>widget_32</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>10</y>
-     <width>91</width>
-     <height>441</height>
+     <x>740</x>
+     <y>0</y>
+     <width>121</width>
+     <height>451</height>
     </rect>
    </property>
    <property name="title">
@@ -7302,13 +8979,13 @@
    <widget class="QWidget" name="widget_33" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>20</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_75">
+    <widget class="OIDProgressBar" name="progressBar17">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -7640,10 +9317,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_75">
+    <widget class="Line" name="line_75">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -7658,8 +9348,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_75">
+    <widget class="QLabel" name="dB_2">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -7676,38 +9369,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_75">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>1</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_75">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_75</zorder>
@@ -7732,22 +9393,21 @@
     <zorder>tn85_75</zorder>
     <zorder>m35_75</zorder>
     <zorder>t0_75</zorder>
-    <zorder>value_75</zorder>
-    <zorder>dB_75</zorder>
-    <zorder>number_75</zorder>
     <zorder>line_75</zorder>
-    <zorder>progressBar_75</zorder>
+    <zorder>progressBar17</zorder>
+    <zorder>value_2</zorder>
+    <zorder>dB_2</zorder>
    </widget>
    <widget class="QWidget" name="widget_34" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>60</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_76">
+    <widget class="OIDProgressBar" name="progressBar18">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -8079,10 +9739,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_76">
+    <widget class="Line" name="line_76">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_22">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -8097,8 +9770,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_76">
+    <widget class="QLabel" name="dB_22">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -8115,38 +9791,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_76">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>2</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_76">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_76</zorder>
@@ -8171,45 +9815,286 @@
     <zorder>tn85_76</zorder>
     <zorder>m35_76</zorder>
     <zorder>t0_76</zorder>
-    <zorder>value_76</zorder>
-    <zorder>dB_76</zorder>
-    <zorder>number_76</zorder>
     <zorder>line_76</zorder>
-    <zorder>progressBar_76</zorder>
+    <zorder>progressBar18</zorder>
+    <zorder>value_22</zorder>
+    <zorder>dB_22</zorder>
    </widget>
-   <widget class="QSlider" name="verticalSlider_17">
+   <widget class="QLabel" name="number_76">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <x>80</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>2</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_18">
+   <widget class="QLabel" name="number_75">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>220</y>
-      <width>30</width>
-      <height>200</height>
+      <x>40</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>1</string>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="mute17">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp17">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp18">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute18">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_43" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider17">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_103">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_64">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_64">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_44" native="true">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>240</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider18">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_104">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_65">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_65">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <zorder>widget_33</zorder>
+   <zorder>widget_34</zorder>
+   <zorder>number_76</zorder>
+   <zorder>number_75</zorder>
+   <zorder>mute17</zorder>
+   <zorder>amp17</zorder>
+   <zorder>amp18</zorder>
+   <zorder>mute18</zorder>
+   <zorder>widget_43</zorder>
+   <zorder>widget_44</zorder>
+   <zorder>widget_43</zorder>
+   <zorder>widget_44</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>460</y>
-     <width>671</width>
+     <width>701</width>
      <height>241</height>
     </rect>
    </property>
@@ -8219,13 +10104,13 @@
    <widget class="QWidget" name="widget_35" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_77">
+    <widget class="OIDProgressBar" name="progressBar19">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -8557,10 +10442,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_77">
+    <widget class="Line" name="line_77">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_41">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -8575,8 +10473,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_77">
+    <widget class="QLabel" name="dB_41">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -8593,38 +10494,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_77">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>1</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_77">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_77</zorder>
@@ -8649,22 +10518,23 @@
     <zorder>tn85_77</zorder>
     <zorder>m35_77</zorder>
     <zorder>t0_77</zorder>
-    <zorder>value_77</zorder>
-    <zorder>dB_77</zorder>
-    <zorder>number_77</zorder>
     <zorder>line_77</zorder>
-    <zorder>progressBar_77</zorder>
+    <zorder>progressBar19</zorder>
+    <zorder>value_41</zorder>
+    <zorder>dB_41</zorder>
+    <zorder>value_41</zorder>
+    <zorder>dB_41</zorder>
    </widget>
    <widget class="QWidget" name="widget_36" native="true">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>60</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_78">
+    <widget class="OIDProgressBar" name="progressBar20">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -8996,10 +10866,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_78">
+    <widget class="Line" name="line_78">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_42">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -9014,8 +10897,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_78">
+    <widget class="QLabel" name="dB_42">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -9032,38 +10918,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_78">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>2</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_78">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_78</zorder>
@@ -9088,22 +10942,21 @@
     <zorder>tn85_78</zorder>
     <zorder>m35_78</zorder>
     <zorder>t0_78</zorder>
-    <zorder>value_78</zorder>
-    <zorder>dB_78</zorder>
-    <zorder>number_78</zorder>
     <zorder>line_78</zorder>
-    <zorder>progressBar_78</zorder>
+    <zorder>progressBar20</zorder>
+    <zorder>value_42</zorder>
+    <zorder>dB_42</zorder>
    </widget>
    <widget class="QWidget" name="widget_37" native="true">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>100</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_79">
+    <widget class="OIDProgressBar" name="progressBar21">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -9435,10 +11288,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_79">
+    <widget class="Line" name="line_79">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_43">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -9453,8 +11319,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_79">
+    <widget class="QLabel" name="dB_43">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -9471,38 +11340,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_79">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>3</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_79">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_79</zorder>
@@ -9527,22 +11364,21 @@
     <zorder>tn85_79</zorder>
     <zorder>m35_79</zorder>
     <zorder>t0_79</zorder>
-    <zorder>value_79</zorder>
-    <zorder>dB_79</zorder>
-    <zorder>number_79</zorder>
     <zorder>line_79</zorder>
-    <zorder>progressBar_79</zorder>
+    <zorder>progressBar21</zorder>
+    <zorder>value_43</zorder>
+    <zorder>dB_43</zorder>
    </widget>
    <widget class="QWidget" name="widget_38" native="true">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>140</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_80">
+    <widget class="OIDProgressBar" name="progressBar22">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -9874,10 +11710,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_80">
+    <widget class="Line" name="line_80">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_59">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -9892,8 +11741,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_80">
+    <widget class="QLabel" name="dB_59">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -9910,38 +11762,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_80">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>4</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_80">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_80</zorder>
@@ -9966,22 +11786,21 @@
     <zorder>tn85_80</zorder>
     <zorder>m35_80</zorder>
     <zorder>t0_80</zorder>
-    <zorder>value_80</zorder>
-    <zorder>dB_80</zorder>
-    <zorder>number_80</zorder>
     <zorder>line_80</zorder>
-    <zorder>progressBar_80</zorder>
+    <zorder>progressBar22</zorder>
+    <zorder>value_59</zorder>
+    <zorder>dB_59</zorder>
    </widget>
    <widget class="QWidget" name="widget_39" native="true">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>180</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_82">
+    <widget class="OIDProgressBar" name="progressBar23">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -10313,10 +12132,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_82">
+    <widget class="Line" name="line_82">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_60">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -10331,8 +12163,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_82">
+    <widget class="QLabel" name="dB_60">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -10349,38 +12184,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_82">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>5</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_82">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_82</zorder>
@@ -10405,22 +12208,21 @@
     <zorder>tn85_82</zorder>
     <zorder>m35_82</zorder>
     <zorder>t0_82</zorder>
-    <zorder>value_82</zorder>
-    <zorder>dB_82</zorder>
-    <zorder>number_82</zorder>
     <zorder>line_82</zorder>
-    <zorder>progressBar_82</zorder>
+    <zorder>progressBar23</zorder>
+    <zorder>value_60</zorder>
+    <zorder>dB_60</zorder>
    </widget>
    <widget class="QWidget" name="widget_40" native="true">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>220</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_83">
+    <widget class="OIDProgressBar" name="progressBar24">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -10752,10 +12554,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_83">
+    <widget class="Line" name="line_83">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_61">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -10770,8 +12585,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_83">
+    <widget class="QLabel" name="dB_61">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -10788,38 +12606,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_83">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>6</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_83">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_83</zorder>
@@ -10844,22 +12630,21 @@
     <zorder>tn85_83</zorder>
     <zorder>m35_83</zorder>
     <zorder>t0_83</zorder>
-    <zorder>value_83</zorder>
-    <zorder>dB_83</zorder>
-    <zorder>number_83</zorder>
     <zorder>line_83</zorder>
-    <zorder>progressBar_83</zorder>
+    <zorder>progressBar24</zorder>
+    <zorder>value_61</zorder>
+    <zorder>dB_61</zorder>
    </widget>
    <widget class="QWidget" name="widget_41" native="true">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>260</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_85">
+    <widget class="OIDProgressBar" name="progressBar25">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -11191,10 +12976,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_85">
+    <widget class="Line" name="line_85">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_62">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -11209,8 +13007,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_85">
+    <widget class="QLabel" name="dB_62">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -11227,38 +13028,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_85">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>7</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_85">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_85</zorder>
@@ -11283,22 +13052,21 @@
     <zorder>tn85_85</zorder>
     <zorder>m35_85</zorder>
     <zorder>t0_85</zorder>
-    <zorder>value_85</zorder>
-    <zorder>dB_85</zorder>
-    <zorder>number_85</zorder>
     <zorder>line_85</zorder>
-    <zorder>progressBar_85</zorder>
+    <zorder>progressBar25</zorder>
+    <zorder>value_62</zorder>
+    <zorder>dB_62</zorder>
    </widget>
    <widget class="QWidget" name="widget_42" native="true">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>300</x>
       <y>30</y>
       <width>46</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
-    <widget class="MyProgressBar" name="progressBar_86">
+    <widget class="OIDProgressBar" name="progressBar26">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -11630,10 +13398,23 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value_86">
+    <widget class="Line" name="line_86">
      <property name="geometry">
       <rect>
-       <x>3</x>
+       <x>35</x>
+       <y>0</y>
+       <width>16</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_63">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
        <y>150</y>
        <width>31</width>
        <height>16</height>
@@ -11648,8 +13429,11 @@
      <property name="text">
       <string>-100</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
-    <widget class="QLabel" name="dB_86">
+    <widget class="QLabel" name="dB_63">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -11666,38 +13450,6 @@
      </property>
      <property name="text">
       <string>dB</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="number_86">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>8</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_86">
-     <property name="geometry">
-      <rect>
-       <x>35</x>
-       <y>0</y>
-       <width>16</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <zorder>m0_86</zorder>
@@ -11722,127 +13474,1052 @@
     <zorder>tn85_86</zorder>
     <zorder>m35_86</zorder>
     <zorder>t0_86</zorder>
-    <zorder>value_86</zorder>
-    <zorder>dB_86</zorder>
-    <zorder>number_86</zorder>
     <zorder>line_86</zorder>
-    <zorder>progressBar_86</zorder>
+    <zorder>progressBar26</zorder>
+    <zorder>value_63</zorder>
+    <zorder>dB_63</zorder>
    </widget>
-   <widget class="QSlider" name="verticalSlider_19">
+   <widget class="QLabel" name="number_77">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>30</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>1</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_20">
+   <widget class="QLabel" name="number_86">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>300</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>8</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_21">
+   <widget class="QLabel" name="number_80">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>140</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>4</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_22">
+   <widget class="QLabel" name="number_85">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>260</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>7</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_23">
+   <widget class="QLabel" name="number_79">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>100</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>3</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_24">
+   <widget class="QLabel" name="number_83">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>220</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>6</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_25">
+   <widget class="QLabel" name="number_78">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>60</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>2</string>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_26">
+   <widget class="QLabel" name="number_82">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>30</y>
-      <width>30</width>
-      <height>200</height>
+      <x>180</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute19">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp19">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp20">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute20">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp21">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute21">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp22">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute22">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp23">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute23">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp24">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute24">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp25">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute25">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="amp26">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>220</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="mute26">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>200</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_45" native="true">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider19">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_106">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_66">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_66">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_46" native="true">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider20">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_107">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_67">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_67">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_47" native="true">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider21">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_108">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_68">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_68">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_48" native="true">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider22">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_109">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_69">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_69">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_49" native="true">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider23">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_110">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_70">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_70">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_50" native="true">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider24">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_111">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_71">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_71">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_51" native="true">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider25">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_112">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_72">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_72">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_52" native="true">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>30</y>
+      <width>40</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <widget class="OIDSlider" name="verticalSlider26">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>30</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_113">
+     <property name="geometry">
+      <rect>
+       <x>32</x>
+       <y>0</y>
+       <width>16</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="value_73">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dB_73">
+     <property name="geometry">
+      <rect>
+       <x>27</x>
+       <y>0</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dB</string>
+     </property>
+    </widget>
    </widget>
   </widget>
-  <zorder>groupBox</zorder>
-  <zorder>groupBox_2</zorder>
-  <zorder>groupBox_3</zorder>
-  <zorder>line</zorder>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyProgressBar</class>
+   <class>OIDProgressBar</class>
    <extends>QProgressBar</extends>
-   <header>homepage.h</header>
+   <header>OIDProgressBar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>OIDSlider</class>
+   <extends>QSlider</extends>
+   <header location="global">oidslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>OIDStatePushBtn</class>
+   <extends>QPushButton</extends>
+   <header>oidpushbtn.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

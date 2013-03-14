@@ -4,5 +4,11 @@
         <address location="home" ip="192.168.1.100"/>
         <address location="home" ip="192.168.1.101"/>
     </addresses>
+    <components>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="amp1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="verticalSlider1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="mute1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="progressBar1"/>
+    </components>
     <devices/>
 </root>

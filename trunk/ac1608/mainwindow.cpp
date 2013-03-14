@@ -174,9 +174,9 @@ void MainWindow::on_actionCopyParam_clicked(QAction* action){
 void MainWindow::on_actionEdit_clicked(QAction* action){
 	if (action->objectName() != "action_mode_edit" ) return;
 	if (action->isChecked()) {
-		qDebug()<<"check";
+		ConfigMgr::instance()->setOidEditable(true) ;
 	}else{
-		qDebug()<<"uncheck";
+		ConfigMgr::instance()->setOidEditable(false) ;
 	}
 
 	

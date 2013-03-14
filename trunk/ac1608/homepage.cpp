@@ -6,15 +6,11 @@
 #include <QSlider>
 #include <QList>
 #include <QDebug>
+#include "OIDInputDlg.h"
+#include "oidprogressbar.h"
 
-void MyProgressBar::mouseDoubleClickEvent ( QMouseEvent * event ){
-	static int i= 0;
-		qDebug()<<"event"<<i++;
-}
 
-void HomePage::progressBarClicked(){
-	qDebug()<<"clicked!";
-}
+
 
 HomePage::HomePage(QWidget *parent):
     QWidget(parent)
@@ -24,10 +20,10 @@ HomePage::HomePage(QWidget *parent):
 	QList<QProgressBar *> qpl  = findChildren<QProgressBar*>( );
 	for ( QList<QProgressBar *>::Iterator it = qpl.begin(); it != qpl.end(); ++it){
 		QProgressBar * qpb = *it;
-		connect( qpb, SIGNAL(clicked ()), this, SLOT(progressBarClicked()));
 		qDebug()<<qpb->objectName();
+		qpb->setToolTip( qpb->objectName());
 		if (qpb){
-		qpb->setValue(10);
+		qpb->setValue(-100);
 		//qpb->setStyleSheet(
 		//	" QProgressBar:vertical {"
 		//	"width:100px;"
@@ -47,11 +43,10 @@ HomePage::HomePage(QWidget *parent):
 	}
 	
 
-	QList<QSlider *> qsl = findChildren<QSlider*>( );
-	for ( QList<QSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
-		QSlider* qs = *it;
-		//qDebug()<<qs->objectName();
-		qs->setValue( 80);
+	QList<OIDSlider *> qsl = findChildren<OIDSlider*>( );
+	for ( QList<OIDSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
+		OIDSlider* qs = *it;
+		qs->setToolTip( qs->objectName());
 		qs->setStyleSheet(
 			"QSlider { "
 			"width: 50px; "
@@ -60,7 +55,7 @@ HomePage::HomePage(QWidget *parent):
 			"QSlider::groove:vertical {"
 			//"border: 1px solid #999999;"
 			"background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);"
-			"height: 170px;"
+			"height: 150px;"
 			"width: 2px;"
 			"top: 0px; "
 			"bottom: 0px;"
@@ -83,6 +78,24 @@ HomePage::HomePage(QWidget *parent):
 			//"}"
 
 			);
+	}
+
+	QList<OIDStatePushBtn *> qpb = findChildren<OIDStatePushBtn*>( );
+	if ( !qpb.isEmpty() ){
+		QPixmap XpushBtn("res/XpushBtn.png");
+		QPixmap XpushBtnOff("res/XpushBtn_off.png");
+		QPixmap anpushBtn("res/+-pushBtn.png");
+		QPixmap anpushBtnOff("res/+-pushBtn_off.png");
+		for ( QList<OIDStatePushBtn *>::Iterator it = qpb.begin(); it != qpb.end(); ++it){
+			OIDStatePushBtn* qs = *it;
+			
+			QString name = qs->objectName();
+			if (name.contains("amp") ){
+				qs->setOnOffStateImage( 1, 0, anpushBtn, anpushBtnOff);
+			}else{
+				qs->setOnOffStateImage( 1, 0, XpushBtn, XpushBtnOff);
+			}
+		}
 	}
 }
 
