@@ -7,15 +7,8 @@
 class OIDPushBtn : public QPushButton{
 	void * inputDialog_;
 
-	QString oid_;
-	QString defaultOid_;
 public:
 	OIDPushBtn( QWidget* w):QPushButton(w){}
-	inline void setOid( QString & oid, QString defaultOid){
-		oid_ = oid;
-		defaultOid_ = defaultOid;
-	}
-	inline void setOid( QString & oid){ setOid( oid, oid);}
 
 	void setImage(QPixmap & offImage); 
 
@@ -25,25 +18,19 @@ public:
 class OIDStatePushBtn : public QPushButton{
 	void * inputDialog_;
 
-	QString oid_;
-	QString defaultOid_;
 	QPixmap onImage_;
 	QPixmap offImage_;
 
-	volatile int val_;
+	volatile bool val_;
 
 public:
 	OIDStatePushBtn( QWidget* w);
-	inline void setOid( QString & oid, QString defaultOid){
-		oid_ = oid;
-		defaultOid_ = defaultOid;
-	}
-	inline void setOid( QString & oid){ setOid( oid, oid);}
 
 	virtual void	timerEvent ( QTimerEvent * event );
 
 	void setOnOffStateImage(int onState, int offState, QPixmap &onImage, QPixmap &offImage );
 	SnmpCallback::RequestStatus snmpCallback( int , snmp_session*, snmp_pdu* pdu, SnmpObj*);
+	void initSnmp();
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
 };

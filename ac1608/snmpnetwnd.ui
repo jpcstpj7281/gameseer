@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DevicesWnd</class>
- <widget class="QWidget" name="DevicesWnd">
+ <class>SnmpNetWnd</class>
+ <widget class="QWidget" name="SnmpNetWnd">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTableWidget" name="tableDevices">
+  <widget class="QTableWidget" name="tableOids">
    <property name="geometry">
     <rect>
      <x>0</x>

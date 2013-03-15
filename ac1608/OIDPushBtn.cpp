@@ -6,9 +6,9 @@
 
 using namespace std::tr1::placeholders;
 
-void OIDPushBtn::mouseReleaseEvent ( QMouseEvent * event ){
+void OIDPushBtn::mouseReleaseEvent ( QMouseEvent *  ){
 	if ( !ConfigMgr::instance()->isOidEditable() ) return;
-	OIDInputDlg::getNewOid( this->objectName(), oid_, defaultOid_ );
+	OIDInputDlg::getNewOid( this->objectName() );
 }
 
 void OIDPushBtn::setImage(QPixmap &offImage){
@@ -26,36 +26,54 @@ QPushButton(w)
 	//SnmpNet::instance()->addAsyncGet( oid_.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
 }
 
-void OIDStatePushBtn::timerEvent ( QTimerEvent * event ){
-	setChecked(val_);
-	if ( val_){
-		QIcon buttonIcon(onImage_);
-		setIcon(buttonIcon);
-		setIconSize(QSize(onImage_.rect().size()));
-	}else{
-		QIcon buttonIcon(offImage_);
-		setIcon(buttonIcon);
-		setIconSize(QSize(offImage_.rect().size()));
+void OIDStatePushBtn::timerEvent ( QTimerEvent *  ){
+	if ( val_ != this->isChecked() ){
+		this->toggle();
+		if ( val_){
+			QIcon buttonIcon(onImage_);
+			setIcon(buttonIcon);
+			setIconSize(QSize(onImage_.rect().size()));
+		}else{
+			QIcon buttonIcon(offImage_);
+			setIcon(buttonIcon);
+			setIconSize(QSize(offImage_.rect().size()));
+		}
 	}
 }
-SnmpCallback::RequestStatus OIDStatePushBtn::snmpCallback( int , snmp_session*, snmp_pdu* pdu, SnmpObj*){
+
+void OIDStatePushBtn::initSnmp(){
+	SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(), ConfigMgr::instance()->getOid(objectName()).toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
+}
+
+SnmpCallback::RequestStatus OIDStatePushBtn::snmpCallback( int status, snmp_session* sess, snmp_pdu* pdu, SnmpObj* so){
 	if (pdu->variables->type == ASN_INTEGER){
 		val_ = *(u_long *) (pdu->variables->val.integer);
 	}
-	return SnmpCallback::RequestStop;
+	if ( so->var.type()){
+		return SnmpCallback::RequestStop;
+	}else{
+		return SnmpCallback::RequestAgain;
+	}
 }
-
 
 void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 	if ( ConfigMgr::instance()->isOidEditable() ) {
-		if ( !ConfigMgr::instance()->isOidEditable() ) return;
-		OIDInputDlg::getNewOid( this->objectName(), oid_, defaultOid_ );
+		QString oid = OIDInputDlg::getNewOid( this->objectName() );
+		if (!oid.isEmpty() ){
+			SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(), oid.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
+		}
 	}else{
-		this->toggle();
+		//this->toggle();
 		if ( this->isChecked()){
-			SnmpNet::instance()->addAsyncSet(  oid_.toStdString().c_str(), "private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) , 1);
+			QString  oid = ConfigMgr::instance()->getOid( objectName());
+			if (! oid.isEmpty() ){
+				SnmpNet::instance()->addAsyncSet( objectName().toStdString().c_str(), oid.toStdString().c_str() ,	"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) , 0);
+			}
 		}else{
-			SnmpNet::instance()->addAsyncSet(  oid_.toStdString().c_str(), "private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this,_1, _2, _3, _4) , 0);
+			QString  oid = ConfigMgr::instance()->getOid( objectName());
+			if (! oid.isEmpty() ){
+				SnmpNet::instance()->addAsyncSet( objectName().toStdString().c_str(), oid.toStdString().c_str(), "private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this,_1, _2, _3, _4) , 1);
+			}
 		}
 	}
 }

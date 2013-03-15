@@ -1,6 +1,4 @@
 #include "snmpnet.h"
-
-
 #include<QtDebug>
 
 #include <net-snmp/utilities.h>
@@ -55,21 +53,21 @@ int asynch_response(int operation, struct snmp_session *sp, int reqid, struct sn
 	return SnmpNet::instance()->asynch_response_impl(operation,  sp,  reqid, pdu, magic);
 }
 
-void SnmpNet::addAsyncGet(const char* snmpoid, const char* community ,SnmpCallbackFunc callback){
-	SnmpObj* so = new SnmpObj( std::string(snmpoid), currAddress_, std::string(community), callback);
+void SnmpNet::addAsyncGet(const char* obj,const char* snmpoid, const char* community ,SnmpCallbackFunc callback){
+	SnmpObj* so = new SnmpObj( std::string(obj), std::string(snmpoid), currAddress_, std::string(community), callback);
 	QMutexLocker lk(&getLock_);
 	snmpList_.push_back(  so );
 
 }
-void SnmpNet::addAsyncGet(const char* snmpoid, const char* ip, const char* community ,SnmpCallbackFunc callback){
-	SnmpObj* so = new SnmpObj( std::string(snmpoid), std::string(ip), std::string(community), callback);
+void SnmpNet::addAsyncGetWithIP(const char* obj,const char* snmpoid, const char* ip, const char* community ,SnmpCallbackFunc callback){
+	SnmpObj* so = new SnmpObj(  std::string(obj),std::string(snmpoid), std::string(ip), std::string(community), callback);
 	QMutexLocker lk(&getLock_);
 	snmpList_.push_back(  so );
 }
 
-void SnmpNet::addAsyncSet(const char* snmpoid, const char* community  , SnmpCallbackFunc callback , QVariant value ){
+void SnmpNet::addAsyncSet(const char* obj,const char* snmpoid, const char* community  , SnmpCallbackFunc callback , QVariant value ){
 	if ( strlen( snmpoid) ){
-		SnmpObj* so = new SnmpObj( std::string(snmpoid), currAddress_, std::string(community), callback);
+		SnmpObj* so = new SnmpObj(  std::string(obj),std::string(snmpoid), currAddress_, std::string(community), callback);
 		so->var = value;
 		QMutexLocker lk(&getLock_);
 
@@ -89,8 +87,11 @@ int SnmpNet::asynch_response_impl(int operation, struct snmp_session *sp, int re
 
 	SnmpObj *so = (SnmpObj *)magic;
 	//snmp_pdu *req;
-
+	//qDebug()<<"snmp: "<<so->snmpoid.c_str();
+	so->pdu = pdu;
+	
 	if (operation == NETSNMP_CALLBACK_OP_RECEIVED_MESSAGE) {
+		if (afterResponsedCallback_) afterResponsedCallback_( so);
 		if ( !so->var.type() ){
 			if( so->callback( STAT_SUCCESS, so->sess, pdu, so) == SnmpCallback::RequestAgain) { //再发一次
 				return 0;
@@ -107,7 +108,6 @@ int SnmpNet::asynch_response_impl(int operation, struct snmp_session *sp, int re
 		so->callback( NETSNMP_CALLBACK_OP_TIMED_OUT, so->sess, pdu, so);
 		removeList_.push_back(so);
 		return 1;
-		//return isConnected() ? 0 :1;
 	}
 	//else print_result(STAT_TIMEOUT, host->sess, pdu);
 	return 1;
@@ -137,11 +137,10 @@ bool initSession( SnmpObj* so){
 	sess.callback_magic = (void*)so;
 	sess.retries = INT_MAX;
 	if( so->var.type()){
-		sess.timeout = 50000;
+		sess.timeout = 5000;
 	}else{
-		sess.timeout = 500000;
+		sess.timeout = 50000;
 	}
-	//sess.retries = 10;
 
 	//初始化和打开后返回的session不同
 	so->sessp = (snmp_session*)snmp_sess_open(&sess);
@@ -207,8 +206,8 @@ void SnmpNet::run(){
 				SnmpNet::inst->snmpList_.push_back( it->second);
 			}
 			SnmpNet::inst->setMap_.clear();
-		}
 
+		}
 		for ( AddressList::iterator it= snmplist.begin(); it != snmplist.end(); ++it){
 			SnmpObj* so = *it;
 			if ( !so->ip.empty() && !so->sess){
@@ -216,8 +215,9 @@ void SnmpNet::run(){
 			}else{
 			}
 		}
-
 		for ( AddressList::iterator it = snmplist.begin(); it != snmplist.end(); ++it){
+			if (SnmpNet::inst->beforeSentCallback_)
+				SnmpNet::inst->beforeSentCallback_( *it);
 			void* sessp = (*it)->sessp;
 			if ( !sessp ) continue;
 			int fds = 0, block = 1;
@@ -251,7 +251,7 @@ void SnmpNet::run(){
 				for ( AddressList::iterator it = snmplist.begin(); it != snmplist.end(); ++it ){
 					SnmpObj* so = *it;
 					if ( !so->snmpoid.empty() ){ //OID非空的都需要切换新IP,空为用于监听各设备地址
-						SnmpObj* newso = new SnmpObj( so->snmpoid, SnmpNet::inst->switchToAddress_, so->community, so->callback, so->var);
+						SnmpObj* newso = new SnmpObj(so->obj, so->snmpoid, SnmpNet::inst->switchToAddress_, so->community, so->callback, so->var);
 						SnmpNet::inst->snmpList_.push_back( newso);
 						SnmpNet::inst->removeList_.push_back(so);
 					}
@@ -292,7 +292,7 @@ int netsnmpCallback(int a, netsnmp_session * sess, int b , netsnmp_pdu * pdu, vo
 }
 
 void SnmpNet::listenAddress( const char * ip , SnmpCallbackFunc callback){
-	SnmpObj* so = new SnmpObj( std::string(""), std::string(ip), std::string("public"), callback);
+	SnmpObj* so = new SnmpObj( std::string("listening"), std::string(""), std::string(ip), std::string("public"), callback);
 	QMutexLocker lk(&getLock_);
 	this->snmpList_.push_back(  so );
 }

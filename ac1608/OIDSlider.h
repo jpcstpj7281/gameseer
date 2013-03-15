@@ -12,13 +12,16 @@ class OIDSlider : public QSlider{
 	volatile int val_;
 
 	SnmpCallback::RequestStatus snmpCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
-	virtual void	timerEvent ( QTimerEvent * e )override;
+	void	timerEvent ( QTimerEvent * e )override;
+	bool eventFilter ( QObject * watched, QEvent * event )override;
 
 	size_t lastTimeChanged_;
 private slots:
 		void fireSnmp(int  );
 public:
 	OIDSlider( QWidget* w);
+
+	void initSnmp();
 
 };
 #endif // MyProgressBar_H
