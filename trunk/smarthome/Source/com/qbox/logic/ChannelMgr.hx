@@ -80,7 +80,8 @@ class ChannelMgr {
                 for ( rn in rg._heads){
                     var n = rn;
                     while( n != null ){
-                        if ( c._screen == n._screen ){
+                        //if ( c._screen == n._screen ){
+                        if ( n._pre[rg._nodeIndex] != null && c._screen == n._screen ){
                             for ( i in n._inport){
                                 if ( c._inport == i){
                                     isRingPort = true;

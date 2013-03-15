@@ -17,6 +17,7 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 import com.qbox.logic.Screen;
+import haxe.io.BytesBuffer;
 
 class ImgContrastDlg extends ValueBarDlg{
 
@@ -31,5 +32,21 @@ class ImgContrastDlg extends ValueBarDlg{
 #else
         TXT= "对比度";
 #end
+    }
+
+    override function dispatch(value:Int):Void{
+        var bs:BytesBuffer  = new BytesBuffer();
+        var shift:Int = _value;
+        //bs.addByte(shift >> 8);
+        bs.addByte(shift);
+        //bs.addByte(shift >> 8);
+        bs.addByte(shift);
+        //bs.addByte(shift >> 8);
+        bs.addByte(shift);
+        //bs.addByte(0x16);
+        //bs.addByte(0x16);
+        _screen.setOsd( Std.string(0x01), Std.string(3), bs.getBytes(), cbFunc);
+    }
+    function cbFunc( a, s):Void{
     }
 }
