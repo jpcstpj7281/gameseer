@@ -132,35 +132,29 @@ QDomElement ConfigMgr::getAddressElem(){
 	return addresses;
 }
 
-QString ConfigMgr::getOid( QString &id){
+QString getOidFromDoc( QString &id, QDomDocument * doc){
 	if ( id.isEmpty() ) return "";
-	QDomElement root = doc_->documentElement();
+	QDomElement root = doc->documentElement();
 
 	QDomNodeList items = root.elementsByTagName("component");
 	QString oid;
 	for(int i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
-		QDomElement elem = node.toElement();
-		if ( id == elem.nodeName() ){
-			oid = elem.attribute("oid");
+		QDomNode n1 = node.attributes().item(1);
+		if ( "id" == n1.nodeName()&& id == n1.nodeValue() ){
+			oid = node.attributes().item(0).nodeValue();
 		}
+
 	}
 	return oid;
 }
 
-QString ConfigMgr::getDefaultOid( QString &id){
-	QDomElement root = defaultDoc_->documentElement();
+QString ConfigMgr::getOid( QString &id){
+	return getOidFromDoc(id, doc_);
+}
 
-	QDomNodeList items = root.elementsByTagName("component");
-	QString oid;
-	for(int i = 0; i <items.length(); ++i){
-		QDomNode node = items.at(i);
-		QDomElement elem = node.toElement();
-		if ( id == elem.nodeName() ){
-			oid = elem.attribute("oid");
-		}
-	}
-	return oid;
+QString ConfigMgr::getDefaultOid( QString &id){
+	return getOidFromDoc(id, defaultDoc_);
 }
 
 void ConfigMgr::setOid( QString &id, QString &oid){

@@ -18,6 +18,7 @@
 #include <QLineEdit.h>
 #include <QTabWidget.h>
 #include <CobraNetWnd.h>
+#include "SnmpNetWnd.h"
 
 #include "snmpnet.h"
 #include "configmgr.h"
@@ -27,6 +28,7 @@
 #include <functional>
 
 #include <QTableView>
+
 
 using namespace std::placeholders;
 
@@ -44,12 +46,14 @@ MainWindow::MainWindow(QWidget *parent)
 	,nomWnd_(new NOMWnd)
 	,presetWnd_(new PresetWnd)
 	,cobraNetWnd_(new CobraNetWnd)
+	,snmpNetWnd_(new SnmpNetWnd)
 
 {
     ui->setupUi(this);
 
 	_tab = findChild<QTabWidget*>( "tabWidget");
 
+	
 	_tab->addTab(homepage_, "Homepage" );
 	_tab->addTab(deviceswnd_, "Devices" );
 	_tab->addTab(changePasswordWnd_, "Password" );
@@ -58,9 +62,10 @@ MainWindow::MainWindow(QWidget *parent)
 	_tab->addTab(highPassWnd_, "HighPass" );
 	_tab->addTab(peqWnd_, "PEQ" );
 	_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
-	_tab->addTab(nomWnd_, "NOMWnd" );
-	_tab->addTab(presetWnd_, "PresetWnd" );
-	_tab->addTab(cobraNetWnd_, "CobraNetWnd" );
+	_tab->addTab(nomWnd_, "NOM" );
+	_tab->addTab(presetWnd_, "Preset" );
+	_tab->addTab(cobraNetWnd_, "CobraNet" );
+	_tab->addTab(snmpNetWnd_, "SnmpNet" );
 	
 	deviceswnd_->initAddresses();
 
@@ -134,6 +139,15 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	_tab->setGeometry( 0, 0, this->width()+2, this->height()-40);
 
 	QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
+	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
+	t->setColumnWidth( 0, 150);
+	t->setColumnWidth( 2, 100);
+	t->setColumnWidth( 3, 100);
+	t->setColumnWidth( 4, 100);
+	t->setColumnWidth( 5, 100);
+	t->setColumnWidth( 1, (int)(t->width() - 600) );
+
+	t = _tab->findChild<QTableWidget* >("tableOids");
 	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
 	t->setColumnWidth( 0, 150);
 	t->setColumnWidth( 2, 100);

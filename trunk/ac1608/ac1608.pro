@@ -20,8 +20,10 @@ nomwnd.cpp \
 oidprogressbar.cpp\
 oidinputdlg.cpp \
 oidpushbtn.cpp \
+oidslider.cpp \
 cobranetwnd.cpp \
-    snmpnet.cpp \
+snmpnetwnd.cpp \
+snmpnet.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
     copyparamwnd.cpp \
@@ -35,12 +37,14 @@ cobranetwnd.cpp \
     deviceswnd.cpp
 
 HEADERS  +=  snmpnet.h \
+snmpnetwnd.h \
 homepage.h \
 peqwnd.h \
 nomwnd.h \
 oidprogressbar.h\
 oidinputdlg.h \
 oidpushbtn.h \
+oidslider.h \
 cobranetwnd.h \
     configmgr.h \
 	mainwindow.h \
@@ -61,6 +65,7 @@ peqwnd.ui \
 nomwnd.ui \
 oidinputdlg.ui \
 cobranetwnd.ui \
+snmpnetwnd.ui \
     presetwnd.ui \
     copyparamwnd.ui \
     changepasswordwnd.ui \

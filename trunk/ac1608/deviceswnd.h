@@ -18,6 +18,7 @@ namespace Ui {
 class DevicesWnd;
 }
 class Ac1608Address;
+class DevicesWnd;
 
 typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
 
@@ -27,30 +28,34 @@ typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
 class Ac1608Address: public QObject{
 	Q_OBJECT
 private slots:
-	void editingFinished ();
+	void editingAddressFinished ();
 public:
 	Ac1608Address( QString &ip , QString & loc):
 	snmpResponseTime(0)
 	,row(0),ip(ip)
 	,location(loc)
-	,startCheckTime(0){
+	,startCheckTime(0)
+	,t_(0)
+	,lineEdit_(0){
 	}
 
-	void init(int row, AddressCallback callback, QLineEdit* lineEdit){ 
-		this->callback = callback;
-		this->row = row;
-
-		this->lineEdit =  lineEdit;
-		connect( lineEdit, SIGNAL(editingFinished ()), this, SLOT(editingFinished ()));
+	void init(QLineEdit* lineEdit, DevicesWnd* t){ 
+		this->t_ = t;
+		this->lineEdit_ = lineEdit;
+		connect( lineEdit, SIGNAL(editingFinished ()), this, SLOT(editingAddressFinished ()));
 	}
 	size_t row;
 	volatile size_t snmpResponseTime;
 	size_t startCheckTime;
 	QString ip;
 	QString location;
+	QLineEdit* lineEdit_;
+	DevicesWnd* t_;
+
+	volatile size_t timeticks;
 	char deviceRunTime[32];
-	QLineEdit* lineEdit;
-	AddressCallback callback;
+	
+	//AddressCallback callback;
 };
 
 
@@ -65,10 +70,10 @@ public:
 
 	void refresh();
 	void initAddresses();
-
+	
 	typedef std::map< QString, Ac1608Address* > AddressMap;
 private slots:
-	void editingFinished ();
+	void editingNewAddressFinished ();
 	void itemClicked(QTableWidgetItem *);
 	void cellChanged(int,int);
 	void	cellActivated ( int row, int column );
@@ -80,7 +85,7 @@ private:
 	void connectImpl( Ac1608Address*);
 	void disconnectImpl( Ac1608Address*);
 
-	virtual void	timerEvent ( QTimerEvent * event );
+	virtual void	timerEvent ( QTimerEvent * event )override;
 
 	QLineEdit * lastLineEdit_;
 
@@ -94,8 +99,12 @@ private:
     Ui::DevicesWnd *ui;
 
 	SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
-
+	void onlineRefreshed(Ac1608Address * aa);
+	void offlineRefreshed(Ac1608Address * aa);
+	void checkingRefreshed(Ac1608Address * aa);
 	QMutex locker_;
+
+	friend class Ac1608Address;
 };
 
 #endif // DEVICESWND_H

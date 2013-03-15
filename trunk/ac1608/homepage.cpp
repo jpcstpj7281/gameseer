@@ -17,10 +17,11 @@ HomePage::HomePage(QWidget *parent):
 	,ui(new Ui::HomePage)
 {
     ui->setupUi(this);
-	QList<QProgressBar *> qpl  = findChildren<QProgressBar*>( );
-	for ( QList<QProgressBar *>::Iterator it = qpl.begin(); it != qpl.end(); ++it){
-		QProgressBar * qpb = *it;
-		qDebug()<<qpb->objectName();
+	QList<OIDProgressBar *> qpl  = findChildren<OIDProgressBar*>( );
+	for ( QList<OIDProgressBar *>::Iterator it = qpl.begin(); it != qpl.end(); ++it){
+		OIDProgressBar * qpb = *it;
+		//qDebug()<<qpb->objectName();
+		qpb->initSnmp();
 		qpb->setToolTip( qpb->objectName());
 		if (qpb){
 		qpb->setValue(-100);
@@ -47,6 +48,7 @@ HomePage::HomePage(QWidget *parent):
 	for ( QList<OIDSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
 		OIDSlider* qs = *it;
 		qs->setToolTip( qs->objectName());
+		qs->initSnmp();
 		qs->setStyleSheet(
 			"QSlider { "
 			"width: 50px; "
@@ -88,7 +90,7 @@ HomePage::HomePage(QWidget *parent):
 		QPixmap anpushBtnOff("res/+-pushBtn_off.png");
 		for ( QList<OIDStatePushBtn *>::Iterator it = qpb.begin(); it != qpb.end(); ++it){
 			OIDStatePushBtn* qs = *it;
-			
+			qs->initSnmp();
 			QString name = qs->objectName();
 			if (name.contains("amp") ){
 				qs->setOnOffStateImage( 1, 0, anpushBtn, anpushBtnOff);

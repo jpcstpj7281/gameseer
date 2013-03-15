@@ -20,7 +20,7 @@ class PresetWnd;
 class HomePage;
 class NOMWnd;
 class CobraNetWnd;
-
+class SnmpNetWnd;
 
 namespace Ui {
     class MainWindow;
@@ -81,6 +81,7 @@ class MainWindow : public QMainWindow
 		DevicesWnd *deviceswnd_;
 		HomePage * homepage_;
 		CobraNetWnd * cobraNetWnd_;
+		SnmpNetWnd * snmpNetWnd_;
 
         void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);

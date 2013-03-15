@@ -18,7 +18,7 @@ public:
     explicit OIDInputDlg(QWidget *parent = 0);
     ~OIDInputDlg();
 
-	static QString getNewOid(QString &id, QString &oldOid, QString &DefaultOid);
+	static QString getNewOid(QString &id);
 	static OIDInputDlg *instance();
 private slots:    
  

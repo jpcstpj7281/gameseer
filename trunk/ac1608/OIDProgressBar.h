@@ -17,6 +17,6 @@ class OIDProgressBar : public QProgressBar{
 	SnmpCallback::RequestStatus snmpCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
 public:
 	OIDProgressBar( QWidget* w);
-	
+	void initSnmp();
 };
 #endif // OIDProgressBar

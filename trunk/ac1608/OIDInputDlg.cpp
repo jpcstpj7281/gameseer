@@ -41,12 +41,12 @@ OIDInputDlg::~OIDInputDlg()
     delete ui;
 }
 
-QString OIDInputDlg::getNewOid( QString& id, QString &oldOid, QString &defaultOid){
+QString OIDInputDlg::getNewOid( QString& id){
 	OIDInputDlg::instance()->id_ = id;
-	OIDInputDlg::instance()->oldOid_ = oldOid;
-	OIDInputDlg::instance()->defaultOid_ = defaultOid;
+	OIDInputDlg::instance()->oldOid_ = ConfigMgr::instance()->getOid(id);
+	OIDInputDlg::instance()->defaultOid_ =  ConfigMgr::instance()->getDefaultOid(id);
 	QLineEdit * le = OIDInputDlg::instance()->findChild<QLineEdit*>( "oidInput");
-	le->setText(oldOid);
+	le->setText(OIDInputDlg::instance()->oldOid_);
 	le->setFocus();
 	OIDInputDlg::instance()->exec();
 	return le->text();
