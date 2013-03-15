@@ -102,6 +102,7 @@ int SnmpNet::asynch_response_impl(int operation, struct snmp_session *sp, int re
 		}else{
 			so->callback( STAT_SUCCESS, so->sess, pdu, so);
 			removeList_.push_back(so);
+			//return 0;
 		}
 	}else if(operation == NETSNMP_CALLBACK_OP_TIMED_OUT) {
 		qDebug()<<"Time out: SnmpNet::asynch_response_impl! " << so->ip.c_str() ;
