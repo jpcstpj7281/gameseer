@@ -226,8 +226,9 @@ class RingsPlate extends CommDialog{
         }
 
         _screens.x = Math.round( (width - _screens.width) /2);
-        ScreenMgr.getInst()._virtualX= cast _screens.x;
-        ScreenMgr.getInst()._virtualY= cast _screens.y;
+        //_screens.x = ScreenMgr.getInst()._virtualX;
+        //ScreenMgr.getInst()._virtualX= cast _screens.x;
+        //ScreenMgr.getInst()._virtualY= cast _screens.y;
 
     }
 

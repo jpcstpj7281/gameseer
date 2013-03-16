@@ -24,7 +24,7 @@ class ImgContrastDlg extends ValueBarDlg{
     public function new ( dm:CommDialogMgr, s:Screen){
         super(dm,s );
         addChild( createElement());
-        _value = 0;
+        _value = 128;
         _max= 255;
 
 #if neko
@@ -37,14 +37,11 @@ class ImgContrastDlg extends ValueBarDlg{
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
         var shift:Int = _value;
-        //bs.addByte(shift >> 8);
-        bs.addByte(shift);
-        //bs.addByte(shift >> 8);
-        bs.addByte(shift);
-        //bs.addByte(shift >> 8);
-        bs.addByte(shift);
-        //bs.addByte(0x16);
-        //bs.addByte(0x16);
+        shift = Std.int(_value/255 * 100);
+        trace( shift);
+        bs.addByte( 50+shift);
+        bs.addByte( 50+shift);
+        bs.addByte( 50+shift);
         _screen.setOsd( Std.string(0x01), Std.string(3), bs.getBytes(), cbFunc);
     }
     function cbFunc( a, s):Void{

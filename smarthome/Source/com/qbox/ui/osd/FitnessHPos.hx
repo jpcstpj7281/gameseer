@@ -15,6 +15,7 @@ import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
+import haxe.io.BytesBuffer;
 
 class FitnessHPos extends ValueBarDlg{
 
@@ -23,11 +24,26 @@ class FitnessHPos extends ValueBarDlg{
         addChild( createElement());
 
         _value = 0;
-        _max = 31;
+        _max = 255;
+        _min = -255;
 #if neko
         TXT= "Horizontal Position";
 #else
         TXT= "水平位置";
 #end
+    }
+    override function dispatch(value:Int):Void{
+        var bs:BytesBuffer  = new BytesBuffer();
+        var shift:Int =  _value;
+        trace( shift);
+        bs.addByte(shift >> 24);
+        bs.addByte(shift);
+        bs.addByte(shift );
+        bs.addByte(shift);
+        //bs.addByte(0x16);
+        //bs.addByte(0x16);
+        _screen.setOsd( Std.string(0x04), Std.string(2), bs.getBytes(), cbFunc);
+    }
+    function cbFunc( a, s):Void{
     }
 }

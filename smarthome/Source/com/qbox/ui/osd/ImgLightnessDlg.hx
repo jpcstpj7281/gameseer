@@ -40,6 +40,7 @@ class ImgLightnessDlg extends ValueBarDlg{
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
         var shift:Int = _value<< 2;
+        trace( shift);
         bs.addByte(shift >> 8);
         bs.addByte(shift);
         bs.addByte(shift >> 8);

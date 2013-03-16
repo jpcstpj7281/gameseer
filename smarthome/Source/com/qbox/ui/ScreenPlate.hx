@@ -64,6 +64,10 @@ class ScreenPlate extends CommDialog{
 
         _screenWidth = ScreenMgr.getInst()._virtualWidth ;
         _screenHeight = ScreenMgr.getInst()._virtualHeight;
+        var screenx = ScreenMgr.getInst()._virtualX;
+        var screeny = ScreenMgr.getInst()._virtualY;
+        //trace(screenx);
+        //trace(screeny);
 
         for ( i in ScreenMgr.getInst()._screens){
             var s = new Sprite();
