@@ -145,11 +145,13 @@ class WndGraphicDlg extends CommDialog{
             }
             //trace(px);
             //trace(py);
-            //trace( maxCol);
-            //trace( maxRow);
+            trace( maxCol);
+            trace( maxRow);
 
-            var w = maxCol - _wnd._virtualX;
-            var h = maxRow - _wnd._virtualY;
+            var w = maxCol;// - _wnd._virtualX;
+            var h = maxRow;// - _wnd._virtualY;
+            trace( w);
+            trace( h);
             return resizeWnd(w,h);
         }
         return false;

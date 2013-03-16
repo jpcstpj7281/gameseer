@@ -116,6 +116,7 @@ class ScreenMgr extends QboxMgr {
         var arr:Array<Screen> = new Array<Screen>();
         for ( i in 0..._col ){
             var c = new Screen( i, _row-1);
+            c._resWidth = _resWidth;
             c._resHeight= _resHeight;
             //_screens.push(c);
             insertToScreens( c);

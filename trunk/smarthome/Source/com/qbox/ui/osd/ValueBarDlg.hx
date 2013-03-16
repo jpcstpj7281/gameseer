@@ -61,7 +61,7 @@ class ValueBarDlg extends CommDialog{
             _promt.text = TXT;
             _promt.scaleX = 3;
             _promt.scaleY = 3;
-            _promt.width = 50;
+            _promt.width = 150;
             _promt.height= 16;
             _s.addChild( _promt);
 
@@ -102,6 +102,7 @@ class ValueBarDlg extends CommDialog{
             _s.addChild(_more);
             _s.height = nme.Lib.current.stage.stageHeight/15;
         }
+        calValueAndDraw();
         return super.show();
     }
     override function hide(){
@@ -127,7 +128,7 @@ class ValueBarDlg extends CommDialog{
     function calValueAndDraw(){
         if (_max == 0 ) return;
         var percent = WIDTH / (_max - _min);
-        var lw = percent * _value;
+        var lw = percent * (_value - _min);
         var rw = percent * (_max - _value);
         //drawBar( Math.round(lw), Math.round(rw));
         drawBar( lw, rw);
