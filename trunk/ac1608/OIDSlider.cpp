@@ -40,6 +40,7 @@ bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
 	}else{
 		QSlider::eventFilter(watched, event);
 	}
+    return false;
 }
 
 void	OIDSlider::timerEvent ( QTimerEvent * e ){

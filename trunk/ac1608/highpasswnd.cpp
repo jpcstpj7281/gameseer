@@ -9,8 +9,10 @@ HighPassWnd::HighPassWnd(QWidget *parent) :
     ui->setupUi(this);
 
 	QDeclarativeView * dv  = findChild<QDeclarativeView*>("declarativeView" );
-	dv->setSource(QUrl::fromLocalFile("res/graph.qml"));
-	dv->show();
+	if ( dv) {
+		dv->setSource(QUrl::fromLocalFile("res/graph.qml"));
+		dv->show();
+	}
 }
 
 HighPassWnd::~HighPassWnd()
