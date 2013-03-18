@@ -7,7 +7,11 @@
 #include <QMainWindow>
 
 #include <QMutexLocker>
+#if (QT_VERSION <= QT_VERSION_CHECK(5, 0, 0))
 #include <QtConcurrentRun>
+#else
+#include <QtConcurrent/QtConcurrent>
+#endif
 #include <QFuture>
   
 

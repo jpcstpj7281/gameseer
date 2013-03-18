@@ -4,7 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml declarative
+QT  += core gui xml  
+QT  += quick
+QT  += declarative
+
+QMAKE_CXXFLAGS += -std=gnu++0x  //Qt4
+CONFIG += c++11					//Qt5
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

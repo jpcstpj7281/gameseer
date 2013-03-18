@@ -9,7 +9,7 @@
 #include <functional>
 #include <qdebug>
 #include <QTime>
-#include <QDateTime>
+#undef min
  
 
 using namespace std::placeholders;
