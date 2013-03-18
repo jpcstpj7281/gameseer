@@ -365,24 +365,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QDeclarativeView" name="declarativeView">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>50</y>
-     <width>700</width>
-     <height>280</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QDeclarativeView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtDeclarative/QDeclarativeView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
