@@ -139,6 +139,7 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	_tab->setGeometry( 0, 0, this->width()+2, this->height()-40);
 
 	QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
+	if (t){
 	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
 	t->setColumnWidth( 0, 150);
 	t->setColumnWidth( 2, 100);
@@ -146,15 +147,18 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	t->setColumnWidth( 4, 100);
 	t->setColumnWidth( 5, 100);
 	t->setColumnWidth( 1, (int)(t->width() - 600) );
+	}
 
 	t = _tab->findChild<QTableWidget* >("tableOids");
-	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
+	if (t){
+		t->setGeometry( 0, 0, this->width()+2, this->height()-40);
 	t->setColumnWidth( 0, 150);
 	t->setColumnWidth( 2, 100);
 	t->setColumnWidth( 3, 100);
 	t->setColumnWidth( 4, 100);
 	t->setColumnWidth( 5, 100);
 	t->setColumnWidth( 1, (int)(t->width() - 600) );
+	}
 
 
 }

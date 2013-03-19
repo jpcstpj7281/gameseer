@@ -142,9 +142,9 @@ bool initSession( SnmpObj* so){
 	sess.callback_magic = (void*)so;
 	sess.retries = INT_MAX;
 	if( so->var.type()){
-		sess.timeout = 5000;
+		sess.timeout = 500000;
 	}else{
-		sess.timeout = 50000;
+		sess.timeout = 500000;
 	}
 
 	//初始化和打开后返回的session不同
@@ -221,8 +221,7 @@ void SnmpNet::run(){
 			}
 		}
 		for ( AddressList::iterator it = snmplist.begin(); it != snmplist.end(); ++it){
-			if (SnmpNet::inst->beforeSentCallback_)
-				SnmpNet::inst->beforeSentCallback_( *it);
+			if (SnmpNet::inst->beforeSentCallback_)	SnmpNet::inst->beforeSentCallback_( *it);
 			void* sessp = (*it)->sessp;
 			if ( !sessp ) continue;
 			int fds = 0, block = 1;

@@ -1,81 +1,120 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{766BC347-3F39-337A-9F61-1734447EB026}</ProjectGuid>
+    <ProjectGuid>{3931DCAA-3C69-3810-AAB2-EB43DE4E4235}</ProjectGuid>
     <RootNamespace>ac1608</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <OutputDirectory>release\</OutputDirectory>
-    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
-    <CharacterSet>NotSet</CharacterSet>
-    <ConfigurationType>Application</ConfigurationType>
-    <IntermediateDirectory>release\</IntermediateDirectory>
-    <PrimaryOutput>ac1608</PrimaryOutput>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
-    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <IntermediateDirectory>debug\.obj\</IntermediateDirectory>
+    <PrimaryOutput>ac1608</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\.obj\</IntermediateDirectory>
     <PrimaryOutput>ac1608</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ac1608</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
-    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ac1608</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ac1608</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtDeclarative;$(QTDIR)\include;inc;.;$(QTDIR)\include\ActiveQt;debug\.moc;debug\.ui;..\..\..\sdk\Qt4.8.4\mkspecs\default;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -std=gnu++0x -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\.obj\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_DECLARATIVE_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;ws2_32.lib;C:/repository/qbox/ac1608/lib/\netsnmpd.lib;Advapi32.lib;$(QTDIR)\lib\QtDeclaratived4.lib;$(QTDIR)\lib\QtXmld4.lib;$(QTDIR)\lib\QtGuid4.lib;$(QTDIR)\lib\QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\lib;C:/repository/qbox/ac1608/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\ac1608.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_DECLARATIVE_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>inc;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore;release;.;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zm200 -std=gnu++0x //Qt4 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <AdditionalIncludeDirectories>$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtDeclarative;$(QTDIR)\include;inc;.;$(QTDIR)\include\ActiveQt;release\.moc;release\.ui;..\..\..\sdk\Qt4.8.4\mkspecs\default;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -std=gnu++0x -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\.obj\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_QUICK_LIB;QT_DECLARATIVE_LIB;QT_QML_LIB;QT_WIDGETS_LIB;QT_SCRIPT_LIB;QT_NETWORK_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_DECLARATIVE_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmain.lib;ws2_32.lib;C:/repository/qbox/ac1608/lib/\netsnmp.lib;$(QTDIR)\lib\Qt5Quick.lib;$(QTDIR)\lib\Qt5Declarative.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Script.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Xml.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:/repository/qbox/ac1608/lib/;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;ws2_32.lib;C:/repository/qbox/ac1608/lib/\netsnmp.lib;Advapi32.lib;$(QTDIR)\lib\QtDeclarative4.lib;$(QTDIR)\lib\QtXml4.lib;$(QTDIR)\lib\QtGui4.lib;$(QTDIR)\lib\QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\lib;C:/repository/qbox/ac1608/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -92,48 +131,7 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_QUICK_LIB;QT_DECLARATIVE_LIB;QT_QML_LIB;QT_WIDGETS_LIB;QT_SCRIPT_LIB;QT_NETWORK_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ResourceCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>inc;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore;debug;.;..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zm200 -std=gnu++0x //Qt4 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>debug\</AssemblerListingLocation>
-      <BrowseInformation>false</BrowseInformation>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_QUICK_LIB;QT_DECLARATIVE_LIB;QT_QML_LIB;QT_WIDGETS_LIB;QT_SCRIPT_LIB;QT_NETWORK_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>qtmaind.lib;ws2_32.lib;C:/repository/qbox/ac1608/lib/\netsnmpd.lib;$(QTDIR)\lib\Qt5Quickd.lib;$(QTDIR)\lib\Qt5Declaratived.lib;$(QTDIR)\lib\Qt5Qmld.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Scriptd.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Xmld.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;libEGLd.lib;libGLESv2d.lib;gdi32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:/repository/qbox/ac1608/lib/;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreImportLibrary>true</IgnoreImportLibrary>
-      <OutputFile>$(OutDir)\ac1608.exe</OutputFile>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-    </Link>
-    <Midl>
-      <DefaultCharType>Unsigned</DefaultCharType>
-      <EnableErrorChecks>None</EnableErrorChecks>
-      <WarningLevel>0</WarningLevel>
-    </Midl>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_QUICK_LIB;QT_DECLARATIVE_LIB;QT_QML_LIB;QT_WIDGETS_LIB;QT_SCRIPT_LIB;QT_NETWORK_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_DECLARATIVE_LIB;QT_XML_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -141,61 +139,61 @@
     <ClCompile Include="cobranetwnd.cpp" />
     <ClCompile Include="configmgr.cpp" />
     <ClCompile Include="copyparamwnd.cpp" />
-    <ClCompile Include="Debug\moc_changepasswordwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_changepasswordwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_cobranetwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_cobranetwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_copyparamwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_copyparamwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_deviceswnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_deviceswnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_gatenomwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_gatenomwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_highpasswnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_highpasswnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_homepage.cpp">
+    <ClCompile Include="Debug\.moc\moc_homepage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_inputgainctrlwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_inputgainctrlwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_level8chwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_level8chwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_mainwindow.cpp">
+    <ClCompile Include="Debug\.moc\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_matrixmixerwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_matrixmixerwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_meterswnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_meterswnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_nomwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_nomwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_oidinputdlg.cpp">
+    <ClCompile Include="Debug\.moc\moc_oidinputdlg.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_oidprogressbar.cpp">
+    <ClCompile Include="Debug\.moc\moc_oidprogressbar.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_oidslider.cpp">
+    <ClCompile Include="Debug\.moc\moc_oidslider.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_peqwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_peqwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_presetwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_presetwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_snmpnetwnd.cpp">
+    <ClCompile Include="Debug\.moc\moc_snmpnetwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="deviceswnd.cpp" />
@@ -215,61 +213,61 @@
     <ClCompile Include="oidslider.cpp" />
     <ClCompile Include="peqwnd.cpp" />
     <ClCompile Include="presetwnd.cpp" />
-    <ClCompile Include="Release\moc_changepasswordwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_changepasswordwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_cobranetwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_cobranetwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_copyparamwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_copyparamwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_deviceswnd.cpp">
+    <ClCompile Include="Release\.moc\moc_deviceswnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_gatenomwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_gatenomwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_highpasswnd.cpp">
+    <ClCompile Include="Release\.moc\moc_highpasswnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_homepage.cpp">
+    <ClCompile Include="Release\.moc\moc_homepage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_inputgainctrlwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_inputgainctrlwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_level8chwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_level8chwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_mainwindow.cpp">
+    <ClCompile Include="Release\.moc\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_matrixmixerwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_matrixmixerwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_meterswnd.cpp">
+    <ClCompile Include="Release\.moc\moc_meterswnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_nomwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_nomwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_oidinputdlg.cpp">
+    <ClCompile Include="Release\.moc\moc_oidinputdlg.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_oidprogressbar.cpp">
+    <ClCompile Include="Release\.moc\moc_oidprogressbar.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_oidslider.cpp">
+    <ClCompile Include="Release\.moc\moc_oidslider.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_peqwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_peqwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_presetwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_presetwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_snmpnetwnd.cpp">
+    <ClCompile Include="Release\.moc\moc_snmpnetwnd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="snmpnet.cpp" />
@@ -277,155 +275,155 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="changepasswordwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing changepasswordwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing changepasswordwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing changepasswordwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="cobranetwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing cobranetwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing cobranetwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing cobranetwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="configmgr.h" />
     <CustomBuild Include="copyparamwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing copyparamwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing copyparamwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing copyparamwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="deviceswnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing deviceswnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing deviceswnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing deviceswnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="gatenomwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing gatenomwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing gatenomwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing gatenomwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="highpasswnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing highpasswnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing highpasswnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing highpasswnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="homepage.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing homepage.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing homepage.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing homepage.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="inputgainctrlwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing inputgainctrlwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing inputgainctrlwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing inputgainctrlwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="level8chwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing level8chwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing level8chwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing level8chwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="matrixmixerwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing matrixmixerwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing matrixmixerwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing matrixmixerwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="meterswnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing meterswnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing meterswnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing meterswnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="nomwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing nomwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing nomwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing nomwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="oidinputdlg.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing oidinputdlg.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing oidinputdlg.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing oidinputdlg.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="oidprogressbar.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing oidprogressbar.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing oidprogressbar.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing oidprogressbar.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="GeneratedFiles\ui_changepasswordwnd.h" />
     <ClInclude Include="GeneratedFiles\ui_cobranetwnd.h" />
@@ -446,241 +444,241 @@
     <ClInclude Include="GeneratedFiles\ui_snmpnetwnd.h" />
     <ClInclude Include="oidpushbtn.h" />
     <CustomBuild Include="oidslider.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing oidslider.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing oidslider.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing oidslider.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="peqwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing peqwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing peqwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing peqwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="presetwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing presetwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing presetwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing presetwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="snmpnet.h" />
     <CustomBuild Include="snmpnetwnd.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing snmpnetwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_DECLARATIVE_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SCRIPT_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE "-I.\inc" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQuick" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtDeclarative" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtQml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtScript" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtNetwork" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtXml" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtGui" "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\sdk\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2010"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\debug\.moc" "-I.\debug\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing snmpnetwnd.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\.moc\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_DECLARATIVE_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtDeclarative" "-I$(QTDIR)\include" "-I.\inc" "-I." "-I$(QTDIR)\include\ActiveQt" "-I.\release\.moc" "-I.\release\.ui" "-I.\..\..\..\sdk\Qt4.8.4\mkspecs\default"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing snmpnetwnd.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\.moc\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="changepasswordwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="cobranetwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="copyparamwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="deviceswnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="gatenomwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="highpasswnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="homepage.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="inputgainctrlwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="level8chwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="matrixmixerwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="meterswnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="nomwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="oidinputdlg.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="peqwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="presetwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="snmpnetwnd.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Qt5Version_x0020_Win32="msvc2010" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" />
+      <UserProperties QtVersion_x0020_Win32="4.8.4" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

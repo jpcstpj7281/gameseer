@@ -123,8 +123,8 @@ public:
 	bool switchAsyncSnmpAddress(const  char * ip);
 
 	void addAsyncGetWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community  , SnmpCallbackFunc callback );
-	void addAsyncWalkWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community , SnmpCallbackFunc callback);
 
+	void addAsyncWalkWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community , SnmpCallbackFunc callback);
 
 	//for current listening address
 	void addAsyncGet(const char* obj, const char* snmpoid, const char* community  , SnmpCallbackFunc callback ); 
