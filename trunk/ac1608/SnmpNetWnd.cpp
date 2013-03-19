@@ -52,13 +52,13 @@ void SnmpNetWnd::afterResponsed(SnmpObj* so){
 
 	QString unique;// = QString::number( (int) so);
 	unique.append(so->obj.c_str()).append( so->snmpoid.c_str()).append( so->ip.c_str()).append(so->community.c_str());
-	QMutexLocker lk(&locker_);
+
 
 	const int len = 128;
 	char buf[len];
 	memset( buf, 0, len);
 	snprint_variable( buf, len, so->pdu->variables->name, so->pdu->variables->name_length, so->pdu->variables);
-
+	QMutexLocker lk(&locker_);
 	std::map<QString, ObservedOid >::iterator found = oidMap_.find( unique);
 	if (found != oidMap_.end()){
 		found->second.rsp  = buf;
@@ -94,10 +94,13 @@ void SnmpNetWnd::beforeSent(SnmpObj* so){
 }
 
 void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
-
+	std::map<QString, ObservedOid > oidMap;
 	{
 		QMutexLocker lk(&locker_);
-		for ( std::map<QString, ObservedOid >::iterator it = oidMap_.begin(); it != oidMap_.end(); ++it){
+		oidMap = oidMap_;
+		oidMap_.clear();
+	}
+		for ( std::map<QString, ObservedOid >::iterator it = oidMap.begin(); it != oidMap.end(); ++it){
 			QList<QTableWidgetItem *> list = tableOids_->findItems( it->first, Qt::MatchFlag::MatchExactly );
 				if ( list.isEmpty()  ){
 					int newCount = tableOids_->rowCount() +1;
@@ -137,11 +140,11 @@ void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
 					QTableWidgetItem * rsp = tableOids_->item( list.front()->row(), 1);
 					rsp->setText( it->second.rsp);
 				}else{
-					qDebug()<<"unexpected error: SnmpNetWnd::timerEvent!";
+					//qDebug()<<"unexpected error: SnmpNetWnd::timerEvent!";
 				}
 		}
 		oidMap_.clear();
-	}
+
 
 
 }

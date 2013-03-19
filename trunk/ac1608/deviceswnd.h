@@ -52,6 +52,10 @@ public:
 	QLineEdit* lineEdit_;
 	DevicesWnd* t_;
 
+	int psw_[4];
+	QString pswOid_[4];
+	int pswCount_;
+
 	volatile size_t timeticks;
 	char deviceRunTime[32];
 	
@@ -68,7 +72,7 @@ public:
     ~DevicesWnd();
 
 
-	void refresh();
+	//void refresh();
 	void initAddresses();
 	
 	typedef std::map< QString, Ac1608Address* > AddressMap;
