@@ -7,7 +7,7 @@
 QT  += core gui xml  
 
 #greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets quick
+#    QT += widgets quick
 #} else {
     QT += declarative
 #}
