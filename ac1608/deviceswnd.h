@@ -24,6 +24,10 @@ typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
 
 //static const char* CONNECT_STR = "Connect";
 //static const char* DISCONNECT_STR = "Disconnect";
+static std::string PswOid0 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.9";
+static std::string PswOid1 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.10";
+static std::string PswOid2 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.11";
+static std::string PswOid3 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.12";
 
 class Ac1608Address: public QObject{
 	Q_OBJECT
@@ -36,7 +40,8 @@ public:
 	,location(loc)
 	,startCheckTime(0)
 	,t_(0)
-	,lineEdit_(0){
+	,lineEdit_(0)
+	,pswCount_(0){
 	}
 
 	void init(QLineEdit* lineEdit, DevicesWnd* t){ 
@@ -53,11 +58,10 @@ public:
 	DevicesWnd* t_;
 
 	int psw_[4];
-	QString pswOid_[4];
-	int pswCount_;
+	volatile int pswCount_;
 
 	volatile size_t timeticks;
-	char deviceRunTime[32];
+	//char deviceRunTime[32];
 	
 	//AddressCallback callback;
 };
