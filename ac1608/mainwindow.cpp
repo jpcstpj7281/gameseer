@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QDebug.h>
 #include "inputGainCtrlWnd.h"
-#include "ChangePasswordWnd.h"
 #include "CopyParamWnd.h"
 #include "DevicesWnd.h"
 #include "GateNOMWnd.h"
@@ -38,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
     ,inputGainCtrlWnd_(new InputGainCtrlWnd)
     ,gateNOMWnd_(new GateNOMWnd)
     ,highPassWnd_(new HighPassWnd)
-    ,changePasswordWnd_(new ChangePasswordWnd)
 	,deviceswnd_(new DevicesWnd)
 	,homepage_(new HomePage)
 	,matrixMixerWnd_(new MatrixMixerWnd)
@@ -56,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
 	
 	_tab->addTab(homepage_, "Homepage" );
 	_tab->addTab(deviceswnd_, "Devices" );
-	_tab->addTab(changePasswordWnd_, "Password" );
 	_tab->addTab(inputGainCtrlWnd_, "Input" );
 	_tab->addTab(gateNOMWnd_, "Gate" );
 	_tab->addTab(highPassWnd_, "HighPass" );
@@ -88,7 +85,15 @@ MainWindow::~MainWindow()
     delete inputGainCtrlWnd_;
     delete gateNOMWnd_;
     delete highPassWnd_;
-    delete changePasswordWnd_;
+
+	delete deviceswnd_;
+	delete homepage_;
+	delete matrixMixerWnd_;
+	delete peqWnd_;
+	delete nomWnd_;
+	delete presetWnd_;
+	delete cobraNetWnd_;
+	delete snmpNetWnd_;
 }
 
 void MainWindow::on_inputGainControl_clicked()
@@ -123,12 +128,6 @@ void MainWindow::on_gateNom_clicked()
 void MainWindow::on_actionChangePsw_clicked( QAction* action){
     if (action->objectName() != "actionChangePsw" ) return;
 
-
-    if ( changePasswordWnd_->isVisible()){
-        changePasswordWnd_->raise();
-    }else{
-        changePasswordWnd_->show();
-    }
 }
 
 void MainWindow::closeEvent(QCloseEvent * ){

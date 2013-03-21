@@ -67,7 +67,6 @@ class MainWindow : public QMainWindow
         Ui::MainWindow *ui;
 
         InputGainCtrlWnd *inputGainCtrlWnd_;
-        ChangePasswordWnd *changePasswordWnd_;
         CopyParamWnd *copyParamWnd_;
         DevicesWnd *devicesWnd_;
         GateNOMWnd *gateNOMWnd_;
