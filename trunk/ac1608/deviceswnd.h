@@ -19,6 +19,7 @@ class DevicesWnd;
 }
 class Ac1608Address;
 class DevicesWnd;
+class PswInputDlg;
 
 typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
 
@@ -42,6 +43,8 @@ public:
 	,t_(0)
 	,lineEdit_(0)
 	,pswCount_(0){
+		memset(psw_, 0, 16);
+		memset(inputPsw_, 0, 16);
 	}
 
 	void init(QLineEdit* lineEdit, DevicesWnd* t){ 
@@ -49,6 +52,7 @@ public:
 		this->lineEdit_ = lineEdit;
 		connect( lineEdit, SIGNAL(editingFinished ()), this, SLOT(editingAddressFinished ()));
 	}
+	bool valiatePassword();
 	size_t row;
 	volatile size_t snmpResponseTime;
 	size_t startCheckTime;
@@ -58,6 +62,7 @@ public:
 	DevicesWnd* t_;
 
 	int psw_[4];
+	int inputPsw_[4];
 	volatile int pswCount_;
 
 	volatile size_t timeticks;
@@ -112,7 +117,10 @@ private:
 	void checkingRefreshed(Ac1608Address * aa);
 	QMutex locker_;
 
+	PswInputDlg* inputDlg_;
+
 	friend class Ac1608Address;
+
 };
 
 #endif // DEVICESWND_H

@@ -9,6 +9,7 @@
 #include <functional>
 #include <qdebug>
 #include <QTime>
+#include <PswInputDlg.h>
 #undef min
 
 
@@ -22,6 +23,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     ,ui(new Ui::DevicesWnd)
 {
     ui->setupUi(this);
+	inputDlg_ = new PswInputDlg;
 
     tableDevices_ = findChild<QTableWidget* >("tableDevices");
     tableDevices_->setColumnCount( 6);
@@ -273,6 +275,13 @@ void DevicesWnd::checkingRefreshed(Ac1608Address * aa){
     }
 }
 
+bool Ac1608Address::valiatePassword( ){
+	if ( this->psw_[0] == this->inputPsw_[0] && this->psw_[1] == this->inputPsw_[1] && this->psw_[2] == this->inputPsw_[2] && this->psw_[3] == this->inputPsw_[3]){
+		return true;
+	}
+	return false;
+}
+
 void DevicesWnd::onlineRefreshed(Ac1608Address * aa){
     QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
     item2->setText(timeticksToString(aa->timeticks ) );
@@ -280,17 +289,25 @@ void DevicesWnd::onlineRefreshed(Ac1608Address * aa){
         QTableWidgetItem  * item3 = tableDevices_->item( aa->row, 3);
         item3->setBackground(QBrush(QColor(Qt::green))); 
         item3->setText("Online");
-        QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-        item4->setText( "Connect");
-        item4->setBackground(QBrush(QColor(Qt::lightGray))); 
+
+		if ( aa->pswCount_ >=4 && aa->valiatePassword( ) ){
+			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
+			item4->setText( "Connect");
+			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
+		}else{
+			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
+			item4->setText( "Password");
+			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
+		}
 
 		if ( aa->pswCount_ == 4){
 			QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
 			item5->setBackground(QBrush(QColor(Qt::lightGray))); 
-			item5->setText( "password");
+			item5->setText( "Password");
 		}
     }
 }
+
 void DevicesWnd::offlineRefreshed(Ac1608Address * aa){
     QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
     item2->setText( "");
@@ -328,6 +345,13 @@ void DevicesWnd::itemClicked(QTableWidgetItem * item)
 {
     if (item->column() == 4 ){
         if(item->text() == "Connect" ){
+            Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
+			int newPsw[4];
+			if ( inputDlg_->getNewPsw( aa->psw_, newPsw)){
+				connectImpl(aa);
+			}
+        }
+		if(item->text() == "Password" ){
             Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
             connectImpl(aa);
         }
