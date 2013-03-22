@@ -36,7 +36,7 @@ snmpnet.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
     copyparamwnd.cpp \
-    changepasswordwnd.cpp \
+    pswinputdlg.cpp \
     inputgainctrlwnd.cpp \
     highpasswnd.cpp \
     gatenomwnd.cpp \
@@ -59,7 +59,7 @@ cobranetwnd.h \
 	mainwindow.h \
     presetwnd.h \
     copyparamwnd.h \
-    changepasswordwnd.h \
+    pswinputdlg.h \
     inputgainctrlwnd.h \
     highpasswnd.h \
     gatenomwnd.h \
@@ -77,7 +77,7 @@ cobranetwnd.ui \
 snmpnetwnd.ui \
     presetwnd.ui \
     copyparamwnd.ui \
-    changepasswordwnd.ui \
+    pswinputdlg.ui \
     inputgainctrlwnd.ui \
     highpasswnd.ui \
     gatenomwnd.ui \
