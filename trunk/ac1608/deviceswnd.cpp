@@ -345,9 +345,10 @@ void DevicesWnd::itemClicked(QTableWidgetItem * item)
 {
     if (item->column() == 4 ){
         if(item->text() == "Connect" ){
+		//if(item->text() == "" ){
             Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
 			int newPsw[4];
-			if ( inputDlg_->getNewPsw( aa->psw_, newPsw)){
+			if ( inputDlg_->getNewPsw( aa)){
 				connectImpl(aa);
 			}
         }
@@ -372,6 +373,7 @@ void DevicesWnd::cellChanged(int row,int col){
 void DevicesWnd::cellActivated(int row,int col){
     qDebug()<<"DevicesWnd::cellActivated";
 }
+
 void DevicesWnd::cellEntered(int row,int col){
     qDebug()<<"DevicesWnd::cellEntered";
 }

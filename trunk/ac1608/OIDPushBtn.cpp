@@ -9,6 +9,8 @@ using namespace std::tr1::placeholders;
 void OIDPushBtn::mouseReleaseEvent ( QMouseEvent *  ){
 	if ( !ConfigMgr::instance()->isOidEditable() ) return;
 	OIDInputDlg::getNewOid( this->objectName() );
+
+	setBackgroundRole( QPalette::Base);
 }
 
 void OIDPushBtn::setImage(QPixmap &offImage){
@@ -20,23 +22,34 @@ void OIDPushBtn::setImage(QPixmap &offImage){
 OIDStatePushBtn::OIDStatePushBtn( QWidget* w):
 QPushButton(w)
 ,val_(0)
+,isImageSetup_(false)
 {
 	setToolTip(objectName() );
 	startTimer(500);
 	//SnmpNet::instance()->addAsyncGet( oid_.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
+	//setStyleSheet("* { background-color: green }");
+	setStyleSheet("* { background-color: lightGray }");
 }
 
 void OIDStatePushBtn::timerEvent ( QTimerEvent *  ){
 	if ( val_ != this->isChecked() ){
 		this->toggle();
 		if ( val_){
-			QIcon buttonIcon(onImage_);
-			setIcon(buttonIcon);
-			setIconSize(QSize(onImage_.rect().size()));
+			if( isImageSetup_){
+				QIcon buttonIcon(onImage_);
+				setIcon(buttonIcon);
+				setIconSize(QSize(onImage_.rect().size()));
+			}else{
+				setStyleSheet("* { background-color: green }");
+			}
 		}else{
-			QIcon buttonIcon(offImage_);
-			setIcon(buttonIcon);
-			setIconSize(QSize(offImage_.rect().size()));
+			if( isImageSetup_){
+				QIcon buttonIcon(offImage_);
+				setIcon(buttonIcon);
+				setIconSize(QSize(offImage_.rect().size()));
+			}else{
+				setStyleSheet("* { background-color: lightGray }");
+			}
 		}
 	}
 }
@@ -63,7 +76,6 @@ void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 			SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(), oid.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
 		}
 	}else{
-		//this->toggle();
 		if ( this->isChecked()){
 			QString  oid = ConfigMgr::instance()->getOid( objectName());
 			if (! oid.isEmpty() ){
@@ -76,10 +88,12 @@ void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 			}
 		}
 	}
+	QPushButton::mouseReleaseEvent(event);
 }
 void OIDStatePushBtn::setOnOffStateImage(int onState, int offState, QPixmap &onImage, QPixmap &offImage ){
 	onImage_ =onImage;
 	offImage_ =offImage;
+	isImageSetup_ = true;
 	QIcon buttonIcon(offImage);
 	setIcon(buttonIcon);
 	setIconSize(QSize(offImage.rect().size()));

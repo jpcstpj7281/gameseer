@@ -23,6 +23,7 @@ class OIDStatePushBtn : public QPushButton{
 
 	volatile bool val_;
 
+	bool isImageSetup_;
 public:
 	OIDStatePushBtn( QWidget* w);
 

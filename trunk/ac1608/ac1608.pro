@@ -30,6 +30,7 @@ oidprogressbar.cpp\
 oidinputdlg.cpp \
 oidpushbtn.cpp \
 oidslider.cpp \
+OIDDial.cpp\
 cobranetwnd.cpp \
 snmpnetwnd.cpp \
 snmpnet.cpp \
@@ -55,6 +56,7 @@ oidinputdlg.h \
 oidpushbtn.h \
 oidslider.h \
 cobranetwnd.h \
+OIDDial.h\
     configmgr.h \
 	mainwindow.h \
     presetwnd.h \

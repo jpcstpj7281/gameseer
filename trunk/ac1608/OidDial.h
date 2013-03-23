@@ -1,11 +1,11 @@
-#ifndef OIDSlider_H
-#define OIDSlider_H
+#ifndef OIDDial_H
+#define OIDDial_H
 
-#include <QSlider>
+#include <QDial>
 #include <Snmpnet.h>
 
 
-class OIDSlider : public QSlider{
+class OIDDial : public QDial{
 	Q_OBJECT
 	void * inputDialog_;
 
@@ -19,9 +19,9 @@ class OIDSlider : public QSlider{
 private slots:
 		void fireSnmp(int  );
 public:
-	OIDSlider( QWidget* w);
+	OIDDial( QWidget* w);
 
 	void initSnmp();
 
 };
-#endif // OIDSlider_H
+#endif // OIDDial_H

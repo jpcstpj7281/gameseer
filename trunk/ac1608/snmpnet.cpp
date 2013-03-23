@@ -35,13 +35,15 @@ SnmpNet::SnmpNet()
 	init_snmp("ac1608");
 
 	running_ = true;
-	future_ = QtConcurrent::run( SnmpNet::run); 
-
+	
 }
 SnmpNet::~SnmpNet()
 {
 	
 	SOCK_CLEANUP;
+}
+void SnmpNet::startThread(){
+	future_ = QtConcurrent::run( SnmpNet::run); 
 }
 
 #define NETSNMP_DS_APP_DONT_FIX_PDUS 0
@@ -67,6 +69,21 @@ void SnmpNet::addAsyncGetWithIP(const char* obj,const char* snmpoid, const char*
 	SnmpObj* so = new SnmpObj(  std::string(obj),std::string(snmpoid), std::string(ip), std::string(community), callback);
 	QMutexLocker lk(&getLock_);
 	snmpList_.push_back(  so );
+}
+
+void SnmpNet::addAsyncSetWithIP(const char* obj,const char* snmpoid, const char* ip, const char* community ,SnmpCallbackFunc callback, QVariant value){
+
+	if ( strlen( snmpoid) ){
+		SnmpObj* so = new SnmpObj(  std::string(obj),std::string(snmpoid), std::string(ip), std::string(community), callback);
+		so->var = value;
+		QMutexLocker lk(&getLock_);
+
+		AddressSetMap::iterator found = setMap_.find( so->snmpoid );
+		if ( found != setMap_.end()  ){
+			setMap_.erase(found);
+		}
+		setMap_.insert( std::make_pair( so->snmpoid,  so));
+	}
 }
 
 void SnmpNet::addAsyncSet(const char* obj,const char* snmpoid, const char* community  , SnmpCallbackFunc callback , QVariant value ){

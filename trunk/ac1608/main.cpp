@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
 
-
+	SnmpNet::instance();
 
 
 
@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     
+	SnmpNet::instance()->startThread();
     auto rs = a.exec();
 	SnmpNet::instance()->stop();
 	delete ConfigMgr::instance();
