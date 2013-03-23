@@ -52,7 +52,7 @@
     <string>重复新密码:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="ok">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -62,10 +62,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>确认</string>
+    <string>Connect</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="cancel">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -75,7 +75,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>取消</string>
+    <string>Cancel</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="oldpsw">
@@ -117,17 +117,17 @@
     <enum>QLineEdit::Password</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="change">
    <property name="geometry">
     <rect>
      <x>350</x>
      <y>60</y>
-     <width>75</width>
+     <width>101</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>修改密码</string>
+    <string>Modify Password</string>
    </property>
   </widget>
  </widget>

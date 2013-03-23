@@ -696,7 +696,7 @@ Gain</string>
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="OIDStatePushBtn" name="pushButton">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -708,8 +708,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="OIDStatePushBtn" name="pushButton_2">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -721,8 +724,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="OIDStatePushBtn" name="pushButton_3">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -734,8 +740,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="OIDStatePushBtn" name="pushButton_4">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -747,8 +756,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
+  <widget class="OIDStatePushBtn" name="pushButton_5">
    <property name="geometry">
     <rect>
      <x>310</x>
@@ -760,8 +772,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="OIDStatePushBtn" name="pushButton_6">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -773,8 +788,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="OIDStatePushBtn" name="pushButton_7">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -786,8 +804,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="OIDStatePushBtn" name="pushButton_8">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -799,8 +820,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_9">
+  <widget class="OIDStatePushBtn" name="pushButton_9">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -812,8 +836,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_10">
+  <widget class="OIDStatePushBtn" name="pushButton_10">
    <property name="geometry">
     <rect>
      <x>560</x>
@@ -825,8 +852,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_11">
+  <widget class="OIDStatePushBtn" name="pushButton_11">
    <property name="geometry">
     <rect>
      <x>610</x>
@@ -838,8 +868,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_12">
+  <widget class="OIDStatePushBtn" name="pushButton_12">
    <property name="geometry">
     <rect>
      <x>660</x>
@@ -851,8 +884,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
+  <widget class="OIDStatePushBtn" name="pushButton_13">
    <property name="geometry">
     <rect>
      <x>710</x>
@@ -864,8 +900,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_14">
+  <widget class="OIDStatePushBtn" name="pushButton_14">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -877,8 +916,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_15">
+  <widget class="OIDStatePushBtn" name="pushButton_15">
    <property name="geometry">
     <rect>
      <x>810</x>
@@ -890,8 +932,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_16">
+  <widget class="OIDStatePushBtn" name="pushButton_16">
    <property name="geometry">
     <rect>
      <x>860</x>
@@ -903,8 +948,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_17">
+  <widget class="OIDStatePushBtn" name="pushButton_17">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -916,8 +964,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_18">
+  <widget class="OIDStatePushBtn" name="pushButton_18">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -929,8 +980,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_19">
+  <widget class="OIDStatePushBtn" name="pushButton_19">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -942,8 +996,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_20">
+  <widget class="OIDStatePushBtn" name="pushButton_20">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -955,8 +1012,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_21">
+  <widget class="OIDStatePushBtn" name="pushButton_21">
    <property name="geometry">
     <rect>
      <x>310</x>
@@ -968,8 +1028,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_22">
+  <widget class="OIDStatePushBtn" name="pushButton_22">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -981,8 +1044,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_23">
+  <widget class="OIDStatePushBtn" name="pushButton_23">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -994,8 +1060,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_24">
+  <widget class="OIDStatePushBtn" name="pushButton_24">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -1007,8 +1076,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_25">
+  <widget class="OIDStatePushBtn" name="pushButton_25">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -1020,8 +1092,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_26">
+  <widget class="OIDStatePushBtn" name="pushButton_26">
    <property name="geometry">
     <rect>
      <x>560</x>
@@ -1033,8 +1108,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_27">
+  <widget class="OIDStatePushBtn" name="pushButton_27">
    <property name="geometry">
     <rect>
      <x>610</x>
@@ -1046,8 +1124,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_28">
+  <widget class="OIDStatePushBtn" name="pushButton_28">
    <property name="geometry">
     <rect>
      <x>660</x>
@@ -1059,8 +1140,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_29">
+  <widget class="OIDStatePushBtn" name="pushButton_29">
    <property name="geometry">
     <rect>
      <x>710</x>
@@ -1072,8 +1156,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_30">
+  <widget class="OIDStatePushBtn" name="pushButton_30">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1085,8 +1172,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_31">
+  <widget class="OIDStatePushBtn" name="pushButton_31">
    <property name="geometry">
     <rect>
      <x>810</x>
@@ -1098,8 +1188,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_32">
+  <widget class="OIDStatePushBtn" name="pushButton_32">
    <property name="geometry">
     <rect>
      <x>860</x>
@@ -1111,8 +1204,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_33">
+  <widget class="OIDStatePushBtn" name="pushButton_33">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -1124,8 +1220,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_34">
+  <widget class="OIDStatePushBtn" name="pushButton_34">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -1137,8 +1236,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_35">
+  <widget class="OIDStatePushBtn" name="pushButton_35">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -1150,8 +1252,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_36">
+  <widget class="OIDStatePushBtn" name="pushButton_36">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -1163,8 +1268,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_37">
+  <widget class="OIDStatePushBtn" name="pushButton_37">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -1176,8 +1284,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_38">
+  <widget class="OIDStatePushBtn" name="pushButton_38">
    <property name="geometry">
     <rect>
      <x>310</x>
@@ -1189,8 +1300,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_39">
+  <widget class="OIDStatePushBtn" name="pushButton_39">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -1202,8 +1316,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_40">
+  <widget class="OIDStatePushBtn" name="pushButton_40">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -1215,8 +1332,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_41">
+  <widget class="OIDStatePushBtn" name="pushButton_41">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -1228,8 +1348,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_42">
+  <widget class="OIDStatePushBtn" name="pushButton_42">
    <property name="geometry">
     <rect>
      <x>560</x>
@@ -1241,8 +1364,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_43">
+  <widget class="OIDStatePushBtn" name="pushButton_43">
    <property name="geometry">
     <rect>
      <x>610</x>
@@ -1254,8 +1380,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_44">
+  <widget class="OIDStatePushBtn" name="pushButton_44">
    <property name="geometry">
     <rect>
      <x>660</x>
@@ -1267,8 +1396,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_45">
+  <widget class="OIDStatePushBtn" name="pushButton_45">
    <property name="geometry">
     <rect>
      <x>710</x>
@@ -1280,8 +1412,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_46">
+  <widget class="OIDStatePushBtn" name="pushButton_46">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1293,8 +1428,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_47">
+  <widget class="OIDStatePushBtn" name="pushButton_47">
    <property name="geometry">
     <rect>
      <x>810</x>
@@ -1306,8 +1444,11 @@ Gain</string>
    <property name="text">
     <string/>
    </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_48">
+  <widget class="OIDStatePushBtn" name="pushButton_48">
    <property name="geometry">
     <rect>
      <x>860</x>
@@ -1318,6 +1459,9 @@ Gain</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_23">
@@ -1832,208 +1976,208 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider">
+  <widget class="OIDSlider" name="verticalSlider">
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_2">
+  <widget class="OIDSlider" name="verticalSlider_2">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_3">
+  <widget class="OIDSlider" name="verticalSlider_3">
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_4">
+  <widget class="OIDSlider" name="verticalSlider_4">
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_5">
+  <widget class="OIDSlider" name="verticalSlider_5">
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_6">
+  <widget class="OIDSlider" name="verticalSlider_6">
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_7">
+  <widget class="OIDSlider" name="verticalSlider_7">
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_8">
+  <widget class="OIDSlider" name="verticalSlider_8">
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_9">
+  <widget class="OIDSlider" name="verticalSlider_9">
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_10">
+  <widget class="OIDSlider" name="verticalSlider_10">
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_11">
+  <widget class="OIDSlider" name="verticalSlider_11">
    <property name="geometry">
     <rect>
      <x>620</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_12">
+  <widget class="OIDSlider" name="verticalSlider_12">
    <property name="geometry">
     <rect>
      <x>670</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_13">
+  <widget class="OIDSlider" name="verticalSlider_13">
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_14">
+  <widget class="OIDSlider" name="verticalSlider_14">
    <property name="geometry">
     <rect>
      <x>770</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_15">
+  <widget class="OIDSlider" name="verticalSlider_15">
    <property name="geometry">
     <rect>
      <x>820</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="verticalSlider_16">
+  <widget class="OIDSlider" name="verticalSlider_16">
    <property name="geometry">
     <rect>
      <x>870</x>
-     <y>280</y>
-     <width>31</width>
-     <height>241</height>
+     <y>300</y>
+     <width>30</width>
+     <height>180</height>
     </rect>
    </property>
    <property name="orientation">
@@ -2041,6 +2185,18 @@ Gain</string>
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OIDSlider</class>
+   <extends>QSlider</extends>
+   <header location="global">oidslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>OIDStatePushBtn</class>
+   <extends>QPushButton</extends>
+   <header>oidpushbtn.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

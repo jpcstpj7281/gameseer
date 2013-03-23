@@ -60,6 +60,8 @@ public:
 		//this->callback = callback;
 	}
 
+
+
 	inline bool equal(std::string& obj, std::string& snmpoid, std::string& ip, std::string& community )const {
 		return this->obj==obj ? (this->snmpoid==snmpoid? (this->ip==ip?(this->community==community?true:false):false):false):false;
 	}
@@ -86,7 +88,7 @@ class SnmpNet;
 class SnmpNet 
 {
 
-	static SnmpNet* inst;
+	static  SnmpNet* inst;
 	SnmpNet();
 	
 
@@ -115,7 +117,7 @@ class SnmpNet
 public:
 	~SnmpNet();
 	static SnmpNet *instance();
-
+		void startThread();
 	void stop();
 	void listenAddress( const char * ip , SnmpCallbackFunc callback);
 	inline std::string getCurrAddress(){ return currAddress_;}
@@ -123,6 +125,7 @@ public:
 	bool switchAsyncSnmpAddress(const  char * ip);
 
 	void addAsyncGetWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community  , SnmpCallbackFunc callback );
+	void addAsyncSetWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community  , SnmpCallbackFunc callback, QVariant value );
 
 	void addAsyncWalkWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community , SnmpCallbackFunc callback);
 
