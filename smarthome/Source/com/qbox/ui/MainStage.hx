@@ -101,7 +101,7 @@ class MainStage extends ListDialogMgr {
     }
 
     function cbChangedCurrChannel( c:Channel){
-        if ( c != null){
+        //if ( c != null){
             if(_screenPlate.changedCurrChannel( c )){
                 clearChannelSelecting();
                 ChannelMgr.getInst()._currSelected = c;
@@ -109,7 +109,11 @@ class MainStage extends ListDialogMgr {
             }else{
                 trace("cannot switch channel if that channel opened two windows!");
             }
-        }
+            //}else{
+            //clearChannelSelecting();
+            //ChannelMgr.getInst()._currSelected = c;
+            //resetScreenPlate();
+            //}
     }
 
     function cbChangedCurrRing(r:Ring){
