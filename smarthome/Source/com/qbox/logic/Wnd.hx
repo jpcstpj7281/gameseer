@@ -166,7 +166,7 @@ class Wnd{
         --_opCounter;
         if (_opCounter == 0){
             if( _ring != null && _ring.getRingNodeIfRingAvailable(_channel, this) != null){
-                if(! _ring.setupRing( _channel, this, cbChangeChannel2)){
+                if(! _ring.checkAndSetupRing( _channel, this, cbChangeChannel2)){
                     trace("failed to setup ring");
                 }
             }else{
@@ -320,7 +320,7 @@ class Wnd{
     function setWnd():Bool{
 #if !neko
         if ( _ring != null){
-            if( _ring.setupRing( _channel, this, cbRingSetupToSetChannelArea)){
+            if( _ring.checkAndSetupRing( _channel, this, cbRingSetupToSetChannelArea)){
                 trace("failed to setup Ring!");
                 return false;
             }
@@ -494,7 +494,9 @@ class Wnd{
                 if ( _ring.setup753( this, _newscreens,  _channel, cbSetup753RingBeforMoveWnd) == false){
                     trace("resource error");
                 }
-            }else if( _keepscreens.length> 0 ){
+            }
+            /*
+            else if( _keepscreens.length> 0 ){
                 _opCounter+=_keepscreens.length;
                 for (i in _keepscreens){
                     i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWnd, this);
@@ -503,6 +505,7 @@ class Wnd{
             }else{
                 trace("***error, move to nowhere!");
             }
+            */
         }
         //trace("test");
     }
@@ -540,7 +543,7 @@ class Wnd{
             if ( _keepscreens.length > 0){
                 _opCounter+=_keepscreens.length;
                 for (i in _keepscreens){
-                    i.resizeWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWndBeforMoveWnd, this);
+                    i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbResizeWndBeforMoveWnd, this);
                 }
             }else{
                 ++_opCounter;
@@ -610,4 +613,278 @@ class Wnd{
         }
     }
 
+//fast open========================================================================================================
+    public function cbFastOpen( args, ss){
+        if ( args != null && args.get("error") == "1") { trace("fast open failed");return; }
+        --_opCounter;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp(true);
+        }
+    }
+    public function cbFastOpen1( args){
+        if ( args != null && args.get("error") == "1") { trace("fast open failed");return; }
+        --_opCounter;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp(true);
+        }
+    }
+    public function cbFastOpenShow( args){
+        if ( args != null && args.get("error") == "1") { trace("fast open failed");return; }
+        else trace("fast open succeed");
+        --_opCounter;
+        trace("_opCounter: "+_opCounter);
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp(true);
+        }
+    }
+
+    public function fastOpen(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Ring, cb:Dynamic->Void ){
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _cbDone != null) {trace("_cbDone not null"); return false; }
+        _cbDone = cb;
+
+        _virtualX = x;
+        _virtualY = y;
+        _virtualWidth = w;
+        _virtualHeight = h;
+        _channel =  c;
+        _ring = ring;
+        trace("test");
+
+        setRealAreaOnly( 0, 0, _channel._w, _channel._h);
+
+        _screens = new Array<Screen>();
+        _inputSize = new Array<InputSize>();
+        var vs = new Array<Dynamic>();
+        for (i in ScreenMgr.getInst()._screens){ 
+            var obj = i.calcScreen( x,y,w,h);
+            if ( obj.isOutScreen == false){
+                _screens.push(i);
+                vs.push(obj);
+            }
+        }
+        trace("test");
+        calcInputSize( _inputSize, vs);
+        ////trace("test");
+        if ( _ring == null){
+            if ( _channel._screen.has753Available()){
+                trace("fastopen");
+                _opCounter += 5;
+                _channel._screen.set753Channel(_channel._inport, cbFastOpen, this);
+                _screens[0].setChannelArea(this, 
+                        Math.round(_inputSize[0].x), 
+                        Math.round(_inputSize[0].y), 
+                        Math.round(_inputSize[0].w), 
+                        Math.round(_inputSize[0].h), _channel, cbFastOpen);
+                _screens[0].setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbFastOpen, this);
+                _screens[0].setLayer( _layer, cbFastOpen, this);
+                _screens[0].showWnd( this, cbFastOpenShow);
+                return true;
+            }
+            else{
+                trace("dont have 753 port available!");
+                return false;
+            }
+        }else{
+            if ( _ring.getRingNodeIfRingAvailable( _channel, this) != null && _ring.check753(this, _screens, _channel) ){
+                _ring.setup753( this, _screens,  _channel, cbFastOpen1);
+                _opCounter+=1;
+                _ring.checkAndSetupRing( _channel, this, cbFastOpen1);
+                _opCounter+=1;
+                for( i in 0..._screens.length){
+                    _opCounter+=_screens.length;
+                    //trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
+                    _screens[i].setChannelArea(this, 
+                            Math.round(_inputSize[i].x), 
+                            Math.round(_inputSize[i].y), 
+                            Math.round(_inputSize[i].w), 
+                            Math.round(_inputSize[i].h), _channel, cbFastOpen);
+                }
+                trace(_screens.length);
+        trace("_opCounter: "+_opCounter);
+                for (i in _screens){
+                    _opCounter+=_screens.length;
+                    i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbFastOpen, this);
+                }
+        trace("_opCounter: "+_opCounter);
+                for (i in _screens){
+                    _opCounter+=_screens.length;
+                    i.setLayer( _layer, cbFastOpen, this);
+                }
+        trace("_opCounter: "+_opCounter);
+                for (i in _screens){
+                    _opCounter+=_screens.length;
+                    i.showWnd( this, cbFastOpenShow);
+                }
+        trace("_opCounter: "+_opCounter);
+                return true;
+            }else{
+                trace("ring: "+_ring._nodeIndex+" not available!");
+                return false;
+            }
+        }
+    }
+//fast move========================================================================================================
+    public function cbFastMove( args, ss){
+        if ( args != null && args.get("error") == "1") { trace("fast open failed");return; }
+        --_opCounter;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp(true);
+        }
+    }
+    public function cbFastMove1( args){
+        if ( args != null && args.get("error") == "1") { trace("fast open failed");return; }
+        --_opCounter;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp(true);
+        }
+    }
+    public function cbFastMoveShow( args){
+        if ( args != null && args.get("error") == "1") { trace("fast open failed");return; }
+        else trace("fast Move succeed");
+        --_opCounter;
+        if (_cbDone != null && _opCounter == 0){
+            var tmp = _cbDone;
+            _cbDone = null;
+            tmp(true);
+        }
+    }
+    public function fastMove( x:Float, y:Float, cb:Dynamic->Void ):Bool{
+        if ( _opCounter != 0 ) {trace("_opCounter:"+_opCounter);return false;}
+        if ( _cbDone != null) {trace("_cbDone not null"); return false;}
+        _cbDone = cb;
+        _virtualX = x;
+        _virtualY = y;
+
+        _newscreens = new Array<Screen>();
+        _inputSize = new Array<InputSize>();
+        var vs = new Array<Dynamic>();
+        for (i in ScreenMgr.getInst()._screens){ 
+            var obj = i.calcScreen( _virtualX,_virtualY,_virtualWidth,_virtualHeight);
+            if ( obj.isOutScreen == false){
+                _newscreens.push(i);
+                vs.push(obj);
+                trace( i._ipv4);
+                trace( obj.x);
+                trace( obj.y);
+                trace( obj.w);
+                trace( obj.h);
+            }
+        }
+
+        trace("test");
+        for( i in _newscreens){
+            if ( i.get753Port( this) == null && i.get753Port(null) == null){
+                trace("screen: "+i._ipv4 +" no enough 753 port!");
+                return false;
+            }
+        }
+        trace("test");
+
+        calcInputSize( _inputSize, vs);
+
+        _createscreens = new Array<Screen>();
+        _closescreens = new Array<Screen>();
+        _keepscreens = new Array<Screen>();
+
+        var hasit:Bool = false;
+        for ( i in _screens){
+            hasit = false;
+            for ( n in _newscreens){
+                if ( i == n){
+                    _keepscreens.push( i);
+                    hasit = true;
+                    break;
+                }
+            }
+            if ( !hasit ){
+                _closescreens.push(i);
+            }
+        }
+
+        for ( i in _newscreens){
+            hasit = false;
+            for ( n in _keepscreens){
+                if ( i == n){
+                    hasit = true;
+                    break;
+                }
+            }
+            if ( !hasit){
+                _createscreens.push(i);
+            }
+        }
+
+        //if ( _keepscreens.length > 0){
+        //_opCounter+=_keepscreens.length;
+        //for (i in 0..._keepscreens.length){
+        //_keepscreens[i].hideWnd( this, cbFastMove1);
+        //}
+        //}
+
+        if ( _closescreens.length > 0 && _ring != null){
+            _opCounter+=_closescreens.length;
+            for (i in 0..._closescreens.length){
+                _closescreens[i].closeWnd( this, cbFastMove);
+                //trace("test");
+            }
+        }
+
+        if ( _createscreens.length > 0 && _ring != null ){
+            _opCounter+=1;
+            if ( _ring.setup753( this, _newscreens,  _channel, cbFastMove1) == false){
+                trace("resource error");
+            }
+        }
+
+        _screens = _newscreens;
+        if (  _ring != null){//移动时单屏不需要再设置
+            _opCounter += _screens.length;
+            for( i in 0..._screens.length){
+                trace("set channel area: "+ _screens[i]._ipv4 + " x:"+_inputSize[i].x+",y:"+_inputSize[i].y+",w:"+_inputSize[i].w+",h:"+_inputSize[i].h);
+                _screens[i].setChannelArea(this, 
+                        Math.round(_inputSize[i].x), 
+                        Math.round(_inputSize[i].y), 
+                        Math.round(_inputSize[i].w), 
+                        Math.round(_inputSize[i].h), _channel, cbFastMove);
+            }
+        }
+
+        if ( _screens.length > 0){//重置输出窗口大小
+            _opCounter+=_screens.length;
+            for (i in _screens){
+                i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbFastMove, this);
+            }
+        }
+
+        //if ( _createscreens.length > 0){//新建的输出窗口大小
+        //_opCounter+=_createscreens.length;
+        //for (i in _createscreens){
+        //i.setWnd( _virtualX,_virtualY,_virtualWidth,_virtualHeight, cbSetWnd, this);
+        //}
+        //}
+
+        for (i in _screens){
+            _opCounter+=_screens.length;
+            i.setLayer( _layer, cbFastMove, this);
+        }
+        for (i in _screens){
+            _opCounter+=_screens.length;
+            i.showWnd( this, cbFastMoveShow);
+        }
+
+        //trace("_opCounter: "+_opCounter);
+
+        return true;
+    }
 }

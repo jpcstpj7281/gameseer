@@ -23,7 +23,7 @@ class Qbox extends SMConnection{
     var _cbInited:Void->Void;
 
     public function new(){
-        super( "127.0.0.1", 5000);
+        super( "192.168.67.101", 5000);
         _version = "1.0";
 
         _inputs = new Hash<String>();
