@@ -242,45 +242,48 @@ class WndGraphicDlg extends CommDialog{
         redrawWnd( wnd._virtualWidth, wnd._virtualHeight);
     }
 
-    public function moveWnd( x:Float, y:Float):Bool{
+    public function moveWnd( mx:Float, my:Float):Bool{
         if (_isPossessd ){ trace("possessd!"); return false;}
         _isPossessd = true;
 
+        var oldx = _wnd._virtualX;
+        var oldy = _wnd._virtualY;
         var w:Float= _wnd._virtualWidth;
         var h:Float= _wnd._virtualHeight;
         var wx = ScreenMgr.getInst()._virtualX +ScreenMgr.getInst()._virtualWidth;
         var hy = ScreenMgr.getInst()._virtualY +ScreenMgr.getInst()._virtualHeight;
-        if ( x < ScreenMgr.getInst()._virtualX){
-            //_wnd._virtualWidth = w = w - (ScreenMgr.getInst()._virtualX - x);
-            x = _wnd._virtualX = ScreenMgr.getInst()._virtualX;
-        }else if ( x < wx ){
-            if ( wx < x+w) {
-                x = _wnd._virtualX = wx - w;
+        if ( mx < ScreenMgr.getInst()._virtualX){
+            mx = _wnd._virtualX = ScreenMgr.getInst()._virtualX;
+        }else if ( mx < wx ){
+            if ( wx < mx+w) {
+                mx = _wnd._virtualX = wx - w;
                 //trace("Test");
             }else{
-                _wnd._virtualX = x;
+                _wnd._virtualX = mx;
             }
         }else{
             return false;
         }
-        if ( y < ScreenMgr.getInst()._virtualY){
-            //_wnd._virtualHeight = h = h - (ScreenMgr.getInst()._virtualY - y);
-            y = _wnd._virtualY = ScreenMgr.getInst()._virtualY;
-        }else if ( y < hy) {
-            if ( hy < y+h) {
-                y = _wnd._virtualY = hy - h;
+        if ( my < ScreenMgr.getInst()._virtualY){
+            my = _wnd._virtualY = ScreenMgr.getInst()._virtualY;
+        }else if ( my < hy) {
+            if ( hy < my+h) {
+                my = _wnd._virtualY = hy - h;
                 //trace("Test");
             }else{
-                _wnd._virtualY = y;
+                _wnd._virtualY = my;
             }
         }else{
             return false;
         }
-        if(_wnd.fastMove( x, y, cbDone)){
+        if(_wnd.fastMove( mx, my, cbDone)){
             _redrawW = w;
             _redrawH = h;
             return true;
         }else{
+            cbDone(null);
+            _wnd._virtualX = oldx;
+            _wnd._virtualY = oldy;
             return false;
         }
     }
@@ -363,6 +366,7 @@ class WndGraphicDlg extends CommDialog{
             if ( x+w > wx) _wnd._virtualWidth = w = wx - x;
         }else {
             WndMgr.getInst().removeWnd(_wnd);
+            _wnd = null;
             return false;
         }
         if ( y < ScreenMgr.getInst()._virtualY){
@@ -373,13 +377,19 @@ class WndGraphicDlg extends CommDialog{
             if ( y+h > hy) _wnd._virtualHeight = h = hy - y;
         }else {
             WndMgr.getInst().removeWnd(_wnd);
+            _wnd = null;
             return false;
         }
 
         _redrawW = w;
         _redrawH = h;
         //return _wnd.open( x,y,w,h, channel, ring, cbDone);
-        return _wnd.fastOpen( x,y,w,h, channel, ring, cbDone);
+        if (_wnd.fastOpen( x,y,w,h, channel, ring, cbDone)){
+            return true;
+        }else{
+            WndMgr.getInst().removeWnd(_wnd);
+            return false;
+        }
     }
 
     function cbCloseWnd(args):Void{

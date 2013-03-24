@@ -288,6 +288,10 @@ class RingsPlate extends CommDialog{
         nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onThisMouseMove);
         nme.Lib.current.stage.removeEventListener( MouseEvent.MOUSE_UP, onThisMouseUp);
         if ( _screens != null && _screens.parent != null) removeChild(_screens);
+
+
+        //trace("test============================================================================================");
+        RingMgr.getInst().setupAllRing();
         return super.hide();
     }
 

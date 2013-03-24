@@ -63,6 +63,7 @@ class MainStage extends ListDialogMgr {
         new WndsDlg(this);
         new ScreensDlg(this);
         new RingsDlg(this);
+        new ClearDlg(this);
         _screenPlate = new ScreenPlate(this);
 
         //new PlusDown(this);
