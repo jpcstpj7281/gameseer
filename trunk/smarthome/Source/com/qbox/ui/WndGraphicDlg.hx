@@ -243,7 +243,7 @@ class WndGraphicDlg extends CommDialog{
     }
 
     public function moveWnd( x:Float, y:Float):Bool{
-        if (_isPossessd ) return false;
+        if (_isPossessd ){ trace("possessd!"); return false;}
         _isPossessd = true;
 
         var w:Float= _wnd._virtualWidth;
@@ -276,7 +276,7 @@ class WndGraphicDlg extends CommDialog{
         }else{
             return false;
         }
-        if(_wnd.move( x, y, cbDone)){
+        if(_wnd.fastMove( x, y, cbDone)){
             _redrawW = w;
             _redrawH = h;
             return true;
@@ -342,12 +342,13 @@ class WndGraphicDlg extends CommDialog{
     }
 
     function cbDone( args ):Void{ 
+        trace("test");
         _isPossessd = false; 
         redrawWnd(_redrawW,_redrawH);
     }
 
     public function openWnd( x:Float, y:Float, w:Float, h:Float, channel:Channel, ring:Ring){
-        if (_isPossessd ) return false;
+        if (_isPossessd ){ trace("possessd!"); return false;}
         _isPossessd = true;
 
         _wnd = WndMgr.getInst().createWnd();
@@ -377,7 +378,8 @@ class WndGraphicDlg extends CommDialog{
 
         _redrawW = w;
         _redrawH = h;
-        return _wnd.open( x,y,w,h, channel, ring, cbDone);
+        //return _wnd.open( x,y,w,h, channel, ring, cbDone);
+        return _wnd.fastOpen( x,y,w,h, channel, ring, cbDone);
     }
 
     function cbCloseWnd(args):Void{

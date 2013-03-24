@@ -145,7 +145,7 @@ class ScreenDlg extends ListDialog{
             _qboxip= new EmbedTextField();
             _qboxip.selectable = false;
             if ( _screen._ipv4 == "") {
-                _qboxip.text = "127.0.0.1";
+                _qboxip.text = "192.168.67.101";
             }else{
                 _qboxip.text = _screen._ipv4;
             }

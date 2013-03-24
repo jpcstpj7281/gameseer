@@ -25,6 +25,10 @@ class Screen extends Qbox{
     public var _channels:Array<Channel>;
 
     var _currCB:Dynamic->Screen->Void;
+    var _curr753CB:Dynamic->Screen->Void;
+    var _currAreaCB:Dynamic->Screen->Void;
+    var _currSetCB:Dynamic->Screen->Void;
+    var _currLayerCB:Dynamic->Screen->Void;
 
     //dont try to create this obj by your own, use ScreenMgr.create() instead.
     public function new( col:Int, row:Int){
@@ -182,7 +186,7 @@ class Screen extends Qbox{
     }
 
     public function setWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
-        if (_currCB != null){
+        if (_currSetCB != null){
             trace("screen: "+_ipv4+"there is a wnd operation processing.");
         }
 
@@ -199,7 +203,7 @@ class Screen extends Qbox{
         var screenh = obj.h;
         var isOutOfScreen = obj.isOutScreen;
 
-        _currCB = cbSetWndFunc;
+        _currSetCB = cbSetWndFunc;
         if (isOutOfScreen){
             trace("screen: "+_ipv4 + " "+_col+"|"+_row+":Out of screen");
             var outofscreen = new Hash<String>();
@@ -266,9 +270,9 @@ class Screen extends Qbox{
     }
 
     function cbSetWnd( args:Dynamic):Void{
-        if (_currCB != null) {
-            var tmp = _currCB;
-            _currCB = null;
+        if (_currSetCB != null) {
+            var tmp = _currSetCB;
+            _currSetCB = null;
             tmp(args, this);
         }
     }
@@ -279,7 +283,7 @@ class Screen extends Qbox{
 
 #if !neko
         clearData();
-        startListening( 2, cbSetChannelArea, 32);
+        startListening( 2, cbSetOsd, 32);
         setMsg( 1, 32);
         addKeyVal( "addr", Bytes.ofString(addr));
         addKeyVal( "len", Bytes.ofString(len));
@@ -300,8 +304,8 @@ class Screen extends Qbox{
     }
 
     public function setChannelArea(wnd:Wnd, x:Int, y:Int, w:Int, h:Int, c:Channel, cb:Dynamic->Screen->Void){
-        if (_currCB != null){ trace("there is a wnd processing."); return;}
-        _currCB = cb;
+        if (_currAreaCB != null){ trace("there is a wnd processing."); return;}
+        _currAreaCB = cb;
 #if !neko
         var p = get753Port(wnd);
         if ( p == null){
@@ -326,9 +330,9 @@ class Screen extends Qbox{
     }
 
     function cbSetChannelArea( args:Dynamic):Void{
-        if (_currCB != null) {
-            var tmp = _currCB;
-            _currCB = null;
+        if (_currAreaCB != null) {
+            var tmp = _currAreaCB;
+            _currAreaCB = null;
             tmp(args, this);
         }
     }
@@ -353,6 +357,7 @@ class Screen extends Qbox{
         cbShowWnd(test);
 #end
     }
+
     public function showWnd( wnd:Wnd, cbShowWnd:Dynamic->Void):Void{
 #if !neko
         var p = get753Port(wnd);
@@ -458,7 +463,7 @@ class Screen extends Qbox{
     }
 
     public function set753Channel( input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
-        if (_currCB != null){ trace("screen: "+_ipv4+"there is a wnd processing."); return false;}
+        if (_curr753CB != null){ trace("screen: "+_ipv4+"there is a 753 setting processing."); return false;}
 #if !neko
         var p = get753Port(wnd);
         if ( p == null){ 
@@ -469,9 +474,9 @@ class Screen extends Qbox{
             }
             else _753ports.set(p, wnd);
         }
-        _currCB = cbSetChannelFunc;
+        _curr753CB = cbSetChannelFunc;
         clearData();
-        startListening( 2, cbSetChannel, 3);
+        startListening( 2, cbSet753Channel, 3);
         setMsg( 1, 3);
         addKeyVal( "out", Bytes.ofString(p));
         addKeyVal( "in", Bytes.ofString(input));
@@ -483,6 +488,14 @@ class Screen extends Qbox{
 #end
         return true;
     }
+    function cbSet753Channel( args:Dynamic):Void{
+        if (_curr753CB != null){
+            var tmp = _curr753CB;
+            _curr753CB = null;
+            tmp(args, this);
+        }
+    }
+
     public function setRingChannel( out:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
         if (_currCB != null){ trace("there is a wnd processing."); }
         _currCB = cbSetChannelFunc;
@@ -496,13 +509,6 @@ class Screen extends Qbox{
             }
         }else{
             _ringports.set( out, wnd);
-            //if ( wnd == p){
-            //var done= new Hash<String>();
-            //done.set("error","0");
-            //cbSetChannel(done);
-            //return true;
-            //}
-            //else return false;
         }
         clearData();
         startListening( 2, cbSetChannel, 3);
@@ -527,8 +533,8 @@ class Screen extends Qbox{
     }
 
     public function setLayer( l:Int,  cbSetLayerFunc:Dynamic->Screen->Void, wnd:Wnd):Void{
-        if (_currCB != null){ trace("screen: "+_ipv4 +"there is a wnd processing."); }
-        _currCB = cbSetLayerFunc;
+        if (_currLayerCB != null){ trace("screen: "+_ipv4 +"there is a wnd processing."); }
+        _currLayerCB = cbSetLayerFunc;
 #if !neko
         var p = get753Port(wnd);
         if ( p == null) {
@@ -550,13 +556,14 @@ class Screen extends Qbox{
     }
 
     function cbSetLayer( args:Dynamic):Void{
-        if (_currCB != null){
-            var tmp = _currCB;
-            _currCB = null;
+        if (_currLayerCB != null){
+            var tmp = _currLayerCB;
+            _currLayerCB = null;
             tmp(args, this);
         }
     }
 
+    /*
     public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
         if (_currCB != null){
             trace("screen: "+_ipv4+" there is a wnd operation processing.");
@@ -582,7 +589,7 @@ class Screen extends Qbox{
             var outofscreen = new Hash<String>();
             outofscreen.set("out","null");
             outofscreen.set("error","0");
-            cbSetWnd(outofscreen);
+            cbResizeWnd(outofscreen);
             return false;
         }
         else {
@@ -604,9 +611,7 @@ class Screen extends Qbox{
             trace("qbox w: "+qw);
             trace("qbox h: "+qh);
             clearData();
-            //startListening( 14, cbSetWnd, 2);
-            //setMsg( 13, 2);
-            startListening( 6, cbSetWnd, 2);
+            startListening( 6, cbResizeWnd, 2);
             setMsg( 5, 2);
             addKeyVal( "x", Bytes.ofString(Std.string(qx)));
             addKeyVal( "y", Bytes.ofString(Std.string(qy)));
@@ -637,11 +642,19 @@ class Screen extends Qbox{
             test.set( "w", (Std.string(qw)));
             test.set( "h", (Std.string(qh)));
             //trace(test);
-            cbSetWnd(test);
+            cbResizeWnd(test);
 #end
 
             return true;
         }
     }
+    function cbResizeWnd( args:Dynamic):Void{
+        if (_currCB != null) {
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
+    }
 
+    */
 }

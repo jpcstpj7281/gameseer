@@ -9,6 +9,7 @@ class Ring{
     public var _nodeIndex:Int;
     //public var _isRingSetup:Bool;
     public var _count:Int;
+    public var _753count:Int;
     public var _cbRingSetup:Dynamic->Void;
     public var _cb753Setup:Dynamic->Void;
 
@@ -19,9 +20,10 @@ class Ring{
         _nodeIndex = index;
         //_isRingSetup = false;
         _count = 0;
+        _753count = 0;
     }
 
-    public function getRingNodeIfRingAvailable(c:Channel, wnd:Wnd ):Array<RingNode>{
+    public function getRingNode():Array<RingNode>{
         var rns = new Array<RingNode>();
         for ( i in _heads){
             //trace( "test");
@@ -34,10 +36,14 @@ class Ring{
                 }
             }
         }
+        return rns;
+    }
+    public function getRingNodeIfRingAvailable(c:Channel, wnd:Wnd ):Array<RingNode>{
+        var rns = getRingNode();
 
-        for ( n in rns){
+        for ( n in rns){ //但看这个环是否已经被使用
             var out:String = null;
-            if ( c._screen == n._screen){
+            if ( c._screen == n._screen){//查看讯号口是否和环节点的屏一样
                 out = c._inport;
             }else{
                 out = n._inport[_nodeIndex];
@@ -50,7 +56,7 @@ class Ring{
         return rns;
     }
 
-    public function setupRing(c:Channel, wnd:Wnd, cb:Dynamic->Void):Bool{
+    public function checkAndSetupRing(c:Channel, wnd:Wnd, cb:Dynamic->Void):Bool{
         if ( _count > 0) {trace("_count:"+_count);return false;}
         if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return false;}
 
@@ -75,6 +81,25 @@ class Ring{
         return false;
     }
 
+    public function setupRing( cb:Dynamic->Void):Bool{
+        if ( _count > 0) {trace("***error: _count:"+_count);return false ;}
+        if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return false;}
+
+        var isSucceed= true;
+        var rns = getRingNode();
+        if ( rns != null){
+            _cbRingSetup = cb;
+            _count += rns.length;
+            for ( n in rns){
+                trace( "set ring of qbox: "+ n._screen._ipv4);
+                if(n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, null)){
+                    isSucceed = false;
+                }else{ cbSetupRing(null,null); }
+            }
+        }
+        return false;
+    }
+
     function cbSetupRing( args:Dynamic, s:Screen){
         if ( args!= null && args.get("error") == "1") {
             trace("there is a error occurred at qbox: "+ s._ipv4);
@@ -91,10 +116,7 @@ class Ring{
         }
     }
 
-    public function setup753( wnd:Wnd, ss:Array<Screen>, c:Channel,  cb:Dynamic->Void):Bool{
-        if ( _count > 0) {trace("_count:"+_count);return false ;}
-        if ( _cb753Setup!= null) { trace("_cb753Setup not null!");return false;}
-
+    public function check753( wnd:Wnd, ss:Array<Screen>, c:Channel ):Bool{
         for ( i in ss){
             if ( isInRing(i) == false )  {
                 trace("not in ring: "+ i._ipv4);
@@ -105,27 +127,23 @@ class Ring{
                 return false;
             }
         }
+        return true;
+    }
+
+    public function setup753( wnd:Wnd, ss:Array<Screen>, c:Channel,  cb:Dynamic->Void):Bool{
+        if ( _753count > 0) {trace("***error: _753count:"+_753count);return false ;}
+        if ( _cb753Setup!= null) { trace("_cb753Setup not null!");return false;}
+        if ( !check753( wnd, ss, c) )return false;
 
         _cb753Setup= cb;
-        _count += ss.length;
+        _753count += ss.length;
         for (i in ss){
-            //var p = i.get753Port(wnd);
             if ( i == c._screen){
-                //if ( p == null ){
-                    i.set753Channel( c._inport, cbSetup753, wnd);
-                    trace("screen "+i._ipv4 +" set up 753 to channel port: "+c._inport);
-                    //}else{
-                    //trace("screen "+i._ipv4 +" already set up 753 to channel port: "+c._inport);
-                    //cbSetup753(null, null);
-                    //}
+                i.set753Channel( c._inport, cbSetup753, wnd);
+                trace("screen "+i._ipv4 +" set up 753 to channel port: "+c._inport);
             }else{
-                //if ( p == null  ){
-                    i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
-                    trace("screen "+i._ipv4 +" set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
-                    //}else{
-                    //trace("screen "+i._ipv4 +" already set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
-                    //cbSetup753(null, null);
-                    //}
+                i.set753Channel( i._ringNode._inport[_nodeIndex] , cbSetup753, wnd);
+                trace("screen "+i._ipv4 +" set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
             }
         }
         return true;
@@ -138,8 +156,8 @@ class Ring{
             return;
         }
 
-        --_count;
-        if (_count == 0){
+        --_753count;
+        if (_753count == 0){
             var tmp = _cb753Setup;
             _cb753Setup= null;
             tmp(null);

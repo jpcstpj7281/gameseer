@@ -230,7 +230,7 @@ class ScreenPlate extends CommDialog{
     public function selectWnd( w:WndGraphicDlg):Void{
 
         //trace(w._wnd._layer);
-        trace(WndMgr.getInst()._maxLayer);
+        //trace(WndMgr.getInst()._maxLayer);
         if ( w._wnd._layer < WndMgr.getInst()._maxLayer){
             WndMgr.getInst().setExistedWndLayerMax( w._wnd);
             resortWnd();

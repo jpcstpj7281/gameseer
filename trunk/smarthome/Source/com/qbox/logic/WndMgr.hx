@@ -65,7 +65,7 @@ class WndMgr {
                 }
             }
         }
-        trace("test");
+        //trace("test");
         _wnds.push( c);
         return c;
 
