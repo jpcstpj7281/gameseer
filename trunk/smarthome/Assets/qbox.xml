@@ -35,6 +35,7 @@
     <item><type>jumper</type><name>jumper</name><extension>.png</extension><loc>img</loc></item>
     <item><type>mode</type><name>mode</name><extension>.png</extension><loc>img</loc></item>
     <item><type>play</type><name>play</name><extension>.png</extension><loc>img</loc></item>
+    <item><type>clear</type><name>clear</name><extension>.png</extension><loc>img</loc></item>
 
 
 

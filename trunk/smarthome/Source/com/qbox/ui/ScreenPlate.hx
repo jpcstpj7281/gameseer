@@ -258,9 +258,11 @@ class ScreenPlate extends CommDialog{
     }
 
     public function changedCurrChannel( c:Channel):Bool{
-        var w = getSelectedWnd();
-        if ( w != null){
-            return w._wnd.changeChannel(c);
+        if ( c != null && ChannelMgr.getInst()._currSelected != null ){
+            var w = getSelectedWnd();
+            if ( w != null){
+                return w._wnd.fastChangeChannel(c);
+            }
         }
         return true;
     }
@@ -351,15 +353,16 @@ class ScreenPlate extends CommDialog{
 
                     //open window
                     if ( w > 30  && h > 30){
+
+                        //trace(  ChannelMgr.getInst()._currSelected ==null ); 
                         if (  ChannelMgr.getInst()._currSelected != null ) {
-                            var win = new WndGraphicDlg(_mgr);
                             unselectAllWnd();
-                            if(win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected)){
+                            if( ChannelMgr.getInst()._currSelected._screen.has753Available()){
+                                var win = new WndGraphicDlg(_mgr);
+                                win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
                                 win.select();
                                 win.show();
                             } else{
-                                win.clear();
-                                cast(_mgr, ListDialogMgr)._movableInstances.remove(win);
                                 trace("failed to open window, no resource or busy!");
                             }
                         }else{
@@ -370,9 +373,12 @@ class ScreenPlate extends CommDialog{
                                 var p = m.parent;
                                 for ( i in 0...p.numChildren){
                                     var win = p.getChildAt( p.numChildren  - 1 - i );
-                                    if ( Std.is(win, WndGraphicDlg) && ( win.hitTestPoint( evt.stageX, evt.stageY)  || win.hitTestPoint(_downx, _downy) )){
+                                    if ( Std.is(win, WndGraphicDlg) && ( win.hitTestPoint( evt.stageX, evt.stageY)  && win.hitTestPoint(_downx, _downy) )){
+                                        unselectAllWnd();
                                         var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
                                         dd.createArea( _downx, _downy, w, h);
+                                        dd.select();
+                                        dd._wnd.toFront();
                                         break;
                                     }
                                 }

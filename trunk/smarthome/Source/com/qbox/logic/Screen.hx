@@ -25,6 +25,7 @@ class Screen extends Qbox{
     public var _channels:Array<Channel>;
 
     var _currCB:Dynamic->Screen->Void;
+    var _currRingCB:Dynamic->Screen->Void;
     var _curr753CB:Dynamic->Screen->Void;
     var _currAreaCB:Dynamic->Screen->Void;
     var _currSetCB:Dynamic->Screen->Void;
@@ -69,7 +70,7 @@ class Screen extends Qbox{
 
     public function calcScreen(x:Float, y:Float, w:Float, h:Float){
         var screenx:Float= _virtualWidth * _col + ScreenMgr.getInst()._virtualX;//UI上的窗口X坐标,加入ScreenPlate的X偏移
-        var screeny:Float= _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口X坐标,加入ScreenPlate的Y偏移
+        var screeny:Float= _virtualHeight * _row+ ScreenMgr.getInst()._virtualY;//UI上的窗口Y坐标,加入ScreenPlate的Y偏移
         var screenw:Float= _virtualWidth;
         var screenh:Float= _virtualHeight;
         var isOutOfScreen = false;
@@ -123,7 +124,7 @@ class Screen extends Qbox{
                 cutdown= y + h - screeny - _virtualHeight;//可能是负
                 cutup= screeny - y;//一定是正
                 //窗口的Y在这个屏上边,所以从0开始;
-                y = 0;
+                screeny = 0;
             }else{
                 isOutOfScreen = true;
                 screenh = screenw = 0;
@@ -136,13 +137,13 @@ class Screen extends Qbox{
                 }else{
                     screenh = h;
                 }
-                cutdown= y + h - screeny - _virtualHeight;//可能是负
                 cutup= screeny - y;//一定是负
+                cutdown= y + h - screeny - _virtualHeight;//可能是负
                 //窗口的y在屏下边,所以y到SCREEY的偏移位为这个子窗口的Y
                 screeny = y - screeny;
-            }else if(  x >= screeny + _virtualHeight){
+            }else if(  y >= screeny + _virtualHeight){
                 isOutOfScreen = true;
-                screenx = screeny = screenh = screenw = 0;
+                screenh = screenw = 0;
                 trace("screen: "+_ipv4 +"outofscreen");
             }
         }
@@ -462,6 +463,23 @@ class Screen extends Qbox{
         super.cbLoadInputsResolution(args);
     }
 
+    public function set753ChannelNoCB( input:String, wnd:Wnd):Bool{
+        var p = get753Port(wnd);
+        if ( p == null){ 
+            p = get753Port(null);
+            if ( p == null){
+                trace( "screen: "+_ipv4 +"there is no 753 port available to set 753 channel!");
+                return false;
+            }
+            else _753ports.set(p, wnd);
+        }
+        clearData();
+        setMsg( 1, 3);
+        addKeyVal( "out", Bytes.ofString(p));
+        addKeyVal( "in", Bytes.ofString(input));
+        sendData();
+        return true;
+    }
     public function set753Channel( input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
         if (_curr753CB != null){ trace("screen: "+_ipv4+"there is a 753 setting processing."); return false;}
 #if !neko
@@ -496,9 +514,28 @@ class Screen extends Qbox{
         }
     }
 
+    public function setRingChannelNoCB( out:String,  input:String, wnd:Wnd):Bool{
+        var p = getRingPort(wnd);
+        if ( p == null){
+            p = getRingPort(null);
+            if ( p == null){
+                trace( "screen: "+_ipv4 +"there is ring port available to set channel: "+input+"!");
+                return false;
+            }
+        }else{
+            _ringports.set( out, wnd);
+        }
+        clearData();
+        setMsg( 1, 3);
+        addKeyVal( "out", Bytes.ofString(out));
+        addKeyVal( "in", Bytes.ofString(input));
+        sendData();
+        return true;
+    }
+
     public function setRingChannel( out:String,  input:String, cbSetChannelFunc:Dynamic->Screen->Void, wnd:Wnd):Bool{
-        if (_currCB != null){ trace("there is a wnd processing."); }
-        _currCB = cbSetChannelFunc;
+        if (_currRingCB != null){ trace("there is a wnd processing."); }
+        _currRingCB = cbSetChannelFunc;
 #if !neko
         var p = getRingPort(wnd);
         if ( p == null){
@@ -511,7 +548,7 @@ class Screen extends Qbox{
             _ringports.set( out, wnd);
         }
         clearData();
-        startListening( 2, cbSetChannel, 3);
+        startListening( 2, cbSetRingChannel, 3);
         setMsg( 1, 3);
         addKeyVal( "out", Bytes.ofString(out));
         addKeyVal( "in", Bytes.ofString(input));
@@ -519,15 +556,15 @@ class Screen extends Qbox{
 #else
         var test= new Hash<String>();
         test.set("error","0");
-        cbSetChannel(test);
+        cbSetRingChannel(test);
 #end
         return true;
     }
 
-    function cbSetChannel( args:Dynamic):Void{
-        if (_currCB != null){
-            var tmp = _currCB;
-            _currCB = null;
+    function cbSetRingChannel( args:Dynamic):Void{
+        if (_currRingCB != null){
+            var tmp = _currRingCB;
+            _currRingCB = null;
             tmp(args, this);
         }
     }

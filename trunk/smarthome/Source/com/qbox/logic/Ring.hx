@@ -56,45 +56,37 @@ class Ring{
         return rns;
     }
 
-    public function checkAndSetupRing(c:Channel, wnd:Wnd, cb:Dynamic->Void):Bool{
-        if ( _count > 0) {trace("_count:"+_count);return false;}
-        if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return false;}
+    public function checkAndSetupRing(c:Channel, wnd:Wnd):Bool{
 
         var isSucceed= true;
         var rns = getRingNodeIfRingAvailable( c, wnd);
         if ( rns != null){
-            _cbRingSetup = cb;
-            _count += rns.length;
             for ( n in rns){
                 trace( "set ring of qbox: "+ n._screen._ipv4);
                 if ( c._screen == n._screen){
-                    if( n._screen.setRingChannel( n._outport[_nodeIndex], c._inport, cbSetupRing, wnd)){
+                    if( n._screen.setRingChannelNoCB( n._outport[_nodeIndex], c._inport, wnd)){
                         isSucceed = false;
-                    }else{ cbSetupRing(null,null); }
+                    }
                 }else{
-                    if(n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, wnd)){
+                    if(n._screen.setRingChannelNoCB( n._outport[_nodeIndex], n._inport[_nodeIndex], wnd)){
                         isSucceed = false;
-                    }else{ cbSetupRing(null,null); }
+                    }
                 }
             }
         }
         return false;
     }
 
-    public function setupRing( cb:Dynamic->Void):Bool{
-        if ( _count > 0) {trace("***error: _count:"+_count);return false ;}
-        if ( _cbRingSetup != null) { trace("_cbRingSetup not null!");return false;}
+    public function setupRing( ):Bool{
 
         var isSucceed= true;
         var rns = getRingNode();
         if ( rns != null){
-            _cbRingSetup = cb;
-            _count += rns.length;
             for ( n in rns){
                 trace( "set ring of qbox: "+ n._screen._ipv4);
-                if(n._screen.setRingChannel( n._outport[_nodeIndex], n._inport[_nodeIndex], cbSetupRing, null)){
+                if(n._screen.setRingChannelNoCB( n._outport[_nodeIndex], n._inport[_nodeIndex],  null)){
                     isSucceed = false;
-                }else{ cbSetupRing(null,null); }
+                }
             }
         }
         return false;
@@ -125,6 +117,20 @@ class Ring{
             if ( !i.has753Available() && i.get753Port(wnd) ==null ){
                 trace("not 753 available: "+ i._ipv4);
                 return false;
+            }
+        }
+        return true;
+    }
+    public function setup753NoCB( wnd:Wnd, ss:Array<Screen>, c:Channel):Bool{
+        if ( !check753( wnd, ss, c) )return false;
+
+        for (i in ss){
+            if ( i == c._screen){
+                i.set753ChannelNoCB( c._inport, wnd);
+                trace("screen "+i._ipv4 +" set up 753 to channel port: "+c._inport);
+            }else{
+                i.set753ChannelNoCB( i._ringNode._inport[_nodeIndex] , wnd);
+                trace("screen "+i._ipv4 +" set up 753 to in port: "+i._ringNode._inport[_nodeIndex]);
             }
         }
         return true;

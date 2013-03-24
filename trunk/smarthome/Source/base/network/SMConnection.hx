@@ -168,7 +168,8 @@ class SMConnection extends Connection{
 
     // before send out the data, you have to set up the handler for deal with the reponses, or the data will lost
     // func:Dynamic->Void
-    inline public function startListening( msgId:Int, func:Dynamic, msgType:Int = 1 ):Bool{
+    public function startListening( msgId:Int, func:Dynamic, msgType:Int = 1 ):Bool{
+        if(func == null) return false;
         var msgidtype = (msgId<< 16) + msgType;
         trace("start listen msgidtype: " + msgidtype );
         var res:Bool = true;

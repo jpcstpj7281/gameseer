@@ -342,7 +342,7 @@ class WndGraphicDlg extends CommDialog{
     }
 
     function cbDone( args ):Void{ 
-        trace("test");
+        //trace("test");
         _isPossessd = false; 
         redrawWnd(_redrawW,_redrawH);
     }
