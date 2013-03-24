@@ -274,7 +274,9 @@ class ScreenPlate extends CommDialog{
                 unselectAllWnd();
                 selectWnd(_movingWnd);
                 if(!_movingWnd.moveWnd( evt.stageX - _movex, evt.stageY - _movey)){
-                    trace("failed to move window");
+                    unselectAllWnd();
+                    selectWnd(_movingWnd);
+                    _movingWnd._wnd.toFront();
                 }
             }else if ( _isResize && _movingWnd != null && evt.stageX != _downx && evt.stageY != _downy){
                 var w:Float= _movingWnd.width + evt.stageX - _movingWnd.x - _movex;
@@ -357,29 +359,33 @@ class ScreenPlate extends CommDialog{
                         //trace(  ChannelMgr.getInst()._currSelected ==null ); 
                         if (  ChannelMgr.getInst()._currSelected != null ) {
                             unselectAllWnd();
-                            if( ChannelMgr.getInst()._currSelected._screen.has753Available()){
-                                var win = new WndGraphicDlg(_mgr);
-                                win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
+                            var win = new WndGraphicDlg(_mgr);
+                            if(win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected)){
+                                //if( ChannelMgr.getInst()._currSelected._screen.has753Available()){
+                                //var win = new WndGraphicDlg(_mgr);
+                                //win.openWnd( _downx, _downy, w, h, ChannelMgr.getInst()._currSelected, RingMgr.getInst()._currSelected);
                                 win.select();
                                 win.show();
                             } else{
+                                win.clear();
                                 trace("failed to open window, no resource or busy!");
                             }
-                        }else{
-                            var ms = cast(_mgr, ListDialogMgr)._movableInstances;
-                            if ( ms.length > 0 ){
-                                //swap windows
-                                var m = ms[0];
-                                var p = m.parent;
-                                for ( i in 0...p.numChildren){
-                                    var win = p.getChildAt( p.numChildren  - 1 - i );
-                                    if ( Std.is(win, WndGraphicDlg) && ( win.hitTestPoint( evt.stageX, evt.stageY)  && win.hitTestPoint(_downx, _downy) )){
-                                        unselectAllWnd();
-                                        var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
-                                        dd.createArea( _downx, _downy, w, h);
-                                        dd.select();
-                                        dd._wnd.toFront();
-                                        break;
+                            }else{
+                                var ms = cast(_mgr, ListDialogMgr)._movableInstances;
+                                if ( ms.length > 0 ){
+                                    //swap windows
+                                    var m = ms[0];
+                                    var p = m.parent;
+                                    for ( i in 0...p.numChildren){
+                                        var win = p.getChildAt( p.numChildren  - 1 - i );
+                                        if ( Std.is(win, WndGraphicDlg) && ( win.hitTestPoint( evt.stageX, evt.stageY)  && win.hitTestPoint(_downx, _downy) )){
+                                            unselectAllWnd();
+                                            var dd:WndGraphicDlg = cast (win, WndGraphicDlg);
+                                            dd.createArea( _downx, _downy, w, h);
+                                            dd.select();
+                                            dd._wnd.toFront();
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -387,13 +393,12 @@ class ScreenPlate extends CommDialog{
                     }
                 }
             }
+            _isDown = false;
+            _downx = 0;
+            _downy = 0;
+            _isMoving = false;
+            _isResize= false;
+            //_isClose = false;
+            _movingWnd = null;
         }
-        _isDown = false;
-        _downx = 0;
-        _downy = 0;
-        _isMoving = false;
-        _isResize= false;
-        //_isClose = false;
-        _movingWnd = null;
     }
-}

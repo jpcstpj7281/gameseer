@@ -128,4 +128,10 @@ class RingMgr{
         return false;
     }
 
+    public function setupAllRing():Void{
+        for ( i in _rings){
+            i.setupRing();
+        }
+    }
+
 }

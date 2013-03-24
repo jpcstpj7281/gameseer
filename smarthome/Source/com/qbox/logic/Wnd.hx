@@ -710,6 +710,7 @@ public function fastOpen(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Rin
             return true;
         }
         else{
+            _cbDone  = null;
             trace("dont have 753 port available!");
             return false;
         }
@@ -747,6 +748,7 @@ public function fastOpen(x:Float, y:Float, w:Float, h:Float, c:Channel, ring:Rin
             return true;
         }else{
             trace("ring: "+_ring._nodeIndex+" not available!");
+            _cbDone  = null;
             return false;
         }
     }
@@ -808,6 +810,7 @@ public function fastMove( x:Float, y:Float, cb:Dynamic->Void ):Bool{
     for( i in _newscreens){
         if ( i.get753Port( this) == null && i.get753Port(null) == null){
             trace("screen: "+i._ipv4 +" no enough 753 port!");
+            _cbDone  = null;
             return false;
         }
     }
@@ -854,18 +857,20 @@ public function fastMove( x:Float, y:Float, cb:Dynamic->Void ):Bool{
     //}
     //}
 
+    if ( _createscreens.length > 0 && _ring != null ){
+        _opCounter+=1;
+        if ( _ring.setup753( this, _newscreens,  _channel, cbFastMove1) == false){
+            trace("resource error");
+            _cbDone  = null;
+            return false;
+        }
+    }
+
     if ( _closescreens.length > 0 && _ring != null){
         _opCounter+=_closescreens.length;
         for (i in 0..._closescreens.length){
             _closescreens[i].closeWnd( this, cbFastMove);
             //trace("test");
-        }
-    }
-
-    if ( _createscreens.length > 0 && _ring != null ){
-        _opCounter+=1;
-        if ( _ring.setup753( this, _newscreens,  _channel, cbFastMove1) == false){
-            trace("resource error");
         }
     }
 
