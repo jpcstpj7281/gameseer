@@ -22,14 +22,16 @@ class OsdFitnessDlg extends OsdListDlg{
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new FitnessAspectRatio(_listDialogMgr, s);
-        i = new FitnessAutoAdjust(_listDialogMgr, s);
-        i =new FitnessHPos(_listDialogMgr, s);
-        i =new FitnessVPos(_listDialogMgr, s);
-        i =new FitnessInputSourceHPos(_listDialogMgr, s);
-        i =new FitnessInputSourceVPos(_listDialogMgr, s);
-        i =new FitnessPhase(_listDialogMgr, s);
-        i =new FitnessFrequency(_listDialogMgr, s);
+        //var i:CommDialog = new FitnessAspectRatio(_listDialogMgr, s);
+        //i = new FitnessAutoAdjust(_listDialogMgr, s);
+        new FitnessHPos(_listDialogMgr, s);
+        new FitnessVPos(_listDialogMgr, s);
+        //i =new FitnessInputSourceHPos(_listDialogMgr, s);
+        //i =new FitnessInputSourceVPos(_listDialogMgr, s);
+        //i =new FitnessPhase(_listDialogMgr, s);
+        //i =new FitnessFrequency(_listDialogMgr, s);
+        var i = new FitnessOrientationNS(_listDialogMgr, s);
+        new FitnessOrientationEW(_listDialogMgr, s, i);
 #if neko
         TXT= "Fitness";
 #else

@@ -1,4 +1,4 @@
-package com.qbox.ui.osd;
+﻿package com.qbox.ui.osd;
 
 import com.qbox.logic.QboxMgr;
 import nme.events.MouseEvent;
@@ -15,23 +15,25 @@ import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Screen;
+import haxe.io.BytesBuffer;
 
-class ImgOverlapSettingDlg extends ValueSwitchDlg{
-    var _colorTemper:ImgColorTemperatureDlg;
+class TestModePeriod extends ValueBarDlg{
+    var _testPattern:TestModeTestPattern;
 
-    public function new ( dm:CommDialogMgr, s:Screen, colorTemper:ImgColorTemperatureDlg){
+    public function new ( dm:CommDialogMgr, s:Screen, testPattern:TestModeTestPattern){
         super(dm, s);
         addChild( createElement());
-
-        _values.push("0%");
-        _values.push("30%");
-        _values.push("50%");
-        _colorTemper = colorTemper;
+        _max = 0xf;
+        _value = 0xf;
+        _testPattern = testPattern;
 #if neko
-        TXT= "Overlap Setting";
+        TXT= "Test Pattern Period";
 #else
-        TXT= "重叠设定";
+        TXT= "测试周期";
 #end
     }
-    override function dispatch(value:Int):Void{ _colorTemper.setOverlap( value); }
+
+    override function dispatch(value:Int):Void{
+        _testPattern.setPeriod(value);
+    }
 }

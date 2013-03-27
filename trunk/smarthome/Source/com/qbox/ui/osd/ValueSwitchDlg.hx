@@ -109,12 +109,14 @@ class ValueSwitchDlg extends CommDialog{
         --_value;
         if ( _value < 0) _value = _values.length -1;
         calValueAndDraw();
+        dispatch( _value);
     }
     function onMoreMouseClick( evt:MouseEvent){ 
         if ( _values.length == 0 ) return;
         ++_value;
         if ( _value >= _values.length) _value = 0;
         calValueAndDraw();
+        dispatch( _value);
     }
     function calValueAndDraw(){
         if (_v == null) return;
@@ -123,5 +125,7 @@ class ValueSwitchDlg extends CommDialog{
     public function createElement():Sprite{
         _s = new Sprite();
         return _s;
+    }
+    public function dispatch( value:Int):Void{
     }
 }

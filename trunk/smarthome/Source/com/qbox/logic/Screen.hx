@@ -502,7 +502,7 @@ class Screen extends Qbox{
 #else
         var test= new Hash<String>();
         test.set("error","0");
-        cbSetChannel(test);
+        cbSet753Channel(test);
 #end
         return true;
     }

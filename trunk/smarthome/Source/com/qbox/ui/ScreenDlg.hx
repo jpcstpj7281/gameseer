@@ -20,6 +20,7 @@ import com.qbox.ui.osd.OsdOptionDlg;
 import com.qbox.ui.osd.OsdSourceDlg;
 import com.qbox.ui.osd.OsdSpecialDlg;
 import com.qbox.ui.osd.OsdSysDlg;
+import com.qbox.ui.osd.OsdProjModeDlg;
 
 class ScreenDlg extends ListDialog{
 
@@ -192,11 +193,12 @@ class ScreenDlg extends ListDialog{
 
         new OsdImgDlg(_listDialogMgr, _screen);
         new OsdFitnessDlg( _listDialogMgr, _screen);
-        new OsdSourceDlg(_listDialogMgr, _screen);
-        new OsdOptionDlg(_listDialogMgr, _screen);
-        new OsdGroupDlg(_listDialogMgr, _screen);
+        //new OsdSourceDlg(_listDialogMgr, _screen);
+        //new OsdOptionDlg(_listDialogMgr, _screen);
+        //new OsdGroupDlg(_listDialogMgr, _screen);
         new OsdSpecialDlg(_listDialogMgr, _screen);
-        new OsdSysDlg(_listDialogMgr, _screen);
+        //new OsdSysDlg(_listDialogMgr, _screen);
+        new OsdProjModeDlg(_listDialogMgr, _screen);
 
         return _s;
     }

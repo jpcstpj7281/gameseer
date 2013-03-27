@@ -18,12 +18,14 @@ import com.qbox.logic.Channel;
 
 import com.qbox.logic.Screen;
 class DlpSettingGreenContrast extends ValueBarDlg{
+    var _contrast:ImgContrastDlg;
 
-    public function new ( dm:CommDialogMgr, s:Screen){
+    public function new ( dm:CommDialogMgr, s:Screen, contrast:ImgContrastDlg){
         super(dm, s);
         addChild( createElement());
 
-        _value = 0;
+        _contrast = contrast;
+        _value = 50;
         _max = 100;
 #if neko
         TXT= "Green Contrast";
@@ -31,4 +33,5 @@ class DlpSettingGreenContrast extends ValueBarDlg{
         TXT= "绿色对比度";
 #end
     }
+    override function dispatch(value:Int):Void{ _contrast.setGreen( value); }
 }
