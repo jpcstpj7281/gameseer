@@ -24,15 +24,15 @@ class OsdImgDlg extends OsdListDlg{
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new ImgLightnessDlg(_listDialogMgr, s);
-        i = new ImgContrastDlg(_listDialogMgr, s);
-        i =new ImgInputFitnessDlg(_listDialogMgr, s);
-        i =new ImgVideoSettingDlg(_listDialogMgr, s);
-        i =new ImgColorTemperatureDlg(_listDialogMgr, s);
-        i =new ImgColorGamutDlg(_listDialogMgr, s);
-        i =new ImgOverlapSettingDlg(_listDialogMgr, s);
-        i =new ImgDynamicBlackSettingDlg(_listDialogMgr, s);
-        i =new ImgDlpSettingDlg(_listDialogMgr, s);
+        var b= new ImgLightnessDlg(_listDialogMgr, s);
+        var c = new ImgContrastDlg(_listDialogMgr, s);
+        //i =new ImgInputFitnessDlg(_listDialogMgr, s);
+        //i =new ImgVideoSettingDlg(_listDialogMgr, s);
+        var ct =new ImgColorTemperatureDlg(_listDialogMgr, s);
+        new ImgColorGamutDlg(_listDialogMgr, s, ct);
+        new ImgOverlapSettingDlg(_listDialogMgr, s, ct);
+        new ImgDynamicBlackSettingDlg(_listDialogMgr, s);
+        new ImgDlpSettingDlg(_listDialogMgr, s, b, c);
 #if neko
         TXT="Image";
 #else

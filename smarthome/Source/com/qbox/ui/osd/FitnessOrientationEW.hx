@@ -13,25 +13,28 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
-import com.qbox.logic.Qbox;
+import haxe.io.BytesBuffer;
 import com.qbox.logic.Screen;
 
-class ImgOverlapSettingDlg extends ValueSwitchDlg{
-    var _colorTemper:ImgColorTemperatureDlg;
-
-    public function new ( dm:CommDialogMgr, s:Screen, colorTemper:ImgColorTemperatureDlg){
+class FitnessOrientationEW extends ValueSwitchDlg{
+    var _ns:FitnessOrientationNS;
+    public function new ( dm:CommDialogMgr, s:Screen, ns:FitnessOrientationNS){
         super(dm, s);
         addChild( createElement());
-
-        _values.push("0%");
-        _values.push("30%");
-        _values.push("50%");
-        _colorTemper = colorTemper;
+        _value = 0;
+        _ns = ns;
 #if neko
-        TXT= "Overlap Setting";
+        _values.push("normal");
+        _values.push("flip");
+        TXT= "Horizontal";
 #else
-        TXT= "重叠设定";
+        _values.push("正");
+        _values.push("反");
+        TXT= "水平";
 #end
     }
-    override function dispatch(value:Int):Void{ _colorTemper.setOverlap( value); }
+
+    override function dispatch(value:Int):Void{
+        _ns.setEW( value);
+    }
 }

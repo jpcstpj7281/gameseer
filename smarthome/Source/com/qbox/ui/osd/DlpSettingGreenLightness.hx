@@ -18,10 +18,12 @@ import com.qbox.logic.Channel;
 
 class DlpSettingGreenLightness extends ValueBarDlg{
 
-    public function new ( dm:CommDialogMgr, s){
+    var _brightness:ImgLightnessDlg;
+    public function new ( dm:CommDialogMgr, s, brightness:ImgLightnessDlg ){
         super(dm, s);
         addChild( createElement());
 
+        _brightness = brightness;
         _value = 0;
         _max = 255;
 #if neko
@@ -30,4 +32,5 @@ class DlpSettingGreenLightness extends ValueBarDlg{
         TXT= "绿色亮度值";
 #end
     }
+    override function dispatch(value:Int):Void{ _brightness.setGreen(value); }
 }

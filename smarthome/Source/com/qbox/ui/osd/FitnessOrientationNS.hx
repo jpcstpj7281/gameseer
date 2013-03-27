@@ -13,46 +13,39 @@ import nme.display.Bitmap;
 import base.data.DataLoader;
 import base.ui.CommDialogMgr;
 
-import com.qbox.logic.Qbox;
 import com.qbox.logic.Screen;
 import haxe.io.BytesBuffer;
 
-class ImgColorTemperatureDlg extends ValueSwitchDlg{
-
-    var _overlap:Int;
-    var _gamut:Int;
-
+class FitnessOrientationNS extends ValueSwitchDlg{
+    var _ew:Int;
 
     public function new ( dm:CommDialogMgr, s:Screen){
         super(dm, s);
         addChild( createElement());
-        _value = 0;
-        _values.push("9300K");
-        _values.push("7500K");
-        _values.push("6500K");
-        _values.push("3200K");
+        _value = 1;
+        _ew = 0;
 #if neko
-        TXT= "Color Temperature";
+        _values.push("flip");
+        _values.push("normal");
+        TXT= "Vertical";
 #else
-        TXT= "色温";
+        _values.push("正");
+        _values.push("反");
+        TXT= "垂直";
 #end
     }
 
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
-        var shift:Int = 80 + _value + _overlap * 12 + _gamut * 4 ;
+        var shift:Int = value | (_ew <<1);
         trace( shift);
         bs.addByte( shift);
-        _screen.setOsd( Std.string(0x0d), Std.string(1), bs.getBytes(), cbFunc);
+        _screen.setOsd( Std.string(0x03), Std.string(1), bs.getBytes(), cbFunc);
     }
     function cbFunc( a, s):Void{
     }
-    public function setGamut( value:Int){
-        _gamut = value;
-        dispatch( _value);
-    }
-    public function setOverlap( value:Int){
-        _overlap = value;
+    public function setEW( value:Int){
+        _ew = value;
         dispatch( _value);
     }
 }

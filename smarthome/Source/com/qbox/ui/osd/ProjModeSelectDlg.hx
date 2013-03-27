@@ -1,4 +1,4 @@
-package com.qbox.ui.osd;
+﻿package com.qbox.ui.osd;
 
 import com.qbox.logic.QboxMgr;
 import nme.events.MouseEvent;
@@ -17,42 +17,34 @@ import com.qbox.logic.Qbox;
 import com.qbox.logic.Screen;
 import haxe.io.BytesBuffer;
 
-class ImgColorTemperatureDlg extends ValueSwitchDlg{
-
-    var _overlap:Int;
-    var _gamut:Int;
-
+class ProjModeSelectDlg extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr, s:Screen){
         super(dm, s);
         addChild( createElement());
         _value = 0;
-        _values.push("9300K");
-        _values.push("7500K");
-        _values.push("6500K");
-        _values.push("3200K");
 #if neko
-        TXT= "Color Temperature";
+        _values.push("Normal Mode");
+        _values.push("Test Mode");
+        TXT= "Select Mode";
 #else
-        TXT= "色温";
+        _values.push("普通");
+        _values.push("测试");
+        TXT= "选择模式";
 #end
     }
 
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
-        var shift:Int = 80 + _value + _overlap * 12 + _gamut * 4 ;
-        trace( shift);
+        var shift:Int = 0xc0 ;
+        if ( _value == 0){
+            shift = 0xc0;
+        }else{
+            shift = 0x20;
+        }
         bs.addByte( shift);
-        _screen.setOsd( Std.string(0x0d), Std.string(1), bs.getBytes(), cbFunc);
+        _screen.setOsd( Std.string(0x02), Std.string(1), bs.getBytes(), cbFunc);
     }
     function cbFunc( a, s):Void{
-    }
-    public function setGamut( value:Int){
-        _gamut = value;
-        dispatch( _value);
-    }
-    public function setOverlap( value:Int){
-        _overlap = value;
-        dispatch( _value);
     }
 }

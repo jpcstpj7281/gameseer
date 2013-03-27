@@ -17,42 +17,45 @@ import com.qbox.logic.Qbox;
 import com.qbox.logic.Screen;
 import haxe.io.BytesBuffer;
 
-class ImgColorTemperatureDlg extends ValueSwitchDlg{
-
-    var _overlap:Int;
-    var _gamut:Int;
-
+class TestModeTestPattern extends ValueSwitchDlg{
+    var _period:Int;
+    var _width:Int;
 
     public function new ( dm:CommDialogMgr, s:Screen){
         super(dm, s);
         addChild( createElement());
         _value = 0;
-        _values.push("9300K");
-        _values.push("7500K");
-        _values.push("6500K");
-        _values.push("3200K");
+        _period = 0xF;
+        _width = 0x0;
+        _values.push("Solid Field");
+        _values.push("Horizontal Ramp");
+        _values.push("Vertical Ramp");
+        _values.push("Horizontal Lines");
+        _values.push("Diagonal Lines");
+        _values.push("Vertical Lines");
+        _values.push("Grid Lines");
+        _values.push("Checkerboard Lines");
 #if neko
-        TXT= "Color Temperature";
+        TXT= "Test Pattern";
 #else
-        TXT= "色温";
+        TXT= "测试模式";
 #end
     }
 
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
-        var shift:Int = 80 + _value + _overlap * 12 + _gamut * 4 ;
-        trace( shift);
-        bs.addByte( shift);
-        _screen.setOsd( Std.string(0x0d), Std.string(1), bs.getBytes(), cbFunc);
+        bs.addByte( _value );
+        bs.addByte(( _period << 4) + _width );
+        _screen.setOsd( Std.string(0x33), Std.string(2), bs.getBytes(), cbFunc);
     }
     function cbFunc( a, s):Void{
     }
-    public function setGamut( value:Int){
-        _gamut = value;
+    public function setPeriod( value:Int){
+        _period= value;
         dispatch( _value);
     }
-    public function setOverlap( value:Int){
-        _overlap = value;
+    public function setWidth( value:Int){
+        _width = value;
         dispatch( _value);
     }
 }

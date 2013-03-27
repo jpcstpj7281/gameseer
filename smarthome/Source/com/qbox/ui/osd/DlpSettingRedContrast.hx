@@ -17,12 +17,14 @@ import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 
 class DlpSettingRedContrast extends ValueBarDlg{
+    var _contrast:ImgContrastDlg;
 
-    public function new ( dm:CommDialogMgr, s){
+    public function new ( dm:CommDialogMgr, s, contrast:ImgContrastDlg ){
         super(dm, s);
         addChild( createElement());
 
-        _value = 0;
+        _contrast = contrast;
+        _value = 50;
         _max = 100;
 #if neko
         TXT= "Red Contrast";
@@ -30,4 +32,6 @@ class DlpSettingRedContrast extends ValueBarDlg{
         TXT= "红色对比度";
 #end
     }
+
+    override function dispatch(value:Int):Void{ _contrast.setRed( value); }
 }

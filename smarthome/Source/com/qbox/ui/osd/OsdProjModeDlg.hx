@@ -11,28 +11,26 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialogMgr;
+import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 import com.qbox.logic.Screen;
 
-class ImgColorGamutDlg extends ValueSwitchDlg{
-    var _colorTemper:ImgColorTemperatureDlg;
+class OsdProjModeDlg extends OsdListDlg{
 
-    public function new ( dm:CommDialogMgr, s:Screen, colorTemper:ImgColorTemperatureDlg){
-        super(dm, s);
+
+    public function new ( dm:ListDialogMgr, s:Screen){
+        super(dm);
         addChild( createElement());
 
-        _values.push("WIDE");
-        _values.push("R709");
-        _values.push("NTSC");
-        _colorTemper = colorTemper;
+        new ProjModeSelectDlg(_listDialogMgr, s);
+        new ProjModeTestMode(_listDialogMgr, s);
 #if neko
-        TXT= "Color Gamut";
+        TXT="Projection Mode";
 #else
-        TXT= "色域";
+        TXT="投影模式";
 #end
     }
-    override function dispatch(value:Int):Void{ _colorTemper.setGamut( value); }
+
 }
