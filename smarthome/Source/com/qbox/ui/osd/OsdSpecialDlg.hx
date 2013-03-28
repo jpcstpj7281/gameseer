@@ -23,16 +23,18 @@ class OsdSpecialDlg extends OsdListDlg{
         super(dm);
         addChild( createElement());
 
-        var i:CommDialog = new SpecialStartUpDelayTime(_listDialogMgr, s);
-        i =new SpecialImgFrameworkLock(_listDialogMgr, s);
-        i =new SpecialRGBFirstTimeAutoAdjust(_listDialogMgr, s);
-        i =new SpecialAGCSetting(_listDialogMgr, s);
-        i =new SpecialTestFrame(_listDialogMgr, s);
-        i =new SpecialHSGAdjustSetting(_listDialogMgr, s);
-        i =new SpecialForceModeSetting(_listDialogMgr, s);
-        i =new SpecialDVIDigitalEQSetting(_listDialogMgr, s);
-        i =new SpecialAmplificationSetting(_listDialogMgr, s);
-        i =new SpecialFanSetting(_listDialogMgr, s);
+        //new SpecialStartUpDelayTime(_listDialogMgr, s);
+        //new SpecialImgFrameworkLock(_listDialogMgr, s);
+        //new SpecialRGBFirstTimeAutoAdjust(_listDialogMgr, s);
+        //new SpecialAGCSetting(_listDialogMgr, s);
+        //new SpecialTestFrame(_listDialogMgr, s);
+        //new SpecialHSGAdjustSetting(_listDialogMgr, s);
+        //new SpecialForceModeSetting(_listDialogMgr, s);
+        //new SpecialDVIDigitalEQSetting(_listDialogMgr, s);
+        //new SpecialAmplificationSetting(_listDialogMgr, s);
+        new SpecialFanSetting(_listDialogMgr, s);
+        new OsdProjModeDlg(_listDialogMgr, s);
+        new SpecialHSGSetting(_listDialogMgr, s);
 #if neko
         TXT= "Special Setting";
 #else
