@@ -18,23 +18,24 @@ import com.qbox.logic.Channel;
 import haxe.io.BytesBuffer;
 
 class HSGRedGain extends ValueBarDlg{
+    var _hsg:SpecialHSGSetting;
 
-    public function new ( dm:CommDialogMgr, s){
+    public function new ( dm:CommDialogMgr, s, hsg:SpecialHSGSetting){
         super(dm, s);
         addChild( createElement());
 
-        _value = 0;
-        _max = 255;
-        _min = -255;
+        _value = 0x4000;
+        _max = 0x7fff;
+        _min = 0;
+        TXT= "Red Gain";
+        _hsg = hsg;
 #if neko
-        TXT= "Horizontal Position";
+        //TXT= "Red Gain";
 #else
-        TXT= "水平位置";
+        //TXT= "水平位置";
 #end
     }
     override function dispatch(value:Int):Void{
-        _screen.setOsd( Std.string(0x04), Std.string(2), bs.getBytes(), cbFunc);
-    }
-    function cbFunc( a, s):Void{
+        _hsg.setRedGain(value);
     }
 }

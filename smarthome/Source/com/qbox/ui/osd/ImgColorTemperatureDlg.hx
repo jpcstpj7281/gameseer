@@ -27,6 +27,8 @@ class ImgColorTemperatureDlg extends ValueSwitchDlg{
         super(dm, s);
         addChild( createElement());
         _value = 0;
+        _overlap = 0;
+        _gamut = 0;
         _values.push("9300K");
         _values.push("7500K");
         _values.push("6500K");

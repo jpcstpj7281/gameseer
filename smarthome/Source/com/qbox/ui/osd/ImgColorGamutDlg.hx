@@ -24,9 +24,10 @@ class ImgColorGamutDlg extends ValueSwitchDlg{
         super(dm, s);
         addChild( createElement());
 
-        _values.push("WIDE");
+        _values = 0;
         _values.push("R709");
         _values.push("NTSC");
+        _values.push("WIDE");
         _colorTemper = colorTemper;
 #if neko
         TXT= "Color Gamut";

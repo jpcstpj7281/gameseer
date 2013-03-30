@@ -27,6 +27,7 @@ class DlpSettingBlueLightness extends ValueBarDlg{
         _brightness = brightness;
         _value = 0;
         _max = 255;
+        _min = -255;
 #if neko
         TXT= "Blue Lightness";
 #else

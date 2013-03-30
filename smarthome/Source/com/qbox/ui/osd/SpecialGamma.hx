@@ -17,20 +17,24 @@ import base.ui.CommDialogMgr;
 import com.qbox.logic.Qbox;
 import haxe.io.BytesBuffer;
 
-class SpecialFanSetting extends ValueSwitchDlg{
+class SpecialGamma extends ValueSwitchDlg{
 
     public function new ( dm:CommDialogMgr, s){
         super(dm, s);
         addChild( createElement());
+        _value = 5;
 
+        _values.push("TI Film");
+        _values.push("IT Graphics Enhanced");
+        _values.push("TI Video Enhanced");
+        _values.push("Linear");
+        _values.push("OEM");
 #if neko
-        _values.push("Auto");
-        _values.push("Full Power");
-        TXT= "Fan Setting";
+        _values.push("Off");
+        TXT= "Gamma";
 #else
-        _values.push("自动");
-        _values.push("全转速");
-        TXT= "风扇设定";
+        _values.push("关闭");
+        TXT= "亮度曲线";
 #end
     }
 
@@ -38,16 +42,14 @@ class SpecialFanSetting extends ValueSwitchDlg{
         var bs:BytesBuffer  = new BytesBuffer();
         var shift:Int = _value;
         trace( shift);
-        if ( shift ==0){
-            bs.addByte( 0x44);
-            bs.addByte( 0x44);
-            bs.addByte( 0x44);
+        if ( shift == 5){
+            bs.addByte( 0xc0);
+            bs.addByte( 0x00);
         }else{
-            bs.addByte( 0x64);
-            bs.addByte( 0x64);
-            bs.addByte( 0x64);
+            bs.addByte( 0x40);
+            bs.addByte( _value);
         }
-        _screen.setOsd( Std.string(0x10), Std.string(3), bs.getBytes(), cbFunc);
+        _screen.setOsd( Std.string(0x09), Std.string(2), bs.getBytes(), cbFunc);
     }
     function cbFunc( a, s):Void{
     }

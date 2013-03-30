@@ -11,27 +11,25 @@ import base.ui.CommDialog;
 import nme.display.Sprite;
 import nme.display.Bitmap;
 import base.data.DataLoader;
-import base.ui.CommDialogMgr;
+import base.ui.CommDialog;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
+import com.qbox.logic.Screen;
+import haxe.io.BytesBuffer;
 
-class DlpSettingGreenLightness extends ValueBarDlg{
+class HSGBlue extends OsdListDlg{
 
-    var _brightness:ImgLightnessDlg;
-    public function new ( dm:CommDialogMgr, s, brightness:ImgLightnessDlg ){
-        super(dm, s);
+    public function new ( dm:ListDialogMgr, s:Screen, hsg:SpecialHSGSetting){
+        super(dm);
         addChild( createElement());
-
-        _brightness = brightness;
-        _value = 0;
-        _max = 255;
-        _min = -255;
+        new HSGBlueGain(_listDialogMgr, s, hsg);
+        new HSGBlueSat(_listDialogMgr, s, hsg);
+        new HSGBlueHue(_listDialogMgr, s, hsg);
 #if neko
-        TXT= "Green Lightness";
+        TXT="HSG Blue";
 #else
-        TXT= "绿色亮度值";
+        TXT="HSG Blue";
 #end
     }
-    override function dispatch(value:Int):Void{ _brightness.setGreen(value); }
 }
