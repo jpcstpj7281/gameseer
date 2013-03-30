@@ -24,7 +24,7 @@ class ImgColorGamutDlg extends ValueSwitchDlg{
         super(dm, s);
         addChild( createElement());
 
-        _values = 0;
+        _value = 0;
         _values.push("R709");
         _values.push("NTSC");
         _values.push("WIDE");
