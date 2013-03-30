@@ -23,7 +23,7 @@ class ImgOverlapSettingDlg extends ValueSwitchDlg{
         super(dm, s);
         addChild( createElement());
 
-        _values = 0;
+        _value = 0;
         _values.push("0%");
         _values.push("30%");
         _values.push("50%");
