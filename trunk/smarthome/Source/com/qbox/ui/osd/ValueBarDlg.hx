@@ -72,7 +72,7 @@ class ValueBarDlg extends CommDialog{
             _v.scaleY = 3;
             _v.width = 100;
             _v.height= 16;
-            _v.x = nme.Lib.current.stage.stageWidth - 50;
+            _v.x = nme.Lib.current.stage.stageWidth - 100;
             _s.addChild( _v);
 
             _c = new Sprite();
@@ -119,11 +119,13 @@ class ValueBarDlg extends CommDialog{
         --_value;
         if ( _value < _min) _value = _min;
         calValueAndDraw();
+        dispatch( _value);
     }
     function onMoreMouseClick( evt:MouseEvent){ 
         ++_value;
         if ( _value > _max) _value = _max;
         calValueAndDraw();
+        dispatch( _value);
     }
     function calValueAndDraw(){
         if (_max == 0 ) return;
@@ -132,7 +134,6 @@ class ValueBarDlg extends CommDialog{
         var rw = percent * (_max - _value);
         //drawBar( Math.round(lw), Math.round(rw));
         drawBar( lw, rw);
-        dispatch( _value);
     }
 
     public function onBarMouseDown( evt:MouseEvent){

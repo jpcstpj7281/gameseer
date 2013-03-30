@@ -16,6 +16,7 @@ import base.ui.CommDialog;
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
 import com.qbox.logic.Screen;
+import haxe.io.BytesBuffer;
 
 class SpecialHSGSetting extends OsdListDlg{
 
@@ -39,21 +40,43 @@ class SpecialHSGSetting extends OsdListDlg{
     var _yellowGain:Int;
     var _yellowSat:Int;
     var _yellowHue:Int;
-    var _whiteGain:Int;
-    var _whiteSat:Int;
-    var _whiteHue:Int;
+    var _whiteRed:Int;
+    var _whiteGreen:Int;
+    var _whiteBlue:Int;
         
     public function new ( dm:ListDialogMgr, s:Screen){
         super(dm);
         addChild( createElement());
+        _redGain= 0x0000;
+        _redSat = 0x0000;
+        _redHue = 0;
+        _greenGain= 0x0000;
+        _greenSat = 0x0000;
+        _greenHue = 0;
+        _blueGain= 0x0000;
+        _blueSat = 0x0000;
+        _blueHue = 0;
+        _cyanGain= 0x0000;
+        _cyanSat = 0x0000;
+        _cyanHue = 0;
+        _magentaGain= 0x0000;
+        _magentaSat = 0x0000;
+        _magentaHue = 0;
+        _yellowGain= 0x0000;
+        _yellowSat = 0x0000;
+        _yellowHue = 0;
+        _whiteRed= 0x0000;
+        _whiteGreen= 0x0000;
+        _whiteBlue= 0x0000;
 
         _screen = s;
-        new HSGRedGain(_listDialogMgr, s);
-        new HSGRedSaturation(_listDialogMgr, s);
-        new HSGRedHue(_listDialogMgr, s);
-        new HSGGreenGain(_listDialogMgr, s);
-        new HSGGreenSaturation(_listDialogMgr, s);
-        new HSGGreenHue(_listDialogMgr, s);
+        new HSGRed(_listDialogMgr, s, this);
+        new HSGGreen(_listDialogMgr, s, this);
+        new HSGBlue(_listDialogMgr, s, this);
+        new HSGCyan(_listDialogMgr, s, this);
+        new HSGMagenta(_listDialogMgr, s, this);
+        new HSGYellow(_listDialogMgr, s, this);
+        new HSGWhite(_listDialogMgr, s, this);
 #if neko
         TXT="HSG Setting";
 #else
@@ -61,15 +84,43 @@ class SpecialHSGSetting extends OsdListDlg{
 #end
     }
 
+    function addB( bf:BytesBuffer, val:Int){
+        if( val < 0){
+            bf.addByte( (val >>8) | 0x80);
+            bf.addByte( val );
+        }else{
+            bf.addByte( val >>8 );
+            bf.addByte( val );
+        }
+    }
+
     function dispatch(){
-        var bs:BytesBuffer  = new BytesBuffer();
-        bs.addByte(_redGain>>8);
-        bs.addByte(_redGain);
-        bs.addByte(_redSat>>8);
-        bs.addByte(_redSat);
-        bs.addByte(_redHue>>8);
-        bs.addByte(_redHue);
-        _screen.setOsd( Std.string(0x13), Std.string(42), bs.getBytes(), cbFunc);
+        var bf:BytesBuffer  = new BytesBuffer();
+        addB( bf, _redGain);
+        addB( bf, _redSat);
+        addB( bf, _redHue);
+        addB( bf, _greenGain);
+        addB( bf, _greenSat);
+        addB( bf, _greenHue);
+        addB( bf, _blueGain);
+        addB( bf, _blueSat);
+        addB( bf, _blueHue);
+        addB( bf, _magentaGain);
+        addB( bf, _magentaSat);
+        addB( bf, _magentaHue);
+        addB( bf, _cyanGain);
+        addB( bf, _cyanSat);
+        addB( bf, _cyanHue);
+        addB( bf, _yellowGain);
+        addB( bf, _yellowSat);
+        addB( bf, _yellowHue);
+        addB( bf, _whiteRed);
+        addB( bf, _whiteGreen);
+        addB( bf, _whiteBlue);
+        _screen.setOsd( Std.string(0x13), Std.string(42), bf.getBytes(), cbFunc);
+    }
+
+    function cbFunc(args,ss){
     }
 
     public function setRedGain( value:Int){ _redGain =value; dispatch(); }
@@ -90,8 +141,8 @@ class SpecialHSGSetting extends OsdListDlg{
     public function setYellowGain( value:Int){ _yellowGain=value; dispatch();}
     public function setYellowSat( value:Int){ _yellowSat=value; dispatch();}
     public function setYellowHue( value:Int){ _yellowHue=value; dispatch();}
-    public function setWhiteGain( value:Int){ _whiteGain=value; dispatch();}
-    public function setWhiteSat( value:Int){ _whiteSat=value; dispatch();}
-    public function setWhiteHue( value:Int){ _whiteHue=value; dispatch();}
+    public function setWhiteRed( value:Int){ _whiteRed=value; dispatch();}
+    public function setWhiteGreen( value:Int){ _whiteGreen=value; dispatch();}
+    public function setWhiteBlue( value:Int){ _whiteBlue=value; dispatch();}
 
 }

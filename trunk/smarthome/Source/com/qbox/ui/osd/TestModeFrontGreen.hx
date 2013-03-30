@@ -26,8 +26,8 @@ class TestModeFrontGreen extends ValueBarDlg{
     public function new ( dm:CommDialogMgr, s:Screen){
         super(dm,s );
         addChild( createElement());
-        _value = 0xff;
-        _max= 0xff;
+        _value = 0x1ff;
+        _max= 0x1ff;
         _min= 0x0;
         _red = 0xff;
         _blue = 0xff;
@@ -41,7 +41,7 @@ class TestModeFrontGreen extends ValueBarDlg{
 
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
-        bs.addByte( 0);
+        bs.addByte( _value >> 8);
         bs.addByte( _value);
         bs.addByte( _red);
         bs.addByte( _blue);

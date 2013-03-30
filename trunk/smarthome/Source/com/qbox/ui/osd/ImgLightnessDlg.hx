@@ -35,6 +35,7 @@ class ImgLightnessDlg extends ValueBarDlg{
         _green = 0;
         _blue = 0;
         _max = 255;
+        _min = -255;
 #if neko
         TXT= "Blightness";
 #else
@@ -51,18 +52,27 @@ class ImgLightnessDlg extends ValueBarDlg{
         if ( vred > 255) vred = 255;
         if ( vgreen> 255) vgreen= 255;
         if ( vblue> 255) vblue= 255;
+        if ( vred < -255) vred = -255;
+        if ( vgreen< -255) vgreen= -255;
+        if ( vblue< -255) vblue= -255;
         var shiftr:Int=0;
         shiftr = vred<< 2;
+        if ( vred < 0)
+            shiftr = shiftr | 0x400;
         var shiftg:Int=0; 
         shiftg = vgreen<<2;
+        if ( vgreen < 0)
+            shiftg = shiftg | 0x400;
         var shiftb:Int=0; 
         shiftb = vblue<< 2;
-        bs.addByte(Std.int(shiftg >> 8));
-        bs.addByte(Std.int(shiftg));
-        bs.addByte(Std.int(shiftr >> 8));
-        bs.addByte(Std.int(shiftr));
-        bs.addByte(Std.int(shiftb >> 8));
-        bs.addByte(Std.int(shiftb));
+        if ( vblue < 0)
+            shiftb = shiftb | 0x400;
+        bs.addByte((shiftg >> 8));
+        bs.addByte((shiftg));
+        bs.addByte((shiftr >> 8));
+        bs.addByte((shiftr));
+        bs.addByte((shiftb >> 8));
+        bs.addByte((shiftb));
         //bs.addByte(shiftr >> 8);
         //bs.addByte(shiftr);
         //bs.addByte(shiftb >> 8);

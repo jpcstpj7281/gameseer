@@ -35,6 +35,7 @@ class OsdSpecialDlg extends OsdListDlg{
         new SpecialFanSetting(_listDialogMgr, s);
         new OsdProjModeDlg(_listDialogMgr, s);
         new SpecialHSGSetting(_listDialogMgr, s);
+        new SpecialGamma(_listDialogMgr, s);
 #if neko
         TXT= "Special Setting";
 #else

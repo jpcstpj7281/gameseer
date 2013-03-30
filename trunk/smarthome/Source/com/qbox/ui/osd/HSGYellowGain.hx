@@ -15,23 +15,27 @@ import base.ui.CommDialogMgr;
 
 import com.qbox.logic.Qbox;
 import com.qbox.logic.Channel;
+import haxe.io.BytesBuffer;
 
-class DlpSettingGreenLightness extends ValueBarDlg{
+class HSGYellowGain extends ValueBarDlg{
+    var _hsg:SpecialHSGSetting;
 
-    var _brightness:ImgLightnessDlg;
-    public function new ( dm:CommDialogMgr, s, brightness:ImgLightnessDlg ){
+    public function new ( dm:CommDialogMgr, s, hsg:SpecialHSGSetting){
         super(dm, s);
         addChild( createElement());
 
-        _brightness = brightness;
-        _value = 0;
-        _max = 255;
-        _min = -255;
+        _value = 0x4000;
+        _max = 0x7fff;
+        _min = 0;
+        TXT= "Yellow Gain";
+        _hsg = hsg;
 #if neko
-        TXT= "Green Lightness";
+        //TXT= "Red Gain";
 #else
-        TXT= "绿色亮度值";
+        //TXT= "水平位置";
 #end
     }
-    override function dispatch(value:Int):Void{ _brightness.setGreen(value); }
+    override function dispatch(value:Int):Void{
+        _hsg.setYellowGain(value);
+    }
 }
