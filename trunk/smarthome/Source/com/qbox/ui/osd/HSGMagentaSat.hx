@@ -24,7 +24,7 @@ class HSGMagentaSat extends ValueBarDlg{
         super(dm, s);
         addChild( createElement());
 
-        _value = 0x4000;
+        _value = hsg._magentaSat;
         _max = 0x7fff;
         _min = 0;
         TXT= "Magenta Sat";

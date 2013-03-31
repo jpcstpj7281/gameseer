@@ -20,6 +20,8 @@ import com.qbox.ui.osd.OsdOptionDlg;
 import com.qbox.ui.osd.OsdSourceDlg;
 import com.qbox.ui.osd.OsdSpecialDlg;
 import com.qbox.ui.osd.OsdSysDlg;
+import com.qbox.ui.osd.OsdInit;
+import com.qbox.ui.osd.OsdColorInit;
 import com.qbox.ui.osd.OsdProjModeDlg;
 import haxe.io.BytesBuffer;
 
@@ -49,18 +51,18 @@ class ScreenDlg extends ListDialog{
 
     function cbConnectInit():Void{}
     function cbFunc1(args, ss){}
-    function cbFunc(args, ss){
-        var bf  = new BytesBuffer();
-        bf.addByte(0x87 );
-        bf.addByte(0x0 );
-        bf.addByte(0x0 );
-        bf.addByte(0x0 );
-        bf.addByte(0x0 );
-        bf.addByte(0x0 );
-        bf.addByte(0x0 );
-        bf.addByte(0x1 );
-        _screen.setOsd( Std.string(0x5e), Std.string(8), bf.getBytes(), cbFunc1);
-    }
+    //function cbFunc(args, ss){
+    //var bf  = new BytesBuffer();
+    //bf.addByte(0x87 );
+    //bf.addByte(0x0 );
+    //bf.addByte(0x0 );
+    //bf.addByte(0x0 );
+    //bf.addByte(0x0 );
+    //bf.addByte(0x0 );
+    //bf.addByte(0x0 );
+    //bf.addByte(0x1 );
+    //_screen.setOsd( Std.string(0x5e), Std.string(8), bf.getBytes(), cbFunc1);
+    //}
 
     function onConnBtnMouseClick( evt:MouseEvent ):Void{
 #if neko
@@ -81,16 +83,16 @@ class ScreenDlg extends ListDialog{
                 if (_screen._isFailed == false && _screen.isConected() ){
                     trace("connected");
                     _screen.connectedInit(cbConnectInit);
-                    var bf:BytesBuffer  = new BytesBuffer();
-                    bf.addByte(0x27 );
-                    bf.addByte(0x0 );
-                    bf.addByte(0x0 );
-                    bf.addByte(0x0 );
-                    bf.addByte(0x0 );
-                    bf.addByte(0x0 );
-                    bf.addByte(0x0 );
-                    bf.addByte(0x1 );
-                    _screen.setOsd( Std.string(0x5e), Std.string(8), bf.getBytes(), cbFunc);
+                    //var bf:BytesBuffer  = new BytesBuffer();
+                    //bf.addByte(0x27 );
+                    //bf.addByte(0x0 );
+                    //bf.addByte(0x0 );
+                    //bf.addByte(0x0 );
+                    //bf.addByte(0x0 );
+                    //bf.addByte(0x0 );
+                    //bf.addByte(0x0 );
+                    //bf.addByte(0x1 );
+                    //_screen.setOsdCB( Std.string(0x5e), Std.string(8), bf.getBytes(), cbFunc);
 #if neko
                     _connBtn.text = "disc";
 #else
@@ -222,6 +224,9 @@ class ScreenDlg extends ListDialog{
             //new OsdGroupDlg(_listDialogMgr, _screen);
             new OsdSpecialDlg(_listDialogMgr, _screen);
             //new OsdSysDlg(_listDialogMgr, _screen);
+
+            new OsdInit(_listDialogMgr, _screen);
+            new OsdColorInit(_listDialogMgr, _screen);
 
             return _s;
         }
