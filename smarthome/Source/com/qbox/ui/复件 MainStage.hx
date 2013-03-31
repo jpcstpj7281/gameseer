@@ -101,38 +101,23 @@ class MainStage extends ListDialogMgr {
         //super.showListDialog();
     }
 
-    function setupRingChannel(){
-        if ( ChannelMgr.getInst()._currSelected != null && RingMgr.getInst()._currSelected != null){
-            RingMgr.getInst()._currSelected.setupChannel( ChannelMgr.getInst()._currSelected);
-        }
-    }
-
     function cbChangedCurrChannel( c:Channel){
         //if ( c != null){
-        setupRingChannel();
-        if(_screenPlate.changedCurrChannel( c )){
-            clearChannelSelecting();
-            ChannelMgr.getInst()._currSelected = c;
-            resetScreenPlate();
-        }else if (c == null){
-            clearChannelSelecting();
-            ChannelMgr.getInst()._currSelected = c;
-            resetScreenPlate();
-        }else{
-            clearChannelSelecting();
-            ChannelMgr.getInst()._currSelected = null;
-            resetScreenPlate();
-            trace("cannot switch channel if that channel opened two windows!");
-        }
-        //}else{
-        //clearChannelSelecting();
-        //ChannelMgr.getInst()._currSelected = c;
-        //resetScreenPlate();
-        //}
+            if(_screenPlate.changedCurrChannel( c )){
+                clearChannelSelecting();
+                ChannelMgr.getInst()._currSelected = c;
+                resetScreenPlate();
+            }else{
+                trace("cannot switch channel if that channel opened two windows!");
+            }
+            //}else{
+            //clearChannelSelecting();
+            //ChannelMgr.getInst()._currSelected = c;
+            //resetScreenPlate();
+            //}
     }
 
     function cbChangedCurrRing(r:Ring){
-        setupRingChannel();
         clearRingSelecting();
         RingMgr.getInst()._currSelected = r;
         resetScreenPlate();

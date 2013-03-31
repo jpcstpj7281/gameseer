@@ -42,7 +42,7 @@ class ImgColorTemperatureDlg extends ValueSwitchDlg{
 
     override function dispatch(value:Int):Void{
         var bs:BytesBuffer  = new BytesBuffer();
-        var shift:Int = 80 + _value + _overlap * 12 + _gamut * 4 ;
+        var shift:Int = 0x80 + _value + _overlap * 12 + _gamut * 4 ;
         trace( shift);
         bs.addByte( shift);
         _screen.setOsd( Std.string(0x0d), Std.string(1), bs.getBytes(), cbFunc);

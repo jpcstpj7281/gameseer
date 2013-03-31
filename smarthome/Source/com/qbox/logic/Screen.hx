@@ -278,13 +278,13 @@ class Screen extends Qbox{
         }
     }
 
-    public function setOsd( addr:String, len:String,  value:Bytes, cb:Dynamic->Screen->Void){
-        //if (_currCB != null){ trace("there is a wnd processing."); return;}
-        //_currCB = cb;
+    public function setOsdCB( addr:String, len:String,  value:Bytes, cb:Dynamic->Screen->Void){
+        if (_currCB != null){ trace("there is a wnd processing."); return;}
+        _currCB = cb;
 
 #if !neko
         clearData();
-        //startListening( 2, cbSetOsd, 32);
+        startListening( 2, cbSetOsd, 32);
         setMsg( 1, 32);
         addKeyVal( "addr", Bytes.ofString(addr));
         addKeyVal( "len", Bytes.ofString(len));
@@ -296,12 +296,20 @@ class Screen extends Qbox{
         cbSetOsd(test);
 #end
     }
+    public function setOsd( addr:String, len:String,  value:Bytes, cb:Dynamic->Screen->Void){
+        clearData();
+        setMsg( 1, 32);
+        addKeyVal( "addr", Bytes.ofString(addr));
+        addKeyVal( "len", Bytes.ofString(len));
+        addKeyVal( "value", value);
+        sendData();
+    }
     function cbSetOsd( args:Dynamic):Void{
-        //if (_currCB != null) {
-        //var tmp = _currCB;
-        //_currCB = null;
-        //tmp(args, this);
-        //}
+        if (_currCB != null) {
+            var tmp = _currCB;
+            _currCB = null;
+            tmp(args, this);
+        }
     }
 
     public function setChannelArea(wnd:Wnd, x:Int, y:Int, w:Int, h:Int, c:Channel, cb:Dynamic->Screen->Void){
@@ -601,97 +609,97 @@ class Screen extends Qbox{
     }
 
     /*
-    public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
-        if (_currCB != null){
-            trace("screen: "+_ipv4+" there is a wnd operation processing.");
-            return false;
-        }
+       public function resizeWnd(x:Float, y:Float, w:Float, h:Float, cbSetWndFunc:Dynamic->Screen->Void, wnd:Wnd ){
+       if (_currCB != null){
+       trace("screen: "+_ipv4+" there is a wnd operation processing.");
+       return false;
+       }
 
-        var port:String = get753Port(wnd);
-        if ( port == null){
-            trace("screen: " + _ipv4 +" there is no correspond port to resize wnd");
-            return false;
-        }
+       var port:String = get753Port(wnd);
+       if ( port == null){
+       trace("screen: " + _ipv4 +" there is no correspond port to resize wnd");
+       return false;
+       }
 
-        var obj = calcScreen( x, y, w, h);
-        var screenx = obj.x;
-        var screeny = obj.y;
-        var screenw = obj.w;
-        var screenh = obj.h;
-        var isOutOfScreen = obj.isOutScreen;
+       var obj = calcScreen( x, y, w, h);
+       var screenx = obj.x;
+       var screeny = obj.y;
+       var screenw = obj.w;
+       var screenh = obj.h;
+       var isOutOfScreen = obj.isOutScreen;
 
-        _currCB = cbSetWndFunc;
-        if (isOutOfScreen){
-            trace("screen: "+_ipv4 +" "+_col+"|"+_row+":Out of screen");
-            var outofscreen = new Hash<String>();
-            outofscreen.set("out","null");
-            outofscreen.set("error","0");
-            cbResizeWnd(outofscreen);
-            return false;
-        }
-        else {
-            trace("screen: "+_ipv4+" "+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
+       _currCB = cbSetWndFunc;
+       if (isOutOfScreen){
+       trace("screen: "+_ipv4 +" "+_col+"|"+_row+":Out of screen");
+       var outofscreen = new Hash<String>();
+       outofscreen.set("out","null");
+       outofscreen.set("error","0");
+       cbResizeWnd(outofscreen);
+       return false;
+       }
+       else {
+       trace("screen: "+_ipv4+" "+_col+"|"+_row+":" + screenx + " "+screeny+" "+screenw+" "+screenh);
 #if !neko
-            //calculate real window size
-            var pw = _resWidth /_virtualWidth ;
-            var ph = _resHeight/_virtualHeight;
-            //trace( "virtualX: "+screenx);
-            //trace( "virtualY: "+screeny);
-            //trace( "virtualW: "+screenw);
-            //trace( "virtualH: "+screenh);
-            var qx = Math.round(screenx*pw);
-            var qy = Math.round(screeny*ph);
-            var qw = Math.round(screenw*pw);
-            var qh = Math.round(screenh*ph);
-            trace("qbox x: "+qx);
-            trace("qbox y: "+qy);
-            trace("qbox w: "+qw);
-            trace("qbox h: "+qh);
-            clearData();
-            startListening( 6, cbResizeWnd, 2);
-            setMsg( 5, 2);
-            addKeyVal( "x", Bytes.ofString(Std.string(qx)));
-            addKeyVal( "y", Bytes.ofString(Std.string(qy)));
-            addKeyVal( "w", Bytes.ofString(Std.string(qw)));
-            addKeyVal( "h", Bytes.ofString(Std.string(qh)));
-            addKeyVal( "out", Bytes.ofString(port));
-            sendData();
+    //calculate real window size
+    var pw = _resWidth /_virtualWidth ;
+    var ph = _resHeight/_virtualHeight;
+    //trace( "virtualX: "+screenx);
+    //trace( "virtualY: "+screeny);
+    //trace( "virtualW: "+screenw);
+    //trace( "virtualH: "+screenh);
+    var qx = Math.round(screenx*pw);
+    var qy = Math.round(screeny*ph);
+    var qw = Math.round(screenw*pw);
+    var qh = Math.round(screenh*ph);
+    trace("qbox x: "+qx);
+    trace("qbox y: "+qy);
+    trace("qbox w: "+qw);
+    trace("qbox h: "+qh);
+    clearData();
+    startListening( 6, cbResizeWnd, 2);
+    setMsg( 5, 2);
+    addKeyVal( "x", Bytes.ofString(Std.string(qx)));
+    addKeyVal( "y", Bytes.ofString(Std.string(qy)));
+    addKeyVal( "w", Bytes.ofString(Std.string(qw)));
+    addKeyVal( "h", Bytes.ofString(Std.string(qh)));
+    addKeyVal( "out", Bytes.ofString(port));
+    sendData();
 #else
-            var test= new Hash<String>();
-            test.set("out",port);
-            test.set("error","0");
-            var pw = _resWidth /_virtualWidth ;
-            var ph = _resHeight/_virtualHeight;
-            //trace(_resWidth);
-            //trace(_resHeight);
-            //trace(_virtualHeight);
-            //trace(_virtualWidth);
-            var qx = Math.round(screenx*pw);
-            var qy = Math.round(screeny*ph);
-            var qw = Math.round(screenw*pw);
-            var qh = Math.round(screenh*ph);
-            trace("qbox x: "+qx);
-            trace("qbox y: "+qy);
-            trace("qbox w: "+qw);
-            trace("qbox h: "+qh);
-            test.set( "x", (Std.string(qx)));
-            test.set( "y", (Std.string(qy)));
-            test.set( "w", (Std.string(qw)));
-            test.set( "h", (Std.string(qh)));
-            //trace(test);
-            cbResizeWnd(test);
+var test= new Hash<String>();
+test.set("out",port);
+test.set("error","0");
+var pw = _resWidth /_virtualWidth ;
+var ph = _resHeight/_virtualHeight;
+    //trace(_resWidth);
+    //trace(_resHeight);
+    //trace(_virtualHeight);
+    //trace(_virtualWidth);
+    var qx = Math.round(screenx*pw);
+    var qy = Math.round(screeny*ph);
+    var qw = Math.round(screenw*pw);
+    var qh = Math.round(screenh*ph);
+    trace("qbox x: "+qx);
+    trace("qbox y: "+qy);
+    trace("qbox w: "+qw);
+    trace("qbox h: "+qh);
+    test.set( "x", (Std.string(qx)));
+    test.set( "y", (Std.string(qy)));
+    test.set( "w", (Std.string(qw)));
+    test.set( "h", (Std.string(qh)));
+    //trace(test);
+    cbResizeWnd(test);
 #end
 
-            return true;
-        }
+    return true;
+}
+}
+function cbResizeWnd( args:Dynamic):Void{
+    if (_currCB != null) {
+        var tmp = _currCB;
+        _currCB = null;
+        tmp(args, this);
     }
-    function cbResizeWnd( args:Dynamic):Void{
-        if (_currCB != null) {
-            var tmp = _currCB;
-            _currCB = null;
-            tmp(args, this);
-        }
-    }
+}
 
-    */
+*/
 }

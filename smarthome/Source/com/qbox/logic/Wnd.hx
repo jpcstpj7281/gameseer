@@ -151,11 +151,8 @@ class Wnd{
                 ++_opCounter;
 
                 if( _ring != null && _ring.getRingNodeIfRingAvailable(_channel, this) != null){
-                    if( _ring.checkAndSetupRing( _channel, this)){
-                        _ring.setup753NoCB( this, _screens,  _channel);
-                    }else{
-                        trace("***Error: failed to setup ring");
-                    }
+                    _ring.checkAndSetupRing( _channel, this);
+                    _ring.setup753NoCB( this, _screens,  _channel);
                 }else{
                     _channel._screen.set753ChannelNoCB(_channel._inport, this);
                 }

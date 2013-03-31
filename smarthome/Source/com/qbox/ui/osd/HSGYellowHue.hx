@@ -24,7 +24,7 @@ class HSGYellowHue extends ValueBarDlg{
         super(dm, s);
         addChild( createElement());
 
-        _value = 0;
+        _value = hsg._yellowHue;
         _max = 0x3fff;
         _min = -0x3fff;
         TXT= "Yellow Hue";

@@ -56,7 +56,10 @@ class Ring{
         return rns;
     }
 
-    public function checkAndSetupRing(c:Channel, wnd:Wnd):Bool{
+    public function setupChannel(c:Channel){
+        c._screen.setRingChannelNoCB( c._screen._ringNode._outport[_nodeIndex], c._inport, null);
+    }
+    public function checkAndSetupRing(c:Channel, wnd:Wnd):Void{
 
         var isSucceed= true;
         var rns = getRingNodeIfRingAvailable( c, wnd);
@@ -64,17 +67,12 @@ class Ring{
             for ( n in rns){
                 trace( "set ring of qbox: "+ n._screen._ipv4);
                 if ( c._screen == n._screen){
-                    if( n._screen.setRingChannelNoCB( n._outport[_nodeIndex], c._inport, wnd)){
-                        isSucceed = false;
-                    }
+                    n._screen.setRingChannelNoCB( n._outport[_nodeIndex], c._inport, wnd);
                 }else{
-                    if(n._screen.setRingChannelNoCB( n._outport[_nodeIndex], n._inport[_nodeIndex], wnd)){
-                        isSucceed = false;
-                    }
+                    n._screen.setRingChannelNoCB( n._outport[_nodeIndex], n._inport[_nodeIndex], wnd);
                 }
             }
         }
-        return false;
     }
 
     public function setupRing( ):Bool{

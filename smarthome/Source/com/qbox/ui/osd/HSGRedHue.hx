@@ -24,7 +24,7 @@ class HSGRedHue extends ValueBarDlg{
         super(dm, s);
         addChild( createElement());
 
-        _value = 0;
+        _value = hsg._redHue;
         _max = 0x4000;
         _min = -0x4000;
         TXT= "Red Hue";
