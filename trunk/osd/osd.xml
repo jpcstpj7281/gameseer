@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<root>
+    <addresses>
+        <address location="home" ip="127.0.0.1"/>
+        <address location="home" ip="192.168.67.101"/>
+    </addresses>
+    <components/>
+    <devices/>
+</root>
