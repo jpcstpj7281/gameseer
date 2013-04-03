@@ -5,12 +5,9 @@
 #include <QAction.h>
 #include <QLineEdit.h>
 #include <QTabWidget.h>
-#include "SnmpNetWnd.h"
 
-#include "snmpnet.h"
+
 #include "configmgr.h"
-#include <net-snmp/net-snmp-config.h>
-#include <net-snmp/net-snmp-includes.h>
 
 #include <functional>
 
@@ -22,8 +19,8 @@ using namespace std::placeholders;
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
-	,deviceswnd_(new DevicesWnd)
-	,snmpNetWnd_(new SnmpNetWnd)
+	,devicesWnd_(new DevicesWnd)
+	//,snmpNetWnd_(new SnmpNetWnd)
 
 {
     ui->setupUi(this);
@@ -31,10 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
 	_tab = findChild<QTabWidget*>( "tabWidget");
 
 	
-	_tab->addTab(deviceswnd_, "Devices" );
-	_tab->addTab(snmpNetWnd_, "SnmpNet" );
+	_tab->addTab(devicesWnd_, "Devices" );
+	//_tab->addTab(snmpNetWnd_, "SnmpNet" );
 	
-	deviceswnd_->initAddresses();
+	devicesWnd_->initAddresses();
 
 	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
 
@@ -46,14 +43,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::tabChanged (int index){
 	QWidget* currWidget = _tab->widget( index);
-	if ( currWidget == deviceswnd_){
+	if ( currWidget == devicesWnd_){
 	}
 }
 MainWindow::~MainWindow()
 {
     delete ui;
-	delete deviceswnd_;
-	delete snmpNetWnd_;
+	delete devicesWnd_;
+	//delete snmpNetWnd_;
 }
 
 void MainWindow::on_inputGainControl_clicked()

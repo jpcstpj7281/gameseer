@@ -3,12 +3,12 @@
 
 #include <QTableWidgetItem>
 
-#include "snmpnet.h"
 #include "configmgr.h"
 
 #include <functional>
 #include <qdebug>
 #include <QTime>
+#include <Windows.h>
 #undef min
 
 
@@ -150,7 +150,7 @@ void DevicesWnd::newAddress( Ac1608Address * aa ){
 
         addresses_.insert( std::make_pair ( aa->ip,  aa) );
         aa->startCheckTime = GetTickCount();
-        SnmpNet::instance()->listenAddress((char*) aa->ip.toStdString().c_str() , std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+        //SnmpNet::instance()->listenAddress((char*) aa->ip.toStdString().c_str() , std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
         aa->init( lastLineEdit_, this);
     }
     //locker_.unlock();
@@ -175,7 +175,7 @@ void Ac1608Address::editingAddressFinished (){
             t_->currConnAddress_ = 0;
         }
         this->snmpResponseTime = 0;
-        SnmpNet::instance()->listenAddress((char*) ip.toStdString().c_str() , std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,t_, _1, _2, _3, _4));
+        //SnmpNet::instance()->listenAddress((char*) ip.toStdString().c_str() , std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,t_, _1, _2, _3, _4));
 		
     }else{
         qDebug()<<"Unexpected Error: Ac1608Address::editingAddressFinished!";
@@ -196,45 +196,45 @@ Ac1608Address* getAddressByRow( DevicesWnd::AddressMap & addresses , int row){
     }
 }
 
-SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-
-    if (pdu->variables->type == ASN_TIMETICKS){
-        AddressMap::iterator found = addresses_.find( so->ip.c_str());
-        if ( found != addresses_.end() ) {
-            Ac1608Address * aa = found->second;
-            aa->timeticks = *(u_long *) (pdu->variables->val.integer);
-            aa->snmpResponseTime = GetTickCount();
-        }
-		return SnmpCallback::RequestAgain;
-    }
-	else if (pdu->variables->type == ASN_INTEGER ){
-		AddressMap::iterator found = addresses_.find( so->ip.c_str());
-        if ( found != addresses_.end() ) {
-            Ac1608Address * aa = found->second;
-            //aa->timeticks = *(u_long *) (pdu->variables->val.integer);
-            //aa->snmpResponseTime = GetTickCount();
-			std::string psw(so->snmpoid.c_str() );
-			if ( PswOid0 == psw){
-				aa->psw_[0] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-			else if ( PswOid1 == psw){
-				aa->psw_[1] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-			else if ( PswOid2 == psw){
-				aa->psw_[2] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-			else if ( PswOid3 == psw){
-				aa->psw_[3] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-        }
-		return SnmpCallback::RequestStop;
-	}
-    
-}
+//SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
+//
+//    if (pdu->variables->type == ASN_TIMETICKS){
+//        AddressMap::iterator found = addresses_.find( so->ip.c_str());
+//        if ( found != addresses_.end() ) {
+//            Ac1608Address * aa = found->second;
+//            aa->timeticks = *(u_long *) (pdu->variables->val.integer);
+//            aa->snmpResponseTime = GetTickCount();
+//        }
+//		return SnmpCallback::RequestAgain;
+//    }
+//	else if (pdu->variables->type == ASN_INTEGER ){
+//		AddressMap::iterator found = addresses_.find( so->ip.c_str());
+//        if ( found != addresses_.end() ) {
+//            Ac1608Address * aa = found->second;
+//            //aa->timeticks = *(u_long *) (pdu->variables->val.integer);
+//            //aa->snmpResponseTime = GetTickCount();
+//			std::string psw(so->snmpoid.c_str() );
+//			if ( PswOid0 == psw){
+//				aa->psw_[0] = *(u_long *) (pdu->variables->val.integer);
+//				aa->pswCount_++;
+//			}
+//			else if ( PswOid1 == psw){
+//				aa->psw_[1] = *(u_long *) (pdu->variables->val.integer);
+//				aa->pswCount_++;
+//			}
+//			else if ( PswOid2 == psw){
+//				aa->psw_[2] = *(u_long *) (pdu->variables->val.integer);
+//				aa->pswCount_++;
+//			}
+//			else if ( PswOid3 == psw){
+//				aa->psw_[3] = *(u_long *) (pdu->variables->val.integer);
+//				aa->pswCount_++;
+//			}
+//        }
+//		return SnmpCallback::RequestStop;
+//	}
+//    
+//}
 
 void DevicesWnd::timerEvent ( QTimerEvent * event ){
     size_t t = GetTickCount();
@@ -250,10 +250,10 @@ void DevicesWnd::timerEvent ( QTimerEvent * event ){
             onlineRefreshed(aa);
 			if ( aa->pswCount_ == 0 && aa->psw_[0] == 0 && aa->psw_[1] == 0 && aa->psw_[2] == 0 && aa->psw_[3] == 0){ //检查是否已经开始读PSW
 				aa->psw_[0] = 1;//标记已经开始读PSW
-				SnmpNet::instance()->addAsyncGetWithIP("PSW0", PswOid0.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
-				SnmpNet::instance()->addAsyncGetWithIP("PSW1", PswOid1.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
-				SnmpNet::instance()->addAsyncGetWithIP("PSW2", PswOid2.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
-				SnmpNet::instance()->addAsyncGetWithIP("PSW3", PswOid3.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+				//SnmpNet::instance()->addAsyncGetWithIP("PSW0", PswOid0.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+				//SnmpNet::instance()->addAsyncGetWithIP("PSW1", PswOid1.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+				//SnmpNet::instance()->addAsyncGetWithIP("PSW2", PswOid2.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+				//SnmpNet::instance()->addAsyncGetWithIP("PSW3", PswOid3.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
 			}
         }
     }
@@ -281,29 +281,29 @@ bool Ac1608Address::valiatePassword( ){
 }
 
 void DevicesWnd::onlineRefreshed(Ac1608Address * aa){
-    QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
-    item2->setText(timeticksToString(aa->timeticks ) );
-    if ( aa != currConnAddress_){
-        QTableWidgetItem  * item3 = tableDevices_->item( aa->row, 3);
-        item3->setBackground(QBrush(QColor(Qt::green))); 
-        item3->setText("Online");
+  //  QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
+  //  item2->setText(timeticksToString(aa->timeticks ) );
+  //  if ( aa != currConnAddress_){
+  //      QTableWidgetItem  * item3 = tableDevices_->item( aa->row, 3);
+  //      item3->setBackground(QBrush(QColor(Qt::green))); 
+  //      item3->setText("Online");
 
-		if ( aa->pswCount_ >=4 && aa->valiatePassword( ) ){
-			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Connect");
-			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
-		}else{
-			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Password");
-			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
-		}
+		//if ( aa->pswCount_ >=4 && aa->valiatePassword( ) ){
+		//	QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
+		//	item4->setText( "Connect");
+		//	item4->setBackground(QBrush(QColor(Qt::lightGray))); 
+		//}else{
+		//	QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
+		//	item4->setText( "Password");
+		//	item4->setBackground(QBrush(QColor(Qt::lightGray))); 
+		//}
 
-		if ( aa->pswCount_ == 4){
-			QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
-			item5->setBackground(QBrush(QColor(Qt::lightGray))); 
-			item5->setText( "Password");
-		}
-    }
+		//if ( aa->pswCount_ == 4){
+		//	QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
+		//	item5->setBackground(QBrush(QColor(Qt::lightGray))); 
+		//	item5->setText( "Password");
+		//}
+  //  }
 }
 
 void DevicesWnd::offlineRefreshed(Ac1608Address * aa){
@@ -323,7 +323,7 @@ void DevicesWnd::offlineRefreshed(Ac1608Address * aa){
 
 void DevicesWnd::connectImpl( Ac1608Address* aa){
     if (aa != currConnAddress_){ //切换当前连接的IP
-        SnmpNet::instance()->switchAsyncSnmpAddress( aa->ip.toStdString().c_str() );
+        //SnmpNet::instance()->switchAsyncSnmpAddress( aa->ip.toStdString().c_str() );
 
         QTableWidgetItem  * item4;
         if ( currConnAddress_ != 0){

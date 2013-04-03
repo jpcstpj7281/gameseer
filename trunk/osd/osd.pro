@@ -23,29 +23,20 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
 configmgr.cpp \
-snmpnetwnd.cpp \
-snmpnet.cpp \
 mainwindow.cpp \
 deviceswnd.cpp
 
-HEADERS  +=  snmpnet.h \
-snmpnetwnd.h \
+HEADERS  +=  \
 configmgr.h \
 mainwindow.h \
 deviceswnd.h
 
 FORMS    += \
 mainwindow.ui \
-snmpnetwnd.ui \
 deviceswnd.ui \
 
 
 LIBS += -lws2_32
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp -lAdvapi32
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd -lAdvapi32
-else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
-
 
 
 INCLUDEPATH += $$PWD/inc
