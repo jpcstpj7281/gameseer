@@ -2,10 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "snmpnet.h"
 
 class DevicesWnd;
-class SnmpNetWnd;
+//class SnmpNetWnd;
 
 namespace Ui {
     class MainWindow;
@@ -52,8 +51,7 @@ class MainWindow : public QMainWindow
         Ui::MainWindow *ui;
 
         DevicesWnd *devicesWnd_;
-		DevicesWnd *deviceswnd_;
-		SnmpNetWnd * snmpNetWnd_;
+		//SnmpNetWnd * snmpNetWnd_;
 
         void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);

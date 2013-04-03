@@ -9,7 +9,6 @@
 #include <QRegExpValidator>
 #include <QRegExp>
 #include <functional>
-#include <Snmpnet.h>
 
 #include <QMutex>
 
@@ -21,13 +20,6 @@ class Ac1608Address;
 class DevicesWnd;
 
 typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
-
-//static const char* CONNECT_STR = "Connect";
-//static const char* DISCONNECT_STR = "Disconnect";
-static std::string PswOid0 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.9";
-static std::string PswOid1 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.10";
-static std::string PswOid2 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.11";
-static std::string PswOid3 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.12";
 
 class Ac1608Address: public QObject{
 	Q_OBJECT
@@ -110,7 +102,7 @@ private:
 
     Ui::DevicesWnd *ui;
 
-	SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
+	//SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
 	void onlineRefreshed(Ac1608Address * aa);
 	void offlineRefreshed(Ac1608Address * aa);
 	void checkingRefreshed(Ac1608Address * aa);

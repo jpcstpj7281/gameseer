@@ -1,14 +1,13 @@
 
 #include "mainwindow.h"
 #include "configmgr.h"
-#include "snmpnet.h"
 #include <QApplication>
 
 
 int main(int argc, char *argv[])
 {
 
-	SnmpNet::instance();
+	//SnmpNet::instance();
 
 
 
@@ -16,11 +15,11 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     
-	SnmpNet::instance()->startThread();
+	//SnmpNet::instance()->startThread();
     auto rs = a.exec();
-	SnmpNet::instance()->stop();
+	//SnmpNet::instance()->stop();
 	delete ConfigMgr::instance();
-	delete SnmpNet::instance();
+	//delete SnmpNet::instance();
 	return rs;
 
 }
