@@ -19,10 +19,9 @@
 #include <CobraNetWnd.h>
 #include "SnmpNetWnd.h"
 
-#include "snmpnet.h"
+
 #include "configmgr.h"
-#include <net-snmp/net-snmp-config.h>
-#include <net-snmp/net-snmp-includes.h>
+
 
 #include <functional>
 

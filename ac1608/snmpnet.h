@@ -81,10 +81,6 @@ public:
 //	QString uniqueid;
 };
 
-namespace Ui {
-class SnmpNet;
-}
-
 class SnmpNet 
 {
 
