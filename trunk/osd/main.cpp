@@ -1,13 +1,13 @@
 
 #include "mainwindow.h"
 #include "configmgr.h"
+#include "QboxNet.h"
 #include <QApplication>
 
 
 int main(int argc, char *argv[])
 {
 
-	//SnmpNet::instance();
 
 
 
@@ -15,11 +15,11 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     
-	//SnmpNet::instance()->startThread();
+	QboxMgr::instance()->startThread();
     auto rs = a.exec();
-	//SnmpNet::instance()->stop();
+	QboxMgr::instance()->stop();
 	delete ConfigMgr::instance();
-	//delete SnmpNet::instance();
+	delete QboxMgr::instance();
 	return rs;
 
 }

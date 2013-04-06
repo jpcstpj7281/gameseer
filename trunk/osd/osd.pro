@@ -24,24 +24,40 @@ TEMPLATE = app
 SOURCES += main.cpp\
 configmgr.cpp \
 mainwindow.cpp \
+OsdImage.cpp \
+OsdProjMode.cpp \
+QboxNet.cpp \
+msgBase.cpp \
+TestQbox.cpp \
 deviceswnd.cpp
 
 HEADERS  +=  \
 configmgr.h \
 mainwindow.h \
+OsdImage.h \
+OsdProjMode.h \
+QboxNet.h \
+msgBase.h \
+TestQbox.h \
 deviceswnd.h
 
 FORMS    += \
 mainwindow.ui \
+OsdImage.ui \
+OsdProjMode.ui \
 deviceswnd.ui \
+TestQbox.ui \
 
 
 LIBS += -lws2_32
+DEFINES +=	_WIN32_WINNT=0x0501 \
+BOOST_DATE_TIME_NO_LIB BOOST_REGEX_NO_LIB BOOST_ALL_NO_LIB=1
 
 
 INCLUDEPATH += $$PWD/inc
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD/inc
+
 
 
 
