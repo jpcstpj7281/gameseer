@@ -4,6 +4,9 @@
 #include <QMainWindow>
 
 class DevicesWnd;
+class OsdImage;
+class OsdProjMode;
+class TestQbox;
 //class SnmpNetWnd;
 
 namespace Ui {
@@ -51,6 +54,9 @@ class MainWindow : public QMainWindow
         Ui::MainWindow *ui;
 
         DevicesWnd *devicesWnd_;
+		OsdImage *osdImage_;
+		OsdProjMode * osdProjMode_;
+		TestQbox * testQbox_;
 		//SnmpNetWnd * snmpNetWnd_;
 
         void closeEvent(QCloseEvent * event);

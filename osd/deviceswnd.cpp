@@ -62,6 +62,7 @@ DevicesWnd::~DevicesWnd()
 //    SnmpNet::instance()->addAsyncGet( "1.3.6.1.2.1.1.3.0",  "192.168.1.100" ,  "public" ,  std::bind<SnmpCallbackFunc >( dispatchFunc1, _1, _2, _3, _4 ));
 //}
 
+//load addresses from configuration
 void DevicesWnd::initAddresses(){
     if ( addresses_.size() > 0) return;
     QDomElement address = ConfigMgr::instance()->getAddressElem().firstChildElement();
@@ -79,8 +80,6 @@ void DevicesWnd::initAddresses(){
 // aa == NULL时, 查看最后一行是否合法,合法就增加新一行
 // aa != NULL时, 把最后一行填充,再新建新一行
 void DevicesWnd::newAddress( Ac1608Address * aa ){
-
-    //locker_.lock();
 
     Ac1608Address * lastSecondLine ;
 

@@ -2,16 +2,17 @@
 #include "ui_mainwindow.h"
 #include <QDebug.h>
 #include "DevicesWnd.h"
+#include "TestQbox.h"
 #include <QAction.h>
 #include <QLineEdit.h>
 #include <QTabWidget.h>
 
-
 #include "configmgr.h"
-
 #include <functional>
-
 #include <QTableView>
+
+#include <OsdImage.h>
+#include <OsdProjMode.h>
 
 
 using namespace std::placeholders;
@@ -20,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
 	,devicesWnd_(new DevicesWnd)
+	,osdImage_(new OsdImage)
+	,osdProjMode_(new OsdProjMode)
+	,testQbox_(new TestQbox)
 	//,snmpNetWnd_(new SnmpNetWnd)
 
 {
@@ -29,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 	
 	_tab->addTab(devicesWnd_, "Devices" );
+	_tab->addTab(osdImage_, "Image" );
+	_tab->addTab(osdProjMode_, "Projection Mode" );
+	_tab->addTab(testQbox_, "Test" );
 	//_tab->addTab(snmpNetWnd_, "SnmpNet" );
 	
 	devicesWnd_->initAddresses();
