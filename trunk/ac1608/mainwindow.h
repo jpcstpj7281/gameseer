@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "snmpnet.h"
+
 
 class InputGainCtrlWnd;
 class ChangePasswordWnd;
