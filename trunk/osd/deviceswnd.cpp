@@ -193,6 +193,7 @@ Ac1608Address* getAddressByRow( DevicesWnd::AddressMap & addresses , int row){
         Ac1608Address * aa = it->second;
         if (aa->row == row) return aa;
     }
+	return NULL;
 }
 
 //SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){

@@ -8,6 +8,11 @@
 #include <stdint.h>
 
 
+#define QBOX_VALUE_STRING "String"
+#define QBOX_VALUE_HEX_BIN "Hex Bin"
+#define QBOX_VALUE_DEC_INT "Dec Int"
+#define QBOX_VALUE_DEC_UINT "Dec Uint"
+
 
 class QboxObj;
 typedef std::map<std::string, std::string>	QboxDataMap;
@@ -19,13 +24,17 @@ class Qbox{
 
 	void mainThreadRun();
 	friend class QboxMgr;
-	Qbox();
-
+	Qbox(){}
+	Qbox(const std::string &ip);
+	~Qbox();
 	
 public:
 	std::string address();
 	void addAsyncRequest( uint32_t msgtype ,QboxCallbackFunc callback, QboxDataMap &value );
-	void connInit(std::string & ip);
+	//void addAsyncRequestVersion( QboxCallbackFunc callback, QboxDataMap &value );
+	void connInit();
+	bool isConn();
+	void close();
 };
 
 class QboxMgr :public QObject 
@@ -38,16 +47,18 @@ class QboxMgr :public QObject
 
 	struct Impl;
 	Impl* impl_;
-	friend struct Qbox;
+	friend class Qbox;
 public:
 	~QboxMgr();
 	static QboxMgr *instance();
 	void startThread();
 	void stop();
 
-	bool hasQbox(std::string &ip);
-	Qbox* getQbox( std::string &ip);//create one if not there
-	bool removeQbox( std::string &ip);
+	void threadRun();
+
+	bool hasQbox(const std::string &ip);
+	Qbox* getQbox(const  std::string &ip);//create one if not there
+	bool removeQbox(const  std::string &ip);
 };
 
 
