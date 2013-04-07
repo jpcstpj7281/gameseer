@@ -84,44 +84,30 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 
 	_tab->setGeometry( 0, 0, this->width()+2, this->height()-40);
 
-	QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
-	if (t){
-	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
-	t->setColumnWidth( 0, 150);
-	t->setColumnWidth( 2, 100);
-	t->setColumnWidth( 3, 100);
-	t->setColumnWidth( 4, 100);
-	t->setColumnWidth( 5, 100);
-	t->setColumnWidth( 1, (int)(t->width() - 600) );
-	}
+	//QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
+	//if (t){
+	//t->setGeometry( 0, 0, this->width()+2, this->height()-40);
+	//t->setColumnWidth( 0, 150);
+	//t->setColumnWidth( 2, 100);
+	//t->setColumnWidth( 3, 100);
+	//t->setColumnWidth( 4, 100);
+	//t->setColumnWidth( 5, 100);
+	//t->setColumnWidth( 1, (int)(t->width() - 600) );
+	//}
 
-	t = _tab->findChild<QTableWidget* >("tableOids");
-	if (t){
-		t->setGeometry( 0, 0, this->width()+2, this->height()-40);
-	t->setColumnWidth( 0, 150);
-	t->setColumnWidth( 2, 100);
-	t->setColumnWidth( 3, 100);
-	t->setColumnWidth( 4, 100);
-	t->setColumnWidth( 5, 100);
-	t->setColumnWidth( 1, (int)(t->width() - 600) );
-	}
+	//t = _tab->findChild<QTableWidget* >("tableOids");
+	//if (t){
+	//	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
+	//t->setColumnWidth( 0, 150);
+	//t->setColumnWidth( 2, 100);
+	//t->setColumnWidth( 3, 100);
+	//t->setColumnWidth( 4, 100);
+	//t->setColumnWidth( 5, 100);
+	//t->setColumnWidth( 1, (int)(t->width() - 600) );
+	//}
 
 
 }
-
-//SnmpCallback::RequestStatus dispatchFunc(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-//	//netsnmp_variable_list *vars;
-//	//for (vars = pdu->variables; vars; vars = vars->next_variable){
-//	//print_variable(pdu->variables->name, pdu->variables->name_length, vars);
-//	const int len = 1024;
-//	char buf[len];
-//	memset( buf, 0, 1024);
-//	snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
-//	qDebug()<<buf;
-//
-//	//}
-//	return SnmpCallback::RequestAgain;
-//}
 
 void MainWindow::on_actionCopyParam_clicked(QAction* action){
 	if (action->objectName() != "action_copy_param" ) return;

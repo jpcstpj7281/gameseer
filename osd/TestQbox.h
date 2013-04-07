@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QComboBox.h>
+#include <stdint.h>
+#include <QboxNet.h>
 
 namespace Ui {
 class TestQbox;
@@ -17,7 +19,7 @@ class QboxComboBox: public QComboBox{
 	private slots:
 		void currentIndexChangedImpl(const QString & text);
 public:
-	QboxComboBox(std::string &data, QTableWidgetItem  *item);
+	QboxComboBox( const std::string &data, QTableWidgetItem  *item);
 };
 
 class TestQbox : public QWidget
@@ -28,18 +30,22 @@ public:
     explicit TestQbox(QWidget *parent = 0);
     ~TestQbox();
     
+	void setCurrQboxAddress( QString & ip);
 	private slots:
 		void cellChanged(int,int);
+		void sendClicked(bool);
+		void clearClicked(bool);
 private:
     Ui::TestQbox *ui;
 
 	QTableWidget* tableRequest_;
 	QTableWidget* tableResponse_;
-
+	QString qboxAddr_;
 	
 	void newRequestRow( );
+	bool testDataCallback( uint32_t , QboxDataMap& );
 
-	void addResponseRow( std::string & key, std::string & data );
+	void addResponseRow( const std::string & key,const std::string & data );
 };
 
 #endif // TESTQBOX_H

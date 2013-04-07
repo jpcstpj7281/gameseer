@@ -29,6 +29,7 @@ OsdProjMode.cpp \
 QboxNet.cpp \
 msgBase.cpp \
 TestQbox.cpp \
+Screen.cpp \
 deviceswnd.cpp
 
 HEADERS  +=  \
@@ -39,6 +40,7 @@ OsdProjMode.h \
 QboxNet.h \
 msgBase.h \
 TestQbox.h \
+Screen.h \
 deviceswnd.h
 
 FORMS    += \

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * protocol.h
  *
  *  Created on: 2012-2-21
