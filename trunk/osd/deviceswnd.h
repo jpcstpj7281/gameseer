@@ -9,59 +9,55 @@
 #include <QRegExpValidator>
 #include <QRegExp>
 #include <functional>
-
-#include <QMutex>
-
+#include <QPushButton.h>
+#include "Screen.h"
+#include <QMainWindow>
+class OsdImage;
+class OsdProjMode;
 
 namespace Ui {
 class DevicesWnd;
+class MainWindow;
 }
-class QboxAddress;
-class DevicesWnd;
 
-typedef std::function< int (int, int, QboxAddress*) > AddressCallback;
-
-class QboxAddress: public QObject{
-	Q_OBJECT
-private slots:
-	void editingAddressFinished ();
-public:
-	QboxAddress( QString &ip , QString & loc):
-	snmpResponseTime(0)
-	,row(0),ip(ip)
-	,location(loc)
-	,startCheckTime(0)
-	,t_(0)
-	,lineEdit_(0)
-	,pswCount_(0){
-		memset(psw_, 0, 16);
-		memset(inputPsw_, 0, 16);
-	}
-
-	void init(QLineEdit* lineEdit, DevicesWnd* t){ 
-		this->t_ = t;
-		this->lineEdit_ = lineEdit;
-		connect( lineEdit, SIGNAL(editingFinished ()), this, SLOT(editingAddressFinished ()));
-	}
-	bool valiatePassword();
-	size_t row;
-	volatile size_t snmpResponseTime;
-	size_t startCheckTime;
-	QString ip;
-	QString location;
-	QLineEdit* lineEdit_;
-	DevicesWnd* t_;
-
-	int psw_[4];
-	int inputPsw_[4];
-	volatile int pswCount_;
-
-	volatile size_t timeticks;
-	//char deviceRunTime[32];
-	
-	//AddressCallback callback;
+class OsdWnd: public QMainWindow
+{
+    Q_OBJECT
+    public:
+		explicit OsdWnd(ResourceID screenid);
+        ~OsdWnd();
+    private slots:
+		void tabChanged (int);
+    private:
+		QTabWidget* _tab;
+        Ui::MainWindow *ui;
+		OsdImage *osdImage_;
+		OsdProjMode * osdProjMode_;
+		ResourceID screenid_;
 };
 
+
+
+class ScreenConnBtn: public QPushButton{
+	Q_OBJECT
+
+	ResourceID  screenid_;
+	private slots:
+		void clickit();
+		void clickOsd();
+public:
+	QTableWidgetItem	*row_;
+	QTableWidgetItem	*col_;
+	QLineEdit			*address_;
+	QPushButton			*osdBtn_;
+
+	OsdWnd				*osdWnd_;
+
+	void conn();
+	void disconn();
+	ScreenConnBtn( ResourceID screenid, const std::string & ip);
+	bool connectedCallback( uint32_t , QboxDataMap);
+};
 
 class DevicesWnd : public QWidget
 {
@@ -72,40 +68,37 @@ public:
     ~DevicesWnd();
 
 
-	//void refresh();
 	void initAddresses();
 	
-	typedef std::map< QString, QboxAddress* > AddressMap;
+	//typedef std::map< QString, QboxAddress* > AddressMap;
 private slots:
-	void editingNewAddressFinished ();
+
 	void itemClicked(QTableWidgetItem *);
 	void cellChanged(int,int);
-
+	void incrCol();
+	void incrRow();
+	void decrCol();
+	void decrRow();
+	void disconnAll();
+	void connAll();
 
 private:
 
-	void connectImpl( QboxAddress*);
-	void disconnectImpl( QboxAddress*);
+	
+
+	void connectImpl( );
+	void disconnectImpl( );
 
 	virtual void	timerEvent ( QTimerEvent * event )override;
 
-	QLineEdit * lastLineEdit_;
+	void newAddress(ResourceID screenid, const std::string &ip);
+	void deleteAddress(ResourceID screenid);
 
-	void newAddress(QboxAddress * aa = NULL);
-
-	AddressMap addresses_;
-	QboxAddress* currConnAddress_;
+	//AddressMap addresses_;
 
 	QTableWidget*				tableDevices_;
 
     Ui::DevicesWnd *ui;
-
-	//SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
-	void onlineRefreshed(QboxAddress * aa);
-	void offlineRefreshed(QboxAddress * aa);
-	void checkingRefreshed(QboxAddress * aa);
-	QMutex locker_;
-
 
 	friend class QboxAddress;
 

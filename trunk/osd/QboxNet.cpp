@@ -17,12 +17,12 @@ using asio::ip::tcp;
 
 class QboxObj{
 public:
-	QboxObj(uint32_t msgtype, QboxCallbackFunc callback, QboxDataMap& var ):
+	QboxObj(uint32_t msgtype, QboxCallback callback, QboxDataMap& var ):
 	callback_(callback){
 		sendmsg_.msgType = msgtype;
 		sendmsg_.info = var;
 	}
-	QboxCallbackFunc callback_;
+	QboxCallback callback_;
 	MsgInfo sendmsg_;
 };
 
@@ -34,8 +34,9 @@ struct QboxMgr::Impl{
 	asio::io_service socketios_;
 	asio::io_service mainios_;
 	asio::io_service::work* work_;
-	typedef std::map<std::string, Qbox*> SocketMap;
+	typedef std::vector<Qbox*> SocketMap;
 	SocketMap qboxes_;
+	SocketMap removeQboxs_;
 	Impl():thread_(0)
 	,socketios_()
 	,work_( new asio::io_service::work(socketios_)){
@@ -47,9 +48,9 @@ struct QboxMgr::Impl{
 	void stop(){
 		running_ = false;
 		if (thread_){
+			try{
 			for ( auto it = qboxes_.begin(); it != qboxes_.end(); ++it){
-				it->second->close();
-
+				(*it)->close();
 			}
 			delete work_;
 			socketios_.stop();
@@ -57,6 +58,9 @@ struct QboxMgr::Impl{
 			thread_->join();
 			delete thread_;
 			thread_ = 0;
+			}catch( std::exception &e){
+				qDebug()<<e.what();
+			}
 		}
 	}
 };
@@ -70,25 +74,49 @@ void QboxMgr::threadRun(){
 }
 
 bool QboxMgr::hasQbox(const std::string & ip){	
-	return impl_->qboxes_.find(ip)!= impl_->qboxes_.end();
+	BOOST_FOREACH( Qbox* q, impl_->qboxes_){
+		if ( q->address() == ip){
+			return true;
+		}
+	}
+	return false;
 }
 Qbox* QboxMgr::getQbox(const std::string & ip){	
-	auto found = impl_->qboxes_.find(ip);
-	if ( found == impl_->qboxes_.end() ){
-		Qbox * q = new Qbox(ip);
-		impl_->qboxes_.insert( std::make_pair( ip, q));
-		return q;
+	BOOST_FOREACH( Qbox* q, impl_->qboxes_){
+		if ( q->address() == ip){
+			return q;
+		}
 	}
-	return found->second;
+	return NULL;
 }
-bool QboxMgr::removeQbox(const  std::string &ip){
-	auto found = impl_->qboxes_.find(ip);
-	if ( found == impl_->qboxes_.end() ){
-		return false;
+Qbox* QboxMgr::createQbox(const std::string & ip){	
+	BOOST_FOREACH( Qbox* q, impl_->qboxes_){
+		if ( q->address() == ip){
+			return q;
+		}
 	}
-	delete found->second;
-	impl_->qboxes_.erase(found);
-	return true;
+	Qbox * q;
+	if ( impl_->removeQboxs_.empty()){
+		q = new Qbox();
+	}else{
+		q = impl_->removeQboxs_.back();
+	}
+	q->setAddress(ip);
+	impl_->qboxes_.push_back(q);
+	return q;
+}
+
+bool QboxMgr::removeQbox(const  std::string &ip){
+	for( auto it = impl_->qboxes_.begin(); it != impl_->qboxes_.end(); ++it ){
+		if ( (*it)->address() == ip){
+			(*it)->close();
+			impl_->removeQboxs_.push_back( *it);
+			//delete (*it);
+			impl_->qboxes_.erase(it);
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -103,8 +131,11 @@ impl_(new Impl)
 }
 QboxMgr::~QboxMgr()
 {
-	for ( auto it = impl_->qboxes_.begin(); it != impl_->qboxes_.end(); ++it){
-		delete it->second;
+	BOOST_FOREACH( Qbox* q, impl_->qboxes_){
+		delete q;
+	}
+	BOOST_FOREACH( Qbox* q, impl_->removeQboxs_){
+		delete q;
 	}
 	delete impl_;
 }
@@ -117,8 +148,6 @@ void QboxMgr::startThread(){
 	impl_->running_ = true;
 	startTimer(10);
 	impl_->thread_ = new asio::thread( boost::bind(&QboxMgr::threadRun, this ) );
-
-	//connect( std::string("127.0.0.1"), boost::bind( testCallback, _1, _2), QboxDataMap() );
 }
 
 void QboxMgr::timerEvent ( QTimerEvent *  ){
@@ -174,6 +203,9 @@ struct Qbox::Impl{
 	}
 
 	void asyncConnect(){
+		if ( !socket_.is_open()){
+			socket_.open( asio::ip::tcp::v4()  );
+		}
 		socket_.async_connect( asio::ip::tcp::endpoint(asio::ip::address::from_string(ip_), 5000 ),boost::bind(&Qbox::Impl::handleConnected, this, asio::placeholders::error) );
 	}
 	void asyncReceive(){
@@ -245,7 +277,7 @@ struct Qbox::Impl{
 		}
 	}
 
-	void addAsyncRequest( uint32_t msgtype , QboxCallbackFunc callback, QboxDataMap& value ){
+	void addAsyncRequest( uint32_t msgtype , QboxCallback callback, QboxDataMap& value ){
 		//if ( !isConnected_ ) return false;
 		QboxObj * so = new QboxObj( msgtype , callback, value);
 		requestList_.push_back(so);
@@ -254,40 +286,65 @@ struct Qbox::Impl{
 	}
 
 	void connInit(){
-		if ( ! isConnected_){
+		if ( ! isConnected_ && !ip_.empty() ){
 			asyncConnect();
+			requestList_.clear();
+			sentList_.clear();
 		}
 	}
 
-	Impl( const std::string & ip):
+	Impl():
 	socket_( QboxMgr::instance()->impl_->socketios_)
-	,ip_(ip)
+	,ip_()
 	,mainios_( &QboxMgr::instance()->impl_->mainios_)
 	,receiveLen(0)
 	,isConnected_(false){
 		
 	}
-
-	
+	~Impl(){
+		close();
+		ip_.clear();
+		mainios_ = 0;
+	}
+	void close(){
+		if ( socket_.is_open() ){
+			socket_.close();
+		}
+		if ( isConnected_){
+			isConnected_ = false;
+		}
+		BOOST_FOREACH( QboxObj* obj , requestList_){
+			delete obj;
+		}
+		requestList_.clear();
+		BOOST_FOREACH( QboxObj* obj , sentList_){
+			delete obj;
+		}
+		sentList_.clear();
+	}
 };
+
 void Qbox::close(){
-	impl_->socket_.close();
+	impl_->close();
 }
+
 std::string Qbox::address(){
 	return impl_->ip_;
 }
+void Qbox::setAddress(const std::string& ip){
+	impl_->ip_ = ip;
+}
 
-Qbox::Qbox(const std::string &ip)
-	:impl_(new Qbox::Impl(ip) )
+Qbox::Qbox()
+	:impl_(new Qbox::Impl() )
 {
-	connInit();
 }
 Qbox::~Qbox(){
 	delete impl_;
 }
 	
 
-void Qbox::addAsyncRequest( uint32_t msgtype , QboxCallbackFunc callback, QboxDataMap& value ){
+void Qbox::addAsyncRequest( uint32_t msgtype , QboxCallback callback, QboxDataMap& value ){
 	impl_->addAsyncRequest(msgtype, callback, value);
 }
 void Qbox::connInit(){

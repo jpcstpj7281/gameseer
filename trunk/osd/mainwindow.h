@@ -4,8 +4,6 @@
 #include <QMainWindow>
 
 class DevicesWnd;
-class OsdImage;
-class OsdProjMode;
 class TestQbox;
 //class SnmpNetWnd;
 
@@ -37,12 +35,6 @@ class MainWindow : public QMainWindow
 
 		
     private slots:
-        void on_inputGainControl_clicked();
-        void on_gateNom_clicked();
-        void on_highPass_clicked();
-        void on_actionChangePsw_clicked(QAction*);
-        void on_actionCopyParam_clicked(QAction*);
-		void on_actionEdit_clicked(QAction*);
 
 		void tabChanged (int);
 
@@ -54,8 +46,6 @@ class MainWindow : public QMainWindow
         Ui::MainWindow *ui;
 
         DevicesWnd *devicesWnd_;
-		OsdImage *osdImage_;
-		OsdProjMode * osdProjMode_;
 		TestQbox * testQbox_;
 		//SnmpNetWnd * snmpNetWnd_;
 

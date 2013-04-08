@@ -16,7 +16,7 @@
 
 
 typedef std::map<std::string, std::string>	QboxDataMap;
-typedef std::function< bool ( uint32_t , QboxDataMap& )> QboxCallbackFunc;
+typedef std::function< bool ( uint32_t , QboxDataMap& )> QboxCallback;
 
 class Qbox{
 	struct Impl;
@@ -24,14 +24,14 @@ class Qbox{
 
 	void mainThreadRun();
 	friend class QboxMgr;
-	Qbox(){}
-	Qbox(const std::string &ip);
+	Qbox();
 	~Qbox();
 	
 public:
+	void setAddress(const std::string & ip);
 	std::string address();
-	void addAsyncRequest( uint32_t msgtype ,QboxCallbackFunc callback, QboxDataMap &value );
-	//void addAsyncRequestVersion( QboxCallbackFunc callback, QboxDataMap &value );
+	void addAsyncRequest( uint32_t msgtype ,QboxCallback callback, QboxDataMap &value );
+	//void addAsyncRequestVersion( QboxCallback callback, QboxDataMap &value );
 	void connInit();
 	bool isConn();
 	void close();
@@ -57,7 +57,8 @@ public:
 	void threadRun();
 
 	bool hasQbox(const std::string &ip);
-	Qbox* getQbox(const  std::string &ip);//create one if not there
+	Qbox* getQbox(const  std::string &ip);
+	Qbox* createQbox(const  std::string &ip);//return the one found if already there
 	bool removeQbox(const  std::string &ip);
 };
 
