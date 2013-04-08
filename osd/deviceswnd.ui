@@ -35,7 +35,7 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="incrCol">
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -48,7 +48,7 @@
     <string>增加列</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="incrRow">
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -61,7 +61,7 @@
     <string>增加行</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="decrRow">
    <property name="geometry">
     <rect>
      <x>930</x>
@@ -74,7 +74,7 @@
     <string>减少行</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="decrCol">
    <property name="geometry">
     <rect>
      <x>930</x>
@@ -87,7 +87,7 @@
     <string>减少列</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
+  <widget class="QPushButton" name="connAll">
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -100,7 +100,7 @@
     <string>  连接所有Qbox</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="disconnAll">
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -114,12 +114,12 @@
    </property>
   </widget>
   <zorder>tableDevices</zorder>
-  <zorder>pushButton_2</zorder>
-  <zorder>pushButton_3</zorder>
-  <zorder>pushButton_4</zorder>
-  <zorder>pushButton</zorder>
-  <zorder>pushButton_5</zorder>
-  <zorder>pushButton_6</zorder>
+  <zorder>incrRow</zorder>
+  <zorder>decrRow</zorder>
+  <zorder>decrCol</zorder>
+  <zorder>incrCol</zorder>
+  <zorder>connAll</zorder>
+  <zorder>disconnAll</zorder>
  </widget>
  <resources/>
  <connections/>

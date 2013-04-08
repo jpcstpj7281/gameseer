@@ -66,18 +66,7 @@ TestQbox::TestQbox(QWidget *parent) :
 
 	connect( tableRequest_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
-
 	newRequestRow();
-	std::string str;
-	//char c = 0xff;
-	//str += c;
-	//str += c;
-	//str += c;
-	//str += c;
-	//addResponseRow( std::string("hello"), str );
-	//addResponseRow( std::string("hello1"), std::string("test"));
-	//addResponseRow( std::string("hello2"), std::string("test"));
-
 
 	QPushButton * btnSend = findChild<QPushButton* >("btnSend");
 	connect( btnSend, SIGNAL(clicked(bool)), this, SLOT(sendClicked(bool)));
@@ -92,8 +81,6 @@ TestQbox::TestQbox(QWidget *parent) :
 	//lemsgid->setMaxLength(4);
 
 	setCurrQboxAddress(QString("127.0.0.1"));
-	//Qbox * q = QboxMgr::instance()->getQbox( qboxAddr_.toStdString() );
-	//q->connInit();
 	
 }
 
@@ -156,8 +143,6 @@ void TestQbox::sendClicked(bool){
 
 	Qbox * q = QboxMgr::instance()->getQbox( qboxAddr_.toStdString() );
 	q->addAsyncRequest( msgtype, std::bind(&TestQbox::testDataCallback, this, std::placeholders::_1, std::placeholders::_2), data);
-
-
 	tableResponse_->setRowCount(0);
 }
 

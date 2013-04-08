@@ -4,36 +4,40 @@
 #include <map>
 #include <list>
 #include <QString>
-#include <functional>
 #include <stdint.h>
 #include "QboxNet.h"
 
 
-typedef uint32_t ResourceID; // do the ring input << 24 + ring output << 16 + row <<8 + col; id for screen, channel, ringnode
+typedef uint32_t ResourceID;	// do the ring input << 24 + ring output << 16 + row <<8 + col; id for screen, channel, ringnode, 
+								// NOTE: all input output row and col start from 1, not 0; so ResourceID 0 means NULL;
 
-typedef std::function< bool (QboxDataMap& )> ScreenCallback;
 typedef std::function< bool (ResourceID )> ResourceChangedCallback;
 
 class Screen{
 	void run();
 	friend class ScreenMgr;
-	Screen();
+	Screen( uint32_t row, uint32_t col);
 	~Screen();
 
 	uint32_t col_;
 	uint32_t row_;
-	
 	Qbox* qbox_;
 
 	std::map<uint32_t, void* > resources_;
 
-	void versionRequest(ScreenCallback callback, QboxDataMap &value );
-	void inputRequest(ScreenCallback callback, QboxDataMap &value );
-	void inputResolutionRequest(ScreenCallback callback, QboxDataMap &value );
-	void outputRequest(ScreenCallback callback, QboxDataMap &value );
+	
+	void inputRequest(QboxCallback callback, QboxDataMap &value );
+	void inputResolutionRequest(QboxCallback callback, QboxDataMap &value );
+	void outputRequest(QboxCallback callback, QboxDataMap &value );
 
 public:
-	inline ResourceID getResourceID(){ return row_<<8+col_;}
+	void versionRequest(QboxCallback callback, QboxDataMap &value );
+
+	bool setAddress( const std::string & ip);
+	void connect();
+	void disconnect();
+
+	inline ResourceID getResourceID(){ return (row_<< 8) + col_;}
 	inline uint32_t getCol() { return col_;}
 	inline uint32_t getRow() { return row_;}
 
@@ -41,7 +45,7 @@ public:
 	ResourceID getAvailableRingOutResource( void * handle);
 	std::vector<ResourceID> getValidChnInResources();
 
-	void osdRequest(ScreenCallback callback, QboxDataMap &value );
+	void osdRequest(QboxCallback callback, QboxDataMap &value );
 
 	void onInputChanged(ResourceChangedCallback callback);
 	void onInputResolutionChanged(ResourceChangedCallback callback);
@@ -67,14 +71,15 @@ public:
 	static ScreenMgr *instance();
 
 	inline Screen* getScreen(ResourceID id){	
-		int row = (id >> 8) & 0xFF;
-		int col = id & 0xFF;
+		int row = (id >> 8) & 0xFF - 1;//start from 1, not 0
+		int col = (id & 0xFF) - 1; //start from 1, not 0
 		return screens_[row][col];
 	}
-	bool addScreenCol( );
-	bool addScreenRow(  );
-	bool removeScreenCol( );
-	bool removeScreenRow(  );
+	std::vector<ResourceID> addScreenCol();
+	std::vector<ResourceID> addScreenRow();
+	std::vector<ResourceID> addScreens( uint32_t rowCount, uint32_t colCount);
+	std::vector<ResourceID> removeScreenCol();
+	std::vector<ResourceID> removeScreenRow();
 };
 
 
