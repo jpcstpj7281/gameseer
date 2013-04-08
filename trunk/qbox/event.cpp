@@ -40,13 +40,15 @@ uint32_t Event::onMsgReq(MsgInfo *msg,uint32_t connID)
         	onPImportanceEventUpLoadRsp(msg,connID);
             break;
 
+#ifndef __unix__
         case PDLPCTRLReq::uri:
-        	onPDLPCTRLReq(msg,connID);
-        	break;
+            onPDLPCTRLReq(msg,connID);
+            break;
+#endif
 
         default:
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
-        	break;
+            break;
 
 
     }
@@ -88,38 +90,39 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
     MsgInfo rsp;
 
-     rsp.msgType = PImportanceEventUpLoadReq::uri;
-     rsp.info["event"] = tostring(eventId);
-     rsp.info["desc"] = EntSetting::Instance()->getSysIp();
+    rsp.msgType = PImportanceEventUpLoadReq::uri;
+    rsp.info["event"] = tostring(eventId);
+    rsp.info["desc"] = EntSetting::Instance()->getSysIp();
 
-     MsgHandler::Instance()->broadcastMsg(&rsp);
-
-}
-
-void Event::onPDLPCTRLReq(MsgInfo *msg,uint32_t connID)
-{
-    cout<<"onPDLPCTRLReq"<<" connID="<<connID <<endl;
-
-    uint8_t dwAddr;
-    uint8_t dwCount;
-    uint8_t byDate[128] = {0};
-
-    dwAddr = atoi(msg->info["addr"].c_str());
-    dwCount = atoi(msg->info["len"].c_str());
-
-    cout<<"Date="<<msg->info["value"].c_str() <<endl;
-
-    DLPI2c(dwAddr,dwCount,(uint8_t*)msg->info["value"].c_str());
-
-    MsgInfo rsp;
-
-    rsp.msgType = PDLPCTRLRsp::uri;
-
-
-    rsp.info["result"] = tostring(0);
     MsgHandler::Instance()->broadcastMsg(&rsp);
 
 }
+#ifndef __unix__
+   void Event::onPDLPCTRLReq(MsgInfo *msg,uint32_t connID)
+   {
+   cout<<"onPDLPCTRLReq"<<" connID="<<connID <<endl;
 
+   uint8_t dwAddr;
+   uint8_t dwCount;
+   uint8_t byDate[128] = {0};
+
+   dwAddr = atoi(msg->info["addr"].c_str());
+   dwCount = atoi(msg->info["len"].c_str());
+
+   cout<<"Date="<<msg->info["value"].c_str() <<endl;
+
+   DLPI2c(dwAddr,dwCount,(uint8_t*)msg->info["value"].c_str());
+
+   MsgInfo rsp;
+
+   rsp.msgType = PDLPCTRLRsp::uri;
+
+
+   rsp.info["result"] = tostring(0);
+   MsgHandler::Instance()->broadcastMsg(&rsp);
+
+   }
+
+#endif
 
 

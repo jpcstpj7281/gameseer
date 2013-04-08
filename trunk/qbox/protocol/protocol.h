@@ -13,7 +13,9 @@
 #include "pchannel.h"
 #include "pevent.h"
 #include "pwindow.h"
+#ifndef __unix__
 #include "pdlp.h"
+#endif
 
 
 
