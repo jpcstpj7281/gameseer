@@ -188,10 +188,14 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
 
     uint32_t model = 0;
+#ifndef __unix__
     getChnModel(winOut,model);
+#endif
 	if(TYPE_INPUT_SIZE_DEFAULT != model)
 	{
+#ifndef __unix__
 		setChnModel(winOut,model);
+#endif
 
 	}
 	else
@@ -222,7 +226,9 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
 
         EntSetting::Instance()->setOutputInfoSize(winOut,winW,winH);
         uint32_t in = 0;
+#ifndef __unix__
         getChnSignalInput(winOut,in);
+#endif
         EntSetting::Instance()->setInput(winOut,in);
         EntSetting::Instance()->setOutput(winOut,winOut);
         EntSetting::Instance()->setShowStatus(winOut,TYPE_WINDOW_STATUS_HIDE);
@@ -263,12 +269,16 @@ void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 
     if(layer1 > layer2)
     {
+#ifndef __unix__
     	topChannel(1);
+#endif
     }
 
     if(layer2 > layer1)
     {
+#ifndef __unix__
     	topChannel(2);
+#endif
     }
 
 

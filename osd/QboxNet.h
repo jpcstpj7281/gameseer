@@ -14,7 +14,7 @@
 #define QBOX_VALUE_DEC_UINT "Dec Uint"
 
 
-class QboxObj;
+
 typedef std::map<std::string, std::string>	QboxDataMap;
 typedef std::function< bool ( uint32_t , QboxDataMap& )> QboxCallbackFunc;
 

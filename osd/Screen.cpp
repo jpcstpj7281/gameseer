@@ -11,73 +11,102 @@
 
 using asio::ip::tcp;
 
+Screen::Screen(){
+}
+Screen::~Screen(){
+}
 
 
-
-
-class ScreenObj{
-public:
-	ScreenObj(uint32_t msgtype, ScreenCallbackFunc callback, ScreenDataMap& var ):
-	callback_(callback){
-		sendmsg_.msgType = msgtype;
-		sendmsg_.info = var;
+void Screen::osdRequest(ScreenCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		qbox_->addAsyncRequest( (32<<16)|1, callback, value);
 	}
-	ScreenCallbackFunc callback_;
-	MsgInfo sendmsg_;
-};
-
-struct ScreenMgr::Impl{
-
-	Impl(){
+}
+void Screen::versionRequest(ScreenCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PProtocolVersionReq::uri , callback, value);
 	}
-	~Impl(){
+}
+void Screen::inputRequest(ScreenCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PGetInPutReq::uri , callback, value);
 	}
-};
+}
+void Screen::inputResolutionRequest(ScreenCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PGetInPutSizeReq::uri, callback, value);
+	}
+}
+void Screen::outputRequest(ScreenCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PGetOutPutReq::uri, callback, value);
+	}
+}
 
-bool ScreenMgr::hasScreen(std::string & ip){	
-	//return impl_->qboxes_.find(ip)!= impl_->qboxes_.end();
+
+bool ScreenMgr::removeScreenCol( ){
+	for ( int i = 0; i < rowCount_; ++i){
+		if ( screens_[i][colCount_-1]){
+			delete screens_[i][colCount_-1];
+			screens_[i][colCount_-1] = NULL;
+		}else{
+			return false;
+		}
+	}
+	--colCount_;
 	return true;
 }
-Screen* ScreenMgr::getScreen(std::string & ip){	
-	//auto found = impl_->qboxes_.find(ip);
-	//if ( found == impl_->qboxes_.end() ){
-	//	Screen * q = new Screen();
-	//	impl_->qboxes_.insert( std::make_pair( ip, q));
-	//	return q;
-	//}
-	//return found->second;
-	return NULL;
-}
-bool ScreenMgr::removeScreen( std::string &ip){
-	//auto found = impl_->qboxes_.find(ip);
-	//if ( found == impl_->qboxes_.end() ){
-	//	return false;
-	//}
-	//delete found->second;
-	//impl_->qboxes_.erase(found);
+bool ScreenMgr::addScreenCol( ){
+	for ( int i = 0; i < rowCount_; ++i){
+		if ( screens_[i][colCount_] == NULL){
+			screens_[i][colCount_] = new Screen;
+		}else{
+			return false;
+		}
+	}
+	++colCount_;
 	return true;
 }
-
+bool ScreenMgr::removeScreenRow(){
+	for ( int i = 0; i < colCount_; ++i){
+		if ( screens_[rowCount_-1][i]){
+			delete screens_[rowCount_-1][i];
+			screens_[rowCount_-1][i] = NULL;
+		}else{
+			return false;
+		}
+	}
+	--rowCount_;
+	return true;
+}
+bool ScreenMgr::addScreenRow( ){
+	for ( int i = 0; i < colCount_; ++i){
+		if ( screens_[rowCount_][i] == NULL){
+			screens_[rowCount_][i] = new Screen;
+		}else{
+			return false;
+		}
+	}
+	++rowCount_;
+	return true;
+}
 
 ScreenMgr* ScreenMgr::inst = 0;
 ScreenMgr *ScreenMgr::instance(){
 	if ( inst) return inst;
 	return inst = new ScreenMgr();
 }
-ScreenMgr::ScreenMgr():
-impl_(new Impl)
+ScreenMgr::ScreenMgr()
 {
+	for( size_t i = 0 ; i < MAXROW; ++i){
+		for( size_t j = 0 ; j < MAXCOL; ++j){
+			screens_[i][j] = NULL;
+		}
+	}
 }
 ScreenMgr::~ScreenMgr()
 {
-	
-	delete impl_;
 }
-
-static void testCallback( uint32_t , ScreenDataMap&){
-	qDebug()<<"testCallback";
-}
-
 
 void ScreenMgr::timerEvent ( QTimerEvent *  ){
 	

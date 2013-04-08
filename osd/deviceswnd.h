@@ -16,17 +16,17 @@
 namespace Ui {
 class DevicesWnd;
 }
-class Ac1608Address;
+class QboxAddress;
 class DevicesWnd;
 
-typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
+typedef std::function< int (int, int, QboxAddress*) > AddressCallback;
 
-class Ac1608Address: public QObject{
+class QboxAddress: public QObject{
 	Q_OBJECT
 private slots:
 	void editingAddressFinished ();
 public:
-	Ac1608Address( QString &ip , QString & loc):
+	QboxAddress( QString &ip , QString & loc):
 	snmpResponseTime(0)
 	,row(0),ip(ip)
 	,location(loc)
@@ -75,41 +75,39 @@ public:
 	//void refresh();
 	void initAddresses();
 	
-	typedef std::map< QString, Ac1608Address* > AddressMap;
+	typedef std::map< QString, QboxAddress* > AddressMap;
 private slots:
 	void editingNewAddressFinished ();
 	void itemClicked(QTableWidgetItem *);
 	void cellChanged(int,int);
-	void	cellActivated ( int row, int column );
-	void	cellEntered ( int row, int column );
 
 
 private:
 
-	void connectImpl( Ac1608Address*);
-	void disconnectImpl( Ac1608Address*);
+	void connectImpl( QboxAddress*);
+	void disconnectImpl( QboxAddress*);
 
 	virtual void	timerEvent ( QTimerEvent * event )override;
 
 	QLineEdit * lastLineEdit_;
 
-	void newAddress(Ac1608Address * aa = NULL);
+	void newAddress(QboxAddress * aa = NULL);
 
 	AddressMap addresses_;
-	Ac1608Address* currConnAddress_;
+	QboxAddress* currConnAddress_;
 
 	QTableWidget*				tableDevices_;
 
     Ui::DevicesWnd *ui;
 
 	//SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
-	void onlineRefreshed(Ac1608Address * aa);
-	void offlineRefreshed(Ac1608Address * aa);
-	void checkingRefreshed(Ac1608Address * aa);
+	void onlineRefreshed(QboxAddress * aa);
+	void offlineRefreshed(QboxAddress * aa);
+	void checkingRefreshed(QboxAddress * aa);
 	QMutex locker_;
 
 
-	friend class Ac1608Address;
+	friend class QboxAddress;
 
 };
 

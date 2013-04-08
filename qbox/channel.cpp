@@ -70,6 +70,8 @@ void Channel::onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID)
     rsp.msgType = PSetSwitchInputRsp::uri;
 
     rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+	rsp.info["out"] = tostring(out);
+	rsp.info["in"] = tostring(input);
 
 //    if(!EntSetting::Instance()->setInput(out,input))
 //    {
@@ -147,8 +149,10 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 
     EntSetting::Instance()->setWindowInfo(out,channelX,channelY,width,height);
 
+#ifndef __unix__
     moveInputChannel(out,channelX,channelY);
     setInputSize(out,width,height);
+#endif
 
     uint32_t hw = 0;
     uint32_t vw = 0;
@@ -159,7 +163,9 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
     }
     else
     {
+#ifndef __unix__
     	setOutputSize(out,hw,vw);
+#endif
     }
 
 

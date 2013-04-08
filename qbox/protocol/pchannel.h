@@ -15,14 +15,14 @@
 struct PSetSwitchInputReq
 {
 	enum{uri=(CHANNEL_MSGBASE<<16|1)};
-	//winHandle->??? | in->???| //设置窗口输入讯号
+	//winHandle->??? | in->???| out->???|//设置窗口输入讯号
 
 };
 
 struct PSetSwitchInputRsp
 {
 	enum{uri=(CHANNEL_MSGBASE<<16|2)};
-	//error->??? //返回设置窗口输入讯号结果
+	//error->??? | in->???| out->???| //返回设置窗口输入讯号结果
 };
 
 
