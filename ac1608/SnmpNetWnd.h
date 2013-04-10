@@ -20,7 +20,7 @@ struct ObservedOid{
 	QString community;
 	size_t timereq;
 	size_t timersp;
-
+	bool isRemoved;
 };
 
 
@@ -47,6 +47,7 @@ private:
 
 	void afterResponsed(SnmpObj*);
 	void beforeSent(SnmpObj*);
+	void beforeRemoved(SnmpObj*);
 
 	virtual void	timerEvent ( QTimerEvent * event ) override;
 };

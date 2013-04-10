@@ -14,14 +14,7 @@
 
 class SnmpObj;
 
-struct SnmpCallback{
-enum RequestStatus { 
-	RequestStop, 
-	RequestAgain 
-
-};
-};
-typedef std::function< SnmpCallback::RequestStatus (SnmpObj*)> SnmpCallbackFunc;
+typedef std::function< void (SnmpObj*)> SnmpCallbackFunc;
 
 
 inline static QString timeticksToString( size_t timeticks){
@@ -57,7 +50,6 @@ public:
 	,sessp(sessp)
 	,pdu(pdu)
 	,interval(interval){
-
 	}
 
 	std::string obj;
@@ -65,13 +57,14 @@ public:
 	std::string ip;
 	std::string community;
 	SnmpCallbackFunc callback;
-	snmp_session *sess;
-	void* sessp;
 	QVariant setVar;
 	QVariant rspVar;
-	snmp_pdu *pdu;
 	size_t interval;
 	size_t lastTimeReq;
+
+	snmp_session *sess;//dont use it during dispatch in mainthread
+	void* sessp;//dont use it during dispatch in mainthread
+	snmp_pdu *pdu;//dont use it during dispatch in mainthread
 };
 
 class SnmpNet :public QObject
@@ -95,6 +88,7 @@ class SnmpNet :public QObject
 	int asynch_response_impl(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);
 
 	QMutex getLock_;
+	QMutex rspLock_;
 
 	static void run();
 	volatile bool running_;
@@ -102,6 +96,7 @@ class SnmpNet :public QObject
 
 	std::function< void (  SnmpObj*)> beforeSentCallback_;
 	std::function< void (  SnmpObj*)> afterResponsedCallback_;
+	std::function< void (  SnmpObj*)> befereRemovedCallback_;
 
 	virtual void timerEvent ( QTimerEvent *  )override;
 public:
@@ -126,11 +121,18 @@ public:
 	void addAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback ); 
 	void addAsyncSet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback , QVariant value ); 
 
-	inline void listenOidBeforeSent(std::function< void (  SnmpObj*) > callback ){
+	void removeAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community );
+	void removeAsyncGetWithIP(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community );
+	void delayIfRemoving(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community , QVariant value);
+
+	inline void listenOidBeforeSent(std::function< void (  SnmpObj*) > callback ){//callback will invoke by snmp thread
 		beforeSentCallback_ = callback;
 	}
-	inline void listenOidAfterResponsed(std::function< void (  SnmpObj*)> callback ){
+	inline void listenOidAfterResponsed(std::function< void (  SnmpObj*)> callback ){//callback will invoke by snmp thread
 		afterResponsedCallback_ = callback;
+	}
+	inline void listenOidBeforeRemoved(std::function< void (  SnmpObj*)> callback ){//callback will invoke by snmp thread
+		befereRemovedCallback_ = callback;
 	}
 
 

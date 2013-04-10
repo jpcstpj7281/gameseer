@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>MatrixMixer</string>
   </property>
   <widget class="Line" name="line_10">
    <property name="geometry">

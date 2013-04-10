@@ -42,6 +42,7 @@ SnmpNetWnd::SnmpNetWnd(QWidget *parent) :
 
 	SnmpNet::instance()->listenOidBeforeSent( std::bind< std::function< void (SnmpObj*) > > (&SnmpNetWnd::beforeSent, this, _1) );
 	SnmpNet::instance()->listenOidAfterResponsed( std::bind< std::function< void (SnmpObj*) > > (&SnmpNetWnd::afterResponsed, this, _1) );
+	SnmpNet::instance()->listenOidBeforeRemoved( std::bind< std::function< void (SnmpObj*) > > (&SnmpNetWnd::beforeRemoved, this, _1) );
 	startTimer(1000);
 }
 
@@ -49,13 +50,25 @@ SnmpNetWnd::~SnmpNetWnd(){
 	delete ui;
 }
 
-
-void SnmpNetWnd::afterResponsed(SnmpObj* so){
+void SnmpNetWnd::beforeRemoved(SnmpObj* so){
 	if (so->ip.empty() ) return;
 
 	QString unique;// = QString::number( (int) so);
 	unique.append(so->obj.c_str()).append( so->snmpoid.c_str()).append( so->ip.c_str()).append(so->community.c_str());
 
+	QMutexLocker lk(&locker_);
+	std::map<QString, ObservedOid >::iterator found = oidMap_.find( unique);
+	if (found != oidMap_.end()){
+		found->second.isRemoved = true;
+	}else{
+		qDebug()<<"Unexpected error: void SnmpNetWnd::afterResponsed!";
+	}
+}
+void SnmpNetWnd::afterResponsed(SnmpObj* so){
+	if (so->ip.empty() ) return;
+
+	QString unique;// = QString::number( (int) so);
+	unique.append(so->obj.c_str()).append( so->snmpoid.c_str()).append( so->ip.c_str()).append(so->community.c_str());
 
 	const int len = 128;
 	char buf[len];
@@ -92,16 +105,19 @@ void SnmpNetWnd::beforeSent(SnmpObj* so){
 	if (found == oidMap_.end()){
 		ObservedOid oid ;
 		oid.timersp = 0;
+		oid.isRemoved = false;
 		oid.timereq = GetTickCount();
 		oid.obj = so->obj.c_str();
 		oid.ip = so->ip.c_str();
 		oid.oid = so->snmpoid.c_str();
 		oid.community = so->community.c_str();
 		oidMap_[unique] = oid;
-	}else{
-		if (found->second.timersp > 0){
-			found->second.timersp= 0;
-			found->second.timereq = GetTickCount();
+	}
+	else{
+		size_t tick = GetTickCount();
+		if ( found->second.timersp > 0 && tick - found->second.timersp > 1000){
+			found->second.timereq = tick;
+			found->second.timersp = 0;
 		}
 	}
 }
@@ -156,18 +172,22 @@ void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
 			tableOids_->setItem( newCount -1, 4, community);
 			tableOids_->setItem( newCount -1, 5, uniq);
 			tableOids_->setItem( newCount -1, 6, interval);
-		}else if( list.size() > 0 ){
-			for ( auto lit = list.begin() ; lit != list.end(); ++lit){
-				QTableWidgetItem * item = *lit;
-				QTableWidgetItem * interval = tableOids_->item( item->row(), 6);
-				QTableWidgetItem * rsp = tableOids_->item( item->row(), 1);
-				rsp->setText( it->second.rsp);
-				if ( it->second.timersp > 0){
-					interval->setText( QString::number( it->second.timersp - it->second.timereq) );
+		}else if( list.size() == 1 ){
+			QTableWidgetItem * item = list.front();
+			if ( it->second.isRemoved){
+				for ( size_t i = 0; i < tableOids_->columnCount(); ++i){
+					QTableWidgetItem * tmp = tableOids_->item( item->row(), i);
+					tmp->setBackground(QBrush(QColor(Qt::red))); 
 				}
 			}
+			QTableWidgetItem * interval = tableOids_->item( item->row(), 6);
+			QTableWidgetItem * rsp = tableOids_->item( item->row(), 1);
+			rsp->setText( it->second.rsp);
+			if ( it->second.timersp > 0){
+				interval->setText( QString::number( it->second.timersp - it->second.timereq) );
+			}
 		}else{
-			//qDebug()<<"unexpected error: SnmpNetWnd::timerEvent!";
+			qDebug()<<"unexpected error: SnmpNetWnd::timerEvent!";
 		}
 	}
 	oidMap.clear();

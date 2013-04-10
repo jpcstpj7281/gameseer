@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Gate NOM</string>
+   <string>Gate</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">

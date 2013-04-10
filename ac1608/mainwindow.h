@@ -62,21 +62,22 @@ class MainWindow : public QMainWindow
 
         Ui::MainWindow *ui;
 
-        InputGainCtrlWnd *inputGainCtrlWnd_;
-        CopyParamWnd *copyParamWnd_;
-        DevicesWnd *devicesWnd_;
-        GateNOMWnd *gateNOMWnd_;
-        HighPassWnd *highPassWnd_;
-        Level8CHWnd *level8CHWnd_;
-        MatrixMixerWnd *matrixMixerWnd_;
-        MetersWnd *metersWnd_;
-		NOMWnd * nomWnd_;
-		PEQWnd *peqWnd_;
-        PresetWnd *presetWnd_;
-		DevicesWnd *deviceswnd_;
-		HomePage * homepage_;
-		CobraNetWnd * cobraNetWnd_;
-		SnmpNetWnd * snmpNetWnd_;
+		std::vector< QWidget*> modules_;
+  //      InputGainCtrlWnd *inputGainCtrlWnd_;
+  //      CopyParamWnd *copyParamWnd_;
+  //      DevicesWnd *devicesWnd_;
+  //      GateNOMWnd *gateNOMWnd_;
+  //      HighPassWnd *highPassWnd_;
+  //      Level8CHWnd *level8CHWnd_;
+  //      MatrixMixerWnd *matrixMixerWnd_;
+  //      MetersWnd *metersWnd_;
+		//NOMWnd * nomWnd_;
+		//PEQWnd *peqWnd_;
+  //      PresetWnd *presetWnd_;
+		//DevicesWnd *deviceswnd_;
+		//HomePage * homepage_;
+		//CobraNetWnd * cobraNetWnd_;
+		//SnmpNetWnd * snmpNetWnd_;
 
         void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);

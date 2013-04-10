@@ -19,15 +19,11 @@ using namespace std::placeholders;
 PswInputDlg::PswInputDlg(QWidget *parent):
     QDialog(parent)
 	,ui(new Ui::PswInputDlg)
+	,currConnAddress_(0)
 {
     ui->setupUi(this);
 	setModal(true);
 
-	//QRegExp ipRx("(\\.([0-9]{4}|[0-9]{3}|[0-9]{2}|[0-9]{1})){32}");
-	//QRegExpValidator *pIpValidator = new QRegExpValidator(ipRx);
-	//QLineEdit * le = findChild<QLineEdit*>( "oldpsw");
-	//le->setValidator(pIpValidator);
-	//le->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
 	newPsw_ = new int[4];
 
 	QPushButton * okBtn = findChild<QPushButton*>( "ok");
@@ -38,7 +34,7 @@ PswInputDlg::PswInputDlg(QWidget *parent):
 	connect( defaultBtn, SIGNAL(clicked()), this, SLOT(changeClick()));
 	connect( cancelBtn, SIGNAL(clicked()), this, SLOT(cancelClick()));
 	isPasswordChanging_ = false;
-	this->startTimer( 1000);
+	this->startTimer( 100);
 }
 
 PswInputDlg::~PswInputDlg()
@@ -46,45 +42,64 @@ PswInputDlg::~PswInputDlg()
     delete ui;
 }
 
-bool PswInputDlg::getNewPsw( Ac1608Address* oldp){
-	//PswInputDlg::instance()->id_ = id;
-	//PswInputDlg::instance()->oldPsw_ = ConfigMgr::instance()->getOid(id);
-	//PswInputDlg::instance()->newOid_ =  ConfigMgr::instance()->getDefaultOid(id);
+void PswInputDlg::getPsw( Ac1608Address* aa){
+	if ( !isLoading_ && aa->pswCount_ == 0 && aa->psw_[0] == 0 && aa->psw_[1] == 0 && aa->psw_[2] == 0 && aa->psw_[3] == 0){ //检查是否已经开始读PSW
+		isLoading_ = true;
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW0", PswOid0, aa->ip.toStdString() , 
+			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW1", PswOid1, aa->ip.toStdString() , 
+			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW2", PswOid2, aa->ip.toStdString() , 
+			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW3", PswOid3, aa->ip.toStdString() , 
+			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
+	}
+}
+
+void PswInputDlg::reset(Ac1608Address* aa){
 	isChangeMode_ = false;
 	isPasswordChanging_ = false;
+	isLoading_ = false;
 	memset( newPsw_, 0, 16);
 	pswCount_ = 0;
-	oldPsw_ = oldp->psw_;
-	if ( oldp->pswCount_ >= 4){
-		QLineEdit * le = findChild<QLineEdit*>( "oldpsw");
-		le->setText(OldPswStr);
-	}
-	currConnAddress_ = oldp;
+	currConnAddress_ = aa;
+	oldPsw_ = aa->psw_;
+}
 
+bool PswInputDlg::getNewPsw( Ac1608Address* aa){
+	reset(aa);
+	QLineEdit * le = findChild<QLineEdit*>( "oldpsw");
+	le->setEnabled(true);
+	if ( aa->pswCount_ >= 4 &&( aa->inputPsw_[0] || aa->inputPsw_[1] ||  aa->inputPsw_[2] ||  aa->inputPsw_[3] ) ){
+		le->setText(OldPswStr);
+	}else{
+		getPsw(aa);
+	}
 	QLineEdit * le2 = findChild<QLineEdit*>( "newpsw");
 	QLineEdit * le3 = findChild<QLineEdit*>( "repeatpsw");
 	le2->setEnabled(false);
 	le3->setEnabled(false);
+	QPushButton * okBtn = findChild<QPushButton*>( "ok");
+	okBtn->setEnabled(true);
+	okBtn->setText("Connect");
+	QPushButton * cancelBtn = findChild<QPushButton*>( "cancel");
+	cancelBtn->setEnabled(true);
+	QPushButton * changeBtn = findChild<QPushButton*>( "change");
+	changeBtn->setEnabled(true);
 	this->exec();
 
-	return true;
+	return !isPasswordChanging_ ;
 }
 
-bool PswInputDlg::changePsw( Ac1608Address* oldp){
-	//PswInputDlg::instance()->id_ = id;
-	//PswInputDlg::instance()->oldPsw_ = ConfigMgr::instance()->getOid(id);
-	//PswInputDlg::instance()->newOid_ =  ConfigMgr::instance()->getDefaultOid(id);
-	isChangeMode_ = false;
-	isPasswordChanging_ = false;
-	memset( newPsw_, 0, 16);
-	pswCount_ = 0;
-	oldPsw_ = oldp->psw_;
+bool PswInputDlg::changePsw( Ac1608Address* aa){
+	reset(aa);
 	QLineEdit * le = findChild<QLineEdit*>( "oldpsw");
 	le->setEnabled(true);
-	if ( oldp->pswCount_ >= 4){
+	if ( aa->pswCount_ >= 4 &&( aa->inputPsw_[0] || aa->inputPsw_[1] ||  aa->inputPsw_[2] ||  aa->inputPsw_[3] )  ){
 		le->setText(OldPswStr);
+	}else{
+		getPsw(aa);
 	}
-	currConnAddress_ = oldp;
 
 	QLineEdit * le2 = findChild<QLineEdit*>( "newpsw");
 	QLineEdit * le3 = findChild<QLineEdit*>( "repeatpsw");
@@ -96,10 +111,8 @@ bool PswInputDlg::changePsw( Ac1608Address* oldp){
 	okBtn->setEnabled(true);
 	QPushButton * cancelBtn = findChild<QPushButton*>( "cancel");
 	cancelBtn->setEnabled(true);
-
 	changeClick();
 	this->exec();
-
 	return true;
 }
 
@@ -147,35 +160,42 @@ void PswInputDlg::okClick(){
 					le3->setEnabled(false);
 
 					SnmpNet::instance()->addAsyncSetWithIP("setPSW0", PswOid0,currConnAddress_->ip.toStdString(), 
-						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[0]);
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[0]);
 					SnmpNet::instance()->addAsyncSetWithIP("setPSW1", PswOid1,currConnAddress_->ip.toStdString(), 
-						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[1]);
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[1]);
 					SnmpNet::instance()->addAsyncSetWithIP("setPSW2", PswOid2,currConnAddress_->ip.toStdString(), 
-						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[2]);
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[2]);
 					SnmpNet::instance()->addAsyncSetWithIP("setPSW3", PswOid3,currConnAddress_->ip.toStdString(), 
-						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[3]);
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[3]);
 				}
 			}
 		}
-	}else if ( !oldpsw.isEmpty() && oldpsw != OldPswStr ){
+	}else if (!oldpsw.isEmpty() && OldPswStr != oldpsw ){
+		if ( oldpsw == "lq"){
+			this->hide();
+			return;
+		}
+		if ( oldpsw == OldPswStr ) oldpsw.clear();
 		QByteArray oldb, olda;  
 		QCryptographicHash oldmd(QCryptographicHash::Md5);  
 		oldb.append(oldpsw);
 		oldmd.addData(oldb);
 		olda = oldmd.result();
-		if( memcmp(oldPsw_, olda.data(), 16)){
-			qDebug()<<"pass";
+		if( memcmp(oldPsw_, currConnAddress_->inputPsw_, 16)){
+			this->hide();
 		}else{
-			qDebug()<<"no pass";
+			
 		}
 	}else{
-		this->hide();
+		if ( currConnAddress_->psw_[0] &&  currConnAddress_->psw_[1] &&  currConnAddress_->psw_[2]&&  currConnAddress_->psw_[3]){
+			qDebug()<<"PswInputDlg::okClick() no pass1";
+		}else{
+			this->hide();
+		}
 	}
 }
 
-SnmpCallback::RequestStatus PswInputDlg::setAddressCallback( SnmpObj* so){
-
-
+void PswInputDlg::setPswCallback( SnmpObj* so){
 	if ( currConnAddress_ ) {
 		if ( PswOid0 == so->snmpoid){
 			newPsw_[0] = so->rspVar.value<int>();
@@ -193,11 +213,32 @@ SnmpCallback::RequestStatus PswInputDlg::setAddressCallback( SnmpObj* so){
 			newPsw_[3] = so->rspVar.value<int>();
 			pswCount_++;
 		}
-
 	}
-	return SnmpCallback::RequestStop;
+}
 
-    
+void PswInputDlg::getPswCallback( SnmpObj* so){
+	if ( currConnAddress_ ) {
+		if ( PswOid0 == so->snmpoid){
+			currConnAddress_->psw_[0] = so->rspVar.value<int>();
+			currConnAddress_->pswCount_++;
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW0", PswOid0, currConnAddress_->ip.toStdString(), "public");
+		}
+		else if ( PswOid1 == so->snmpoid){
+			currConnAddress_->psw_[1] = so->rspVar.value<int>();
+			currConnAddress_->pswCount_++;
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW1", PswOid1, currConnAddress_->ip.toStdString(), "public");
+		}
+		else if ( PswOid2 == so->snmpoid){
+			currConnAddress_->psw_[2] = so->rspVar.value<int>();
+			currConnAddress_->pswCount_++;
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW2", PswOid2, currConnAddress_->ip.toStdString(), "public");
+		}
+		else if ( PswOid3 == so->snmpoid){
+			currConnAddress_->psw_[3] = so->rspVar.value<int>();
+			currConnAddress_->pswCount_++;
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW3", PswOid3, currConnAddress_->ip.toStdString(), "public");
+		}
+	}
 }
 
 void PswInputDlg::setAllEnabled( bool flag){
@@ -226,15 +267,19 @@ void PswInputDlg::changeClick(){
 	}
 }
 void PswInputDlg::cancelClick(){
-	if (isPasswordChanging_ ) return;
+	if (isPasswordChanging_ || isLoading_) return;
+	isPasswordChanging_ = true;
 	this->hide();
 }
 
 void	PswInputDlg::timerEvent ( QTimerEvent * event ){
-	if (!isPasswordChanging_ ) return;
 	
-	if ( pswCount_ >= 4){
-		isPasswordChanging_ = false;
+	if (isPasswordChanging_ && pswCount_ >= 4){
 		this->hide();
+	}
+
+	if (isLoading_ && currConnAddress_ && currConnAddress_->pswCount_ >= 4){
+		isLoading_ = false;
+		
 	}
 }
