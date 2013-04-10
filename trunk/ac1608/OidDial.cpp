@@ -70,10 +70,8 @@ void OIDDial::fireSnmp(int val ){
 	}
 }
 
-SnmpCallback::RequestStatus OIDDial::snmpCallback(  SnmpObj* so){
-	val_ = so->rspVar.value<int>();
-	if ( so->setVar.type() )
-		return SnmpCallback::RequestStop;
-	else
-		return SnmpCallback::RequestAgain;
+void OIDDial::snmpCallback(  SnmpObj* so){
+	
+	if ( so->setVar.isNull() )
+		val_ = so->rspVar.value<int>();
 }

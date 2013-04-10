@@ -11,7 +11,7 @@ class OIDDial : public QDial{
 
 	volatile int val_;
 
-	SnmpCallback::RequestStatus snmpCallback(SnmpObj*);
+	void snmpCallback(SnmpObj*);
 	void	timerEvent ( QTimerEvent * e )override;
 	bool eventFilter ( QObject * watched, QEvent * event )override;
 

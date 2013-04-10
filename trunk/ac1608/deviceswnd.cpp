@@ -42,6 +42,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     connect( tableDevices_, SIGNAL(cellActivated(int,int)), this, SLOT(cellActivated(int,int)));
     connect( tableDevices_, SIGNAL(cellEntered(int,int)), this, SLOT(cellEntered(int,int)));
 
+	initAddresses();
     startTimer(1000);
 }
 
@@ -200,53 +201,15 @@ Ac1608Address* getAddressByRow( DevicesWnd::AddressMap & addresses , int row){
     }
 }
 
-SnmpCallback::RequestStatus DevicesWnd::pswCallback( SnmpObj* so){
-	AddressMap::iterator found = addresses_.find( so->ip.c_str());
-	if ( found != addresses_.end() ) {
-		Ac1608Address * aa = found->second;
-		std::string psw(so->snmpoid.c_str() );
-		if ( PswOid0 == psw){
-			aa->psw_[0] = so->rspVar.value<int>();
-			aa->pswCount_++;
-		}
-		else if ( PswOid1 == psw){
-			aa->psw_[1] =  so->rspVar.value<int>();
-			aa->pswCount_++;
-		}
-		else if ( PswOid2 == psw){
-			aa->psw_[2] =  so->rspVar.value<int>();
-			aa->pswCount_++;
-		}
-		else if ( PswOid3 == psw){
-			aa->psw_[3] =  so->rspVar.value<int>();
-			aa->pswCount_++;
-		}
-	}
-	return SnmpCallback::RequestStop;
-}
 
-SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback( SnmpObj* so){
+void DevicesWnd::checkAddressCallback( SnmpObj* so){
 	AddressMap::iterator found = addresses_.find( so->ip.c_str());
 	if ( found != addresses_.end() ) {
 		Ac1608Address * aa = found->second;
 		aa->timeticks = so->rspVar.value<int>();
 		aa->snmpResponseTime = GetTickCount();
-
 		onlineRefreshed(aa);
-
-		if ( aa->pswCount_ == 0 && aa->psw_[0] == 0 && aa->psw_[1] == 0 && aa->psw_[2] == 0 && aa->psw_[3] == 0){ //检查是否已经开始读PSW
-			aa->psw_[0] = 1;//标记已经开始读PSW
-			SnmpNet::instance()->addAsyncGetWithIP("PSW0", PswOid0, aa->ip.toStdString() , 
-				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
-			SnmpNet::instance()->addAsyncGetWithIP("PSW1", PswOid1, aa->ip.toStdString() , 
-				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
-			SnmpNet::instance()->addAsyncGetWithIP("PSW2", PswOid2, aa->ip.toStdString() , 
-				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
-			SnmpNet::instance()->addAsyncGetWithIP("PSW3", PswOid3, aa->ip.toStdString() , 
-				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
-		}
 	}
-	return SnmpCallback::RequestAgain;
 }
 
 void DevicesWnd::timerEvent ( QTimerEvent * event ){
@@ -301,7 +264,7 @@ void DevicesWnd::onlineRefreshed(Ac1608Address * aa){
 			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
 		}else{
 			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Enter Psw");
+			item4->setText( "Connect");
 			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
 		}
 
@@ -356,9 +319,7 @@ void DevicesWnd::itemClicked(QTableWidgetItem * item)
 {
     if (item->column() == 4 ){
         if(item->text() == "Connect" ){
-		//if(item->text() == "" ){
-            Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
-			int newPsw[4];
+			Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
 			if ( inputDlg_->getNewPsw( aa)){
 				connectImpl(aa);
 			}

@@ -14,8 +14,7 @@ class OIDProgressBar : public QProgressBar{
 	volatile int  isRunning_;
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
-	virtual void	timerEvent ( QTimerEvent * e )override;
-	SnmpCallback::RequestStatus snmpCallback(  SnmpObj*);
+	void snmpCallback(  SnmpObj*);
 public:
 	OIDProgressBar( QWidget* w);
 	void initSnmp();

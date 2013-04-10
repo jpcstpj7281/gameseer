@@ -12,7 +12,7 @@ class OIDSlider : public QSlider{
 	volatile int val_;
 	volatile bool isRunning_;
 
-	SnmpCallback::RequestStatus snmpCallback( SnmpObj*);
+	void snmpCallback( SnmpObj*);
 	void	timerEvent ( QTimerEvent * e )override;
 	bool eventFilter ( QObject * watched, QEvent * event )override;
 

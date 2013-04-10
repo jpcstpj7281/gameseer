@@ -46,7 +46,6 @@ public:
 		memset(psw_, 0, 16);
 		memset(inputPsw_, 0, 16);
 	}
-
 	void init(QLineEdit* lineEdit, DevicesWnd* t){ 
 		this->t_ = t;
 		this->lineEdit_ = lineEdit;
@@ -79,8 +78,6 @@ class DevicesWnd : public QWidget
 public:
     explicit DevicesWnd(QWidget *parent = 0);
     ~DevicesWnd();
-
-
 	//void refresh();
 	void initAddresses();
 	
@@ -111,8 +108,8 @@ private:
 
     Ui::DevicesWnd *ui;
 
-	SnmpCallback::RequestStatus checkAddressCallback( SnmpObj*);
-	SnmpCallback::RequestStatus pswCallback( SnmpObj*);
+	void checkAddressCallback( SnmpObj*);
+
 	void onlineRefreshed(Ac1608Address * aa);
 	void offlineRefreshed(Ac1608Address * aa);
 	void checkingRefreshed(Ac1608Address * aa);

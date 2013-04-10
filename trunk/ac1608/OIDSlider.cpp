@@ -47,7 +47,6 @@ OIDSlider::OIDSlider( QWidget* w):
     }
 
 void OIDSlider::initSnmp(){
-	isRunning_ = true;
 	QString oid = ConfigMgr::instance()->getOid(objectName());
 	if ( ! oid.isEmpty()){
 		SnmpNet::instance()->addAsyncGet(
@@ -59,7 +58,6 @@ void OIDSlider::initSnmp(){
 	}
 }
 void OIDSlider::shutdownSnmp(){
-	isRunning_ = false;
 }
 
 bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
@@ -75,13 +73,16 @@ bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
 
        ){
         if (event->type() == event->MouseButtonRelease){
-            QString oid = OIDInputDlg::getNewOid( this->objectName());
-            if (!oid.isEmpty()){
-                SnmpNet::instance()->addAsyncGet(
-					objectName().toStdString(),  
-					oid.toStdString(), 
+
+			QString oldoid = ConfigMgr::instance()->getOid( objectName());
+			QString oid = OIDInputDlg::getNewOid( this->objectName() );
+			if (!oid.isEmpty() && oid != oldoid){
+				if ( !oldoid.isEmpty()){
+					SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oldoid.toStdString() , std::string("public"));
+				}
+				SnmpNet::instance()->addAsyncGet(objectName().toStdString(), oid.toStdString(), 
 					"public", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) );
-            }
+			}
         }
         return true;
     }else{
@@ -91,13 +92,7 @@ bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
 }
 
 void	OIDSlider::timerEvent ( QTimerEvent * e ){
-    size_t now = GetTickCount();
-    size_t elapsed = now - lastTimeChanged_;
-    if ( elapsed > 1000 && val_ != this->value() ){
-        lastTimeChanged_ = now;
-        this->setValue( val_);
-        //qDebug()<<"Outside changed value or value snmp delay! OIDSlider::timerEvent";
-    }
+
 }
 
 void OIDSlider::fireSnmp(int val ){
@@ -109,11 +104,8 @@ void OIDSlider::fireSnmp(int val ){
     }
 }
 
-SnmpCallback::RequestStatus OIDSlider::snmpCallback( SnmpObj* so){
-	val_ = so->rspVar.value<int>();
-
-    if ( so->setVar.type() )
-        return SnmpCallback::RequestStop;
-    else
-        return SnmpCallback::RequestAgain;
+void OIDSlider::snmpCallback( SnmpObj* so){
+    if ( so->setVar.isNull() ){
+        this->setValue( so->rspVar.value<int>() );
+	}
 }

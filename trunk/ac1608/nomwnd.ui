@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>NOM</string>
   </property>
   <widget class="QGroupBox" name="groupBox_13">
    <property name="geometry">
@@ -900,7 +900,6 @@
     </property>
    </widget>
    <zorder>label_133</zorder>
-   <zorder>label_134</zorder>
    <zorder>label_135</zorder>
    <zorder>verticalSlider</zorder>
    <zorder>radioButton_13</zorder>
@@ -919,34 +918,18 @@
    <zorder>label_142</zorder>
    <zorder>verticalSlider_8</zorder>
    <zorder>radioButton_14</zorder>
-   <zorder>label_143</zorder>
    <zorder>radioButton_15</zorder>
-   <zorder>label_144</zorder>
    <zorder>radioButton_16</zorder>
    <zorder>radioButton_17</zorder>
-   <zorder>label_145</zorder>
-   <zorder>label_146</zorder>
-   <zorder>label_147</zorder>
    <zorder>radioButton_18</zorder>
    <zorder>radioButton_19</zorder>
    <zorder>radioButton_20</zorder>
-   <zorder>label_148</zorder>
    <zorder>radioButton_21</zorder>
-   <zorder>label_149</zorder>
-   <zorder>label_150</zorder>
    <zorder>radioButton_22</zorder>
-   <zorder>label_151</zorder>
-   <zorder>label_152</zorder>
-   <zorder>label_153</zorder>
    <zorder>radioButton_23</zorder>
    <zorder>radioButton_24</zorder>
    <zorder>radioButton_25</zorder>
    <zorder>radioButton_26</zorder>
-   <zorder>label_154</zorder>
-   <zorder>radioButton_27</zorder>
-   <zorder>label_156</zorder>
-   <zorder>label_157</zorder>
-   <zorder>label_159</zorder>
    <zorder>radioButton_29</zorder>
    <zorder>label_155</zorder>
    <zorder>label_158</zorder>
@@ -972,8 +955,6 @@
    <zorder>label_143</zorder>
    <zorder>label_151</zorder>
   </widget>
-  <zorder>groupBox_13</zorder>
-  <zorder>label_157</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>HomePage</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -895,8 +895,6 @@
     <zorder>t0_52</zorder>
     <zorder>line_52</zorder>
     <zorder>progressBar10</zorder>
-    <zorder>value10</zorder>
-    <zorder>dB_52</zorder>
     <zorder>value10</zorder>
     <zorder>dB_52</zorder>
    </widget>
@@ -4697,8 +4695,6 @@
     <zorder>progressBar_54</zorder>
     <zorder>value12</zorder>
     <zorder>dB_54</zorder>
-    <zorder>value12</zorder>
-    <zorder>dB_54</zorder>
    </widget>
    <widget class="QWidget" name="widget_15" native="true">
     <property name="geometry">
@@ -8013,12 +8009,6 @@
       <string>dB</string>
      </property>
     </widget>
-    <zorder>verticalSlider5</zorder>
-    <zorder>line_90</zorder>
-    <zorder>value_28</zorder>
-    <zorder>dB_28</zorder>
-    <zorder>value_28</zorder>
-    <zorder>dB_28</zorder>
    </widget>
    <widget class="QWidget" name="widget_22" native="true">
     <property name="geometry">
@@ -8867,102 +8857,6 @@
      </property>
     </widget>
    </widget>
-   <zorder>widget_6</zorder>
-   <zorder>widget_10</zorder>
-   <zorder>widget_13</zorder>
-   <zorder>widget_4</zorder>
-   <zorder>widget_14</zorder>
-   <zorder>widget_7</zorder>
-   <zorder>widget_2</zorder>
-   <zorder>widget</zorder>
-   <zorder>widget_11</zorder>
-   <zorder>widget_5</zorder>
-   <zorder>widget_12</zorder>
-   <zorder>widget_15</zorder>
-   <zorder>widget_8</zorder>
-   <zorder>widget_3</zorder>
-   <zorder>widget_9</zorder>
-   <zorder>widget_16</zorder>
-   <zorder>number</zorder>
-   <zorder>number_44</zorder>
-   <zorder>number_45</zorder>
-   <zorder>number_46</zorder>
-   <zorder>number_47</zorder>
-   <zorder>number_48</zorder>
-   <zorder>number_49</zorder>
-   <zorder>number_50</zorder>
-   <zorder>number_51</zorder>
-   <zorder>number_52</zorder>
-   <zorder>number_53</zorder>
-   <zorder>number_54</zorder>
-   <zorder>number_55</zorder>
-   <zorder>number_56</zorder>
-   <zorder>number_57</zorder>
-   <zorder>number_58</zorder>
-   <zorder>mute1</zorder>
-   <zorder>amp1</zorder>
-   <zorder>amp2</zorder>
-   <zorder>mute2</zorder>
-   <zorder>amp3</zorder>
-   <zorder>mute3</zorder>
-   <zorder>amp4</zorder>
-   <zorder>mute4</zorder>
-   <zorder>amp5</zorder>
-   <zorder>mute5</zorder>
-   <zorder>amp6</zorder>
-   <zorder>mute6</zorder>
-   <zorder>amp7</zorder>
-   <zorder>mute7</zorder>
-   <zorder>amp8</zorder>
-   <zorder>mute8</zorder>
-   <zorder>amp9</zorder>
-   <zorder>mute9</zorder>
-   <zorder>amp10</zorder>
-   <zorder>mute10</zorder>
-   <zorder>amp11</zorder>
-   <zorder>mute11</zorder>
-   <zorder>amp12</zorder>
-   <zorder>mute12</zorder>
-   <zorder>amp13</zorder>
-   <zorder>mute13</zorder>
-   <zorder>amp14</zorder>
-   <zorder>mute14</zorder>
-   <zorder>amp15</zorder>
-   <zorder>mute15</zorder>
-   <zorder>amp16</zorder>
-   <zorder>mute16</zorder>
-   <zorder>verticalSlider1</zorder>
-   <zorder>widget_17</zorder>
-   <zorder>widget_18</zorder>
-   <zorder>widget_19</zorder>
-   <zorder>widget_20</zorder>
-   <zorder>widget_21</zorder>
-   <zorder>widget_22</zorder>
-   <zorder>widget_23</zorder>
-   <zorder>widget_24</zorder>
-   <zorder>widget_25</zorder>
-   <zorder>widget_26</zorder>
-   <zorder>widget_27</zorder>
-   <zorder>widget_28</zorder>
-   <zorder>widget_29</zorder>
-   <zorder>widget_30</zorder>
-   <zorder>widget_31</zorder>
-   <zorder>widget_32</zorder>
-   <zorder>widget_18</zorder>
-   <zorder>widget_19</zorder>
-   <zorder>widget_20</zorder>
-   <zorder>widget_21</zorder>
-   <zorder>widget_22</zorder>
-   <zorder>widget_23</zorder>
-   <zorder>widget_24</zorder>
-   <zorder>widget_25</zorder>
-   <zorder>widget_26</zorder>
-   <zorder>widget_27</zorder>
-   <zorder>widget_28</zorder>
-   <zorder>widget_29</zorder>
-   <zorder>widget_30</zorder>
-   <zorder>widget_31</zorder>
-   <zorder>widget_32</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
@@ -10076,18 +9970,6 @@
      </property>
     </widget>
    </widget>
-   <zorder>widget_33</zorder>
-   <zorder>widget_34</zorder>
-   <zorder>number_76</zorder>
-   <zorder>number_75</zorder>
-   <zorder>mute17</zorder>
-   <zorder>amp17</zorder>
-   <zorder>amp18</zorder>
-   <zorder>mute18</zorder>
-   <zorder>widget_43</zorder>
-   <zorder>widget_44</zorder>
-   <zorder>widget_43</zorder>
-   <zorder>widget_44</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
@@ -10520,8 +10402,6 @@
     <zorder>t0_77</zorder>
     <zorder>line_77</zorder>
     <zorder>progressBar19</zorder>
-    <zorder>value_41</zorder>
-    <zorder>dB_41</zorder>
     <zorder>value_41</zorder>
     <zorder>dB_41</zorder>
    </widget>

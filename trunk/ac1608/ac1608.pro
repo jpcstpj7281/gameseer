@@ -36,14 +36,11 @@ snmpnetwnd.cpp \
 snmpnet.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
-    copyparamwnd.cpp \
     pswinputdlg.cpp \
     inputgainctrlwnd.cpp \
     highpasswnd.cpp \
     gatenomwnd.cpp \
-    meterswnd.cpp \
     matrixmixerwnd.cpp \
-    level8chwnd.cpp \
     deviceswnd.cpp
 
 HEADERS  +=  snmpnet.h \
@@ -60,14 +57,11 @@ OIDDial.h\
     configmgr.h \
 	mainwindow.h \
     presetwnd.h \
-    copyparamwnd.h \
     pswinputdlg.h \
     inputgainctrlwnd.h \
     highpasswnd.h \
     gatenomwnd.h \
-    meterswnd.h \
     matrixmixerwnd.h \
-    level8chwnd.h \
     deviceswnd.h
 
 FORMS    += mainwindow.ui \
@@ -78,14 +72,11 @@ oidinputdlg.ui \
 cobranetwnd.ui \
 snmpnetwnd.ui \
     presetwnd.ui \
-    copyparamwnd.ui \
     pswinputdlg.ui \
     inputgainctrlwnd.ui \
     highpasswnd.ui \
     gatenomwnd.ui \
-    level8chwnd.ui \
     deviceswnd.ui \
-    meterswnd.ui \
     matrixmixerwnd.ui
 
 

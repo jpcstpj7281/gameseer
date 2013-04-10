@@ -34,12 +34,15 @@ private slots:
 private:
 	virtual void	timerEvent ( QTimerEvent * event )override;
 
-	SnmpCallback::RequestStatus setAddressCallback(SnmpObj* so);
+	void setPswCallback(SnmpObj* so);
+	void getPswCallback(SnmpObj* so);
+	void getPsw( Ac1608Address* aa);
+	void reset(Ac1608Address* aa );
 	void setAllEnabled( bool flag);
 	bool isChangeMode_;
 	bool isPasswordChanging_;
+	bool isLoading_;
 	void closeEvent ( QCloseEvent * event );
-	//QString id_, oldPsw_, newOid_;
 	
 	int * oldPsw_, * newPsw_;
 	int pswCount_;
