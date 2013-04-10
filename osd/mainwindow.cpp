@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug.h>
 #include "DevicesWnd.h"
-#include "TestQbox.h"
+
 #include <QTabWidget.h>
 
 #include <QTableView>
@@ -12,19 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
 	,devicesWnd_(new DevicesWnd)
-	,testQbox_(new TestQbox)
-	//,snmpNetWnd_(new SnmpNetWnd)
 
 {
     ui->setupUi(this);
 
 	_tab = findChild<QTabWidget*>( "tabWidget");
-
-	
 	_tab->addTab(devicesWnd_, "Devices" );
-	_tab->addTab(testQbox_, "Test" );
-	//_tab->addTab(snmpNetWnd_, "SnmpNet" );
-	
 	devicesWnd_->initAddresses();
 
 	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
