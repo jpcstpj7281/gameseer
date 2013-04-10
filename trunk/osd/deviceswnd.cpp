@@ -6,7 +6,7 @@
 #include <qdebug>
 #include <Windows.h>
 #include <boost/foreach.hpp>
-
+#include "TestQbox.h"
 #include "ui_mainwindow.h"
 #include <OsdImage.h>
 #include <OsdProjMode.h>
@@ -22,17 +22,18 @@ OsdWnd::OsdWnd(ResourceID screenid)
 ,screenid_(screenid)
 ,ui(new Ui::MainWindow)
 ,osdImage_(new OsdImage)
-,osdProjMode_(new OsdProjMode){
+,osdProjMode_(new OsdProjMode)
+{
     ui->setupUi(this);
 	_tab = findChild<QTabWidget*>( "tabWidget");
 	_tab->addTab(osdImage_, "Image" );
 	_tab->addTab(osdProjMode_, "Projection Mode" );
-	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
+	//connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
 }
 
 
-void OsdWnd::tabChanged (int index){
-	QWidget* currWidget = _tab->widget( index);
+void OsdWnd::tabChanged (int ){
+	//QWidget* currWidget = _tab->widget( index);
 }
 OsdWnd::~OsdWnd(){
     delete ui;
@@ -46,6 +47,7 @@ void ScreenConnBtn::conn(){
 			this->setEnabled(false);
 			address_->setEnabled(false);
 			osdBtn_->setEnabled(false);
+			testBtn_->setEnabled(false);
 			scrn->versionRequest( std::bind( &ScreenConnBtn::connectedCallback, this, _1, _2), QboxDataMap() );
 		}
 	}
@@ -54,6 +56,9 @@ void ScreenConnBtn::disconn(){
 	Screen* scrn = ScreenMgr::instance()->getScreen(screenid_);
 	scrn->disconnect();
 	osdBtn_->setEnabled(false);
+	testBtn_->setEnabled(false);
+	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
+	if (osdBtn_ && !osdBtn_->isHidden() ) osdBtn_->hide();
 	setText("Connect");
 }
 void ScreenConnBtn::clickit(){
@@ -74,44 +79,71 @@ void ScreenConnBtn::clickOsd(){
 		}
 	}
 }
+void ScreenConnBtn::clickTest(){
+	if (testQbox_ == NULL){
+		testQbox_ = new TestQbox(screenid_);
+		testQbox_->resize( 800, 600);
+		testQbox_->show();
+	}else{
+		if (testQbox_->isHidden()){
+			testQbox_->show();
+		}
+	}
+}
 
 bool ScreenConnBtn::connectedCallback( uint32_t , QboxDataMap){
 	setText("Disconnect");
 	this->setEnabled(true);
 	osdBtn_->setEnabled(true);
+	testBtn_->setEnabled(true);
 	return true;
 }
 
 ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	QPushButton()
 	,osdWnd_(0)
+	,testQbox_(0)
+	,screenid_(screenid)
+	,row_( new QTableWidgetItem)
+	,col_(new QTableWidgetItem)
+	,address_(new QLineEdit)
+	,osdBtn_(new QPushButton)
+	,testBtn_(new QPushButton)
 {
-	row_ = new QTableWidgetItem	;
-	col_ = new QTableWidgetItem	;
-	address_ = new QLineEdit	;
-	osdBtn_ = new QPushButton	;
-	row_->setText( QString::number(( screenid >> 8) & 0xFF) );
-	col_->setText(QString::number( screenid & 0xFF));
-	address_->setText( QString::fromStdString( ip) );
-	osdBtn_->setText( "OSD");
-	setText( "Connect");
+	this->setText( "Connect");
 
+	row_->setText( QString::number(( screenid >> 8) & 0xFF) );
 	row_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 	row_->setFlags( Qt::ItemIsEnabled );
 
+	col_->setText(QString::number( screenid & 0xFF));
 	col_->setFlags( Qt::ItemIsEnabled );
 	col_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 
 	osdBtn_->setEnabled(false);
+	osdBtn_->setText( "OSD");
+	connect( osdBtn_, SIGNAL(clicked()), this, SLOT(clickOsd()) );
+
+	testBtn_->setEnabled(false);
+	testBtn_->setText( "Test");
+	connect( testBtn_, SIGNAL(clicked()), this, SLOT(clickTest()) );
 
 	QRegExp ipRx("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-4]|[01]?\\d\\d?)");
 	QRegExpValidator *pIpValidator = new QRegExpValidator(ipRx);
 	address_->setValidator(pIpValidator);
 	address_->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
+	address_->setText( QString::fromStdString( ip) );
+
 	connect( this, SIGNAL(clicked()), this, SLOT(clickit()) );
-	connect( osdBtn_, SIGNAL(clicked()), this, SLOT(clickOsd()) );
 	
-	screenid_ = screenid;
+	
+	
+	
+}
+
+ScreenConnBtn::~ScreenConnBtn(){
+	if (osdWnd_) delete osdWnd_;
+	if (testQbox_) delete testQbox_;
 }
 
 DevicesWnd::DevicesWnd(QWidget *parent) :
@@ -121,7 +153,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     ui->setupUi(this);
 
     tableDevices_ = findChild<QTableWidget* >("tableDevices");
-    tableDevices_->setColumnCount( 5);
+    tableDevices_->setColumnCount( 6);
 
     QStringList sl;
 	sl.push_back( "Row");
@@ -129,6 +161,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	sl.push_back( "IP");
     sl.push_back( "OSD");
     sl.push_back( "Connection");
+	sl.push_back( "Test");
     tableDevices_->setHorizontalHeaderLabels(sl );
 	tableDevices_->setColumnWidth( 0, 35);
 	tableDevices_->setColumnWidth( 1, 35);
@@ -202,19 +235,6 @@ void DevicesWnd::connAll(){
 	}
 }
 
-//SnmpCallback::RequestStatus dispatchFunc1(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-//    const int len = 128;
-//    char buf[len];
-//    memset( buf, 0, 1024);
-//    snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
-//    qDebug()<<buf;
-//    return SnmpCallback::RequestAgain;
-//}
-
-//void DevicesWnd::refresh(){
-//    SnmpNet::instance()->addAsyncGet( "1.3.6.1.2.1.1.3.0",  "192.168.1.100" ,  "public" ,  std::bind<SnmpCallbackFunc >( dispatchFunc1, _1, _2, _3, _4 ));
-//}
-
 //load addresses from configuration
 void DevicesWnd::initAddresses(){
     //if ( addresses_.size() > 0) return;
@@ -238,6 +258,7 @@ void DevicesWnd::newAddress( ResourceID screenid, const std::string &ip){
 	tableDevices_->setCellWidget(tableDevices_->rowCount()-1, 2, connBtn->address_);
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 3, connBtn->osdBtn_ );
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 4, connBtn );
+	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 5, connBtn->testBtn_ );
 	
 }
 void DevicesWnd::deleteAddress( ResourceID screenid){

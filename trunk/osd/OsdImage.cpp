@@ -1,7 +1,6 @@
 #include "OsdImage.h"
 #include "ui_OsdImage.h"
-#include <QtDeclarative/QDeclarativeView>
-
+#include "QPushButton.h"
 
 OsdImage::OsdImage(QWidget *parent) :
     QWidget(parent),
@@ -9,14 +8,16 @@ OsdImage::OsdImage(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //QDeclarativeView * dv  = findChild<QDeclarativeView*>("declarativeView" );
-    //if ( dv) {
-    //	dv->setSource(QUrl::fromLocalFile("res/drawGraph.qml"));
-    //	dv->show();
-    //}
+    QPushButton * initBtn  = findChild<QPushButton*>("declarativeView" );
+    if ( initBtn) {
+    	connect( initBtn, SIGNAL( clicked()), this, SLOT( clickinit() ) );
+    }
 
 
    
+}
+
+void OsdImage::clickinit(){
 }
 
 OsdImage::~OsdImage()

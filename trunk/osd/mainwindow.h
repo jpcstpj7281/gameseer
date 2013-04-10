@@ -4,9 +4,6 @@
 #include <QMainWindow>
 
 class DevicesWnd;
-class TestQbox;
-//class SnmpNetWnd;
-
 namespace Ui {
     class MainWindow;
 }
@@ -17,23 +14,9 @@ class MainWindow : public QMainWindow
 
 		
     public:
-
-		enum Mode{
-			ControlMode,
-			EditMode,
-		};
-
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
-		void setMode( Mode mode){
-			_mode = mode;
-		}
-		Mode getMode(){
-			return _mode ;
-		}
-
-		
     private slots:
 
 		void tabChanged (int);
@@ -41,12 +24,11 @@ class MainWindow : public QMainWindow
     private:
 
 		QTabWidget* _tab;
-		Mode _mode;
 
         Ui::MainWindow *ui;
 
         DevicesWnd *devicesWnd_;
-		TestQbox * testQbox_;
+
 		//SnmpNetWnd * snmpNetWnd_;
 
         void closeEvent(QCloseEvent * event);

@@ -668,7 +668,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnHoriRevert_2">
+  <widget class="QPushButton" name="btnInit">
    <property name="geometry">
     <rect>
      <x>40</x>

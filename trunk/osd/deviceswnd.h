@@ -14,6 +14,7 @@
 #include <QMainWindow>
 class OsdImage;
 class OsdProjMode;
+class TestQbox;
 
 namespace Ui {
 class DevicesWnd;
@@ -45,17 +46,21 @@ class ScreenConnBtn: public QPushButton{
 	private slots:
 		void clickit();
 		void clickOsd();
+		void clickTest();
 public:
 	QTableWidgetItem	*row_;
 	QTableWidgetItem	*col_;
 	QLineEdit			*address_;
 	QPushButton			*osdBtn_;
+	QPushButton			*testBtn_;
 
 	OsdWnd				*osdWnd_;
+	TestQbox			*testQbox_;
 
 	void conn();
 	void disconn();
 	ScreenConnBtn( ResourceID screenid, const std::string & ip);
+	~ScreenConnBtn();
 	bool connectedCallback( uint32_t , QboxDataMap);
 };
 

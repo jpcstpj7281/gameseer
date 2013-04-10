@@ -4,6 +4,7 @@
 #include <qdebug.h>
 #include <sstream>
 #include "QboxNet.h"
+#include "screen.h"
 #include "boost/foreach.hpp"
 
 QboxComboBox::QboxComboBox( const std::string &data, QTableWidgetItem  *item):QComboBox(0){
@@ -44,9 +45,10 @@ void QboxComboBox::currentIndexChangedImpl(const QString & text){
 	item_->setToolTip( item_->text());
 }
 
-TestQbox::TestQbox(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::TestQbox)
+TestQbox::TestQbox(ResourceID screenid) :
+    QWidget(0)
+	,ui(new Ui::TestQbox)
+	,screenid_(screenid)
 {
     ui->setupUi(this);
 
@@ -80,7 +82,7 @@ TestQbox::TestQbox(QWidget *parent) :
 	lemsgid->setInputMask("00");
 	//lemsgid->setMaxLength(4);
 
-	setCurrQboxAddress(QString("127.0.0.1"));
+	//setCurrQboxAddress(QString("127.0.0.1"));
 	
 }
 
@@ -89,9 +91,9 @@ TestQbox::~TestQbox()
     delete ui;
 }
 
-void TestQbox::setCurrQboxAddress( QString & ip){
-	qboxAddr_= ip;
-}
+//void TestQbox::setCurrQboxAddress( QString & ip){
+//	qboxAddr_= ip;
+//}
 
 void TestQbox::clearClicked(bool){
 	tableResponse_->setRowCount(0);
@@ -141,9 +143,15 @@ void TestQbox::sendClicked(bool){
 		}
 	}
 
-	Qbox * q = QboxMgr::instance()->getQbox( qboxAddr_.toStdString() );
-	q->addAsyncRequest( msgtype, std::bind(&TestQbox::testDataCallback, this, std::placeholders::_1, std::placeholders::_2), data);
-	tableResponse_->setRowCount(0);
+	//Qbox * q = QboxMgr::instance()->getQbox( qboxAddr_.toStdString() );
+	Screen* s = ScreenMgr::instance()->getScreen(screenid_);
+	if ( s){
+		Qbox* q = s->getQbox();
+		if (q){
+			q->addAsyncRequest( msgtype, std::bind(&TestQbox::testDataCallback, this, std::placeholders::_1, std::placeholders::_2), data);
+			tableResponse_->setRowCount(0);
+		}
+	}
 }
 
 bool TestQbox::testDataCallback( uint32_t msgtype , QboxDataMap& data){

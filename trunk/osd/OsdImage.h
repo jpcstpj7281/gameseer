@@ -11,6 +11,9 @@ class OsdImage : public QWidget
 {
     Q_OBJECT
     
+		private slots:
+			void clickinit();
+
 public:
     explicit OsdImage(QWidget *parent = 0);
     ~OsdImage();

@@ -6,6 +6,7 @@
 #include <QComboBox.h>
 #include <stdint.h>
 #include <QboxNet.h>
+#include <screen.h>
 
 namespace Ui {
 class TestQbox;
@@ -27,7 +28,7 @@ class TestQbox : public QWidget
     Q_OBJECT
     
 public:
-    explicit TestQbox(QWidget *parent = 0);
+    explicit TestQbox(ResourceID screenid);
     ~TestQbox();
     
 	void setCurrQboxAddress( QString & ip);
@@ -40,7 +41,8 @@ private:
 
 	QTableWidget* tableRequest_;
 	QTableWidget* tableResponse_;
-	QString qboxAddr_;
+	//QString qboxAddr_;
+	ResourceID screenid_;
 	
 	void newRequestRow( );
 	bool testDataCallback( uint32_t , QboxDataMap& );

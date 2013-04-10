@@ -36,6 +36,7 @@ public:
 	bool setAddress( const std::string & ip);
 	void connect();
 	void disconnect();
+	Qbox* getQbox(){ return qbox_;}
 
 	inline ResourceID getResourceID(){ return (row_<< 8) + col_;}
 	inline uint32_t getCol() { return col_;}
