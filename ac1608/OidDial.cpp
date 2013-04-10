@@ -17,7 +17,10 @@ QDial(w)
 }
 
 void OIDDial::initSnmp(){
-	SnmpNet::instance()->addAsyncGet( objectName().toStdString().c_str(), ConfigMgr::instance()->getOid(objectName()).toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1, _2, _3, _4) );
+	SnmpNet::instance()->addAsyncGet( objectName().toStdString(), 
+		ConfigMgr::instance()->getOid(objectName()).toStdString(), 
+		"public", std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) 
+		);
 }
 
 bool OIDDial::eventFilter ( QObject * watched, QEvent * event ){
@@ -35,7 +38,9 @@ bool OIDDial::eventFilter ( QObject * watched, QEvent * event ){
 			if (event->type() == event->MouseButtonRelease){
 				QString oid = OIDInputDlg::getNewOid( this->objectName());
 				if (!oid.isEmpty()){
-					SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(),  oid.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1, _2, _3, _4) );
+					SnmpNet::instance()->addAsyncGet(objectName().toStdString(),  
+						oid.toStdString(), "public", 
+						std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) );
 				}
 			}
 			return true;
@@ -58,16 +63,16 @@ void	OIDDial::timerEvent ( QTimerEvent * e ){
 void OIDDial::fireSnmp(int val ){
 	if ( !ConfigMgr::instance()->isOidEditable() ) {
 		QString oid = ConfigMgr::instance()->getOid(objectName());
-		SnmpNet::instance()->addAsyncSet( objectName().toStdString().c_str(), oid.toStdString().c_str(), "private", std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1, _2, _3, _4) , val);
+		SnmpNet::instance()->addAsyncSet( objectName().toStdString(), 
+			oid.toStdString().c_str(), "private", 
+			std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) , val);
 		lastTimeChanged_ = GetTickCount();
 	}
 }
 
-SnmpCallback::RequestStatus OIDDial::snmpCallback( int , snmp_session*, snmp_pdu* pdu, SnmpObj* so){
-	if (pdu->variables->type == ASN_INTEGER){
-		val_ = *(u_long *) (pdu->variables->val.integer);
-	}
-	if ( so->var.type() )
+SnmpCallback::RequestStatus OIDDial::snmpCallback(  SnmpObj* so){
+	val_ = so->rspVar.value<int>();
+	if ( so->setVar.type() )
 		return SnmpCallback::RequestStop;
 	else
 		return SnmpCallback::RequestAgain;

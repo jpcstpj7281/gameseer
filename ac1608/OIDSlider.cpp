@@ -47,7 +47,19 @@ OIDSlider::OIDSlider( QWidget* w):
     }
 
 void OIDSlider::initSnmp(){
-    SnmpNet::instance()->addAsyncGet( objectName().toStdString().c_str(), ConfigMgr::instance()->getOid(objectName()).toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1, _2, _3, _4) );
+	isRunning_ = true;
+	QString oid = ConfigMgr::instance()->getOid(objectName());
+	if ( ! oid.isEmpty()){
+		SnmpNet::instance()->addAsyncGet(
+			objectName().toStdString(), 
+			oid.toStdString(), 
+			"public", 
+			std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) 
+			);
+	}
+}
+void OIDSlider::shutdownSnmp(){
+	isRunning_ = false;
 }
 
 bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
@@ -65,7 +77,10 @@ bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
         if (event->type() == event->MouseButtonRelease){
             QString oid = OIDInputDlg::getNewOid( this->objectName());
             if (!oid.isEmpty()){
-                SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(),  oid.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1, _2, _3, _4) );
+                SnmpNet::instance()->addAsyncGet(
+					objectName().toStdString(),  
+					oid.toStdString(), 
+					"public", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) );
             }
         }
         return true;
@@ -88,16 +103,16 @@ void	OIDSlider::timerEvent ( QTimerEvent * e ){
 void OIDSlider::fireSnmp(int val ){
     if ( !ConfigMgr::instance()->isOidEditable() ) {
         QString oid = ConfigMgr::instance()->getOid(objectName());
-        SnmpNet::instance()->addAsyncSet( objectName().toStdString().c_str(), oid.toStdString().c_str(), "private", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1, _2, _3, _4) , val);
+        SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(), 
+			"private", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) , val);
         lastTimeChanged_ = GetTickCount();
     }
 }
 
-SnmpCallback::RequestStatus OIDSlider::snmpCallback( int , snmp_session*, snmp_pdu* pdu, SnmpObj* so){
-    if (pdu->variables->type == ASN_INTEGER){
-        val_ = *(u_long *) (pdu->variables->val.integer);
-    }
-    if ( so->var.type() )
+SnmpCallback::RequestStatus OIDSlider::snmpCallback( SnmpObj* so){
+	val_ = so->rspVar.value<int>();
+
+    if ( so->setVar.type() )
         return SnmpCallback::RequestStop;
     else
         return SnmpCallback::RequestAgain;

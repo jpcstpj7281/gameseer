@@ -18,6 +18,9 @@ struct ObservedOid{
 	QString ip;
 	QString rsp;
 	QString community;
+	size_t timereq;
+	size_t timersp;
+
 };
 
 

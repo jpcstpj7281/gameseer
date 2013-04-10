@@ -23,7 +23,7 @@ SnmpNetWnd::SnmpNetWnd(QWidget *parent) :
 	ui->setupUi(this);
 
 	tableOids_ = findChild<QTableWidget* >("tableOids");
-	tableOids_->setColumnCount(6);
+	tableOids_->setColumnCount(7);
 
 	QStringList sl;
 	sl.push_back( "Object");
@@ -32,6 +32,9 @@ SnmpNetWnd::SnmpNetWnd(QWidget *parent) :
 	sl.push_back( "IP");
 	sl.push_back( "Community");
 	sl.push_back( "unique");
+	sl.push_back( "interval");
+
+
 
 	//sl.push_back( "Connection");
 	//sl.push_back( "Operation");
@@ -61,15 +64,18 @@ void SnmpNetWnd::afterResponsed(SnmpObj* so){
 	QMutexLocker lk(&locker_);
 	std::map<QString, ObservedOid >::iterator found = oidMap_.find( unique);
 	if (found != oidMap_.end()){
+		if (found->second.timersp == 0){
+			found->second.timersp = GetTickCount();
+		}
 		found->second.rsp  = buf;
 	}else{
-		ObservedOid oid ;
-		oid.obj = so->obj.c_str();
-		oid.ip = so->ip.c_str();
-		oid.oid = so->snmpoid.c_str();
-		oid.community = so->community.c_str();
-		oid.rsp  = buf;
-		oidMap_[unique] = oid;
+		//ObservedOid oid ;
+		//oid.obj = so->obj.c_str();
+		//oid.ip = so->ip.c_str();
+		//oid.oid = so->snmpoid.c_str();
+		//oid.community = so->community.c_str();
+		//oid.rsp  = buf;
+		//oidMap_[unique] = oid;
 		qDebug()<<"Unexpected error: void SnmpNetWnd::afterResponsed!";
 	}
 
@@ -85,11 +91,18 @@ void SnmpNetWnd::beforeSent(SnmpObj* so){
 	std::map<QString, ObservedOid >::iterator found = oidMap_.find( unique);
 	if (found == oidMap_.end()){
 		ObservedOid oid ;
+		oid.timersp = 0;
+		oid.timereq = GetTickCount();
 		oid.obj = so->obj.c_str();
 		oid.ip = so->ip.c_str();
 		oid.oid = so->snmpoid.c_str();
 		oid.community = so->community.c_str();
 		oidMap_[unique] = oid;
+	}else{
+		if (found->second.timersp > 0){
+			found->second.timersp= 0;
+			found->second.timereq = GetTickCount();
+		}
 	}
 }
 
@@ -98,53 +111,64 @@ void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
 	{
 		QMutexLocker lk(&locker_);
 		oidMap = oidMap_;
-		oidMap_.clear();
+		//oidMap_.clear();
 	}
-		for ( std::map<QString, ObservedOid >::iterator it = oidMap.begin(); it != oidMap.end(); ++it){
-			QList<QTableWidgetItem *> list = tableOids_->findItems( it->first, Qt::MatchFlag::MatchExactly );
-				if ( list.isEmpty()  ){
-					int newCount = tableOids_->rowCount() +1;
-					tableOids_->setRowCount( newCount );
-					QTableWidgetItem * obj = new QTableWidgetItem;
-					QTableWidgetItem * oid = new QTableWidgetItem;
-					QTableWidgetItem * uniq = new QTableWidgetItem;
-					QTableWidgetItem * ip = new QTableWidgetItem;
-					QTableWidgetItem * rsp = new QTableWidgetItem;
-					QTableWidgetItem * community = new QTableWidgetItem;
-					obj->setText( it->second.obj );
-					oid->setText( it->second.oid );
-					uniq->setText(it->first);
-					ip->setText( it->second.ip );
-					oid->setToolTip(it->second.oid );
-					community->setText(it->second.community);
-					if (it->second.community == "private"){
-						community->setBackground(QBrush(QColor(Qt::lightGray))); 
-						oid->setBackground(QBrush(QColor(Qt::lightGray))); 
-						uniq->setBackground(QBrush(QColor(Qt::lightGray))); 
-						ip->setBackground(QBrush(QColor(Qt::lightGray))); 
-						rsp->setBackground(QBrush(QColor(Qt::lightGray))); 
-					}
-					community->setFlags( Qt::ItemIsEnabled );
-					oid->setFlags( Qt::ItemIsEnabled );
-					uniq->setFlags( Qt::ItemIsEnabled );
-					ip->setFlags( Qt::ItemIsEnabled );
-					rsp->setFlags( Qt::ItemIsEnabled );
-					obj->setFlags( Qt::ItemIsEnabled );
-					tableOids_->setItem( newCount -1, 0, obj);
-					tableOids_->setItem( newCount -1, 1, rsp);
-					tableOids_->setItem( newCount -1, 2, oid);
-					tableOids_->setItem( newCount -1, 3, ip);
-					tableOids_->setItem( newCount -1, 4, community);
-					tableOids_->setItem( newCount -1, 5, uniq);
-				}else if( list.size() == 1 &&  !it->second.rsp.isEmpty() ){
-					QTableWidgetItem * rsp = tableOids_->item( list.front()->row(), 1);
-					rsp->setText( it->second.rsp);
-				}else{
-					//qDebug()<<"unexpected error: SnmpNetWnd::timerEvent!";
+	for ( std::map<QString, ObservedOid >::iterator it = oidMap.begin(); it != oidMap.end(); ++it){
+		QList<QTableWidgetItem *> list = tableOids_->findItems( it->first, Qt::MatchFlag::MatchExactly );
+		if ( list.isEmpty()  ){
+			int newCount = tableOids_->rowCount() +1;
+			tableOids_->setRowCount( newCount );
+			QTableWidgetItem * obj = new QTableWidgetItem;
+			QTableWidgetItem * oid = new QTableWidgetItem;
+			QTableWidgetItem * uniq = new QTableWidgetItem;
+			QTableWidgetItem * ip = new QTableWidgetItem;
+			QTableWidgetItem * rsp = new QTableWidgetItem;
+			QTableWidgetItem * community = new QTableWidgetItem;
+			QTableWidgetItem * interval = new QTableWidgetItem;
+			obj->setText( it->second.obj );
+			oid->setText( it->second.oid );
+			uniq->setText(it->first);
+			uniq->setToolTip(it->first);
+			ip->setText( it->second.ip );
+			oid->setToolTip(it->second.oid );
+			community->setText(it->second.community);
+			if ( it->second.timersp > 0){
+				interval->setText( QString::number( it->second.timersp - it->second.timereq) );
+			}
+			if (it->second.community == "private"){
+				community->setBackground(QBrush(QColor(Qt::lightGray))); 
+				oid->setBackground(QBrush(QColor(Qt::lightGray))); 
+				uniq->setBackground(QBrush(QColor(Qt::lightGray))); 
+				ip->setBackground(QBrush(QColor(Qt::lightGray))); 
+				rsp->setBackground(QBrush(QColor(Qt::lightGray))); 
+			}
+			community->setFlags( Qt::ItemIsEnabled );
+			oid->setFlags( Qt::ItemIsEnabled );
+			uniq->setFlags( Qt::ItemIsEnabled );
+			ip->setFlags( Qt::ItemIsEnabled );
+			rsp->setFlags( Qt::ItemIsEnabled );
+			obj->setFlags( Qt::ItemIsEnabled );
+			interval->setFlags( Qt::ItemIsEnabled );
+			tableOids_->setItem( newCount -1, 0, obj);
+			tableOids_->setItem( newCount -1, 1, rsp);
+			tableOids_->setItem( newCount -1, 2, oid);
+			tableOids_->setItem( newCount -1, 3, ip);
+			tableOids_->setItem( newCount -1, 4, community);
+			tableOids_->setItem( newCount -1, 5, uniq);
+			tableOids_->setItem( newCount -1, 6, interval);
+		}else if( list.size() > 0 ){
+			for ( auto lit = list.begin() ; lit != list.end(); ++lit){
+				QTableWidgetItem * item = *lit;
+				QTableWidgetItem * interval = tableOids_->item( item->row(), 6);
+				QTableWidgetItem * rsp = tableOids_->item( item->row(), 1);
+				rsp->setText( it->second.rsp);
+				if ( it->second.timersp > 0){
+					interval->setText( QString::number( it->second.timersp - it->second.timereq) );
 				}
+			}
+		}else{
+			//qDebug()<<"unexpected error: SnmpNetWnd::timerEvent!";
 		}
-		oidMap_.clear();
-
-
-
+	}
+	oidMap.clear();
 }

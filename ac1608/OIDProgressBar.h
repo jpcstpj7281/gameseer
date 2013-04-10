@@ -11,12 +11,14 @@ class OIDProgressBar : public QProgressBar{
 	void * inputDialog_;
 
 	volatile int  val_;
+	volatile int  isRunning_;
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
 	virtual void	timerEvent ( QTimerEvent * e )override;
-	SnmpCallback::RequestStatus snmpCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
+	SnmpCallback::RequestStatus snmpCallback(  SnmpObj*);
 public:
 	OIDProgressBar( QWidget* w);
 	void initSnmp();
+	void shutdownSnmp();
 };
 #endif // OIDProgressBar

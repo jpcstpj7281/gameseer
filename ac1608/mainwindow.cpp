@@ -33,41 +33,38 @@ using namespace std::placeholders;
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
-    ,inputGainCtrlWnd_(new InputGainCtrlWnd)
-    ,gateNOMWnd_(new GateNOMWnd)
-    ,highPassWnd_(new HighPassWnd)
-	,deviceswnd_(new DevicesWnd)
 	,homepage_(new HomePage)
-	,matrixMixerWnd_(new MatrixMixerWnd)
-	,peqWnd_(new PEQWnd)
-	,nomWnd_(new NOMWnd)
-	,presetWnd_(new PresetWnd)
-	,cobraNetWnd_(new CobraNetWnd)
 	,snmpNetWnd_(new SnmpNetWnd)
-
+	,deviceswnd_(new DevicesWnd)
+ //   ,inputGainCtrlWnd_(new InputGainCtrlWnd)
+ //   ,gateNOMWnd_(new GateNOMWnd)
+ //   ,highPassWnd_(new HighPassWnd)
+	//,matrixMixerWnd_(new MatrixMixerWnd)
+	//,peqWnd_(new PEQWnd)
+	//,nomWnd_(new NOMWnd)
+	//,presetWnd_(new PresetWnd)
+	//,cobraNetWnd_(new CobraNetWnd)
 {
     ui->setupUi(this);
 
 	_tab = findChild<QTabWidget*>( "tabWidget");
 
-	
-	_tab->addTab(homepage_, "Homepage" );
 	_tab->addTab(deviceswnd_, "Devices" );
-	_tab->addTab(inputGainCtrlWnd_, "Input" );
-	_tab->addTab(gateNOMWnd_, "Gate" );
-	_tab->addTab(highPassWnd_, "HighPass" );
-	_tab->addTab(peqWnd_, "PEQ" );
-	_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
-	_tab->addTab(nomWnd_, "NOM" );
-	_tab->addTab(presetWnd_, "Preset" );
-	_tab->addTab(cobraNetWnd_, "CobraNet" );
+	_tab->addTab(homepage_, "Homepage" );
+	//_tab->addTab(inputGainCtrlWnd_, "Input" );
+	//_tab->addTab(gateNOMWnd_, "Gate" );
+	//_tab->addTab(highPassWnd_, "HighPass" );
+	//_tab->addTab(peqWnd_, "PEQ" );
+	//_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
+	//_tab->addTab(nomWnd_, "NOM" );
+	//_tab->addTab(presetWnd_, "Preset" );
+	//_tab->addTab(cobraNetWnd_, "CobraNet" );
 	_tab->addTab(snmpNetWnd_, "SnmpNet" );
 	
 	deviceswnd_->initAddresses();
 
 	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
 
-    connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionChangePsw_clicked(QAction*)));
     connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
 	connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionEdit_clicked(QAction*)));
 }
@@ -81,51 +78,18 @@ void MainWindow::tabChanged (int index){
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete inputGainCtrlWnd_;
-    delete gateNOMWnd_;
-    delete highPassWnd_;
+    //delete inputGainCtrlWnd_;
+    //delete gateNOMWnd_;
+    //delete highPassWnd_;
 
+	delete snmpNetWnd_;
 	delete deviceswnd_;
 	delete homepage_;
-	delete matrixMixerWnd_;
-	delete peqWnd_;
-	delete nomWnd_;
-	delete presetWnd_;
-	delete cobraNetWnd_;
-	delete snmpNetWnd_;
-}
-
-void MainWindow::on_inputGainControl_clicked()
-{
-    if ( inputGainCtrlWnd_->isVisible()){
-        inputGainCtrlWnd_->hide();
-    }else{
-        inputGainCtrlWnd_->show();
-    }
-}
-
-void MainWindow::on_highPass_clicked(){
-    if ( highPassWnd_->isVisible()){
-        highPassWnd_->hide();
-    }else{
-        highPassWnd_->show();
-    }
-
-}
-
-
-void MainWindow::on_gateNom_clicked()
-{
-
-    if ( gateNOMWnd_->isVisible()){
-        gateNOMWnd_->hide();
-    }else{
-        gateNOMWnd_->show();
-    }
-}
-
-void MainWindow::on_actionChangePsw_clicked( QAction* action){
-    if (action->objectName() != "actionChangePsw" ) return;
+	//delete matrixMixerWnd_;
+	//delete peqWnd_;
+	//delete nomWnd_;
+	//delete presetWnd_;
+	//delete cobraNetWnd_;
 
 }
 
@@ -138,42 +102,28 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 
 	QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
 	if (t){
-	t->setGeometry( 0, 0, this->width()+2, this->height()-40);
-	t->setColumnWidth( 0, 150);
-	t->setColumnWidth( 2, 100);
-	t->setColumnWidth( 3, 100);
-	t->setColumnWidth( 4, 100);
-	t->setColumnWidth( 5, 100);
-	t->setColumnWidth( 1, (int)(t->width() - 600) );
+		t->setGeometry( 0, 0, this->width()+2, this->height()-40);
+		t->setColumnWidth( 0, 150);
+		t->setColumnWidth( 2, 100);
+		t->setColumnWidth( 3, 100);
+		t->setColumnWidth( 4, 100);
+		t->setColumnWidth( 5, 100);
+		t->setColumnWidth( 1, (int)(t->width() - 600) );
+		
 	}
 
 	t = _tab->findChild<QTableWidget* >("tableOids");
 	if (t){
-		t->setGeometry( 0, 0, this->width()+2, this->height()-40);
-	t->setColumnWidth( 0, 150);
-	t->setColumnWidth( 2, 100);
-	t->setColumnWidth( 3, 100);
-	t->setColumnWidth( 4, 100);
-	t->setColumnWidth( 5, 100);
-	t->setColumnWidth( 1, (int)(t->width() - 600) );
+		t->setColumnWidth( 0, 150);
+		t->setColumnWidth( 2, 100);
+		t->setColumnWidth( 3, 100);
+		t->setColumnWidth( 4, 100);
+		t->setColumnWidth( 5, 100);
+		t->setColumnWidth( 6, 50);
+		t->setColumnWidth( 1, this->width() - 650 );
+		t->resize( this->width()+2, this->height()-60);
 	}
-
-
 }
-
-//SnmpCallback::RequestStatus dispatchFunc(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-//	//netsnmp_variable_list *vars;
-//	//for (vars = pdu->variables; vars; vars = vars->next_variable){
-//	//print_variable(pdu->variables->name, pdu->variables->name_length, vars);
-//	const int len = 1024;
-//	char buf[len];
-//	memset( buf, 0, 1024);
-//	snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
-//	qDebug()<<buf;
-//
-//	//}
-//	return SnmpCallback::RequestAgain;
-//}
 
 void MainWindow::on_actionCopyParam_clicked(QAction* action){
 	if (action->objectName() != "action_copy_param" ) return;

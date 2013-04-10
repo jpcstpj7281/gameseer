@@ -50,10 +50,6 @@ class MainWindow : public QMainWindow
 
 		
     private slots:
-        void on_inputGainControl_clicked();
-        void on_gateNom_clicked();
-        void on_highPass_clicked();
-        void on_actionChangePsw_clicked(QAction*);
         void on_actionCopyParam_clicked(QAction*);
 		void on_actionEdit_clicked(QAction*);
 

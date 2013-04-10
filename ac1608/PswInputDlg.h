@@ -23,6 +23,7 @@ public:
     ~PswInputDlg();
 
 	bool getNewPsw( Ac1608Address*  oldp);
+	bool changePsw( Ac1608Address*  oldp);
 	//static PswInputDlg *instance();
 private slots:    
  
@@ -33,7 +34,7 @@ private slots:
 private:
 	virtual void	timerEvent ( QTimerEvent * event )override;
 
-	SnmpCallback::RequestStatus setAddressCallback(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so);
+	SnmpCallback::RequestStatus setAddressCallback(SnmpObj* so);
 	void setAllEnabled( bool flag);
 	bool isChangeMode_;
 	bool isPasswordChanging_;
