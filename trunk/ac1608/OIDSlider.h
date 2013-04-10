@@ -10,8 +10,9 @@ class OIDSlider : public QSlider{
 	void * inputDialog_;
 
 	volatile int val_;
+	volatile bool isRunning_;
 
-	SnmpCallback::RequestStatus snmpCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
+	SnmpCallback::RequestStatus snmpCallback( SnmpObj*);
 	void	timerEvent ( QTimerEvent * e )override;
 	bool eventFilter ( QObject * watched, QEvent * event )override;
 
@@ -22,6 +23,7 @@ public:
 	OIDSlider( QWidget* w);
 
 	void initSnmp();
+	void shutdownSnmp();
 
 };
 #endif // OIDSlider_H

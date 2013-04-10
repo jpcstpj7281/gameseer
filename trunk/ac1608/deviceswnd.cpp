@@ -132,7 +132,7 @@ void DevicesWnd::newAddress( Ac1608Address * aa ){
 
     if (aa != NULL){
         disconnect( lastLineEdit_, SIGNAL(editingFinished ()), this, SLOT(editingNewAddressFinished ()));
-        connect( lastLineEdit_, SIGNAL(editingFinished ()), this, SLOT(editingAddressFinished ()));
+        connect( lastLineEdit_, SIGNAL(editingFinished ()), this, SLOT(editingNewAddressFinished ()));
 
         lastLineEdit_->setText( aa->ip);
         aa->row = tableDevices_->rowCount()-1;
@@ -152,7 +152,8 @@ void DevicesWnd::newAddress( Ac1608Address * aa ){
 
         addresses_.insert( std::make_pair ( aa->ip,  aa) );
         aa->startCheckTime = GetTickCount();
-        SnmpNet::instance()->listenAddress((char*) aa->ip.toStdString().c_str() , std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+        SnmpNet::instance()->listenAddress(aa->ip.toStdString() , 
+			std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1));
         aa->init( lastLineEdit_, this);
     }
     //locker_.unlock();
@@ -177,7 +178,8 @@ void Ac1608Address::editingAddressFinished (){
             t_->currConnAddress_ = 0;
         }
         this->snmpResponseTime = 0;
-        SnmpNet::instance()->listenAddress((char*) ip.toStdString().c_str() , std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,t_, _1, _2, _3, _4));
+        SnmpNet::instance()->listenAddress(ip.toStdString() , 
+			std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,t_, _1));
 		
     }else{
         qDebug()<<"Unexpected Error: Ac1608Address::editingAddressFinished!";
@@ -198,44 +200,53 @@ Ac1608Address* getAddressByRow( DevicesWnd::AddressMap & addresses , int row){
     }
 }
 
-SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-
-    if (pdu->variables->type == ASN_TIMETICKS){
-        AddressMap::iterator found = addresses_.find( so->ip.c_str());
-        if ( found != addresses_.end() ) {
-            Ac1608Address * aa = found->second;
-            aa->timeticks = *(u_long *) (pdu->variables->val.integer);
-            aa->snmpResponseTime = GetTickCount();
-        }
-		return SnmpCallback::RequestAgain;
-    }
-	else if (pdu->variables->type == ASN_INTEGER ){
-		AddressMap::iterator found = addresses_.find( so->ip.c_str());
-        if ( found != addresses_.end() ) {
-            Ac1608Address * aa = found->second;
-            //aa->timeticks = *(u_long *) (pdu->variables->val.integer);
-            //aa->snmpResponseTime = GetTickCount();
-			std::string psw(so->snmpoid.c_str() );
-			if ( PswOid0 == psw){
-				aa->psw_[0] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-			else if ( PswOid1 == psw){
-				aa->psw_[1] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-			else if ( PswOid2 == psw){
-				aa->psw_[2] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-			else if ( PswOid3 == psw){
-				aa->psw_[3] = *(u_long *) (pdu->variables->val.integer);
-				aa->pswCount_++;
-			}
-        }
-		return SnmpCallback::RequestStop;
+SnmpCallback::RequestStatus DevicesWnd::pswCallback( SnmpObj* so){
+	AddressMap::iterator found = addresses_.find( so->ip.c_str());
+	if ( found != addresses_.end() ) {
+		Ac1608Address * aa = found->second;
+		std::string psw(so->snmpoid.c_str() );
+		if ( PswOid0 == psw){
+			aa->psw_[0] = so->rspVar.value<int>();
+			aa->pswCount_++;
+		}
+		else if ( PswOid1 == psw){
+			aa->psw_[1] =  so->rspVar.value<int>();
+			aa->pswCount_++;
+		}
+		else if ( PswOid2 == psw){
+			aa->psw_[2] =  so->rspVar.value<int>();
+			aa->pswCount_++;
+		}
+		else if ( PswOid3 == psw){
+			aa->psw_[3] =  so->rspVar.value<int>();
+			aa->pswCount_++;
+		}
 	}
-    
+	return SnmpCallback::RequestStop;
+}
+
+SnmpCallback::RequestStatus DevicesWnd::checkAddressCallback( SnmpObj* so){
+	AddressMap::iterator found = addresses_.find( so->ip.c_str());
+	if ( found != addresses_.end() ) {
+		Ac1608Address * aa = found->second;
+		aa->timeticks = so->rspVar.value<int>();
+		aa->snmpResponseTime = GetTickCount();
+
+		onlineRefreshed(aa);
+
+		if ( aa->pswCount_ == 0 && aa->psw_[0] == 0 && aa->psw_[1] == 0 && aa->psw_[2] == 0 && aa->psw_[3] == 0){ //检查是否已经开始读PSW
+			aa->psw_[0] = 1;//标记已经开始读PSW
+			SnmpNet::instance()->addAsyncGetWithIP("PSW0", PswOid0, aa->ip.toStdString() , 
+				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
+			SnmpNet::instance()->addAsyncGetWithIP("PSW1", PswOid1, aa->ip.toStdString() , 
+				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
+			SnmpNet::instance()->addAsyncGetWithIP("PSW2", PswOid2, aa->ip.toStdString() , 
+				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
+			SnmpNet::instance()->addAsyncGetWithIP("PSW3", PswOid3, aa->ip.toStdString() , 
+				"public", std::bind<SnmpCallbackFunc >( &DevicesWnd::pswCallback,this, _1));
+		}
+	}
+	return SnmpCallback::RequestAgain;
 }
 
 void DevicesWnd::timerEvent ( QTimerEvent * event ){
@@ -243,21 +254,12 @@ void DevicesWnd::timerEvent ( QTimerEvent * event ){
     for (AddressMap::iterator it = addresses_.begin(); it != addresses_.end(); ++it){
         Ac1608Address * aa = it->second;
         size_t elapsedCheckTime = t - aa->startCheckTime;
-        if ( aa->snmpResponseTime == 0 &&  elapsedCheckTime < 2000 ) 
-            continue;
-        size_t elapsed = t - aa->snmpResponseTime;
-        if (elapsed > 2000 && elapsedCheckTime >=2000){
-            offlineRefreshed(aa);
-        }else{
-            onlineRefreshed(aa);
-			if ( aa->pswCount_ == 0 && aa->psw_[0] == 0 && aa->psw_[1] == 0 && aa->psw_[2] == 0 && aa->psw_[3] == 0){ //检查是否已经开始读PSW
-				aa->psw_[0] = 1;//标记已经开始读PSW
-				SnmpNet::instance()->addAsyncGetWithIP("PSW0", PswOid0.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
-				SnmpNet::instance()->addAsyncGetWithIP("PSW1", PswOid1.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
-				SnmpNet::instance()->addAsyncGetWithIP("PSW2", PswOid2.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
-				SnmpNet::instance()->addAsyncGetWithIP("PSW3", PswOid3.c_str(),(char*) aa->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1, _2, _3, _4));
+        if ( aa->snmpResponseTime > 0 &&  elapsedCheckTime > 2000 ) {
+			size_t elapsed = t - aa->snmpResponseTime;
+			if (elapsed > 2000 && elapsedCheckTime >=2000){
+				offlineRefreshed(aa);
 			}
-        }
+		}
     }
 }
 void DevicesWnd::checkingRefreshed(Ac1608Address * aa){
@@ -276,7 +278,10 @@ void DevicesWnd::checkingRefreshed(Ac1608Address * aa){
 }
 
 bool Ac1608Address::valiatePassword( ){
-	if ( this->psw_[0] == this->inputPsw_[0] && this->psw_[1] == this->inputPsw_[1] && this->psw_[2] == this->inputPsw_[2] && this->psw_[3] == this->inputPsw_[3]){
+	if ( this->psw_[0] == this->inputPsw_[0] && 
+		this->psw_[1] == this->inputPsw_[1] && 
+		this->psw_[2] == this->inputPsw_[2] && 
+		this->psw_[3] == this->inputPsw_[3]){
 		return true;
 	}
 	return false;
@@ -296,16 +301,22 @@ void DevicesWnd::onlineRefreshed(Ac1608Address * aa){
 			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
 		}else{
 			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Password");
+			item4->setText( "Enter Psw");
 			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
 		}
 
-		if ( aa->pswCount_ == 4){
+		if ( aa->pswCount_ >= 4){
 			QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
 			item5->setBackground(QBrush(QColor(Qt::lightGray))); 
-			item5->setText( "Password");
+			//item5->setText( "Password");
 		}
-    }
+    }else{
+		if ( aa->pswCount_ >=4 && aa->valiatePassword( ) ){
+			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
+			item4->setText( "Change Psw");
+			item4->setBackground(QBrush(QColor(Qt::green))); 
+		}
+	}
 }
 
 void DevicesWnd::offlineRefreshed(Ac1608Address * aa){
@@ -352,9 +363,13 @@ void DevicesWnd::itemClicked(QTableWidgetItem * item)
 				connectImpl(aa);
 			}
         }
-		if(item->text() == "Password" ){
+		if(item->text() == "Enter Psw" ){
             Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
             connectImpl(aa);
+        }
+		if(item->text() == "Change Psw" ){
+			Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
+            inputDlg_->changePsw( aa);
         }
     }
 }

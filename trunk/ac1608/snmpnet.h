@@ -21,7 +21,7 @@ enum RequestStatus {
 
 };
 };
-typedef std::function< SnmpCallback::RequestStatus ( int , snmp_session*, snmp_pdu*, SnmpObj*)> SnmpCallbackFunc;
+typedef std::function< SnmpCallback::RequestStatus (SnmpObj*)> SnmpCallbackFunc;
 
 
 inline static QString timeticksToString( size_t timeticks){
@@ -44,30 +44,22 @@ inline static QString timeticksToString( size_t timeticks){
 
 class SnmpObj{
 public:
-	SnmpObj(std::string &obj, std::string &snmpoid, std::string & ip, std::string & community,SnmpCallbackFunc callback, QVariant var = QVariant(), snmp_session *sess = 0, void* sessp=0, snmp_pdu* pdu = 0 ):
-	  obj(obj)
+	SnmpObj( const std::string &obj,const  std::string &snmpoid,const  std::string & ip,const  
+		std::string & community,SnmpCallbackFunc callback, QVariant setVar = QVariant(), 
+		snmp_session *sess = 0, void* sessp=0, snmp_pdu* pdu = 0, size_t interval = 50 ):
+	obj(obj)
 	,snmpoid(snmpoid)
-	  ,ip(ip)
-	  ,community(community)
-	  ,callback(callback)
-	  ,var(var)
-	  ,sess(sess)
-	  ,sessp(sessp)
-	  ,pdu(pdu){
-		//this->snmpoid = snmpoid;
-		//this->ip = ip;
-		//this->community = community;
-		//this->callback = callback;
+	,ip(ip)
+	,community(community)
+	,callback(callback)
+	,setVar(setVar)
+	,sess(sess)
+	,sessp(sessp)
+	,pdu(pdu)
+	,interval(interval){
+
 	}
 
-
-
-	inline bool equal(std::string& obj, std::string& snmpoid, std::string& ip, std::string& community )const {
-		return this->obj==obj ? (this->snmpoid==snmpoid? (this->ip==ip?(this->community==community?true:false):false):false):false;
-	}
-	inline bool equal( SnmpObj& obj) const {
-		return this == &obj ? true :equal( obj.obj, obj.snmpoid, obj.ip, obj.community);
-	}
 	std::string obj;
 	std::string snmpoid;
 	std::string ip;
@@ -75,15 +67,15 @@ public:
 	SnmpCallbackFunc callback;
 	snmp_session *sess;
 	void* sessp;
-	QVariant var;
+	QVariant setVar;
+	QVariant rspVar;
 	snmp_pdu *pdu;
-//private:
-//	QString uniqueid;
+	size_t interval;
+	size_t lastTimeReq;
 };
 
-class SnmpNet 
+class SnmpNet :public QObject
 {
-
 	static  SnmpNet* inst;
 	SnmpNet();
 	
@@ -91,8 +83,8 @@ class SnmpNet
 	typedef std::list<SnmpObj*> AddressList;
 	typedef std::map<std::string, SnmpObj*> AddressSetMap;
 
-	AddressList snmpList_;
-
+	AddressList rspList_;
+	AddressList getList_;
 	AddressList removeList_;
 
 	AddressSetMap setMap_;
@@ -110,24 +102,29 @@ class SnmpNet
 
 	std::function< void (  SnmpObj*)> beforeSentCallback_;
 	std::function< void (  SnmpObj*)> afterResponsedCallback_;
+
+	virtual void timerEvent ( QTimerEvent *  )override;
 public:
 	~SnmpNet();
 	static SnmpNet *instance();
 		void startThread();
 	void stop();
-	void listenAddress( const char * ip , SnmpCallbackFunc callback);
+	void listenAddress( const std::string& ip , SnmpCallbackFunc callback);
 	inline std::string getCurrAddress(){ return currAddress_;}
 
-	bool switchAsyncSnmpAddress(const  char * ip);
+	bool switchAsyncSnmpAddress(const std::string& ip);
 
-	void addAsyncGetWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community  , SnmpCallbackFunc callback );
-	void addAsyncSetWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community  , SnmpCallbackFunc callback, QVariant value );
-
-	void addAsyncWalkWithIP(const char* obj, const char* snmpoid, const char* ip , const char* community , SnmpCallbackFunc callback);
+	void addAsyncGetWithIP(const std::string& obj, const std::string& snmpoid, const std::string& ip , 
+		const std::string& community  , SnmpCallbackFunc callback, size_t interval/*interval time of every request*/ );
+	void addAsyncGetWithIP(const std::string& obj, const std::string& snmpoid, const std::string& ip , 
+		const std::string& community  , SnmpCallbackFunc callback);/*interval time of every request default to 1000 minisec */
+	void addAsyncSetWithIP(const std::string& obj, const std::string& snmpoid, const std::string& ip , 
+		const std::string& community  , SnmpCallbackFunc callback, QVariant value );
+	//void addAsyncWalkWithIP(const std::string& obj, const std::string& snmpoid, const std::string& ip , const std::string& community , SnmpCallbackFunc callback);
 
 	//for current listening address
-	void addAsyncGet(const char* obj, const char* snmpoid, const char* community  , SnmpCallbackFunc callback ); 
-	void addAsyncSet(const char* obj, const char* snmpoid, const char* community  , SnmpCallbackFunc callback , QVariant value ); 
+	void addAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback ); 
+	void addAsyncSet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback , QVariant value ); 
 
 	inline void listenOidBeforeSent(std::function< void (  SnmpObj*) > callback ){
 		beforeSentCallback_ = callback;
@@ -140,8 +137,8 @@ public:
 	friend int asynch_response(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);
 
 	//test purpose
-	void walk(char* snmpoid, char* ip ="192.168.1.100", char* community = "public");
-	void get(char* snmpoid, char* ip ="192.168.1.100", char* community = "public" );
+	//void walk(std::string& snmpoid, std::string& ip ="192.168.1.100", std::string& community = "public");
+	//void get(std::string& snmpoid, std::string& ip ="192.168.1.100", std::string& community = "public" );
 };
 
 static int asynch_response(int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);

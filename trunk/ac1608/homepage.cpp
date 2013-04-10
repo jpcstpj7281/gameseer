@@ -49,7 +49,6 @@ HomePage::HomePage(QWidget *parent):
 		OIDSlider* qs = *it;
 		qs->setToolTip( qs->objectName());
 		qs->initSnmp();
-
 	}
 
 	QList<OIDStatePushBtn *> qpb = findChildren<OIDStatePushBtn*>( );
@@ -68,6 +67,7 @@ HomePage::HomePage(QWidget *parent):
 				qs->setOnOffStateImage( 1, 0, XpushBtn, XpushBtnOff);
 			}
 		}
+		qDebug()<<qpb.size()<<" OIDStatePushBtn";
 	}
 }
 

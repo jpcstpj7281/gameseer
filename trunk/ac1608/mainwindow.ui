@@ -73,7 +73,6 @@
     <addaction name="actionPreset"/>
     <addaction name="action_copy_param"/>
     <addaction name="separator"/>
-    <addaction name="actionChangePsw"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">

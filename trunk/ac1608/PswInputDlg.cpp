@@ -65,16 +65,41 @@ bool PswInputDlg::getNewPsw( Ac1608Address* oldp){
 	QLineEdit * le3 = findChild<QLineEdit*>( "repeatpsw");
 	le2->setEnabled(false);
 	le3->setEnabled(false);
-	
-
 	this->exec();
-	
 
-	
-	//le->setText(PswInputDlg::instance()->oldPsw_);
-	//le->setFocus();
-	//PswInputDlg::instance()->exec();
-	//return 
+	return true;
+}
+
+bool PswInputDlg::changePsw( Ac1608Address* oldp){
+	//PswInputDlg::instance()->id_ = id;
+	//PswInputDlg::instance()->oldPsw_ = ConfigMgr::instance()->getOid(id);
+	//PswInputDlg::instance()->newOid_ =  ConfigMgr::instance()->getDefaultOid(id);
+	isChangeMode_ = false;
+	isPasswordChanging_ = false;
+	memset( newPsw_, 0, 16);
+	pswCount_ = 0;
+	oldPsw_ = oldp->psw_;
+	QLineEdit * le = findChild<QLineEdit*>( "oldpsw");
+	le->setEnabled(true);
+	if ( oldp->pswCount_ >= 4){
+		le->setText(OldPswStr);
+	}
+	currConnAddress_ = oldp;
+
+	QLineEdit * le2 = findChild<QLineEdit*>( "newpsw");
+	QLineEdit * le3 = findChild<QLineEdit*>( "repeatpsw");
+	le2->setEnabled(true);
+	le3->setEnabled(true);
+	QPushButton * changeBtn = findChild<QPushButton*>( "change");
+	changeBtn->setEnabled(false);
+	QPushButton * okBtn = findChild<QPushButton*>( "ok");
+	okBtn->setEnabled(true);
+	QPushButton * cancelBtn = findChild<QPushButton*>( "cancel");
+	cancelBtn->setEnabled(true);
+
+	changeClick();
+	this->exec();
+
 	return true;
 }
 
@@ -121,10 +146,14 @@ void PswInputDlg::okClick(){
 					le2->setEnabled(false);
 					le3->setEnabled(false);
 
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW0", PswOid0.c_str(),(char*) currConnAddress_->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1, _2, _3, _4), newPsw_[0]);
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW1", PswOid1.c_str(),(char*) currConnAddress_->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1, _2, _3, _4), newPsw_[1]);
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW2", PswOid2.c_str(),(char*) currConnAddress_->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1, _2, _3, _4), newPsw_[2]);
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW3", PswOid3.c_str(),(char*) currConnAddress_->ip.toStdString().c_str() , "public", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1, _2, _3, _4), newPsw_[3]);
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW0", PswOid0,currConnAddress_->ip.toStdString(), 
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[0]);
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW1", PswOid1,currConnAddress_->ip.toStdString(), 
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[1]);
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW2", PswOid2,currConnAddress_->ip.toStdString(), 
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[2]);
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW3", PswOid3,currConnAddress_->ip.toStdString(), 
+						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setAddressCallback,this, _1), newPsw_[3]);
 				}
 			}
 		}
@@ -144,33 +173,30 @@ void PswInputDlg::okClick(){
 	}
 }
 
-SnmpCallback::RequestStatus PswInputDlg::setAddressCallback(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
+SnmpCallback::RequestStatus PswInputDlg::setAddressCallback( SnmpObj* so){
 
-    if (pdu->variables->type == ASN_INTEGER ){
-        if ( currConnAddress_ ) {
-            //Ac1608Address * aa = currConnAddress_;
-            //aa->timeticks = *(u_long *) (pdu->variables->val.integer);
-            //aa->snmpResponseTime = GetTickCount();
-			std::string psw(so->snmpoid.c_str() );
-			if ( PswOid0 == psw){
-				newPsw_[0] = *(u_long *) (pdu->variables->val.integer);
-				pswCount_++;
-			}
-			else if ( PswOid1 == psw){
-				newPsw_[1] = *(u_long *) (pdu->variables->val.integer);
-				pswCount_++;
-			}
-			else if ( PswOid2 == psw){
-				newPsw_[2] = *(u_long *) (pdu->variables->val.integer);
-				pswCount_++;
-			}
-			else if ( PswOid3 == psw){
-				newPsw_[3] = *(u_long *) (pdu->variables->val.integer);
-				pswCount_++;
-			}
-        }
-		return SnmpCallback::RequestStop;
+
+	if ( currConnAddress_ ) {
+		if ( PswOid0 == so->snmpoid){
+			newPsw_[0] = so->rspVar.value<int>();
+			pswCount_++;
+		}
+		else if ( PswOid1 == so->snmpoid){
+			newPsw_[1] = so->rspVar.value<int>();
+			pswCount_++;
+		}
+		else if ( PswOid2 == so->snmpoid){
+			newPsw_[2] = so->rspVar.value<int>();
+			pswCount_++;
+		}
+		else if ( PswOid3 == so->snmpoid){
+			newPsw_[3] = so->rspVar.value<int>();
+			pswCount_++;
+		}
+
 	}
+	return SnmpCallback::RequestStop;
+
     
 }
 
@@ -206,4 +232,9 @@ void PswInputDlg::cancelClick(){
 
 void	PswInputDlg::timerEvent ( QTimerEvent * event ){
 	if (!isPasswordChanging_ ) return;
+	
+	if ( pswCount_ >= 4){
+		isPasswordChanging_ = false;
+		this->hide();
+	}
 }

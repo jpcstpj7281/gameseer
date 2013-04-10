@@ -22,6 +22,7 @@ class OIDStatePushBtn : public QPushButton{
 	QPixmap offImage_;
 
 	volatile bool val_;
+	volatile bool isRunning_;
 
 	bool isImageSetup_;
 public:
@@ -30,8 +31,9 @@ public:
 	virtual void	timerEvent ( QTimerEvent * event );
 
 	void setOnOffStateImage(int onState, int offState, QPixmap &onImage, QPixmap &offImage );
-	SnmpCallback::RequestStatus snmpCallback( int , snmp_session*, snmp_pdu* pdu, SnmpObj*);
+	SnmpCallback::RequestStatus snmpCallback( SnmpObj*);
 	void initSnmp();
+	void shutdownSnmp();
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
 };

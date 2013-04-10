@@ -26,8 +26,6 @@ QPushButton(w)
 {
 	setToolTip(objectName() );
 	startTimer(500);
-	//SnmpNet::instance()->addAsyncGet( oid_.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
-	//setStyleSheet("* { background-color: green }");
 	setStyleSheet("* { background-color: lightGray }");
 }
 
@@ -55,14 +53,23 @@ void OIDStatePushBtn::timerEvent ( QTimerEvent *  ){
 }
 
 void OIDStatePushBtn::initSnmp(){
-	SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(), ConfigMgr::instance()->getOid(objectName()).toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
-}
-
-SnmpCallback::RequestStatus OIDStatePushBtn::snmpCallback( int status, snmp_session* sess, snmp_pdu* pdu, SnmpObj* so){
-	if (pdu->variables->type == ASN_INTEGER){
-		val_ = *(u_long *) (pdu->variables->val.integer);
+	isRunning_ = true;
+	QString oid = ConfigMgr::instance()->getOid(objectName());
+	if ( ! oid.isEmpty()){
+		SnmpNet::instance()->addAsyncGet(
+			objectName().toStdString(), 
+			oid.toStdString(), 
+			"public", 
+			std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) 
+			);
 	}
-	if ( so->var.type()){
+}
+void OIDStatePushBtn::shutdownSnmp(){
+	isRunning_ = false;
+}
+SnmpCallback::RequestStatus OIDStatePushBtn::snmpCallback( SnmpObj* so){
+	val_ = so->rspVar.value<int>();
+	if ( so->setVar.type() || !isRunning_){
 		return SnmpCallback::RequestStop;
 	}else{
 		return SnmpCallback::RequestAgain;
@@ -73,18 +80,21 @@ void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 	if ( ConfigMgr::instance()->isOidEditable() ) {
 		QString oid = OIDInputDlg::getNewOid( this->objectName() );
 		if (!oid.isEmpty() ){
-			SnmpNet::instance()->addAsyncGet(objectName().toStdString().c_str(), oid.toStdString().c_str(), "public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) );
+			SnmpNet::instance()->addAsyncGet(objectName().toStdString(), oid.toStdString(), 
+				"public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) );
 		}
 	}else{
 		if ( this->isChecked()){
 			QString  oid = ConfigMgr::instance()->getOid( objectName());
 			if (! oid.isEmpty() ){
-				SnmpNet::instance()->addAsyncSet( objectName().toStdString().c_str(), oid.toStdString().c_str() ,	"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1, _2, _3, _4) , 0);
+				SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(),	
+					"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) , 0);
 			}
 		}else{
 			QString  oid = ConfigMgr::instance()->getOid( objectName());
 			if (! oid.isEmpty() ){
-				SnmpNet::instance()->addAsyncSet( objectName().toStdString().c_str(), oid.toStdString().c_str(), "private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this,_1, _2, _3, _4) , 1);
+				SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(), 
+					"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this,_1) , 1);
 			}
 		}
 	}

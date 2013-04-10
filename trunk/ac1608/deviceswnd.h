@@ -111,7 +111,8 @@ private:
 
     Ui::DevicesWnd *ui;
 
-	SnmpCallback::RequestStatus checkAddressCallback( int , snmp_session*, snmp_pdu*, SnmpObj*);
+	SnmpCallback::RequestStatus checkAddressCallback( SnmpObj*);
+	SnmpCallback::RequestStatus pswCallback( SnmpObj*);
 	void onlineRefreshed(Ac1608Address * aa);
 	void offlineRefreshed(Ac1608Address * aa);
 	void checkingRefreshed(Ac1608Address * aa);
