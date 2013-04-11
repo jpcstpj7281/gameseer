@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QCryptographicHash>
 #include <functional>
+#include <QMessageBox>
 using namespace std::placeholders;
 //PswInputDlg * PswInputDlg::inst = 0;
 //PswInputDlg *PswInputDlg::instance(){
@@ -45,13 +46,13 @@ PswInputDlg::~PswInputDlg()
 void PswInputDlg::getPsw( Ac1608Address* aa){
 	if ( !isLoading_ && aa->pswCount_ == 0 && aa->psw_[0] == 0 && aa->psw_[1] == 0 && aa->psw_[2] == 0 && aa->psw_[3] == 0){ //检查是否已经开始读PSW
 		isLoading_ = true;
-		SnmpNet::instance()->addAsyncGetWithIP("getPSW0", PswOid0, aa->ip.toStdString() , 
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW0", PswOid0, aa->checkingIP_.toStdString() , 
 			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
-		SnmpNet::instance()->addAsyncGetWithIP("getPSW1", PswOid1, aa->ip.toStdString() , 
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW1", PswOid1, aa->checkingIP_.toStdString() , 
 			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
-		SnmpNet::instance()->addAsyncGetWithIP("getPSW2", PswOid2, aa->ip.toStdString() , 
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW2", PswOid2, aa->checkingIP_.toStdString() , 
 			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
-		SnmpNet::instance()->addAsyncGetWithIP("getPSW3", PswOid3, aa->ip.toStdString() , 
+		SnmpNet::instance()->addAsyncGetWithIP("getPSW3", PswOid3, aa->checkingIP_.toStdString() , 
 			"public", std::bind<SnmpCallbackFunc >( &PswInputDlg::getPswCallback,this, _1));
 	}
 }
@@ -88,7 +89,7 @@ bool PswInputDlg::getNewPsw( Ac1608Address* aa){
 	changeBtn->setEnabled(true);
 	this->exec();
 
-	return !isPasswordChanging_ ;
+	return !isChangeMode_ ;
 }
 
 bool PswInputDlg::changePsw( Ac1608Address* aa){
@@ -159,14 +160,16 @@ void PswInputDlg::okClick(){
 					le2->setEnabled(false);
 					le3->setEnabled(false);
 
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW0", PswOid0,currConnAddress_->ip.toStdString(), 
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW0", PswOid0,currConnAddress_->checkingIP_.toStdString(), 
 						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[0]);
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW1", PswOid1,currConnAddress_->ip.toStdString(), 
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW1", PswOid1,currConnAddress_->checkingIP_.toStdString(), 
 						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[1]);
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW2", PswOid2,currConnAddress_->ip.toStdString(), 
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW2", PswOid2,currConnAddress_->checkingIP_.toStdString(), 
 						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[2]);
-					SnmpNet::instance()->addAsyncSetWithIP("setPSW3", PswOid3,currConnAddress_->ip.toStdString(), 
+					SnmpNet::instance()->addAsyncSetWithIP("setPSW3", PswOid3,currConnAddress_->checkingIP_.toStdString(), 
 						"private", std::bind<SnmpCallbackFunc >( &PswInputDlg::setPswCallback,this, _1), newPsw_[3]);
+					
+					timeStartChanging_ = GetTickCount();
 				}
 			}
 		}
@@ -221,22 +224,22 @@ void PswInputDlg::getPswCallback( SnmpObj* so){
 		if ( PswOid0 == so->snmpoid){
 			currConnAddress_->psw_[0] = so->rspVar.value<int>();
 			currConnAddress_->pswCount_++;
-			SnmpNet::instance()->removeAsyncGetWithIP("getPSW0", PswOid0, currConnAddress_->ip.toStdString(), "public");
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW0", PswOid0, currConnAddress_->checkingIP_.toStdString(), "public");
 		}
 		else if ( PswOid1 == so->snmpoid){
 			currConnAddress_->psw_[1] = so->rspVar.value<int>();
 			currConnAddress_->pswCount_++;
-			SnmpNet::instance()->removeAsyncGetWithIP("getPSW1", PswOid1, currConnAddress_->ip.toStdString(), "public");
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW1", PswOid1, currConnAddress_->checkingIP_.toStdString(), "public");
 		}
 		else if ( PswOid2 == so->snmpoid){
 			currConnAddress_->psw_[2] = so->rspVar.value<int>();
 			currConnAddress_->pswCount_++;
-			SnmpNet::instance()->removeAsyncGetWithIP("getPSW2", PswOid2, currConnAddress_->ip.toStdString(), "public");
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW2", PswOid2, currConnAddress_->checkingIP_.toStdString(), "public");
 		}
 		else if ( PswOid3 == so->snmpoid){
 			currConnAddress_->psw_[3] = so->rspVar.value<int>();
 			currConnAddress_->pswCount_++;
-			SnmpNet::instance()->removeAsyncGetWithIP("getPSW3", PswOid3, currConnAddress_->ip.toStdString(), "public");
+			SnmpNet::instance()->removeAsyncGetWithIP("getPSW3", PswOid3, currConnAddress_->checkingIP_.toStdString(), "public");
 		}
 	}
 }
@@ -274,8 +277,21 @@ void PswInputDlg::cancelClick(){
 
 void	PswInputDlg::timerEvent ( QTimerEvent * event ){
 	
-	if (isPasswordChanging_ && pswCount_ >= 4){
-		this->hide();
+	if (isPasswordChanging_ ){
+		if (pswCount_ >= 4){
+			this->hide();
+		}else{
+			if (GetTickCount() - timeStartChanging_ > 5000){
+				QMessageBox::about(this, "Password Change Failed!", "No response from host, password change failed!");
+
+				SnmpNet::instance()->removeAsyncGetWithIP("getPSW0", PswOid0, currConnAddress_->checkingIP_.toStdString(), "public");
+				SnmpNet::instance()->removeAsyncGetWithIP("getPSW1", PswOid1, currConnAddress_->checkingIP_.toStdString(), "public");
+				SnmpNet::instance()->removeAsyncGetWithIP("getPSW2", PswOid2, currConnAddress_->checkingIP_.toStdString(), "public");
+				SnmpNet::instance()->removeAsyncGetWithIP("getPSW3", PswOid3, currConnAddress_->checkingIP_.toStdString(), "public");
+				isPasswordChanging_ = false;
+				this->hide();
+			}
+		}
 	}
 
 	if (isLoading_ && currConnAddress_ && currConnAddress_->pswCount_ >= 4){

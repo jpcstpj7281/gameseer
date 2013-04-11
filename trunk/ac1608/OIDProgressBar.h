@@ -3,7 +3,7 @@
 
 #include <qprogressbar>
 #include <Snmpnet.h>
-
+#include "qlabel.h"
 class OIDProgressBar : public QProgressBar{
 
 	Q_OBJECT
@@ -15,7 +15,9 @@ class OIDProgressBar : public QProgressBar{
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
 	void snmpCallback(  SnmpObj*);
+	QLabel *ql_;
 public:
+	void setLabel(QLabel *ql);
 	OIDProgressBar( QWidget* w);
 	void initSnmp();
 	void shutdownSnmp();

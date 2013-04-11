@@ -6,12 +6,12 @@
 #include <QTableWidget>
 
 #include <QLineEdit>
+#include <QPushButton>
 #include <QRegExpValidator>
 #include <QRegExp>
 #include <functional>
 #include <Snmpnet.h>
 
-#include <QMutex>
 
 
 namespace Ui {
@@ -23,51 +23,44 @@ class PswInputDlg;
 
 typedef std::function< int (int, int, Ac1608Address*) > AddressCallback;
 
-//static const char* CONNECT_STR = "Connect";
-//static const char* DISCONNECT_STR = "Disconnect";
 static std::string PswOid0 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.9";
 static std::string PswOid1 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.10";
 static std::string PswOid2 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.11";
 static std::string PswOid3 = "1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.4.1.2.12";
 
-class Ac1608Address: public QObject{
+class Ac1608Address: public QPushButton{
 	Q_OBJECT
 private slots:
 	void editingAddressFinished ();
+	void connectClicked();
 public:
-	Ac1608Address( QString &ip , QString & loc):
-	snmpResponseTime(0)
-	,row(0),ip(ip)
-	,location(loc)
-	,startCheckTime(0)
-	,t_(0)
-	,lineEdit_(0)
-	,pswCount_(0){
-		memset(psw_, 0, 16);
-		memset(inputPsw_, 0, 16);
-	}
-	void init(QLineEdit* lineEdit, DevicesWnd* t){ 
-		this->t_ = t;
-		this->lineEdit_ = lineEdit;
-		connect( lineEdit, SIGNAL(editingFinished ()), this, SLOT(editingAddressFinished ()));
-	}
-	bool valiatePassword();
-	size_t row;
-	volatile size_t snmpResponseTime;
+	Ac1608Address(DevicesWnd* parent, const QString & ip, const QString & loc);
+	~Ac1608Address();
+	size_t snmpResponseTime;
 	size_t startCheckTime;
-	QString ip;
-	QString location;
-	QLineEdit* lineEdit_;
-	DevicesWnd* t_;
-
+	QLineEdit* ip_;
+	QTableWidgetItem* loc_;
+	QTableWidgetItem* runTime_;
+	QTableWidgetItem* status_;
+	QTableWidgetItem* operation_;
+	
+	QTableWidget* t_;
+	DevicesWnd* wnd_;
+	QString checkingIP_;
 	int psw_[4];
 	int inputPsw_[4];
-	volatile int pswCount_;
+	int pswCount_;
+	size_t timeticks;
 
-	volatile size_t timeticks;
-	//char deviceRunTime[32];
-	
-	//AddressCallback callback;
+	bool isExisted( const QString& ip);
+	void startCheckAddress( );
+	void checkAddressCallback( SnmpObj* so);
+	void onlineRefreshed();
+	void offlineRefreshed();
+	void checkingRefreshed();
+	inline const QString & getIP(){ return ip_->text();}
+
+	void timerEvent(size_t t);
 };
 
 
@@ -78,43 +71,27 @@ class DevicesWnd : public QWidget
 public:
     explicit DevicesWnd(QWidget *parent = 0);
     ~DevicesWnd();
-	//void refresh();
+
 	void initAddresses();
 	
-	typedef std::map< QString, Ac1608Address* > AddressMap;
 private slots:
-	void editingNewAddressFinished ();
-	void itemClicked(QTableWidgetItem *);
 	void cellChanged(int,int);
-	void	cellActivated ( int row, int column );
-	void	cellEntered ( int row, int column );
-
 
 private:
 
 	void connectImpl( Ac1608Address*);
 	void disconnectImpl( Ac1608Address*);
-
 	virtual void	timerEvent ( QTimerEvent * event )override;
+	void newAddress(const QString  ip = "", const QString loc = "");
 
-	QLineEdit * lastLineEdit_;
-
-	void newAddress(Ac1608Address * aa = NULL);
-
-	AddressMap addresses_;
 	Ac1608Address* currConnAddress_;
+	Ac1608Address* lastLineAddress_;
 
 	QTableWidget*				tableDevices_;
 
     Ui::DevicesWnd *ui;
 
-	void checkAddressCallback( SnmpObj*);
-
-	void onlineRefreshed(Ac1608Address * aa);
-	void offlineRefreshed(Ac1608Address * aa);
-	void checkingRefreshed(Ac1608Address * aa);
 	QMutex locker_;
-
 	PswInputDlg* inputDlg_;
 
 	friend class Ac1608Address;

@@ -262,8 +262,8 @@ void DevicesWnd::newAddress( ResourceID screenid, const std::string &ip){
 	
 }
 void DevicesWnd::deleteAddress( ResourceID screenid){
-	uint32_t row = (screenid >> 8) & 0xFF;
-	uint32_t col = screenid  & 0xFF;
+	uint32_t row = GetRow(screenid );
+	uint32_t col = GetCol(screenid );
 
 	for ( size_t i = 0; i < tableDevices_->rowCount() ; ++i){
 		QTableWidgetItem * rowitem = tableDevices_->item( i, 0);

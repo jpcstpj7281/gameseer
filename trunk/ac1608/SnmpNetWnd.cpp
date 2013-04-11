@@ -114,11 +114,15 @@ void SnmpNetWnd::beforeSent(SnmpObj* so){
 		oidMap_[unique] = oid;
 	}
 	else{
+		if (found->second.isRemoved){
+			found->second.isRemoved = false;
+		}
 		size_t tick = GetTickCount();
 		if ( found->second.timersp > 0 && tick - found->second.timersp > 1000){
 			found->second.timereq = tick;
 			found->second.timersp = 0;
 		}
+		
 	}
 }
 
@@ -151,13 +155,6 @@ void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
 			if ( it->second.timersp > 0){
 				interval->setText( QString::number( it->second.timersp - it->second.timereq) );
 			}
-			if (it->second.community == "private"){
-				community->setBackground(QBrush(QColor(Qt::lightGray))); 
-				oid->setBackground(QBrush(QColor(Qt::lightGray))); 
-				uniq->setBackground(QBrush(QColor(Qt::lightGray))); 
-				ip->setBackground(QBrush(QColor(Qt::lightGray))); 
-				rsp->setBackground(QBrush(QColor(Qt::lightGray))); 
-			}
 			community->setFlags( Qt::ItemIsEnabled );
 			oid->setFlags( Qt::ItemIsEnabled );
 			uniq->setFlags( Qt::ItemIsEnabled );
@@ -172,12 +169,30 @@ void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
 			tableOids_->setItem( newCount -1, 4, community);
 			tableOids_->setItem( newCount -1, 5, uniq);
 			tableOids_->setItem( newCount -1, 6, interval);
+			if (it->second.community == "private"){
+				for ( size_t i = 0; i < tableOids_->columnCount(); ++i){
+					QTableWidgetItem * tmp = tableOids_->item( newCount -1, i);
+					tmp->setBackground(QBrush(QColor(Qt::lightGray))); 
+				}
+			}
 		}else if( list.size() == 1 ){
 			QTableWidgetItem * item = list.front();
 			if ( it->second.isRemoved){
 				for ( size_t i = 0; i < tableOids_->columnCount(); ++i){
 					QTableWidgetItem * tmp = tableOids_->item( item->row(), i);
 					tmp->setBackground(QBrush(QColor(Qt::red))); 
+				}
+			}else{
+				if (it->second.community == "private"){
+					for ( size_t i = 0; i < tableOids_->columnCount(); ++i){
+						QTableWidgetItem * tmp = tableOids_->item(item->row(), i);
+						tmp->setBackground(QBrush(QColor(Qt::lightGray))); 
+					}
+				}else{
+					for ( size_t i = 0; i < tableOids_->columnCount(); ++i){
+						QTableWidgetItem * tmp = tableOids_->item( item->row(), i);
+						tmp->setBackground(QBrush(QColor(Qt::white))); 
+					}
 				}
 			}
 			QTableWidgetItem * interval = tableOids_->item( item->row(), 6);

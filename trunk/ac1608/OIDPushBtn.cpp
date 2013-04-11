@@ -65,6 +65,9 @@ void OIDStatePushBtn::snmpCallback( SnmpObj* so){
 				}
 			}
 		}
+		QString oid = ConfigMgr::instance()->getOid( objectName());
+		if (!oid.isEmpty())
+			SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
 	}
 }
 

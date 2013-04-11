@@ -11,6 +11,11 @@
 typedef uint32_t ResourceID;	// do the ring input << 24 + ring output << 16 + row <<8 + col; id for screen, channel, ringnode, 
 								// NOTE: all input output row and col start from 1, not 0; so ResourceID 0 means NULL;
 
+inline uint32_t GetRow(ResourceID id){ return (id >> 8) & 0xFF ;}
+inline uint32_t GetCol(ResourceID id){ return id  & 0xFF ;}
+inline uint32_t GetInput(ResourceID id){ return (id >> 24) & 0xFF ;}
+inline uint32_t GetOutput(ResourceID id){ return (id >> 16) & 0xFF ;}
+
 typedef std::function< bool (ResourceID )> ResourceChangedCallback;
 
 class Screen{

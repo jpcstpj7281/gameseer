@@ -62,23 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		_tab->addTab(*it, (*it)->windowTitle() );
 	}
-	
-		//_tab->addTab(homepage_, "Homepage" );
-
-		//_tab->addTab(inputGainCtrlWnd_, "Input" );
-		//_tab->addTab(gateNOMWnd_, "Gate" );
-		//_tab->addTab(highPassWnd_, "HighPass" );
-		//_tab->addTab(peqWnd_, "PEQ" );
-		//_tab->addTab(matrixMixerWnd_, "MatrixMixer" );
-		//_tab->addTab(nomWnd_, "NOM" );
-		//_tab->addTab(presetWnd_, "Preset" );
-		//_tab->addTab(cobraNetWnd_, "CobraNet" );
-		//_tab->addTab(snmpNetWnd_, "SnmpNet" );
-	
-	//deviceswnd_->initAddresses();
-
 	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
-
     connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
 	connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionEdit_clicked(QAction*)));
 }

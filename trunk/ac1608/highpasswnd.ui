@@ -22,7 +22,7 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>30</x>
      <y>40</y>
      <width>211</width>
      <height>291</height>
@@ -108,7 +108,7 @@
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>30</x>
      <y>410</y>
      <width>961</width>
      <height>201</height>
@@ -365,24 +365,17 @@
     </property>
    </widget>
   </widget>
-  <widget class="QDeclarativeView" name="declarativeView">
+  <widget class="QWidget" name="graph" native="true">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>40</y>
-     <width>641</width>
-     <height>341</height>
+     <x>280</x>
+     <y>30</y>
+     <width>711</width>
+     <height>331</height>
     </rect>
    </property>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QDeclarativeView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtDeclarative/QDeclarativeView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
