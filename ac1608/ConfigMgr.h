@@ -30,6 +30,8 @@ public :
 
 	inline void setOidEditable( bool flag){	 isOidEditable_ = flag;	}
 
+	void setIP( QString &ip, QString &loc);
+	void removeIP( QString &ip);
 	void setOid( QString &id, QString &oid);
 	QString getOid( QString &id);
 	QString getDefaultOid( QString &id);

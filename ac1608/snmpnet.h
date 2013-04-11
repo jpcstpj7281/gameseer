@@ -105,6 +105,7 @@ public:
 		void startThread();
 	void stop();
 	void listenAddress( const std::string& ip , SnmpCallbackFunc callback);
+	void removeListenAddress( const std::string& ip );
 	inline std::string getCurrAddress(){ return currAddress_;}
 
 	bool switchAsyncSnmpAddress(const std::string& ip);
@@ -119,6 +120,7 @@ public:
 
 	//for current listening address
 	void addAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback ); 
+	void addAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback, size_t interval/*interval time of every request*/ );
 	void addAsyncSet(const std::string& obj, const std::string& snmpoid, const std::string& community  , SnmpCallbackFunc callback , QVariant value ); 
 
 	void removeAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community );

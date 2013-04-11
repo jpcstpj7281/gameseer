@@ -16,10 +16,173 @@
 using namespace std::placeholders;
 
 
+Ac1608Address::Ac1608Address( DevicesWnd* parent, const QString & ip, const QString & loc):
+	QPushButton()
+	,snmpResponseTime(0)
+	,startCheckTime(0)
+	,t_(parent->tableDevices_)
+	,ip_(0)
+	,pswCount_(0)
+	,wnd_(parent)
+{
+	memset(psw_, 0, 16);
+	memset(inputPsw_, 0, 16);
+	ip_ = new QLineEdit();
+	ip_->setText(ip);
+	loc_ = new QTableWidgetItem  ();
+	loc_->setText(loc);
+	runTime_ = new QTableWidgetItem  ();
+	status_ = new QTableWidgetItem  ();
+	//connect_ = new QTableWidgetItem  ();
+	operation_ = new QTableWidgetItem  ();
+	QRegExp ipRx("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-4]|[01]?\\d\\d?)|");
+	QRegExpValidator *pIpValidator = new QRegExpValidator(ipRx);
+	ip_->setValidator(pIpValidator);
+	ip_->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
+	loc_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+	loc_->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
+	runTime_->setFlags( Qt::ItemIsEnabled );
+	runTime_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+	status_->setFlags( Qt::ItemIsEnabled );
+	status_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+	//connect_->setFlags( Qt::ItemIsEnabled );
+	//this->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+	operation_->setFlags( Qt::ItemIsEnabled );
+	operation_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+	connect( ip_, SIGNAL(editingFinished ()), this, SLOT(editingAddressFinished ()));
+	connect( this, SIGNAL(clicked ()), this, SLOT(connectClicked ()));
+
+	this->setEnabled(false);
+	t_->setRowCount(t_->rowCount()+1);  
+	t_->setCellWidget(t_->rowCount()-1, 0, this->ip_);
+	t_->setItem ( t_->rowCount()-1, 1, this->loc_ );
+	t_->setItem ( t_->rowCount()-1, 2, this->runTime_ );
+	t_->setItem ( t_->rowCount()-1, 3, this->status_ );
+	t_->setCellWidget ( loc_->row() , 4, this );
+	t_->setItem ( t_->rowCount()-1, 5, this->operation_ );
+	
+}
+Ac1608Address::~Ac1608Address(){
+	qDebug()<<"~Ac1608Address";
+}
+
+void Ac1608Address::connectClicked(){
+	if(this->text() == "Connect" ){
+		if ( wnd_->inputDlg_->getNewPsw( this)){
+			wnd_->connectImpl(this);
+		}
+	}
+	if(this->text() == "Change Psw" ){
+		wnd_->inputDlg_->changePsw( this);
+	}
+}
+
+void Ac1608Address::startCheckAddress(){
+    status_->setText("Checking...");
+	startCheckTime = GetTickCount();
+	checkingIP_ = ip_->text();
+	SnmpNet::instance()->listenAddress(ip_->text().toStdString(), std::bind<SnmpCallbackFunc >( &Ac1608Address::checkAddressCallback,this, _1));
+}
+
+bool Ac1608Address::isExisted( const QString& ip){
+	for ( size_t i = 0; i < t_->rowCount(); ++i){
+		Ac1608Address* aa = (Ac1608Address*) t_->cellWidget( i , 4);
+		if ( aa  != this && aa->ip_->text() == ip){
+			return true;
+		}
+	}
+	return false;
+}
+
+void Ac1608Address::editingAddressFinished (){
+	//qDebug()<<"editingAddressFinished";
+	if (checkingIP_ == this->ip_->text()) return; //已经在读
+	if (this->ip_->text().isEmpty() && this != wnd_->lastLineAddress_){ //要删除这行了
+		if (  !checkingIP_.isEmpty()){
+			ConfigMgr::instance()->removeIP(checkingIP_ );
+			SnmpNet::instance()->removeListenAddress(this->checkingIP_.toStdString() );
+		}
+		t_->removeRow( loc_->row() );
+	}else{
+		if ( isExisted(ip_->text() )){
+			ip_->setText( checkingIP_);
+		}else{
+			checkingRefreshed();
+			if (!checkingIP_.isEmpty()){
+				ConfigMgr::instance()->removeIP(checkingIP_ );
+				SnmpNet::instance()->removeListenAddress(checkingIP_.toStdString() );
+			}
+			startCheckTime = GetTickCount();
+			snmpResponseTime = 0;
+			SnmpNet::instance()->listenAddress(this->ip_->text().toStdString(), std::bind<SnmpCallbackFunc >( &Ac1608Address::checkAddressCallback,this, _1));
+			ConfigMgr::instance()->setIP(this->ip_->text(), this->loc_->text());
+			checkingIP_ = ip_->text();
+
+			if (  wnd_->lastLineAddress_ == this){
+				wnd_->lastLineAddress_ = NULL;
+				wnd_->newAddress();
+			}
+		}
+	}
+}
+
+
+
+void Ac1608Address::checkAddressCallback( SnmpObj* so){
+	timeticks = so->rspVar.value<int>();
+	snmpResponseTime = GetTickCount();
+	
+	onlineRefreshed();
+}
+
+void Ac1608Address::checkingRefreshed(){//把这行更新为开始检查状态
+	runTime_->setText("");
+	status_->setBackground(QBrush(QColor(Qt::white))); 
+	status_->setText("Checking...");
+	this->setEnabled(false);
+}
+
+
+void Ac1608Address::onlineRefreshed(){
+    runTime_->setText(timeticksToString(timeticks ) );
+    if ( this != wnd_->currConnAddress_){
+        status_->setBackground(QBrush(QColor(Qt::green))); 
+        status_->setText("Online");
+		this->setText( "Connect");
+		this->setEnabled(true);
+    }else{
+		this->setText( "Change Psw");
+		status_->setBackground(QBrush(QColor(Qt::blue))); 
+	}
+}
+
+void Ac1608Address::offlineRefreshed(){
+    runTime_->setText( "");
+    status_->setBackground(QBrush(QColor(Qt::red))); 
+    status_->setText("Offline");
+    this->setText( "");
+	this->setEnabled(false);
+    operation_->setBackground(QBrush(QColor(Qt::white))); 
+}
+
+void Ac1608Address::timerEvent(size_t t){
+	size_t elapsedCheckTime = t - startCheckTime;
+	if ( snmpResponseTime > 0 ) {
+		size_t elapsed = t - snmpResponseTime;
+		if (elapsed > 5000 ){
+			offlineRefreshed();
+		}
+	}else{
+		if (  elapsedCheckTime > 5000 ){
+			offlineRefreshed();
+		}
+	}
+}
 
 DevicesWnd::DevicesWnd(QWidget *parent) :
     QWidget(parent)
     ,currConnAddress_(0)
+	,lastLineAddress_(0)
     ,ui(new Ui::DevicesWnd)
 {
     ui->setupUi(this);
@@ -39,8 +202,6 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 
     connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
-    connect( tableDevices_, SIGNAL(cellActivated(int,int)), this, SLOT(cellActivated(int,int)));
-    connect( tableDevices_, SIGNAL(cellEntered(int,int)), this, SLOT(cellEntered(int,int)));
 
 	initAddresses();
     startTimer(1000);
@@ -52,304 +213,83 @@ DevicesWnd::~DevicesWnd()
     delete ui;
 }
 
-//SnmpCallback::RequestStatus dispatchFunc1(int status, snmp_session *sp, snmp_pdu *pdu, SnmpObj* so){
-//    const int len = 128;
-//    char buf[len];
-//    memset( buf, 0, 1024);
-//    snprint_variable( buf, len, pdu->variables->name, pdu->variables->name_length, pdu->variables);
-//    qDebug()<<buf;
-//    return SnmpCallback::RequestAgain;
-//}
-
-//void DevicesWnd::refresh(){
-//    SnmpNet::instance()->addAsyncGet( "1.3.6.1.2.1.1.3.0",  "192.168.1.100" ,  "public" ,  std::bind<SnmpCallbackFunc >( dispatchFunc1, _1, _2, _3, _4 ));
-//}
-
 void DevicesWnd::initAddresses(){
-    if ( addresses_.size() > 0) return;
+    //if ( addresses_.size() > 0) return;
     QDomElement address = ConfigMgr::instance()->getAddressElem().firstChildElement();
     while (address != QDomElement() ){
         QString ip = address.attribute( "ip");
-        if ( addresses_.find( ip) == addresses_.end() ){
-            QString loc = address.attribute( "location");
-            Ac1608Address * aa = new Ac1608Address(ip, loc );
-            newAddress(aa);
-        }
+		bool found = false;
+		for ( size_t i = 0; i < tableDevices_->rowCount(); ++i){
+			QLineEdit* t = (QLineEdit*)tableDevices_->cellWidget( i, 0);
+			if ( ip == t->text()){
+				found  = true;
+				break;
+			}
+		}
+		if (! found){
+			newAddress(ip , address.attribute( "location"));
+		}
         address = address.nextSiblingElement();
     }
 }
 
 // aa == NULL时, 查看最后一行是否合法,合法就增加新一行
 // aa != NULL时, 把最后一行填充,再新建新一行
-void DevicesWnd::newAddress( Ac1608Address * aa ){
-
-    //locker_.lock();
-
-    Ac1608Address * lastSecondLine ;
-
-    if (tableDevices_->rowCount() == 0 || tableDevices_->rowCount()== addresses_.size() ){ //增加新空行
-        lastLineEdit_ = new QLineEdit();
-        //le->setInputMask( "000.000.000.000");
-        QRegExp ipRx("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-4]|[01]?\\d\\d?)");
-        QRegExpValidator *pIpValidator = new QRegExpValidator(ipRx);
-        lastLineEdit_->setValidator(pIpValidator);
-        lastLineEdit_->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
-        connect( lastLineEdit_, SIGNAL(editingFinished ()), this, SLOT(editingNewAddressFinished ()));
-
-        QTableWidgetItem  *item1 = new QTableWidgetItem  ();
-
-        item1 = new QTableWidgetItem  ();
-        item1->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-        item1->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
-
-        QTableWidgetItem  *item2 = new QTableWidgetItem  ();
-        item2->setFlags( Qt::ItemIsEnabled );
-        item2->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-
-        QTableWidgetItem  *item3 = new QTableWidgetItem  ();
-        item3->setFlags( Qt::ItemIsEnabled );
-        item3->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-        //item3->setBackground(QBrush(QColor(Qt::gray))); 
-
-        QTableWidgetItem  *item4 = new QTableWidgetItem  ();
-        item4->setFlags( Qt::ItemIsEnabled );
-        item4->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-        //item4->setBackground(QBrush(QColor(Qt::gray))); 
-
-        QTableWidgetItem  *item5 = new QTableWidgetItem  ();
-        item5->setFlags( Qt::ItemIsEnabled );
-        item5->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-
-        tableDevices_->setRowCount(tableDevices_->rowCount()+1);  
-        tableDevices_->setCellWidget(tableDevices_->rowCount()-1, 0, lastLineEdit_);
-        tableDevices_->setItem ( tableDevices_->rowCount()-1, 1, item1 );
-        tableDevices_->setItem ( tableDevices_->rowCount()-1, 2, item2 );
-        tableDevices_->setItem ( tableDevices_->rowCount()-1, 3, item3 );
-        tableDevices_->setItem ( tableDevices_->rowCount()-1, 4, item4 );
-        tableDevices_->setItem ( tableDevices_->rowCount()-1, 5, item5 );
-
-        if ( aa == NULL) return;
-    }
-
-    if (aa != NULL){
-        disconnect( lastLineEdit_, SIGNAL(editingFinished ()), this, SLOT(editingNewAddressFinished ()));
-        connect( lastLineEdit_, SIGNAL(editingFinished ()), this, SLOT(editingNewAddressFinished ()));
-
-        lastLineEdit_->setText( aa->ip);
-        aa->row = tableDevices_->rowCount()-1;
-
-        QTableWidgetItem  *item1 = tableDevices_->item( tableDevices_->rowCount()-1, 1);
-
-        //QTableWidgetItem  *item2 = tableDevices_->item( tableDevices_->rowCount()-1, 2);
-        QTableWidgetItem  *item3 = tableDevices_->item( tableDevices_->rowCount()-1, 3);
-        QTableWidgetItem  *item4 = tableDevices_->item( tableDevices_->rowCount()-1, 4);
-        QTableWidgetItem  * item5 = tableDevices_->item( tableDevices_->rowCount()-1,5);
-        item1 ->setToolTip(aa->location);
-        item1->setText(aa->location);
-        item3->setText("Checking...");
-        //item4->setText( "Connect");
-        //item4->setBackground(QBrush(QColor(Qt::lightGray))); 
-        //item5->setBackground(QBrush(QColor(Qt::lightGray))); 
-
-        addresses_.insert( std::make_pair ( aa->ip,  aa) );
-        aa->startCheckTime = GetTickCount();
-        SnmpNet::instance()->listenAddress(aa->ip.toStdString() , 
-			std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,this, _1));
-        aa->init( lastLineEdit_, this);
-    }
-    //locker_.unlock();
-    newAddress();
-}
-
-void Ac1608Address::editingAddressFinished (){
-    if ( this->ip == this->lineEdit_->text() ) return;
-
-    if ( this == t_->currConnAddress_){
-        this->lineEdit_->setText(this->ip);
-        return;
-    }
-    t_->checkingRefreshed( this);
-    DevicesWnd::AddressMap::iterator found = t_->addresses_.find( this->ip);
-    if (found != t_->addresses_.end() ){
-        this->ip = this->lineEdit_->text();
-        t_->addresses_.erase( found);
-        t_->addresses_.insert( std::make_pair( this->ip, this) );
-        this->startCheckTime = GetTickCount();
-        if ( t_->currConnAddress_ == this){
-            t_->currConnAddress_ = 0;
-        }
-        this->snmpResponseTime = 0;
-        SnmpNet::instance()->listenAddress(ip.toStdString() , 
-			std::bind<SnmpCallbackFunc >( &DevicesWnd::checkAddressCallback,t_, _1));
-		
+void DevicesWnd::newAddress( const QString  ip , const QString loc  ){
+	if ( ip.isEmpty() ){ //增加新空行
+		if (lastLineAddress_ == NULL){
+			lastLineAddress_ = new Ac1608Address(this, "", "");
+		}
     }else{
-        qDebug()<<"Unexpected Error: Ac1608Address::editingAddressFinished!";
-    }
-}
-
-void DevicesWnd::editingNewAddressFinished (){
-    QString ip = lastLineEdit_->text();
-    AddressMap::iterator found = addresses_.find( ip);
-    if (found == addresses_.end()){
-        newAddress(new Ac1608Address(ip, tableDevices_->item( tableDevices_->rowCount()-1, 1)->text() ));
-    }
-}
-Ac1608Address* getAddressByRow( DevicesWnd::AddressMap & addresses , int row){
-    for ( DevicesWnd::AddressMap::iterator it = addresses.begin(); it != addresses.end(); ++it){
-        Ac1608Address * aa = it->second;
-        if (aa->row == row) return aa;
-    }
-}
-
-
-void DevicesWnd::checkAddressCallback( SnmpObj* so){
-	AddressMap::iterator found = addresses_.find( so->ip.c_str());
-	if ( found != addresses_.end() ) {
-		Ac1608Address * aa = found->second;
-		aa->timeticks = so->rspVar.value<int>();
-		aa->snmpResponseTime = GetTickCount();
-		onlineRefreshed(aa);
+		if (lastLineAddress_ == NULL){
+			lastLineAddress_ = new Ac1608Address(this, ip, loc);
+		}else{
+			lastLineAddress_->ip_->setText(ip);
+			lastLineAddress_->loc_->setText(loc);
+		}
+		lastLineAddress_->startCheckAddress();
+		lastLineAddress_ = NULL;
+		newAddress();
 	}
+ 
 }
+
 
 void DevicesWnd::timerEvent ( QTimerEvent * event ){
     size_t t = GetTickCount();
-    for (AddressMap::iterator it = addresses_.begin(); it != addresses_.end(); ++it){
-        Ac1608Address * aa = it->second;
-        size_t elapsedCheckTime = t - aa->startCheckTime;
-        if ( aa->snmpResponseTime > 0 &&  elapsedCheckTime > 2000 ) {
-			size_t elapsed = t - aa->snmpResponseTime;
-			if (elapsed > 2000 && elapsedCheckTime >=2000){
-				offlineRefreshed(aa);
-			}
+	for (size_t  it = 0; it != tableDevices_->rowCount(); ++it){
+		Ac1608Address * aa = (Ac1608Address*) tableDevices_->cellWidget( it, 4);
+		if (aa != lastLineAddress_){
+			aa->timerEvent( t);
 		}
     }
 }
-void DevicesWnd::checkingRefreshed(Ac1608Address * aa){
-    QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
-    item2->setText("");
-    if ( aa != currConnAddress_){
-        QTableWidgetItem  * item3 = tableDevices_->item( aa->row, 3);
-        item3->setBackground(QBrush(QColor(Qt::white))); 
-        item3->setText("Checking...");
-        QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-        item4->setText( "");
-        item4->setBackground(QBrush(QColor(Qt::white))); 
-        QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
-        item5->setBackground(QBrush(QColor(Qt::white))); 
-    }
-}
 
-bool Ac1608Address::valiatePassword( ){
-	if ( this->psw_[0] == this->inputPsw_[0] && 
-		this->psw_[1] == this->inputPsw_[1] && 
-		this->psw_[2] == this->inputPsw_[2] && 
-		this->psw_[3] == this->inputPsw_[3]){
-		return true;
-	}
-	return false;
-}
-
-void DevicesWnd::onlineRefreshed(Ac1608Address * aa){
-    QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
-    item2->setText(timeticksToString(aa->timeticks ) );
-    if ( aa != currConnAddress_){
-        QTableWidgetItem  * item3 = tableDevices_->item( aa->row, 3);
-        item3->setBackground(QBrush(QColor(Qt::green))); 
-        item3->setText("Online");
-
-		if ( aa->pswCount_ >=4 && aa->valiatePassword( ) ){
-			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Connect");
-			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
-		}else{
-			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Connect");
-			item4->setBackground(QBrush(QColor(Qt::lightGray))); 
-		}
-
-		if ( aa->pswCount_ >= 4){
-			QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
-			item5->setBackground(QBrush(QColor(Qt::lightGray))); 
-			//item5->setText( "Password");
-		}
-    }else{
-		if ( aa->pswCount_ >=4 && aa->valiatePassword( ) ){
-			QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-			item4->setText( "Change Psw");
-			item4->setBackground(QBrush(QColor(Qt::green))); 
-		}
-	}
-}
-
-void DevicesWnd::offlineRefreshed(Ac1608Address * aa){
-    QTableWidgetItem  * item2 = tableDevices_->item( aa->row, 2);
-    item2->setText( "");
-
-    QTableWidgetItem  * item3 = tableDevices_->item( aa->row, 3);
-    item3->setBackground(QBrush(QColor(Qt::red))); 
-    item3->setText("Offline");
-
-    QTableWidgetItem  * item4 = tableDevices_->item( aa->row, 4);
-    item4->setText( "");
-    item4->setBackground(QBrush(QColor(Qt::white))); 
-    QTableWidgetItem  * item5 = tableDevices_->item( aa->row, 5);
-    item5->setBackground(QBrush(QColor(Qt::white))); 
-}
 
 void DevicesWnd::connectImpl( Ac1608Address* aa){
     if (aa != currConnAddress_){ //切换当前连接的IP
-        SnmpNet::instance()->switchAsyncSnmpAddress( aa->ip.toStdString().c_str() );
+		if (currConnAddress_) currConnAddress_->ip_->setEnabled(true);
+		aa->ip_->setEnabled(false);
+        SnmpNet::instance()->switchAsyncSnmpAddress( aa->ip_->text().toStdString() );
 
-        QTableWidgetItem  * item4;
+        QTableWidgetItem  * conn;
         if ( currConnAddress_ != 0){
-            item4 = tableDevices_->item( currConnAddress_->row, 4);
-            item4->setText( "Connect");
-            item4->setBackground(QBrush(QColor(Qt::lightGray))); 
+			currConnAddress_->setText( "Connect");
+			currConnAddress_->status_->setBackground(QBrush(QColor(Qt::green))); 
         }
-
-        item4 = tableDevices_->item( aa->row, 4);
-        item4->setText( "");
-        item4->setBackground(QBrush(QColor(Qt::green))); 
+		aa->setText("");
+		aa->status_->setBackground(QBrush(QColor(Qt::blue))); 
         currConnAddress_ = aa;
     }
 }
 
-void DevicesWnd::itemClicked(QTableWidgetItem * item)
-{
-    if (item->column() == 4 ){
-        if(item->text() == "Connect" ){
-			Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
-			if ( inputDlg_->getNewPsw( aa)){
-				connectImpl(aa);
-			}
-        }
-		if(item->text() == "Enter Psw" ){
-            Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
-            connectImpl(aa);
-        }
-		if(item->text() == "Change Psw" ){
-			Ac1608Address* aa = getAddressByRow( addresses_ , item->row());
-            inputDlg_->changePsw( aa);
-        }
+
+void DevicesWnd::cellChanged(int row,int col){
+    if (col == 1  ){
+		QLineEdit* addr = (QLineEdit*)tableDevices_->cellWidget(row, 0); 
+		QTableWidgetItem* loc = (QTableWidgetItem*)tableDevices_->item(row, 1); 
+		if ( !addr->text().isEmpty() && !loc->text().isEmpty())
+			ConfigMgr::instance()->setIP( addr->text(), loc->text() );
     }
 }
 
-void DevicesWnd::cellChanged(int row,int col){
-    //qDebug()<<"DevicesWnd::cellChanged";
-    //if (col == 0  ){
-    //	if ( row == tableDevices_->rowCount()-1 ){ //新增一个IP
-    //		//tableDevices_->setRowCount(tableDevices_->rowCount()+1); 
-    //		//newAddress();
-    //	}
-
-    //}
-}
-
-void DevicesWnd::cellActivated(int row,int col){
-    qDebug()<<"DevicesWnd::cellActivated";
-}
-
-void DevicesWnd::cellEntered(int row,int col){
-    qDebug()<<"DevicesWnd::cellEntered";
-}

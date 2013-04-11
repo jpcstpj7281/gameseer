@@ -72,6 +72,10 @@ void OIDDial::fireSnmp(int val ){
 
 void OIDDial::snmpCallback(  SnmpObj* so){
 	
-	if ( so->setVar.isNull() )
+	if ( so->setVar.isNull() ){
 		val_ = so->rspVar.value<int>();
+		QString oid = ConfigMgr::instance()->getOid( objectName());
+		if (!oid.isEmpty())
+			SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
+	}
 }

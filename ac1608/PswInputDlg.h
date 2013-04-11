@@ -46,6 +46,7 @@ private:
 	
 	int * oldPsw_, * newPsw_;
 	int pswCount_;
+	size_t timeStartChanging_;
 
 	Ac1608Address* currConnAddress_;
 

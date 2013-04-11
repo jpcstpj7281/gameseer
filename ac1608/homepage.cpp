@@ -24,22 +24,27 @@ HomePage::HomePage(QWidget *parent):
 		qpb->initSnmp();
 		qpb->setToolTip( qpb->objectName());
 		if (qpb){
-		qpb->setValue(-100);
-		//qpb->setStyleSheet(
-		//	" QProgressBar:vertical {"
-		//	"width:100px;"
-		//	"height:100px;"
-		//	"border: 1px solid grey;"
-		//	"border-radius: 3px;"
-		//	//"background: white;"
-		//	"text-align: bottom;"
-		//	"margin-bottom: 20px;"
-		//	"background-color: #ffffff;"
-		//	"}"
-		//	"QProgressBar::chunk:vertical{ "
-		//	"width: 100px;"
-		//	"}"
-		//	);
+			qpb->setValue(-100);
+			//qpb->setStyleSheet(
+			//	" QProgressBar:vertical {"
+			//	"width:100px;"
+			//	"height:100px;"
+			//	"border: 1px solid grey;"
+			//	"border-radius: 3px;"
+			//	//"background: white;"
+			//	"text-align: bottom;"
+			//	"margin-bottom: 20px;"
+			//	"background-color: #ffffff;"
+			//	"}"
+			//	"QProgressBar::chunk:vertical{ "
+			//	"width: 100px;"
+			//	"}"
+			//	);
+
+			QString name = qpb->objectName();
+			name.replace( "progressBar", "lp");
+			QLabel* ql = findChild<QLabel*>(name);
+			qpb->setLabel(ql);
 		}
 	}
 	
@@ -49,6 +54,10 @@ HomePage::HomePage(QWidget *parent):
 		OIDSlider* qs = *it;
 		qs->setToolTip( qs->objectName());
 		qs->initSnmp();
+		QString name = qs->objectName();
+		name.replace( "verticalSlider", "ls");
+		QLabel* ql = findChild<QLabel*>(name);
+		qs->setLabel(ql);
 	}
 
 	QList<OIDStatePushBtn *> qpb = findChildren<OIDStatePushBtn*>( );
@@ -67,7 +76,7 @@ HomePage::HomePage(QWidget *parent):
 				qs->setOnOffStateImage( 1, 0, XpushBtn, XpushBtnOff);
 			}
 		}
-		qDebug()<<qpb.size()<<" OIDStatePushBtn";
+		//qDebug()<<qpb.size()<<" OIDStatePushBtn";
 	}
 }
 

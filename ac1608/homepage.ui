@@ -408,7 +408,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value6">
+    <widget class="QLabel" name="lp6">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -473,7 +473,7 @@
     <zorder>t0_48</zorder>
     <zorder>line_48</zorder>
     <zorder>progressBar6</zorder>
-    <zorder>value6</zorder>
+    <zorder>lp6</zorder>
     <zorder>dB_48</zorder>
    </widget>
    <widget class="QWidget" name="widget_10" native="true">
@@ -830,7 +830,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value10">
+    <widget class="QLabel" name="lp10">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -895,7 +895,7 @@
     <zorder>t0_52</zorder>
     <zorder>line_52</zorder>
     <zorder>progressBar10</zorder>
-    <zorder>value10</zorder>
+    <zorder>lp10</zorder>
     <zorder>dB_52</zorder>
    </widget>
    <widget class="QWidget" name="widget_13" native="true">
@@ -1252,7 +1252,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value13">
+    <widget class="QLabel" name="lp13">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -1317,7 +1317,7 @@
     <zorder>t0_55</zorder>
     <zorder>line_55</zorder>
     <zorder>progressBar13</zorder>
-    <zorder>value13</zorder>
+    <zorder>lp13</zorder>
     <zorder>dB_55</zorder>
    </widget>
    <widget class="QWidget" name="widget_4" native="true">
@@ -1674,7 +1674,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value4">
+    <widget class="QLabel" name="lp4">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -1739,7 +1739,7 @@
     <zorder>t0_46</zorder>
     <zorder>line_46</zorder>
     <zorder>progressBar4</zorder>
-    <zorder>value4</zorder>
+    <zorder>lp4</zorder>
     <zorder>dB_46</zorder>
    </widget>
    <widget class="QWidget" name="widget_14" native="true">
@@ -2096,7 +2096,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value14">
+    <widget class="QLabel" name="lp14">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -2161,7 +2161,7 @@
     <zorder>t0_56</zorder>
     <zorder>line_56</zorder>
     <zorder>progressBar14</zorder>
-    <zorder>value14</zorder>
+    <zorder>lp14</zorder>
     <zorder>dB_56</zorder>
    </widget>
    <widget class="QWidget" name="widget_7" native="true">
@@ -2518,7 +2518,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value7">
+    <widget class="QLabel" name="lp7">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -2583,7 +2583,7 @@
     <zorder>t0_49</zorder>
     <zorder>line_49</zorder>
     <zorder>progressBar7</zorder>
-    <zorder>value7</zorder>
+    <zorder>lp7</zorder>
     <zorder>dB_49</zorder>
    </widget>
    <widget class="QWidget" name="widget_2" native="true">
@@ -2940,7 +2940,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value2">
+    <widget class="QLabel" name="lp2">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -3005,7 +3005,7 @@
     <zorder>t0_44</zorder>
     <zorder>line_44</zorder>
     <zorder>progressBar2</zorder>
-    <zorder>value2</zorder>
+    <zorder>lp2</zorder>
     <zorder>dB_44</zorder>
    </widget>
    <widget class="QWidget" name="widget" native="true">
@@ -3349,7 +3349,7 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="value1">
+    <widget class="QLabel" name="lp1">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -3425,7 +3425,7 @@
     <zorder>tn85</zorder>
     <zorder>m35</zorder>
     <zorder>t0</zorder>
-    <zorder>value1</zorder>
+    <zorder>lp1</zorder>
     <zorder>dB</zorder>
     <zorder>line</zorder>
     <zorder>progressBar1</zorder>
@@ -3784,7 +3784,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value11">
+    <widget class="QLabel" name="lp11">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -3849,7 +3849,7 @@
     <zorder>t0_53</zorder>
     <zorder>line_53</zorder>
     <zorder>progressBar11</zorder>
-    <zorder>value11</zorder>
+    <zorder>lp11</zorder>
     <zorder>dB_53</zorder>
    </widget>
    <widget class="QWidget" name="widget_5" native="true">
@@ -4206,7 +4206,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value5">
+    <widget class="QLabel" name="lp5">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -4271,7 +4271,7 @@
     <zorder>t0_47</zorder>
     <zorder>line_47</zorder>
     <zorder>progressBar5</zorder>
-    <zorder>value5</zorder>
+    <zorder>lp5</zorder>
     <zorder>dB_47</zorder>
    </widget>
    <widget class="QWidget" name="widget_12" native="true">
@@ -4628,7 +4628,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value12">
+    <widget class="QLabel" name="lp12">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -4693,7 +4693,7 @@
     <zorder>t0_54</zorder>
     <zorder>line_54</zorder>
     <zorder>progressBar_54</zorder>
-    <zorder>value12</zorder>
+    <zorder>lp12</zorder>
     <zorder>dB_54</zorder>
    </widget>
    <widget class="QWidget" name="widget_15" native="true">
@@ -5050,7 +5050,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value15">
+    <widget class="QLabel" name="lp15">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -5115,7 +5115,7 @@
     <zorder>t0_57</zorder>
     <zorder>line_57</zorder>
     <zorder>progressBar15</zorder>
-    <zorder>value15</zorder>
+    <zorder>lp15</zorder>
     <zorder>dB_57</zorder>
    </widget>
    <widget class="QWidget" name="widget_8" native="true">
@@ -5472,7 +5472,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value8">
+    <widget class="QLabel" name="lp8">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -5537,7 +5537,7 @@
     <zorder>t0_50</zorder>
     <zorder>line_50</zorder>
     <zorder>progressBar8</zorder>
-    <zorder>value8</zorder>
+    <zorder>lp8</zorder>
     <zorder>dB_50</zorder>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
@@ -5894,7 +5894,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value3">
+    <widget class="QLabel" name="lp3">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -5959,7 +5959,7 @@
     <zorder>t0_45</zorder>
     <zorder>line_45</zorder>
     <zorder>progressBar3</zorder>
-    <zorder>value3</zorder>
+    <zorder>lp3</zorder>
     <zorder>dB_45</zorder>
    </widget>
    <widget class="QWidget" name="widget_9" native="true">
@@ -6316,7 +6316,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value9">
+    <widget class="QLabel" name="lp9">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -6381,7 +6381,7 @@
     <zorder>t0_51</zorder>
     <zorder>line_51</zorder>
     <zorder>progressBar9</zorder>
-    <zorder>value9</zorder>
+    <zorder>lp9</zorder>
     <zorder>dB_51</zorder>
    </widget>
    <widget class="QWidget" name="widget_16" native="true">
@@ -6738,7 +6738,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value16">
+    <widget class="QLabel" name="lp16">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -6803,7 +6803,7 @@
     <zorder>t0_58</zorder>
     <zorder>line_58</zorder>
     <zorder>progressBar16</zorder>
-    <zorder>value16</zorder>
+    <zorder>lp16</zorder>
     <zorder>dB_58</zorder>
    </widget>
    <widget class="QLabel" name="number">
@@ -7660,7 +7660,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_23">
+    <widget class="QLabel" name="ls1">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -7737,7 +7737,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_24">
+    <widget class="QLabel" name="ls2">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -7814,7 +7814,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_25">
+    <widget class="QLabel" name="ls3">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -7891,7 +7891,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_27">
+    <widget class="QLabel" name="ls4">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -7968,7 +7968,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_28">
+    <widget class="QLabel" name="ls5">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8045,7 +8045,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_29">
+    <widget class="QLabel" name="ls6">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8122,7 +8122,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_30">
+    <widget class="QLabel" name="ls7">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8199,7 +8199,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_31">
+    <widget class="QLabel" name="ls8">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8276,7 +8276,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_32">
+    <widget class="QLabel" name="ls9">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8353,7 +8353,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_33">
+    <widget class="QLabel" name="ls10">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8430,7 +8430,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_34">
+    <widget class="QLabel" name="ls11">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8507,7 +8507,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_35">
+    <widget class="QLabel" name="ls12">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8584,7 +8584,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_36">
+    <widget class="QLabel" name="ls13">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8661,7 +8661,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_37">
+    <widget class="QLabel" name="ls14">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8738,7 +8738,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_38">
+    <widget class="QLabel" name="ls15">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -8815,7 +8815,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_39">
+    <widget class="QLabel" name="ls16">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -9224,7 +9224,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_2">
+    <widget class="QLabel" name="lp17">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -9289,7 +9289,7 @@
     <zorder>t0_75</zorder>
     <zorder>line_75</zorder>
     <zorder>progressBar17</zorder>
-    <zorder>value_2</zorder>
+    <zorder>lp17</zorder>
     <zorder>dB_2</zorder>
    </widget>
    <widget class="QWidget" name="widget_34" native="true">
@@ -9646,7 +9646,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_22">
+    <widget class="QLabel" name="lp18">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -9711,7 +9711,7 @@
     <zorder>t0_76</zorder>
     <zorder>line_76</zorder>
     <zorder>progressBar18</zorder>
-    <zorder>value_22</zorder>
+    <zorder>lp18</zorder>
     <zorder>dB_22</zorder>
    </widget>
    <widget class="QLabel" name="number_76">
@@ -9851,7 +9851,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_64">
+    <widget class="QLabel" name="ls17">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -9928,7 +9928,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_65">
+    <widget class="QLabel" name="ls18">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -10337,7 +10337,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_41">
+    <widget class="QLabel" name="lp19">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -10402,7 +10402,7 @@
     <zorder>t0_77</zorder>
     <zorder>line_77</zorder>
     <zorder>progressBar19</zorder>
-    <zorder>value_41</zorder>
+    <zorder>lp19</zorder>
     <zorder>dB_41</zorder>
    </widget>
    <widget class="QWidget" name="widget_36" native="true">
@@ -10759,7 +10759,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_42">
+    <widget class="QLabel" name="lp20">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -10824,7 +10824,7 @@
     <zorder>t0_78</zorder>
     <zorder>line_78</zorder>
     <zorder>progressBar20</zorder>
-    <zorder>value_42</zorder>
+    <zorder>lp20</zorder>
     <zorder>dB_42</zorder>
    </widget>
    <widget class="QWidget" name="widget_37" native="true">
@@ -11181,7 +11181,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_43">
+    <widget class="QLabel" name="lp21">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -11246,7 +11246,7 @@
     <zorder>t0_79</zorder>
     <zorder>line_79</zorder>
     <zorder>progressBar21</zorder>
-    <zorder>value_43</zorder>
+    <zorder>lp21</zorder>
     <zorder>dB_43</zorder>
    </widget>
    <widget class="QWidget" name="widget_38" native="true">
@@ -11603,7 +11603,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_59">
+    <widget class="QLabel" name="lp22">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -11668,7 +11668,7 @@
     <zorder>t0_80</zorder>
     <zorder>line_80</zorder>
     <zorder>progressBar22</zorder>
-    <zorder>value_59</zorder>
+    <zorder>lp22</zorder>
     <zorder>dB_59</zorder>
    </widget>
    <widget class="QWidget" name="widget_39" native="true">
@@ -12025,7 +12025,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_60">
+    <widget class="QLabel" name="lp23">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -12090,7 +12090,7 @@
     <zorder>t0_82</zorder>
     <zorder>line_82</zorder>
     <zorder>progressBar23</zorder>
-    <zorder>value_60</zorder>
+    <zorder>lp23</zorder>
     <zorder>dB_60</zorder>
    </widget>
    <widget class="QWidget" name="widget_40" native="true">
@@ -12447,7 +12447,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_61">
+    <widget class="QLabel" name="lp24">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -12512,7 +12512,7 @@
     <zorder>t0_83</zorder>
     <zorder>line_83</zorder>
     <zorder>progressBar24</zorder>
-    <zorder>value_61</zorder>
+    <zorder>lp24</zorder>
     <zorder>dB_61</zorder>
    </widget>
    <widget class="QWidget" name="widget_41" native="true">
@@ -12869,7 +12869,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_62">
+    <widget class="QLabel" name="lp25">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -12934,7 +12934,7 @@
     <zorder>t0_85</zorder>
     <zorder>line_85</zorder>
     <zorder>progressBar25</zorder>
-    <zorder>value_62</zorder>
+    <zorder>lp25</zorder>
     <zorder>dB_62</zorder>
    </widget>
    <widget class="QWidget" name="widget_42" native="true">
@@ -13291,7 +13291,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_63">
+    <widget class="QLabel" name="lp26">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -13356,13 +13356,13 @@
     <zorder>t0_86</zorder>
     <zorder>line_86</zorder>
     <zorder>progressBar26</zorder>
-    <zorder>value_63</zorder>
+    <zorder>lp26</zorder>
     <zorder>dB_63</zorder>
    </widget>
    <widget class="QLabel" name="number_77">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>40</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13381,7 +13381,7 @@
    <widget class="QLabel" name="number_86">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>320</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13400,7 +13400,7 @@
    <widget class="QLabel" name="number_80">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>160</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13419,7 +13419,7 @@
    <widget class="QLabel" name="number_85">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>280</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13438,7 +13438,7 @@
    <widget class="QLabel" name="number_79">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13457,7 +13457,7 @@
    <widget class="QLabel" name="number_83">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>240</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13476,7 +13476,7 @@
    <widget class="QLabel" name="number_78">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>80</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13495,7 +13495,7 @@
    <widget class="QLabel" name="number_82">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>200</x>
       <y>10</y>
       <width>16</width>
       <height>16</height>
@@ -13802,7 +13802,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_66">
+    <widget class="QLabel" name="ls19">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -13879,7 +13879,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_67">
+    <widget class="QLabel" name="ls20">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -13956,7 +13956,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_68">
+    <widget class="QLabel" name="ls21">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -14033,7 +14033,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_69">
+    <widget class="QLabel" name="ls22">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -14110,7 +14110,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_70">
+    <widget class="QLabel" name="ls23">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -14187,7 +14187,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_71">
+    <widget class="QLabel" name="ls24">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -14264,7 +14264,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_72">
+    <widget class="QLabel" name="ls25">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -14341,7 +14341,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="value_73">
+    <widget class="QLabel" name="ls26">
      <property name="geometry">
       <rect>
        <x>0</x>

@@ -2,11 +2,13 @@
 #include "OIDInputDlg.h"
 #include <QDebug>
 #include "ConfigMgr.h"
+
 using namespace std::tr1::placeholders;
 
 OIDProgressBar::OIDProgressBar( QWidget* w):
 	QProgressBar(w)
 	,val_(0)
+	,ql_(0)
 {
 }
 void OIDProgressBar::initSnmp(){
@@ -27,8 +29,13 @@ void OIDProgressBar::shutdownSnmp(){
 
 void OIDProgressBar::snmpCallback( SnmpObj* so){
 	setValue( so->rspVar.value<int>());
+	if (ql_){
+		ql_->setText( QString::number( value()));
+	}
 }
-
+void OIDProgressBar::setLabel(QLabel *ql){
+	ql_ = ql;
+}
 void OIDProgressBar::mouseReleaseEvent ( QMouseEvent * event ){
 	if ( ConfigMgr::instance()->isOidEditable() ) {
 		QString oldoid = ConfigMgr::instance()->getOid( objectName());

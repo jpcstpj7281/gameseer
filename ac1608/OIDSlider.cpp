@@ -3,12 +3,14 @@
 #include "ConfigMgr.h"
 #include <QDebug>
 #include <QEvent>
+
 using namespace std::tr1::placeholders;
 
 
 OIDSlider::OIDSlider( QWidget* w):
     QSlider(w)
-    ,val_(0){
+    ,val_(0)
+	,ql_(0){
         connect( this, SIGNAL(valueChanged(int )), this, SLOT(fireSnmp(int )));
         startTimer(500);
         installEventFilter(this);
@@ -56,8 +58,14 @@ void OIDSlider::initSnmp(){
 			std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) 
 			);
 	}
+
+	
 }
 void OIDSlider::shutdownSnmp(){
+}
+
+void OIDSlider::setLabel(QLabel *ql){
+	ql_ = ql;
 }
 
 bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
@@ -101,11 +109,21 @@ void OIDSlider::fireSnmp(int val ){
         SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(), 
 			"private", std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) , val);
         lastTimeChanged_ = GetTickCount();
+		if (ql_){
+			ql_->setText( QString::number( val));
+		}
     }
 }
 
 void OIDSlider::snmpCallback( SnmpObj* so){
     if ( so->setVar.isNull() ){
         this->setValue( so->rspVar.value<int>() );
+		if (ql_){
+			ql_->setText( QString::number( value()));
+		}
+
+		QString oid = ConfigMgr::instance()->getOid( objectName());
+		if (!oid.isEmpty())
+			SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
 	}
 }

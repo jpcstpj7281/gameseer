@@ -148,20 +148,14 @@ QString getOidFromDoc( QString &id, QDomDocument * doc){
 	}
 	return oid;
 }
-
 QString ConfigMgr::getOid( QString &id){
 	return getOidFromDoc(id, doc_);
 }
-
 QString ConfigMgr::getDefaultOid( QString &id){
 	return getOidFromDoc(id, defaultDoc_);
 }
-
 void ConfigMgr::setOid( QString &id, QString &oid){
 	QDomElement root = doc_->documentElement();
-
-	
-
 	QDomNodeList items = root.elementsByTagName("component");
 	bool found = false;
 	for(int i = 0; i <items.length(); ++i){
@@ -181,8 +175,43 @@ void ConfigMgr::setOid( QString &id, QString &oid){
 		elm.setAttribute ("id", id);
 		elm.setAttribute( "oid", oid);
 		node.insertAfter( elm, QDomElement());
-
 	}
-
 }
 
+void ConfigMgr::setIP( QString &ip, QString &loc){
+	QDomElement root = doc_->documentElement();
+	QDomNodeList items = root.elementsByTagName("address");
+	bool found = false;
+	for(int i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( elem.attribute("ip") == ip ){
+			elem.setAttribute ("location", loc);
+			found = true;
+			break;
+		}
+	}
+	if ( found == false){
+		QDomNodeList items = root.elementsByTagName("addresses");
+		QDomNode node = items.at(0);
+		QDomElement elm = doc_->createElement( "address");
+		elm.setAttribute ("ip", ip);
+		elm.setAttribute ("location", loc);
+		node.insertAfter( elm, QDomElement());
+	}
+}
+void ConfigMgr::removeIP( QString &ip){
+	QDomElement root = doc_->documentElement();
+	QDomNodeList addressRoot = root.elementsByTagName("addresses");
+	QDomNode addressRootNode = addressRoot.at(0);
+	QDomNodeList items = root.elementsByTagName("address");
+	bool found = false;
+	for(int i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( elem.attribute("ip") == ip ){
+			addressRootNode.removeChild(node);
+			break;
+		}
+	}
+}

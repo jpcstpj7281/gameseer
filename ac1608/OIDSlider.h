@@ -3,7 +3,7 @@
 
 #include <QSlider>
 #include <Snmpnet.h>
-
+#include <QLabel>
 
 class OIDSlider : public QSlider{
 	Q_OBJECT
@@ -17,10 +17,13 @@ class OIDSlider : public QSlider{
 	bool eventFilter ( QObject * watched, QEvent * event )override;
 
 	size_t lastTimeChanged_;
+	QLabel *ql_;
 private slots:
 		void fireSnmp(int  );
 public:
 	OIDSlider( QWidget* w);
+
+	void setLabel(QLabel *ql);
 
 	void initSnmp();
 	void shutdownSnmp();
