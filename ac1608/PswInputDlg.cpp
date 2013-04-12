@@ -127,8 +127,6 @@ void PswInputDlg::okClick(){
 	QLineEdit * le1 = findChild<QLineEdit*>( "oldpsw");
 	QString oldpsw = le1->text();
 	if (isChangeMode_){
-		QLineEdit * le2 = findChild<QLineEdit*>( "newpsw");
-		QLineEdit * le3 = findChild<QLineEdit*>( "repeatpsw");
 		QString newpsw = le1->text();
 		QString repeatpsw = le1->text();
 		if (newpsw == repeatpsw){
@@ -275,7 +273,7 @@ void PswInputDlg::cancelClick(){
 	this->hide();
 }
 
-void	PswInputDlg::timerEvent ( QTimerEvent * event ){
+void	PswInputDlg::timerEvent ( QTimerEvent * ){
 	
 	if (isPasswordChanging_ ){
 		if (pswCount_ >= 4){

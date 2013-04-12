@@ -88,7 +88,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp -lAdvapi32 
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd -lAdvapi32 -lqwtd
 else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
 
-DEFINES += QWT_DLL
+DEFINES += QWT_DLL \
+_CRT_SECURE_NO_DEPRECATE
 
 INCLUDEPATH += $$PWD/inc
 INCLUDEPATH += $$PWD/inc/qwt

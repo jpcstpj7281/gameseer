@@ -53,8 +53,6 @@ class MainWindow : public QMainWindow
         void on_actionCopyParam_clicked(QAction*);
 		void on_actionEdit_clicked(QAction*);
 
-		void tabChanged (int);
-
     private:
 
 		QTabWidget* _tab;

@@ -111,10 +111,13 @@ ConfigMgr::~ConfigMgr()
 	QTextStream out( &file1 );
 	doc_->save( out, 4 );
 
-	if ( defaultDoc_ != doc_ ) delete defaultDoc_;
+	if ( defaultDoc_ != doc_ ) {
+		delete defaultDoc_;
+		defaultDoc_ = 0;
+	}
 
 	delete doc_;
-	
+	doc_ = 0;
 }
 
 
@@ -133,12 +136,12 @@ QDomElement ConfigMgr::getAddressElem(){
 }
 
 QString getOidFromDoc( QString &id, QDomDocument * doc){
-	if ( id.isEmpty() ) return "";
+	if ( !doc && id.isEmpty() ) return "";
 	QDomElement root = doc->documentElement();
 
 	QDomNodeList items = root.elementsByTagName("component");
 	QString oid;
-	for(int i = 0; i <items.length(); ++i){
+	for(size_t i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
 		QDomNode n1 = node.attributes().item(1);
 		if ( "id" == n1.nodeName()&& id == n1.nodeValue() ){
@@ -155,10 +158,11 @@ QString ConfigMgr::getDefaultOid( QString &id){
 	return getOidFromDoc(id, defaultDoc_);
 }
 void ConfigMgr::setOid( QString &id, QString &oid){
+	if ( !doc_ && id.isEmpty() ) return ;
 	QDomElement root = doc_->documentElement();
 	QDomNodeList items = root.elementsByTagName("component");
 	bool found = false;
-	for(int i = 0; i <items.length(); ++i){
+	for(size_t i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
 		QDomElement elem = node.toElement();
 		if ( elem.attribute("id") == id ){
@@ -182,7 +186,7 @@ void ConfigMgr::setIP( QString &ip, QString &loc){
 	QDomElement root = doc_->documentElement();
 	QDomNodeList items = root.elementsByTagName("address");
 	bool found = false;
-	for(int i = 0; i <items.length(); ++i){
+	for(size_t i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
 		QDomElement elem = node.toElement();
 		if ( elem.attribute("ip") == ip ){
@@ -205,8 +209,7 @@ void ConfigMgr::removeIP( QString &ip){
 	QDomNodeList addressRoot = root.elementsByTagName("addresses");
 	QDomNode addressRootNode = addressRoot.at(0);
 	QDomNodeList items = root.elementsByTagName("address");
-	bool found = false;
-	for(int i = 0; i <items.length(); ++i){
+	for(size_t i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
 		QDomElement elem = node.toElement();
 		if ( elem.attribute("ip") == ip ){

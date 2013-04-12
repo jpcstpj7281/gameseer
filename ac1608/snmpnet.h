@@ -99,6 +99,8 @@ class SnmpNet :public QObject
 	std::function< void (  SnmpObj*)> befereRemovedCallback_;
 
 	virtual void timerEvent ( QTimerEvent *  )override;
+	bool isExisted(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community, QVariant value );
+	void delayIfRemoving(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community , QVariant value);
 public:
 	~SnmpNet();
 	static SnmpNet *instance();
@@ -125,7 +127,7 @@ public:
 
 	void removeAsyncGet(const std::string& obj, const std::string& snmpoid, const std::string& community );
 	void removeAsyncGetWithIP(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community );
-	void delayIfRemoving(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community , QVariant value);
+	
 
 	inline void listenOidBeforeSent(std::function< void (  SnmpObj*) > callback ){//callback will invoke by snmp thread
 		beforeSentCallback_ = callback;

@@ -71,30 +71,24 @@ void SnmpNet::removeListenAddress( const std::string& ip){
 }
 
 void SnmpNet::addAsyncGet(const std::string& obj,const std::string& snmpoid, const std::string& community ,SnmpCallbackFunc callback){
-	addAsyncGet(obj, snmpoid, community, callback, (size_t)1000);
+	addAsyncGetWithIP(obj, snmpoid, currAddress_, community, callback);
 }
 void SnmpNet::addAsyncGet(const std::string& obj,const std::string& snmpoid, const std::string& community ,SnmpCallbackFunc callback, size_t interval){
-	delayIfRemoving( obj, snmpoid, currAddress_, community, QVariant());
-	SnmpObj* so = new SnmpObj( (obj), (snmpoid), currAddress_, (community), callback);
-	so->interval = interval;
-	//qDebug()<<obj.c_str();
-	QMutexLocker lk(&getLock_);
-	getList_.push_back(  so );
+	addAsyncGetWithIP(obj, snmpoid, currAddress_, community,callback, interval);
+}
+void SnmpNet::addAsyncGetWithIP(const std::string& obj,const std::string& snmpoid, const std::string& ip, const std::string& community ,SnmpCallbackFunc callback){
+	addAsyncGetWithIP(obj, snmpoid, ip, community, callback, 1000);
 }
 void SnmpNet::addAsyncGetWithIP(const std::string& obj,const std::string& snmpoid, const std::string& ip, const std::string& community ,SnmpCallbackFunc callback, size_t interval){
 	delayIfRemoving( obj, snmpoid, ip, community,  QVariant());
+	if (isExisted( obj, snmpoid, ip, community,  QVariant()) ) return ;
 	SnmpObj* so = new SnmpObj(  (obj),(snmpoid), (ip), (community), callback);
 	so->interval = interval;
 	QMutexLocker lk(&getLock_);
 	getList_.push_back(  so );
 }
-void SnmpNet::addAsyncGetWithIP(const std::string& obj,const std::string& snmpoid, const std::string& ip, const std::string& community ,SnmpCallbackFunc callback){
-	delayIfRemoving( obj, snmpoid, ip, community, QVariant());
-	addAsyncGetWithIP(obj, snmpoid, ip, community, callback, 1000);
-}
 
 void SnmpNet::addAsyncSetWithIP(const std::string& obj,const std::string& snmpoid, const std::string& ip, const std::string& community ,SnmpCallbackFunc callback, QVariant value){
-
 	if ( snmpoid.length() ){
 		SnmpObj* so = new SnmpObj(  (obj),(snmpoid), (ip), (community), callback);
 		so->setVar = value;
@@ -120,12 +114,17 @@ void SnmpNet::addAsyncSet(const std::string& obj,const std::string& snmpoid, con
 		}
 		setMap_.insert( std::make_pair( so->obj,  so));
 	}
+}
 
-	//SnmpObj* so = new SnmpObj( (obj), (snmpoid), currAddress_, (community), callback);
-	//so->setVar = value;
-	////qDebug()<<obj.c_str();
-	//QMutexLocker lk(&getLock_);
-	//getList_.push_back(  so );
+bool SnmpNet::isExisted(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community, QVariant value ){
+	QMutexLocker lk(&getLock_);
+	for( auto it = getList_.begin(); it!=getList_.end();++it){
+		SnmpObj* so = (*it);
+		if ( obj == so->obj && snmpoid == so->snmpoid && community == so->community && ip == so->ip && value == so->setVar){
+			return true;
+		}
+	}
+	return false;
 }
 
 void SnmpNet::delayIfRemoving(const std::string& obj, const std::string& snmpoid, const std::string& ip, const std::string& community, QVariant value ){

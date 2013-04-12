@@ -76,8 +76,8 @@ private:
 
 	void * inputDialog_;
 
-	volatile int  val_;
-	volatile int  isRunning_;
+	int  val_;
+	//volatile int  isRunning_;
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
 	void snmpCallback(  SnmpObj*);

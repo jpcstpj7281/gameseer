@@ -17,10 +17,17 @@ QDial(w)
 }
 
 void OIDDial::initSnmp(){
-	SnmpNet::instance()->addAsyncGet( objectName().toStdString(), 
-		ConfigMgr::instance()->getOid(objectName()).toStdString(), 
-		"public", std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) 
-		);
+	QString oid = ConfigMgr::instance()->getOid( objectName());
+	if (!oid.isEmpty())
+		SnmpNet::instance()->addAsyncGet( objectName().toStdString(), 
+			oid.toStdString(), 
+			"public", std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) 
+			);
+}
+void OIDDial::shutdownSnmp(){
+	QString oid = ConfigMgr::instance()->getOid( objectName());
+	if (!oid.isEmpty())
+		SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
 }
 
 bool OIDDial::eventFilter ( QObject * watched, QEvent * event ){
@@ -50,7 +57,7 @@ bool OIDDial::eventFilter ( QObject * watched, QEvent * event ){
     return false;
 }
 
-void	OIDDial::timerEvent ( QTimerEvent * e ){
+void	OIDDial::timerEvent ( QTimerEvent *  ){
 	size_t now = GetTickCount();
 	size_t elapsed = now - lastTimeChanged_;
 	if ( elapsed > 1000 && val_ != this->value() ){
