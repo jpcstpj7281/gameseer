@@ -22,8 +22,8 @@
   <widget class="QGroupBox" name="groupBox_13">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>60</y>
+     <x>160</x>
+     <y>50</y>
      <width>691</width>
      <height>591</height>
     </rect>
@@ -70,11 +70,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider">
+   <widget class="OIDSlider" name="verticalSlider_1">
     <property name="geometry">
      <rect>
       <x>285</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -112,11 +112,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_2">
+   <widget class="OIDSlider" name="verticalSlider_2">
     <property name="geometry">
      <rect>
       <x>335</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -141,11 +141,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_3">
+   <widget class="OIDSlider" name="verticalSlider_3">
     <property name="geometry">
      <rect>
       <x>385</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -170,11 +170,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_4">
+   <widget class="OIDSlider" name="verticalSlider_4">
     <property name="geometry">
      <rect>
       <x>435</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -199,11 +199,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_5">
+   <widget class="OIDSlider" name="verticalSlider_5">
     <property name="geometry">
      <rect>
       <x>485</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -228,11 +228,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_6">
+   <widget class="OIDSlider" name="verticalSlider_6">
     <property name="geometry">
      <rect>
       <x>535</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -257,11 +257,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_7">
+   <widget class="OIDSlider" name="verticalSlider_7">
     <property name="geometry">
      <rect>
       <x>585</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -286,11 +286,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="verticalSlider_8">
+   <widget class="OIDSlider" name="verticalSlider_8">
     <property name="geometry">
      <rect>
       <x>635</x>
-      <y>90</y>
+      <y>130</y>
       <width>30</width>
       <height>200</height>
      </rect>
@@ -485,7 +485,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>320</y>
+      <y>400</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -503,7 +503,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>340</y>
+      <y>420</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -521,7 +521,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>360</y>
+      <y>440</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -539,7 +539,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>320</y>
+      <y>400</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -560,7 +560,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>340</y>
+      <y>420</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -581,7 +581,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>360</y>
+      <y>440</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -899,9 +899,369 @@
      <string>CH12 NoiseGate</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_165">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls1">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls2">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_166">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls3">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_167">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls4">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_168">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls5">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_169">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls6">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_170">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls7">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_171">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_172">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls8">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>100</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
    <zorder>label_133</zorder>
    <zorder>label_135</zorder>
-   <zorder>verticalSlider</zorder>
+   <zorder>verticalSlider_1</zorder>
    <zorder>radioButton_13</zorder>
    <zorder>label_136</zorder>
    <zorder>verticalSlider_2</zorder>
@@ -954,8 +1314,31 @@
    <zorder>label_149</zorder>
    <zorder>label_143</zorder>
    <zorder>label_151</zorder>
+   <zorder>label_165</zorder>
+   <zorder>ls1</zorder>
+   <zorder>ls2</zorder>
+   <zorder>label_166</zorder>
+   <zorder>ls3</zorder>
+   <zorder>label_167</zorder>
+   <zorder>ls4</zorder>
+   <zorder>label_168</zorder>
+   <zorder>ls5</zorder>
+   <zorder>label_169</zorder>
+   <zorder>ls6</zorder>
+   <zorder>label_170</zorder>
+   <zorder>ls7</zorder>
+   <zorder>label_171</zorder>
+   <zorder>label_172</zorder>
+   <zorder>ls8</zorder>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OIDSlider</class>
+   <extends>QSlider</extends>
+   <header>oidslider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

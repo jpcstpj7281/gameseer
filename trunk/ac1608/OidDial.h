@@ -3,24 +3,22 @@
 
 #include <QDial>
 #include <Snmpnet.h>
-
+#include <QLabel>
 
 class OIDDial : public QDial{
 	Q_OBJECT
 	void * inputDialog_;
 
-	volatile int val_;
-
 	void snmpCallback(SnmpObj*);
-	void	timerEvent ( QTimerEvent * e )override;
 	bool eventFilter ( QObject * watched, QEvent * event )override;
 
 	size_t lastTimeChanged_;
+	QLabel *ql_;
 private slots:
 		void fireSnmp(int  );
 public:
 	OIDDial( QWidget* w);
-
+	void setLabel(QLabel *ql);
 	void initSnmp();
 	void shutdownSnmp();
 

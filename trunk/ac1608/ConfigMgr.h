@@ -35,6 +35,7 @@ public :
 	void setOid( QString &id, QString &oid);
 	QString getOid( QString &id);
 	QString getDefaultOid( QString &id);
+	void saveAll();
 
 	~ConfigMgr();
 

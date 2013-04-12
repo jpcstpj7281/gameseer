@@ -696,7 +696,7 @@ Gain</string>
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="OIDStatePushBtn" name="pushButton">
+  <widget class="OIDStatePushBtn" name="pushButton_1">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -709,7 +709,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_2">
@@ -725,7 +725,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_3">
@@ -741,7 +741,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_4">
@@ -757,7 +757,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_5">
@@ -773,7 +773,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_6">
@@ -789,7 +789,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_7">
@@ -805,7 +805,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_8">
@@ -821,7 +821,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_9">
@@ -837,7 +837,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_10">
@@ -853,7 +853,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_11">
@@ -869,7 +869,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_12">
@@ -885,7 +885,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_13">
@@ -901,7 +901,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_14">
@@ -917,7 +917,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_15">
@@ -933,7 +933,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_16">
@@ -949,7 +949,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_17">
@@ -965,7 +965,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_18">
@@ -981,7 +981,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_19">
@@ -997,7 +997,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_20">
@@ -1013,7 +1013,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_21">
@@ -1029,7 +1029,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_22">
@@ -1045,7 +1045,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_23">
@@ -1061,7 +1061,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_24">
@@ -1077,7 +1077,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_25">
@@ -1093,7 +1093,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_26">
@@ -1109,7 +1109,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_27">
@@ -1125,7 +1125,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_28">
@@ -1141,7 +1141,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_29">
@@ -1157,7 +1157,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_30">
@@ -1173,7 +1173,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_31">
@@ -1189,7 +1189,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_32">
@@ -1205,7 +1205,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_33">
@@ -1221,7 +1221,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_34">
@@ -1237,7 +1237,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_35">
@@ -1253,7 +1253,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_36">
@@ -1269,7 +1269,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_37">
@@ -1285,7 +1285,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_38">
@@ -1301,7 +1301,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_39">
@@ -1317,7 +1317,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_40">
@@ -1333,7 +1333,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_41">
@@ -1349,7 +1349,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_42">
@@ -1365,7 +1365,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_43">
@@ -1381,7 +1381,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_44">
@@ -1397,7 +1397,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_45">
@@ -1413,7 +1413,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_46">
@@ -1429,7 +1429,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_47">
@@ -1445,7 +1445,7 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="OIDStatePushBtn" name="pushButton_48">
@@ -1461,10 +1461,10 @@ Gain</string>
     <string/>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_23">
+  <widget class="QLabel" name="ls1">
    <property name="geometry">
     <rect>
      <x>106</x>
@@ -1496,7 +1496,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_25">
+  <widget class="QLabel" name="ls2">
    <property name="geometry">
     <rect>
      <x>156</x>
@@ -1528,7 +1528,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_27">
+  <widget class="QLabel" name="ls3">
    <property name="geometry">
     <rect>
      <x>206</x>
@@ -1560,7 +1560,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_29">
+  <widget class="QLabel" name="ls4">
    <property name="geometry">
     <rect>
      <x>256</x>
@@ -1592,7 +1592,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_31">
+  <widget class="QLabel" name="ls5">
    <property name="geometry">
     <rect>
      <x>306</x>
@@ -1624,7 +1624,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_33">
+  <widget class="QLabel" name="ls6">
    <property name="geometry">
     <rect>
      <x>356</x>
@@ -1656,7 +1656,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_35">
+  <widget class="QLabel" name="ls7">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -1688,7 +1688,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_37">
+  <widget class="QLabel" name="ls8">
    <property name="geometry">
     <rect>
      <x>456</x>
@@ -1720,7 +1720,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_39">
+  <widget class="QLabel" name="ls9">
    <property name="geometry">
     <rect>
      <x>506</x>
@@ -1752,7 +1752,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_41">
+  <widget class="QLabel" name="ls10">
    <property name="geometry">
     <rect>
      <x>556</x>
@@ -1784,7 +1784,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_43">
+  <widget class="QLabel" name="ls11">
    <property name="geometry">
     <rect>
      <x>606</x>
@@ -1816,7 +1816,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_45">
+  <widget class="QLabel" name="ls12">
    <property name="geometry">
     <rect>
      <x>656</x>
@@ -1848,7 +1848,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_47">
+  <widget class="QLabel" name="ls13">
    <property name="geometry">
     <rect>
      <x>706</x>
@@ -1880,7 +1880,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_49">
+  <widget class="QLabel" name="ls14">
    <property name="geometry">
     <rect>
      <x>756</x>
@@ -1912,7 +1912,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_51">
+  <widget class="QLabel" name="ls15">
    <property name="geometry">
     <rect>
      <x>806</x>
@@ -1944,7 +1944,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_53">
+  <widget class="QLabel" name="ls16">
    <property name="geometry">
     <rect>
      <x>856</x>
@@ -1976,7 +1976,7 @@ Gain</string>
     <string>dB</string>
    </property>
   </widget>
-  <widget class="OIDSlider" name="verticalSlider">
+  <widget class="OIDSlider" name="verticalSlider_1">
    <property name="geometry">
     <rect>
      <x>120</x>

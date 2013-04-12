@@ -50,7 +50,7 @@
     <string>5</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_35">
+  <widget class="OIDStatePushBtn" name="pushButton_35">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -94,7 +94,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_9">
+  <widget class="OIDStatePushBtn" name="pushButton_9">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -107,7 +107,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_26">
+  <widget class="OIDStatePushBtn" name="pushButton_26">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -133,7 +133,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
+  <widget class="OIDStatePushBtn" name="pushButton_5">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -146,7 +146,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_39">
+  <widget class="OIDStatePushBtn" name="pushButton_39">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -159,7 +159,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_22">
+  <widget class="OIDStatePushBtn" name="pushButton_22">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -234,7 +234,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_43">
+  <widget class="OIDStatePushBtn" name="pushButton_43">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -247,7 +247,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_34">
+  <widget class="OIDStatePushBtn" name="pushButton_34">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -260,7 +260,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_17">
+  <widget class="OIDStatePushBtn" name="pushButton_17">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -299,7 +299,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
+  <widget class="OIDStatePushBtn" name="pushButton_13">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -312,7 +312,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_47">
+  <widget class="OIDStatePushBtn" name="pushButton_47">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -325,7 +325,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_30">
+  <widget class="OIDStatePushBtn" name="pushButton_30">
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -338,7 +338,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="OIDStatePushBtn" name="pushButton_4">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -400,7 +400,7 @@
     <string>7</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="OIDStatePushBtn" name="pushButton_8">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -413,7 +413,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_42">
+  <widget class="OIDStatePushBtn" name="pushButton_42">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -426,7 +426,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_25">
+  <widget class="OIDStatePushBtn" name="pushButton_25">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -483,7 +483,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_21">
+  <widget class="OIDStatePushBtn" name="pushButton_21">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -496,7 +496,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_38">
+  <widget class="OIDStatePushBtn" name="pushButton_38">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -522,7 +522,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_12">
+  <widget class="OIDStatePushBtn" name="pushButton_12">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -597,7 +597,7 @@
     <string>3</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_16">
+  <widget class="OIDStatePushBtn" name="pushButton_16">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -610,7 +610,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_33">
+  <widget class="OIDStatePushBtn" name="pushButton_33">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -636,7 +636,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_29">
+  <widget class="OIDStatePushBtn" name="pushButton_29">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -649,7 +649,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_46">
+  <widget class="OIDStatePushBtn" name="pushButton_46">
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -662,7 +662,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="OIDStatePushBtn" name="pushButton_3">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -675,7 +675,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_20">
+  <widget class="OIDStatePushBtn" name="pushButton_20">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -732,7 +732,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_24">
+  <widget class="OIDStatePushBtn" name="pushButton_24">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -745,7 +745,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="OIDStatePushBtn" name="pushButton_7">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -758,7 +758,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_41">
+  <widget class="OIDStatePushBtn" name="pushButton_41">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -802,7 +802,7 @@
     <string>8</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_37">
+  <widget class="OIDStatePushBtn" name="pushButton_37">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -815,7 +815,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_11">
+  <widget class="OIDStatePushBtn" name="pushButton_11">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -828,7 +828,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_28">
+  <widget class="OIDStatePushBtn" name="pushButton_28">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -841,7 +841,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="OIDStatePushBtn" name="pushButton_2">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -867,7 +867,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="OIDStatePushBtn" name="pushButton_1">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -880,7 +880,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_32">
+  <widget class="OIDStatePushBtn" name="pushButton_32">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -893,7 +893,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_15">
+  <widget class="OIDStatePushBtn" name="pushButton_15">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -986,7 +986,7 @@
     <string>1</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_45">
+  <widget class="OIDStatePushBtn" name="pushButton_45">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -999,7 +999,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_19">
+  <widget class="OIDStatePushBtn" name="pushButton_19">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -1030,7 +1030,7 @@
     <string>12</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_36">
+  <widget class="OIDStatePushBtn" name="pushButton_36">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1043,7 +1043,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_10">
+  <widget class="OIDStatePushBtn" name="pushButton_10">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -1087,7 +1087,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="OIDStatePushBtn" name="pushButton_6">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -1100,7 +1100,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_40">
+  <widget class="OIDStatePushBtn" name="pushButton_40">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -1113,7 +1113,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_23">
+  <widget class="OIDStatePushBtn" name="pushButton_23">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -1139,7 +1139,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_44">
+  <widget class="OIDStatePushBtn" name="pushButton_44">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -1152,7 +1152,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_27">
+  <widget class="OIDStatePushBtn" name="pushButton_27">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -1165,7 +1165,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_18">
+  <widget class="OIDStatePushBtn" name="pushButton_18">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -1196,7 +1196,7 @@
     <string>16</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_31">
+  <widget class="OIDStatePushBtn" name="pushButton_31">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -1209,7 +1209,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_14">
+  <widget class="OIDStatePushBtn" name="pushButton_14">
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -1222,7 +1222,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_48">
+  <widget class="OIDStatePushBtn" name="pushButton_48">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1292,7 +1292,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_49">
+  <widget class="OIDStatePushBtn" name="pushButton_49">
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -1305,7 +1305,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_50">
+  <widget class="OIDStatePushBtn" name="pushButton_50">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -1318,7 +1318,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_51">
+  <widget class="OIDStatePushBtn" name="pushButton_51">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -1331,7 +1331,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_52">
+  <widget class="OIDStatePushBtn" name="pushButton_52">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -1344,7 +1344,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_53">
+  <widget class="OIDStatePushBtn" name="pushButton_53">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -1357,7 +1357,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_54">
+  <widget class="OIDStatePushBtn" name="pushButton_54">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -1370,7 +1370,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_55">
+  <widget class="OIDStatePushBtn" name="pushButton_55">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -1383,7 +1383,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_56">
+  <widget class="OIDStatePushBtn" name="pushButton_56">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -1396,7 +1396,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_57">
+  <widget class="OIDStatePushBtn" name="pushButton_57">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -1409,7 +1409,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_58">
+  <widget class="OIDStatePushBtn" name="pushButton_58">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1422,7 +1422,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_59">
+  <widget class="OIDStatePushBtn" name="pushButton_59">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -1435,7 +1435,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_60">
+  <widget class="OIDStatePushBtn" name="pushButton_60">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -1448,7 +1448,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_61">
+  <widget class="OIDStatePushBtn" name="pushButton_61">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -1461,7 +1461,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_62">
+  <widget class="OIDStatePushBtn" name="pushButton_62">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -1474,7 +1474,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_63">
+  <widget class="OIDStatePushBtn" name="pushButton_63">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -1487,7 +1487,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_64">
+  <widget class="OIDStatePushBtn" name="pushButton_64">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1500,7 +1500,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_65">
+  <widget class="OIDStatePushBtn" name="pushButton_65">
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -1513,7 +1513,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_66">
+  <widget class="OIDStatePushBtn" name="pushButton_66">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -1526,7 +1526,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_67">
+  <widget class="OIDStatePushBtn" name="pushButton_67">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -1539,7 +1539,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_68">
+  <widget class="OIDStatePushBtn" name="pushButton_68">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -1552,7 +1552,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_69">
+  <widget class="OIDStatePushBtn" name="pushButton_69">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -1565,7 +1565,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_70">
+  <widget class="OIDStatePushBtn" name="pushButton_70">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -1578,7 +1578,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_71">
+  <widget class="OIDStatePushBtn" name="pushButton_71">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -1591,7 +1591,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_72">
+  <widget class="OIDStatePushBtn" name="pushButton_72">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -1604,7 +1604,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_73">
+  <widget class="OIDStatePushBtn" name="pushButton_73">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -1617,7 +1617,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_74">
+  <widget class="OIDStatePushBtn" name="pushButton_74">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1630,7 +1630,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_75">
+  <widget class="OIDStatePushBtn" name="pushButton_75">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -1643,7 +1643,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_76">
+  <widget class="OIDStatePushBtn" name="pushButton_76">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -1656,7 +1656,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_77">
+  <widget class="OIDStatePushBtn" name="pushButton_77">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -1669,7 +1669,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_78">
+  <widget class="OIDStatePushBtn" name="pushButton_78">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -1682,7 +1682,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_79">
+  <widget class="OIDStatePushBtn" name="pushButton_79">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -1695,7 +1695,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_80">
+  <widget class="OIDStatePushBtn" name="pushButton_80">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1708,7 +1708,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_81">
+  <widget class="OIDStatePushBtn" name="pushButton_81">
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -1721,7 +1721,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_82">
+  <widget class="OIDStatePushBtn" name="pushButton_82">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -1734,7 +1734,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_83">
+  <widget class="OIDStatePushBtn" name="pushButton_83">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -1747,7 +1747,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_84">
+  <widget class="OIDStatePushBtn" name="pushButton_84">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -1760,7 +1760,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_85">
+  <widget class="OIDStatePushBtn" name="pushButton_85">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -1773,7 +1773,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_86">
+  <widget class="OIDStatePushBtn" name="pushButton_86">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -1786,7 +1786,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_87">
+  <widget class="OIDStatePushBtn" name="pushButton_87">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -1799,7 +1799,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_88">
+  <widget class="OIDStatePushBtn" name="pushButton_88">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -1812,7 +1812,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_89">
+  <widget class="OIDStatePushBtn" name="pushButton_89">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -1825,7 +1825,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_90">
+  <widget class="OIDStatePushBtn" name="pushButton_90">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1838,7 +1838,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_91">
+  <widget class="OIDStatePushBtn" name="pushButton_91">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -1851,7 +1851,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_92">
+  <widget class="OIDStatePushBtn" name="pushButton_92">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -1864,7 +1864,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_93">
+  <widget class="OIDStatePushBtn" name="pushButton_93">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -1877,7 +1877,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_94">
+  <widget class="OIDStatePushBtn" name="pushButton_94">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -1890,7 +1890,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_95">
+  <widget class="OIDStatePushBtn" name="pushButton_95">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -1903,7 +1903,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_96">
+  <widget class="OIDStatePushBtn" name="pushButton_96">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -2019,7 +2019,7 @@
     <string>Out 6</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_97">
+  <widget class="OIDStatePushBtn" name="pushButton_99">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -2032,7 +2032,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_98">
+  <widget class="OIDStatePushBtn" name="pushButton_103">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -2045,7 +2045,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_99">
+  <widget class="OIDStatePushBtn" name="pushButton_107">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -2058,7 +2058,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_100">
+  <widget class="OIDStatePushBtn" name="pushButton_105">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -2071,7 +2071,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_101">
+  <widget class="OIDStatePushBtn" name="pushButton_101">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -2084,7 +2084,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_102">
+  <widget class="OIDStatePushBtn" name="pushButton_106">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -2097,7 +2097,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_103">
+  <widget class="OIDStatePushBtn" name="pushButton_104">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -2110,7 +2110,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_104">
+  <widget class="OIDStatePushBtn" name="pushButton_97">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -2123,7 +2123,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_105">
+  <widget class="OIDStatePushBtn" name="pushButton_108">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -2136,7 +2136,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_106">
+  <widget class="OIDStatePushBtn" name="pushButton_100">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -2149,7 +2149,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_107">
+  <widget class="OIDStatePushBtn" name="pushButton_98">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -2162,7 +2162,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_108">
+  <widget class="OIDStatePushBtn" name="pushButton_102">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -2256,6 +2256,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OIDStatePushBtn</class>
+   <extends>QPushButton</extends>
+   <header location="global">oidpushbtn.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -89,7 +89,7 @@ bool PswInputDlg::getNewPsw( Ac1608Address* aa){
 	changeBtn->setEnabled(true);
 	this->exec();
 
-	return !isChangeMode_ ;
+	return !isPasswordChanging_;
 }
 
 bool PswInputDlg::changePsw( Ac1608Address* aa){
@@ -270,6 +270,7 @@ void PswInputDlg::changeClick(){
 void PswInputDlg::cancelClick(){
 	if (isPasswordChanging_ || isLoading_) return;
 	isPasswordChanging_ = true;
+	pswCount_= 4;
 	this->hide();
 }
 

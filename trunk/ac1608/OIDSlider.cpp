@@ -12,8 +12,8 @@ OIDSlider::OIDSlider( QWidget* w):
     ,val_(0)
 	,ql_(0){
         connect( this, SIGNAL(valueChanged(int )), this, SLOT(fireSnmp(int )));
-        startTimer(500);
         installEventFilter(this);
+
         setToolTip( objectName());
         this->setStyleSheet(
                 "QSlider { "

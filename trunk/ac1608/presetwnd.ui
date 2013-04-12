@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1061</width>
-    <height>839</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Preset</string>
@@ -26,7 +32,7 @@
     <string>Preset Boot</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton">
+  <widget class="QRadioButton" name="rb0">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -39,7 +45,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="pbSave0">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -52,7 +58,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="pbOpen0">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -65,7 +71,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="pbUpload0">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -78,7 +84,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="pbDownload0">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -91,7 +97,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_9">
+  <widget class="QPushButton" name="pbOpen1">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -117,7 +123,7 @@
     <string>Preset 1</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_10">
+  <widget class="QPushButton" name="pbDownload1">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -130,7 +136,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_3">
+  <widget class="QRadioButton" name="rb1">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -143,7 +149,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_11">
+  <widget class="QPushButton" name="pbSave1">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -156,7 +162,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_12">
+  <widget class="QPushButton" name="pbUpload1">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -169,7 +175,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
+  <widget class="QPushButton" name="pbOpen2">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -195,7 +201,7 @@
     <string>Preset 2</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_14">
+  <widget class="QPushButton" name="pbDownload2">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -208,7 +214,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_4">
+  <widget class="QRadioButton" name="rb2">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -221,7 +227,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_15">
+  <widget class="QPushButton" name="pbSave2">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -234,7 +240,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_16">
+  <widget class="QPushButton" name="pbUpload2">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -273,7 +279,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_5">
+  <widget class="QRadioButton" name="rb5">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -286,7 +292,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_17">
+  <widget class="QPushButton" name="pbDownload4">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -299,7 +305,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_18">
+  <widget class="QPushButton" name="pbUpload3">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -312,7 +318,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_6">
+  <widget class="QRadioButton" name="rb3">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -325,7 +331,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_19">
+  <widget class="QPushButton" name="pbSave3">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -338,7 +344,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_20">
+  <widget class="QPushButton" name="pbOpen3">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -351,7 +357,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_21">
+  <widget class="QPushButton" name="pbDownload5">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -377,7 +383,7 @@
     <string>Preset 5</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_22">
+  <widget class="QPushButton" name="pbSave5">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -403,7 +409,7 @@
     <string>Preset 4</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_23">
+  <widget class="QPushButton" name="pbOpen4">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -429,7 +435,7 @@
     <string>Preset 3</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_24">
+  <widget class="QPushButton" name="pbSave4">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -442,7 +448,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_25">
+  <widget class="QPushButton" name="pbUpload5">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -455,7 +461,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_26">
+  <widget class="QPushButton" name="pbDownload3">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -494,7 +500,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_7">
+  <widget class="QRadioButton" name="rb4">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -507,7 +513,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_27">
+  <widget class="QPushButton" name="pbUpload4">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -520,7 +526,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_28">
+  <widget class="QPushButton" name="pbOpen5">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -546,7 +552,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_29">
+  <widget class="QPushButton" name="pbSave6">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -559,7 +565,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_30">
+  <widget class="QPushButton" name="pbDownload6">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -572,7 +578,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_31">
+  <widget class="QPushButton" name="pbSave7">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -598,7 +604,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_8">
+  <widget class="QRadioButton" name="rb6">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -637,7 +643,7 @@
     <string>Preset 7</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_32">
+  <widget class="QPushButton" name="pbOpen7">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -650,7 +656,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_33">
+  <widget class="QPushButton" name="pbOpen6">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -663,7 +669,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_34">
+  <widget class="QPushButton" name="pbDownload7">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -676,7 +682,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_9">
+  <widget class="QRadioButton" name="rb7">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -689,7 +695,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_35">
+  <widget class="QPushButton" name="pbUpload6">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -702,7 +708,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_36">
+  <widget class="QPushButton" name="pbUpload7">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -728,7 +734,7 @@
     <string>Preset 6</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_37">
+  <widget class="QPushButton" name="pbSave8">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -741,7 +747,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_38">
+  <widget class="QPushButton" name="pbDownload8">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -767,7 +773,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_10">
+  <widget class="QRadioButton" name="rb8">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -793,7 +799,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_41">
+  <widget class="QPushButton" name="pbOpen8">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -806,7 +812,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_43">
+  <widget class="QPushButton" name="pbUpload8">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -832,7 +838,7 @@
     <string>Preset 8</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_45">
+  <widget class="QPushButton" name="pbSave10">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -845,7 +851,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_46">
+  <widget class="QPushButton" name="pbDownload10">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -858,7 +864,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_47">
+  <widget class="QPushButton" name="pbSave11">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -884,7 +890,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_12">
+  <widget class="QRadioButton" name="rb10">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -910,7 +916,7 @@
     <string>Preset 11</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_48">
+  <widget class="QPushButton" name="pbOpen11">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -923,7 +929,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_49">
+  <widget class="QPushButton" name="pbOpen10">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -936,7 +942,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_50">
+  <widget class="QPushButton" name="pbDownload11">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -949,7 +955,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_13">
+  <widget class="QRadioButton" name="rb11">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -962,7 +968,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_51">
+  <widget class="QPushButton" name="pbUpload10">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -975,7 +981,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_52">
+  <widget class="QPushButton" name="pbUpload11">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1001,7 +1007,7 @@
     <string>Preset 10</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_53">
+  <widget class="QPushButton" name="pbSave12">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1014,7 +1020,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_54">
+  <widget class="QPushButton" name="pbDownload12">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1027,7 +1033,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_55">
+  <widget class="QPushButton" name="pbSave13">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1053,7 +1059,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_14">
+  <widget class="QRadioButton" name="rb12">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1092,7 +1098,7 @@
     <string>Preset 13</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_56">
+  <widget class="QPushButton" name="pbOpen13">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1105,7 +1111,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_57">
+  <widget class="QPushButton" name="pbOpen12">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1118,7 +1124,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_58">
+  <widget class="QPushButton" name="pbDownload13">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1131,7 +1137,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_15">
+  <widget class="QRadioButton" name="rb13">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1144,7 +1150,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_59">
+  <widget class="QPushButton" name="pbUpload12">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1157,7 +1163,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_60">
+  <widget class="QPushButton" name="pbUpload13">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1183,7 +1189,7 @@
     <string>Preset 12</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_61">
+  <widget class="QPushButton" name="pbSave14">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1196,7 +1202,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_62">
+  <widget class="QPushButton" name="pbDownload14">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1209,7 +1215,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_63">
+  <widget class="QPushButton" name="pbSave15">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1235,7 +1241,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_16">
+  <widget class="QRadioButton" name="rb14">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1274,7 +1280,7 @@
     <string>Preset 15</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_64">
+  <widget class="QPushButton" name="pbOpen15">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1287,7 +1293,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_65">
+  <widget class="QPushButton" name="pbOpen14">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1300,7 +1306,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_66">
+  <widget class="QPushButton" name="pbDownload15">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1313,7 +1319,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_17">
+  <widget class="QRadioButton" name="rb15">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1326,7 +1332,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_67">
+  <widget class="QPushButton" name="pbUpload14">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1339,7 +1345,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_68">
+  <widget class="QPushButton" name="pbUpload15">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1365,7 +1371,7 @@
     <string>Preset 14</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_69">
+  <widget class="QPushButton" name="pbSave16">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1378,7 +1384,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_70">
+  <widget class="QPushButton" name="pbDownload16">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1391,7 +1397,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_71">
+  <widget class="QPushButton" name="pbSave17">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1417,7 +1423,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_18">
+  <widget class="QRadioButton" name="rb16">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1456,7 +1462,7 @@
     <string>Preset 17</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_72">
+  <widget class="QPushButton" name="pbOpen17">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1469,7 +1475,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_73">
+  <widget class="QPushButton" name="pbOpen16">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1482,7 +1488,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_74">
+  <widget class="QPushButton" name="pbDownload17">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1495,7 +1501,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_19">
+  <widget class="QRadioButton" name="rb17">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1508,7 +1514,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_75">
+  <widget class="QPushButton" name="pbUpload16">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1521,7 +1527,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_76">
+  <widget class="QPushButton" name="pbUpload17">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1547,7 +1553,7 @@
     <string>Preset 16</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_77">
+  <widget class="QPushButton" name="pbSave18">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1560,7 +1566,7 @@
     <string>save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_78">
+  <widget class="QPushButton" name="pbDownload18">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1573,7 +1579,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_20">
+  <widget class="QRadioButton" name="rb18">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1599,7 +1605,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_81">
+  <widget class="QPushButton" name="pbOpen18">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1612,7 +1618,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_83">
+  <widget class="QPushButton" name="pbUpload18">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1638,7 +1644,7 @@
     <string>Preset 18</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_39">
+  <widget class="QPushButton" name="pbSave9">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -1664,7 +1670,7 @@
     <string>Preset 9</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_42">
+  <widget class="QPushButton" name="pbDownload9">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -1677,7 +1683,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_40">
+  <widget class="QPushButton" name="pbOpen9">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -1690,7 +1696,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_44">
+  <widget class="QPushButton" name="pbUpload9">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -1703,7 +1709,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_11">
+  <widget class="QRadioButton" name="rb9">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -1729,7 +1735,7 @@
     <string>Preset 19</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_79">
+  <widget class="QPushButton" name="pbDownload19">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -1742,7 +1748,7 @@
     <string>download</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_82">
+  <widget class="QPushButton" name="pbOpen19">
    <property name="geometry">
     <rect>
      <x>760</x>
@@ -1755,7 +1761,7 @@
     <string>open</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_84">
+  <widget class="QPushButton" name="pbUpload19">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -1768,7 +1774,7 @@
     <string>upload</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_21">
+  <widget class="QRadioButton" name="rb19">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1781,7 +1787,7 @@
     <string>off</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_80">
+  <widget class="QPushButton" name="pbSave19">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -1805,6 +1811,32 @@
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbSAs">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>580</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>save as</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbOFrom">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>580</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>open from</string>
    </property>
   </widget>
  </widget>

@@ -18,11 +18,14 @@ HomePage::HomePage(QTabWidget *parent):
 	qsl_ = findChildren<OIDSlider*>( );
 	for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
 		OIDSlider* qs = *it;
-		qs->setToolTip( qs->objectName());
 		QString name = qs->objectName();
+		qs->setObjectName( "homepage_"+qs->objectName());
+		qs->setToolTip(qs->objectName());
+
 		name.replace( "verticalSlider", "ls");
 		QLabel* ql = findChild<QLabel*>(name);
 		qs->setLabel(ql);
+		
 	}
 
 	qpbtnl_ = findChildren<OIDStatePushBtn*>( );
@@ -39,6 +42,8 @@ HomePage::HomePage(QTabWidget *parent):
 			}else{
 				qs->setOnOffStateImage( 1, 0, XpushBtn, XpushBtnOff);
 			}
+			qs->setObjectName( "homepage_"+qs->objectName());
+			qs->setToolTip(qs->objectName());
 		}
 	}
 
@@ -54,11 +59,12 @@ HomePage::HomePage(QTabWidget *parent):
 		QWidget* qw = *it;
 		new QVBoxLayout( qw );
 		Qt::Orientation o = Qt::Vertical;
-		OIDProgressBar* qpb = new OIDProgressBar( o, "Used", qw, 0 );
+		OIDProgressBar* qpb = new OIDProgressBar( o, qw, 0 );
 		qw->layout()->addWidget(qpb );
 		qw->layout()->setMargin( 0 );
         qw->layout()->setSpacing( 0 );
-		qpb->setToolTip( qpb->objectName());
+		qpb->setObjectName( "homepage_"+qw->objectName());
+		qpb->setToolTip( "homepage_"+qw->objectName());
 		qpb->setValue(0);
 		qpbarl_.push_back(qpb);
 	}
@@ -73,7 +79,10 @@ HomePage::~HomePage()
 
 void HomePage::indexChanged(int index){
 	QWidget* maybeThis = tab_->widget( index);
-	if (maybeThis == this){
+	if ( maybeThis->objectName() == "SnmpNetWnd") {
+		return;
+	}
+	if (maybeThis == this ){
 		for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
 			(*it)->initSnmp();
 		}
