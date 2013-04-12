@@ -22,6 +22,7 @@ public:
 	OIDDial( QWidget* w);
 
 	void initSnmp();
+	void shutdownSnmp();
 
 };
 #endif // OIDDial_H

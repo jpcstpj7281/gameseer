@@ -58,7 +58,7 @@ public:
 	void onlineRefreshed();
 	void offlineRefreshed();
 	void checkingRefreshed();
-	inline const QString & getIP(){ return ip_->text();}
+	inline const QString getIP(){ return ip_->text();}
 
 	void timerEvent(size_t t);
 };

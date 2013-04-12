@@ -7,11 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-
 	SnmpNet::instance();
-
-
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
@@ -19,8 +15,6 @@ int main(int argc, char *argv[])
 	SnmpNet::instance()->startThread();
     auto rs = a.exec();
 	SnmpNet::instance()->stop();
-	delete ConfigMgr::instance();
-	delete SnmpNet::instance();
 	return rs;
 
 }

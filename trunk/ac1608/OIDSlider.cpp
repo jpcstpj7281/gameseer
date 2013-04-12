@@ -62,6 +62,9 @@ void OIDSlider::initSnmp(){
 	
 }
 void OIDSlider::shutdownSnmp(){
+	QString oid = ConfigMgr::instance()->getOid( objectName());
+	if (!oid.isEmpty())
+		SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
 }
 
 void OIDSlider::setLabel(QLabel *ql){
@@ -99,9 +102,6 @@ bool OIDSlider::eventFilter ( QObject * watched, QEvent * event ){
     return false;
 }
 
-void	OIDSlider::timerEvent ( QTimerEvent * e ){
-
-}
 
 void OIDSlider::fireSnmp(int val ){
     if ( !ConfigMgr::instance()->isOidEditable() ) {

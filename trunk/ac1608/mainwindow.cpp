@@ -45,34 +45,31 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-	modules_.push_back( new DevicesWnd);
-	modules_.push_back(new HomePage);
-	modules_.push_back(new InputGainCtrlWnd);
-	modules_.push_back(new GateNOMWnd);
-	modules_.push_back(new HighPassWnd);
-	modules_.push_back(new PEQWnd);
-	modules_.push_back(new MatrixMixerWnd);
-	modules_.push_back(new NOMWnd);
-	modules_.push_back(new PresetWnd);
-	modules_.push_back(new CobraNetWnd);
-	modules_.push_back(new SnmpNetWnd);
+	_tab = findChild<QTabWidget*>( "tabWidget");
+
+	modules_.push_back( new DevicesWnd(_tab));
+	modules_.push_back(new HomePage(_tab));
+	modules_.push_back(new InputGainCtrlWnd(_tab));
+	modules_.push_back(new GateNOMWnd(_tab));
+	modules_.push_back(new HighPassWnd(_tab));
+	modules_.push_back(new PEQWnd(_tab));
+	modules_.push_back(new MatrixMixerWnd(_tab));
+	modules_.push_back(new NOMWnd(_tab));
+	modules_.push_back(new PresetWnd(_tab));
+	modules_.push_back(new CobraNetWnd(_tab));
+	modules_.push_back(new SnmpNetWnd(_tab));
 
 	_tab = findChild<QTabWidget*>( "tabWidget");
 
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		_tab->addTab(*it, (*it)->windowTitle() );
 	}
-	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
+
     connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
 	connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionEdit_clicked(QAction*)));
 }
 
 
-void MainWindow::tabChanged (int index){
-	//QWidget* currWidget = _tab->widget( index);
-	//if ( currWidget == deviceswnd_){
-	//}
-}
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -86,7 +83,7 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent * ){
     QCoreApplication::exit();
 }
-void MainWindow::resizeEvent(QResizeEvent * event){
+void MainWindow::resizeEvent(QResizeEvent * ){
 
 	_tab->setGeometry( 0, 0, this->width()+2, this->height()-40);
 

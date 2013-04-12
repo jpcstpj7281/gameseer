@@ -253,7 +253,7 @@ void DevicesWnd::newAddress( const QString  ip , const QString loc  ){
 }
 
 
-void DevicesWnd::timerEvent ( QTimerEvent * event ){
+void DevicesWnd::timerEvent ( QTimerEvent * ){
     size_t t = GetTickCount();
 	for (size_t  it = 0; it != tableDevices_->rowCount(); ++it){
 		Ac1608Address * aa = (Ac1608Address*) tableDevices_->cellWidget( it, 4);
@@ -270,7 +270,6 @@ void DevicesWnd::connectImpl( Ac1608Address* aa){
 		aa->ip_->setEnabled(false);
         SnmpNet::instance()->switchAsyncSnmpAddress( aa->ip_->text().toStdString() );
 
-        QTableWidgetItem  * conn;
         if ( currConnAddress_ != 0){
 			currConnAddress_->setText( "Connect");
 			currConnAddress_->status_->setBackground(QBrush(QColor(Qt::green))); 
