@@ -12,7 +12,7 @@ QT  += core gui xml
     QT += declarative
 #}
 
-QMAKE_CXXFLAGS += -std=gnu++0x  #Qt4
+
 CONFIG += c++11					#Qt5
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -34,6 +34,7 @@ OIDDial.cpp\
 cobranetwnd.cpp \
 snmpnetwnd.cpp \
 snmpnet.cpp \
+ACPlot.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
     pswinputdlg.cpp \
@@ -54,6 +55,7 @@ oidpushbtn.h \
 oidslider.h \
 cobranetwnd.h \
 OIDDial.h\
+ACPlot.h\
     configmgr.h \
 	mainwindow.h \
     presetwnd.h \
@@ -71,24 +73,25 @@ nomwnd.ui \
 oidinputdlg.ui \
 cobranetwnd.ui \
 snmpnetwnd.ui \
-    presetwnd.ui \
-    pswinputdlg.ui \
-    inputgainctrlwnd.ui \
-    highpasswnd.ui \
-    gatenomwnd.ui \
-    deviceswnd.ui \
-    matrixmixerwnd.ui
+presetwnd.ui \
+pswinputdlg.ui \
+inputgainctrlwnd.ui \
+highpasswnd.ui \
+gatenomwnd.ui \
+deviceswnd.ui \
+matrixmixerwnd.ui
 
 
 LIBS += -lws2_32
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp -lAdvapi32
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd -lAdvapi32
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp -lAdvapi32 -lqwt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd -lAdvapi32 -lqwtd
 else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
 
-
+DEFINES += QWT_DLL
 
 INCLUDEPATH += $$PWD/inc
+INCLUDEPATH += $$PWD/inc/qwt
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD/inc
 

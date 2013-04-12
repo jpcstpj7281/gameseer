@@ -6,17 +6,19 @@
 using namespace std::tr1::placeholders;
 
 OIDProgressBar::OIDProgressBar( QWidget* w):
-	QProgressBar(w)
+	QWidget(w)
 	,val_(0)
 	,ql_(0)
 {
 }
 void OIDProgressBar::initSnmp(){
 	isRunning_ = true;
-	QString oid = ConfigMgr::instance()->getOid(objectName());
+	QString objname = parent()->objectName();
+	//qDebug()<< objname;
+	QString oid = ConfigMgr::instance()->getOid(objname);
 	if ( ! oid.isEmpty()){
 		SnmpNet::instance()->addAsyncGet(
-			objectName().toStdString(), 
+			parent()->objectName().toStdString(), 
 			oid.toStdString(), 
 			"public", 
 			std::bind<SnmpCallbackFunc>( &OIDProgressBar::snmpCallback, this, _1) 
@@ -33,19 +35,16 @@ void OIDProgressBar::snmpCallback( SnmpObj* so){
 		ql_->setText( QString::number( value()));
 	}
 }
-void OIDProgressBar::setLabel(QLabel *ql){
-	ql_ = ql;
-}
 void OIDProgressBar::mouseReleaseEvent ( QMouseEvent * event ){
 	if ( ConfigMgr::instance()->isOidEditable() ) {
-		QString oldoid = ConfigMgr::instance()->getOid( objectName());
-		QString oid = OIDInputDlg::getNewOid( this->objectName() );
+		QString oldoid = ConfigMgr::instance()->getOid( parent()->objectName());
+		QString oid = OIDInputDlg::getNewOid( parent()->objectName() );
 		if (!oid.isEmpty() && oid != oldoid){
 			if ( !oldoid.isEmpty()){
-				SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oldoid.toStdString() , std::string("public"));
+				SnmpNet::instance()->removeAsyncGet( parent()->objectName().toStdString(), oldoid.toStdString() , std::string("public"));
 			}
 			SnmpNet::instance()->addAsyncGet(
-				objectName().toStdString(), oid.toStdString(),
+				parent()->objectName().toStdString(), oid.toStdString(),
 				"public", std::bind<SnmpCallbackFunc>( &OIDProgressBar::snmpCallback, this, _1) );
 		}
 	}

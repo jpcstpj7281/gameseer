@@ -63,7 +63,6 @@ Ac1608Address::Ac1608Address( DevicesWnd* parent, const QString & ip, const QStr
 	
 }
 Ac1608Address::~Ac1608Address(){
-	qDebug()<<"~Ac1608Address";
 }
 
 void Ac1608Address::connectClicked(){
@@ -95,7 +94,6 @@ bool Ac1608Address::isExisted( const QString& ip){
 }
 
 void Ac1608Address::editingAddressFinished (){
-	//qDebug()<<"editingAddressFinished";
 	if (checkingIP_ == this->ip_->text()) return; //已经在读
 	if (this->ip_->text().isEmpty() && this != wnd_->lastLineAddress_){ //要删除这行了
 		if (  !checkingIP_.isEmpty()){

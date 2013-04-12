@@ -19,11 +19,11 @@
   <property name="windowTitle">
    <string>PEQ</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="Band4PEQ">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
+     <x>50</x>
+     <y>40</y>
      <width>221</width>
      <height>291</height>
     </rect>
@@ -151,12 +151,26 @@
      </rect>
     </property>
    </widget>
+   <zorder>dial_3</zorder>
+   <zorder>dial</zorder>
+   <zorder>dial_2</zorder>
+   <zorder>dial_4</zorder>
+   <zorder>dial_12</zorder>
+   <zorder>dial_10</zorder>
+   <zorder>dial_11</zorder>
+   <zorder>dial_9</zorder>
+   <zorder>dial_13</zorder>
+   <zorder>dial_14</zorder>
+   <zorder>dial_15</zorder>
+   <zorder>dial_16</zorder>
+   <zorder>Band5PEQ</zorder>
+   <zorder>Band5PEQ</zorder>
   </widget>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QGroupBox" name="Band5PEQ">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>20</y>
+     <x>20</x>
+     <y>50</y>
      <width>271</width>
      <height>291</height>
     </rect>
@@ -691,6 +705,16 @@
      <string>Reset</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QWidget" name="PEQGraph" native="true">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>30</y>
+     <width>680</width>
+     <height>330</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>
