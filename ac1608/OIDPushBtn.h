@@ -25,6 +25,7 @@ class OIDStatePushBtn : public QPushButton{
 	//volatile bool isRunning_;
 
 	bool isImageSetup_;
+	void refreshStatus();
 public:
 	OIDStatePushBtn( QWidget* w);
 

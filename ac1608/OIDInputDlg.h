@@ -10,6 +10,8 @@ namespace Ui {
 class OIDInputDlg;
 }
 
+class QLineEdit;
+
 class OIDInputDlg : public QDialog
 {
     Q_OBJECT
@@ -32,6 +34,7 @@ private:
 	QString id_, oldOid_, defaultOid_;
 	static OIDInputDlg * inst;
     Ui::OIDInputDlg *ui;
+	QLineEdit * input_;
 };
 
 #endif // OIDINPUTDLG_H

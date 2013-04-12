@@ -23,9 +23,9 @@ OIDInputDlg::OIDInputDlg(QWidget *parent):
 
 	QRegExp ipRx("(\\.([0-9]{4}|[0-9]{3}|[0-9]{2}|[0-9]{1})){32}");
 	QRegExpValidator *pIpValidator = new QRegExpValidator(ipRx);
-	QLineEdit * le = findChild<QLineEdit*>( "oidInput");
-	le->setValidator(pIpValidator);
-	le->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
+	input_ = findChild<QLineEdit*>( "oidInput");
+	input_->setValidator(pIpValidator);
+	input_->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
 
 	QPushButton * okBtn = findChild<QPushButton*>( "okBtn");
 	QPushButton * defaultBtn = findChild<QPushButton*>( "defaultBtn");
@@ -45,11 +45,14 @@ QString OIDInputDlg::getNewOid( QString& id){
 	OIDInputDlg::instance()->id_ = id;
 	OIDInputDlg::instance()->oldOid_ = ConfigMgr::instance()->getOid(id);
 	OIDInputDlg::instance()->defaultOid_ =  ConfigMgr::instance()->getDefaultOid(id);
-	QLineEdit * le = OIDInputDlg::instance()->findChild<QLineEdit*>( "oidInput");
-	le->setText(OIDInputDlg::instance()->oldOid_);
-	le->setFocus();
+	OIDInputDlg::instance()->input_->setText(OIDInputDlg::instance()->oldOid_);
+	OIDInputDlg::instance()->input_->setFocus();
 	OIDInputDlg::instance()->exec();
-	return le->text();
+	QString oid = OIDInputDlg::instance()->input_->text();
+	if (!oid.isEmpty() && OIDInputDlg::instance()->oldOid_ != oid){
+		ConfigMgr::instance()->setOid( id, oid);
+	}
+	return oid;
 }
 
 void OIDInputDlg::closeEvent ( QCloseEvent * event ){

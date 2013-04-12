@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 	SnmpNet::instance()->startThread();
     auto rs = a.exec();
 	SnmpNet::instance()->stop();
+	ConfigMgr::instance()->saveAll();
 	return rs;
 
 }

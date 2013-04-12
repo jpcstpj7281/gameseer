@@ -2,56 +2,51 @@
 #include "ui_nomwnd.h"
 
 #include <qprogressbar>
-#include <QSlider>
+
 #include <QList>
 #include <QDebug>
+#include "OIDSlider.h"
+#include <qtablewidget.h>
 
-NOMWnd::NOMWnd(QWidget *parent) :
+NOMWnd::NOMWnd(QTabWidget *parent) :
     QWidget(parent),
     ui(new Ui::NOMWnd)
+	,tab_(parent)
 {
     ui->setupUi(this);
 
-	QList<QSlider *> qsl = findChildren<QSlider*>( );
-	for ( QList<QSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
-		QSlider* qs = *it;
-		//qDebug()<<qs->objectName();
-		qs->setValue( 80);
-		qs->setStyleSheet(
-			"QSlider { "
-			"width: 50px; "
-			"height: 50px;"
-			"}"
-			"QSlider::groove:vertical {"
-			//"border: 1px solid #999999;"
-			"background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);"
-			"height: 170px;"
-			"width: 2px;"
-			"top: 0px; "
-			"bottom: 0px;"
-			"border: 1px solid grey;"
-			"border-radius: 5px;"
-			"margin: 0 0 0 0;}"
-			"QSlider::handle:vertical {"
-			"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:1 #b4b4b4, stop:0 #8f8f8f);"
-			"image:url(res/sliderBtn.png) 0 30 0 30;"
-			//"background:url(res/sliderBtn.png) 0 29 0 32;"
-			//"border: 0px solid #5c5c5c;"
-			//"width: 10px;"
-			//"height: 10px;"
-			"margin: -15px -15px -15px -15px;"
-			//"background:transparent"
-			"border-radius: 100px;"
-			"}"
-			//"QSlider::sub-page:vertical{ "
-			//" background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(27, 5, 27, 255), stop:0.25 rgba(99, 20, 102, 255), stop:0.5 rgba(154, 30, 158, 255), stop:1 rgba(173, 57, 176, 255)); "
-			//"}"
+	qsl_ = findChildren<OIDSlider*>( );
+	for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
+		OIDSlider* qs = *it;
+		QString name = qs->objectName();
+		qs->setObjectName( "nom_"+qs->objectName());
+		qs->setToolTip(qs->objectName());
 
-			);
+		name.replace( "verticalSlider_", "ls");
+		QLabel* ql = findChild<QLabel*>(name);
+		qs->setLabel(ql);
 	}
+
+	connect ( parent, SIGNAL(currentChanged ( int )), this, SLOT(indexChanged(int) ) );
 }
 
 NOMWnd::~NOMWnd()
 {
     delete ui;
+}
+
+void NOMWnd::indexChanged(int index){
+	QWidget* maybeThis = tab_->widget( index);
+	if ( maybeThis->objectName() == "SnmpNetWnd") {
+		return;
+	}
+	if (maybeThis == this ){
+		for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
+			(*it)->initSnmp();
+		}
+	}else{
+		for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
+			(*it)->shutdownSnmp();
+		}
+	}
 }

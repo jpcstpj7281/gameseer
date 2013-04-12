@@ -77,7 +77,7 @@ void SnmpNet::addAsyncGet(const std::string& obj,const std::string& snmpoid, con
 	addAsyncGetWithIP(obj, snmpoid, currAddress_, community,callback, interval);
 }
 void SnmpNet::addAsyncGetWithIP(const std::string& obj,const std::string& snmpoid, const std::string& ip, const std::string& community ,SnmpCallbackFunc callback){
-	addAsyncGetWithIP(obj, snmpoid, ip, community, callback, 1000);
+	addAsyncGetWithIP(obj, snmpoid, ip, community, callback, 500);
 }
 void SnmpNet::addAsyncGetWithIP(const std::string& obj,const std::string& snmpoid, const std::string& ip, const std::string& community ,SnmpCallbackFunc callback, size_t interval){
 	delayIfRemoving( obj, snmpoid, ip, community,  QVariant());

@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>70</y>
+     <y>10</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -181,7 +181,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial">
+   <widget class="OIDDial" name="dial_1">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -191,7 +191,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_2">
+   <widget class="OIDDial" name="dial_2">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -201,7 +201,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_3">
+   <widget class="OIDDial" name="dial_3">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -278,7 +278,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="ls1">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -299,7 +299,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="ls2">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -320,7 +320,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
+   <widget class="QLabel" name="ls3">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -359,7 +359,7 @@ Time</string>
      <string>Open</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="radioButton_1">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -372,12 +372,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass1">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>70</y>
+     <y>10</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -388,7 +404,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 2 Gate</string>
    </property>
    <widget class="QLabel" name="label_12">
     <property name="geometry">
@@ -541,7 +557,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_4">
+   <widget class="OIDDial" name="dial_4">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -551,7 +567,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_5">
+   <widget class="OIDDial" name="dial_5">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -561,7 +577,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_6">
+   <widget class="OIDDial" name="dial_6">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -638,7 +654,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_19">
+   <widget class="QLabel" name="ls4">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -659,7 +675,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_20">
+   <widget class="QLabel" name="ls5">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -680,7 +696,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_21">
+   <widget class="QLabel" name="ls6">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -732,12 +748,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass2">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>70</y>
+     <y>10</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -748,7 +780,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 3 Gate</string>
    </property>
    <widget class="QLabel" name="label_23">
     <property name="geometry">
@@ -901,7 +933,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_7">
+   <widget class="OIDDial" name="dial_7">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -911,7 +943,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_8">
+   <widget class="OIDDial" name="dial_8">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -921,7 +953,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_9">
+   <widget class="OIDDial" name="dial_9">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -998,7 +1030,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_30">
+   <widget class="QLabel" name="ls7">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -1019,7 +1051,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_31">
+   <widget class="QLabel" name="ls8">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -1040,7 +1072,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_32">
+   <widget class="QLabel" name="ls9">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -1092,12 +1124,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass3">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_4">
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>70</y>
+     <y>10</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -1108,7 +1156,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 4 Gate</string>
    </property>
    <widget class="QLabel" name="label_34">
     <property name="geometry">
@@ -1261,7 +1309,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_10">
+   <widget class="OIDDial" name="dial_10">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -1271,7 +1319,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_11">
+   <widget class="OIDDial" name="dial_11">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -1281,7 +1329,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_12">
+   <widget class="OIDDial" name="dial_12">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -1358,7 +1406,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_41">
+   <widget class="QLabel" name="ls10">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -1379,7 +1427,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_42">
+   <widget class="QLabel" name="ls11">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -1400,7 +1448,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_43">
+   <widget class="QLabel" name="ls12">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -1452,12 +1500,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass4">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_5">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>260</y>
+     <y>180</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -1468,7 +1532,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 5 Gate</string>
    </property>
    <widget class="QLabel" name="label_45">
     <property name="geometry">
@@ -1621,7 +1685,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_13">
+   <widget class="OIDDial" name="dial_13">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -1631,7 +1695,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_14">
+   <widget class="OIDDial" name="dial_14">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -1641,7 +1705,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_15">
+   <widget class="OIDDial" name="dial_15">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -1718,7 +1782,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_52">
+   <widget class="QLabel" name="ls13">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -1739,7 +1803,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_53">
+   <widget class="QLabel" name="ls14">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -1760,7 +1824,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_54">
+   <widget class="QLabel" name="ls15">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -1812,12 +1876,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass5">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>260</y>
+     <y>180</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -1828,7 +1908,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 6 Gate</string>
    </property>
    <widget class="QLabel" name="label_56">
     <property name="geometry">
@@ -1981,7 +2061,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_16">
+   <widget class="OIDDial" name="dial_16">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -1991,7 +2071,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_17">
+   <widget class="OIDDial" name="dial_17">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -2001,7 +2081,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_18">
+   <widget class="OIDDial" name="dial_18">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -2078,7 +2158,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_63">
+   <widget class="QLabel" name="ls16">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -2099,7 +2179,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_64">
+   <widget class="QLabel" name="ls17">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -2120,7 +2200,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_65">
+   <widget class="QLabel" name="ls18">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -2172,12 +2252,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass6">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_7">
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>260</y>
+     <y>180</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -2188,7 +2284,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 7 Gate</string>
    </property>
    <widget class="QLabel" name="label_67">
     <property name="geometry">
@@ -2341,7 +2437,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_19">
+   <widget class="OIDDial" name="dial_19">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -2351,7 +2447,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_20">
+   <widget class="OIDDial" name="dial_20">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -2361,7 +2457,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_21">
+   <widget class="OIDDial" name="dial_21">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -2438,7 +2534,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_74">
+   <widget class="QLabel" name="ls19">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -2459,7 +2555,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_75">
+   <widget class="QLabel" name="ls20">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -2480,7 +2576,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_76">
+   <widget class="QLabel" name="ls21">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -2532,12 +2628,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass7">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_8">
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>260</y>
+     <y>180</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -2548,7 +2660,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 8 Gate</string>
    </property>
    <widget class="QLabel" name="label_78">
     <property name="geometry">
@@ -2701,7 +2813,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_22">
+   <widget class="OIDDial" name="dial_22">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -2711,7 +2823,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_23">
+   <widget class="OIDDial" name="dial_23">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -2721,7 +2833,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_24">
+   <widget class="OIDDial" name="dial_24">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -2798,7 +2910,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_85">
+   <widget class="QLabel" name="ls22">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -2819,7 +2931,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_86">
+   <widget class="QLabel" name="ls23">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -2840,7 +2952,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_87">
+   <widget class="QLabel" name="ls24">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -2892,12 +3004,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass8">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_9">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>450</y>
+     <y>350</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -2908,7 +3036,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 9 Gate</string>
    </property>
    <widget class="QLabel" name="label_89">
     <property name="geometry">
@@ -3061,7 +3189,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_25">
+   <widget class="OIDDial" name="dial_25">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -3071,7 +3199,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_26">
+   <widget class="OIDDial" name="dial_26">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -3081,7 +3209,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_27">
+   <widget class="OIDDial" name="dial_27">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -3158,7 +3286,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_96">
+   <widget class="QLabel" name="ls25">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -3179,7 +3307,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_97">
+   <widget class="QLabel" name="ls26">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -3200,7 +3328,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_98">
+   <widget class="QLabel" name="ls27">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -3252,12 +3380,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass9">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_10">
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>450</y>
+     <y>350</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -3268,7 +3412,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 10 Gate</string>
    </property>
    <widget class="QLabel" name="label_100">
     <property name="geometry">
@@ -3421,7 +3565,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_28">
+   <widget class="OIDDial" name="dial_28">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -3431,7 +3575,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_29">
+   <widget class="OIDDial" name="dial_29">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -3441,7 +3585,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_30">
+   <widget class="OIDDial" name="dial_30">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -3518,7 +3662,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_107">
+   <widget class="QLabel" name="ls28">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -3539,7 +3683,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_108">
+   <widget class="QLabel" name="ls29">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -3560,7 +3704,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_109">
+   <widget class="QLabel" name="ls30">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -3612,12 +3756,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass10">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_11">
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>450</y>
+     <y>350</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -3628,7 +3788,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 11 Gate</string>
    </property>
    <widget class="QLabel" name="label_111">
     <property name="geometry">
@@ -3781,7 +3941,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_31">
+   <widget class="OIDDial" name="dial_31">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -3791,7 +3951,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_32">
+   <widget class="OIDDial" name="dial_32">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -3801,7 +3961,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_33">
+   <widget class="OIDDial" name="dial_33">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -3878,7 +4038,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_118">
+   <widget class="QLabel" name="ls31">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -3899,7 +4059,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_119">
+   <widget class="QLabel" name="ls32">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -3920,7 +4080,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_120">
+   <widget class="QLabel" name="ls33">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -3972,12 +4132,28 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass11">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_12">
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>450</y>
+     <y>350</y>
      <width>191</width>
      <height>161</height>
     </rect>
@@ -3988,7 +4164,7 @@ Time</string>
     </font>
    </property>
    <property name="title">
-    <string>CH 1 Gate</string>
+    <string>CH 12 Gate</string>
    </property>
    <widget class="QLabel" name="label_122">
     <property name="geometry">
@@ -4141,7 +4317,7 @@ Time</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dial_34">
+   <widget class="OIDDial" name="dial_34">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -4151,7 +4327,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_35">
+   <widget class="OIDDial" name="dial_35">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -4161,7 +4337,7 @@ Time</string>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial_36">
+   <widget class="OIDDial" name="dial_36">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -4238,7 +4414,7 @@ Time</string>
      <string>dB</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_129">
+   <widget class="QLabel" name="ls34">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -4259,7 +4435,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_130">
+   <widget class="QLabel" name="ls35">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -4280,7 +4456,7 @@ Time</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_131">
+   <widget class="QLabel" name="ls36">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -4332,8 +4508,1540 @@ Time</string>
      <string/>
     </property>
    </widget>
+   <widget class="OIDStatePushBtn" name="bypass12">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_16">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>520</y>
+     <width>191</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>CH 16 Gate</string>
+   </property>
+   <widget class="QLabel" name="label_166">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Byp</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_167">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_168">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Depth</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_169">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>40</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hold
+Time</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_106">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_107">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_108">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_109">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_110">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_111">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_46">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_47">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_48">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_112">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_170">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_171">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_172">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls46">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls47">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls48">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_176">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Open</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_16">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="bypass16">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_15">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>520</y>
+     <width>191</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>CH 13 Gate</string>
+   </property>
+   <widget class="QLabel" name="label_155">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Byp</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_156">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_157">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Depth</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_158">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>40</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hold
+Time</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_99">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_100">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_101">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_102">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_103">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_104">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_43">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_44">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_45">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_105">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_159">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_160">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_161">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls37">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls38">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls39">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_165">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Open</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_15">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="bypass13">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_13">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>520</y>
+     <width>191</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>CH 14 Gate</string>
+   </property>
+   <widget class="QLabel" name="label_133">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Byp</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_134">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_135">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Depth</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_136">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>40</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hold
+Time</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_85">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_86">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_87">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_88">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_89">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_90">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_37">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_38">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_39">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_91">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_137">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_138">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_139">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls40">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls41">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls42">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_143">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Open</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_13">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="bypass14">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_14">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>520</y>
+     <width>191</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>CH 15 Gate</string>
+   </property>
+   <widget class="QLabel" name="label_144">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Byp</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_145">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_146">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>40</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Depth</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_147">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>40</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hold
+Time</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_92">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_93">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_94">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_95">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_96">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_97">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>40</y>
+      <width>16</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_40">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_41">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="OIDDial" name="dial_42">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>100</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_98">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_148">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_149">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_150">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls43">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls44">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls45">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_154">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Open</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_14">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="OIDStatePushBtn" name="bypass15">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>60</y>
+      <width>29</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OIDStatePushBtn</class>
+   <extends>QPushButton</extends>
+   <header location="global">oidpushbtn.h</header>
+  </customwidget>
+  <customwidget>
+   <class>OIDDial</class>
+   <extends>QDial</extends>
+   <header>oiddial.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

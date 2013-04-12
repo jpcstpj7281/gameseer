@@ -105,12 +105,8 @@ void ConfigMgr::loadDefaultConfig(){
 
 ConfigMgr::~ConfigMgr()
 {	
-	QFile file1( "ac1608.xml" );
-	if ( !file1.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
 
-	QTextStream out( &file1 );
-	doc_->save( out, 4 );
-
+	saveAll();
 	if ( defaultDoc_ != doc_ ) {
 		delete defaultDoc_;
 		defaultDoc_ = 0;
@@ -120,6 +116,13 @@ ConfigMgr::~ConfigMgr()
 	doc_ = 0;
 }
 
+void ConfigMgr::saveAll(){
+	QFile file1( "ac1608.xml" );
+	if ( !file1.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
+
+	QTextStream out( &file1 );
+	doc_->save( out, 4 );
+}
 
 QDomElement ConfigMgr::getAddressElem(){
 	QDomElement root = doc_->documentElement();

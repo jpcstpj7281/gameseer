@@ -48,29 +48,31 @@ void OIDStatePushBtn::snmpCallback( SnmpObj* so){
 
 	if ( so->setVar.isNull() ){
 		val_ = so->rspVar.value<int>();
-		if ( val_ != this->isChecked() ){
-			this->setChecked(val_);
-			if ( val_){
-				if( isImageSetup_){
-					QIcon buttonIcon(onImage_);
-					setIcon(buttonIcon);
-					setIconSize(QSize(onImage_.rect().size()));
-				}else{
-					setStyleSheet("* { background-color: green }");
-				}
-			}else{
-				if( isImageSetup_){
-					QIcon buttonIcon(offImage_);
-					setIcon(buttonIcon);
-					setIconSize(QSize(offImage_.rect().size()));
-				}else{
-					setStyleSheet("* { background-color: lightGray }");
-				}
-			}
-		}
+		refreshStatus();
+
 		QString oid = ConfigMgr::instance()->getOid( objectName());
 		if (!oid.isEmpty())
 			SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
+	}
+}
+
+void OIDStatePushBtn::refreshStatus(){
+	if ( val_){
+		if( isImageSetup_){
+			QIcon buttonIcon(onImage_);
+			setIcon(buttonIcon);
+			setIconSize(QSize(onImage_.rect().size()));
+		}else{
+			setStyleSheet("* { background-color: green }");
+		}
+	}else{
+		if( isImageSetup_){
+			QIcon buttonIcon(offImage_);
+			setIcon(buttonIcon);
+			setIconSize(QSize(offImage_.rect().size()));
+		}else{
+			setStyleSheet("* { background-color: lightGray }");
+		}
 	}
 }
 
@@ -86,10 +88,12 @@ void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 				"public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) );
 		}
 	}else{
+		val_=!val_;
+		refreshStatus();
 		QString  oid = ConfigMgr::instance()->getOid( objectName());
 		if (! oid.isEmpty() ){
 			SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(),	
-				"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) , QVariant( (int)!this->isChecked()));
+				"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) , (int)val_);
 		}
 	}
 	QPushButton::mouseReleaseEvent(event);

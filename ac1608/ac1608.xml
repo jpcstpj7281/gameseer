@@ -12,21 +12,27 @@
         <address ip="192.168.2.107" location=""/>
     </addresses>
     <components>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="amp1"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="verticalSlider1"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="mute1"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="progressBar1"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="progressBar2"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="mute2"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="amp2"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="verticalSlider2"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="progressBar3"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="verticalSlider3"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="mute3"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="amp3"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="mute4"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="amp4"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="verticalSlider4"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_amp1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_verticalSlider1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_mute1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_progressBar1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="homepage_progressBar2"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="homepage_mute2"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="homepage_amp2"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.704" id="homepage_verticalSlider2"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_progressBar3"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_verticalSlider3"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_mute3"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_amp3"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_mute4"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_amp4"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_verticalSlider4"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="input_verticalSlider_1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="input_pushButton_1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="gate_dial_1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="gate_bypass1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="matrixmix_pushButton_1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="nom_verticalSlider_1"/>
     </components>
     <devices/>
 </root>
