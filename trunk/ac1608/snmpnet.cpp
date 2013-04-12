@@ -259,7 +259,7 @@ bool initSession( SnmpObj* so){
 	if ( so->sessp )
 		so->sess = snmp_sess_session(so->sessp);
 	if (!so->sess){
-		qDebug()<<"Qession error!";
+		qDebug()<<"Qession error: initSession! in snmpnet";
 		return false;
 	}
 

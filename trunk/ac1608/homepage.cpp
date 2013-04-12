@@ -9,7 +9,7 @@
 #include "OIDInputDlg.h"
 #include "oidprogressbar.h"
 
-
+#include "OIDProgressBar.h"
 
 
 HomePage::HomePage(QWidget *parent):
@@ -17,37 +17,6 @@ HomePage::HomePage(QWidget *parent):
 	,ui(new Ui::HomePage)
 {
     ui->setupUi(this);
-	QList<OIDProgressBar *> qpl  = findChildren<OIDProgressBar*>( );
-	for ( QList<OIDProgressBar *>::Iterator it = qpl.begin(); it != qpl.end(); ++it){
-		OIDProgressBar * qpb = *it;
-		//qDebug()<<qpb->objectName();
-		qpb->initSnmp();
-		qpb->setToolTip( qpb->objectName());
-		if (qpb){
-			qpb->setValue(-100);
-			//qpb->setStyleSheet(
-			//	" QProgressBar:vertical {"
-			//	"width:100px;"
-			//	"height:100px;"
-			//	"border: 1px solid grey;"
-			//	"border-radius: 3px;"
-			//	//"background: white;"
-			//	"text-align: bottom;"
-			//	"margin-bottom: 20px;"
-			//	"background-color: #ffffff;"
-			//	"}"
-			//	"QProgressBar::chunk:vertical{ "
-			//	"width: 100px;"
-			//	"}"
-			//	);
-
-			QString name = qpb->objectName();
-			name.replace( "progressBar", "lp");
-			QLabel* ql = findChild<QLabel*>(name);
-			qpb->setLabel(ql);
-		}
-	}
-	
 
 	QList<OIDSlider *> qsl = findChildren<OIDSlider*>( );
 	for ( QList<OIDSlider *>::Iterator it = qsl.begin(); it != qsl.end(); ++it){
@@ -77,6 +46,28 @@ HomePage::HomePage(QWidget *parent):
 			}
 		}
 		//qDebug()<<qpb.size()<<" OIDStatePushBtn";
+	}
+
+	QList<QWidget *> qwl  = findChildren<QWidget*>( );
+	for ( QList<QWidget *>::Iterator it = qwl.begin(); it != qwl.end();){
+		if ( (*it)->objectName().contains( "progressBar")){
+			++it;
+		}else{
+			it = qwl.erase(it);
+		}
+	}
+	for ( QList<QWidget *>::Iterator it = qwl.begin(); it != qwl.end(); ++it){
+		QWidget* qw = *it;
+		QVBoxLayout *memLayout = new QVBoxLayout( qw );
+		Qt::Orientation o = Qt::Vertical;
+		OIDProgressBar* qpb = new OIDProgressBar( o, "Used", qw, 0 );
+		qw->layout()->addWidget(qpb );
+		qw->layout()->setMargin( 0 );
+        qw->layout()->setSpacing( 0 );
+
+		qpb->initSnmp();
+		qpb->setToolTip( qpb->objectName());
+		qpb->setValue(0);
 	}
 }
 
