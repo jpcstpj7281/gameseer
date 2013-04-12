@@ -140,7 +140,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-9</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
@@ -153,7 +153,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-2</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
@@ -166,7 +166,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-10</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_6">
@@ -179,7 +179,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-3</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_7">
@@ -192,7 +192,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-11</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_8">
@@ -205,7 +205,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-4</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_9">
@@ -218,7 +218,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-12</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_10">
@@ -231,7 +231,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-5</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_11">
@@ -244,7 +244,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-13</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_12">
@@ -257,7 +257,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-6</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_13">
@@ -270,7 +270,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-14</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_14">
@@ -283,7 +283,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-7</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_15">
@@ -296,7 +296,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-15</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_16">
@@ -309,7 +309,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-8</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_17">
@@ -322,7 +322,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>CH-1</string>
+     <string>CH-16</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_18">
