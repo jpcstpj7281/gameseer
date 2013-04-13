@@ -23,35 +23,65 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>50</y>
+     <y>30</y>
      <width>211</width>
-     <height>291</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="title">
-    <string>GroupBox</string>
+    <string>HighPass</string>
    </property>
-   <widget class="QDial" name="dial_3">
+   <widget class="OIDDial" name="dial_3">
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>200</y>
+      <y>260</y>
       <width>50</width>
       <height>64</height>
      </rect>
     </property>
    </widget>
-   <widget class="QDial" name="dial">
+   <widget class="OIDDial" name="dial_1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>50</width>
+      <height>64</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbSlope">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>200</y>
+      <width>161</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>6dB/oct</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>12dB/oct</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="OIDDial" name="dial_2">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>260</y>
       <width>50</width>
       <height>64</height>
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="cbType">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -60,48 +90,261 @@
       <height>22</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Variable Q</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Butterworth</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Linkwiz-Riley</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bessel</string>
+     </property>
+    </item>
    </widget>
-   <widget class="QDial" name="dial_2">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>200</y>
-      <width>50</width>
-      <height>64</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="cbBessel">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>100</y>
       <width>161</width>
       <height>22</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>Phase Match</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Time Delay</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>-3dB</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>-6dB</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>None</string>
+     </property>
+    </item>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="OIDStatePushBtn" name="btnBypass">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>40</y>
       <width>161</width>
-      <height>22</height>
+      <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Bypass    </string>
+    </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>161</width>
-      <height>51</height>
+      <x>40</x>
+      <y>80</y>
+      <width>141</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Bypass</string>
+     <string>Bessel Normalization</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>130</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Type</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>180</y>
+      <width>54</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Slope</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>230</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Q</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>230</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Freq</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>230</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Gain</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>250</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls22">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>250</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls2">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>250</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls1_4">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>250</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>kHz</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls3">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>250</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ls1_6">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>250</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>dB</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -115,9 +358,9 @@
     </rect>
    </property>
    <property name="title">
-    <string>GroupBox</string>
+    <string>HighPass CH</string>
    </property>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pb1">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -130,11 +373,11 @@
      <string>CH-1</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="pb9">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -143,7 +386,7 @@
      <string>CH-9</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="pb2">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -156,11 +399,11 @@
      <string>CH-2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="pb10">
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -169,7 +412,7 @@
      <string>CH-10</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="pb3">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -182,11 +425,11 @@
      <string>CH-3</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="pb11">
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -195,7 +438,7 @@
      <string>CH-11</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_8">
+   <widget class="QPushButton" name="pb4">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -208,11 +451,11 @@
      <string>CH-4</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_9">
+   <widget class="QPushButton" name="pb12">
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -221,7 +464,7 @@
      <string>CH-12</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_10">
+   <widget class="QPushButton" name="pb5">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -234,11 +477,11 @@
      <string>CH-5</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_11">
+   <widget class="QPushButton" name="pb13">
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -247,7 +490,7 @@
      <string>CH-13</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_12">
+   <widget class="QPushButton" name="pb6">
     <property name="geometry">
      <rect>
       <x>600</x>
@@ -260,11 +503,11 @@
      <string>CH-6</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_13">
+   <widget class="QPushButton" name="pb14">
     <property name="geometry">
      <rect>
       <x>600</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -273,7 +516,7 @@
      <string>CH-14</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_14">
+   <widget class="QPushButton" name="pb7">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -286,11 +529,11 @@
      <string>CH-7</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_15">
+   <widget class="QPushButton" name="pb15">
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -299,7 +542,7 @@
      <string>CH-15</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_16">
+   <widget class="QPushButton" name="pb8">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -312,11 +555,11 @@
      <string>CH-8</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_17">
+   <widget class="QPushButton" name="pb16">
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>70</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -325,7 +568,7 @@
      <string>CH-16</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_18">
+   <widget class="QPushButton" name="pbCopy">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -338,7 +581,7 @@
      <string>Copy</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_19">
+   <widget class="QPushButton" name="pbPaste">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -351,7 +594,7 @@
      <string>Paste</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_20">
+   <widget class="QPushButton" name="pbReset">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -376,6 +619,18 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OIDStatePushBtn</class>
+   <extends>QPushButton</extends>
+   <header>oidpushbtn.h</header>
+  </customwidget>
+  <customwidget>
+   <class>OIDDial</class>
+   <extends>QDial</extends>
+   <header>oiddial.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
