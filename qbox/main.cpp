@@ -114,6 +114,8 @@ void runServer(int port)
 	Channel channel;
 
 
+	test_msg("version:2013-03-22");
+
 
 	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
 	MsgHandler::Instance()->setModel(TYPE_MODEL_WINDOWS,(CommModel*)(&windows));
@@ -142,7 +144,6 @@ void runServer(int port)
 
 	IServer::Instance()->setMsgHandler(MsgHandler::Instance());
 	IServer::Instance()->Server();
-
 
 
 }
