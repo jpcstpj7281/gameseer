@@ -117,7 +117,7 @@ bool PswInputDlg::changePsw( Ac1608Address* aa){
 	return true;
 }
 
-void PswInputDlg::closeEvent ( QCloseEvent * event ){
+void PswInputDlg::closeEvent ( QCloseEvent *  ){
 	isChangeMode_ = false;
 	isPasswordChanging_ = true;
 	cancelClick();
