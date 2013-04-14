@@ -55,7 +55,7 @@ QString OIDInputDlg::getNewOid( QString& id){
 	return oid;
 }
 
-void OIDInputDlg::closeEvent ( QCloseEvent * event ){
+void OIDInputDlg::closeEvent ( QCloseEvent *  ){
 	cancelClick();
 }
 

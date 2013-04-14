@@ -84,8 +84,8 @@ matrixmixerwnd.ui
 
 LIBS += -lws2_32
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp -lAdvapi32 -lqwt
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd -lAdvapi32 -lqwtd
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmp -lAdvapi32 -lqwt -lWinSparkle
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lnetsnmpd -lAdvapi32 -lqwtd -lWinSparkle
 else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
 
 DEFINES += QWT_DLL \
