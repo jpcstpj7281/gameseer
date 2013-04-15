@@ -117,12 +117,6 @@ bool PswInputDlg::changePsw( Ac1608Address* aa){
 	return true;
 }
 
-void PswInputDlg::closeEvent ( QCloseEvent *  ){
-	isChangeMode_ = false;
-	isPasswordChanging_ = true;
-	cancelClick();
-}
-
 void PswInputDlg::okClick(){
 	QLineEdit * le1 = findChild<QLineEdit*>( "oldpsw");
 	QString oldpsw = le1->text();
@@ -267,6 +261,12 @@ void PswInputDlg::changeClick(){
 		okBtn->setText(tr("Connect"));
 	}
 }
+
+void PswInputDlg::closeEvent ( QCloseEvent *  ){
+	isChangeMode_ = false;
+	cancelClick();
+}
+
 void PswInputDlg::cancelClick(){
 	if (isPasswordChanging_ || isLoading_) return;
 	isPasswordChanging_ = true;
