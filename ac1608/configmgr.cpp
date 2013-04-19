@@ -138,7 +138,7 @@ QDomElement ConfigMgr::getAddressElem(){
 	return addresses;
 }
 
-QString getOidFromDoc( QString &id, QDomDocument * doc){
+QString getOidFromDoc( const QString &id, QDomDocument * doc){
 	if ( !doc && id.isEmpty() ) return "";
 	QDomElement root = doc->documentElement();
 
@@ -146,21 +146,48 @@ QString getOidFromDoc( QString &id, QDomDocument * doc){
 	QString oid;
 	for(size_t i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
-		QDomNode n1 = node.attributes().item(1);
-		if ( "id" == n1.nodeName()&& id == n1.nodeValue() ){
-			oid = node.attributes().item(0).nodeValue();
+		QDomElement elem = node.toElement();
+		if ( elem.attribute("id") == id ){
+			oid = elem.attribute("oid");
+			//elem.attribute( "max");
+			//elem.attribute( "min");
+			//elem.attribute( "default");
+			//elem.attribute( "floatNum");
+			break;
 		}
 
 	}
 	return oid;
 }
-QString ConfigMgr::getOid( QString &id){
+
+QString ConfigMgr::getOid( const QString &id){
 	return getOidFromDoc(id, doc_);
 }
-QString ConfigMgr::getDefaultOid( QString &id){
+
+QString ConfigMgr::getDefaultOid( const QString &id){
 	return getOidFromDoc(id, defaultDoc_);
 }
-void ConfigMgr::setOid( QString &id, QString &oid){
+bool ConfigMgr::getProperty( const QString &id, QString &oid, float &max, float & min , float &defaultVal, int & floatNum){
+	if ( !doc_ && id.isEmpty() ) return false;
+	QDomElement root = doc_->documentElement();
+
+	QDomNodeList items = root.elementsByTagName("component");
+	for(size_t i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomNode n1 = node.attributes().item(1);
+		if ( "id" == n1.nodeName()&& id == n1.nodeValue() ){
+			oid = node.attributes().item(0).nodeValue();
+			max = node.attributes().item(1).nodeValue().toFloat();
+			min = node.attributes().item(2).nodeValue().toFloat();
+			defaultVal = node.attributes().item(3).nodeValue().toFloat();
+			floatNum = node.attributes().item(4).nodeValue().toInt();
+			return true;
+		}
+
+	}
+	return false;
+}
+void ConfigMgr::setProperty( const QString &id, const QString &oid, float max, float min , float defaultVal, int floatNum){
 	if ( !doc_ && id.isEmpty() ) return ;
 	QDomElement root = doc_->documentElement();
 	QDomNodeList items = root.elementsByTagName("component");
@@ -171,6 +198,10 @@ void ConfigMgr::setOid( QString &id, QString &oid){
 		if ( elem.attribute("id") == id ){
 			elem.setAttribute("id", id);
 			elem.setAttribute("oid", oid);
+			elem.setAttribute( "max", max);
+			elem.setAttribute( "min", min);
+			elem.setAttribute( "default", defaultVal);
+			elem.setAttribute( "floatNum", floatNum);
 			found = true;
 			break;
 		}
@@ -178,14 +209,51 @@ void ConfigMgr::setOid( QString &id, QString &oid){
 	if ( found == false){
 		QDomNodeList items = root.elementsByTagName("components");
 		QDomNode node = items.at(0);
-		QDomElement elm = doc_->createElement( "component");
-		elm.setAttribute ("id", id);
-		elm.setAttribute( "oid", oid);
-		node.insertAfter( elm, QDomElement());
+		QDomElement elem = doc_->createElement( "component");
+		elem.setAttribute ("id", id);
+		elem.setAttribute("oid", oid);
+		elem.setAttribute( "max", max);
+		elem.setAttribute( "min", min);
+		elem.setAttribute( "default", defaultVal);
+		elem.setAttribute( "floatNum", floatNum);
+		node.insertAfter( elem, QDomElement());
 	}
 }
 
-void ConfigMgr::setIP( QString &ip, QString &loc){
+void ConfigMgr::setOid( const QString &id, const QString &oid){
+	if ( !doc_ && id.isEmpty() ) return ;
+	QDomElement root = doc_->documentElement();
+	QDomNodeList items = root.elementsByTagName("component");
+	bool found = false;
+	for(size_t i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( elem.attribute("id") == id ){
+			elem.setAttribute("id", id);
+			elem.setAttribute("oid", oid);
+			elem.setAttribute( "max", 0);
+			elem.setAttribute( "min", 0);
+			elem.setAttribute( "default", 0);
+			elem.setAttribute( "floatNum", 0);
+			found = true;
+			break;
+		}
+	}
+	if ( found == false){
+		QDomNodeList items = root.elementsByTagName("components");
+		QDomNode node = items.at(0);
+		QDomElement elem = doc_->createElement( "component");
+		elem.setAttribute ("id", id);
+		elem.setAttribute( "oid", oid);
+		elem.setAttribute( "max", 0);
+		elem.setAttribute( "min", 0);
+		elem.setAttribute( "default", 0);
+		elem.setAttribute( "floatNum", 0);
+		node.insertAfter( elem, QDomElement());
+	}
+}
+
+void ConfigMgr::setIP( const QString &ip, const QString &loc){
 	QDomElement root = doc_->documentElement();
 	QDomNodeList items = root.elementsByTagName("address");
 	bool found = false;
@@ -207,7 +275,7 @@ void ConfigMgr::setIP( QString &ip, QString &loc){
 		node.insertAfter( elm, QDomElement());
 	}
 }
-void ConfigMgr::removeIP( QString &ip){
+void ConfigMgr::removeIP( const QString &ip){
 	QDomElement root = doc_->documentElement();
 	QDomNodeList addressRoot = root.elementsByTagName("addresses");
 	QDomNode addressRootNode = addressRoot.at(0);

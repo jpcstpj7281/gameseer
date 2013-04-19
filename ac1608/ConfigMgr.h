@@ -30,11 +30,14 @@ public :
 
 	inline void setOidEditable( bool flag){	 isOidEditable_ = flag;	}
 
-	void setIP( QString &ip, QString &loc);
-	void removeIP( QString &ip);
-	void setOid( QString &id, QString &oid);
-	QString getOid( QString &id);
-	QString getDefaultOid( QString &id);
+	void setIP( const QString &ip, const QString &loc);
+	void removeIP( const QString &ip);
+	void setOid( const QString &id, const QString &oid);
+	QString getOid( const QString &id);
+	QString getDefaultOid( const QString &id);
+
+	bool getProperty( const QString &id, QString &oid, float &max, float & min , float &defaultVal, int & floatNum);
+	void setProperty( const QString &id, const QString &oid, float max, float min , float defaultVal, int floatNum);
 	void saveAll();
 
 	~ConfigMgr();

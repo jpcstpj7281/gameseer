@@ -126,7 +126,7 @@ void SnmpNetWnd::beforeSent(SnmpObj* so){
 	}
 }
 
-void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
+void SnmpNetWnd::timerEvent ( QTimerEvent *  ){
 	std::map<QString, ObservedOid > oidMap;
 	{
 		QMutexLocker lk(&locker_);
@@ -134,7 +134,7 @@ void SnmpNetWnd::timerEvent ( QTimerEvent * event ){
 		//oidMap_.clear();
 	}
 	for ( std::map<QString, ObservedOid >::iterator it = oidMap.begin(); it != oidMap.end(); ++it){
-		QList<QTableWidgetItem *> list = tableOids_->findItems( it->first, Qt::MatchFlag::MatchExactly );
+		QList<QTableWidgetItem *> list = tableOids_->findItems( it->first, Qt::MatchExactly );
 		if ( list.isEmpty()  ){
 			int newCount = tableOids_->rowCount() +1;
 			tableOids_->setRowCount( newCount );
