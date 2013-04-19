@@ -54,7 +54,7 @@ QWidget( parent )
 void OIDProgressBar::initSnmp(){
 	//isRunning_ = true;
 	QString objname = objectName();
-	qDebug()<< "OIDProgressBar::initSnmp "<<objname;
+	//qDebug()<< "OIDProgressBar::initSnmp "<<objname;
 	QString oid = ConfigMgr::instance()->getOid(objname);
 	if ( ! oid.isEmpty()){
 		SnmpNet::instance()->addAsyncGet(

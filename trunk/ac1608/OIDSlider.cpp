@@ -58,7 +58,6 @@ void OIDSlider::initSnmp(){
 			std::bind<SnmpCallbackFunc>( &OIDSlider::snmpCallback, this, _1) 
 			);
 	}
-
 	
 }
 void OIDSlider::shutdownSnmp(){

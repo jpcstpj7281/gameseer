@@ -43,12 +43,17 @@ OIDInputDlg::~OIDInputDlg()
 
 QString OIDInputDlg::getNewOid( QString& id){
 	OIDInputDlg::instance()->id_ = id;
+
+	QString oid; float max=0; float min=0; float defaultVal=0; int floatNum=0;
+	ConfigMgr::instance()->getProperty(id, oid, max, min, defaultVal, floatNum);
+
+
 	OIDInputDlg::instance()->oldOid_ = ConfigMgr::instance()->getOid(id);
 	OIDInputDlg::instance()->defaultOid_ =  ConfigMgr::instance()->getDefaultOid(id);
 	OIDInputDlg::instance()->input_->setText(OIDInputDlg::instance()->oldOid_);
 	OIDInputDlg::instance()->input_->setFocus();
 	OIDInputDlg::instance()->exec();
-	QString oid = OIDInputDlg::instance()->input_->text();
+	oid = OIDInputDlg::instance()->input_->text();
 	if (!oid.isEmpty() && OIDInputDlg::instance()->oldOid_ != oid){
 		ConfigMgr::instance()->setOid( id, oid);
 	}
