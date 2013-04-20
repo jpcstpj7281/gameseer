@@ -11,6 +11,10 @@
         <address ip="192.168.2.106" location=""/>
         <address ip="192.168.2.107" location=""/>
     </addresses>
+    <settings>
+        <setting componentType="slider" default="0" min="-100" max="24"/>
+        <setting componentType="progressBar" default="0" min="-100" max="20"/>
+    </settings>
     <components>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_amp1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_verticalSlider1"/>

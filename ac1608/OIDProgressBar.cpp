@@ -5,19 +5,18 @@
 
 using namespace std::tr1::placeholders;
 
-OIDProgressBar::OIDProgressBar( Qt::Orientation orientation, QWidget *parent, double value ):
+OIDProgressBar::OIDProgressBar( Qt::Orientation orientation, QWidget *parent ):
 QWidget( parent )
 {
 	ql_ = new QLabel( "0dB", this );
 	ql_->setFont( QFont( "Helvetica", 8 ) );
 
 	d_thermo = new QwtThermo( this );
-	d_thermo->setRange( 0.0, 100.0 );
-	d_thermo->setValue( value );
-	d_thermo->setFont( QFont( "Helvetica", 7 ) );
-	d_thermo->setPipeWidth( 6 );
-	d_thermo->setScaleMaxMajor( 6 );
-	d_thermo->setScaleMaxMinor( 5 );
+	//d_thermo->setRange( 0.0, 100.0 );
+	d_thermo->setFont( QFont( "Helvetica", 6 ) );
+	d_thermo->setPipeWidth( 5 );
+	d_thermo->setScaleMaxMajor( 20);
+	d_thermo->setScaleMaxMinor( 4);
 	d_thermo->setFillBrush( Qt::darkMagenta );
 
 #if 0

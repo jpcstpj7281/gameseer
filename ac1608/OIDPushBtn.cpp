@@ -6,18 +6,7 @@
 
 using namespace std::tr1::placeholders;
 
-void OIDPushBtn::mouseReleaseEvent ( QMouseEvent *  ){
-	if ( !ConfigMgr::instance()->isOidEditable() ) return;
-	OIDInputDlg::getNewOid( this->objectName() );
 
-	setBackgroundRole( QPalette::Base);
-}
-
-void OIDPushBtn::setImage(QPixmap &offImage){
-	QIcon ButtonIcon(offImage);
-	setIcon(ButtonIcon);
-	setIconSize(QSize(offImage.rect().size()));
-}
 
 OIDStatePushBtn::OIDStatePushBtn( QWidget* w):
 QPushButton(w)
@@ -50,10 +39,14 @@ void OIDStatePushBtn::snmpCallback( SnmpObj* so){
 		val_ = so->rspVar.value<int>();
 		refreshStatus();
 
-		QString oid = ConfigMgr::instance()->getOid( objectName());
-		if (!oid.isEmpty())
-			SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
+		
+			
 	}
+}
+void OIDStatePushBtn::afterCallback(){
+	QString oid = ConfigMgr::instance()->getOid( objectName());
+	if (!oid.isEmpty())
+		SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));
 }
 
 void OIDStatePushBtn::refreshStatus(){
@@ -76,6 +69,16 @@ void OIDStatePushBtn::refreshStatus(){
 	}
 }
 
+void OIDStatePushBtn::clickChanged(){
+	val_=!val_;
+	refreshStatus();
+	QString  oid = ConfigMgr::instance()->getOid( objectName());
+	if (! oid.isEmpty() ){
+		SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(),	
+				"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) , (int)val_);
+	}
+}
+
 void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 	if ( ConfigMgr::instance()->isOidEditable() ) {
 		QString oldoid = ConfigMgr::instance()->getOid( objectName());
@@ -88,16 +91,11 @@ void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){
 				"public", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) );
 		}
 	}else{
-		val_=!val_;
-		refreshStatus();
-		QString  oid = ConfigMgr::instance()->getOid( objectName());
-		if (! oid.isEmpty() ){
-			SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(),	
-				"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) , (int)val_);
-		}
+		clickChanged();
 	}
 	QPushButton::mouseReleaseEvent(event);
 }
+
 void OIDStatePushBtn::setOnOffStateImage(int onState, int offState, QPixmap &onImage, QPixmap &offImage ){
 	onImage_ =onImage;
 	offImage_ =offImage;
@@ -105,4 +103,38 @@ void OIDStatePushBtn::setOnOffStateImage(int onState, int offState, QPixmap &onI
 	QIcon buttonIcon(offImage);
 	setIcon(buttonIcon);
 	setIconSize(QSize(offImage.rect().size()));
+}
+
+
+
+OIDStatus::OIDStatus(QWidget* w):
+OIDStatePushBtn(w)
+{
+	refreshStatus();
+}
+
+void OIDStatus::refreshStatus(){
+	if ( val_){
+			setStyleSheet(	"background-color: green;"
+								 "border-style: solid;"
+								 "border-width:1px;"
+								 "border-radius:5px;"
+								 "border-color: gray;"
+								 "max-width:10px;"
+								 "max-height:10px;"
+								 "min-width:10px;"
+								 "min-height:10px;"
+								 );
+	}else{
+			setStyleSheet(	"background-color: lightgray;"
+								 "border-style: solid;"
+								 "border-width:1px;"
+								 "border-radius:5px;"
+								 "border-color: gray;"
+								 "max-width:10px;"
+								 "max-height:10px;"
+								 "min-width:10px;"
+								 "min-height:10px;"
+								 );
+	}
 }

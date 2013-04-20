@@ -26,6 +26,7 @@ private:
 
 	QTabWidget* tab_;
 	QList<OIDSlider *> qsl_;
+	QList<OIDStatePushBtn *> qpbtnl_;
 };
 
 #endif // NOMWND_H

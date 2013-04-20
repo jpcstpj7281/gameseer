@@ -6,6 +6,7 @@
 #include <QList>
 #include <QDebug>
 #include "oidpushbtn.h"
+#include "ConfigMgr.h"
 
 InputGainCtrlWnd::InputGainCtrlWnd(QTabWidget *parent) :
     QWidget(parent),
@@ -14,6 +15,8 @@ InputGainCtrlWnd::InputGainCtrlWnd(QTabWidget *parent) :
 {
     ui->setupUi(this);
 
+	int max, min, def;
+	ConfigMgr::instance()->getSetting( "slider", max, min, def);
 	qsl_ = findChildren<OIDSlider*>( );
 	for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
 		OIDSlider* qs = *it;
@@ -24,6 +27,9 @@ InputGainCtrlWnd::InputGainCtrlWnd(QTabWidget *parent) :
 		name.replace( "verticalSlider_", "ls");
 		QLabel* ql = findChild<QLabel*>(name);
 		qs->setLabel(ql);
+		qs->setMaximum( max);
+		qs->setMinimum( min);
+		qs->setValue(def);
 	}
 
 	qpbtnl_ = findChildren<OIDStatePushBtn*>( );

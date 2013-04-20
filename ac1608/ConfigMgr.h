@@ -36,6 +36,8 @@ public :
 	QString getOid( const QString &id);
 	QString getDefaultOid( const QString &id);
 
+	QString getSetting( const QString &type, int & max, int & min, int & defaultVal);
+
 	bool getProperty( const QString &id, QString &oid, float &max, float & min , float &defaultVal, int & floatNum);
 	void setProperty( const QString &id, const QString &oid, float max, float min , float defaultVal, int floatNum);
 	void saveAll();

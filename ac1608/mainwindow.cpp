@@ -30,18 +30,6 @@ using namespace std::placeholders;
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
-	//,homepage_(new HomePage)
-	//,snmpNetWnd_(new SnmpNetWnd)
-	//,deviceswnd_(new DevicesWnd)
-
- //   ,inputGainCtrlWnd_(new InputGainCtrlWnd)
- //   ,gateNOMWnd_(new GateNOMWnd)
- //   ,highPassWnd_(new HighPassWnd)
-	//,matrixMixerWnd_(new MatrixMixerWnd)
-	//,peqWnd_(new PEQWnd)
-	//,nomWnd_(new NOMWnd)
-	//,presetWnd_(new PresetWnd)
-	//,cobraNetWnd_(new CobraNetWnd)
 {
     ui->setupUi(this);
 
@@ -73,7 +61,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-
 	for ( auto it = modules_.begin(); it != modules_.end(); ++it){
 		delete *it;
 	}
