@@ -6,7 +6,7 @@
 #include "OIDInputDlg.h"
 #include "OIDProgressBar.h"
 #include <qtablewidget.h>
-
+#include "ConfigMgr.h"
 
 HomePage::HomePage(QTabWidget *parent):
     QWidget(parent)
@@ -15,19 +15,7 @@ HomePage::HomePage(QTabWidget *parent):
 {
     ui->setupUi(this);
 
-	qsl_ = findChildren<OIDSlider*>( );
-	for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
-		OIDSlider* qs = *it;
-		QString name = qs->objectName();
-		qs->setObjectName( "homepage_"+qs->objectName());
-		qs->setToolTip(qs->objectName());
-
-		name.replace( "verticalSlider", "ls");
-		QLabel* ql = findChild<QLabel*>(name);
-		qs->setLabel(ql);
-		
-	}
-
+	
 	qpbtnl_ = findChildren<OIDStatePushBtn*>( );
 	if ( !qpbtnl_.isEmpty() ){
 		QPixmap XpushBtn("res/XpushBtn.png");
@@ -47,6 +35,28 @@ HomePage::HomePage(QTabWidget *parent):
 		}
 	}
 
+	
+
+	
+	int max, min, def;
+	ConfigMgr::instance()->getSetting( "slider", max, min, def);
+	qsl_ = findChildren<OIDSlider*>( );
+	for ( QList<OIDSlider *>::Iterator it = qsl_.begin(); it != qsl_.end(); ++it){
+		OIDSlider* qs = *it;
+		QString name = qs->objectName();
+		qs->setObjectName( "homepage_"+qs->objectName());
+		qs->setToolTip(qs->objectName());
+
+		name.replace( "verticalSlider", "ls");
+		QLabel* ql = findChild<QLabel*>(name);
+		qs->setLabel(ql);
+		qs->setMaximum( max);
+		qs->setMinimum( min);
+		qs->setValue( def);
+	}
+
+
+	ConfigMgr::instance()->getSetting( "progressBar", max, min, def);
 	QList<QWidget *> qwl  = findChildren<QWidget*>( );
 	for ( QList<QWidget *>::Iterator it = qwl.begin(); it != qwl.end();){
 		if ( (*it)->objectName().contains( "progressBar")){
@@ -59,13 +69,14 @@ HomePage::HomePage(QTabWidget *parent):
 		QWidget* qw = *it;
 		new QVBoxLayout( qw );
 		Qt::Orientation o = Qt::Vertical;
-		OIDProgressBar* qpb = new OIDProgressBar( o, qw, 0 );
+		OIDProgressBar* qpb = new OIDProgressBar( o, qw );
 		qw->layout()->addWidget(qpb );
 		qw->layout()->setMargin( 0 );
         qw->layout()->setSpacing( 0 );
 		qpb->setObjectName( "homepage_"+qw->objectName());
 		qpb->setToolTip( "homepage_"+qw->objectName());
-		qpb->setValue(0);
+		qpb->setValue( def);
+		qpb->setRange( min, max);
 		qpbarl_.push_back(qpb);
 	}
 

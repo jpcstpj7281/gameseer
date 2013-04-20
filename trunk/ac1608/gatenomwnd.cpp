@@ -33,6 +33,7 @@ GateNOMWnd::GateNOMWnd(QTabWidget *parent) :
 			QString name = qs->objectName();
 			if (name.contains("bypass") ){
 				qs->setOnOffStateImage( 1, 0, bypass2Btn, bypass2Off);
+				
 			}
 			qs->setObjectName( "gate_"+qs->objectName());
 			qs->setToolTip(qs->objectName());

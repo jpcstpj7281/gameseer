@@ -83,19 +83,6 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_13">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>71</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_136">
     <property name="geometry">
      <rect>
@@ -299,188 +286,6 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_14">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>103</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_15">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>134</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_16">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>165</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_17">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>196</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_18">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>227</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_19">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>258</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_20">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>289</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_21">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>350</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_22">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>412</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_23">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>320</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_24">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>381</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_25">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>443</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_26">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>474</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_29">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>505</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_155">
     <property name="geometry">
      <rect>
@@ -638,7 +443,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>505</y>
+      <y>500</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -656,7 +461,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>381</y>
+      <y>380</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -674,7 +479,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>474</y>
+      <y>470</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -688,24 +493,11 @@
      <string>CH14 NoiseGate</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_27">
-    <property name="geometry">
-     <rect>
-      <x>174</x>
-      <y>536</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_157">
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>536</y>
+      <y>530</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -723,7 +515,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>103</y>
+      <y>110</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -741,7 +533,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>71</y>
+      <y>80</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -759,7 +551,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>165</y>
+      <y>170</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -777,7 +569,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>443</y>
+      <y>440</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -795,7 +587,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>196</y>
+      <y>200</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -867,7 +659,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>134</y>
+      <y>140</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -885,7 +677,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>412</y>
+      <y>410</y>
       <width>98</width>
       <height>16</height>
      </rect>
@@ -1259,10 +1051,313 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="OIDStatus" name="statusGate_1">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>110</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_3">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>140</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_4">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>170</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_5">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>200</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>230</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_7">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>260</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_8">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>290</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_9">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>320</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_10">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>350</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_11">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>380</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_12">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>410</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_13">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>440</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_14">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>470</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_15">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>500</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="statusGate_16">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>530</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
    <zorder>label_133</zorder>
    <zorder>label_135</zorder>
    <zorder>verticalSlider_1</zorder>
-   <zorder>radioButton_13</zorder>
    <zorder>label_136</zorder>
    <zorder>verticalSlider_2</zorder>
    <zorder>label_137</zorder>
@@ -1277,27 +1372,12 @@
    <zorder>verticalSlider_7</zorder>
    <zorder>label_142</zorder>
    <zorder>verticalSlider_8</zorder>
-   <zorder>radioButton_14</zorder>
-   <zorder>radioButton_15</zorder>
-   <zorder>radioButton_16</zorder>
-   <zorder>radioButton_17</zorder>
-   <zorder>radioButton_18</zorder>
-   <zorder>radioButton_19</zorder>
-   <zorder>radioButton_20</zorder>
-   <zorder>radioButton_21</zorder>
-   <zorder>radioButton_22</zorder>
-   <zorder>radioButton_23</zorder>
-   <zorder>radioButton_24</zorder>
-   <zorder>radioButton_25</zorder>
-   <zorder>radioButton_26</zorder>
-   <zorder>radioButton_29</zorder>
    <zorder>label_155</zorder>
    <zorder>label_158</zorder>
    <zorder>label_160</zorder>
    <zorder>label_161</zorder>
    <zorder>label_162</zorder>
    <zorder>label_163</zorder>
-   <zorder>radioButton_27</zorder>
    <zorder>label_157</zorder>
    <zorder>label_146</zorder>
    <zorder>label_148</zorder>
@@ -1330,9 +1410,30 @@
    <zorder>label_171</zorder>
    <zorder>label_172</zorder>
    <zorder>ls8</zorder>
+   <zorder>statusGate_1</zorder>
+   <zorder>statusGate_2</zorder>
+   <zorder>statusGate_3</zorder>
+   <zorder>statusGate_4</zorder>
+   <zorder>statusGate_5</zorder>
+   <zorder>statusGate_6</zorder>
+   <zorder>statusGate_7</zorder>
+   <zorder>statusGate_8</zorder>
+   <zorder>statusGate_9</zorder>
+   <zorder>statusGate_10</zorder>
+   <zorder>statusGate_11</zorder>
+   <zorder>statusGate_12</zorder>
+   <zorder>statusGate_13</zorder>
+   <zorder>statusGate_14</zorder>
+   <zorder>statusGate_15</zorder>
+   <zorder>statusGate_16</zorder>
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>OIDStatus</class>
+   <extends>QPushButton</extends>
+   <header>oidpushbtn.h</header>
+  </customwidget>
   <customwidget>
    <class>OIDSlider</class>
    <extends>QSlider</extends>

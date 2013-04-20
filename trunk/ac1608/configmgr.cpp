@@ -41,8 +41,6 @@ void ConfigMgr::makeDefault(){
 	doc.save( out, 4 );
 
 	file.close();
-
-
 }
 
 ConfigMgr::ConfigMgr():isOidEditable_(false)
@@ -167,6 +165,26 @@ QString ConfigMgr::getOid( const QString &id){
 QString ConfigMgr::getDefaultOid( const QString &id){
 	return getOidFromDoc(id, defaultDoc_);
 }
+QString ConfigMgr::getSetting( const QString &type, int & max, int & min, int & defaultVal){
+	if ( !doc_ && type.isEmpty() ) return false;
+	QDomElement root = doc_->documentElement();
+
+	QDomNodeList items = root.elementsByTagName("setting");
+	for(size_t i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		//QDomNode n1 = node.attributes().item(1);
+		QDomElement elem = node.toElement();
+		if ( type == elem.attribute("componentType")){
+			max = elem.attribute("max").toInt();
+			min = elem.attribute("min").toInt();
+			defaultVal = elem.attribute("default").toInt();
+			return true;
+		}
+
+	}
+	return false;
+}
+
 bool ConfigMgr::getProperty( const QString &id, QString &oid, float &max, float & min , float &defaultVal, int & floatNum){
 	if ( !doc_ && id.isEmpty() ) return false;
 	QDomElement root = doc_->documentElement();

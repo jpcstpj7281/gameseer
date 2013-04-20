@@ -4,28 +4,19 @@
 #include <qpushbutton>
 #include "Snmpnet.h"
 
-class OIDPushBtn : public QPushButton{
-	void * inputDialog_;
 
-public:
-	OIDPushBtn( QWidget* w):QPushButton(w){}
-
-	void setImage(QPixmap & offImage); 
-
-	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
-};
 
 class OIDStatePushBtn : public QPushButton{
 	void * inputDialog_;
 
 	QPixmap onImage_;
 	QPixmap offImage_;
-
-	bool val_;
-	//volatile bool isRunning_;
+	
 
 	bool isImageSetup_;
-	void refreshStatus();
+protected:
+	bool val_;
+	virtual void refreshStatus();
 public:
 	OIDStatePushBtn( QWidget* w);
 
@@ -33,8 +24,22 @@ public:
 	void snmpCallback( SnmpObj*);
 	void initSnmp();
 	void shutdownSnmp();
+	virtual void clickChanged();
+
+	virtual void afterCallback();
 
 	virtual void	mouseReleaseEvent  ( QMouseEvent * event )override;
 };
+
+
+class OIDStatus :public OIDStatePushBtn{
+public:
+	OIDStatus(QWidget* w);
+	void refreshStatus() override;
+	virtual void afterCallback() override{};
+	virtual void clickChanged()override{};
+};
+
+
 
 #endif // OIDPUSHBTN_H

@@ -344,7 +344,7 @@ Time</string>
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -357,19 +357,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_1">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass1">
@@ -386,6 +373,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_1">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -720,7 +726,7 @@ Time</string>
    <widget class="QLabel" name="label_22">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -733,19 +739,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass2">
@@ -762,6 +755,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -1096,7 +1108,7 @@ Time</string>
    <widget class="QLabel" name="label_33">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -1109,19 +1121,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass3">
@@ -1138,6 +1137,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_3">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -1472,7 +1490,7 @@ Time</string>
    <widget class="QLabel" name="label_44">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -1485,19 +1503,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass4">
@@ -1514,6 +1519,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_4">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -1848,7 +1872,7 @@ Time</string>
    <widget class="QLabel" name="label_55">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -1861,19 +1885,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_5">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass5">
@@ -1890,6 +1901,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_5">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -2224,7 +2254,7 @@ Time</string>
    <widget class="QLabel" name="label_66">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -2237,19 +2267,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_6">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass6">
@@ -2266,6 +2283,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -2600,7 +2636,7 @@ Time</string>
    <widget class="QLabel" name="label_77">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -2613,19 +2649,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_7">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass7">
@@ -2642,6 +2665,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_7">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -2976,7 +3018,7 @@ Time</string>
    <widget class="QLabel" name="label_88">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -2989,19 +3031,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_8">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass8">
@@ -3018,6 +3047,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_8">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -3352,7 +3400,7 @@ Time</string>
    <widget class="QLabel" name="label_99">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -3365,19 +3413,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_9">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass9">
@@ -3394,6 +3429,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_9">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -3728,7 +3782,7 @@ Time</string>
    <widget class="QLabel" name="label_110">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -3741,19 +3795,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_10">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass10">
@@ -3770,6 +3811,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_10">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -4104,7 +4164,7 @@ Time</string>
    <widget class="QLabel" name="label_121">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -4117,19 +4177,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_11">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass11">
@@ -4146,6 +4193,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_11">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -4480,7 +4546,7 @@ Time</string>
    <widget class="QLabel" name="label_132">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -4493,19 +4559,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_12">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass12">
@@ -4522,6 +4575,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_12">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -4856,7 +4928,7 @@ Time</string>
    <widget class="QLabel" name="label_176">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -4869,19 +4941,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_16">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass16">
@@ -4898,6 +4957,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_16">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -5232,7 +5310,7 @@ Time</string>
    <widget class="QLabel" name="label_165">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -5245,19 +5323,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_15">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass13">
@@ -5274,6 +5339,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_13">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -5608,7 +5692,7 @@ Time</string>
    <widget class="QLabel" name="label_143">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -5621,19 +5705,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_13">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass14">
@@ -5650,6 +5721,25 @@ Time</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="OIDStatus" name="btnOpen_14">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -5984,7 +6074,7 @@ Time</string>
    <widget class="QLabel" name="label_154">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>8</x>
       <y>110</y>
       <width>31</width>
       <height>16</height>
@@ -5997,19 +6087,6 @@ Time</string>
     </property>
     <property name="text">
      <string>Open</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_14">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="OIDStatePushBtn" name="bypass15">
@@ -6028,6 +6105,25 @@ Time</string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="OIDStatus" name="btnOpen_15">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -6040,6 +6136,11 @@ Time</string>
    <class>OIDDial</class>
    <extends>QDial</extends>
    <header>oiddial.h</header>
+  </customwidget>
+  <customwidget>
+   <class>OIDStatus</class>
+   <extends>QPushButton</extends>
+   <header>oidpushbtn.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
