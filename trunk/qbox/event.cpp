@@ -141,7 +141,19 @@ void Event::mifImportanceEvent(uint32_t eventId)
    dwCount = atoi(msg->info["len"].c_str());
 
 
-   DLPI2cR(dwAddr,dwCount,(uint8_t*)&byDate[0]);
+	if(0xfc == dwAddr)
+	{
+		*(byDate) = 0x0a;
+		*(byDate+1) = 0x0b;
+		*(byDate+2) = 0x0c;
+		*(byDate+3) = 0x0d;
+		*(byDate+4) = 0xe;
+
+	}
+	else
+	{
+       DLPI2cR(dwAddr,dwCount,(uint8_t*)&byDate[0]);
+	}
 
    MsgInfo rsp;
 
@@ -151,7 +163,8 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
    data.append((const char *)&byDate[0],dwCount);
 
-   rsp.info["Data"] = data;
+   rsp.info["data"] = data;
+   rsp.info["len"] = dwCount;
 
    rsp.info["result"] = tostring(0);
    MsgHandler::Instance()->broadcastMsg(&rsp);
