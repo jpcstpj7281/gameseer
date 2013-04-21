@@ -207,5 +207,32 @@ void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate)
 
 }
 
+void DLPI2cR(uint8_t dwAddr,uint8_t dwCount,uint8_t *byDate)
+{
 
+	debug_msg("DLPI2cRead dwAddr = 0x%02X dwCount=%d!",dwAddr,dwCount);
+
+	if(0xfe == dwAddr)
+	{
+		*(byDate) = 0x0a;
+		*(byDate+1) = 0x0b;
+		*(byDate+2) = 0x0c;
+		*(byDate+3) = 0x0d;
+		*(byDate+4) = 0xe;
+
+	}
+	else
+	{
+		DLPI2cReadData(dwAddr,dwCount,byDate);
+	}
+
+
+
+	for(int i=0;i<dwCount;i++)
+	{
+		debug_msg(" DLPI2cRead count=%d,date=0x%02X!",i,*(byDate+i));
+	}
+
+
+}
 

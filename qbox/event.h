@@ -31,6 +31,7 @@ private:
 	void onPImportanceEventUpLoadRsp(MsgInfo *msg,uint32_t connID);
 
 	void onPDLPCTRLReq(MsgInfo *msg,uint32_t connID);
+	void onPDLPReadReq(MsgInfo *msg,uint32_t connID);
 
 
 };

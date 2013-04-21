@@ -48,7 +48,7 @@ extern unsigned char GpioValGet_Slot2();
 
 
 extern void DLPI2cWritePage(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
-
+extern void DLPI2cReadData(uint8_t sub2,uint8_t dwCount,uint8_t *byDate);
 
 
 

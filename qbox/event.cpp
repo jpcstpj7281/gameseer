@@ -44,6 +44,11 @@ uint32_t Event::onMsgReq(MsgInfo *msg,uint32_t connID)
         case PDLPCTRLReq::uri:
             onPDLPCTRLReq(msg,connID);
             break;
+
+        case PDLPReadReq::uri:
+        	onPDLPReadReq(msg,connID);
+        	break;
+
 #endif
 
         default:
@@ -117,6 +122,36 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
    rsp.msgType = PDLPCTRLRsp::uri;
 
+
+   rsp.info["result"] = tostring(0);
+   MsgHandler::Instance()->broadcastMsg(&rsp);
+
+   }
+
+
+   void Event::onPDLPReadReq(MsgInfo *msg,uint32_t connID)
+   {
+   cout<<"onPDLPReadReq"<<" connID="<<connID <<endl;
+
+   uint8_t dwAddr;
+   uint8_t dwCount;
+   uint8_t byDate[128] = {0};
+
+   dwAddr = atoi(msg->info["addr"].c_str());
+   dwCount = atoi(msg->info["len"].c_str());
+
+
+   DLPI2cR(dwAddr,dwCount,(uint8_t*)&byDate[0]);
+
+   MsgInfo rsp;
+
+   rsp.msgType = PDLPReadRsp::uri;
+
+   string data ;
+
+   data.append((const char *)&byDate[0],dwCount);
+
+   rsp.info["Data"] = data;
 
    rsp.info["result"] = tostring(0);
    MsgHandler::Instance()->broadcastMsg(&rsp);

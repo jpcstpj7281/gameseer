@@ -37,7 +37,7 @@ void init5160(uint32_t chn);
 void init772(uint32_t chn,uint32_t flg);
 
 void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
-
+void DLPI2cR(uint8_t dwAddr,uint8_t dwCount,uint8_t *byDate);
 
 
 }

@@ -24,5 +24,17 @@ struct PDLPCTRLRsp
 
 };
 
+struct PDLPReadReq
+{
+	enum{uri=(DLP_MSGBASE<<16|3)};
+
+};
+
+struct PDLPReadRsp
+{
+	enum{uri=(DLP_MSGBASE<<16|4)};
+
+};
+
 
 #endif /* PROTOCOL_H_ */
