@@ -123,7 +123,7 @@ void Event::mifImportanceEvent(uint32_t eventId)
    rsp.msgType = PDLPCTRLRsp::uri;
 
 
-   rsp.info["result"] = tostring(0);
+   rsp.info["error"] = tostring(0);
    MsgHandler::Instance()->broadcastMsg(&rsp);
 
    }
@@ -166,7 +166,7 @@ void Event::mifImportanceEvent(uint32_t eventId)
    rsp.info["data"] = data;
    rsp.info["len"] = dwCount;
 
-   rsp.info["result"] = tostring(0);
+   rsp.info["error"] = tostring(0);
    MsgHandler::Instance()->broadcastMsg(&rsp);
 
    }
