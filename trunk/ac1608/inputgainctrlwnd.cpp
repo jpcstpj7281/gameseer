@@ -33,8 +33,25 @@ InputGainCtrlWnd::InputGainCtrlWnd(QTabWidget *parent) :
 	}
 
 	qpbtnl_ = findChildren<OIDStatePushBtn*>( );
+	QString val1, val2, val3;
+	ConfigMgr::instance()->getValue( "input_btn_1", val1);
+	ConfigMgr::instance()->getValue( "input_btn_2", val2);
+	ConfigMgr::instance()->getValue( "input_btn_3", val3);
+	int v1 = val1.toInt();
+	int v2 = val2.toInt();
+	int v3 = val3.toInt();
 	for ( QList<OIDStatePushBtn *>::Iterator it = qpbtnl_.begin(); it != qpbtnl_.end(); ++it){
 		OIDStatePushBtn* qs = *it;
+		QString name = qs->objectName();
+		int id = name.replace( "pushButton_", "").toInt();
+		if (id < 17 ){
+			qs->setTrueState( v1);
+		}else if ( id < 23) {
+			qs->setTrueState( v2);
+		}else{
+			qs->setTrueState( v3);
+		}
+
 		qs->setObjectName( "input_"+qs->objectName());
 		qs->setToolTip( qs->objectName());
 	}

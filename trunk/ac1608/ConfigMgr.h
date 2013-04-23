@@ -38,8 +38,10 @@ public :
 
 	QString getSetting( const QString &type, int & max, int & min, int & defaultVal);
 
-	bool getProperty( const QString &id, QString &oid, float &max, float & min , float &defaultVal, int & floatNum);
-	void setProperty( const QString &id, const QString &oid, float max, float min , float defaultVal, int floatNum);
+	bool getProperty( const QString &id, QString &oid);
+	void setProperty( const QString &id, const QString &oid);
+
+	bool getValue( const QString &id, QString &val);
 	void saveAll();
 
 	~ConfigMgr();

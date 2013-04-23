@@ -15,9 +15,11 @@ class OIDStatePushBtn : public QPushButton{
 
 	bool isImageSetup_;
 protected:
-	bool val_;
+	int trueState_;//default 1
+	int val_;
 	virtual void refreshStatus();
 public:
+	void setTrueState( int state){ trueState_ = state;}
 	OIDStatePushBtn( QWidget* w);
 
 	void setOnOffStateImage(int onState, int offState, QPixmap &onImage, QPixmap &offImage );

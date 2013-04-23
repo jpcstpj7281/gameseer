@@ -5,5 +5,8 @@
         <address location="home" ip="192.168.67.101"/>
     </addresses>
     <components/>
+    <settings>
+        <setting default="0" type="brightness" min="0" max="255"/>
+    </settings>
     <devices/>
 </root>

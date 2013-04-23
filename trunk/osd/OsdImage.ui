@@ -171,6 +171,12 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>-255</number>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -183,6 +189,12 @@
      <width>160</width>
      <height>19</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>-255</number>
+   </property>
+   <property name="maximum">
+    <number>255</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -197,6 +209,12 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>-255</number>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -209,6 +227,15 @@
      <width>160</width>
      <height>19</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>0</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="value">
+    <number>50</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -223,6 +250,15 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>0</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -235,6 +271,15 @@
      <width>160</width>
      <height>19</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>0</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="value">
+    <number>50</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -249,6 +294,15 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>0</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -261,6 +315,12 @@
      <width>160</width>
      <height>19</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>-255</number>
+   </property>
+   <property name="maximum">
+    <number>255</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -275,6 +335,12 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>254</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -284,8 +350,8 @@
     <rect>
      <x>40</x>
      <y>430</y>
-     <width>54</width>
-     <height>12</height>
+     <width>51</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -297,8 +363,8 @@
     <rect>
      <x>40</x>
      <y>390</y>
-     <width>54</width>
-     <height>12</height>
+     <width>51</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -310,8 +376,8 @@
     <rect>
      <x>40</x>
      <y>350</y>
-     <width>54</width>
-     <height>12</height>
+     <width>51</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -330,6 +396,11 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <item>
+    <property name="text">
+     <string>Off</string>
+    </property>
+   </item>
    <item>
     <property name="text">
      <string>9300K</string>
@@ -406,8 +477,8 @@
     <rect>
      <x>40</x>
      <y>470</y>
-     <width>54</width>
-     <height>12</height>
+     <width>51</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -419,7 +490,7 @@
     <rect>
      <x>170</x>
      <y>470</y>
-     <width>69</width>
+     <width>161</width>
      <height>22</height>
     </rect>
    </property>
@@ -464,7 +535,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>正</string>
+    <string>no</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnVertRevert">
@@ -477,7 +548,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>正</string>
+    <string>no</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_16">
@@ -485,8 +556,8 @@
     <rect>
      <x>450</x>
      <y>210</y>
-     <width>54</width>
-     <height>12</height>
+     <width>51</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -515,6 +586,12 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>-384</number>
+   </property>
+   <property name="maximum">
+    <number>384</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -528,6 +605,12 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>-255</number>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -537,8 +620,8 @@
     <rect>
      <x>450</x>
      <y>170</y>
-     <width>54</width>
-     <height>12</height>
+     <width>51</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -567,6 +650,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>0</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="leRedBrightness">
    <property name="geometry">
@@ -576,6 +662,9 @@
      <width>51</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="leContrast">
@@ -587,6 +676,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>50</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="leGreenBrightness">
    <property name="geometry">
@@ -596,6 +688,9 @@
      <width>51</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="leRedContrast">
@@ -607,6 +702,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>50</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="leBlueBrightness">
    <property name="geometry">
@@ -616,6 +714,9 @@
      <width>51</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="leGreenContrast">
@@ -627,6 +728,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>50</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="leDynBlack">
    <property name="geometry">
@@ -636,6 +740,9 @@
      <width>51</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>1</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="leBlueContrast">
@@ -647,6 +754,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>50</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="leHoriOffset">
    <property name="geometry">
@@ -657,6 +767,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>0</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="leVertOffset">
    <property name="geometry">
@@ -666,6 +779,9 @@
      <width>51</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>0</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnInit">

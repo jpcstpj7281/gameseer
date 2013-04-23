@@ -44,9 +44,9 @@ HighPassWnd::HighPassWnd(QTabWidget *parent) :
 
 	bypass_ = findChild<OIDStatePushBtn*>("btnBypass" );
 	if ( bypass_ ){
-		QPixmap bypass2Btn("res/BypassBtn.png");
-		QPixmap bypass2Off("res/BypassBtn_off.png");
-		bypass_->setOnOffStateImage( 1, 0, bypass2Btn, bypass2Off);
+		//QPixmap bypass2Btn("res/BypassBtn.png");
+		//QPixmap bypass2Off("res/BypassBtn_off.png");
+		//bypass_->setOnOffStateImage( 1, 0, bypass2Btn, bypass2Off);
 		bypass_->setObjectName( "highpass_"+ bypass_->objectName() + currCHBtn_->objectName());
 		bypass_->setToolTip(bypass_->objectName());
 	}

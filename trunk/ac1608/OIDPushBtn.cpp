@@ -12,6 +12,7 @@ OIDStatePushBtn::OIDStatePushBtn( QWidget* w):
 QPushButton(w)
 ,val_(0)
 ,isImageSetup_(false)
+,trueState_(1)
 {
 	setToolTip(objectName() );
 	setStyleSheet("* { background-color: lightGray }");
@@ -70,7 +71,7 @@ void OIDStatePushBtn::refreshStatus(){
 }
 
 void OIDStatePushBtn::clickChanged(){
-	val_=!val_;
+	val_? val_ = 0: val_=trueState_;
 	refreshStatus();
 	QString  oid = ConfigMgr::instance()->getOid( objectName());
 	if (! oid.isEmpty() ){

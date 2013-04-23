@@ -21,14 +21,16 @@ OsdWnd::OsdWnd(ResourceID screenid)
 :QMainWindow(0)
 ,screenid_(screenid)
 ,ui(new Ui::MainWindow)
-,osdImage_(new OsdImage)
-,osdProjMode_(new OsdProjMode)
+,osdImage_(new OsdImage(this, screenid))
+,osdProjMode_(new OsdProjMode(this, screenid))
 {
     ui->setupUi(this);
 	_tab = findChild<QTabWidget*>( "tabWidget");
 	_tab->addTab(osdImage_, "Image" );
 	_tab->addTab(osdProjMode_, "Projection Mode" );
 	//connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
+	
+
 }
 
 
@@ -62,7 +64,10 @@ void ScreenConnBtn::disconn(){
 	setText("Connect");
 }
 void ScreenConnBtn::clickit(){
-	if ( text() == "Connect"){
+	if ( address_->text().isEmpty() ){
+		address_->setText("127.0.0.1") ;
+	}
+	if ( !address_->text().isEmpty() && text() == "Connect"){
 		conn();
 	}else if (text() == "Disconnect"){
 		disconn();
@@ -184,6 +189,8 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	connect( connAll, SIGNAL( clicked()), this, SLOT(connAll()) );
 	QPushButton * disconnAll = findChild<QPushButton* >("disconnAll");
 	connect( disconnAll, SIGNAL( clicked()), this, SLOT(disconnAll()) );
+
+	initAddresses();
 }
 
 
