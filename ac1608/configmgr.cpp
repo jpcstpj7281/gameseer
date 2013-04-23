@@ -185,7 +185,24 @@ QString ConfigMgr::getSetting( const QString &type, int & max, int & min, int & 
 	return false;
 }
 
-bool ConfigMgr::getProperty( const QString &id, QString &oid, float &max, float & min , float &defaultVal, int & floatNum){
+bool ConfigMgr::getValue( const QString &id, QString &val){
+	if ( !doc_ && id.isEmpty() ) return false;
+	QDomElement root = doc_->documentElement();
+
+	QDomNodeList items = root.elementsByTagName("value");
+	for(size_t i = 0; i <items.length(); ++i){
+		QDomNode node = items.at(i);
+		QDomNode n1 = node.attributes().item(1);
+		if ( "id" == n1.nodeName()&& id == n1.nodeValue() ){
+			val = node.attributes().item(0).nodeValue();
+			return true;
+		}
+
+	}
+	return false;
+}
+
+bool ConfigMgr::getProperty( const QString &id, QString &oid){
 	if ( !doc_ && id.isEmpty() ) return false;
 	QDomElement root = doc_->documentElement();
 
@@ -195,17 +212,17 @@ bool ConfigMgr::getProperty( const QString &id, QString &oid, float &max, float 
 		QDomNode n1 = node.attributes().item(1);
 		if ( "id" == n1.nodeName()&& id == n1.nodeValue() ){
 			oid = node.attributes().item(0).nodeValue();
-			max = node.attributes().item(1).nodeValue().toFloat();
-			min = node.attributes().item(2).nodeValue().toFloat();
-			defaultVal = node.attributes().item(3).nodeValue().toFloat();
-			floatNum = node.attributes().item(4).nodeValue().toInt();
+			//max = node.attributes().item(1).nodeValue().toFloat();
+			//min = node.attributes().item(2).nodeValue().toFloat();
+			//defaultVal = node.attributes().item(3).nodeValue().toFloat();
+			//floatNum = node.attributes().item(4).nodeValue().toInt();
 			return true;
 		}
 
 	}
 	return false;
 }
-void ConfigMgr::setProperty( const QString &id, const QString &oid, float max, float min , float defaultVal, int floatNum){
+void ConfigMgr::setProperty( const QString &id, const QString &oid){
 	if ( !doc_ && id.isEmpty() ) return ;
 	QDomElement root = doc_->documentElement();
 	QDomNodeList items = root.elementsByTagName("component");
@@ -216,10 +233,10 @@ void ConfigMgr::setProperty( const QString &id, const QString &oid, float max, f
 		if ( elem.attribute("id") == id ){
 			elem.setAttribute("id", id);
 			elem.setAttribute("oid", oid);
-			elem.setAttribute( "max", max);
-			elem.setAttribute( "min", min);
-			elem.setAttribute( "default", defaultVal);
-			elem.setAttribute( "floatNum", floatNum);
+			//elem.setAttribute( "max", max);
+			//elem.setAttribute( "min", min);
+			//elem.setAttribute( "default", defaultVal);
+			//elem.setAttribute( "floatNum", floatNum);
 			found = true;
 			break;
 		}
@@ -230,10 +247,10 @@ void ConfigMgr::setProperty( const QString &id, const QString &oid, float max, f
 		QDomElement elem = doc_->createElement( "component");
 		elem.setAttribute ("id", id);
 		elem.setAttribute("oid", oid);
-		elem.setAttribute( "max", max);
-		elem.setAttribute( "min", min);
-		elem.setAttribute( "default", defaultVal);
-		elem.setAttribute( "floatNum", floatNum);
+		//elem.setAttribute( "max", max);
+		//elem.setAttribute( "min", min);
+		//elem.setAttribute( "default", defaultVal);
+		//elem.setAttribute( "floatNum", floatNum);
 		node.insertAfter( elem, QDomElement());
 	}
 }
@@ -249,10 +266,10 @@ void ConfigMgr::setOid( const QString &id, const QString &oid){
 		if ( elem.attribute("id") == id ){
 			elem.setAttribute("id", id);
 			elem.setAttribute("oid", oid);
-			elem.setAttribute( "max", 0);
-			elem.setAttribute( "min", 0);
-			elem.setAttribute( "default", 0);
-			elem.setAttribute( "floatNum", 0);
+			//elem.setAttribute( "max", 0);
+			//elem.setAttribute( "min", 0);
+			//elem.setAttribute( "default", 0);
+			//elem.setAttribute( "floatNum", 0);
 			found = true;
 			break;
 		}
@@ -263,10 +280,10 @@ void ConfigMgr::setOid( const QString &id, const QString &oid){
 		QDomElement elem = doc_->createElement( "component");
 		elem.setAttribute ("id", id);
 		elem.setAttribute( "oid", oid);
-		elem.setAttribute( "max", 0);
-		elem.setAttribute( "min", 0);
-		elem.setAttribute( "default", 0);
-		elem.setAttribute( "floatNum", 0);
+		//elem.setAttribute( "max", 0);
+		//elem.setAttribute( "min", 0);
+		//elem.setAttribute( "default", 0);
+		//elem.setAttribute( "floatNum", 0);
 		node.insertAfter( elem, QDomElement());
 	}
 }

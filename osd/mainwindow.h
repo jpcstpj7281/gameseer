@@ -17,10 +17,6 @@ class MainWindow : public QMainWindow
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
-    private slots:
-
-		void tabChanged (int);
-
     private:
 
 		QTabWidget* _tab;
@@ -30,6 +26,7 @@ class MainWindow : public QMainWindow
         DevicesWnd *devicesWnd_;
 
 		//SnmpNetWnd * snmpNetWnd_;
+		std::vector< QWidget*> modules_;
 
         void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);

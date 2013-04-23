@@ -38,8 +38,6 @@ class FitnessVPos extends ValueBarDlg{
         trace( shift);
         bs.addByte(shift >> 24);
         bs.addByte(shift);
-        bs.addByte(shift );
-        bs.addByte(shift);
         //bs.addByte(0x16);
         //bs.addByte(0x16);
         _screen.setOsd( Std.string(0x05), Std.string(2), bs.getBytes(), cbFunc);

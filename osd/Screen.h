@@ -15,6 +15,8 @@ inline uint32_t GetRow(ResourceID id){ return (id >> 8) & 0xFF ;}
 inline uint32_t GetCol(ResourceID id){ return id  & 0xFF ;}
 inline uint32_t GetInput(ResourceID id){ return (id >> 24) & 0xFF ;}
 inline uint32_t GetOutput(ResourceID id){ return (id >> 16) & 0xFF ;}
+inline uint32_t ToScreenID( uint32_t row, uint32_t col){  return (row << 8) | col;}
+inline uint32_t ToResourceID( uint32_t input, uint32_t output, uint32_t row, uint32_t col){ return (input<<24) | (output<<16) | (row << 8) | col;}
 
 typedef std::function< bool (ResourceID )> ResourceChangedCallback;
 
@@ -52,6 +54,12 @@ public:
 	std::vector<ResourceID> getValidChnInResources();
 
 	void osdRequest(QboxCallback callback, QboxDataMap &value );
+	void osdRequest(uint32_t addr, const std::string &data, QboxCallback callback );
+	void osdRequestChar(uint32_t addr, const char val, QboxCallback callback );
+	void osdRequestShort(uint32_t addr, const short val, QboxCallback callback );
+	void osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback );
+	void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
+	void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
 
 	void onInputChanged(ResourceChangedCallback callback);
 	void onInputResolutionChanged(ResourceChangedCallback callback);

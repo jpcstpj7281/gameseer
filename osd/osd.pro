@@ -6,14 +6,8 @@
 
 QT  += core gui xml  
 
-#greaterThan(QT_MAJOR_VERSION, 4) {
-#    QT += widgets quick
-#} else {
-    QT += declarative
-#}
 
-QMAKE_CXXFLAGS += -std=gnu++0x  #Qt4
-CONFIG += c++11					#Qt5
+CONFIG += c++11				
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -53,6 +47,7 @@ TestQbox.ui \
 
 LIBS += -lws2_32
 DEFINES +=	_WIN32_WINNT=0x0501 \
+_CRT_SECURE_NO_DEPRECATE \
 BOOST_DATE_TIME_NO_LIB BOOST_REGEX_NO_LIB BOOST_ALL_NO_LIB=1
 
 

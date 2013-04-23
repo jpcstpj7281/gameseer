@@ -100,6 +100,7 @@ Qbox* QboxMgr::createQbox(const std::string & ip){
 		q = new Qbox();
 	}else{
 		q = impl_->removeQboxs_.back();
+		impl_->removeQboxs_.pop_back();
 	}
 	q->setAddress(ip);
 	impl_->qboxes_.push_back(q);

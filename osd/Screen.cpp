@@ -18,8 +18,60 @@ Screen::Screen(uint32_t row, uint32_t col)
 {
 }
 Screen::~Screen(){
+	disconnect();
+	QboxMgr::instance()->removeQbox(qbox_->address());
 }
 
+void Screen::osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback ){
+	std::string data;
+	data.resize(4);
+	data[0] = val>>24;
+	data[1] = val>>16;
+	data[2] = val>>8;
+	data[3] = val;
+	osdRequest( addr, data, callback);
+}
+
+void Screen::osdRequestInt(uint32_t addr, const int val, QboxCallback callback ){
+	std::string data;
+	data.resize(4);
+	data[0] = val>>24;
+	data[1] = val>>16;
+	data[2] = val>>8;
+	data[3] = val;
+	osdRequest( addr, data, callback);
+}
+
+void Screen::osdRequestShort(uint32_t addr, const short val, QboxCallback callback ){
+	std::string data;
+	data.resize(2);
+	data[0] = val>>8;
+	data[1] = val;
+	osdRequest( addr, data, callback);
+}
+
+void Screen::osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback ){
+	std::string data;
+	data.resize(2);
+	data[0] = val>>8;
+	data[1] = val;
+	osdRequest( addr, data, callback);
+}
+
+void Screen::osdRequestChar(uint32_t addr, const char val, QboxCallback callback ){
+	std::string data;
+	data.resize(1);
+	data[0] = val;
+	osdRequest( addr, data, callback);
+}
+
+void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback callback){
+	QboxDataMap datamap;
+	datamap["addr"] = QString::number( addr).toStdString();
+	datamap["len"] = QString::number( data.length()).toStdString();
+	datamap["value"] = data;
+	osdRequest( callback, datamap);
+}
 
 void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
 	if ( qbox_){
@@ -81,7 +133,7 @@ std::vector<ResourceID> ScreenMgr::removeScreenCol( ){
 	std::vector<ResourceID> scrns ;
 	for ( size_t i = 0; i < rowCount_; ++i){
 		if ( screens_[i][colCount_-1]){
-			scrns.push_back( ((i+1) << 8) | colCount_);
+			scrns.push_back( ToScreenID(i+1, colCount_) );
 			delete screens_[i][colCount_-1];
 			screens_[i][colCount_-1] = NULL;
 		}else{
@@ -99,7 +151,7 @@ std::vector<ResourceID> ScreenMgr::addScreenCol( ){
 	for ( size_t  i = 0; i < rowCount_; ++i){
 		if ( screens_[i][colCount_] == NULL){
 			screens_[i][colCount_] = new Screen( i+1, colCount_+1);
-			scrns.push_back( ((i+1 )<<8)| (colCount_+1)) ;
+			scrns.push_back( ToScreenID(i+1, colCount_+1) ) ;
 		}else{
 			scrns.clear();
 			return scrns;
@@ -114,7 +166,7 @@ std::vector<ResourceID> ScreenMgr::addScreenRow( ){
 	for ( size_t  i = 0; i < colCount_; ++i){
 		if ( screens_[rowCount_][i] == NULL){
 			screens_[rowCount_][i] = new Screen( rowCount_+1, i+1);
-			scrns.push_back( ((rowCount_+1)<<8) | (i+1));
+			scrns.push_back( ToScreenID(rowCount_+1, i+1));
 		}else{
 			scrns.clear();
 			return scrns;
@@ -129,7 +181,7 @@ std::vector<ResourceID> ScreenMgr::removeScreenRow(){
 	std::vector<ResourceID> scrns ;
 	for ( size_t  i = 0; i < colCount_; ++i){
 		if ( screens_[rowCount_-1][i]){
-			scrns.push_back( (rowCount_ << 8) | (i+1));
+			scrns.push_back( ToScreenID(rowCount_, i+1));
 			delete screens_[rowCount_-1][i];
 			screens_[rowCount_-1][i] = NULL;
 		}else{

@@ -11,30 +11,26 @@
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
-	,devicesWnd_(new DevicesWnd)
-
 {
     ui->setupUi(this);
-
+	
 	_tab = findChild<QTabWidget*>( "tabWidget");
-	_tab->addTab(devicesWnd_, "Devices" );
-	devicesWnd_->initAddresses();
+	modules_.push_back( new DevicesWnd(_tab));
+	for (auto it = modules_.begin(); it != modules_.end(); ++it){
+		_tab->addTab(*it, (*it)->windowTitle() );
+	}
 
-	connect( _tab, SIGNAL(currentChanged (int)), this, SLOT(tabChanged(int)));
 	this->resize(1024, 768);
 }
 
 
-void MainWindow::tabChanged (int index){
-	QWidget* currWidget = _tab->widget( index);
-	if ( currWidget == devicesWnd_){
-	}
-}
+
 MainWindow::~MainWindow()
 {
     delete ui;
-	delete devicesWnd_;
-	//delete snmpNetWnd_;
+	for ( auto it = modules_.begin(); it != modules_.end(); ++it){
+		delete *it;
+	}
 }
 
 void MainWindow::closeEvent(QCloseEvent * ){
