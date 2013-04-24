@@ -227,14 +227,24 @@ struct Qbox::Impl{
 		if ( !err){
 			//qDebug()<<"handleReceived: "<<bytes_transferred;
 			uint32_t len = 0, move = 0, msgtype = 0;
-			
+			//qDebug()<<"test";
 			while( move < bytes_transferred){
 				memcpy((void*)&len,(const void*)(responsed_ + move + 4),4);
 				memcpy((void*)&msgtype,(const void*)(responsed_ + HEAD_SIZE),sizeof(msgtype));
 				MsgInfo msg = decodeData( responsed_ + move, len +8);
+				//qDebug()<<"test1";
+				//qDebug()<<bytes_transferred;
+				std::stringstream ss;
+				static char syms[] = "0123456789ABCDEF";
+				for (int it = move; it < bytes_transferred; it++){
+					ss << syms[((responsed_[it] >> 4) & 0xf)] << syms[responsed_[it] & 0xf] << ' ';
+				}
+				qDebug()<< ss.str().c_str();
 				mainios_->post( boost::bind( &Qbox::Impl::dispatchResponse, this, msg) );
+				//qDebug()<<"test2";
 				move+=len+8;
 			}
+			//qDebug()<<"test3";
 			//到再读一下
 			asyncReceive();
 		}else{
@@ -244,14 +254,32 @@ struct Qbox::Impl{
 	}
 
 	void dispatchResponse(MsgInfo msg){
+		RequestList foundList;
 		for( RequestList::iterator it = sentList_.begin(); it != sentList_.end(); ){
 			QboxObj* obj = *it;
-			if ( obj->sendmsg_.msgType +1 == msg.msgType && obj->callback_ (msg.msgType, msg.info)){ //要CALLBACK确认是正常才可以删除
-				delete obj;
+			if ( obj->sendmsg_.msgType +1 == msg.msgType ){ //要CALLBACK确认是正常才可以删除
 				it  = sentList_.erase( it);
+				foundList.push_back( obj);
+				qDebug()<<"erase send";
 			}else{
 				++it;
 			}
+		}
+		if (! foundList.empty()){
+			for( RequestList::iterator it = foundList.begin(); it != foundList.end();){
+				QboxObj* obj = *it;
+				if ( obj->callback_( msg.msgType, msg.info)){
+					it = foundList.erase( it);
+					delete obj;
+					qDebug()<<"erase found";
+				}
+				else{
+					++it;
+					sentList_.push_back(obj);
+				}
+			}
+		}else{
+			return;
 		}
 	}
 
@@ -269,7 +297,7 @@ struct Qbox::Impl{
 
 	void handleConnected( const asio::error_code& err){
 		if ( !err){
-			qDebug()<<"handleConnected";
+			//qDebug()<<"handleConnected";
 			isConnected_ = true;
 			mainios_->post( boost::bind( &Qbox::Impl::asyncRequest, this) );
 			asyncReceive();
