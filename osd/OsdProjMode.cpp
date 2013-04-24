@@ -276,11 +276,93 @@ OsdProjMode::OsdProjMode(QWidget *parent, ResourceID screenid) :
     if ( cb) {
     	connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentTestPatternsIndexChanged(int) ) );
     }
+
+	QPushButton* btn = findChild<QPushButton*>("btnReadHsg");
+	if ( btn) {
+    	connect( btn, SIGNAL( clicked ()), this, SLOT( readClicked() ) );
+    }
 }
 
 OsdProjMode::~OsdProjMode()
 {
     delete ui;
+}
+bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
+	std::string val = data["Data"];
+	if ( val.empty() ){
+		val = data["data"];
+	}
+	if ( val.length() == 42){
+		redGain_ =(val[0] << 8 ) + val[1];
+		redSat_=(val[2] << 8 ) + val[3];
+		redHue_=(val[4] << 8 ) + val[5];
+		greenGain_=(val[6] << 8 ) + val[7];
+		greenSat_=(val[8] << 8 ) + val[9];
+		greenHue_=(val[10] << 8 ) + val[11];
+		blueGain_=(val[12] << 8 ) + val[13];
+		blueSat_=(val[14] << 8 ) + val[15];
+		blueHue_=(val[16] << 8 ) + val[17];
+		cyanGain_=(val[18] << 8 ) + val[19];
+		cyanSat_=(val[20] << 8 ) + val[21];
+		cyanHue_=(val[22] << 8 ) + val[23];
+		magentaGain_=(val[24] << 8 ) + val[25];
+		magentaSat_=(val[26] << 8 ) + val[27];
+		magentaHue_=(val[28] << 8 ) + val[29];
+		yellowGain_=(val[30] << 8 ) + val[31];
+		yellowSat_=(val[32] << 8 ) + val[33];
+		yellowHue_=(val[34] << 8 ) + val[35];
+		whiteRed_=(val[36] << 8 ) + val[37];
+		whiteGreen_=(val[38] << 8 ) + val[39];
+		whiteBlue_=(val[40] << 8 ) + val[41];
+
+		findChild<QSlider*>("sHsgRedGain" )->setValue( redGain_);
+		findChild<QSlider*>("sHsgRedSat" )->setValue( redSat_);
+		findChild<QSlider*>("sHsgRedHue" )->setValue( redHue_);
+		findChild<QSlider*>("sHsgGreenGain" )->setValue( greenGain_);
+		findChild<QSlider*>("sHsgGreenSat" )->setValue( greenSat_);
+		findChild<QSlider*>("sHsgGreenHue" )->setValue( greenHue_);
+		findChild<QSlider*>("sHsgBlueGain" )->setValue( blueGain_);
+		findChild<QSlider*>("sHsgBlueSat" )->setValue( blueSat_);
+		findChild<QSlider*>("sHsgBlueHue" )->setValue( blueHue_);
+		findChild<QSlider*>("sHsgCyanGain" )->setValue( cyanGain_);
+		findChild<QSlider*>("sHsgCyanSat" )->setValue( cyanSat_);
+		findChild<QSlider*>("sHsgCyanHue" )->setValue( cyanHue_);
+		findChild<QSlider*>("sHsgMagentaGain" )->setValue( magentaGain_);
+		findChild<QSlider*>("sHsgMagentaHue" )->setValue( magentaHue_);
+		findChild<QSlider*>("sHsgMagentaSat" )->setValue( magentaSat_);
+		findChild<QSlider*>("sHsgYellowGain" )->setValue( yellowGain_);
+		findChild<QSlider*>("sHsgYellowHue" )->setValue( yellowHue_);
+		findChild<QSlider*>("sHsgYellowSat" )->setValue( yellowSat_);
+		findChild<QSlider*>("sHsgWhiteGreen" )->setValue(whiteGreen_ );
+		findChild<QSlider*>("sHsgWhiteRed" )->setValue( whiteRed_);
+		findChild<QSlider*>("sHsgWhiteBlue" )->setValue( whiteBlue_);
+		findChild<QLineEdit*>("leHsgRedGain" )->setText( QString::number( redGain_));
+		findChild<QLineEdit*>("leHsgRedSat" )->setText( QString::number( redSat_));
+		findChild<QLineEdit*>("leHsgRedHue" )->setText( QString::number( redHue_));
+		findChild<QLineEdit*>("leHsgGreenGain" )->setText( QString::number( greenGain_));
+		findChild<QLineEdit*>("leHsgGreenSat" )->setText( QString::number( greenSat_));
+		findChild<QLineEdit*>("leHsgGreenHue" )->setText( QString::number( greenHue_));
+		findChild<QLineEdit*>("leHsgBlueGain" )->setText( QString::number( blueGain_));
+		findChild<QLineEdit*>("leHsgBlueSat" )->setText( QString::number( blueSat_));
+		findChild<QLineEdit*>("leHsgBlueHue" )->setText( QString::number( blueHue_));
+		findChild<QLineEdit*>("leHsgCyanGain" )->setText( QString::number( cyanGain_));
+		findChild<QLineEdit*>("leHsgCyanSat" )->setText( QString::number( cyanSat_));
+		findChild<QLineEdit*>("leHsgCyanHue" )->setText( QString::number( cyanHue_));
+		findChild<QLineEdit*>("leHsgMagentaGain" )->setText( QString::number( magentaGain_));
+		findChild<QLineEdit*>("leHsgMagentaHue" )->setText( QString::number( magentaHue_));
+		findChild<QLineEdit*>("leHsgMagentaSat" )->setText( QString::number( magentaSat_));
+		findChild<QLineEdit*>("leHsgYellowGain" )->setText( QString::number( yellowGain_));
+		findChild<QLineEdit*>("leHsgYellowHue" )->setText( QString::number( yellowHue_));
+		findChild<QLineEdit*>("leHsgYellowSat" )->setText( QString::number( yellowSat_));
+		findChild<QLineEdit*>("leHsgWhiteGreen" )->setText( QString::number( whiteGreen_));
+		findChild<QLineEdit*>("leHsgWhiteRed" )->setText( QString::number(whiteRed_ ));
+		findChild<QLineEdit*>("leHsgWhiteBlue" )->setText( QString::number( whiteBlue_));
+	}
+	return true;
+}
+
+void OsdProjMode::readClicked(){
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2));
 }
 
 static bool osdResponse(uint32_t , QboxDataMap&){

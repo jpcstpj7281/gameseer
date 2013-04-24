@@ -4,16 +4,18 @@
 #include "QSlider.h"
 #include "qlineedit.h"
 #include <qdebug.h>
+#include <sstream>
+#include <string>
 
 OsdImage::~OsdImage()
 {
-    delete ui;
+	delete ui;
 }
 
 
 OsdImage::OsdImage(QWidget *parent, ResourceID screenid ) :
-    QWidget(parent),
-    ui(new Ui::OsdImage)
+QWidget(parent),
+	ui(new Ui::OsdImage)
 	,screenid_(screenid)
 	, brightnessRed_(0)
 	, brightnessGreen_(0)
@@ -26,141 +28,245 @@ OsdImage::OsdImage(QWidget *parent, ResourceID screenid ) :
 	, horiPos_(0)
 	, vertPos_(0)
 	, comma_(0)
-	, orientation_(0)
+	, orientation_(01)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    QPushButton * initBtn  = findChild<QPushButton*>("btnInit" );
-    if ( initBtn) {
-    	connect( initBtn, SIGNAL( clicked()), this, SLOT( clickinit() ) );
-    }
+	QPushButton * initBtn  = findChild<QPushButton*>("btnInit" );
+	if ( initBtn) {
+		connect( initBtn, SIGNAL( clicked()), this, SLOT( clickinit() ) );
+	}
 
-    QSlider * qs  = findChild<QSlider*>("sBrightness" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueBrightnessChanged(int) ) );
-    }
+	QSlider * qs  = findChild<QSlider*>("sBrightness" );
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueBrightnessChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sRedBrightness" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueRedBrightnessChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueRedBrightnessChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sGreenBrightness" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueGreenBrightnessChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueGreenBrightnessChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sBlueBrightness" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueBlueBrightnessChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueBlueBrightnessChanged(int) ) );
+	}
 
 	QLineEdit * le  = findChild<QLineEdit*>("leBrightness" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBrightnessChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBrightnessChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leRedBrightness" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueRedBrightnessChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueRedBrightnessChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leGreenBrightness" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueGreenBrightnessChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueGreenBrightnessChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leBlueBrightness" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBlueBrightnessChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBlueBrightnessChangedFinished() ) );
+	}
 
 	qs  = findChild<QSlider*>("sContrast" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueContrastChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueContrastChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sRedContrast" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueRedContrastChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueRedContrastChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sGreenContrast" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueGreenContrastChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueGreenContrastChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sBlueContrast" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueBlueContrastChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueBlueContrastChanged(int) ) );
+	}
 
 	le  = findChild<QLineEdit*>("leContrast" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueContrastChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueContrastChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leRedContrast" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueRedContrastChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueRedContrastChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leGreenContrast" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueGreenContrastChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueGreenContrastChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leBlueContrast" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBlueContrastChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBlueContrastChangedFinished() ) );
+	}
 
 	qs  = findChild<QSlider*>("sVertOffset" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueVertOffsetChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueVertOffsetChanged(int) ) );
+	}
 	qs  = findChild<QSlider*>("sHoriOffset" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueHoriOffsetChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueHoriOffsetChanged(int) ) );
+	}
 
 	le  = findChild<QLineEdit*>("leHoriOffset" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueHoriOffsetChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueHoriOffsetChangedFinished() ) );
+	}
 	le  = findChild<QLineEdit*>("leVertOffset" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueVertOffsetChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueVertOffsetChangedFinished() ) );
+	}
 
 	qs  = findChild<QSlider*>("sDynBlack" );
-    if ( qs) {
-    	connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueDBlackChanged(int) ) );
-    }
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueDBlackChanged(int) ) );
+	}
 
 	le  = findChild<QLineEdit*>("leDynBlack" );
-    if ( le) {
-    	connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueDBlackChangedFinished() ) );
-    }
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueDBlackChangedFinished() ) );
+	}
 
 	QPushButton* btn  = findChild<QPushButton*>("btnHoriRevert" );
-    if ( btn) {
-    	connect( btn, SIGNAL( clicked ()), this, SLOT( btnHoriRevert() ) );
-    }
+	if ( btn) {
+		connect( btn, SIGNAL( clicked ()), this, SLOT( btnHoriRevert() ) );
+	}
 
 	btn  = findChild<QPushButton*>("btnVertRevert" );
-    if ( btn) {
-    	connect( btn, SIGNAL( clicked  ()), this, SLOT( btnVertRevert() ) );
-    }
+	if ( btn) {
+		connect( btn, SIGNAL( clicked  ()), this, SLOT( btnVertRevert() ) );
+	}
 
 	QComboBox* cb  = findChild<QComboBox*>("cbBrilliantColor" );
-    if ( cb) {
-    	connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentBrilliantIndexChanged(int) ) );
-    }
+	if ( cb) {
+		connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentBrilliantIndexChanged(int) ) );
+	}
 	cb  = findChild<QComboBox*>("cbColorRegion" );
-    if ( cb) {
-    	connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentRegionIndexChanged(int) ) );
-    }
+	if ( cb) {
+		connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentRegionIndexChanged(int) ) );
+		cb->setEnabled(false);
+	}
 	cb  = findChild<QComboBox*>("cbColorOverlap" );
-    if ( cb) {
-    	connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentOverlapIndexChanged(int) ) );
-    }
+	if ( cb) {
+		connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentOverlapIndexChanged(int) ) );
+		cb->setEnabled(false);
+	}
 	cb  = findChild<QComboBox*>("cbComma" );
-    if ( cb) {
-    	connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentCommaIndexChanged(int) ) );
-    }
+	if ( cb) {
+		connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentCommaIndexChanged(int) ) );
+	}
 
 }
 
+bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data){
+	std::string val;
+	val.resize(8);
+	initStr_ = data["Data"];
+	if ( initStr_.empty()){
+		initStr_ = data["data"];
+	}
+	int step = 0;
+	val[0] = initStr_[(step)*8 +0];
+	val[1] = initStr_[(step)*8 +1];
+	val[2] = initStr_[(step)*8 +2];
+	val[3] = initStr_[(step)*8 +3];
+	val[4] = initStr_[(step)*8 +4];
+	val[5] = initStr_[(step)*8 +5];
+	val[6] = initStr_[(step)*8 +6];
+	val[7] = initStr_[(step)*8 +7];
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead1, this, std::placeholders::_1, std::placeholders::_2));
+
+	return true;
+}
+bool OsdImage::osdResponseRead1( uint32_t , QboxDataMap& data){
+	std::string val;
+	val.resize(8);
+	int step = 1;
+	val[0] = initStr_[(step)*8 +0];
+	val[1] = initStr_[(step)*8 +1];
+	val[2] = initStr_[(step)*8 +2];
+	val[3] = initStr_[(step)*8 +3];
+	val[4] = initStr_[(step)*8 +4];
+	val[5] = initStr_[(step)*8 +5];
+	val[6] = initStr_[(step)*8 +6];
+	val[7] = initStr_[(step)*8 +7];
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead2, this, std::placeholders::_1, std::placeholders::_2));
+	return true;
+}
+bool OsdImage::osdResponseRead2( uint32_t , QboxDataMap& data){
+	std::string val;
+	val.resize(8);
+	int step = 2;
+	val[0] = initStr_[(step)*8 +0];
+	val[1] = initStr_[(step)*8 +1];
+	val[2] = initStr_[(step)*8 +2];
+	val[3] = initStr_[(step)*8 +3];
+	val[4] = initStr_[(step)*8 +4];
+	val[5] = initStr_[(step)*8 +5];
+	val[6] = initStr_[(step)*8 +6];
+	val[7] = initStr_[(step)*8 +7];
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead3, this, std::placeholders::_1, std::placeholders::_2));
+	return true;
+}
+bool OsdImage::osdResponseRead3( uint32_t , QboxDataMap& data){
+	std::string val;
+	val.resize(8);
+	int step = 3;
+	val[0] = initStr_[(step)*8 +0];
+	val[1] = initStr_[(step)*8 +1];
+	val[2] = initStr_[(step)*8 +2];
+	val[3] = initStr_[(step)*8 +3];
+	val[4] = initStr_[(step)*8 +4];
+	val[5] = initStr_[(step)*8 +5];
+	val[6] = initStr_[(step)*8 +6];
+	val[7] = initStr_[(step)*8 +7];
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead4, this, std::placeholders::_1, std::placeholders::_2));
+	return true;
+}
+bool OsdImage::osdResponseRead4( uint32_t , QboxDataMap& data){
+	std::string val;
+	val.resize(8);
+	int step = 4;
+	val[0] = initStr_[(step)*8 +0];
+	val[1] = initStr_[(step)*8 +1];
+	val[2] = initStr_[(step)*8 +2];
+	val[3] = initStr_[(step)*8 +3];
+	val[4] = initStr_[(step)*8 +4];
+	val[5] = initStr_[(step)*8 +5];
+	val[6] = initStr_[(step)*8 +6];
+	val[7] = initStr_[(step)*8 +7];
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead5, this, std::placeholders::_1, std::placeholders::_2));
+	return true;
+}
+bool OsdImage::osdResponseRead5( uint32_t , QboxDataMap& data){
+	std::string val;
+	val.resize(8);
+	int step = 5;
+	val[0] = initStr_[(step)*8 +0];
+	val[1] = initStr_[(step)*8 +1];
+	val[2] = initStr_[(step)*8 +2];
+	val[3] = initStr_[(step)*8 +3];
+	val[4] = initStr_[(step)*8 +4];
+	val[5] = initStr_[(step)*8 +5];
+	val[6] = initStr_[(step)*8 +6];
+	val[7] = initStr_[(step)*8 +7];
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead6, this, std::placeholders::_1, std::placeholders::_2));
+	return true;
+}
+bool OsdImage::osdResponseRead6( uint32_t , QboxDataMap& data){
+	qDebug()<<"done";
+	return true;
+}
+
 void OsdImage::clickinit(){
+	//ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 8, std::bind( &osdResponseRead, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xa0d0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2));
 }
 static bool osdResponse(uint32_t , QboxDataMap&){
 	qDebug()<<"osdResponse";
@@ -234,33 +340,36 @@ void OsdImage::valueRedBrightnessChanged(int val){
 	if (val == brightnessRed_) return;
 	brightnessRed_ = val;
 	adjustAllBrightness();
+	dispatchBrightness();
 }
 void OsdImage::valueGreenBrightnessChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
 	if (val == brightnessGreen_) return;
 	brightnessGreen_ = val;
 	adjustAllBrightness();
+	dispatchBrightness();
 }
 void OsdImage::valueBlueBrightnessChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
 	if (val == brightnessBlue_) return;
 	brightnessBlue_ = val;
 	adjustAllBrightness();
+	dispatchBrightness();
 }
 
 
 void OsdImage::dispatchContrast(){
-	short shiftr = brightnessRed_ +50;
-	short shiftg = brightnessGreen_  +50;
-	short shiftb = brightnessBlue_ +50;
+	short shiftr = contrastRed_ +50;
+	short shiftg = contrastGreen_  +50;
+	short shiftb = contrastBlue_ +50;
 
 	std::string data;
 	data.resize(3);
 	data[0] = shiftg ;
-	data[1] =shiftr;
+	data[1] = shiftr;
 	data[2] = shiftb ;
-
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x01, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	qDebug()<<data.length();
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x1, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }
 void	OsdImage::valueContrastChangedFinished (  ){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -314,18 +423,21 @@ void OsdImage::valueRedContrastChanged(int val){
 	if (val == contrastRed_) return;
 	contrastRed_ = val;
 	adjustAllContrast();
+	dispatchContrast();
 }
 void OsdImage::valueGreenContrastChanged(int val){
 	if (val > 100) val = 100;else if (val < 0) val = 0;
 	if (val == contrastGreen_) return;
 	contrastGreen_ = val;
 	adjustAllContrast();
+	dispatchContrast();
 }
 void OsdImage::valueBlueContrastChanged(int val){
 	if (val > 100) val = 100;else if (val < 0) val = 0;
 	if (val == contrastBlue_) return;
 	contrastBlue_ = val;
 	adjustAllContrast();
+	dispatchContrast();
 }
 
 
@@ -337,8 +449,10 @@ void OsdImage::valueVertOffsetChanged(int val){
 
 	std::string data;
 	data.resize(2);
-	data[0] = vertPos_ >>24 ;
-	data[1] = vertPos_;
+	if ( val < 0){
+		data[0] = 1 <<7;
+	}else data[0] = 0;
+	data[1] = std::abs(val);
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x05, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }
 void OsdImage::valueVertOffsetChangedFinished(){
@@ -355,8 +469,10 @@ void OsdImage::valueHoriOffsetChanged(int val){
 
 	std::string data;
 	data.resize(2);
-	data[0] = horiPos_ >>24 ;
-	data[1] = horiPos_;
+	if ( val < 0){
+		data[0] = 1 <<7;
+	}else data[0] = 0;
+	data[1] = std::abs(val);
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x04, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }
 void OsdImage::valueHoriOffsetChangedFinished(){
@@ -399,13 +515,12 @@ void OsdImage::btnHoriRevert(){
 }
 void OsdImage::btnVertRevert(){
 	QPushButton* btn = (QPushButton*)sender();
-	if ( btn->text() == tr("no") ){
-		btn->setText( tr("yes"));
+	if ( btn->text() == tr("yes") ){
+		btn->setText( tr("no"));
 		orientation_|=0x1;
 	}else{
-		btn->setText( tr("no"));
+		btn->setText( tr("yes"));
 		orientation_&=0x2;
-		
 	}
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }

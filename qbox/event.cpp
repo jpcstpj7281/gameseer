@@ -40,7 +40,6 @@ uint32_t Event::onMsgReq(MsgInfo *msg,uint32_t connID)
         	onPImportanceEventUpLoadRsp(msg,connID);
             break;
 
-#ifndef __unix__
         case PDLPCTRLReq::uri:
             onPDLPCTRLReq(msg,connID);
             break;
@@ -49,7 +48,6 @@ uint32_t Event::onMsgReq(MsgInfo *msg,uint32_t connID)
         	onPDLPReadReq(msg,connID);
         	break;
 
-#endif
 
         default:
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
@@ -102,7 +100,7 @@ void Event::mifImportanceEvent(uint32_t eventId)
     MsgHandler::Instance()->broadcastMsg(&rsp);
 
 }
-#ifndef __unix__
+
    void Event::onPDLPCTRLReq(MsgInfo *msg,uint32_t connID)
    {
    cout<<"onPDLPCTRLReq"<<" connID="<<connID <<endl;
@@ -116,7 +114,9 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
    cout<<"Date="<<msg->info["value"].c_str() <<endl;
 
+#ifndef __unix__
    DLPI2c(dwAddr,dwCount,(uint8_t*)msg->info["value"].c_str());
+#endif  
 
    MsgInfo rsp;
 
@@ -139,6 +139,8 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
    dwAddr = atoi(msg->info["addr"].c_str());
    dwCount = atoi(msg->info["len"].c_str());
+   printf("%d", dwAddr);
+   printf("%d", dwCount);
 
 
 	if(0xfc == dwAddr)
@@ -148,11 +150,15 @@ void Event::mifImportanceEvent(uint32_t eventId)
 		*(byDate+2) = 0x0c;
 		*(byDate+3) = 0x0d;
 		*(byDate+4) = 0xe;
+		*(byDate+5) = 0x0;
+		*(byDate+6) = 0xf;
 
 	}
 	else
 	{
+#ifndef __unix__
        DLPI2cR(dwAddr,dwCount,(uint8_t*)&byDate[0]);
+#endif
 	}
 
    MsgInfo rsp;
@@ -164,13 +170,12 @@ void Event::mifImportanceEvent(uint32_t eventId)
    data.append((const char *)&byDate[0],dwCount);
 
    rsp.info["data"] = data;
-   rsp.info["len"] = dwCount;
+   rsp.info["len"] = tostring(dwCount);
 
    rsp.info["error"] = tostring(0);
    MsgHandler::Instance()->broadcastMsg(&rsp);
 
    }
 
-#endif
 
 
