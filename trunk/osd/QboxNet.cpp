@@ -69,7 +69,7 @@ void QboxMgr::threadRun(){
 	try{
 		impl_->socketios_.run();
 	}catch( std::exception &e){
-		qDebug()<<e.what();
+		qDebug()<<"QboxMgr::threadRun: "<<e.what();
 	}
 }
 
