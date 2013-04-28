@@ -1,2 +1,2 @@
 #! /bin/bash
- qmake -o Makefile osd.pro
+ qmake -o Makefile proj.pro

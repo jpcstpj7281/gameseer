@@ -117,11 +117,11 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 {
 	this->setText( "Connect");
 
-	row_->setText( QString::number(( screenid >> 8) & 0xFF) );
+	row_->setText( QString::number( GetRow(screenid)) );
 	row_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 	row_->setFlags( Qt::ItemIsEnabled );
 
-	col_->setText(QString::number( screenid & 0xFF));
+	col_->setText(QString::number( GetCol(screenid)));
 	col_->setFlags( Qt::ItemIsEnabled );
 	col_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 
