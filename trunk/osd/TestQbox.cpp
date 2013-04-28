@@ -154,7 +154,7 @@ void TestQbox::sendClicked(bool){
 	}
 }
 
-bool TestQbox::testDataCallback( uint32_t msgtype , QboxDataMap& data){
+bool TestQbox::testDataCallback( uint32_t /*msgtype */, QboxDataMap& data){
 	for ( auto it = data.begin(); it != data.end(); ++it){
 		//qDebug()<< "key: "<<it->first.c_str();
 		//qDebug()<< "val: "<<it->second.c_str();

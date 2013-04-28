@@ -1,0 +1,17 @@
+INPUT(
+./debug/.obj/main.o
+./debug/.obj/configmgr.o
+./debug/.obj/mainwindow.o
+./debug/.obj/OsdImage.o
+./debug/.obj/OsdProjMode.o
+./debug/.obj/QboxNet.o
+./debug/.obj/msgBase.o
+./debug/.obj/TestQbox.o
+./debug/.obj/Screen.o
+./debug/.obj/deviceswnd.o
+./debug/.obj/moc_mainwindow.o
+./debug/.obj/moc_OsdImage.o
+./debug/.obj/moc_OsdProjMode.o
+./debug/.obj/moc_TestQbox.o
+./debug/.obj/moc_deviceswnd.o
+);

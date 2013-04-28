@@ -215,7 +215,7 @@ struct Qbox::Impl{
 	void asyncSend(std::string & data){
 		socket_.async_send(asio::buffer( data.c_str(), data.length() ) , boost::bind(&Qbox::Impl::handleSent, this, asio::placeholders::error, asio::placeholders::bytes_transferred ) );
 	}
-	void handleSent( const asio::error_code& err, std::size_t bytes_transferred ){
+	void handleSent( const asio::error_code& err, std::size_t /*bytes_transferred*/ ){
 		if ( !err  ){
 			//qDebug()<<"handleSent: "<<bytes_transferred;
 		}else{
@@ -236,7 +236,7 @@ struct Qbox::Impl{
 				//qDebug()<<bytes_transferred;
 				std::stringstream ss;
 				static char syms[] = "0123456789ABCDEF";
-				for (int it = move; it < bytes_transferred; it++){
+				for (size_t it = move; it < bytes_transferred; it++){
 					ss << syms[((responsed_[it] >> 4) & 0xf)] << syms[responsed_[it] & 0xf] << ' ';
 				}
 				qDebug()<< ss.str().c_str();
