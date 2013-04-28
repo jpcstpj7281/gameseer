@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<root>
+  <port>1000</port>
+    <addresses>
+        <address location="home" ip="192.168.1.5"/>
+        <address location="home" ip="192.168.2.116"/>
+    </addresses>
+    <devices/>
+</root>
