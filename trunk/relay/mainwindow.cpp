@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include "DevicesWnd.h"
 #include <QVBoxLayout>
+#include <QCheckBox>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -48,23 +49,18 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 
 	//wdgt->setGeometry( 0, 0, this->width()-10, this->height()-20);
 
-	//QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
-	//if (t){
-		//t->setGeometry( 0, 0, this->width()-130, this->height()-45);
-		//t->setColumnWidth( 0, 150);
-	//}
-	//QPushButton* btn = _tab->findChild<QPushButton* >("connAll");
-	//if ( btn){
-	//	btn->setGeometry(this->width()-120, 210, btn->width(), btn->height() );
-	//	btn = _tab->findChild<QPushButton* >("disconnAll");
-	//	btn->setGeometry(this->width()-120, 250, btn->width(), btn->height() );
+	QList<QCheckBox*> list = findChildren<QCheckBox*>();
+	for ( auto it = list.begin(); it != list.end(); ++it){
+		QCheckBox* b = *it;
+		b->setGeometry( b->x(), this->height()-50, b->width(), b->height());
+	}
 
-	//	btn = _tab->findChild<QPushButton* >("incrCol");
-	//	btn->setGeometry(this->width()-120, 70, btn->width(), btn->height() );
-
-	//	btn = _tab->findChild<QPushButton* >("decrCol");
-	//	btn->setGeometry(this->width()-120, 110, btn->width(), btn->height() );
-	//}
+	QPushButton* btn = findChild<QPushButton* >("connAll");
+	if ( btn){
+		btn->setGeometry(btn->x(), this->height()-70, btn->width(), btn->height() );
+		btn = findChild<QPushButton* >("disconnAll");
+		btn->setGeometry(btn->x(), this->height()-40, btn->width(), btn->height() );
+	}
 
 }
 

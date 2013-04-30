@@ -39,7 +39,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btnClear">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -52,7 +52,7 @@
     <string>Clear</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="btnAdd">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -62,20 +62,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Enable All</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>50</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Disable All</string>
+    <string>add</string>
    </property>
   </widget>
  </widget>
