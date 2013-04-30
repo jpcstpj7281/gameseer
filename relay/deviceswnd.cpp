@@ -174,7 +174,7 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	connect( this, SIGNAL(clicked()), this, SLOT(clickit()) );
 	
 	
-	timer_->setText( "Off");
+	timer_->setText( "Edit");
 	connect( timer_, SIGNAL(clicked()), this, SLOT(clickTimer()) );
 
 	
