@@ -44,7 +44,8 @@ void MainWindow::closeEvent(QCloseEvent * ){
 void MainWindow::resizeEvent(QResizeEvent * event){
 	QWidget * wdgt = findChild<QWidget*>( "tableDevices");
 	if ( wdgt){
-		wdgt->resize(this->width()-20, this->height()-80);
+		//wdgt->resize(this->width()-20, this->height()-80);
+		wdgt->setGeometry( wdgt->x(), wdgt->y(), this->width()-20, this->height()-80);
 	}
 
 	//wdgt->setGeometry( 0, 0, this->width()-10, this->height()-20);
