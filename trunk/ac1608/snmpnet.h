@@ -1,5 +1,6 @@
 #ifndef SNMPNET_H
 #define SNMPNET_H
+#define NOMINMAX 
 #include <QWidget>
 #include <map>
 #include <vector>

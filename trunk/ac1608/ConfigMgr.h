@@ -10,6 +10,8 @@
 #define XML_ADDRESS "address"
 #define XML_DEVICES "devices"
 #define XML_DEVICE	"device"
+#define XML_SETTINGS "settings"
+#define XML_SETTING	"setting"
 
 class ConfigMgr{
 	static ConfigMgr* inst;

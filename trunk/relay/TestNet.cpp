@@ -20,7 +20,7 @@ QboxComboBox::QboxComboBox( const std::string &data, QTableWidgetItem  *item):QC
 void QboxComboBox::currentIndexChangedImpl(const QString & text){
 	if ( item_ == 0 ) return;
 	if ( text == QBOX_VALUE_STRING){
-		item_->setText( QString::fromAscii( data_.c_str() , data_.length() ) );
+		item_->setText( QString::fromStdString( data_) );
 	}else if ( text ==QBOX_VALUE_HEX_BIN){
 		std::stringstream ss;
 		static char syms[] = "0123456789ABCDEF";

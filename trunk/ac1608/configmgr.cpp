@@ -37,6 +37,24 @@ void ConfigMgr::makeDefault(){
 	device.setAttribute( "title", "password");
 	device.setAttribute( "ip", "192.168.1.100");
 
+	
+	QDomElement settings = doc.createElement( XML_SETTINGS );
+	root.appendChild(settings);
+
+	QDomElement setting = doc.createElement( XML_SETTING );
+	settings.appendChild(setting);
+	setting.setAttribute( "componentType", "slider");
+	setting.setAttribute( "min", "-100");
+	setting.setAttribute( "max", "24");
+	setting.setAttribute( "default", "0");
+
+	setting = doc.createElement( XML_SETTING );
+	settings.appendChild(setting);
+	setting.setAttribute( "componentType", "progressBar");
+	setting.setAttribute( "min", "-100");
+	setting.setAttribute( "max", "20");
+	setting.setAttribute( "default", "0");
+
 	QTextStream out( &file );
 	doc.save( out, 4 );
 
@@ -47,7 +65,6 @@ ConfigMgr::ConfigMgr():isOidEditable_(false)
 {
 	doc_  = new QDomDocument();
 	QFile file( "ac1608.xml" );
-	QDomDocument &doc(*doc_);
 
 	if ( !file.open( QIODevice::ReadOnly  ) || !doc_->setContent( &file) )
 	{
@@ -57,28 +74,7 @@ ConfigMgr::ConfigMgr():isOidEditable_(false)
 	}
 	file.close();
 
-	QDomElement root = doc.documentElement();
-	if ( root.nodeName()!= XML_ROOT){
-		this->makeDefault();
-		return;
-	}
-
-	QDomElement addresses = root.firstChildElement();
-	if ( addresses.nodeName() != XML_ADDRESSES ){
-		addresses = doc.createElement( XML_ADDRESSES );
-		root.insertBefore(addresses, root.firstChildElement() );
-	}
-
-	//QDomElement address1 = doc.createElement( XML_ADDRESS );
-	//addresses.appendChild( address1 );
-	//address1.setAttribute( "location", "home");
-	//address1.setAttribute( "ip", "192.168.1.101");
-
-	//QDomElement address = addresses.firstChildElement();
-	//qDebug()<<address.nodeName();
 	loadDefaultConfig();
-
-		getOid(QString("mute1"));
 }
 
 void ConfigMgr::loadDefaultConfig(){
