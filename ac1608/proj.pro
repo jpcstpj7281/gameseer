@@ -9,7 +9,7 @@ QT  += core gui xml
 #greaterThan(QT_MAJOR_VERSION, 4) {
 #    QT += widgets quick
 #} else {
-    QT += declarative
+#    QT += declarative
 #}
 
 
@@ -84,8 +84,8 @@ matrixmixerwnd.ui
 
 LIBS += -lws2_32
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -L$$PWD/../3rdParty/lib/ -lnetsnmp -lAdvapi32 -lqwt -lWinSparkle
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -L$$PWD/../3rdParty/lib/ -lnetsnmpd -lAdvapi32 -lqwtd -lWinSparkle
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -L$$PWD/../3rdParty/lib/ -lnetsnmp -lAdvapi32 -lqwt 
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -L$$PWD/../3rdParty/lib/ -lnetsnmpd -lAdvapi32 -lqwtd 
 else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
 
 DEFINES += QWT_DLL \

@@ -1,6 +1,6 @@
 #ifndef DEVICESWND_H
 #define DEVICESWND_H
-
+#define NOMINMAX 
 #include <QWidget>
 #include <map>
 #include <QTableWidget>
