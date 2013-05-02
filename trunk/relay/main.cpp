@@ -1,10 +1,12 @@
-
 #include "mainwindow.h"
 #include "configmgr.h"
 #include "TcpNet.h"
 #include <QApplication>
 #include <qdebug.h>
 #include <Windows.h>
+
+
+
 
 int main(int argc, char *argv[])
 {
@@ -29,24 +31,22 @@ int main(int argc, char *argv[])
 	//}
 	//qDebug()<<GetTickCount() - pre;
 
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
 	int port = 1000;
 
-	//QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("port");
-	//if (items.size()==1){
-	//	QDomNode node = items.at(0);
-	//	port = node.nodeValue().toInt();
-	//}
+	QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("port");
+	if (items.size()==1){
+		QDomNode node = items.at(0);
+		port = node.toElement().attribute("val").toInt();
+	}
 
 	TcpNet::instance()->setPort(port );
 	TcpNet::instance()->startThread();
     auto rs = a.exec();
 	TcpNet::instance()->stop();
-	//delete ConfigMgr::instance();
 	return rs;
-
-	//return 0;
 }

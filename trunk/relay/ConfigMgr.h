@@ -38,7 +38,7 @@ public :
 
 	static ConfigMgr *instance();
 
-	inline QDomDocument* getDoc(){ return doc_;}
+	QDomDocument* getDoc();
 
 	QDomElement getAddressElem();
 
