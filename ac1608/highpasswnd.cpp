@@ -91,7 +91,9 @@ void HighPassWnd::indexChanged(int index){
 
 void HighPassWnd::clickch(){
 	if ( sender() == currCHBtn_) return;
-	
+	currCHBtn_->setEnabled(true);
+	currCHBtn_->setStyleSheet("* { background-color: lightGray }");
+
 	if ( bypass_ ){
 		bypass_->shutdownSnmp();
 		bypass_->setObjectName( bypass_->objectName().replace(  currCHBtn_->objectName(), sender()->objectName() ) );
@@ -109,5 +111,7 @@ void HighPassWnd::clickch(){
 	}
 
 	currCHBtn_ = (QPushButton*)sender();
+	currCHBtn_->setEnabled(false);
+	currCHBtn_->setStyleSheet("* { background-color: lightGreen }");
 }
 

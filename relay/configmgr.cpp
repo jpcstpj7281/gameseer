@@ -7,6 +7,7 @@ ConfigMgr *ConfigMgr::instance(){
 	if ( inst) return inst;
 	return inst = new ConfigMgr();
 }
+QDomDocument* ConfigMgr::getDoc(){ return doc_;}
 
 void ConfigMgr::makeDefault(){
 
