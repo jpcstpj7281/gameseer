@@ -20,7 +20,8 @@ inline uint32_t ToResourceID( uint32_t input, uint32_t output, uint32_t row, uin
 
 typedef std::function< bool (ResourceID )> ResourceChangedCallback;
 
-class Screen{
+class Screen :public QObject {
+	
 	void run();
 	friend class ScreenMgr;
 	Screen( uint32_t row, uint32_t col);
@@ -37,6 +38,9 @@ class Screen{
 	void inputResolutionRequest(QboxCallback callback, QboxDataMap &value );
 	void outputRequest(QboxCallback callback, QboxDataMap &value );
 
+	std::vector< std::pair< QboxCallback, QboxDataMap> > slowDownCache_;
+
+	virtual void	timerEvent ( QTimerEvent * event )override;
 public:
 	void versionRequest(QboxCallback callback, QboxDataMap &value );
 

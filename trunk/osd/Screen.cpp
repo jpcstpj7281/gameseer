@@ -16,6 +16,7 @@ Screen::Screen(uint32_t row, uint32_t col)
 	,col_(col)
 	,qbox_(0)
 {
+	startTimer(100);
 }
 Screen::~Screen(){
 	disconnect();
@@ -82,9 +83,18 @@ void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback cal
 	osdRequest( callback, datamap);
 }
 
+void Screen::timerEvent ( QTimerEvent *  ){
+	for ( auto it = slowDownCache_.begin(); it != slowDownCache_.end(); ++it){
+		qbox_->addAsyncRequest( (32<<16)|1, it->first, it->second);
+	}
+	slowDownCache_.clear();
+}
+
 void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
 	if ( qbox_){
-		qbox_->addAsyncRequest( (32<<16)|1, callback, value);
+		//qbox_->addAsyncRequest( (32<<16)|1, callback, value);
+		slowDownCache_.clear();
+		slowDownCache_.push_back( std::make_pair(callback, value) );
 	}
 }
 void Screen::versionRequest(QboxCallback callback, QboxDataMap &value ){

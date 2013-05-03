@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QTableWidget>
-#include <QComboBox.h>
 #include <stdint.h>
 #include <TcpNet.h>
 
@@ -13,16 +12,7 @@ namespace Ui {
 class TestNet;
 }
 
-class QboxComboBox: public QComboBox{
-	Q_OBJECT
-	QTableWidgetItem  *item_;
-	std::string data_;
 
-	private slots:
-		void currentIndexChangedImpl(const QString & text);
-public:
-	QboxComboBox( const std::string &data, QTableWidgetItem  *item);
-};
 
 class TestQbox : public QWidget
 {

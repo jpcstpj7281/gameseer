@@ -21,15 +21,22 @@ using namespace std::placeholders;
 
 void NetConnBtn::conn(){
 	std::string ip = address_->text().toStdString();
-	if ( !TcpNet::instance()->hasHost( ip)){
+	if ( !ip.empty() && !TcpNet::instance()->hasHost( ip)){
 		Host* host = TcpNet::instance()->createHost(ip);
 		host->connInit();
 		setText("Connecting...");
 		this->setEnabled(false);
 		address_->setEnabled(false);
 		testBtn_->setEnabled(false);
-		channels_->setEnabled(true);
-		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Login")) );
+		channels_->setEnabled(false);
+		
+		QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("psw");
+		std::string psw("1");
+		if ( items.size() > 0){
+			psw = items.at(0).toElement().attribute("val").toStdString();
+		}
+
+		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Login "+psw+"\r\n")) );
 	}
 }
 void NetConnBtn::disconn(){
@@ -45,13 +52,13 @@ void NetConnBtn::disconn(){
 			delete testNet_;
 			testNet_ = 0;
 		}
-
 	}
 }
+
 void NetConnBtn::clickit(){
-	if ( address_->text().isEmpty() ){
-		address_->setText("127.0.0.1") ;
-	}
+	//if ( address_->text().isEmpty() ){
+	//	address_->setText("127.0.0.1") ;
+	//}
 	if ( !address_->text().isEmpty() && text() == "Connect"){
 		conn();
 	}else if (text() == "Disconnect"){
@@ -71,11 +78,20 @@ void NetConnBtn::clickTest(){
 }
 
 bool NetConnBtn::connectedCallback( const std::string& msg){
-	setText("Disconnect");
-	this->setEnabled(true);
-	channels_->setEnabled(true);
-	testBtn_->setEnabled(true);
-	qDebug()<<"connectedCallback: "<<msg.c_str();
+	if ( msg == "Login OK."){
+		setText("Disconnect");
+		this->setEnabled(true);
+		channels_->setEnabled(true);
+		testBtn_->setEnabled(true);
+	}else if ( msg == HOST_CONNECT_FAILED ){
+		setText("Connect");
+		this->setEnabled(true);
+		channels_->setEnabled(false);
+		testBtn_->setEnabled(false);
+		this->address_->setEnabled(true);
+	}else{
+		return false;
+	}
 	return true;
 }
 
@@ -84,6 +100,7 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	,testNet_(0)
 	,loc_( new QTableWidgetItem)
 	,desc_(new QTableWidgetItem)
+	,comm_(new QTableWidgetItem)
 	,runTime_(new QTableWidgetItem)
 	,status_(new QTableWidgetItem)
 	,model_(new QTableWidgetItem)
@@ -149,10 +166,13 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	channels_->setEnabled(false);
 
 	loc_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-	loc_->setFlags( Qt::ItemIsEnabled );
+	loc_->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
 
-	desc_->setFlags( Qt::ItemIsEnabled );
+	desc_->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
 	desc_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+
+	comm_->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
+	comm_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 
 	status_->setFlags( Qt::ItemIsEnabled );
 	status_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
@@ -170,6 +190,7 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	address_->setValidator(pIpValidator);
 	address_->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
 	address_->setText( QString::fromStdString( ip) );
+	connect( address_, SIGNAL(editingFinished()), this, SLOT(editFinished()));
 
 	connect( this, SIGNAL(clicked()), this, SLOT(clickit()) );
 	
@@ -180,8 +201,23 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	
 	interval_->setMinimum( 0);
 	interval_->setMaximum( 60);
+	interval_->setValue(2);
 }
 
+void NetConnBtn::editFinished(){
+	QLineEdit* le = (QLineEdit*)sender();
+	if ( le->text().isEmpty() ){
+		clickDelete();
+		return;
+	}
+
+	QTableWidget* table = loc_->tableWidget();
+	if ( loc_->row() == table->rowCount()-1 && table){
+		NetConnBtn * connBtn = new NetConnBtn( "" );
+		table->setRowCount( table->rowCount()+1);
+		connBtn->initTable(table,  table->rowCount()-1);
+	}
+}
 NetConnBtn::~NetConnBtn(){
 	if (testNet_) delete testNet_;
 	if (timerwnd_) delete timerwnd_;
@@ -212,14 +248,15 @@ void NetConnBtn::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 1, address_);
 	table->setItem ( row, 2, loc_ );
 	table->setItem ( row, 3, desc_ );
-	table->setItem ( row, 4, model_ );
-	table->setItem ( row, 5, runTime_ );
-	table->setItem ( row, 6, status_ );
-	table->setCellWidget ( row, 7, this );
-	table->setCellWidget ( row, 8, interval_ );
-	table->setCellWidget ( row, 9, channels_ );
-	table->setCellWidget ( row, 10, timer_ );
-	table->setCellWidget ( row, 11, testBtn_ );
+	table->setItem ( row, 4, comm_ );
+	table->setItem ( row, 5, model_ );
+	table->setItem ( row, 6, runTime_ );
+	table->setItem ( row, 7, status_ );
+	table->setCellWidget ( row, 8, this );
+	table->setCellWidget ( row, 9, interval_ );
+	table->setCellWidget ( row, 10, channels_ );
+	table->setCellWidget ( row, 11, timer_ );
+	table->setCellWidget ( row, 12, testBtn_ );
 }
 
 
@@ -230,18 +267,19 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     ui->setupUi(this);
 
     tableDevices_ = findChild<QTableWidget* >("tableDevices");
-    tableDevices_->setColumnCount( 12);
+    tableDevices_->setColumnCount( 13);
 
     QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "IP");
 	sl.push_back( "Location");
 	sl.push_back( "Description");
+	sl.push_back( "Comment");
 	sl.push_back( "Model");
 	sl.push_back( "Run Time");
 	sl.push_back( "Status");
     sl.push_back( "Connection");
-	sl.push_back( "Interval");
+	sl.push_back( "SEQ Delay");
 	sl.push_back( "Channels");
 	sl.push_back( "Timer");
 	sl.push_back( "Test");
@@ -252,14 +290,15 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	tableDevices_->setColumnWidth( 3, 100);
 	tableDevices_->setColumnWidth( 4, 100);
 	tableDevices_->setColumnWidth( 5, 100);
-	tableDevices_->setColumnWidth( 6, 80);
+	tableDevices_->setColumnWidth( 6, 100);
 	tableDevices_->setColumnWidth( 7, 80);
-	tableDevices_->setColumnWidth( 8, 50);
-	tableDevices_->setColumnWidth( 9, 300);
-	tableDevices_->setColumnWidth( 10, 80);
-	tableDevices_->setColumnWidth( 11, 50);
+	tableDevices_->setColumnWidth( 8, 80);
+	tableDevices_->setColumnWidth( 9, 70);
+	tableDevices_->setColumnWidth( 10, 300);
+	tableDevices_->setColumnWidth( 11, 80);
+	tableDevices_->setColumnWidth( 12, 50);
 
-    connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
+    //connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
     startTimer(1000);
@@ -283,6 +322,14 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 			name = name.replace( "checkBox_", "");
 			int col = name.toInt();
 			tableDevices_->hideColumn( col);
+		}
+	}
+
+	QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("autoconn");
+	if ( items.size() > 0){
+		QString autoconn = items.at(0).toElement().attribute("val");
+		if ( autoconn == "1"){
+			this->connAll();
 		}
 	}
 }
@@ -314,7 +361,8 @@ void DevicesWnd::disconnAll(){
 void DevicesWnd::connAll(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
-		if ( t->text() == "Connect"){
+		
+		if ( !t->address_->text().isEmpty() && t->text() == "Connect"){
 			t->conn();
 		}
 	}
@@ -327,10 +375,8 @@ void DevicesWnd::initAddresses(){
 	QString oid;
 	for(int i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
-		QDomNode n1 = node.attributes().item(1);
-		if ( "ip" == n1.nodeName() ){
-			newAddress(n1.nodeValue().toStdString() );
-		}
+		QDomElement elem = node.toElement();
+		newAddress(elem.attribute("ip").toStdString() );
 	}
 }
 
@@ -383,18 +429,45 @@ void DevicesWnd::timerEvent ( QTimerEvent * event ){
 void DevicesWnd::connectImpl( ){
 }
 
-void DevicesWnd::itemClicked(QTableWidgetItem * item)
-{
-    if (item->column() == 4 ){
-        if(item->text() == "Connect" ){
-
-        }
-		if(item->text() == "Disconnect" ){
-
-        }
-    }
-}
+//void DevicesWnd::itemClicked(QTableWidgetItem * item)
+//{
+//    if (item->column() == 4 ){
+//        if(item->text() == "Connect" ){
+//
+//        }
+//		if(item->text() == "Disconnect" ){
+//
+//        }
+//    }
+//}
 
 void DevicesWnd::cellChanged(int row,int col){
+	NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( row, 8);
+	if ( !t) return;
+	if (t->address_->text().isEmpty()){
+		t->loc_->setText("");
+		t->comm_->setText("");
+		t->desc_->setText("");
+	}
+
+	QDomNodeList items = ConfigMgr::instance()->getDoc()->elementsByTagName("address");
+	for ( size_t i = 0 ; i < items.size(); ++i){
+		QDomNode node = items.at(i);
+		QDomElement elem = node.toElement();
+		if ( !t->address_->text().isEmpty() && t->address_->text() ==elem.attribute("ip") ){
+			switch(col){
+			case 2:
+				elem.setAttribute("location", t->loc_->text() );
+				break;
+			case 3:
+				elem.setAttribute("description", t->desc_->text() );
+				break;
+			case 4:
+				elem.setAttribute("comment", t->comm_->text() );
+				break;
+			}
+		}
+	}
+
 }
 

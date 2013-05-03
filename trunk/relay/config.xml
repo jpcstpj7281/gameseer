@@ -1,9 +1,13 @@
 <?xml version='1.0'?>
 <root>
-  <port val="1000" />
+<setting>
+  <port val="1698" />
+  <psw val="1"/>
+  <autoconn val="0"/>
+  </setting>
     <addresses>
-        <address location="home" ip="192.168.1.5"/>
-        <address location="home" ip="192.168.2.116"/>
+        <address location="home" description="" comment="" ip="192.168.1.5"/>
+        <address location="home" description="" comment="" ip="192.168.2.116"/>
     </addresses>
     <devices/>
 </root>

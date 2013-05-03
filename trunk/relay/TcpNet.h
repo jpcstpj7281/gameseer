@@ -8,11 +8,8 @@
 #include <stdint.h>
 
 
-#define QBOX_VALUE_STRING "String"
-#define QBOX_VALUE_HEX_BIN "Hex Bin"
-#define QBOX_VALUE_DEC_INT "Dec Int"
-#define QBOX_VALUE_DEC_UINT "Dec Uint"
 
+#define HOST_CONNECT_FAILED "Connect Failed!"
 
 
 

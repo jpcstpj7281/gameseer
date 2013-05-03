@@ -6,43 +6,6 @@
 #include "TcpNet.h"
 #include "boost/foreach.hpp"
 
-QboxComboBox::QboxComboBox( const std::string &data, QTableWidgetItem  *item):QComboBox(0){
-	item_ = item;
-	data_ = data;
-	addItem( QBOX_VALUE_STRING);
-	addItem( QBOX_VALUE_HEX_BIN);
-	addItem( QBOX_VALUE_DEC_INT);
-	addItem( QBOX_VALUE_DEC_UINT);
-	if ( item)
-		connect( this, SIGNAL(currentIndexChanged (const QString & )), this, SLOT(currentIndexChangedImpl (const QString & )));
-}
-
-void QboxComboBox::currentIndexChangedImpl(const QString & text){
-	if ( item_ == 0 ) return;
-	if ( text == QBOX_VALUE_STRING){
-		item_->setText( QString::fromStdString( data_) );
-	}else if ( text ==QBOX_VALUE_HEX_BIN){
-		std::stringstream ss;
-		static char syms[] = "0123456789ABCDEF";
-		for (std::string::iterator it = data_.begin(); it != data_.end(); it++){
-			ss << syms[((*it >> 4) & 0xf)] << syms[*it & 0xf] << ' ';
-		}
-		item_->setText( ss.str().c_str() );
-	}else if ( text == QBOX_VALUE_DEC_INT){
-		QString res;
-		char digit[16];
-		sprintf(digit, "%d", *(int*)data_.c_str());
-		res.append(digit);
-		item_->setText( res);
-	}else if ( text ==QBOX_VALUE_DEC_UINT){
-		QString res;
-		char digit[16];
-		sprintf(digit, "%u", *(unsigned int*)data_.c_str());
-		res.append(digit);
-		item_->setText( res);
-	}
-	item_->setToolTip( item_->text());
-}
 
 TestQbox::TestQbox( const std::string &ip) :
     QWidget(0)

@@ -103,13 +103,18 @@ struct Host::Impl{
 	}
 
 	void asyncRequest(){
-		if ( !isConnected_  ) return;
-		if (requestList_.size() > 0){
+		
+		if ( isConnected_){
 			BOOST_FOREACH( NetObj* obj, requestList_){
 				std::string data = encodeData( obj->sendmsg_);
 				asyncSend( data);
 			}
 			sentList_ = requestList_;
+			requestList_.clear();
+		}else{
+			BOOST_FOREACH( NetObj* obj, requestList_){
+				obj->callback_( HOST_CONNECT_FAILED);
+			}
 			requestList_.clear();
 		}
 	}
@@ -122,6 +127,7 @@ struct Host::Impl{
 			asyncReceive();
 		}else{
 			isConnected_ = false;
+			mainios_->post( boost::bind( &Host::Impl::asyncRequest, this) );
 		}
 	}
 
@@ -129,7 +135,6 @@ struct Host::Impl{
 		//if ( !isConnected_ ) return false;
 		NetObj * so = new NetObj( callback, std::move(data));
 		requestList_.push_back(so);
-		asyncRequest();
 		//return true;
 	}
 

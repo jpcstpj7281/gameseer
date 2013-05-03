@@ -30,9 +30,11 @@ class NetConnBtn: public QPushButton{
 		void clickInsert();
 		void clickDelete();
 		void clickTimer();
+		void editFinished();
 public:
 	QTableWidgetItem	*loc_;
 	QTableWidgetItem	*desc_;
+	QTableWidgetItem	*comm_;
 	QTableWidgetItem	*runTime_;
 	QTableWidgetItem	*status_;
 	QTableWidgetItem	*model_;
@@ -65,7 +67,7 @@ public:
 
 private slots:
 
-	void itemClicked(QTableWidgetItem *);
+	//void itemClicked(QTableWidgetItem *);
 	void cellChanged(int,int);
 	void disconnAll();
 	void connAll();
