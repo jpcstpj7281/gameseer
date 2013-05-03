@@ -31,21 +31,21 @@ int main(int argc, char *argv[])
 	//}
 	//qDebug()<<GetTickCount() - pre;
 
-
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
 	int port = 1000;
-
 	QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("port");
 	if (items.size()==1){
 		QDomNode node = items.at(0);
 		port = node.toElement().attribute("val").toInt();
 	}
-
 	TcpNet::instance()->setPort(port );
+
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+
 	TcpNet::instance()->startThread();
+
     auto rs = a.exec();
 	TcpNet::instance()->stop();
 	return rs;
