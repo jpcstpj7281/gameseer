@@ -200,7 +200,6 @@ void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate)
 		debug_msg("count=%d,date=0x%02X!",i,*(byDate+i));
 	}
 
-
 	DLPI2cWritePage(dwAddr,dwCount,byDate);
 
 

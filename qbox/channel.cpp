@@ -14,6 +14,8 @@
 #include "entSetting.h"
 #include "common.h"
 
+#include <vxworks.h>
+
 using namespace msg;
 using namespace ent;
 
@@ -32,7 +34,7 @@ Channel::~Channel()
 
 uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
-
+	taskLock();
     switch(msg->msgType)
     {
         case PSetSwitchInputReq::uri:
@@ -56,7 +58,7 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
             //cout<<"CHANNEL URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
-
+    taskUnlock();
     return 0;
 }
 
@@ -151,7 +153,7 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 
 #ifndef __unix__
     moveInputChannel(out,channelX,channelY);
-    setInputSize(out,width,height);
+ //   setInputSize(out,width,height);
 #endif
 
     uint32_t hw = 0;
@@ -164,7 +166,9 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
     else
     {
 #ifndef __unix__
-    	setOutputSize(out,hw,vw);
+ //   	setOutputSize(out,hw,vw);
+
+    	setScal(out,width,height,hw,vw);
 #endif
     }
 
