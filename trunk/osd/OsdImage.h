@@ -78,14 +78,9 @@ private:
 
 	std::string initStr_;
 
-	bool osdResponseRead( uint32_t , QboxDataMap& data);
+	bool osdResponseRead( uint32_t , QboxDataMap& data, int);
 
-	bool osdResponseRead1( uint32_t , QboxDataMap& data);
-	bool osdResponseRead2( uint32_t , QboxDataMap& data);
-	bool osdResponseRead3( uint32_t , QboxDataMap& data);
-	bool osdResponseRead4( uint32_t , QboxDataMap& data);
-	bool osdResponseRead5( uint32_t , QboxDataMap& data);
-	bool osdResponseRead6( uint32_t , QboxDataMap& data);
+
 public:
     explicit OsdImage(QWidget *parent , ResourceID screenid );
     ~OsdImage();

@@ -164,30 +164,49 @@ QWidget(parent),
 
 }
 
-bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data){
-	std::string val;
-	val.resize(8);
-	initStr_ = data["Data"];
-	if ( initStr_.empty()){
-		initStr_ = data["data"];
-	}
-	int step = 0;
-	val[0] = initStr_[(step)*8 +0];
-	val[1] = initStr_[(step)*8 +1];
-	val[2] = initStr_[(step)*8 +2];
-	val[3] = initStr_[(step)*8 +3];
-	val[4] = initStr_[(step)*8 +4];
-	val[5] = initStr_[(step)*8 +5];
-	val[6] = initStr_[(step)*8 +6];
-	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead1, this, std::placeholders::_1, std::placeholders::_2));
+static bool osdResponse(uint32_t , QboxDataMap&){
+	qDebug()<<"osdResponse";
+	return true;
+}
 
-	return true;
-}
-bool OsdImage::osdResponseRead1( uint32_t , QboxDataMap& data){
+bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 	std::string val;
 	val.resize(8);
-	int step = 1;
+
+	if ( step ==6) {
+		val[0] = 0x27;
+		val[1] = 0x00;
+		val[2] = 0x00;
+		val[3] = 0x00;
+		val[4] = 0x00;
+		val[5] = 0x00;
+		val[6] = 0x00;
+		val[7] = 0x01;
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+		return true;
+	}
+	else if ( step ==7) {
+		val[0] = 0x87;
+		val[1] = 0x00;
+		val[2] = 0x00;
+		val[3] = 0x00;
+		val[4] = 0x00;
+		val[5] = 0x00;
+		val[6] = 0x00;
+		val[7] = 0x01;
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+		return true;
+	}else if ( step > 7){
+		return true;
+	}
+	
+	if (step == 0){
+		initStr_ = data["Data"];
+		if ( initStr_.empty()){
+			initStr_ = data["data"];
+		}
+	}
+
 	val[0] = initStr_[(step)*8 +0];
 	val[1] = initStr_[(step)*8 +1];
 	val[2] = initStr_[(step)*8 +2];
@@ -196,82 +215,16 @@ bool OsdImage::osdResponseRead1( uint32_t , QboxDataMap& data){
 	val[5] = initStr_[(step)*8 +5];
 	val[6] = initStr_[(step)*8 +6];
 	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead2, this, std::placeholders::_1, std::placeholders::_2));
-	return true;
-}
-bool OsdImage::osdResponseRead2( uint32_t , QboxDataMap& data){
-	std::string val;
-	val.resize(8);
-	int step = 2;
-	val[0] = initStr_[(step)*8 +0];
-	val[1] = initStr_[(step)*8 +1];
-	val[2] = initStr_[(step)*8 +2];
-	val[3] = initStr_[(step)*8 +3];
-	val[4] = initStr_[(step)*8 +4];
-	val[5] = initStr_[(step)*8 +5];
-	val[6] = initStr_[(step)*8 +6];
-	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead3, this, std::placeholders::_1, std::placeholders::_2));
-	return true;
-}
-bool OsdImage::osdResponseRead3( uint32_t , QboxDataMap& data){
-	std::string val;
-	val.resize(8);
-	int step = 3;
-	val[0] = initStr_[(step)*8 +0];
-	val[1] = initStr_[(step)*8 +1];
-	val[2] = initStr_[(step)*8 +2];
-	val[3] = initStr_[(step)*8 +3];
-	val[4] = initStr_[(step)*8 +4];
-	val[5] = initStr_[(step)*8 +5];
-	val[6] = initStr_[(step)*8 +6];
-	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead4, this, std::placeholders::_1, std::placeholders::_2));
-	return true;
-}
-bool OsdImage::osdResponseRead4( uint32_t , QboxDataMap& data){
-	std::string val;
-	val.resize(8);
-	int step = 4;
-	val[0] = initStr_[(step)*8 +0];
-	val[1] = initStr_[(step)*8 +1];
-	val[2] = initStr_[(step)*8 +2];
-	val[3] = initStr_[(step)*8 +3];
-	val[4] = initStr_[(step)*8 +4];
-	val[5] = initStr_[(step)*8 +5];
-	val[6] = initStr_[(step)*8 +6];
-	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead5, this, std::placeholders::_1, std::placeholders::_2));
-	return true;
-}
-bool OsdImage::osdResponseRead5( uint32_t , QboxDataMap& data){
-	std::string val;
-	val.resize(8);
-	int step = 5;
-	val[0] = initStr_[(step)*8 +0];
-	val[1] = initStr_[(step)*8 +1];
-	val[2] = initStr_[(step)*8 +2];
-	val[3] = initStr_[(step)*8 +3];
-	val[4] = initStr_[(step)*8 +4];
-	val[5] = initStr_[(step)*8 +5];
-	val[6] = initStr_[(step)*8 +6];
-	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead6, this, std::placeholders::_1, std::placeholders::_2));
-	return true;
-}
-bool OsdImage::osdResponseRead6( uint32_t , QboxDataMap& data){
-	qDebug()<<"done";
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+
 	return true;
 }
 
 void OsdImage::clickinit(){
 	//ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 8, std::bind( &osdResponseRead, std::placeholders::_1, std::placeholders::_2));
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xa0d0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
 }
-static bool osdResponse(uint32_t , QboxDataMap&){
-	qDebug()<<"osdResponse";
-	return true;
-}
+
 void OsdImage::dispatchBrightness(){
 	short shiftr = brightnessRed_ << 2;
 	short shiftg = brightnessGreen_ << 2;
