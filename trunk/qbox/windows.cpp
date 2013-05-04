@@ -15,6 +15,8 @@
 #include <set>
 #include "common.h"
 
+#include <vxworks.h>
+
 using namespace msg;
 using namespace ent;
 using namespace std;
@@ -32,7 +34,7 @@ Windows::~Windows()
 
 uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
-
+	taskLock();
     switch(msg->msgType)
     {
         case PGetWindowsHandleReq::uri:
@@ -75,7 +77,7 @@ uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
-
+    taskUnlock();
     return 0;
 }
 

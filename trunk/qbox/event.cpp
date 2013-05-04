@@ -13,6 +13,8 @@
 #include "toString.h"
 #include "entSetting.h"
 
+#include "common.h"
+
 using namespace msg;
 using namespace ent;
 
@@ -83,7 +85,7 @@ void Event::mifCommonEvent(uint32_t eventId)
     rsp.info["event"] = tostring(eventId);
     rsp.info["desc"] = EntSetting::Instance()->getSysIp();
 
-    MsgHandler::Instance()->broadcastMsg(&rsp);
+//    MsgHandler::Instance()->sendMsg(connID,&rsp);
 
 }
 
@@ -91,19 +93,21 @@ void Event::mifImportanceEvent(uint32_t eventId)
 {
     cout<<"mifImportanceEvent"<<" eventId="<<eventId <<endl;
 
+
     MsgInfo rsp;
 
     rsp.msgType = PImportanceEventUpLoadReq::uri;
     rsp.info["event"] = tostring(eventId);
     rsp.info["desc"] = EntSetting::Instance()->getSysIp();
 
-    MsgHandler::Instance()->broadcastMsg(&rsp);
+//    MsgHandler::Instance()->sendMsg(connID,&rsp);
 
 }
 
-   void Event::onPDLPCTRLReq(MsgInfo *msg,uint32_t connID)
-   {
-   cout<<"onPDLPCTRLReq"<<" connID="<<connID <<endl;
+void Event::onPDLPCTRLReq(MsgInfo *msg,uint32_t connID)
+{
+
+   test_msg("onPDLPCTRLReq  connID=%d",connID );
 
    uint8_t dwAddr;
    uint8_t dwCount;
@@ -112,11 +116,12 @@ void Event::mifImportanceEvent(uint32_t eventId)
    dwAddr = atoi(msg->info["addr"].c_str());
    dwCount = atoi(msg->info["len"].c_str());
 
-   cout<<"Date="<<msg->info["value"].c_str() <<endl;
+   test_msg("addr = %02X",dwAddr );
+   test_msg("dwCount = %d",dwCount );
 
 #ifndef __unix__
    DLPI2c(dwAddr,dwCount,(uint8_t*)msg->info["value"].c_str());
-#endif  
+#endif
 
    MsgInfo rsp;
 
@@ -124,23 +129,30 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
 
    rsp.info["error"] = tostring(0);
-   MsgHandler::Instance()->broadcastMsg(&rsp);
-
-   }
 
 
-   void Event::onPDLPReadReq(MsgInfo *msg,uint32_t connID)
-   {
-   cout<<"onPDLPReadReq"<<" connID="<<connID <<endl;
+   test_msg("rsp  =%x",rsp.msgType );
+
+
+   MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+ }
+
+
+ void Event::onPDLPReadReq(MsgInfo *msg,uint32_t connID)
+ {
+   test_msg("onPDLPReadReq  connID=%d",connID );
 
    uint8_t dwAddr;
    uint8_t dwCount;
+   uint8_t type;
    uint8_t byDate[128] = {0};
 
+   type = atoi(msg->info["device"].c_str());
    dwAddr = atoi(msg->info["addr"].c_str());
    dwCount = atoi(msg->info["len"].c_str());
-   printf("%d", dwAddr);
-   printf("%d", dwCount);
+   printf("addr:%d\n", dwAddr);
+   printf("len:%d\n", dwCount);
 
 
 	if(0xfc == dwAddr)
@@ -157,7 +169,7 @@ void Event::mifImportanceEvent(uint32_t eventId)
 	else
 	{
 #ifndef __unix__
-       DLPI2cR(dwAddr,dwCount,(uint8_t*)&byDate[0]);
+      DLPI2cR(type,dwAddr,dwCount,(uint8_t*)&byDate[0]);
 #endif
 	}
 
@@ -165,15 +177,22 @@ void Event::mifImportanceEvent(uint32_t eventId)
 
    rsp.msgType = PDLPReadRsp::uri;
 
-   string data ;
 
-   data.append((const char *)&byDate[0],dwCount);
 
-   rsp.info["data"] = data;
+   rsp.info["data"].append((const char *)&byDate[0],dwCount) ;
    rsp.info["len"] = tostring(dwCount);
 
    rsp.info["error"] = tostring(0);
-   MsgHandler::Instance()->broadcastMsg(&rsp);
+
+
+   test_msg("rsp  =%x",rsp.msgType );
+
+
+   MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+
+
+
 
    }
 
