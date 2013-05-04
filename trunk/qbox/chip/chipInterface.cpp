@@ -60,7 +60,7 @@ void moveOutputChannel(uint32_t chid,int hPoint,int vPoint)
 void moveInputChannel(uint32_t chid,int hPoint,int vPoint)
 {
 	AppScale &s_c753=*AppScale::Instance();
-	s_c753.moveChannelInput(chid,hPoint,vPoint);
+	s_c753.moveChannelInput(chid,hPoint+1,vPoint+1);
 }
 
 
@@ -207,12 +207,12 @@ void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate)
 
 }
 
-void DLPI2cR(uint8_t dwAddr,uint8_t dwCount,uint8_t *byDate)
+void DLPI2cR(uint8_t type,uint8_t subAddr,uint8_t dwCount,uint8_t *byDate)
 {
 
-	debug_msg("DLPI2cRead dwAddr = 0x%02X dwCount=%d!",dwAddr,dwCount);
+	debug_msg("DLPI2cRead dwAddr = 0x%02X dwCount=%d!",subAddr,dwCount);
 
-	if(0xfe == dwAddr)
+	if(0xfe == subAddr)
 	{
 		*(byDate) = 0x0a;
 		*(byDate+1) = 0x0b;
@@ -223,10 +223,8 @@ void DLPI2cR(uint8_t dwAddr,uint8_t dwCount,uint8_t *byDate)
 	}
 	else
 	{
-		DLPI2cReadData(dwAddr,dwCount,byDate);
+		DLPI2cReadData(type,subAddr,dwCount,byDate);
 	}
-
-
 
 	for(int i=0;i<dwCount;i++)
 	{
