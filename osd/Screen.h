@@ -64,7 +64,7 @@ public:
 	void osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback );
 	void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
 	void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
-	void osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback );
+	void osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device);
 
 	void onInputChanged(ResourceChangedCallback callback);
 	void onInputResolutionChanged(ResourceChangedCallback callback);

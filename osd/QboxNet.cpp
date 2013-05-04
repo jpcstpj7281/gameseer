@@ -1,6 +1,6 @@
 #include "QboxNet.h"
-#include<QtDebug>
-#include "asio.hpp"
+#include <QtDebug>
+#include <asio.hpp>
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
 
@@ -213,6 +213,13 @@ struct Qbox::Impl{
 		socket_.async_receive(  asio::buffer(responsed_, CONSTLEN), boost::bind(&Qbox::Impl::handleReceived, this, asio::placeholders::error, asio::placeholders::bytes_transferred) );
 	}
 	void asyncSend(std::string & data){
+				std::stringstream ss;
+				static char syms[] = "0123456789ABCDEF";
+				for (size_t it = 0; it < data.length(); it++){
+					ss << syms[((data[it] >> 4) & 0xf)] << syms[data[it] & 0xf] << ' ';
+				}
+				qDebug()<<"send: "<< ss.str().c_str();
+
 		socket_.async_send(asio::buffer( data.c_str(), data.length() ) , boost::bind(&Qbox::Impl::handleSent, this, asio::placeholders::error, asio::placeholders::bytes_transferred ) );
 	}
 	void handleSent( const asio::error_code& err, std::size_t /*bytes_transferred*/ ){
@@ -229,6 +236,8 @@ struct Qbox::Impl{
 			uint32_t len = 0, move = 0, msgtype = 0;
 			//qDebug()<<"test";
 			while( move < bytes_transferred){
+
+
 				memcpy((void*)&len,(const void*)(responsed_ + move + 4),4);
 				memcpy((void*)&msgtype,(const void*)(responsed_ + HEAD_SIZE),sizeof(msgtype));
 				MsgInfo msg = decodeData( responsed_ + move, len +8);
@@ -239,11 +248,13 @@ struct Qbox::Impl{
 				for (size_t it = move; it < bytes_transferred; it++){
 					ss << syms[((responsed_[it] >> 4) & 0xf)] << syms[responsed_[it] & 0xf] << ' ';
 				}
-				qDebug()<< ss.str().c_str();
+				qDebug()<< "receive: "<<ss.str().c_str();
+				
 				mainios_->post( boost::bind( &Qbox::Impl::dispatchResponse, this, msg) );
 				//qDebug()<<"test2";
 				move+=len+8;
 			}
+			memset(responsed_, 0,bytes_transferred);
 			//qDebug()<<"test3";
 			//到再读一下
 			asyncReceive();

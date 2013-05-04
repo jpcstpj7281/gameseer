@@ -23,10 +23,11 @@ Screen::~Screen(){
 	QboxMgr::instance()->removeQbox(qbox_->address());
 }
 
-void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback ){
+void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device){
 	QboxDataMap datamap;
 	datamap["addr"] = QString::number( addr).toStdString();
 	datamap["len"] = QString::number(len).toStdString();
+	datamap["device"] = QString::number(device).toStdString();
 	if ( qbox_){
 		qbox_->addAsyncRequest( (32<<16)|3, callback, datamap);
 	}

@@ -362,7 +362,7 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 }
 
 void OsdProjMode::readClicked(){
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34);
 }
 
 static bool osdResponse(uint32_t , QboxDataMap&){
