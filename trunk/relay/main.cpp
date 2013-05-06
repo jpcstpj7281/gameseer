@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <qdebug.h>
 #include <Windows.h>
-
+#include <qt_ext\qtsingleapplication.h>
 
 
 
@@ -39,14 +39,18 @@ int main(int argc, char *argv[])
 	}
 	TcpNet::instance()->setPort(port );
 
-    QApplication a(argc, argv);
-	a.setQuitOnLastWindowClosed(false);
-    MainWindow w;
-    w.show();
+    QtSingleApplication a(argc, argv);
+	if (!a.isRunning()){
+		a.setQuitOnLastWindowClosed(false);
+		MainWindow w;
+		w.show();
 
-	TcpNet::instance()->startThread();
+		TcpNet::instance()->startThread();
 
-    auto rs = a.exec();
-	TcpNet::instance()->stop();
-	return rs;
+		auto rs = a.exec();
+		TcpNet::instance()->stop();
+		return rs;
+	}else{
+		return 0;
+	}
 }

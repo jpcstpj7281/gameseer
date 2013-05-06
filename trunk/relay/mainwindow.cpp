@@ -8,6 +8,8 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QCloseEvent>
+#include <QSpinBox>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -94,5 +96,15 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 		btn->setGeometry(btn->x(), this->height()-40, btn->width(), btn->height() );
 	}
 
+	btn = findChild<QPushButton* >("onAll");
+	btn->setGeometry(btn->x(), this->height()-40, btn->width(), btn->height() );
+	btn = findChild<QPushButton* >("offAll");
+	btn->setGeometry(btn->x(), this->height()-40, btn->width(), btn->height() );
+
+	QSpinBox *sb = findChild<QSpinBox* >("spinBox");
+	sb->setGeometry(sb->x(), this->height()-40, sb->width(), sb->height() );
+
+	QLabel *ll = findChild<QLabel* >("label");
+	ll->setGeometry(ll->x(), this->height()-38, ll->width(), ll->height() );
 }
 

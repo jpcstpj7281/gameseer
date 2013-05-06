@@ -90,16 +90,18 @@ struct Host::Impl{
 	}
 #endif
 	void dispatchResponseImpl( const std::string *msg){
-		RequestList foundList;
-		for( RequestList::iterator it = sentList_.begin(); it != sentList_.end(); ){
+		RequestList tmpList = sentList_;
+		sentList_.clear();
+		for( RequestList::iterator it = tmpList.begin(); it != tmpList.end(); ){
 			NetObj* obj = *it;
 			if ( obj->callback_(*msg)){ //要CALLBACK确认是正常才可以删除
-				it  = sentList_.erase( it);
+				it  = tmpList.erase( it);
 				delete obj;
 			}else{
 				++it;
 			}
 		}
+		sentList_.insert(sentList_.end(), tmpList.begin(), tmpList.end());
 	}
 
 	void asyncRequest(){
@@ -132,10 +134,11 @@ struct Host::Impl{
 	}
 
 	void addAsyncRequest( NetCallback callback, std::string&& data ){
-		//if ( !isConnected_ ) return false;
+		//if ( !isConnected_ ) return ;
 		NetObj * so = new NetObj( callback, std::move(data));
 		requestList_.push_back(so);
-		//return true;
+		if ( isConnected_ )
+			asyncRequest();
 	}
 
 	void connInit(){

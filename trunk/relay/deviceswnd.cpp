@@ -17,6 +17,7 @@
 #include <QFile>
 #include <QCoreApplication>
 #include <QDesktopServices>
+#include <QStringRef>
 
 #undef min
 using namespace std::placeholders;
@@ -38,7 +39,6 @@ void NetConnBtn::conn(){
 		if ( items.size() > 0){
 			psw = items.at(0).toElement().attribute("val").toStdString();
 		}
-
 		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Login "+psw+"\r\n")) );
 	}
 }
@@ -79,6 +79,19 @@ void NetConnBtn::clickTest(){
 		}
 	}
 }
+void NetConnBtn::timerEvent ( QTimerEvent * ){
+	if (text() == "Disconnect"&& tickcount_!=0){
+		size_t now = GetTickCount();
+		if ( now - tickcount_ > 1000){
+			tickcount_ = now;
+			std::string ip = address_->text().toStdString();
+			if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+				Host* host = TcpNet::instance()->getHost(ip);
+				host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
+			}
+		}
+	}
+}
 
 bool NetConnBtn::connectedCallback( const std::string& msg){
 	if ( msg == "Login OK."){
@@ -86,16 +99,158 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 		this->setEnabled(true);
 		channels_->setEnabled(true);
 		testBtn_->setEnabled(true);
+
+		std::string ip = address_->text().toStdString();
+		if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+			Host* host = TcpNet::instance()->getHost(ip);
+			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
+		}
+		startTimer(1000);
 	}else if ( msg == HOST_CONNECT_FAILED ){
 		setText("Connect");
 		this->setEnabled(true);
 		channels_->setEnabled(false);
 		testBtn_->setEnabled(false);
 		this->address_->setEnabled(true);
+	}else if ( msg == "OFF [1,2,3,4,5,6,7,8]"){
+		channels_->setEnabled(false);
+	}else if ( msg == "ON [1,2,3,4,5,6,7,8]"){
+		channels_->setEnabled(false);
 	}else{
-		return false;
+		QString qmsg = QString::fromStdString(msg);
+		qDebug()<<qmsg;
+		if (qmsg.contains("ON:")){
+			static QString gstyle = "* { background-color: lightGreen }";
+			static QString rstyle = "* { background-color: red }";
+			QList<QPushButton*> list = channels_->findChildren<QPushButton*>();
+			QString tmp = qmsg.left(qmsg.indexOf("]"));
+			QString tmp1 = tmp.right(tmp.length() - tmp.indexOf("[") -1);
+			QList<QString> chns = tmp1.split(",");
+			if (waitForState_ == WaitNothing ){
+				for (auto it = list.begin(); it != list.end(); ++it){
+					if ((*it)->text() != "All"){
+						(*it)->setChecked(false);
+						(*it)->setStyleSheet(rstyle);
+					}
+				}
+				for ( auto it = chns.begin(); it!= chns.end();++it){
+					QPushButton* btn = channels_->findChild<QPushButton*>(*it);
+					btn->setChecked(true);
+					btn->setStyleSheet(gstyle);
+				}
+			}else if(qmsg.contains("Location:")){
+				QString style;
+				bool check;
+				if (waitForState_ == WaitAllOff){
+					if (chns.size() == 0 || chns[0].isEmpty()){
+						waitForState_ = WaitNothing;
+						style = rstyle;
+						check = false;
+					}
+				}
+				if (waitForState_ == WaitAllOn){
+					if (chns.size() == 8){
+						waitForState_ = WaitNothing;
+						style = gstyle;
+						check = true;
+					}
+				}
+				if ( waitForState_ == WaitNothing){
+					for (auto it = list.begin(); it != list.end(); ++it){
+						if ((*it)->text() != "All"){
+							(*it)->setChecked(check);
+							(*it)->setStyleSheet(style);
+						}
+					}
+					channels_->setEnabled(true);
+				}
+			}
+			
+		}
+		if (qmsg.contains("Location:")){
+			QString tmp = qmsg.left(qmsg.indexOf("Description"));
+			QString tmp1 = tmp.right(tmp.length() - tmp.indexOf("Location: ") - strlen("Location: "));
+			loc_->setText(tmp1);
+			loc_->setToolTip(tmp1);
+		}
+		if (qmsg.contains("Description:")){
+			QString tmp = qmsg.left(qmsg.indexOf("RunTime"));
+			QString tmp1 = tmp.right(tmp.length() - tmp.indexOf("Description: ") - strlen("Description: "));
+			desc_->setText(tmp1);
+			loc_->setToolTip(tmp1);
+		}
+		if (qmsg.contains("RunTime:")){
+			QString tmp1 = qmsg.right(qmsg.length() - qmsg.indexOf("RunTime: ") - strlen("RunTime: "));
+			runTime_->setText(tmp1);
+			loc_->setToolTip(tmp1);
+			tickcount_ = GetTickCount();
+		}
+		return true;
 	}
 	return true;
+}
+void NetConnBtn::onAll(int interval){
+	if ( waitForState_ != WaitNothing) return;
+	std::string ip = address_->text().toStdString();
+	if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+		Host* host = TcpNet::instance()->getHost(ip);
+		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("ON [1,2,3,4,5,6,7,8] T["+QString::number(interval).toStdString()+"]\r\n")) );
+		waitForState_ = WaitAllOn;
+	}
+}
+void NetConnBtn::offAll(int interval){
+	if ( waitForState_ != WaitNothing) return;
+	std::string ip = address_->text().toStdString();
+	if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+		Host* host = TcpNet::instance()->getHost(ip);
+		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("OFF [1,2,3,4,5,6,7,8] T["+QString::number(interval).toStdString()+"]\r\n")) );
+		waitForState_ = WaitAllOff;
+	}
+}
+void NetConnBtn::clickOn(){
+	onAll(interval_->text().toInt());
+}
+void NetConnBtn::clickOff(){
+	offAll(interval_->text().toInt());
+}
+void NetConnBtn::channelChange(const std::string& chn, QPushButton* btn){
+	if ( waitForState_ != WaitNothing) return;
+	std::string ip = address_->text().toStdString();
+	if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+		Host* host = TcpNet::instance()->getHost(ip);
+		if ( btn->isChecked()){
+			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("ON ["+chn+"]\r\n")) );
+			btn->setStyleSheet("* { background-color: lightGreen }");
+		}else{
+			
+			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("OFF ["+chn+"]\r\n")) );
+			btn->setStyleSheet("* { background-color: red }");
+		}
+	}
+}
+void NetConnBtn::click1(){
+	channelChange("1", (QPushButton*)sender());
+}
+void NetConnBtn::click2(){
+	channelChange("2", (QPushButton*)sender());
+}
+void NetConnBtn::click3(){
+	channelChange("3", (QPushButton*)sender());
+}
+void NetConnBtn::click4(){
+	channelChange("4", (QPushButton*)sender());
+}
+void NetConnBtn::click5(){
+	channelChange("5", (QPushButton*)sender());
+}
+void NetConnBtn::click6(){
+	channelChange("6", (QPushButton*)sender());
+}
+void NetConnBtn::click7(){
+	channelChange("7", (QPushButton*)sender());
+}
+void NetConnBtn::click8(){
+	channelChange("8", (QPushButton*)sender());
 }
 
 NetConnBtn::NetConnBtn( const std::string & ip ):
@@ -114,6 +269,8 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	,timerwnd_(0)
 	,ctrl_(new QWidget)
 	,interval_(new  QSpinBox)
+	,tickcount_(0)
+	,waitForState_(WaitNothing)
 {
 	this->setText( "Connect");
 
@@ -143,18 +300,36 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	QPushButton* btn6 = new  QPushButton;
 	QPushButton* btn7 = new  QPushButton;
 	QPushButton* btn8 = new  QPushButton;
+	btn1->setCheckable(true);
+	btn2->setCheckable(true);
+	btn3->setCheckable(true);
+	btn4->setCheckable(true);
+	btn5->setCheckable(true);
+	btn6->setCheckable(true);
+	btn7->setCheckable(true);
+	btn8->setCheckable(true);
 	on->setStyleSheet("* { background-color: lightGreen }");
 	off->setStyleSheet("* { background-color: red }");
 	on->setText("All");
 	off->setText("All");
-	btn1->setText("1");
-	btn2->setText("2");
-	btn3->setText("3");
-	btn4->setText("4");
-	btn5->setText("5");
-	btn6->setText("6");
-	btn7->setText("7");
-	btn8->setText("8");
+	btn1->setText("1");btn1->setObjectName("1");btn1->setStyleSheet("* { background-color: red }");btn1->setChecked(false);
+	btn2->setText("2");btn2->setObjectName("2");btn2->setStyleSheet("* { background-color: red }");btn2->setChecked(false);
+	btn3->setText("3");btn3->setObjectName("3");btn3->setStyleSheet("* { background-color: red }");btn3->setChecked(false);
+	btn4->setText("4");btn4->setObjectName("4");btn4->setStyleSheet("* { background-color: red }");btn4->setChecked(false);
+	btn5->setText("5");btn5->setObjectName("5");btn5->setStyleSheet("* { background-color: red }");btn5->setChecked(false);
+	btn6->setText("6");btn6->setObjectName("6");btn6->setStyleSheet("* { background-color: red }");btn6->setChecked(false);
+	btn7->setText("7");btn7->setObjectName("7");btn7->setStyleSheet("* { background-color: red }");btn7->setChecked(false);
+	btn8->setText("8");btn8->setObjectName("8");btn8->setStyleSheet("* { background-color: red }");btn8->setChecked(false);
+	connect( on, SIGNAL(clicked()), this, SLOT(clickOn()) );
+	connect( off, SIGNAL(clicked()), this, SLOT(clickOff()) );
+	connect( btn1, SIGNAL(clicked()), this, SLOT(click1()) );
+	connect( btn2, SIGNAL(clicked()), this, SLOT(click2()) );
+	connect( btn3, SIGNAL(clicked()), this, SLOT(click3()) );
+	connect( btn4, SIGNAL(clicked()), this, SLOT(click4()) );
+	connect( btn5, SIGNAL(clicked()), this, SLOT(click5()) );
+	connect( btn6, SIGNAL(clicked()), this, SLOT(click6()) );
+	connect( btn7, SIGNAL(clicked()), this, SLOT(click7()) );
+	connect( btn8, SIGNAL(clicked()), this, SLOT(click8()) );
 	chnLayout->addWidget(on );
 	chnLayout->addWidget(off );
 	chnLayout->addWidget(btn1 );
@@ -266,6 +441,7 @@ void NetConnBtn::initTable( QTableWidget* table, int row){
 DevicesWnd::DevicesWnd(QWidget *parent) :
     QWidget(parent)
     ,ui(new Ui::DevicesWnd)
+	,interval_(2)
 {
     ui->setupUi(this);
 
@@ -336,6 +512,13 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 		}
 	}
 
+	QSpinBox* spin= findChild<QSpinBox* >("spinBox");
+	connect( spin, SIGNAL(valueChanged(int)), this, SLOT(valueChanged(int)));
+	QPushButton* all= findChild<QPushButton* >("onAll");
+	connect( all, SIGNAL(clicked()), this, SLOT(onAll()));
+	all= findChild<QPushButton* >("offAll");
+	connect( all, SIGNAL(clicked()), this, SLOT(offAll()));
+
 	QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("autoconn");
 	if ( items.size() > 0){
 		QString autoconn = items.at(0).toElement().attribute("val");
@@ -344,6 +527,23 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 		}
 	}
 }
+
+void DevicesWnd::valueChanged( int i ){
+	interval_ = i;
+}
+void DevicesWnd::onAll(){
+	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
+		t->onAll(interval_);
+	}
+}
+void DevicesWnd::offAll(){
+	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
+		t->offAll(interval_);
+	}
+}
+
 DevicesWnd::~DevicesWnd()
 {
     delete ui;

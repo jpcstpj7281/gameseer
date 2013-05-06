@@ -136,7 +136,7 @@ TimerWnd::TimerWnd( ):
 	sl.push_back( "");
 	sl.push_back( "Date Time");
 	sl.push_back( "Frequency");
-	sl.push_back( "Interval");
+	sl.push_back( "SEQ Delay");
 	sl.push_back( "Channels");
 	sl.push_back( "");
 
@@ -144,7 +144,7 @@ TimerWnd::TimerWnd( ):
 	table_->setColumnWidth( 0, 20);
 	table_->setColumnWidth( 1, 200);
 	table_->setColumnWidth( 2, 100);
-	table_->setColumnWidth( 3, 50);
+	table_->setColumnWidth( 3, 70);
 	table_->setColumnWidth( 4, 300);
 	table_->setColumnWidth( 5, 10);
 	table_->hideColumn(5);
