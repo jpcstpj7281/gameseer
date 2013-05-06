@@ -72,6 +72,7 @@ private slots:
 	void disconnAll();
 	void connAll();
 	void stateChanged(int);
+	void runOnStartup(int);
 
 private:
 	void connectImpl( );

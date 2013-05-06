@@ -1,15 +1,14 @@
-#-------------------------------------------------
+ #-------------------------------------------------
 #
 # Project created by QtCreator 2013-01-09T11:51:51
 #
 #-------------------------------------------------
 
-QT  += core gui xml  
+QT  += core gui xml  widgets
 
 
 CONFIG += c++11				
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = relay
 TEMPLATE = app
