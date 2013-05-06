@@ -24,6 +24,16 @@ class MainWindow;
 class NetConnBtn: public QPushButton{
 	Q_OBJECT
 
+		void channelChange(const std::string& chn, QPushButton*);
+	virtual void	timerEvent ( QTimerEvent * event )override;
+
+	
+	enum WaitForState{
+		WaitNothing,
+		WaitAllOff,
+		WaitAllOn,
+	};
+	WaitForState waitForState_;
 	private slots:
 		void clickit();
 		void clickTest();
@@ -31,7 +41,22 @@ class NetConnBtn: public QPushButton{
 		void clickDelete();
 		void clickTimer();
 		void editFinished();
+		void clickOn();
+		void clickOff();
+		void click1();
+		void click2();
+		void click3();
+		void click4();
+		void click5();
+		void click6();
+		void click7();
+		void click8();
+
 public:
+
+	void onAll(int interval);
+	void offAll(int interval);
+
 	QTableWidgetItem	*loc_;
 	QTableWidgetItem	*desc_;
 	QTableWidgetItem	*comm_;
@@ -48,6 +73,7 @@ public:
 	TestQbox			*testNet_;
 	TimerWnd			*timerwnd_;
 
+	size_t				tickcount_;
 	void conn();
 	void disconn();
 	NetConnBtn(  const std::string & ip);
@@ -74,6 +100,10 @@ private slots:
 	void stateChanged(int);
 	void runOnStartup(int);
 
+	void valueChanged( int i );
+	void onAll();
+	void offAll();
+
 private:
 	void connectImpl( );
 	void disconnectImpl( );
@@ -84,6 +114,8 @@ private:
 
 	QTableWidget*				tableDevices_;
     Ui::DevicesWnd *ui;
+
+	size_t	interval_;
 
 	friend class QboxAddress;
 
