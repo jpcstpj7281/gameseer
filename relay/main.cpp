@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
 	TcpNet::instance()->setPort(port );
 
     QApplication a(argc, argv);
+	a.setQuitOnLastWindowClosed(false);
     MainWindow w;
     w.show();
-
 
 	TcpNet::instance()->startThread();
 

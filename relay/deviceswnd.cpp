@@ -14,6 +14,9 @@
 #include "TcpNet.h"
 #include <QSpinBox>
 #include <QCheckBox>
+#include <QFile>
+#include <QCoreApplication>
+#include <QDesktopServices>
 
 #undef min
 using namespace std::placeholders;
@@ -315,13 +318,21 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 
 	QList<QCheckBox *> list = findChildren<QCheckBox* >();
 	for ( auto it = list.begin(); it != list.end(); ++it){
+		
 		QCheckBox * ch= *it;
-		connect( ch, SIGNAL(stateChanged(int)), this, SLOT(stateChanged(int)));
-		if ( !ch->isChecked()){
-			QString name = ch->objectName();
-			name = name.replace( "checkBox_", "");
-			int col = name.toInt();
-			tableDevices_->hideColumn( col);
+		if ( ch->objectName().contains("checkBox_")){
+			connect( ch, SIGNAL(stateChanged(int)), this, SLOT(stateChanged(int)));
+			if ( !ch->isChecked()){
+				QString name = ch->objectName();
+				name = name.replace( "checkBox_", "");
+				int col = name.toInt();
+				tableDevices_->hideColumn( col);
+			}
+		}else if ( ch->objectName() == "runOnStartup"){
+			if ( QFile::exists(QDesktopServices::storageLocation(QDesktopServices::ApplicationsLocation)+"/Startup/relay.exe.lnk") ){
+				ch->setChecked(true);
+			}
+			connect( ch, SIGNAL(stateChanged(int)), this, SLOT(runOnStartup(int)));
 		}
 	}
 
@@ -336,6 +347,14 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 DevicesWnd::~DevicesWnd()
 {
     delete ui;
+}
+
+void DevicesWnd::runOnStartup(int state){
+	if (state){
+		QFile::link( QCoreApplication::instance()->applicationFilePath(), QDesktopServices::storageLocation(QDesktopServices::ApplicationsLocation)+"/Startup/relay.exe.lnk");
+	}else{
+		QFile::remove(QDesktopServices::storageLocation(QDesktopServices::ApplicationsLocation)+"/Startup/relay.exe.lnk");
+	}
 }
 
 void DevicesWnd::stateChanged(int state){

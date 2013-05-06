@@ -7,6 +7,7 @@
 #include "DevicesWnd.h"
 #include <QVBoxLayout>
 #include <QCheckBox>
+#include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -26,9 +27,37 @@ MainWindow::MainWindow(QWidget *parent)
 	//}
 
 	//this->resize(1024, 768);
+
+	trayiconMenu = new QMenu(this);  
+	QAction * showAction = new QAction(tr("&Show"), this);
+	QObject::connect(showAction, SIGNAL(triggered()), this, SLOT(actionShow()));
+	QAction * exitAction = new QAction(tr("&Exit"), this);
+	QObject::connect(exitAction, SIGNAL(triggered()), this, SLOT(actionExit()));
+	trayiconMenu->addAction(showAction);
+	trayiconMenu->addAction(exitAction);
+	
+	
+	trayicon = new QSystemTrayIcon(this);  
+	QIcon icon("res/BypassBtn.png"); 
+	trayicon->setIcon(icon);  
+	trayicon->setContextMenu( trayiconMenu);
+	trayicon->show();
+	connect(trayicon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(onSystemTrayIconClicked(QSystemTrayIcon::ActivationReason)));  
+
+	installEventFilter(this);
 }
 
+void MainWindow::onSystemTrayIconClicked(QSystemTrayIcon::ActivationReason){
+	actionShow();
+}
 
+void MainWindow::actionShow(){
+	show();
+}
+
+void MainWindow::actionExit(){
+	QCoreApplication::exit();
+}
 
 MainWindow::~MainWindow()
 {
@@ -38,9 +67,7 @@ MainWindow::~MainWindow()
 	//}
 }
 
-void MainWindow::closeEvent(QCloseEvent * ){
-    QCoreApplication::exit();
-}
+
 void MainWindow::resizeEvent(QResizeEvent * event){
 	QWidget * wdgt = findChild<QWidget*>( "tableDevices");
 	if ( wdgt){
@@ -53,7 +80,11 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	QList<QCheckBox*> list = findChildren<QCheckBox*>();
 	for ( auto it = list.begin(); it != list.end(); ++it){
 		QCheckBox* b = *it;
-		b->setGeometry( b->x(), this->height()-50, b->width(), b->height());
+		if ( b->objectName().contains("checkBox_")){
+			b->setGeometry( b->x(), this->height()-65, b->width(), b->height());
+		}else{
+			b->setGeometry( b->x(), this->height()-35, b->width(), b->height());
+		}
 	}
 
 	QPushButton* btn = findChild<QPushButton* >("connAll");
