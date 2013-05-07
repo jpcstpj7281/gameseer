@@ -9,5 +9,8 @@
         <address location="home" description="" comment="" ip="192.168.1.5"/>
         <address location="home" description="" comment="" ip="192.168.2.116"/>
     </addresses>
+  <timers>
+    <timer datetime="2013.05.08 00:20:22" ip="192.168.1.5" freq="0"/>
+  </timers>
     <devices/>
 </root>

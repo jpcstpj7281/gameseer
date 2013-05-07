@@ -64,11 +64,7 @@ void MainWindow::actionExit(){
 MainWindow::~MainWindow()
 {
     delete ui;
-	//for ( auto it = modules_.begin(); it != modules_.end(); ++it){
-	//	delete *it;
-	//}
 }
-
 
 void MainWindow::resizeEvent(QResizeEvent * event){
 	QWidget * wdgt = findChild<QWidget*>( "tableDevices");

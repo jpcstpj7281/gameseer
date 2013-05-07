@@ -11,6 +11,7 @@
 #include <functional>
 #include <QPushButton.h>
 #include <QMainWindow>
+#include <vector>
 #include "timerwnd.h"
 class QSpinBox;
 class TestQbox;
@@ -80,6 +81,10 @@ public:
 	~NetConnBtn();
 	bool connectedCallback( const std::string &msg);
 	void initTable( QTableWidget* table, int row);
+
+	std::vector<QDateTime> dTimes_;
+	std::vector<int> triggerFreqs_;
+	void initTimer();
 };
 
 class DevicesWnd : public QWidget

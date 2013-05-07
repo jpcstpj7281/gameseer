@@ -93,6 +93,25 @@ void NetConnBtn::timerEvent ( QTimerEvent * ){
 	}
 }
 
+void NetConnBtn::initTimer(){
+	if (dTimes_.size() == 0){
+		QDomNodeList items = ConfigMgr::instance()->getDoc()->elementsByTagName("timer");
+		QString oid;
+		for(int i = 0; i <items.length(); ++i){
+			QDomNode node = items.at(i);
+			QDomElement elem = node.toElement();
+			if ( elem.attribute("ip") == address_->text()){
+				QString dt = elem.attribute("datetime");
+				QString freq = elem.attribute("freq");
+				if (! dt.isEmpty() ){
+					dTimes_.push_back( QDateTime::fromString(dt, "yyyy.dd.MM hh:mm:ss") );
+					triggerFreqs_.push_back(freq.toInt() );
+				}
+			}
+		}
+	}
+}
+
 bool NetConnBtn::connectedCallback( const std::string& msg){
 	if ( msg == "Login OK."){
 		setText("Disconnect");
@@ -105,6 +124,7 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 			Host* host = TcpNet::instance()->getHost(ip);
 			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
 		}
+		initTimer();
 		startTimer(1000);
 	}else if ( msg == HOST_CONNECT_FAILED ){
 		setText("Connect");
@@ -272,6 +292,9 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	,tickcount_(0)
 	,waitForState_(WaitNothing)
 {
+
+	
+
 	this->setText( "Connect");
 
 	QVBoxLayout* layout = new QVBoxLayout();
@@ -402,6 +425,7 @@ NetConnBtn::~NetConnBtn(){
 }
 
 void NetConnBtn::clickTimer(){
+	initTimer();
 	if ( !timerwnd_)  timerwnd_ = new TimerWnd;
 	timerwnd_->show();
 }
