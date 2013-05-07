@@ -9,8 +9,83 @@
 #include <QPushButton>
 #include <QComboBox.h>
 
+void DateTimeWidget::refreshChannels(){
+	for ( size_t i = 0; i < ChannelAllOff;++i){
+		if ( buttonState_ & (1<<i) ){
+			if ( channelState_& (1<<i) ){
+				btns_[i]->setStyleSheet("* { background-color: lightGreen }");
+			}else{
+				btns_[i]->setStyleSheet("* { background-color: red }");
+			}
+		}else{
+			btns_[i]->setStyleSheet("");
+		}
+	}
+	if (buttonState_ & (1<<ChannelAllOff)  ){
+		btns_[ChannelAllOff]->setStyleSheet("* { background-color: red }");
+	}else{
+		btns_[ChannelAllOff]->setStyleSheet("");
+	}
+	if (buttonState_ & (1<<ChannelAllOn) ){
+		btns_[ChannelAllOn]->setStyleSheet("* { background-color: lightGreen }");
+	}else{
+		btns_[ChannelAllOn]->setStyleSheet("");
+	}
+}
 
+void DateTimeWidget::clickOn(){
+	buttonState_ = 1 << ChannelAllOn;
+	channelState_ = 0;
+	refreshChannels();
+}
+void DateTimeWidget::clickOff(){
+	buttonState_ = 1 << ChannelAllOff;
+	channelState_ = 0;
+	refreshChannels();
+}
+void DateTimeWidget::shiftChannel( size_t chn){
+	size_t flag = (~3<<ChannelAllOff);
+	if ( buttonState_ & (3<<ChannelAllOff)){
+		buttonState_ &= (~(3<<ChannelAllOff));
+	}
 
+	if ( buttonState_ & 1 << chn){//有状态
+		if (channelState_ & 1<<chn){//开状态
+			channelState_ &= (~(1<<chn));//设为关状态
+		}else{
+			buttonState_ &= (~(1 << chn));//设为无状态
+		}
+	}else{
+		buttonState_ |= 1 << chn;//设为有状态
+		channelState_ |=  1<<chn;//设为开状态
+	}
+
+	refreshChannels();
+}
+void DateTimeWidget::click1(){
+	shiftChannel(Channel1);
+}
+void DateTimeWidget::click2(){
+	shiftChannel(Channel2);
+}
+void DateTimeWidget::click3(){
+	shiftChannel(Channel3);
+}
+void DateTimeWidget::click4(){
+	shiftChannel(Channel4);
+}
+void DateTimeWidget::click5(){
+	shiftChannel(Channel5);
+}
+void DateTimeWidget::click6(){
+	shiftChannel(Channel6);
+}
+void DateTimeWidget::click7(){
+	shiftChannel(Channel7);
+}
+void DateTimeWidget::click8(){
+	shiftChannel(Channel8);
+}
 
 DateTimeWidget::DateTimeWidget():
 	QDateTimeEdit()
@@ -19,6 +94,8 @@ DateTimeWidget::DateTimeWidget():
 	,interval_(new  QSpinBox)
 	,frequency_(new QComboBox)
 	,loc_( new QTableWidgetItem)
+	,buttonState_(0)
+	,channelState_(0)
 {
 	//this->setText( "Connect");
 
@@ -48,18 +125,31 @@ DateTimeWidget::DateTimeWidget():
 	QPushButton* btn6 = new  QPushButton;
 	QPushButton* btn7 = new  QPushButton;
 	QPushButton* btn8 = new  QPushButton;
-	on->setStyleSheet("* { background-color: lightGreen }");
-	off->setStyleSheet("* { background-color: red }");
-	on->setText("All");
-	off->setText("All");
-	btn1->setText("1");
-	btn2->setText("2");
-	btn3->setText("3");
-	btn4->setText("4");
-	btn5->setText("5");
-	btn6->setText("6");
-	btn7->setText("7");
-	btn8->setText("8");
+	//on->setStyleSheet("* { background-color: lightGreen }");
+	//off->setStyleSheet("* { background-color: red }");
+	on->setText("All");btns_[ChannelAllOn] = on;
+	off->setText("All");btns_[ChannelAllOff] = off;
+	btn1->setText("1");btns_[Channel1] = btn1;
+	btn2->setText("2");btns_[Channel2] = btn2;
+	btn3->setText("3");btns_[Channel3] = btn3;
+	btn4->setText("4");btns_[Channel4] = btn4;
+	btn5->setText("5");btns_[Channel5] = btn5;
+	btn6->setText("6");btns_[Channel6] = btn6;
+	btn7->setText("7");btns_[Channel7] = btn7;
+	btn8->setText("8");btns_[Channel8] = btn8;
+	for ( size_t i = 0; i <= ChannelAllOn;++i){
+		btns_[i]->setStyleSheet("");
+	}
+	connect( on, SIGNAL(clicked()), this, SLOT(clickOn()) );
+	connect( off, SIGNAL(clicked()), this, SLOT(clickOff()) );
+	connect( btn1, SIGNAL(clicked()), this, SLOT(click1()) );
+	connect( btn2, SIGNAL(clicked()), this, SLOT(click2()) );
+	connect( btn3, SIGNAL(clicked()), this, SLOT(click3()) );
+	connect( btn4, SIGNAL(clicked()), this, SLOT(click4()) );
+	connect( btn5, SIGNAL(clicked()), this, SLOT(click5()) );
+	connect( btn6, SIGNAL(clicked()), this, SLOT(click6()) );
+	connect( btn7, SIGNAL(clicked()), this, SLOT(click7()) );
+	connect( btn8, SIGNAL(clicked()), this, SLOT(click8()) );
 	chnLayout->addWidget(on );
 	chnLayout->addWidget(off );
 	chnLayout->addWidget(btn1 );
@@ -71,17 +161,19 @@ DateTimeWidget::DateTimeWidget():
 	chnLayout->addWidget(btn7 );
 	chnLayout->addWidget(btn8 );
 	channels_->setLayout(chnLayout);
-	channels_->setEnabled(false);
+	channels_->setEnabled(true);
 
 
 	//connect( this, SIGNAL(clicked()), this, SLOT(clickit()) );
 	interval_->setMinimum( 0);
 	interval_->setMaximum( 60);
+	interval_->setValue(2);
 
 	frequency_->addItem( "Every Day");
 	frequency_->addItem( "Every Week");
 	frequency_->addItem( "Every Month");
 	frequency_->addItem( "Every Year");
+
 }
 
 DateTimeWidget::~DateTimeWidget(){
@@ -89,19 +181,19 @@ DateTimeWidget::~DateTimeWidget(){
 
 void DateTimeWidget::clickInsert(){
 	QTableWidget* table = loc_->tableWidget();
-	if ( loc_->row() != table->rowCount()-1 && table){
+	//if ( loc_->row() != table->rowCount()-1 && table){
 		DateTimeWidget * rowitem = new DateTimeWidget();
 		rowitem->setDate( this->date());
 		int row = loc_->row();
 		table->insertRow( row);
 		rowitem->initTable(table, row);
-	}
+	//}
 }
 void DateTimeWidget::clickDelete(){
 	QTableWidget* table = loc_->tableWidget();
-	if ( loc_->row() != table->rowCount()-1 && table){
+	//if ( loc_->row() != table->rowCount()-1 && table){
 		table->removeRow( loc_->row());
-	}
+	//}
 }
 void DateTimeWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, ctrl_);
