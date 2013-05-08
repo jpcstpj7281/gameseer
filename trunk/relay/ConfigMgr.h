@@ -43,5 +43,6 @@ public :
 	QDomElement getAddressElem();
 
 	void makeDefault();
+	void save();
 };
 #endif // CONFIGMGR_H

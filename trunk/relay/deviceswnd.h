@@ -82,9 +82,14 @@ public:
 	bool connectedCallback( const std::string &msg);
 	void initTable( QTableWidget* table, int row);
 
-	std::vector<QDateTime> dTimes_;
-	std::vector<int> triggerFreqs_;
+	//std::vector<QDateTime> dTimes_;
+	//std::vector<int> triggerFreqs_;
+	//std::vector<size_t> btnStatus_;
+	//std::vector<size_t> delays_;
+	std::vector<RelayTimer> rTimers_;
 	void initTimer();
+	void calcTimer(RelayTimer* rt);
+	void switchBtn(RelayTimer* rt);
 };
 
 class DevicesWnd : public QWidget

@@ -1,16 +1,18 @@
 <?xml version='1.0'?>
 <root>
-<setting>
-  <port val="1698" />
-  <psw val="1"/>
-  <autoconn val="0"/>
-  </setting>
+    <addresses/>
+    <setting>
+        <port val="1698"/>
+        <psw val="1"/>
+        <autoconn val="0"/>
+    </setting>
     <addresses>
-        <address location="home" description="" comment="" ip="192.168.1.5"/>
-        <address location="home" description="" comment="" ip="192.168.2.116"/>
+        <address description="" location="home" ip="192.168.1.5" comment=""/>
+        <address description="" location="home" ip="192.168.2.116" comment=""/>
     </addresses>
-  <timers>
-    <timer datetime="2013.05.08 00:20:22" ip="192.168.1.5" freq="0"/>
-  </timers>
+    <timers>
+        <timer status="0" datetime="2013.05.08 00:00:00" ip="192.168.1.5" freq="0" delay="2"/>
+        <timer status="0" datetime="2013.05.08 00:00:00" ip="192.168.1.5" freq="0" delay="2"/>
+    </timers>
     <devices/>
 </root>

@@ -104,16 +104,20 @@ void ConfigMgr::loadDefaultConfig(){
 
 ConfigMgr::~ConfigMgr()
 {	
-	QFile file1( "config.xml" );
-	if ( !file1.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
-
-	QTextStream out( &file1 );
-	doc_->save( out, 4 );
+	save();
 
 	if ( defaultDoc_ != doc_ ) delete defaultDoc_;
 
 	delete doc_;
 	
+}
+
+void ConfigMgr::save(){
+	QFile file1( "config.xml" );
+	if ( !file1.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
+
+	QTextStream out( &file1 );
+	doc_->save( out, 4 );
 }
 
 
