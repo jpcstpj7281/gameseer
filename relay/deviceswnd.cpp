@@ -80,32 +80,119 @@ void NetConnBtn::clickTest(){
 	}
 }
 void NetConnBtn::timerEvent ( QTimerEvent * ){
-	if (text() == "Disconnect"&& tickcount_!=0){
-		size_t now = GetTickCount();
-		if ( now - tickcount_ > 1000){
-			tickcount_ = now;
-			std::string ip = address_->text().toStdString();
-			if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
-				Host* host = TcpNet::instance()->getHost(ip);
-				host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
+	if (text() == "Disconnect"){
+		if (tickcount_!=0){
+			size_t now = GetTickCount();
+			if ( now - tickcount_ > 1000){
+				tickcount_ = now;
+				std::string ip = address_->text().toStdString();
+				if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+					Host* host = TcpNet::instance()->getHost(ip);
+					host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
+				}
+			}
+		}
+
+
+	}
+
+	for ( size_t i = 0; i < rTimers_.size(); ++i){
+		calcTimer( &rTimers_[i]);
+	}
+}
+
+void NetConnBtn::switchBtn(RelayTimer* rt){
+	size_t btnState_ = rt->status >> 8;
+	size_t chnState_ = rt->status & 255;
+
+	if ( btnState_ & (1 << ChannelShift::ChannelAllOn) ){
+		std::string ip = address_->text().toStdString();
+		if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+			Host* host = TcpNet::instance()->getHost(ip);
+			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("ON [1,2,3,4,5,6,7,8] T["+QString::number(rt->delay).toStdString()+"]\r\n")) );
+			waitForState_ = WaitAllOn;
+		}
+	}
+	else if ( btnState_ & (1 << ChannelShift::ChannelAllOff) ){
+		std::string ip = address_->text().toStdString();
+		if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+			Host* host = TcpNet::instance()->getHost(ip);
+			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("ON [1,2,3,4,5,6,7,8] T["+QString::number(rt->delay).toStdString()+"]\r\n")) );
+			waitForState_ = WaitAllOn;
+		}
+	}else{
+		std::string ip = address_->text().toStdString();
+		Host* host = TcpNet::instance()->getHost(ip);
+		for ( int i = 0; i < 8; ++i){
+			if ( btnState_ & (1<<i)){
+				if ( chnState_ & (1<<i)){
+					host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("ON ["+QString::number(i).toStdString()+"]\r\n")) );
+				}else{
+					host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("OFF ["+QString::number(i).toStdString()+"]\r\n")) );
+				}
 			}
 		}
 	}
 }
 
+void NetConnBtn::calcTimer( RelayTimer* rt){
+	switch( rt->freq){
+	case TriggerFreq::OneTime:
+		if ( std::abs( rt->dt.secsTo(QDateTime::currentDateTime())) < 10){
+			switchBtn(rt);
+			rt->freq |= (1<<24); //already triggered, stop trigger again with in ten sec
+		}
+		break;
+	case TriggerFreq::EveryDate:
+		if(std::abs( rt->dt.time().secsTo(QTime::currentTime())) < 10 ){
+			switchBtn(rt);
+			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
+		}
+		break;
+	case TriggerFreq::EveryWeek:
+		if( std::abs( rt->dt.time().secsTo(QTime::currentTime())) < 10 && rt->dt.date().weekNumber() ==  QDate::currentDate().weekNumber()){
+			switchBtn(rt);
+			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
+		}
+		break;
+	case TriggerFreq::EveryMonth:
+		if( std::abs( rt->dt.time().secsTo(QTime::currentTime())) < 10 && rt->dt.date().daysInMonth() ==  QDate::currentDate().daysInMonth()){
+			switchBtn(rt);
+			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
+		}
+		break;
+	case TriggerFreq::EveryYear:
+		if( std::abs( rt->dt.time().secsTo(QTime::currentTime())) < 10 &&  rt->dt.date().month() ==  QDate::currentDate().month() &&  rt->dt.date().daysInMonth() ==  QDate::currentDate().daysInMonth()){
+			switchBtn(rt);
+			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
+		}
+		break;
+	default:
+		if ( rt->freq > (1<<24) && std::abs(rt->dt.time().secsTo(QTime::currentTime())) >10){
+			rt->freq &= ~(1<<24);
+		}
+		
+	}
+}
+
 void NetConnBtn::initTimer(){
-	if (dTimes_.size() == 0){
+	if (rTimers_.size() == 0){
 		QDomNodeList items = ConfigMgr::instance()->getDoc()->elementsByTagName("timer");
-		QString oid;
-		for(int i = 0; i <items.length(); ++i){
+		for(size_t i = 0; i <items.length(); ++i){
 			QDomNode node = items.at(i);
 			QDomElement elem = node.toElement();
 			if ( elem.attribute("ip") == address_->text()){
 				QString dt = elem.attribute("datetime");
 				QString freq = elem.attribute("freq");
+				QString status = elem.attribute("status");
+				QString delay = elem.attribute("delay");
 				if (! dt.isEmpty() ){
-					dTimes_.push_back( QDateTime::fromString(dt, "yyyy.dd.MM hh:mm:ss") );
-					triggerFreqs_.push_back(freq.toInt() );
+					RelayTimer rt;
+					rt.dt = QDateTime::fromString(dt, "yyyy.MM.dd hh:mm:ss") ;
+					rt.freq=(freq.toInt() );
+					rt.status=( status.toInt(0, 2) );
+					rt.delay=( delay.toInt());
+					rTimers_.push_back(rt);
 				}
 			}
 		}
@@ -125,7 +212,7 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
 		}
 		initTimer();
-		startTimer(1000);
+		startTimer(300);
 	}else if ( msg == HOST_CONNECT_FAILED ){
 		setText("Connect");
 		this->setEnabled(true);
@@ -293,8 +380,6 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	,waitForState_(WaitNothing)
 {
 
-	
-
 	this->setText( "Connect");
 
 	QVBoxLayout* layout = new QVBoxLayout();
@@ -331,18 +416,18 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	btn6->setCheckable(true);
 	btn7->setCheckable(true);
 	btn8->setCheckable(true);
-	on->setStyleSheet("* { background-color: lightGreen }");
-	off->setStyleSheet("* { background-color: red }");
+	on->setStyleSheet("");
+	off->setStyleSheet("");
 	on->setText("All");
 	off->setText("All");
-	btn1->setText("1");btn1->setObjectName("1");btn1->setStyleSheet("* { background-color: red }");btn1->setChecked(false);
-	btn2->setText("2");btn2->setObjectName("2");btn2->setStyleSheet("* { background-color: red }");btn2->setChecked(false);
-	btn3->setText("3");btn3->setObjectName("3");btn3->setStyleSheet("* { background-color: red }");btn3->setChecked(false);
-	btn4->setText("4");btn4->setObjectName("4");btn4->setStyleSheet("* { background-color: red }");btn4->setChecked(false);
-	btn5->setText("5");btn5->setObjectName("5");btn5->setStyleSheet("* { background-color: red }");btn5->setChecked(false);
-	btn6->setText("6");btn6->setObjectName("6");btn6->setStyleSheet("* { background-color: red }");btn6->setChecked(false);
-	btn7->setText("7");btn7->setObjectName("7");btn7->setStyleSheet("* { background-color: red }");btn7->setChecked(false);
-	btn8->setText("8");btn8->setObjectName("8");btn8->setStyleSheet("* { background-color: red }");btn8->setChecked(false);
+	btn1->setText("1");btn1->setObjectName("1");btn1->setStyleSheet("");btn1->setChecked(false);
+	btn2->setText("2");btn2->setObjectName("2");btn2->setStyleSheet("");btn2->setChecked(false);
+	btn3->setText("3");btn3->setObjectName("3");btn3->setStyleSheet("");btn3->setChecked(false);
+	btn4->setText("4");btn4->setObjectName("4");btn4->setStyleSheet("");btn4->setChecked(false);
+	btn5->setText("5");btn5->setObjectName("5");btn5->setStyleSheet("");btn5->setChecked(false);
+	btn6->setText("6");btn6->setObjectName("6");btn6->setStyleSheet("");btn6->setChecked(false);
+	btn7->setText("7");btn7->setObjectName("7");btn7->setStyleSheet("");btn7->setChecked(false);
+	btn8->setText("8");btn8->setObjectName("8");btn8->setStyleSheet("");btn8->setChecked(false);
 	connect( on, SIGNAL(clicked()), this, SLOT(clickOn()) );
 	connect( off, SIGNAL(clicked()), this, SLOT(clickOff()) );
 	connect( btn1, SIGNAL(clicked()), this, SLOT(click1()) );
@@ -403,6 +488,8 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	interval_->setMinimum( 0);
 	interval_->setMaximum( 60);
 	interval_->setValue(2);
+
+	startTimer(300);
 }
 
 void NetConnBtn::editFinished(){
@@ -426,7 +513,7 @@ NetConnBtn::~NetConnBtn(){
 
 void NetConnBtn::clickTimer(){
 	initTimer();
-	if ( !timerwnd_)  timerwnd_ = new TimerWnd;
+	if ( !timerwnd_)  timerwnd_ = new TimerWnd(rTimers_, address_->text());
 	timerwnd_->show();
 }
 
@@ -556,13 +643,13 @@ void DevicesWnd::valueChanged( int i ){
 	interval_ = i;
 }
 void DevicesWnd::onAll(){
-	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+	for ( int i = 0; i < tableDevices_->rowCount(); ++i){
 		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
 		t->onAll(interval_);
 	}
 }
 void DevicesWnd::offAll(){
-	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+	for ( int i = 0; i < tableDevices_->rowCount(); ++i){
 		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
 		t->offAll(interval_);
 	}
@@ -594,7 +681,7 @@ void DevicesWnd::stateChanged(int state){
 }
 
 void DevicesWnd::disconnAll(){
-	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+	for ( int i = 0; i < tableDevices_->rowCount(); ++i){
 		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
 		if ( t->text() == "Disconnect"){
 			t->disconn();
@@ -602,7 +689,7 @@ void DevicesWnd::disconnAll(){
 	}
 }
 void DevicesWnd::connAll(){
-	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+	for ( int i = 0; i < tableDevices_->rowCount(); ++i){
 		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
 		
 		if ( !t->address_->text().isEmpty() && t->text() == "Connect"){
@@ -616,7 +703,7 @@ void DevicesWnd::initAddresses(){
 
 	QDomNodeList items = ConfigMgr::instance()->getDoc()->elementsByTagName("address");
 	QString oid;
-	for(int i = 0; i <items.length(); ++i){
+	for(size_t i = 0; i <items.length(); ++i){
 		QDomNode node = items.at(i);
 		QDomElement elem = node.toElement();
 		newAddress(elem.attribute("ip").toStdString() );
@@ -666,7 +753,7 @@ void DevicesWnd::deleteAddress( ){
 	//}
 }
 
-void DevicesWnd::timerEvent ( QTimerEvent * event ){
+void DevicesWnd::timerEvent ( QTimerEvent *  ){
 }
 
 void DevicesWnd::connectImpl( ){
@@ -694,7 +781,7 @@ void DevicesWnd::cellChanged(int row,int col){
 	}
 
 	QDomNodeList items = ConfigMgr::instance()->getDoc()->elementsByTagName("address");
-	for ( size_t i = 0 ; i < items.size(); ++i){
+	for ( int i = 0 ; i < items.size(); ++i){
 		QDomNode node = items.at(i);
 		QDomElement elem = node.toElement();
 		if ( !t->address_->text().isEmpty() && t->address_->text() ==elem.attribute("ip") ){
