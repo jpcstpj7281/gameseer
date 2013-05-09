@@ -45,8 +45,6 @@ MainWindow::MainWindow(QWidget *parent)
 	trayicon->setContextMenu( trayiconMenu);
 	trayicon->show();
 	connect(trayicon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(onSystemTrayIconClicked(QSystemTrayIcon::ActivationReason)));  
-
-	installEventFilter(this);
 }
 
 void MainWindow::onSystemTrayIconClicked(QSystemTrayIcon::ActivationReason){
