@@ -27,6 +27,8 @@ struct Host::Impl{
 	typedef std::list<NetObj*> RequestList;
 	RequestList requestList_;
 	RequestList sentList_;
+	RequestList listenList_;
+	asio::deadline_timer timer_;
 	
 	inline std::string encodeData(std::string & data){
 		return data;
@@ -36,11 +38,21 @@ struct Host::Impl{
 		return std::string( buf, buf+bufsize);
 	}
 
+	void handleConnectFailed(){
+		if ( !isConnected_){
+			if ( socket_.is_open() ){
+				socket_.close();
+			}
+		}
+	}
+
 	void asyncConnect(){
 		if ( !socket_.is_open()){
 			socket_.open( asio::ip::tcp::v4()  );
 		}
 		socket_.async_connect( asio::ip::tcp::endpoint(asio::ip::address::from_string(ip_), port_ ),boost::bind(&Host::Impl::handleConnected, this, asio::placeholders::error) );
+		timer_.expires_from_now(boost::posix_time::seconds(3));  
+        timer_.async_wait(boost::bind(&Host::Impl::handleConnectFailed, this));  
 	}
 	void asyncReceive(){
 		socket_.async_receive(  asio::buffer(responsed_, CONSTLEN), boost::bind(&Host::Impl::handleReceived, this, asio::placeholders::error, asio::placeholders::bytes_transferred) );
@@ -90,7 +102,21 @@ struct Host::Impl{
 	}
 #endif
 	void dispatchResponseImpl( const std::string *msg){
-		RequestList tmpList = sentList_;
+
+		RequestList tmpList = listenList_;
+		listenList_.clear();
+		for( RequestList::iterator it = tmpList.begin(); it != tmpList.end(); ){
+			NetObj* obj = *it;
+			if ( obj->callback_(*msg)){ //要CALLBACK确认是正常才可以删除
+				it  = tmpList.erase( it);
+				delete obj;
+			}else{
+				++it;
+			}
+		}
+		listenList_.insert(listenList_.end(), tmpList.begin(), tmpList.end());
+
+		tmpList = sentList_;
 		sentList_.clear();
 		for( RequestList::iterator it = tmpList.begin(); it != tmpList.end(); ){
 			NetObj* obj = *it;
@@ -114,10 +140,11 @@ struct Host::Impl{
 			sentList_ = requestList_;
 			requestList_.clear();
 		}else{
-			BOOST_FOREACH( NetObj* obj, requestList_){
+			RequestList tmpList_ = requestList_;
+			BOOST_FOREACH( NetObj* obj, tmpList_){
 				obj->callback_( HOST_CONNECT_FAILED);
 			}
-			requestList_.clear();
+			tmpList_.clear();
 		}
 	}
 
@@ -125,6 +152,7 @@ struct Host::Impl{
 		if ( !err){
 			//qDebug()<<"handleConnected";
 			isConnected_ = true;
+			timer_.cancel();
 			mainios_->post( boost::bind( &Host::Impl::asyncRequest, this) );
 			asyncReceive();
 		}else{
@@ -141,6 +169,12 @@ struct Host::Impl{
 			asyncRequest();
 	}
 
+	void addListener( NetCallback callback){
+		//if ( !isConnected_ ) return ;
+		NetObj * so = new NetObj( callback, std::move(std::string("")));
+		listenList_.push_back(so);
+	}
+
 	void connInit(){
 		if ( ! isConnected_ && !ip_.empty() ){
 			asyncConnect();
@@ -155,7 +189,8 @@ struct Host::Impl{
 	,mainios_( TcpNet::instance()->getMainService() )
 	,receiveLen(0)
 	,isConnected_(false)
-	,port_(1698){
+	,port_(1698)
+	,timer_(*TcpNet::instance()->getScoketService()){
 		
 	}
 	~Impl(){
@@ -200,6 +235,9 @@ Host::~Host(){
 	delete impl_;
 }
 	
+void Host::addListener( NetCallback callback){
+	impl_->addListener(callback);
+}
 
 void Host::addAsyncRequest(  NetCallback callback, std::string&& data){
 	impl_->addAsyncRequest(callback, std::move(data));

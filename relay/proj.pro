@@ -36,6 +36,7 @@ deviceswnd.ui \
 TestNet.ui \
 timerwnd.ui \
 
+include($$PWD/../3rdParty/inc/log4qt/log4qt.pri) 
 
 LIBS += -lws2_32
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lQtSolutions_SingleApplication-head

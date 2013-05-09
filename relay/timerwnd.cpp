@@ -298,22 +298,20 @@ void TimerWnd::clickedSave(){
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
 	QDomNode timers = root.elementsByTagName("timers").at(0);
 	QDomNodeList items = root.elementsByTagName("timer");
-	for(size_t i = 0; i <items.length(); ++i){
-		QDomNode node = items.at(i);
+	while(items.size()>0){
+		QDomNode node = items.at(0);
 		QDomElement elem = node.toElement();
 		if ( elem.attribute("ip") == ip_){
 			timers.removeChild(node);
 		}
 	}
 
-
-	QDomNodeList items1 = ConfigMgr::instance()->getDoc()->elementsByTagName("timers");
-	QDomNode node = items1.at(0);
+	QDomNode node = root.elementsByTagName("timers").at(0);
 	for ( auto it = rTimers_.begin(); it!= rTimers_.end(); ++it){
 		QDomElement elm = ConfigMgr::instance()->getDoc()->createElement( "timer");
 		elm.setAttribute ("ip", ip_);
 		elm.setAttribute( "delay", QString::number((*it).delay));
-		elm.setAttribute( "freq", QString::number((*it).freq));
+		elm.setAttribute( "freq", QString::number((*it).freq & ~(1<<24 /*以防把无关状态保存*/) ));
 		elm.setAttribute( "datetime", (*it).dt.toString("yyyy.MM.dd hh:mm:ss") );
 		elm.setAttribute( "status", QString::number((*it).status, 2) );
 		node.insertAfter( elm, QDomElement());

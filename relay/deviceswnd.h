@@ -1,6 +1,7 @@
 #ifndef DEVICESWND_H
 #define DEVICESWND_H
 
+
 #include <QWidget>
 #include <map>
 #include <QTableWidget>
@@ -13,6 +14,7 @@
 #include <QMainWindow>
 #include <vector>
 #include "timerwnd.h"
+#include "log4qt/logger.h"
 class QSpinBox;
 class TestQbox;
 class QComboBox;
@@ -21,6 +23,9 @@ namespace Ui {
 class DevicesWnd;
 class MainWindow;
 }
+
+struct Logger{
+};
 
 class NetConnBtn: public QPushButton{
 	Q_OBJECT
@@ -33,6 +38,7 @@ class NetConnBtn: public QPushButton{
 		WaitNothing,
 		WaitAllOff,
 		WaitAllOn,
+		WaitTime,
 	};
 	WaitForState waitForState_;
 	private slots:
@@ -60,7 +66,7 @@ public:
 
 	QTableWidgetItem	*loc_;
 	QTableWidgetItem	*desc_;
-	QTableWidgetItem	*comm_;
+	QTableWidgetItem	*version_;
 	QTableWidgetItem	*runTime_;
 	QTableWidgetItem	*status_;
 	QTableWidgetItem	*model_;
@@ -74,12 +80,17 @@ public:
 	TestQbox			*testNet_;
 	TimerWnd			*timerwnd_;
 
+	QPushButton			*btns_[16];
+
 	size_t				tickcount_;
+	size_t				waitTime_;
+
 	void conn();
 	void disconn();
 	NetConnBtn(  const std::string & ip);
 	~NetConnBtn();
 	bool connectedCallback( const std::string &msg);
+	bool incommingCallback( const std::string& msg);
 	void initTable( QTableWidget* table, int row);
 
 	//std::vector<QDateTime> dTimes_;
@@ -90,6 +101,9 @@ public:
 	void initTimer();
 	void calcTimer(RelayTimer* rt);
 	void switchBtn(RelayTimer* rt);
+
+	std::list<std::string> ongoingCmd_;
+	std::list<size_t> ongoingDelay_;
 };
 
 class DevicesWnd : public QWidget
