@@ -39,6 +39,7 @@ public:
 	void setAddress(const std::string & ip);
 	std::string address();
 	void addAsyncRequest( NetCallback callback, std::string&& data);
+	void addListener( NetCallback callback);
 	void connInit();
 	bool isConn();
 	void close();

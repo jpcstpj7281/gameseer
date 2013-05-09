@@ -7,12 +7,11 @@
         <autoconn val="0"/>
     </setting>
     <addresses>
-        <address description="" location="home" ip="192.168.1.5" comment=""/>
+        <address description="AMP-1 " location="1FControlRoom " ip="192.168.1.5" comment="1.08"/>
         <address description="" location="home" ip="192.168.2.116" comment=""/>
     </addresses>
     <timers>
-        <timer status="0" datetime="2013.05.08 00:00:00" ip="192.168.1.5" freq="0" delay="2"/>
-        <timer status="0" datetime="2013.05.08 00:00:00" ip="192.168.1.5" freq="0" delay="2"/>
+        <timer status="1110011111100000" datetime="2013.05.09 20:59:00" ip="192.168.1.5" freq="0" delay="2"/>
     </timers>
     <devices/>
 </root>
