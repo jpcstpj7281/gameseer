@@ -306,7 +306,6 @@ void TimerWnd::clickedSave(){
 		}
 	}
 
-	QDomNode node = root.elementsByTagName("timers").at(0);
 	for ( auto it = rTimers_.begin(); it!= rTimers_.end(); ++it){
 		QDomElement elm = ConfigMgr::instance()->getDoc()->createElement( "timer");
 		elm.setAttribute ("ip", ip_);
@@ -314,7 +313,7 @@ void TimerWnd::clickedSave(){
 		elm.setAttribute( "freq", QString::number((*it).freq & ~(1<<24 /*以防把无关状态保存*/) ));
 		elm.setAttribute( "datetime", (*it).dt.toString("yyyy.MM.dd hh:mm:ss") );
 		elm.setAttribute( "status", QString::number((*it).status, 2) );
-		node.insertAfter( elm, QDomElement());
+		timers.insertAfter( elm, QDomElement());
 	}
 	ConfigMgr::instance()->save();
 }

@@ -15,15 +15,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-configmgr.cpp \
-mainwindow.cpp \
-TcpNet.cpp 
+mainwindow.cpp 
 
 
 HEADERS  +=  \
-configmgr.h \
-mainwindow.h \
-TcpNet.h 
+mainwindow.h 
+
 
 
 FORMS    += \

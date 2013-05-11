@@ -808,9 +808,30 @@ void DevicesWnd::offAll(){
 		t->offAll(interval_);
 	}
 }
+void DevicesWnd::closeEvent(QCloseEvent * ){
 
+	//QDomNode addrs = ConfigMgr::instance()->getAddressNode();
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+	QDomNode addrs = root.elementsByTagName(XML_ADDRESSES).at(0);
+	QDomNodeList items = root.elementsByTagName(XML_ADDRESS);
+	while(items.size()){
+		QDomNode node = items.at(0);
+		QDomElement elem = node.toElement();
+		addrs.removeChild(node);
+	}
+	for ( int i = 0; i < tableDevices_->rowCount(); ++i){
+		NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( i, 8);
+		if ( !t->address_->text().isEmpty()){
+			QDomElement addr = ConfigMgr::instance()->getDoc()->createElement(XML_ADDRESS);
+			addr.setAttribute("ip", t->address_->text());
+			addrs.insertAfter( addr, QDomElement());
+		}
+	}
+	ConfigMgr::instance()->save();
+}
 DevicesWnd::~DevicesWnd()
 {
+	closeEvent(NULL);
     delete ui;
 }
 

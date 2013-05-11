@@ -1,18 +1,9 @@
 #include "mainwindow.h"
-#include "configmgr.h"
-#include "TcpNet.h"
 #include <QApplication>
 #include <qdebug.h>
-#include <Windows.h>
-#include <QDateTime>
-
-
-
 
 int main(int argc, char *argv[])
 {
-
-
 	//qDebug()<<"test";
 	//static const size_t size = 8* 8 *8 * 8 * 8;
 	//int test[size];
@@ -33,24 +24,10 @@ int main(int argc, char *argv[])
 	//}
 	//qDebug()<<GetTickCount() - pre;
 
-	//int port = 1000;
-	//QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("port");
-	//if (items.size()==1){
-	//	QDomNode node = items.at(0);
-	//	port = node.toElement().attribute("val").toInt();
-	//}
-	//TcpNet::instance()->setPort(port );
+	QApplication a(argc, argv);
+	MainWindow w;
+	w.show();
+	auto rs = a.exec();
 
-    QApplication a(argc, argv);
-
-		//a.setQuitOnLastWindowClosed(false);
-		MainWindow w;
-		w.show();
-
-		TcpNet::instance()->startThread();
-
-		auto rs = a.exec();
-		TcpNet::instance()->stop();
-		return rs;
-
+	return rs;
 }
