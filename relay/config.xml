@@ -1,15 +1,14 @@
 <?xml version='1.0'?>
 <root>
-    <addresses/>
+    <addresses>
+        <address ip="192.168.2.116"/>
+        <address ip="192.168.1.5"/>
+    </addresses>
     <setting>
         <port val="1698"/>
         <psw val="1"/>
         <autoconn val="0"/>
     </setting>
-    <addresses>
-        <address description="AMP-1 " location="1FControlRoom " ip="192.168.1.5" comment="1.08"/>
-        <address description="" location="home" ip="192.168.2.116" comment=""/>
-    </addresses>
     <timers>
         <timer status="1110011111100000" datetime="2013.05.09 20:59:00" ip="192.168.1.5" freq="0" delay="2"/>
     </timers>

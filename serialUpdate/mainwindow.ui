@@ -343,7 +343,7 @@
    <widget class="QPushButton" name="btnStart">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>200</x>
       <y>440</y>
       <width>75</width>
       <height>23</height>
@@ -402,6 +402,19 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnPing">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>440</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ping</string>
     </property>
    </widget>
   </widget>

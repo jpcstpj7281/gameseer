@@ -28,15 +28,8 @@ void ConfigMgr::makeDefault(){
 
 	QDomElement address = doc.createElement( XML_ADDRESS );
 	addresses.appendChild( address );
-	address.setAttribute( "location", "home");
 	address.setAttribute( "ip", "192.168.1.100");
 
-	QDomElement devices = doc.createElement( XML_DEVICES );
-	root.appendChild( devices );
-	QDomElement device = doc.createElement( XML_DEVICE );
-	devices.appendChild( device );
-	device.setAttribute( "title", "password");
-	device.setAttribute( "ip", "192.168.1.100");
 
 	QTextStream out( &file );
 	doc.save( out, 4 );
@@ -65,21 +58,7 @@ ConfigMgr::ConfigMgr():isOidEditable_(false)
 		this->makeDefault();
 		return;
 	}
-
-	QDomElement addresses = root.firstChildElement();
-	if ( addresses.nodeName() != XML_ADDRESSES ){
-		addresses = doc.createElement( XML_ADDRESSES );
-		root.insertBefore(addresses, root.firstChildElement() );
-	}
-
-	//QDomElement address1 = doc.createElement( XML_ADDRESS );
-	//addresses.appendChild( address1 );
-	//address1.setAttribute( "location", "home");
-	//address1.setAttribute( "ip", "192.168.1.101");
-
-	//QDomElement address = addresses.firstChildElement();
-	//qDebug()<<address.nodeName();
-	loadDefaultConfig();
+	//loadDefaultConfig();
 }
 
 void ConfigMgr::loadDefaultConfig(){
@@ -121,18 +100,18 @@ void ConfigMgr::save(){
 }
 
 
-QDomElement ConfigMgr::getAddressElem(){
+QDomNode ConfigMgr::getAddressNode(){
 	QDomElement root = doc_->documentElement();
-	if ( root.nodeName()!= XML_ROOT){
-		return QDomElement();
+
+	QDomNodeList items = doc_->elementsByTagName(XML_ADDRESSES);
+	if ( items.size() > 0){
+		return items.at(0);
+	}else{
+		QDomElement addrs = doc_->createElement(XML_ADDRESSES);
+		root.insertAfter(addrs, QDomElement());
+		return addrs;
 	}
 
-	QDomElement addresses = root.firstChildElement();
-	if ( addresses.nodeName() != XML_ADDRESSES ){
-		return QDomElement();
-	}
-
-	return addresses;
 }
 
 QString getOidFromDoc( QString &id, QDomDocument * doc){
@@ -152,40 +131,40 @@ QString getOidFromDoc( QString &id, QDomDocument * doc){
 	return oid;
 }
 
-QString ConfigMgr::getOid( QString &id){
-	return getOidFromDoc(id, doc_);
-}
-
-QString ConfigMgr::getDefaultOid( QString &id){
-	return getOidFromDoc(id, defaultDoc_);
-}
-
-void ConfigMgr::setOid( QString &id, QString &oid){
-	QDomElement root = doc_->documentElement();
-
-	
-
-	QDomNodeList items = root.elementsByTagName("component");
-	bool found = false;
-	for(int i = 0; i <items.length(); ++i){
-		QDomNode node = items.at(i);
-		QDomElement elem = node.toElement();
-		if ( elem.attribute("id") == id ){
-			elem.setAttribute("id", id);
-			elem.setAttribute("oid", oid);
-			found = true;
-			break;
-		}
-	}
-	if ( found == false){
-		QDomNodeList items = root.elementsByTagName("components");
-		QDomNode node = items.at(0);
-		QDomElement elm = doc_->createElement( "component");
-		elm.setAttribute ("id", id);
-		elm.setAttribute( "oid", oid);
-		node.insertAfter( elm, QDomElement());
-
-	}
-
-}
+//QString ConfigMgr::getOid( QString &id){
+//	return getOidFromDoc(id, doc_);
+//}
+//
+//QString ConfigMgr::getDefaultOid( QString &id){
+//	return getOidFromDoc(id, defaultDoc_);
+//}
+//
+//void ConfigMgr::setOid( QString &id, QString &oid){
+//	QDomElement root = doc_->documentElement();
+//
+//	
+//
+//	QDomNodeList items = root.elementsByTagName("component");
+//	bool found = false;
+//	for(int i = 0; i <items.length(); ++i){
+//		QDomNode node = items.at(i);
+//		QDomElement elem = node.toElement();
+//		if ( elem.attribute("id") == id ){
+//			elem.setAttribute("id", id);
+//			elem.setAttribute("oid", oid);
+//			found = true;
+//			break;
+//		}
+//	}
+//	if ( found == false){
+//		QDomNodeList items = root.elementsByTagName("components");
+//		QDomNode node = items.at(0);
+//		QDomElement elm = doc_->createElement( "component");
+//		elm.setAttribute ("id", id);
+//		elm.setAttribute( "oid", oid);
+//		node.insertAfter( elm, QDomElement());
+//
+//	}
+//
+//}
 

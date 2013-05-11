@@ -131,7 +131,7 @@ private slots:
 private:
 	void connectImpl( );
 	void disconnectImpl( );
-
+	void closeEvent(QCloseEvent * event)override;
 	virtual void	timerEvent ( QTimerEvent * event )override;
 	void newAddress(const std::string &ip);
 	void deleteAddress(); 

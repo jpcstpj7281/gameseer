@@ -26,13 +26,13 @@ class ConfigMgr{
 
 public :
 
-	inline bool isOidEditable(){ return isOidEditable_;}
+	//inline bool isOidEditable(){ return isOidEditable_;}
 
-	inline void setOidEditable( bool flag){	 isOidEditable_ = flag;	}
+	//inline void setOidEditable( bool flag){	 isOidEditable_ = flag;	}
 
-	void setOid( QString &id, QString &oid);
-	QString getOid( QString &id);
-	QString getDefaultOid( QString &id);
+	//void setOid( QString &id, QString &oid);
+	//QString getOid( QString &id);
+	//QString getDefaultOid( QString &id);
 
 	~ConfigMgr();
 
@@ -40,7 +40,7 @@ public :
 
 	QDomDocument* getDoc();
 
-	QDomElement getAddressElem();
+	QDomNode getAddressNode();
 
 	void makeDefault();
 	void save();
