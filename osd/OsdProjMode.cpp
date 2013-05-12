@@ -705,7 +705,7 @@ void OsdProjMode::valueChangedFrontGreen(int val){
 	int newval = (val<<16) | (red <<8) | blue;
 	if ( foreColor_ == newval  )return;
 	foreColor_ = newval;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUint( 0x33, foreColor_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUint( 0x12, foreColor_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 	findChild<QLineEdit*>("leFrontGreen" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedFrontRed(int val){
@@ -742,7 +742,7 @@ void OsdProjMode::valueChangefinishedFrontBlue(){
 }
 
 void OsdProjMode::currentProjModeIndexChanged(int index){
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x33, index<<5, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x2, index<<5, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }
 
 void OsdProjMode::currentTestPatternsIndexChanged(int index){
