@@ -83,6 +83,7 @@ public:
 	QPushButton			*btns_[16];
 
 	size_t				tickcount_;
+	size_t				disconnTickCount_;
 	size_t				waitTime_;
 
 	void conn();

@@ -96,7 +96,7 @@ DateTimeWidget::DateTimeWidget(std::vector<RelayTimer> &rTimers):
 	,ctrl_(new QWidget)
 	,interval_(new  QSpinBox)
 	,frequency_(new QComboBox)
-	,loc_( new QTableWidgetItem)
+	,comm_( new QTableWidgetItem)
 	,buttonState_(0)
 	,channelState_(0)
 	,rTimers_(rTimers)
@@ -200,11 +200,11 @@ DateTimeWidget::~DateTimeWidget(){
 }
 
 void DateTimeWidget::clickInsert(){
-	QTableWidget* table = loc_->tableWidget();
-	//if ( loc_->row() != table->rowCount()-1 && table){
+	QTableWidget* table = comm_->tableWidget();
+	//if ( comm_->row() != table->rowCount()-1 && table){
 		DateTimeWidget * rowitem = new DateTimeWidget(rTimers_);
 		rowitem->setDate( this->date());
-		int row = loc_->row();
+		int row = comm_->row();
 		table->insertRow( row);
 		RelayTimer rt = *rt_;
 		rTimers_.push_back(rt);
@@ -212,8 +212,8 @@ void DateTimeWidget::clickInsert(){
 	//}
 }
 void DateTimeWidget::clickDelete(){
-	QTableWidget* table = loc_->tableWidget();
-	table->removeRow( loc_->row());
+	QTableWidget* table = comm_->tableWidget();
+	table->removeRow( comm_->row());
 	for ( auto it = rTimers_.begin(); it!=rTimers_.end(); ++it){
 		if ( rt_ == &(*it)){
 			rTimers_.erase(it);
@@ -227,8 +227,9 @@ void DateTimeWidget::initTable( QTableWidget* table, int row, RelayTimer* rt){
 	table->setCellWidget ( row, 2, frequency_ );
 	table->setCellWidget ( row, 3, interval_ );
 	table->setCellWidget ( row, 4, channels_ );
-	table->setItem ( row, 5, loc_ );
+	table->setItem ( row, 5, comm_ );
 	rt_ = rt;
+	comm_->setText( rt->comment);
 	frequency_->setCurrentIndex(rt->freq);
 	interval_->setValue( rt->delay);
 	buttonState_ = rt->status >> 8;
@@ -269,16 +270,16 @@ TimerWnd::TimerWnd(std::vector<RelayTimer> &rTimers, QString ip  ):
 	sl.push_back( "Frequency");
 	sl.push_back( "SEQ Delay");
 	sl.push_back( "Channels");
-	sl.push_back( "");
+	sl.push_back( "Comment");
 
     table_->setHorizontalHeaderLabels(sl );
 	table_->setColumnWidth( 0, 20);
 	table_->setColumnWidth( 1, 200);
-	table_->setColumnWidth( 2, 100);
+	table_->setColumnWidth( 2, 90);
 	table_->setColumnWidth( 3, 70);
 	table_->setColumnWidth( 4, 300);
-	table_->setColumnWidth( 5, 10);
-	table_->hideColumn(5);
+	table_->setColumnWidth( 5, 100);
+
 
 	QPushButton* btnAdd = findChild<QPushButton*>("btnAdd");
 	if ( btnAdd){
@@ -292,6 +293,8 @@ TimerWnd::TimerWnd(std::vector<RelayTimer> &rTimers, QString ip  ):
 	for ( auto it = rTimers_.begin(); it != rTimers_.end(); ++it){
 		newDateTime( &(*it));
 	}
+
+	connect( table_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 }
 
 void TimerWnd::clickedSave(){
@@ -313,6 +316,7 @@ void TimerWnd::clickedSave(){
 		elm.setAttribute( "freq", QString::number((*it).freq & ~(1<<24 /*以防把无关状态保存*/) ));
 		elm.setAttribute( "datetime", (*it).dt.toString("yyyy.MM.dd hh:mm:ss") );
 		elm.setAttribute( "status", QString::number((*it).status, 2) );
+		elm.setAttribute( "comment", (*it).comment );
 		timers.insertAfter( elm, QDomElement());
 	}
 	ConfigMgr::instance()->save();
@@ -372,4 +376,9 @@ void TimerWnd::whiteDate(){
 		QDate dt= dtw->date();
 		int freq = dtw->frequency_->currentIndex();
 	}
+}
+
+void TimerWnd::cellChanged(int row,int col){
+	DateTimeWidget* dtw = (DateTimeWidget* )table_->cellWidget( row, 1);
+	dtw->rt_->comment = dtw->comm_->text();
 }
