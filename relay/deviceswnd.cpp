@@ -95,6 +95,13 @@ void NetConnBtn::timerEvent ( QTimerEvent * ){
 					host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
 				}
 			}
+			disconnTickCount_ = now;
+		}
+	}else if (text() == "Connect" && !address_->text().isEmpty()){
+		size_t now = GetTickCount();
+		if ( now - disconnTickCount_ > 10000){
+			conn();
+			disconnTickCount_ = now;
 		}
 	}
 
@@ -244,12 +251,14 @@ void NetConnBtn::initTimer(){
 				QString freq = elem.attribute("freq");
 				QString status = elem.attribute("status");
 				QString delay = elem.attribute("delay");
+				QString comm = elem.attribute("comment");
 				if (! dt.isEmpty() ){
 					RelayTimer rt;
 					rt.dt = QDateTime::fromString(dt, "yyyy.MM.dd hh:mm:ss") ;
 					rt.freq=(freq.toInt() );
 					rt.status=( status.toInt(0, 2) );
 					rt.delay=( delay.toInt());
+					rt.comment = comm;
 					rTimers_.push_back(rt);
 				}
 			}
@@ -296,7 +305,7 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 		Log4Qt::Logger::logger(ip.c_str())->info(msg.c_str());
 	}else if ( msg == HOST_CONNECT_FAILED ){
 		setText("Connect");
-		status_->setText("Failed!");
+		status_->setText("Off Line");
 		status_->setBackground(QBrush(QColor(Qt::red)));
 		this->setEnabled(true);
 		channels_->setEnabled(false);
@@ -521,6 +530,7 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	,interval_(new  QSpinBox)
 	,tickcount_(0)
 	,waitForState_(WaitNothing)
+	,disconnTickCount_ ( GetTickCount())
 {
 
 	this->setText( "Connect");
@@ -643,6 +653,7 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	interval_->setValue(2);
 
 	startTimer(300);
+	
 }
 
 void NetConnBtn::editFinished(){

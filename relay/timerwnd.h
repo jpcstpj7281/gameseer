@@ -41,6 +41,7 @@ struct RelayTimer{
 	size_t delay;
 	size_t freq;
 	size_t status;
+	QString comment;
 };
 
 class DateTimeWidget: public QDateTimeEdit{
@@ -68,7 +69,7 @@ public:
 	QComboBox			*frequency_;
 	QSpinBox			*interval_;
 	QWidget				*ctrl_;
-	QTableWidgetItem	*loc_;
+	QTableWidgetItem	*comm_;
 
 	DateTimeWidget(std::vector<RelayTimer> &rTimers);
 	~DateTimeWidget();
@@ -98,6 +99,7 @@ class TimerWnd : public QWidget
 			void clickedAdd();
 			void clickedClear();
 			void clickedSave();
+			void cellChanged(int,int);
 
 public:
 	explicit TimerWnd(std::vector<RelayTimer> &rTimers, QString ip );
