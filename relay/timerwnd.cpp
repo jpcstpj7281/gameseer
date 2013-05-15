@@ -380,5 +380,6 @@ void TimerWnd::whiteDate(){
 
 void TimerWnd::cellChanged(int row,int col){
 	DateTimeWidget* dtw = (DateTimeWidget* )table_->cellWidget( row, 1);
-	dtw->rt_->comment = dtw->comm_->text();
+	if ( dtw->rt_)
+		dtw->rt_->comment = dtw->comm_->text();
 }
