@@ -428,16 +428,19 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 				tickcount_ = GetTickCount();
 			}
 			if (qmsg.contains("Model:")){
-				QString tmp = qmsg.left(qmsg.indexOf("Remote Ver"));
+				QString tmp = qmsg.left(qmsg.indexOf("Ver"));
 				QString tmp1 = tmp.right(tmp.length() - tmp.indexOf("Model: ") - strlen("Model: "));
-				if (!tmp1.isEmpty() && tmp1 == "M0_Model"){
+				QString tmp2 = tmp1.trimmed();
+				if ( tmp2 == "M0"){
 					channels_->setEnabled(false);
+				}else if ( tmp2.trimmed() == "Remote" && waitForState_ == WaitNothing){
+					channels_->setEnabled(true);
 				}
-				model_->setText(tmp1);
-				model_->setToolTip(tmp1);
+				model_->setText(tmp2);
+				model_->setToolTip(tmp2);
 			}
-			if (qmsg.contains("Remote Ver:")){
-				QString tmp1 = qmsg.right(qmsg.length() - qmsg.indexOf("Remote Ver: ") - strlen("Remote Ver: "));
+			if (qmsg.contains("Ver:")){
+				QString tmp1 = qmsg.right(qmsg.length() - qmsg.indexOf("Ver: ") - strlen("Ver: "));
 				version_->setText(tmp1);
 				version_->setToolTip(tmp1);
 			}
