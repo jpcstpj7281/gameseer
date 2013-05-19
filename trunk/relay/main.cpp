@@ -23,8 +23,10 @@ int main(int argc, char *argv[])
 	Log4Qt::LogManager::rootLogger();
 	TTCCLayout *p_layout = new TTCCLayout();
 	p_layout->setName(QLatin1String("My Layout"));
+	p_layout->setDateFormat("ISO8601");
+	p_layout->setThreadPrinting(false);
 	p_layout->activateOptions();
-	FileAppender *p_appender = new FileAppender(p_layout, QDateTime::currentDateTime().toString("yyyy.MM.dd.hh.mm.ss")+".log");
+	FileAppender *p_appender = new FileAppender(p_layout, QDateTime::currentDateTime().toString("./log/yyyy.MM.dd.hh.mm.ss")+".log");
 	p_appender->setName(QLatin1String("My Appender"));
 	p_appender->activateOptions();
 	Log4Qt::Logger::rootLogger()->addAppender(p_appender); 
