@@ -12,7 +12,27 @@
 #include <qwt_plot_layout.h>
 #include <qwt_plot_grid.h>
 #include <qwt_symbol.h>
+#include <qwt_scale_draw.h>
+#include <qwt_scale_engine.h>
 
+
+class RealScaleDraw: public QwtScaleDraw
+{
+public:
+    RealScaleDraw()
+    {
+    }
+    virtual QwtText label(double v) const
+    {
+        //return QwtScaleDraw::label(v);
+		int val = (int)v;
+		if (v > 1000){
+				return QwtText(QString::number(val/1000)+ "kHz"); 
+		}else{
+				return QwtText(QString::number(val)+ "Hz");
+		}
+    }
+};
 
 ACPlot::ACPlot( QWidget *parent ):
     QwtPlot( parent )
@@ -25,8 +45,13 @@ ACPlot::ACPlot( QWidget *parent ):
     grid->setMajPen( QPen( Qt::white, 0, Qt::DotLine ) );
     grid->attach( this );
 
+	QwtScaleEngine *eng = new QwtLog10ScaleEngine();
+	setAxisScale( QwtPlot::xBottom, 20, 20000);
+	setAxisScaleEngine(QwtPlot::xBottom, eng );
+	setAxisScaleDraw(QwtPlot::xBottom, new RealScaleDraw);
+
     // axes
-    setAxisScale( QwtPlot::xBottom, 0.0, 100.0 );
+    //setAxisScale( QwtPlot::xBottom, 0.0, 100.0 );
     setAxisScale( QwtPlot::yLeft, 0.0, 100.0 );
 
     plotLayout()->setAlignCanvasToScales( true );
@@ -44,7 +69,7 @@ void ACPlot::insertCurve( Qt::Orientation o, const QColor &c, double base )
     curve->setPen( c );
     curve->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::gray, c, QSize( 8, 8 ) ) );
 
-    double x[10];
+    double x[2000];
     double y[sizeof( x ) / sizeof( x[0] )];
 
     for ( uint i = 0; i < sizeof( x ) / sizeof( x[0] ); i++ )
