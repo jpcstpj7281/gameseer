@@ -14,6 +14,7 @@ class OIDDial : public QDial{
 
 	size_t lastTimeChanged_;
 	QLabel *ql_;
+	double scale_;
 private slots:
 		void fireSnmp(int  );
 public:
@@ -21,6 +22,8 @@ public:
 	void setLabel(QLabel *ql);
 	void initSnmp();
 	void shutdownSnmp();
+	void setScale( double scale){ scale_ = scale;}
+	void refreshLabel();
 
 };
 #endif // OIDDial_H

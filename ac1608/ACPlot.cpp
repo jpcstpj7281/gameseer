@@ -14,7 +14,8 @@
 #include <qwt_symbol.h>
 #include <qwt_scale_draw.h>
 #include <qwt_scale_engine.h>
-
+#include <qvector.h>
+#include <Qwt_Plot_Marker.h>
 
 class RealScaleDraw: public QwtScaleDraw
 {
@@ -42,7 +43,7 @@ ACPlot::ACPlot( QWidget *parent ):
 	setCanvasBackground( Qt::black );
 
     QwtPlotGrid *grid = new QwtPlotGrid;
-    grid->setMajPen( QPen( Qt::white, 0, Qt::DotLine ) );
+	grid->setMajPen( QPen( Qt::white, 0, Qt::SolidLine ) );
     grid->attach( this );
 
 	QwtScaleEngine *eng = new QwtLog10ScaleEngine();
@@ -51,397 +52,119 @@ ACPlot::ACPlot( QWidget *parent ):
 	setAxisScaleDraw(QwtPlot::xBottom, new RealScaleDraw);
 
     // axes
-    //setAxisScale( QwtPlot::xBottom, 0.0, 100.0 );
-    setAxisScale( QwtPlot::yLeft, 0.0, 100.0 );
+    setAxisScale( QwtPlot::yLeft, -30.0, 30.0 );
 
     plotLayout()->setAlignCanvasToScales( true );
 
-    insertCurve( Qt::Horizontal, Qt::yellow, 30.0 );
-    insertCurve( Qt::Horizontal, Qt::white, 70.0 );
+	for ( size_t i = 0; i < 5; ++i){
+		curves_[i] = new QwtPlotCurve;
+		//curves_[i]->setPen( QColor(Qt::green) );
+		//curves_[i]->setSymbol( new QwtSymbol( QwtSymbol::Hexagon, Qt::gray, QColor(Qt::green), QSize( 8, 8 ) ) );
+		curves_[i]->attach( this );
+	}
+	curves_[0]->setPen( QColor(Qt::green) );
+	curves_[1]->setPen( QColor(Qt::blue) );
+	curves_[2]->setPen( QColor(Qt::cyan) );
+	curves_[3]->setPen( QColor(Qt::yellow) );
+	curves_[4]->setPen( QColor(Qt::darkMagenta) );
+	//curves_[0]->setSymbol( new QwtSymbol( QwtSymbol::NoSymbol, Qt::gray, QColor(Qt::green), QSize( 8, 8 ) ) );
+	//curves_[1]->setSymbol( new QwtSymbol( QwtSymbol::NoSymbol, Qt::gray, QColor(Qt::blue), QSize( 8, 8 ) ) );
+	//curves_[2]->setSymbol( new QwtSymbol( QwtSymbol::NoSymbol, Qt::gray, QColor(Qt::cyan), QSize( 8, 8 ) ) );
+	//curves_[3]->setSymbol( new QwtSymbol( QwtSymbol::NoSymbol, Qt::gray, QColor(Qt::yellow), QSize( 8, 8 ) ) );
+	//curves_[4]->setSymbol( new QwtSymbol( QwtSymbol::NoSymbol, Qt::gray, QColor(Qt::darkMagenta), QSize( 8, 8 ) ) );
 
-    replot();
+	redCurves_ = new QwtPlotCurve;
+	redCurves_->setPen( QColor(Qt::red) );
+	redCurves_->setSymbol( new QwtSymbol( QwtSymbol::NoSymbol, Qt::gray, QColor(Qt::red), QSize( 8, 8 ) ) );
+	redCurves_->attach( this );
+
+	for ( size_t i = 0; i < 5; ++i){
+		markers_[i] = new QwtPlotMarker;
+		markers_[i]->attach( this );
+	}
+	markers_[0]->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::green, QColor(Qt::green), QSize( 8, 8 ) ) );
+	markers_[1]->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::blue, QColor(Qt::blue), QSize( 8, 8 ) ) );
+	markers_[2]->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::cyan, QColor(Qt::cyan), QSize( 8, 8 ) ) );
+	markers_[3]->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::yellow, QColor(Qt::yellow), QSize( 8, 8 ) ) );
+	markers_[4]->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::darkMagenta, QColor(Qt::darkMagenta), QSize( 8, 8 ) ) );
+
 }
 
-void ACPlot::insertCurve( Qt::Orientation o, const QColor &c, double base )
-{
-    QwtPlotCurve *curve = new QwtPlotCurve();
-
-    curve->setPen( c );
-    curve->setSymbol( new QwtSymbol( QwtSymbol::Ellipse, Qt::gray, c, QSize( 8, 8 ) ) );
-
-    double x[2000];
-    double y[sizeof( x ) / sizeof( x[0] )];
-
-    for ( uint i = 0; i < sizeof( x ) / sizeof( x[0] ); i++ )
-    {
-        double v = 5.0 + i * 10.0;
-        if ( o == Qt::Horizontal )
-        {
-            x[i] = v;
-            y[i] = base;
-        }
-        else
-        {
-            x[i] = base;
-            y[i] = v;
-        }
-    }
-
-    curve->setSamples( x, y, sizeof( x ) / sizeof( x[0] ) );
-    curve->attach( this );
-}
 
 
-CanvasPicker::CanvasPicker( QwtPlot *plot ):
-    QObject( plot ),
-    d_selectedCurve( NULL ),
-    d_selectedPoint( -1 )
-{
-    QwtPlotCanvas *canvas = plot->canvas();
+void ACPlot::refreshPEQ(const std::vector<PEQ>& peqs){
+	//for ( size_t i =0; i < peqs.size(); ++i){
+	//	qDebug()<<peqs[i].bandwidth;
+	//}
 
-    canvas->installEventFilter( this );
+	//绘制带通波形
+	double y[512],y3[512];
+	double pi=3.1415926;
+	int i,ny,j,F0,k;
 
-    // We want the focus, but no focus rect. The
-    // selected point will be highlighted instead.
+	double C,L,R,XC,XL,XZ;
+	static QVector<double> yData;
+	static QVector<double> xData;
 
-    canvas->setFocusPolicy( Qt::StrongFocus );
-#ifndef QT_NO_CURSOR
-    canvas->setCursor( Qt::PointingHandCursor );
-#endif
-    canvas->setFocusIndicator( QwtPlotCanvas::ItemFocusIndicator );
-    canvas->setFocus();
+	memset(y3,0,sizeof(double)*512);
+	memset(y,0,sizeof(double)*512);
+	j=0;
+	C=0.0022;
+	double m_QValue;
+	for ( size_t k = 0; k < 5; ++k){
+		curves_[k]->detach();
+	}
+	for ( size_t k = 0; k < peqs.size(); ++k){
+		F0=peqs[k].freq;
+		m_QValue = std::pow( 2, peqs[k].bandwidth / 2 );
+		m_QValue = m_QValue / ( m_QValue * m_QValue - 1 );//求出Q值
+		//m_QValue=1;
 
-    const char *text =
-        "All points can be moved using the left mouse button "
-        "or with these keys:\n\n"
-        "- Up:\t\tSelect next curve\n"
-        "- Down:\t\tSelect previous curve\n"
-        "- Left, ??\tSelect next point\n"
-        "- Right, ??\tSelect previous point\n"
-        "- 7, 8, 9, 4, 6, 1, 2, 3:\tMove selected point";
-    canvas->setWhatsThis( text );
+		L=dd2((std::pow(1/(2*pi*F0),2))/C); //取DOUBLE后八8位小数,四舍五入
+		R=m_QValue*2*pi*F0*L; 
 
-    shiftCurveCursor( true );
-}
 
-QwtPlot *CanvasPicker::plot()
-{
-    return qobject_cast<QwtPlot *>( parent() );
-}
+		j=0;
+		for(i=20;i<20000;i+=FREQ_STEP(i))
+		{
+			XC=1/(2*pi*i*C);
+			XL=2*pi*i*L;
 
-const QwtPlot *CanvasPicker::plot() const
-{
-    return qobject_cast<const QwtPlot *>( parent() );
-}
+			//XZ=(XL*XC)/((XL>XC)?(XL-XC):(XC-XL));
+			XZ=(XL*XC)/fabs(XL-XC);
+			XZ=(peqs[k].gain*(R*XZ)/(sqrt(R*R+XZ*XZ)))*(4.5/R);
+			y[j]=XZ/(27/6.f);
 
-bool CanvasPicker::event( QEvent *ev )
-{
-    if ( ev->type() == QEvent::User )
-    {
-        showCursor( true );
-        return true;
-    }
-    return QObject::event( ev );
-}
+			y3[j]+=y[j];
+			j++;
+		}
 
-bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
-{
-    if ( plot() == NULL || object != plot()->canvas() )
-        return false;
+		double Y = 10000000;
+		yData.clear();
+		xData.clear();
+		for(j=0, i=20;i<20000;i+=FREQ_STEP(i)){
+			xData.push_back(i);
+			yData.push_back(y[j++]);
+			if ( Y ==  10000000 && F0 <= i){
+				Y = y[j-1];
+			}
+		}
+		
+		markers_[k]->setXValue(F0);
+		markers_[k]->setYValue(Y);
+		markers_[k]->attach(this);
+		curves_[k]->setSamples( xData, yData );
+		curves_[k]->attach(this);
+	}
 
-    switch( event->type() )
-    {
-        case QEvent::FocusIn:
-        {
-            showCursor( true );
-            break;
-        }
-        case QEvent::FocusOut:
-        {
-            showCursor( false );
-            break;
-        }
-        //case QEvent::Paint:
-        //{
-        //    QApplication::postEvent( this, new QEvent( QEvent::User ) );
-        //    break;
-        //}
-        case QEvent::MouseButtonPress:
-        {
-            select( ( ( QMouseEvent * )event )->pos() );
-            return true;
-        }
-        case QEvent::MouseMove:
-        {
-            move( ( ( QMouseEvent * )event )->pos() );
-            return true;
-        }
-        case QEvent::KeyPress:
-        {
-            const int delta = 5;
-            switch( ( ( const QKeyEvent * )event )->key() )
-            {
-                case Qt::Key_Up:
-                {
-                    shiftCurveCursor( true );
-                    return true;
-                }
-                case Qt::Key_Down:
-                {
-                    shiftCurveCursor( false );
-                    return true;
-                }
-                case Qt::Key_Right:
-                case Qt::Key_Plus:
-                {
-                    if ( d_selectedCurve )
-                        shiftPointCursor( true );
-                    else
-                        shiftCurveCursor( true );
-                    return true;
-                }
-                case Qt::Key_Left:
-                case Qt::Key_Minus:
-                {
-                    if ( d_selectedCurve )
-                        shiftPointCursor( false );
-                    else
-                        shiftCurveCursor( true );
-                    return true;
-                }
+	yData.clear();
+	xData.clear();
+	for(j=0,i=20;i<20000;i+=FREQ_STEP(i))
+	{
+		xData.push_back(i);
+		yData.push_back(y3[j++]);
+	}
+	redCurves_->setSamples( xData, yData );
 
-                // The following keys represent a direction, they are
-                // organized on the keyboard.
-
-                case Qt::Key_1:
-                {
-                    moveBy( -delta, delta );
-                    break;
-                }
-                case Qt::Key_2:
-                {
-                    moveBy( 0, delta );
-                    break;
-                }
-                case Qt::Key_3:
-                {
-                    moveBy( delta, delta );
-                    break;
-                }
-                case Qt::Key_4:
-                {
-                    moveBy( -delta, 0 );
-                    break;
-                }
-                case Qt::Key_6:
-                {
-                    moveBy( delta, 0 );
-                    break;
-                }
-                case Qt::Key_7:
-                {
-                    moveBy( -delta, -delta );
-                    break;
-                }
-                case Qt::Key_8:
-                {
-                    moveBy( 0, -delta );
-                    break;
-                }
-                case Qt::Key_9:
-                {
-                    moveBy( delta, -delta );
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-        default:
-            break;
-    }
-
-    return QObject::eventFilter( object, event );
-}
-
-// Select the point at a position. If there is no point
-// deselect the selected point
-
-void CanvasPicker::select( const QPoint &pos )
-{
-    QwtPlotCurve *curve = NULL;
-    double dist = 10e10;
-    int index = -1;
-
-    const QwtPlotItemList& itmList = plot()->itemList();
-    for ( QwtPlotItemIterator it = itmList.begin();
-        it != itmList.end(); ++it )
-    {
-        if ( ( *it )->rtti() == QwtPlotItem::Rtti_PlotCurve )
-        {
-            QwtPlotCurve *c = ( QwtPlotCurve* )( *it );
-
-            double d;
-            int idx = c->closestPoint( pos, &d );
-            if ( d < dist )
-            {
-                curve = c;
-                index = idx;
-                dist = d;
-            }
-        }
-    }
-
-    showCursor( false );
-    d_selectedCurve = NULL;
-    d_selectedPoint = -1;
-
-    if ( curve && dist < 10 ) // 10 pixels tolerance
-    {
-        d_selectedCurve = curve;
-        d_selectedPoint = index;
-        showCursor( true );
-    }
-}
-
-// Move the selected point
-void CanvasPicker::moveBy( int dx, int dy )
-{
-    if ( dx == 0 && dy == 0 )
-        return;
-
-    if ( !d_selectedCurve )
-        return;
-
-    const QPointF sample =
-        d_selectedCurve->sample( d_selectedPoint );
-
-    const double x = plot()->transform(
-        d_selectedCurve->xAxis(), sample.x() );
-    const double y = plot()->transform(
-        d_selectedCurve->yAxis(), sample.y() );
-
-    move( QPoint( qRound( x + dx ), qRound( y + dy ) ) );
-}
-
-// Move the selected point
-void CanvasPicker::move( const QPoint &pos )
-{
-    if ( !d_selectedCurve )
-        return;
-
-    QVector<double> xData( d_selectedCurve->dataSize() );
-    QVector<double> yData( d_selectedCurve->dataSize() );
-
-    for ( int i = 0; i < ( int )d_selectedCurve->dataSize(); i++ )
-    {
-        if ( i == d_selectedPoint )
-        {
-            xData[i] = plot()->invTransform(
-                d_selectedCurve->xAxis(), pos.x() );
-            yData[i] = plot()->invTransform(
-                d_selectedCurve->yAxis(), pos.y() );
-        }
-        else
-        {
-            const QPointF sample = d_selectedCurve->sample( i );
-            xData[i] = sample.x();
-            yData[i] = sample.y();
-        }
-    }
-    d_selectedCurve->setSamples( xData, yData );
-
-    /*
-       Enable QwtPlotCanvas::ImmediatePaint, so that the canvas has been
-       updated before we paint the cursor on it.
-     */
-    plot()->canvas()->setPaintAttribute( QwtPlotCanvas::ImmediatePaint, true );
-    plot()->replot();
-    plot()->canvas()->setPaintAttribute( QwtPlotCanvas::ImmediatePaint, false );
-
-    showCursor( true );
-}
-
-// Hightlight the selected point
-void CanvasPicker::showCursor( bool showIt )
-{
-    if ( !d_selectedCurve )
-        return;
-
-    QwtSymbol *symbol = const_cast<QwtSymbol *>( d_selectedCurve->symbol() );
-
-    const QBrush brush = symbol->brush();
-    if ( showIt )
-        symbol->setBrush( symbol->brush().color().dark( 180 ) );
-
-    QwtPlotDirectPainter directPainter;
-    directPainter.drawSeries( d_selectedCurve, d_selectedPoint, d_selectedPoint );
-
-    if ( showIt )
-        symbol->setBrush( brush ); // reset brush
-}
-
-// Select the next/previous curve
-void CanvasPicker::shiftCurveCursor( bool up )
-{
-    QwtPlotItemIterator it;
-
-    const QwtPlotItemList &itemList = plot()->itemList();
-
-    QwtPlotItemList curveList;
-    for ( it = itemList.begin(); it != itemList.end(); ++it )
-    {
-        if ( ( *it )->rtti() == QwtPlotItem::Rtti_PlotCurve )
-            curveList += *it;
-    }
-    if ( curveList.isEmpty() )
-        return;
-
-    it = curveList.begin();
-
-    if ( d_selectedCurve )
-    {
-        for ( it = curveList.begin(); it != curveList.end(); ++it )
-        {
-            if ( d_selectedCurve == *it )
-                break;
-        }
-        if ( it == curveList.end() ) // not found
-            it = curveList.begin();
-
-        if ( up )
-        {
-            ++it;
-            if ( it == curveList.end() )
-                it = curveList.begin();
-        }
-        else
-        {
-            if ( it == curveList.begin() )
-                it = curveList.end();
-            --it;
-        }
-    }
-
-    showCursor( false );
-    d_selectedPoint = 0;
-    d_selectedCurve = ( QwtPlotCurve * ) * it;
-    showCursor( true );
-}
-
-// Select the next/previous neighbour of the selected point
-void CanvasPicker::shiftPointCursor( bool up )
-{
-    if ( !d_selectedCurve )
-        return;
-
-    int index = d_selectedPoint + ( up ? 1 : -1 );
-    index = ( index + d_selectedCurve->dataSize() ) % d_selectedCurve->dataSize();
-
-    if ( index != d_selectedPoint )
-    {
-        showCursor( false );
-        d_selectedPoint = index;
-        showCursor( true );
-    }
+	replot();
 }

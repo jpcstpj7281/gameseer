@@ -8,7 +8,8 @@ using namespace std::tr1::placeholders;
 
 OIDDial::OIDDial( QWidget* w):
 QDial(w)
-,ql_(0){
+,ql_(0)
+,scale_(0.f){
 	connect( this, SIGNAL(valueChanged(int )), this, SLOT(fireSnmp(int )));
 	installEventFilter(this);
 	setToolTip( objectName());
@@ -59,17 +60,25 @@ bool OIDDial::eventFilter ( QObject * watched, QEvent * event ){
     return false;
 }
 
+void OIDDial::refreshLabel(){
+	if (ql_){
+		if ( scale_ == 0.f){
+			ql_->setText( QString::number( value()));
+		}else{
+			ql_->setText( QString::number( value()/scale_));
+		}
+	}
+}
 
 void OIDDial::fireSnmp(int val ){
 	if ( !ConfigMgr::instance()->isOidEditable() ) {
+		refreshLabel();
 		QString oid = ConfigMgr::instance()->getOid(objectName());
 		SnmpNet::instance()->addAsyncSet( objectName().toStdString(), 
 			oid.toStdString().c_str(), "private", 
 			std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) , val);
 		lastTimeChanged_ = GetTickCount();
-		if (ql_){
-			ql_->setText( QString::number( value()));
-		}
+		
 	}
 }
 
@@ -77,9 +86,7 @@ void OIDDial::snmpCallback(  SnmpObj* so){
 	
 	if ( so->setVar.isNull() ){
 		setValue( so->rspVar.value<int>());
-		if (ql_){
-			ql_->setText( QString::number( value()));
-		}
+		refreshLabel();
 		QString oid = ConfigMgr::instance()->getOid( objectName());
 		if (!oid.isEmpty())
 			SnmpNet::instance()->removeAsyncGet( objectName().toStdString(), oid.toStdString() , std::string("public"));

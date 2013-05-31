@@ -427,6 +427,12 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-180</number>
+    </property>
+    <property name="maximum">
+     <number>120</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_11">
     <property name="geometry">
@@ -436,6 +442,12 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>-180</number>
+    </property>
+    <property name="maximum">
+     <number>120</number>
     </property>
    </widget>
    <widget class="OIDDial" name="dial_12">
@@ -447,6 +459,12 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-180</number>
+    </property>
+    <property name="maximum">
+     <number>120</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_14">
     <property name="geometry">
@@ -456,6 +474,12 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>-180</number>
+    </property>
+    <property name="maximum">
+     <number>120</number>
     </property>
    </widget>
    <widget class="OIDDial" name="dial_7">
@@ -467,6 +491,15 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>20</number>
+    </property>
+    <property name="maximum">
+     <number>20000</number>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_6">
     <property name="geometry">
@@ -476,6 +509,15 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>20</number>
+    </property>
+    <property name="maximum">
+     <number>20000</number>
+    </property>
+    <property name="value">
+     <number>30</number>
     </property>
    </widget>
    <widget class="OIDDial" name="dial_8">
@@ -487,6 +529,15 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>20</number>
+    </property>
+    <property name="maximum">
+     <number>20000</number>
+    </property>
+    <property name="value">
+     <number>500</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_9">
     <property name="geometry">
@@ -496,6 +547,15 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>20</number>
+    </property>
+    <property name="maximum">
+     <number>20000</number>
+    </property>
+    <property name="value">
+     <number>2000</number>
     </property>
    </widget>
    <widget class="OIDDial" name="dial_4">
@@ -507,6 +567,15 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>100</number>
+    </property>
+    <property name="maximum">
+     <number>3000</number>
+    </property>
+    <property name="value">
+     <number>500</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_1">
     <property name="geometry">
@@ -516,6 +585,15 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>100</number>
+    </property>
+    <property name="maximum">
+     <number>3000</number>
+    </property>
+    <property name="value">
+     <number>500</number>
     </property>
    </widget>
    <widget class="OIDDial" name="dial_3">
@@ -527,6 +605,15 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>100</number>
+    </property>
+    <property name="maximum">
+     <number>3000</number>
+    </property>
+    <property name="value">
+     <number>500</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_2">
     <property name="geometry">
@@ -536,6 +623,15 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>100</number>
+    </property>
+    <property name="maximum">
+     <number>3000</number>
+    </property>
+    <property name="value">
+     <number>500</number>
     </property>
    </widget>
    <widget class="OIDDial" name="dial_15">
@@ -547,6 +643,12 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-180</number>
+    </property>
+    <property name="maximum">
+     <number>120</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_10">
     <property name="geometry">
@@ -557,6 +659,15 @@
       <height>64</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>20</number>
+    </property>
+    <property name="maximum">
+     <number>20000</number>
+    </property>
+    <property name="value">
+     <number>10000</number>
+    </property>
    </widget>
    <widget class="OIDDial" name="dial_5">
     <property name="geometry">
@@ -566,6 +677,15 @@
       <width>50</width>
       <height>64</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>100</number>
+    </property>
+    <property name="maximum">
+     <number>3000</number>
+    </property>
+    <property name="value">
+     <number>500</number>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -818,7 +938,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>0.5</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -834,7 +954,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>0.5</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -850,7 +970,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>0.5</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -866,7 +986,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>0.5</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -882,7 +1002,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>0.5</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -898,7 +1018,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>30</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -914,7 +1034,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>2000</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -930,7 +1050,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>500</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -946,7 +1066,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>10000</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -962,7 +1082,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string>100</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -978,7 +1098,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>dB</string>
+     <string>Hz</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -994,7 +1114,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>dB</string>
+     <string>Hz</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1010,7 +1130,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>dB</string>
+     <string>Hz</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1026,7 +1146,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>dB</string>
+     <string>Hz</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1042,7 +1162,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>dB</string>
+     <string>Hz</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

@@ -23,7 +23,6 @@ HighPassWnd::HighPassWnd(QTabWidget *parent) :
 
 		// The canvas picker handles all mouse and key
 		// events on the plot canvas
-		( void ) new CanvasPicker( plot );
 		QVBoxLayout *layout = new QVBoxLayout( qw );
 		qw->setLayout(layout);
 		qw->layout()->addWidget(plot);
