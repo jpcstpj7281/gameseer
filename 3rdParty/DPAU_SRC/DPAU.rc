@@ -1,0 +1,235 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (Simplified, PRC) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DPAU.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\DPAU.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DPAU_DIALOG DIALOGEX 0, 0, 320, 200
+STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "DPAU"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_WAVE,"Static",SS_BLACKFRAME,5,5,310,59
+    GROUPBOX        "PEQ",IDC_STATIC_FREQ,5,70,305,120
+    EDITTEXT        IDC_EDIT_DB1,10,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB2,30,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB3,50,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB4,70,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB5,90,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB6,110,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB7,130,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB8,150,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB9,170,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_DB10,190,85,20,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Show",IDC_BUTTON_SHOW,235,85,30,14
+    CONTROL         "Slider1",IDC_SLIDER_FREQ1,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,10,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ2,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,30,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ3,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,50,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ4,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,70,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ5,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,90,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ6,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,110,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ7,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,130,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ8,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,150,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ9,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,170,105,20,50
+    CONTROL         "Slider1",IDC_SLIDER_FREQ10,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,190,105,20,50
+    EDITTEXT        IDC_EDIT_FREQ1,10,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ2,30,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ3,50,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ4,70,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ5,90,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ6,110,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ7,130,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ8,150,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ9,170,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_FREQ10,190,165,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Flat EQ",IDC_BUTTON_FLATEQ,235,105,30,14
+    EDITTEXT        IDC_EDIT_QVALUE,235,137,20,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Spin1",IDC_SPIN_VALUE,"msctls_updown32",UDS_ARROWKEYS,255,135,11,15
+    LTEXT           "dB",IDC_STATIC_DB,210,90,9,8
+    LTEXT           "Hz",IDC_STATIC_HZ,210,170,9,8
+    LTEXT           "Q",IDC_STATIC_Q,235,130,25,8
+    COMBOBOX        IDC_COMBO_TYPE,235,170,48,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "TYPE",IDC_STATIC_TYPE,235,160,17,8
+    COMBOBOX        IDC_COMBO_SLOPE,265,85,48,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404B0"
+        BEGIN
+            VALUE "FileDescription", "DPAU Microsoft 基础类应用程序"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "DPAU"
+            VALUE "LegalCopyright", "版权所有 (C) 2008"
+            VALUE "OriginalFilename", "DPAU.EXE"
+            VALUE "ProductName", "DPAU 应用程序"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DPAU_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 193
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSOR1             CURSOR                  "res\\cursor1.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DPAU_DIALOG DLGINIT
+BEGIN
+    IDC_COMBO_TYPE, 0x403, 13, 0
+0x6f4c, 0x2077, 0x6853, 0x6c65, 0x6976, 0x676e, "\000" 
+    IDC_COMBO_TYPE, 0x403, 11, 0
+0x6150, 0x6172, 0x656d, 0x7274, 0x6369, "\000" 
+    IDC_COMBO_TYPE, 0x403, 14, 0
+0x6948, 0x6867, 0x5320, 0x6568, 0x766c, 0x6e69, 0x0067, 
+    IDC_COMBO_SLOPE, 0x403, 9, 0
+0x2036, 0x4264, 0x4f2f, 0x7463, "\000" 
+    IDC_COMBO_SLOPE, 0x403, 10, 0
+0x3231, 0x6420, 0x2f42, 0x634f, 0x0074, 
+    0
+END
+
+#endif    // Chinese (Simplified, PRC) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\DPAU.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
