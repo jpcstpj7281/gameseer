@@ -33,25 +33,56 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-	_tab = findChild<QTabWidget*>( "tabWidget");
+	tab_ = findChild<QTabWidget*>( "tabWidget");
 
-	modules_.push_back( new DevicesWnd(_tab));
-	modules_.push_back(new HomePage(_tab));
-	modules_.push_back(new InputGainCtrlWnd(_tab));
-	modules_.push_back(new GateNOMWnd(_tab));
-	modules_.push_back(new HighPassWnd(_tab));
-	modules_.push_back(new PEQWnd(_tab));
-	modules_.push_back(new MatrixMixerWnd(_tab));
-	modules_.push_back(new NOMWnd(_tab));
-	modules_.push_back(new PresetWnd(_tab));
-	modules_.push_back(new CobraNetWnd(_tab));
-	modules_.push_back(new SnmpNetWnd(_tab));
 
-	_tab = findChild<QTabWidget*>( "tabWidget");
+	PresetWnd *preset = new PresetWnd(tab_);
+	modules_.push_back(new DevicesWnd(tab_));
+	modules_.push_back(new HomePage(tab_));
+	modules_.push_back(new InputGainCtrlWnd(tab_));
+	modules_.push_back(new GateNOMWnd(tab_));
+	modules_.push_back(new HighPassWnd(tab_));
+	modules_.push_back(new PEQWnd(tab_));
+	modules_.push_back(new MatrixMixerWnd(tab_));
+	modules_.push_back(new NOMWnd(tab_));
+	modules_.push_back(preset);
+	modules_.push_back(new CobraNetWnd(tab_));
+	modules_.push_back(new SnmpNetWnd(tab_));
+
+	tab_ = findChild<QTabWidget*>( "tabWidget");
 
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
-		_tab->addTab(*it, (*it)->windowTitle() );
+		tab_->addTab(*it, (*it)->windowTitle() );
 	}
+	preset->dialList_ = tab_->findChildren<OIDDial*>();
+	preset->btnList_ = tab_->findChildren<OIDStatePushBtn*>();
+	preset->sliderList_ = tab_->findChildren<OIDSlider*>();
+	
+	for ( auto it = preset->dialList_.begin(); it != preset->dialList_.end(); ){
+		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() ){
+			qDebug()<<(*it)->objectName();
+			++it;
+		}else{
+			it = preset->dialList_.erase( it);
+		}
+	}
+	for ( auto it = preset->btnList_.begin(); it != preset->btnList_.end();){
+		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() ){
+			qDebug()<<(*it)->objectName();
+			++it;
+		}else{
+			it = preset->btnList_.erase( it);
+		}
+	}
+	for ( auto it = preset->sliderList_.begin(); it != preset->sliderList_.end();){
+		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() ){
+			qDebug()<<(*it)->objectName();
+			++it;
+		}else{
+			it = preset->sliderList_.erase( it);
+		}
+	}
+
 
     connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionCopyParam_clicked(QAction*)));
 	connect( menuBar(), SIGNAL(triggered(QAction*)), this, SLOT(on_actionEdit_clicked(QAction*)));
@@ -72,9 +103,9 @@ void MainWindow::closeEvent(QCloseEvent * ){
 }
 void MainWindow::resizeEvent(QResizeEvent * ){
 
-	_tab->setGeometry( 0, 0, this->width()+2, this->height()-40);
+	tab_->setGeometry( 0, 0, this->width()+2, this->height()-40);
 
-	QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
+	QTableWidget* t = tab_->findChild<QTableWidget* >("tableDevices");
 	if (t){
 		t->setGeometry( 0, 0, this->width()+2, this->height()-40);
 		t->setColumnWidth( 0, 150);
@@ -86,7 +117,7 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 		
 	}
 
-	t = _tab->findChild<QTableWidget* >("tableOids");
+	t = tab_->findChild<QTableWidget* >("tableOids");
 	if (t){
 		t->setColumnWidth( 0, 150);
 		t->setColumnWidth( 2, 100);

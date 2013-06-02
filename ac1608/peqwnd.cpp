@@ -187,7 +187,7 @@ void PEQWnd::indexChanged(int index){
 void PEQWnd::clickch(){
 	if ( sender() == currCHBtn_) return;
 	currCHBtn_->setEnabled(true);
-	currCHBtn_->setStyleSheet("* { background-color: lightGray }");
+	currCHBtn_->setStyleSheet("");
 
 	if ( sender()->objectName().contains("Input")){
 		for ( QList<OIDDial *>::Iterator it = qdl_.begin(); it != qdl_.end(); ++it){

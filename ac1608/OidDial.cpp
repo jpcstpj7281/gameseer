@@ -75,7 +75,7 @@ void OIDDial::fireSnmp(int val ){
 		refreshLabel();
 		QString oid = ConfigMgr::instance()->getOid(objectName());
 		SnmpNet::instance()->addAsyncSet( objectName().toStdString(), 
-			oid.toStdString().c_str(), "private", 
+			oid.toStdString(), "private", 
 			std::bind<SnmpCallbackFunc>( &OIDDial::snmpCallback, this, _1) , val);
 		lastTimeChanged_ = GetTickCount();
 		

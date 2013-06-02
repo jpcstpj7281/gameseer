@@ -15,7 +15,7 @@ QPushButton(w)
 ,trueState_(1)
 {
 	setToolTip(objectName() );
-	setStyleSheet("* { background-color: lightGray }");
+	setStyleSheet("");
 }
 
 void OIDStatePushBtn::initSnmp(){
@@ -38,10 +38,9 @@ void OIDStatePushBtn::snmpCallback( SnmpObj* so){
 
 	if ( so->setVar.isNull() ){
 		val_ = so->rspVar.value<int>();
+		qDebug()<<this->objectName();
 		refreshStatus();
-
-		
-			
+		this->setEnabled(true);
 	}
 }
 void OIDStatePushBtn::afterCallback(){
@@ -51,7 +50,7 @@ void OIDStatePushBtn::afterCallback(){
 }
 
 void OIDStatePushBtn::refreshStatus(){
-	if ( val_){
+	if ( val_ == trueState_){
 		if( isImageSetup_){
 			QIcon buttonIcon(onImage_);
 			setIcon(buttonIcon);
@@ -65,19 +64,20 @@ void OIDStatePushBtn::refreshStatus(){
 			setIcon(buttonIcon);
 			setIconSize(QSize(offImage_.rect().size()));
 		}else{
-			setStyleSheet("* { background-color: lightGray }");
+			setStyleSheet("");
 		}
 	}
 }
 
 void OIDStatePushBtn::clickChanged(){
-	val_? val_ = 0: val_=trueState_;
-	refreshStatus();
+	val_==trueState_? val_ = 0: val_=trueState_;
+	//refreshStatus();
 	QString  oid = ConfigMgr::instance()->getOid( objectName());
 	if (! oid.isEmpty() ){
 		SnmpNet::instance()->addAsyncSet( objectName().toStdString(), oid.toStdString(),	
 				"private", std::bind<SnmpCallbackFunc>( &OIDStatePushBtn::snmpCallback, this, _1) , (int)val_);
 	}
+	this->setEnabled(false);
 }
 
 void OIDStatePushBtn::mouseReleaseEvent ( QMouseEvent * event ){

@@ -81,7 +81,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbDownload0">
@@ -94,7 +94,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbOpen1">
@@ -133,7 +133,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb1">
@@ -172,7 +172,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbOpen2">
@@ -211,7 +211,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb2">
@@ -250,7 +250,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="Line" name="line">
@@ -302,7 +302,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbUpload3">
@@ -315,7 +315,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb3">
@@ -367,7 +367,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -458,7 +458,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbDownload3">
@@ -471,7 +471,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="Line" name="line_3">
@@ -523,7 +523,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbOpen5">
@@ -575,7 +575,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbSave7">
@@ -679,7 +679,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb7">
@@ -705,7 +705,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbUpload7">
@@ -718,7 +718,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -757,7 +757,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="Line" name="line_8">
@@ -822,7 +822,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_10">
@@ -861,7 +861,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbSave11">
@@ -952,7 +952,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb11">
@@ -978,7 +978,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbUpload11">
@@ -991,7 +991,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_12">
@@ -1030,7 +1030,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbSave13">
@@ -1134,7 +1134,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb13">
@@ -1160,7 +1160,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbUpload13">
@@ -1173,7 +1173,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_14">
@@ -1212,7 +1212,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbSave15">
@@ -1316,7 +1316,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb15">
@@ -1342,7 +1342,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbUpload15">
@@ -1355,7 +1355,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_16">
@@ -1394,7 +1394,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbSave17">
@@ -1498,7 +1498,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb17">
@@ -1524,7 +1524,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbUpload17">
@@ -1537,7 +1537,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_18">
@@ -1576,7 +1576,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb18">
@@ -1628,7 +1628,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_20">
@@ -1680,7 +1680,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbOpen9">
@@ -1706,7 +1706,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb9">
@@ -1745,7 +1745,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>download</string>
+    <string>dsp load</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbOpen19">
@@ -1771,7 +1771,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>upload</string>
+    <string>dsp save</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rb19">
@@ -1837,6 +1837,19 @@
    </property>
    <property name="text">
     <string>open from</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbDspClear">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>580</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>dsp clear</string>
    </property>
   </widget>
  </widget>

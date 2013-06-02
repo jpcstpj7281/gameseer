@@ -22,6 +22,7 @@ class NOMWnd;
 class CobraNetWnd;
 class SnmpNetWnd;
 
+
 namespace Ui {
     class MainWindow;
 }
@@ -55,7 +56,7 @@ class MainWindow : public QMainWindow
 
     private:
 
-		QTabWidget* _tab;
+		QTabWidget* tab_;
 		Mode _mode;
 
         Ui::MainWindow *ui;
@@ -64,6 +65,7 @@ class MainWindow : public QMainWindow
 
 		void closeEvent(QCloseEvent * event);
 		void resizeEvent(QResizeEvent * event);
+
 
 };
 

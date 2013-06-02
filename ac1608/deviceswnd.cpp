@@ -150,7 +150,7 @@ void Ac1608Address::onlineRefreshed(){
 		this->setEnabled(true);
     }else{
 		this->setText( "Change Psw");
-		status_->setBackground(QBrush(QColor(Qt::blue))); 
+		status_->setBackground(QBrush(QColor(Qt::cyan))); 
 	}
 }
 
@@ -275,7 +275,7 @@ void DevicesWnd::connectImpl( Ac1608Address* aa){
 			currConnAddress_->status_->setBackground(QBrush(QColor(Qt::green))); 
         }
 		aa->setText("");
-		aa->status_->setBackground(QBrush(QColor(Qt::blue))); 
+		aa->status_->setBackground(QBrush(QColor(Qt::cyan))); 
         currConnAddress_ = aa;
     }
 }
