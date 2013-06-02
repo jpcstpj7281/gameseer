@@ -37,12 +37,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 	PresetWnd *preset = new PresetWnd(tab_);
+	PEQWnd *peq = new PEQWnd(tab_);
 	modules_.push_back(new DevicesWnd(tab_));
 	modules_.push_back(new HomePage(tab_));
 	modules_.push_back(new InputGainCtrlWnd(tab_));
 	modules_.push_back(new GateNOMWnd(tab_));
 	modules_.push_back(new HighPassWnd(tab_));
-	modules_.push_back(new PEQWnd(tab_));
+	modules_.push_back(peq);
 	modules_.push_back(new MatrixMixerWnd(tab_));
 	modules_.push_back(new NOMWnd(tab_));
 	modules_.push_back(preset);
@@ -54,13 +55,14 @@ MainWindow::MainWindow(QWidget *parent)
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		tab_->addTab(*it, (*it)->windowTitle() );
 	}
+	preset->peq_ = peq;
 	preset->dialList_ = tab_->findChildren<OIDDial*>();
 	preset->btnList_ = tab_->findChildren<OIDStatePushBtn*>();
 	preset->sliderList_ = tab_->findChildren<OIDSlider*>();
 	
 	for ( auto it = preset->dialList_.begin(); it != preset->dialList_.end(); ){
-		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() ){
-			qDebug()<<(*it)->objectName();
+		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() && (*it)->objectName().left(4) != "peq_" ){
+			//qDebug()<<(*it)->objectName();
 			++it;
 		}else{
 			it = preset->dialList_.erase( it);
@@ -68,7 +70,6 @@ MainWindow::MainWindow(QWidget *parent)
 	}
 	for ( auto it = preset->btnList_.begin(); it != preset->btnList_.end();){
 		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() ){
-			qDebug()<<(*it)->objectName();
 			++it;
 		}else{
 			it = preset->btnList_.erase( it);
@@ -76,7 +77,6 @@ MainWindow::MainWindow(QWidget *parent)
 	}
 	for ( auto it = preset->sliderList_.begin(); it != preset->sliderList_.end();){
 		if ( ! ConfigMgr::instance()->getOid((*it)->objectName()).isEmpty() ){
-			qDebug()<<(*it)->objectName();
 			++it;
 		}else{
 			it = preset->sliderList_.erase( it);

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <Qwt_Plot_Picker.h>
+#include <QTextStream>
 
 class OIDStatePushBtn;
 class OIDDial;
@@ -27,6 +28,9 @@ class PEQWnd : public QWidget
 public:
     explicit PEQWnd(QTabWidget *parent = 0);
     ~PEQWnd();
+
+	void save(QTextStream& stream);
+	void load(QString & objName, QString & val);
     
 private:
 	void select( const QPoint & );

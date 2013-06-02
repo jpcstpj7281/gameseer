@@ -7,6 +7,7 @@
 #include <OIDDial.h>
 #include <OIDPushBtn.h>
 #include <OIDSlider.h>
+#include <PEQWnd.h>
 
 namespace Ui {
 class PresetWnd;
@@ -52,6 +53,8 @@ public:
 	QList<OIDDial*>			dialList_;
 	QList<OIDStatePushBtn*> btnList_;
 	QList<OIDSlider*>		sliderList_;
+
+	PEQWnd * peq_;
 private:
     Ui::PresetWnd *ui;
 	QList<QPushButton *> qpbtnl_;
@@ -67,6 +70,8 @@ private:
 
 	QList<QPushButton*> snmpBtn_;
 	void snmpCallback(  SnmpObj* so);
+
+	
 };
 
 #endif // PRESETWND_H
