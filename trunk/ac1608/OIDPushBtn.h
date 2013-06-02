@@ -20,6 +20,8 @@ protected:
 	virtual void refreshStatus();
 public:
 	void setTrueState( int state){ trueState_ = state;}
+	int getVal( ){ return val_;}
+	void setVal( int val){ val_ = val;}
 	OIDStatePushBtn( QWidget* w);
 
 	void setOnOffStateImage(int onState, int offState, QPixmap &onImage, QPixmap &offImage );

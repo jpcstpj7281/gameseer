@@ -1,7 +1,6 @@
 <?xml version='1.0'?>
 <root>
     <addresses>
-        <address location="home" ip="192.168.1.101"/>
         <address ip="127.0.0.1" location="h"/>
         <address ip="192.168.2.100" location="test"/>
         <address ip="192.168.2.102" location=""/>
@@ -22,6 +21,7 @@
         <value value="536870912" id="input_btn_3"/>
     </values>
     <components>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.33.32.34.17.45.4.2.1.2.8" id="preset"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_amp1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_verticalSlider1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.693" id="homepage_mute1"/>
@@ -38,7 +38,7 @@
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_amp4"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="homepage_verticalSlider4"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="input_verticalSlider_1"/>
-        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="input_pushButton_1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.33.32.34.17.45.4.2.1.2.991" id="input_pushButton_1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="gate_dial_1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="gate_bypass1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="matrixmix_pushButton_1"/>
@@ -56,6 +56,9 @@
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="peq_dial_3Output5pb1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="peq_dial_4Output5pb1"/>
         <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="peq_dial_5Output5pb1"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.33.32.34.17.45.4.2.1.2.991" id="input_pushButton_17"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.33.32.34.17.45.4.2.1.2.991" id="input_pushButton_33"/>
+        <component oid=".1.3.6.1.4.1.2680.1.4.2.1.59.26.36.46.3.2.1.2.722" id="peq_dial_1Outputpb1"/>
     </components>
     <devices/>
 </root>
