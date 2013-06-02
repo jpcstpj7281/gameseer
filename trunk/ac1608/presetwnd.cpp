@@ -106,6 +106,9 @@ void PresetWnd::setValue( QString &objectname, QString &val){
 			return ;
 		}
 	}
+	if ( objectname.left(4) == "peq_"){
+		peq_->load( objectname, val);
+	}
 }
 
 void PresetWnd::open(){
@@ -133,6 +136,7 @@ void PresetWnd::save(){
 	for ( auto it = sliderList_.begin(); it != sliderList_.end(); ++it){
 		stream<<(*it)->objectName()<<"="<<(*it)->value()<<"\n";
 	}
+	peq_->save(stream);
 
 	file.flush();
 	findChild<QPushButton*>( sender()->objectName().replace("pbSave","pbOpen" ) )->setEnabled(true);

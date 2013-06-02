@@ -159,6 +159,67 @@ void PEQWnd::valueChanged ( int value ){
 	plot_->refreshPEQ(*peq);
 }
 
+void PEQWnd::save(QTextStream& stream){
+	for ( size_t i = 0; i < peqs_.size(); ++i){
+		for ( size_t j = 0; j < peqs_[i].size(); ++j){
+			stream<< "peq_dial_"<<j+1;
+			if ( i < 16){
+				stream<< "Inputpb"<<i+1;
+			}else{
+				stream<< "Outputpb"<<i+1 - 16;
+			}
+			stream<<"="<<peqs_[i][j].bandwidth;
+
+			stream<<";\n";
+			stream<< "peq_dial_"<<j+1+5;
+			if ( i < 16){
+				stream<< "Inputpb"<<i+1;
+			}else{
+				stream<< "Outputpb"<<i+1 - 16;
+			}
+			stream<<"="<<peqs_[i][j].freq;
+			stream<<";\n";
+
+			stream<< "peq_dial_"<<j+1+10;
+			if ( i < 16){
+				stream<< "Inputpb"<<i+1;
+			}else{
+				stream<< "Outputpb"<<i+1 - 16;
+			}
+			stream<<"="<<peqs_[i][j].gain;
+			stream<<";\n";
+			
+		}
+	}
+}
+void PEQWnd::load(QString & objName, QString & val){
+	std::vector<PEQ> * peq;
+	QString temp ;
+	int chindex;
+	if ( objName.contains("Inputpb")){
+		temp = objName.right(objName.size() - objName.indexOf("Inputpb"));
+		int index= temp.right( temp.size() - 7).toInt() -1;
+		peq = & peqs_[index];
+		temp = objName.left(objName.indexOf("Inputpb"));
+		chindex = temp.right(temp.size() - 9).toInt()-1;
+	}else{
+		temp = objName.right(objName.size() - objName.indexOf("Outputpb"));
+		int index= temp.right( temp.size() - 8).toInt() -1;
+		peq = & peqs_[index+16];
+		temp = objName.left(objName.indexOf("Outputpb"));
+		chindex = temp.right(temp.size() - 9).toInt()-1;
+	}
+
+
+	if ( chindex < 5){
+		peq->at(chindex).bandwidth = val.toDouble();
+	}else if ( chindex <10){
+		peq->at(chindex%5).freq= val.toDouble();
+	}else {
+		peq->at(chindex%5).gain= val.toDouble();
+	}
+}
+
 void PEQWnd::indexChanged(int index){
 	QWidget* maybeThis = tab_->widget(index);
 

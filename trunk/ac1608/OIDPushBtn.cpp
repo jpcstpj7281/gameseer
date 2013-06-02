@@ -38,7 +38,6 @@ void OIDStatePushBtn::snmpCallback( SnmpObj* so){
 
 	if ( so->setVar.isNull() ){
 		val_ = so->rspVar.value<int>();
-		qDebug()<<this->objectName();
 		refreshStatus();
 		this->setEnabled(true);
 	}
