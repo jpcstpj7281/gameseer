@@ -99,6 +99,10 @@ public:
 	std::vector<ResourceID> addScreens( uint32_t rowCount, uint32_t colCount);
 	std::vector<ResourceID> removeScreenCol();
 	std::vector<ResourceID> removeScreenRow();
+
+	uint32_t getColCount(){ return colCount_;};
+	uint32_t getRowCount(){ return rowCount_;};
+
 };
 
 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WallWnd</class>
+ <widget class="QWidget" name="WallWnd">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Wall</string>
+  </property>
+  <widget class="QComboBox" name="cbChn">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>510</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbRing">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>510</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbWnd">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>510</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="wallView">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>801</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="dragMode">
+    <enum>QGraphicsView::RubberBandDrag</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
