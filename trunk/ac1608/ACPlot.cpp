@@ -157,14 +157,14 @@ void ACPlot::refreshPEQ(const std::vector<PEQ>& peqs){
 		curves_[k]->attach(this);
 	}
 
-	yData.clear();
-	xData.clear();
-	for(j=0,i=20;i<20000;i+=FREQ_STEP(i))
-	{
-		xData.push_back(i);
-		yData.push_back(y3[j++]);
-	}
-	redCurves_->setSamples( xData, yData );
+	//yData.clear();
+	//xData.clear();
+	//for(j=0,i=20;i<20000;i+=FREQ_STEP(i))
+	//{
+	//	xData.push_back(i);
+	//	yData.push_back(y3[j++]);
+	//}
+	//redCurves_->setSamples( xData, yData );
 
 	replot();
 }
