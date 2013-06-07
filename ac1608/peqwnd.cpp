@@ -156,8 +156,42 @@ void PEQWnd::valueChanged ( int value ){
 	}else {
 		peq->at(index%5).gain= value/10.f;
 	}
-	plot_->refreshPEQ(*peq);
+	refreshPeq(*peq);
 }
+
+void PEQWnd::refreshPeq( std::vector<PEQ>& peq){
+
+
+	for( size_t i = 0; i < 1; ++i){
+		double block_rate = 48000 / 16.f	;
+		double ramp = 1 - std::exp( -1 / ( 0.075 * block_rate ) );
+		double hold_count = 1 * block_rate;
+
+		double two_pi = 6.283185307179586476925286766559;
+		double omega_c = two_pi * peq[i].freq / 48000.f;
+		double sin_omega_c = std::sin( omega_c );
+		double cos_omega_c = std::cos( omega_c );
+		double g = std::pow( 10, peq[i].gain / 20 );
+		double q = std::pow( 2, peq[i].bandwidth / 2 );
+		q = q / ( q * q - 1 );
+
+		double omega_3 = omega_c * ( std::sqrt( 4 * q * q + 1 ) - 1 ) / ( q + q ) ;
+		q = ( std::sin( omega_3 ) * sin_omega_c ) / ( 2 * ( std::cos( omega_3 ) - cos_omega_c ) );
+		if( peq[i].gain < 0 ) q = q * g;
+		float  a = ( 2 * q - sin_omega_c ) / ( 2 * q + sin_omega_c );
+		float  b = cos_omega_c;
+
+		qDebug()<< "a=double " <<a;
+		qDebug()<< "b=double " <<b;
+		qDebug()<< "g=double " <<g;
+
+		qDebug()<< "a=int " <<*(int*)&a;
+		qDebug()<< "b=int " <<*(int*)&b;
+		qDebug()<< "g=int " <<*(int*)&g;
+	}
+	plot_->refreshPEQ(peq);
+}
+
 
 void PEQWnd::save(QTextStream& stream){
 	for ( size_t i = 0; i < peqs_.size(); ++i){
@@ -241,7 +275,7 @@ void PEQWnd::indexChanged(int index){
 		int index= currCHBtn_->objectName().replace( "Outputpb", "").toInt() -1;
 		peq = & peqs_[index+16];
 	}
-	plot_->refreshPEQ(*peq);
+	refreshPeq(*peq);
 }
 
 
@@ -258,14 +292,14 @@ void PEQWnd::clickch(){
 			}
 		}
 		int index= sender()->objectName().replace( "Inputpb", "").toInt() -1;
-		plot_->refreshPEQ( peqs_[index]);
+		refreshPeq( peqs_[index]);
 	}else{
 		for ( QList<OIDDial *>::Iterator it = qdl_.begin(); it != qdl_.end(); ++it){
 			OIDDial* qs = *it;
 			qs->setEnabled(true);
 		}
 		int index= sender()->objectName().replace( "Outputpb", "").toInt() -1;
-		plot_->refreshPEQ( peqs_[index+16]);
+		refreshPeq( peqs_[index+16]);
 	}
 
 	qdl_ = findChildren<OIDDial*>( );

@@ -44,6 +44,7 @@ private:
 	virtual bool eventFilter( QObject *, QEvent * );
 	virtual bool event( QEvent * );
 
+	void refreshPeq( std::vector<PEQ>& peq);
     Ui::PEQWnd *ui;
 
 
@@ -62,6 +63,7 @@ private:
 
 	QwtPlotMarker *selectedMarker_;
     int selectedPoint_;
+
 };
 
 #endif // PEQWND_H
