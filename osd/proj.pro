@@ -24,7 +24,8 @@ QboxNet.cpp \
 msgBase.cpp \
 TestQbox.cpp \
 Screen.cpp \
-deviceswnd.cpp
+deviceswnd.cpp\
+wallwnd.cpp\
 
 HEADERS  +=  \
 configmgr.h \
@@ -35,7 +36,8 @@ QboxNet.h \
 msgBase.h \
 TestQbox.h \
 Screen.h \
-deviceswnd.h
+deviceswnd.h\
+wallwnd.h\
 
 FORMS    += \
 mainwindow.ui \
@@ -43,6 +45,7 @@ OsdImage.ui \
 OsdProjMode.ui \
 deviceswnd.ui \
 TestQbox.ui \
+wallwnd.ui \
 
 
 LIBS += -lws2_32
