@@ -14,7 +14,9 @@
 #include "entSetting.h"
 #include "common.h"
 
+#ifndef __unix__
 #include <vxworks.h>
+#endif
 
 using namespace msg;
 using namespace ent;
@@ -34,7 +36,9 @@ Channel::~Channel()
 
 uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
+#ifndef __unix__
 	taskLock();
+#endif
     switch(msg->msgType)
     {
         case PSetSwitchInputReq::uri:
@@ -58,7 +62,9 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
             //cout<<"CHANNEL URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
+#ifndef __unix__
     taskUnlock();
+#endif
     return 0;
 }
 
