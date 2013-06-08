@@ -26,6 +26,12 @@ TestQbox.cpp \
 Screen.cpp \
 deviceswnd.cpp\
 wallwnd.cpp\
+wndwnd.cpp \
+chnwnd.cpp \
+ringwnd.cpp \
+channel.cpp \
+ring.cpp \
+window.cpp \
 
 HEADERS  +=  \
 configmgr.h \
@@ -38,6 +44,12 @@ TestQbox.h \
 Screen.h \
 deviceswnd.h\
 wallwnd.h\
+wndwnd.h \
+chnwnd.h \
+ringwnd.h \
+channel.h \
+ring.h \
+window.h \
 
 FORMS    += \
 mainwindow.ui \
@@ -46,6 +58,12 @@ OsdProjMode.ui \
 deviceswnd.ui \
 TestQbox.ui \
 wallwnd.ui \
+wndwnd.ui \
+chnwnd.ui \
+ringwnd.ui \
+channel.ui \
+ring.ui \
+window.ui \
 
 
 LIBS += -lws2_32
