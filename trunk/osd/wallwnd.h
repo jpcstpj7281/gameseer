@@ -16,20 +16,76 @@ namespace Ui {
 class WallWnd;
 }
 
+class ScreenRectItem: public QGraphicsRectItem{
+public:
+	//QRectF boundingRect() const;  
+	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+};
 
-class WndRectItem: public QGraphicsRectItem{
+class ResizeItem: public QGraphicsRectItem{
 public:
 
+	enum Direction{
+		LeftUp,
+		RightUp,
+		LeftBottom,
+		RightBottom,
+	};
+	bool isResizing_;
+	QPointF pressPos_;
+	Direction dir_;
+	ResizeItem(Direction dir);
 	QRectF boundingRect() const;  
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
-	virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+	virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+
+	void resize( QPointF &curr);
+};
+
+class MoveItem: public QGraphicsRectItem{
+public:
+	MoveItem();
+	QRectF boundingRect() const;  
+	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+	virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+};
+
+class CloseItem: public QGraphicsRectItem{
+public:
+	CloseItem();
+	QRectF boundingRect() const;  
+	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+	//virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
+	//virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	//virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+};
+
+class WndRectItem: public QGraphicsRectItem{
+
+	QRectF moveRect_;
+	QRectF areaRect_;
+	
+public:
+	bool isMoving_;
+	WndRectItem();
+	QRectF boundingRect() const;  
+	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+	virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
+	virtual void	hoverMoveEvent ( QGraphicsSceneHoverEvent * event )override;
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value)override;
 };
 
 class WallScene:public QGraphicsScene{
 public:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 };
 
 
