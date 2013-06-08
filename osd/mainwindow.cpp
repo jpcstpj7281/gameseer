@@ -5,7 +5,8 @@
 #include "WallWnd.h"
 #include <QGraphicsView>
 #include <QTabWidget.h>
-
+#include <QLineEdit>
+#include <QLabel>
 #include <QTableView>
 #include <boost/math/special_functions/round.hpp>
 
@@ -77,7 +78,16 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 		ring->setGeometry(ring->x(), this->height()-130, ring->width(), ring->height() );
 		chn->setGeometry(chn->x(), this->height()-130, chn->width(), chn->height() );
 		wnd->setGeometry(wnd->x(), this->height()-130, wnd->width(), wnd->height() );
+	}
 
+	QList<QLabel*> listl = _tab->findChildren<QLabel* >();
+	QList<QLineEdit*> listle = _tab->findChildren<QLineEdit* >();
+
+	for ( size_t i = 0 ; i < listl.size(); ++i){
+		listl[i]->setGeometry(listl[i]->x(), this->height()-130, listl[i]->width(), listl[i]->height() );
+	}
+	for ( size_t i = 0 ; i < listle.size(); ++i){
+		listle[i]->setGeometry(listle[i]->x(), this->height()-130, listle[i]->width(), listle[i]->height() );
 	}
 }
 
