@@ -10,6 +10,10 @@
 #include <QTableView>
 #include <boost/math/special_functions/round.hpp>
 
+#include <wndwnd.h>
+#include <chnwnd.h>
+#include <ringwnd.h>
+
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
@@ -19,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
 	_tab = findChild<QTabWidget*>( "tabWidget");
 	modules_.push_back( new DevicesWnd(_tab));
 	modules_.push_back( new WallWnd(_tab));
+	modules_.push_back( new WndWnd(_tab));
+	modules_.push_back( new ChnWnd(_tab));
+	modules_.push_back( new RingWnd(_tab));
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		_tab->addTab(*it, (*it)->windowTitle() );
 	}
@@ -43,6 +50,7 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 
 	_tab->setGeometry( 0, 0, this->width()+2, this->height()+2);
 
+
 	QTableWidget* t = _tab->findChild<QTableWidget* >("tableDevices");
 	if (t){
 		t->setGeometry( 0, 0, this->width()-230, this->height()-20);
@@ -63,6 +71,22 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	btn = _tab->findChild<QPushButton* >("decrRow");
 	btn->setGeometry(this->width()-95, 110, btn->width(), btn->height() );
 
+	t = _tab->findChild<QTableWidget* >("wndTable");
+	if (t){
+		t->setGeometry( 0, 0, this->width()-2, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("chnTable");
+	if (t){
+		t->setGeometry( 0, 0, this->width()-2, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("ringTable");
+	if (t){
+		t->setGeometry( 0, 0, 300, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("rnodeTable");
+	if (t){
+		t->setGeometry( 300, 0, this->width()-302, this->height()-20);
+	}
 
 	QGraphicsView* gv = _tab->findChild<QGraphicsView* >("wallView");
 	if (gv){
