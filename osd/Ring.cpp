@@ -14,13 +14,12 @@ using asio::ip::tcp;
 Ring::Ring(uint32_t row, uint32_t col)
 	:row_(row)
 	,col_(col)
-	,qbox_(0)
 {
 	startTimer(100);
 }
 Ring::~Ring(){
-	disconnect();
-	QboxMgr::instance()->removeQbox(qbox_->address());
+}
+void Ring::timerEvent ( QTimerEvent *  ){
 }
 
 
@@ -30,14 +29,8 @@ RingMgr *RingMgr::instance(){
 	return inst = new RingMgr();
 }
 RingMgr::RingMgr()
-	:colCount_(0)
-	,rowCount_(0)
 {
-	for( size_t i = 0 ; i < MAXROW; ++i){
-		for( size_t j = 0 ; j < MAXCOL; ++j){
-			screens_[i][j] = NULL;
-		}
-	}
+
 }
 RingMgr::~RingMgr()
 {

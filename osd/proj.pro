@@ -61,9 +61,7 @@ wallwnd.ui \
 wndwnd.ui \
 chnwnd.ui \
 ringwnd.ui \
-channel.ui \
-ring.ui \
-window.ui \
+
 
 
 LIBS += -lws2_32

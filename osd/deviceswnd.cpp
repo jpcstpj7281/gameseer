@@ -65,7 +65,7 @@ void ScreenConnBtn::disconn(){
 }
 void ScreenConnBtn::clickit(){
 	if ( address_->text().isEmpty() ){
-		address_->setText("192.168.67.104") ;
+		address_->setText("127.0.0.1") ;
 	}
 	if ( !address_->text().isEmpty() && text() == "Connect"){
 		conn();
@@ -174,7 +174,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
-    startTimer(1000);
+    startTimer(100);
 
 	QPushButton * incrCol = findChild<QPushButton* >("incrCol");
 	connect( incrCol, SIGNAL( clicked()), this, SLOT(incrCol()) );
@@ -283,7 +283,7 @@ void DevicesWnd::deleteAddress( ResourceID screenid){
 }
 
 void DevicesWnd::timerEvent ( QTimerEvent * event ){
-
+	ScreenMgr::instance()->run();
 }
 
 
