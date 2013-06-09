@@ -6,7 +6,7 @@
 
 #include <QMainWindow>
 #include <protocol/protocol.h>
-
+#include <qmap.h>
 #include "msgBase.h"
 
 using asio::ip::tcp;
@@ -16,13 +16,201 @@ Screen::Screen(uint32_t row, uint32_t col)
 	,col_(col)
 	,qbox_(0)
 {
-	startTimer(100);
+
 }
 Screen::~Screen(){
 	disconnect();
-	QboxMgr::instance()->removeQbox(qbox_->address());
+	if ( qbox_){
+		QboxMgr::instance()->removeQbox(qbox_->address());
+	}
 }
 
+
+void Screen::run ( ){
+	for ( auto it = slowDownCache_.begin(); it != slowDownCache_.end(); ++it){
+		qbox_->addAsyncRequest( (32<<16)|1, it->first, it->second);// for osd request
+	}
+	slowDownCache_.clear();
+}
+
+void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		//qbox_->addAsyncRequest( (32<<16)|1, callback, value);
+		slowDownCache_.clear();
+		slowDownCache_.push_back( std::make_pair(callback, value) );
+	}
+}
+
+bool Screen::inputCallback( uint32_t , QboxDataMap& value ){
+	if ( value["error"] != "0") return false;
+	
+	for ( auto it = value.begin(); it != value.end(); ++it){
+		if ( it->first.substr(0, 2) == "in"){
+			QString in = QString::fromStdString( it->first.substr( 2, it->first.size()) );
+			ResourceID inputid = ToResourceID( in.toInt(),0, col_, row_);
+			ResourceID old = inPort_[inputid];
+			if ( it->second=="default"){
+				inPort_.insert( std::make_pair( inputid , -1 ) );
+				if (old == 0){
+					for ( int j = 0; j < inputChangedCallbacks_.size();++j){inputChangedCallbacks_[j](inputid);}
+				}
+			}else{
+				inPort_.insert( std::make_pair( inputid , 0 ) );
+				if (old == -1){
+					for ( int j = 0; j < inputChangedCallbacks_.size();++j){inputChangedCallbacks_[j](inputid);}
+				}
+			}
+		}
+	}
+	inputResolutionRequest();
+	return true;
+}
+
+bool Screen::outputCallback( uint32_t , QboxDataMap& value ){
+	if ( value["error"] != "0") return false;
+	int half = QString::fromStdString(value["total"]).toInt()/2;
+	half = 2;
+	for ( auto it = value.begin(); it != value.end(); ++it){
+		if ( it->first.substr(0, 3) == "out"){
+			QString outstr = QString::fromStdString( it->first.substr( 3, it->first.size()) );
+			int out =outstr.toInt();
+			if (out <= half){
+				outPort753_.insert( std::make_pair( ToResourceID( 0, out, col_, row_) , 0 ) );
+			}else{
+				outPortRing_.insert( std::make_pair( ToResourceID( 0, out, col_, row_) , 0 ) );
+			}
+		}
+	}
+
+	return true;
+}
+bool Screen::inputResolutionCallback( uint32_t , QboxDataMap& value ){
+	uint32_t in = QString::fromStdString(value["in"]).toInt();
+	for ( auto i = reqInResolutions_.begin(); i != reqInResolutions_.end(); ++i){
+		if ( in == *i){
+			ResourceID id = ToResourceID(in, 0, col_, row_);
+			if ( value["error"] == "0"){
+				int w = QString::fromStdString(value["w"]).toInt();
+				int h = QString::fromStdString(value["h"]).toInt();
+			
+				uint32_t resolution = inResolutions_[id];
+				uint32_t newResolution = (w<<16)|h;
+				if ( resolution != newResolution){
+					inResolutions_[id]= newResolution;
+					for ( int j = 0; j < inputChangedCallbacks_.size();++j){inputChangedCallbacks_[j](id);}
+				}
+			}else{
+				inResolutions_[id]= 0;
+			}
+			reqInResolutions_.erase(i);
+			return true;
+		}
+	}
+	return false;
+}
+
+void Screen::inputResolutionRequest(){
+	if ( qbox_){
+		for ( auto it = inPort_.begin(); it != inPort_.end(); ++it){
+			if ( it->second != -1 ){
+				uint32_t in = GetInput(it->first);
+				for ( auto i = reqInResolutions_.begin(); i != reqInResolutions_.end(); ++i){
+					if ( in == *i){
+						in = 0;
+					}
+				}
+				if (in == 0) continue;
+				QboxDataMap value;
+				reqInResolutions_.push_back(in);
+				value["in"] = QString::number(in ).toStdString();
+				qbox_->addAsyncRequest( PGetInPutSizeReq::uri , std::bind( &Screen::inputResolutionCallback, this, std::placeholders::_1, std::placeholders::_2),value);
+			}
+		}
+	}
+}
+
+bool Screen::versionCallback( uint32_t , QboxDataMap& value){
+	version_ = value["protocol"];
+	qDebug()<<"Screen::versionCallback";//<<  m.uniqueKeys();
+	return true;
+}
+void Screen::versionRequest(QboxCallback callback, QboxDataMap &value ){
+	if ( qbox_){
+		qbox_->addAsyncRequest(PProtocolVersionReq::uri, callback, value );
+	}
+}
+void Screen::versionRequest(){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PProtocolVersionReq::uri , std::bind( &Screen::versionCallback, this, std::placeholders::_1, std::placeholders::_2), QboxDataMap());
+	}
+}
+void Screen::inputRequest(){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PGetInPutReq::uri , std::bind( &Screen::inputCallback, this, std::placeholders::_1, std::placeholders::_2), QboxDataMap());
+	}
+}
+
+void Screen::outputRequest( ){
+	if ( qbox_){
+		qbox_->addAsyncRequest( PGetOutPutReq::uri , std::bind( &Screen::outputCallback, this, std::placeholders::_1, std::placeholders::_2), QboxDataMap());
+	}
+}
+bool Screen::setAddress( const std::string & ip){
+	if ( qbox_){
+		if ( qbox_->isConn() ){
+			return false;
+		}else{
+			qbox_->setAddress(ip);
+		}
+	}else{
+		if ( QboxMgr::instance()->hasQbox(ip)) {
+			return false;
+		}else {
+			qbox_ = QboxMgr::instance()->createQbox(ip);
+		}
+	}
+	return true;
+}
+void Screen::connect( ){
+	if ( qbox_ ){
+		//QboxMgr::instance()->removeQbox(qbox_->address());
+
+		qbox_->close();
+		qbox_->connInit();
+		//versionRequest();
+		inputRequest();
+		outputRequest();
+	}
+}
+void Screen::disconnect( ){
+	if ( qbox_){
+		//QboxMgr::instance()->removeQbox(qbox_->address()); qbox_ = NULL;
+		qbox_->close();
+	}
+}
+void Screen::onInputChanged(ResourceChangedCallback callback){
+	inputChangedCallbacks_.push_back(callback);
+}
+//=======================================================TEST===============================================================
+void Screen::setupTestResource(){
+	inPort_[ ToResourceID( 1, 0, col_, row_)] = 0;
+	inPort_[ ToResourceID( 2, 0, col_, row_)] = 0;
+	inPort_[ ToResourceID( 3, 0, col_, row_)] = 0;
+	inPort_[ ToResourceID( 4, 0, col_, row_)] = 0;
+	inResolutions_[ ToResourceID( 1, 0, col_, row_)] = (1024 << 16) | 768;
+	inResolutions_[ ToResourceID( 2, 0, col_, row_)] = (1024 << 16) | 768;
+	inResolutions_[ ToResourceID( 3, 0, col_, row_)] = (1024 << 16) | 768;
+	inResolutions_[ ToResourceID( 4, 0, col_, row_)] = (1024 << 16) | 768;
+}
+void Screen::ajustResolution(){
+	inResolutions_[ ToResourceID( 1, 0, col_, row_)] = (800 << 16) | 600;
+	inResolutions_[ ToResourceID( 2, 0, col_, row_)] = (800 << 16) | 600;
+}
+void Screen::ajustInput(){
+	inPort_[ ToResourceID( 1, 0, col_, row_)] = -1;
+	inResolutions_[ ToResourceID( 1, 0, col_, row_)] = 0;
+}
+//=======================================================OSD===============================================================
 void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device){
 	QboxDataMap datamap;
 	datamap["addr"] = QString::number( addr).toStdString();
@@ -84,70 +272,8 @@ void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback cal
 	osdRequest( callback, datamap);
 }
 
-void Screen::timerEvent ( QTimerEvent *  ){
-	for ( auto it = slowDownCache_.begin(); it != slowDownCache_.end(); ++it){
-		qbox_->addAsyncRequest( (32<<16)|1, it->first, it->second);
-	}
-	slowDownCache_.clear();
-}
 
-void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
-	if ( qbox_){
-		//qbox_->addAsyncRequest( (32<<16)|1, callback, value);
-		slowDownCache_.clear();
-		slowDownCache_.push_back( std::make_pair(callback, value) );
-	}
-}
-void Screen::versionRequest(QboxCallback callback, QboxDataMap &value ){
-	if ( qbox_){
-		qbox_->addAsyncRequest( PProtocolVersionReq::uri , callback, value);
-	}
-}
-void Screen::inputRequest(QboxCallback callback, QboxDataMap &value ){
-	if ( qbox_){
-		qbox_->addAsyncRequest( PGetInPutReq::uri , callback, value);
-	}
-}
-void Screen::inputResolutionRequest(QboxCallback callback, QboxDataMap &value ){
-	if ( qbox_){
-		qbox_->addAsyncRequest( PGetInPutSizeReq::uri, callback, value);
-	}
-}
-void Screen::outputRequest(QboxCallback callback, QboxDataMap &value ){
-	if ( qbox_){
-		qbox_->addAsyncRequest( PGetOutPutReq::uri, callback, value);
-	}
-}
-bool Screen::setAddress( const std::string & ip){
-	if ( qbox_){
-		if ( qbox_->isConn() ){
-			return false;
-		}else{
-			qbox_->setAddress(ip);
-		}
-	}else{
-		if ( QboxMgr::instance()->hasQbox(ip)) {
-			return false;
-		}else {
-			qbox_ = QboxMgr::instance()->createQbox(ip);
-		}
-	}
-	return true;
-}
-void Screen::connect( ){
-	if ( qbox_ ){
-		//QboxMgr::instance()->removeQbox(qbox_->address());
-		qbox_->close();
-		qbox_->connInit();
-	}
-}
-void Screen::disconnect( ){
-	if ( qbox_){
-		//QboxMgr::instance()->removeQbox(qbox_->address()); qbox_ = NULL;
-		qbox_->close();
-	}
-}
-
+//=======================================================ScreenMgr===============================================================
 
 std::vector<ResourceID> ScreenMgr::removeScreenCol( ){
 	std::vector<ResourceID> scrns ;
@@ -235,7 +361,10 @@ ScreenMgr::~ScreenMgr()
 {
 }
 
-void ScreenMgr::timerEvent ( QTimerEvent *  ){
-	
+void ScreenMgr::run(){
+	for( size_t i = 0 ; i < rowCount_; ++i){
+		for( size_t j = 0 ; j < colCount_; ++j){
+			screens_[i][j]->run();
+		}
+	}
 }
-

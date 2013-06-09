@@ -271,7 +271,7 @@ struct Qbox::Impl{
 			if ( obj->sendmsg_.msgType +1 == msg.msgType ){ //要CALLBACK确认是正常才可以删除
 				it  = sentList_.erase( it);
 				foundList.push_back( obj);
-				qDebug()<<"erase send";
+				//qDebug()<<"erase send";
 			}else{
 				++it;
 			}
@@ -282,7 +282,7 @@ struct Qbox::Impl{
 				if ( obj->callback_( msg.msgType, msg.info)){
 					it = foundList.erase( it);
 					delete obj;
-					qDebug()<<"erase found";
+					//qDebug()<<"erase found";
 				}
 				else{
 					++it;
@@ -301,7 +301,7 @@ struct Qbox::Impl{
 				std::string data = encodeData( obj->sendmsg_);
 				asyncSend( data);
 			}
-			sentList_ = requestList_;
+			sentList_.insert( sentList_.end(), requestList_.begin(), requestList_.end());
 			requestList_.clear();
 		}
 	}
