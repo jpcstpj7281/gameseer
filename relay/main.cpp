@@ -15,6 +15,8 @@
 #include "log4qt/LogManager.h"
 #include "log4qt/FileAppender.h"
 
+#include <QBuffer>
+
 using namespace Log4Qt;
 
 int main(int argc, char *argv[])
@@ -27,9 +29,21 @@ int main(int argc, char *argv[])
 	p_layout->setThreadPrinting(false);
 	p_layout->activateOptions();
 	FileAppender *p_appender = new FileAppender(p_layout, QDateTime::currentDateTime().toString("./log/yyyy.MM.dd.hh.mm.ss")+".log");
-	p_appender->setName(QLatin1String("My Appender"));
+
+	//QBuffer * buf = new QBuffer;
+	//QTextStream * stream = new QTextStream(buf);
+	//WriterAppender *p_wappender = new WriterAppender(p_layout);
+	//p_wappender->setName("Writer Appender");
+	//p_wappender->activateOptions();
+	//p_wappender->setWriter(stream);
+	//Log4Qt::Logger::rootLogger()->addAppender(p_wappender);
+
+	p_appender->setName(QLatin1String("Relay Appender"));
 	p_appender->activateOptions();
 	Log4Qt::Logger::rootLogger()->addAppender(p_appender); 
+	
+
+
 
 	//qDebug()<<"test";
 	//static const size_t size = 8* 8 *8 * 8 * 8;

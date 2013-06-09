@@ -15,10 +15,13 @@
 #include <vector>
 #include "timerwnd.h"
 #include "log4qt/logger.h"
+#include <QTextStream>
 class QSpinBox;
 class TestQbox;
 class QComboBox;
 class QLabel;
+class QPlainTextEdit;
+
 namespace Ui {
 class DevicesWnd;
 class MainWindow;
@@ -128,8 +131,11 @@ private slots:
 	void valueChanged( int i );
 	void onAll();
 	void offAll();
+	void showLog(int);
 
 private:
+
+	QString loadLog(QString &name);
 	void connectImpl( );
 	void disconnectImpl( );
 	void closeEvent(QCloseEvent * event)override;
@@ -137,9 +143,10 @@ private:
 	void newAddress(const std::string &ip);
 	void deleteAddress(); 
 
+	QPlainTextEdit * logWnd_;
 	QTableWidget*				tableDevices_;
+	QString logtext_;
     Ui::DevicesWnd *ui;
-
 	size_t	interval_;
 
 	friend class QboxAddress;

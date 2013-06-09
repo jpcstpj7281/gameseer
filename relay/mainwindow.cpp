@@ -10,6 +10,7 @@
 #include <QCloseEvent>
 #include <QSpinBox>
 #include <QLabel>
+#include <QPlainTextEdit>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -23,12 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 		layout->addWidget( new  DevicesWnd(wdgt));
 		wdgt->setLayout(layout);
 	}
-	//modules_.push_back( new DevicesWnd(_tab));
-	//for (auto it = modules_.begin(); it != modules_.end(); ++it){
-	//	_tab->addTab(*it, (*it)->windowTitle() );
-	//}
 
-	//this->resize(1024, 768);
 
 	trayiconMenu = new QMenu(this);  
 	QAction * showAction = new QAction(tr("&Show"), this);
@@ -65,13 +61,9 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::resizeEvent(QResizeEvent * event){
-	QWidget * wdgt = findChild<QWidget*>( "tableDevices");
-	if ( wdgt){
-		//wdgt->resize(this->width()-20, this->height()-80);
-		wdgt->setGeometry( wdgt->x(), wdgt->y(), this->width()-20, this->height()-80);
-	}
 
-	//wdgt->setGeometry( 0, 0, this->width()-10, this->height()-20);
+
+	bool isLogShow = false;
 
 	QList<QCheckBox*> list = findChildren<QCheckBox*>();
 	for ( auto it = list.begin(); it != list.end(); ++it){
@@ -80,7 +72,24 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 			b->setGeometry( b->x(), this->height()-65, b->width(), b->height());
 		}else{
 			b->setGeometry( b->x(), this->height()-35, b->width(), b->height());
+			if ( b->objectName() == "showLog"){
+				isLogShow = b->isChecked();
+			}
 		}
+	}
+
+	QWidget * wdgt = findChild<QWidget*>( "tableDevices");
+	if ( wdgt){
+		if ( isLogShow){
+			wdgt->setGeometry( wdgt->x(), wdgt->y(), this->width()-20, this->height()-280);
+		}else{
+			wdgt->setGeometry( wdgt->x(), wdgt->y(), this->width()-20, this->height()-80);
+		}
+	}
+	QPlainTextEdit * pte = findChild<QPlainTextEdit*>( "log");
+	if ( pte){
+		pte->setVisible(isLogShow);
+		pte->setGeometry( pte->x(), this->height()-280, this->width()-20, 200);
 	}
 
 	QPushButton* btn = findChild<QPushButton* >("connAll");

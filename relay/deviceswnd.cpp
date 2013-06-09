@@ -18,6 +18,10 @@
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QStringRef>
+#include <QPlainTextEdit>
+#include <log4qt/FileAppender.h>
+#include <QDir>
+#include <QBuffer>
 
 #undef min
 using namespace std::placeholders;
@@ -788,6 +792,8 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 				ch->setChecked(true);
 			}
 			connect( ch, SIGNAL(stateChanged(int)), this, SLOT(runOnStartup(int)));
+		}else if ( ch->objectName() == "showLog"){
+			connect( ch, SIGNAL(stateChanged(int)), this, SLOT(showLog(int)));
 		}
 	}
 
@@ -805,7 +811,11 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 			this->connAll();
 		}
 	}
+
+	logWnd_ = findChild<QPlainTextEdit*>("log");
 }
+
+
 
 void DevicesWnd::valueChanged( int i ){
 	interval_ = i;
@@ -929,36 +939,64 @@ void DevicesWnd::newAddress( const std::string &ip){
 }
 
 void DevicesWnd::deleteAddress( ){
-	//uint32_t row = GetRow(screenid );
-	//uint32_t col = GetCol(screenid );
-
-	//for ( size_t i = 0; i < tableDevices_->rowCount() ; ++i){
-	//	QTableWidgetItem * rowitem = tableDevices_->item( i, 0);
-	//	QTableWidgetItem * colitem = tableDevices_->item( i, 1);
-	//	if (rowitem->text().toUInt() ==row  && colitem->text().toUInt() == col){
-	//		tableDevices_->removeRow( i);
-	//		break;
-	//	}
-	//}
 }
 
 void DevicesWnd::timerEvent ( QTimerEvent *  ){
+
+	if ( logWnd_ && logWnd_->isVisible()){
+		QDir dir("./log");
+		QStringList list = dir.entryList();
+		QBuffer buf;
+		QTextStream stream(&buf);
+		int start = 0;
+		if (list.size() > 10){
+			start = list.size() - 10;
+		}
+		QString text ;
+		
+		for ( size_t i = start; i < list.size(); ++i){
+			QString & name = list[i];
+			if ( name[0] != '.'){
+				text.append(loadLog(name));
+			}else{
+				continue;
+			}
+		}
+		text.replace("\r\n", "\n");
+
+		if ( logtext_.size() != text.size() && logtext_ != text){
+			logWnd_->clear();
+			logWnd_->appendPlainText(text);
+			logtext_ = text;
+		}
+		
+	}
+}
+QString DevicesWnd::loadLog(QString &name){
+	QFile file("./log/"+name);
+	if ( file.open( QIODevice::ReadOnly)){
+		return "======================================="+name+"=======================================\n"+file.readAll();
+	}
+}
+
+void DevicesWnd::showLog(int val){
+	QWidget * wdgt = findChild<QWidget*>( "tableDevices");
+	if ( wdgt){
+		if ( val){
+			wdgt->setGeometry( wdgt->x(), wdgt->y(), this->width()-20, this->height()-280);
+		}else{
+			wdgt->setGeometry( wdgt->x(), wdgt->y(), this->width()-20, this->height()-80);
+		}
+	}
+	QPlainTextEdit * pte = findChild<QPlainTextEdit*>( "log");
+	if ( pte){
+		pte->setVisible(val);
+	}
 }
 
 void DevicesWnd::connectImpl( ){
 }
 
-//void DevicesWnd::itemClicked(QTableWidgetItem * item)
-//{
-//    if (item->column() == 4 ){
-//        if(item->text() == "Connect" ){
-//
-//        }
-//		if(item->text() == "Disconnect" ){
-//
-//        }
-//    }
-//}
 
 void DevicesWnd::cellChanged(int row,int col){
 	NetConnBtn* t = (NetConnBtn*)tableDevices_->cellWidget( row, 8);
