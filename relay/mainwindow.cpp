@@ -11,7 +11,7 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QPlainTextEdit>
-
+#include <ConfigMgr.h>
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
@@ -36,10 +36,28 @@ MainWindow::MainWindow(QWidget *parent)
 	
 	
 	trayicon = new QSystemTrayIcon(this);  
-	QIcon icon("res/BypassBtn.png"); 
+
+	QDomNodeList items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("icon");
+	QString path ;
+	if (items.size()==1){
+		QDomNode node = items.at(0);
+		QDomElement elm = node.toElement();
+		path = elm.attribute("imagePath");
+	}
+	QIcon icon(path); 
 	trayicon->setIcon(icon);  
 	trayicon->setContextMenu( trayiconMenu);
 	trayicon->show();
+
+	items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("title");
+	QString title ;
+	if (items.size()==1){
+		QDomNode node = items.at(0);
+		QDomElement elm = node.toElement();
+		title = elm.attribute("name");
+		this->setWindowTitle(title);
+	}
+
 	connect(trayicon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(onSystemTrayIconClicked(QSystemTrayIcon::ActivationReason)));  
 }
 

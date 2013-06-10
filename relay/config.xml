@@ -8,6 +8,9 @@
         <port val="1698"/>
         <psw val="1"/>
         <autoconn val="0"/>
+        <splash imagePath="res/Chrysanthemum.jpg" time="1"/>
+        <icon imagePath="res/BypassBtn.png"/>
+        <title name="Relay"/>
     </setting>
     <timers>
         <timer status="1110011111100000" datetime="2013.05.09 20:59:00" ip="192.168.1.5" freq="0" delay="2" comment="123"/>
