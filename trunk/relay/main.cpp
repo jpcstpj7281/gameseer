@@ -16,11 +16,13 @@
 #include "log4qt/FileAppender.h"
 
 #include <QBuffer>
-
+#include <QSplashScreen>
 using namespace Log4Qt;
 
 int main(int argc, char *argv[])
 {
+
+	
 
 	Log4Qt::LogManager::rootLogger();
 	TTCCLayout *p_layout = new TTCCLayout();
@@ -74,11 +76,29 @@ int main(int argc, char *argv[])
 	TcpNet::instance()->setPort(port );
 
     QtSingleApplication a(argc, argv);
+
+	items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("splash");
+	QString path ;
+	size_t time = 0;
+	if (items.size()==1){
+		QDomNode node = items.at(0);
+		QDomElement elm = node.toElement();
+		path = elm.attribute("imagePath");
+		time = elm.attribute("time").toInt();
+	}
+	QPixmap pixmap(path);
+    QSplashScreen splash(pixmap);
+	splash.show();
+
+	a.processEvents();
+
+	Sleep(time);
+
 	if (!a.isRunning()){
 		a.setQuitOnLastWindowClosed(false);
 		MainWindow w;
 		w.show();
-
+		splash.finish(&w);
 		TcpNet::instance()->startThread();
 
 		auto rs = a.exec();
