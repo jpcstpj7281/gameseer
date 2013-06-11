@@ -81,11 +81,11 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	}
 	t = _tab->findChild<QTableWidget* >("ringTable");
 	if (t){
-		t->setGeometry( 0, 0, 300, this->height()-20);
+		t->setGeometry( 0, 0, 400, this->height()-20);
 	}
 	t = _tab->findChild<QTableWidget* >("rnodeTable");
 	if (t){
-		t->setGeometry( 300, 0, this->width()-302, this->height()-20);
+		t->setGeometry( 400, 0, this->width()-302, this->height()-20);
 	}
 
 	QGraphicsView* gv = _tab->findChild<QGraphicsView* >("wallView");

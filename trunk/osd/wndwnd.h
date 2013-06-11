@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <QboxNet.h>
 #include <screen.h>
-#include <window.h>
+#include <wnd.h>
 
 namespace Ui {
 class WndWnd;
