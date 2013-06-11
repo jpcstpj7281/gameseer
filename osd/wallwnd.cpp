@@ -8,6 +8,7 @@
 #include "boost/foreach.hpp"
 
 #include <Screen.h>
+#include <wnd.h>
 
 void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	uint32_t cc = ScreenMgr::instance()->getColCount();
@@ -102,10 +103,10 @@ void ResizeItem::resize( QPointF &curr){
 
 			newRect.setWidth(rightbottom.x() -newPos.x());
 			newRect.setHeight(rightbottom.y() -newPos.y());
-			item->setRect(newRect);
-			item->setPos(  newPos  );
+			
 			break;
 		case Direction::RightBottom:
+			newPos= item->pos();
 			newRect = QRectF( 0, 0, curPos.x()-leftup.x(), curPos.y()-leftup.y());
 			if ( curPos.x() - leftup.x() < 50){
 				newRect.setWidth(50);
@@ -119,7 +120,7 @@ void ResizeItem::resize( QPointF &curr){
 			else if (  curPos.y()  > scene()->sceneRect().height() ){
 				newRect.setHeight(scene()->sceneRect().height() - leftup.y());
 			}
-			item->setRect(newRect);
+			
 			break;
 		//case Direction::LeftBottom:
 		//	newPos = QPointF(curPos.x(), leftup.y());
@@ -159,6 +160,12 @@ void ResizeItem::resize( QPointF &curr){
 		//	break;
 	}
 
+	
+
+	item->setPos(  newPos  );
+	item->setRect(newRect);
+	item->bringFront();
+	item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
 
 }
 void ResizeItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
@@ -202,7 +209,9 @@ void MoveItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 void MoveItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 	QGraphicsRectItem::mousePressEvent(event);
-	((WndRectItem*)parentItem())->isMoving_ = true;
+	WndRectItem* item = ((WndRectItem*)parentItem());
+	item->isMoving_ = true;
+	item->bringFront();
 	((WndRectItem*)parentItem())->mousePressEvent(event);
 	setCursor( Qt::ClosedHandCursor);
 }
@@ -242,7 +251,7 @@ void CloseItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	}
 }
 //=======================================================================================================================================================================
-WndRectItem::WndRectItem(){
+WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wallscene){
 	setFlags(QGraphicsItem::ItemIsMovable |QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
 	//ResizeItem *item = new ResizeItem( ResizeItem::RightUp);
 	ResizeItem *item1 = new ResizeItem( ResizeItem::RightBottom);
@@ -259,6 +268,12 @@ WndRectItem::WndRectItem(){
 
 	setCursor( Qt::CrossCursor);
 	isMoving_ = false;
+	wallscene->addItem( this);
+	setX(x);
+	setY(y);
+	setRect( QRectF(0, 0, w, h));
+	wnd_ = WndMgr::instance()->createWnd( x/scene()->sceneRect().width(), y/scene()->sceneRect().height(), w/scene()->sceneRect().width(), h/scene()->sceneRect().height());
+	setZValue( wnd_->getLayer());
 }
 
 //QRectF WndRectItem::boundingRect() const  {  
@@ -280,12 +295,14 @@ void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option
 	//qDebug()<< this->y();
 	QGraphicsRectItem::paint(painter, option, widget);
 }  
-
+void WndRectItem::bringFront(){
+	setZValue(wnd_->bringFront());
+}
 
 void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 	//qDebug()<<"WndRectItem mousePressEvent"<<this;
 	QGraphicsRectItem::mousePressEvent(event);
-	setZValue(zValue()+1);
+	bringFront();
 }
 void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
@@ -293,6 +310,7 @@ void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 void	WndRectItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 	if (isMoving_) {
 		QGraphicsRectItem::mouseMoveEvent(event);
+		wnd_->moveWnd( event->scenePos().x()/scene()->sceneRect().width(), event->scenePos().y()/scene()->sceneRect().height());
 	}
 }
 void	WndRectItem::hoverMoveEvent ( QGraphicsSceneHoverEvent * event ){
@@ -362,11 +380,9 @@ void WallScene::createWnd( QPointF & releasePos){
 		pos = QPointF( releasePos.x(),  pressPos_.y());
 	}
 	if ( width > 50 && height > 50){
-		QRectF r( 0,0, width, height );
-		WndRectItem *item=new WndRectItem;  
-		item->setRect(r);
-		addItem(item);
-		item->setPos(pos);
+		//QRectF r( 0,0, width, height );
+		WndRectItem *item=new WndRectItem(pos.x(), pos.y(), width, height, this);  
+
 	}
 }
 WallScene::WallScene(){
@@ -384,15 +400,15 @@ WallWnd::WallWnd(QWidget* parent) :
 	QGraphicsScene *scene_ = new WallScene;  
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);  
 
-    WndRectItem *item=new WndRectItem;  
-	item->setRect( QRect(0, 0, 200, 200));
-	WndRectItem *item1=new WndRectItem;  
-	item1->setRect( QRect(0, 0, 200, 200));
+ //   WndRectItem *item=new WndRectItem;  
+	//item->setRect( QRect(0, 0, 200, 200));
+	//WndRectItem *item1=new WndRectItem;  
+	//item1->setRect( QRect(0, 0, 200, 200));
 	ScreenRectItem* item2 = new ScreenRectItem;
 
 	scene_->addItem(item2);
-    scene_->addItem(item);
-	scene_->addItem(item1);
+   // scene_->addItem(item);
+	//scene_->addItem(item1);
   
 	gv_->setScene(scene_);
     gv_->setRenderHint(QPainter::Antialiasing);  

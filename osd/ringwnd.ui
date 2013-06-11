@@ -24,7 +24,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>300</width>
+     <width>371</width>
      <height>521</height>
     </rect>
    </property>
@@ -38,9 +38,9 @@
   <widget class="QTableWidget" name="rnodeTable">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>370</x>
      <y>0</y>
-     <width>501</width>
+     <width>431</width>
      <height>521</height>
     </rect>
    </property>

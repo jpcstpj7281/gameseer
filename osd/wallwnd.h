@@ -10,11 +10,12 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-
+#include <wnd.h>
 
 namespace Ui {
 class WallWnd;
 }
+class WallScene;
 
 class ScreenRectItem: public QGraphicsRectItem{
 public:
@@ -69,8 +70,9 @@ class WndRectItem: public QGraphicsRectItem{
 	QRectF areaRect_;
 	
 public:
+	Wnd* wnd_;
 	bool isMoving_;
-	WndRectItem();
+	WndRectItem(double x, double y, double w, double h, WallScene* wallscene);
 	//QRectF boundingRect() const;  
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
 
@@ -79,6 +81,7 @@ public:
 	virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event )override;
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value)override;
+	void bringFront();
 };
 
 class WallScene:public QGraphicsScene{

@@ -10,6 +10,7 @@
 
 typedef uint32_t ResourceID;	// do the ring input << 24 + ring output << 16 + row <<8 + col; id for screen, channel, ringnode, 
 								// NOTE: all input output row and col start from 1, not 0; so ResourceID 0 means NULL;
+								// which can represent screen id, input id, output id, wnode(for wnd), rnode(for ring), logically all unique
 
 inline uint32_t GetRow(ResourceID id){ return (id >> 8) & 0xFF ;}
 inline uint32_t GetCol(ResourceID id){ return id  & 0xFF ;}
@@ -40,15 +41,14 @@ class Screen  {
 	std::map<ResourceID, ResourceID> outPort753_;
 	//first for ring out port id, second for Rnode
 	std::map<ResourceID, ResourceID> outPortRing_;
-	//first for in port id, second for Wnode or Rnode 
+	//first for in port id, second for w << 16 + h resolution.
 	std::map<ResourceID, ResourceID> inPort_;
 
-	//second for w << 16 + h resolution.
-	std::map<ResourceID, Resolution> inResolutions_;
+
 	//only the inport num.
 	std::list<uint32_t> reqInResolutions_;
 
-	std::vector<ResourceChangedCallback> inputChangedCallbacks_;
+	
 	
 	std::string version_;
 	
@@ -66,7 +66,8 @@ class Screen  {
 	void run();
 
 public:
-	
+	//bool isInputValid( ResourceID inputid);
+	bool isOutputRingValid( ResourceID outputid);
 
 	void versionRequest(QboxCallback callback, QboxDataMap &value );
 
@@ -76,7 +77,7 @@ public:
 	Qbox* getQbox(){ return qbox_;}
 
 	inline ResourceID getResourceID(){ return (row_<< 8) + col_;}
-	inline Resolution getInResolution(ResourceID input){ return inResolutions_[input] ;}
+	inline Resolution getInResolution(ResourceID input){ Resolution res= inPort_[input]; return res==-1?0:res;}
 	inline uint32_t getCol() { return col_;}
 	inline uint32_t getRow() { return row_;}
 
@@ -84,7 +85,7 @@ public:
 	ResourceID getAvailableRingOutResource( void * handle);
 	std::vector<ResourceID> getValidChnInResources();
 
-	void onInputChanged(ResourceChangedCallback callback);
+	
 //=======================================================OSD===============================================================
 	void osdRequest(QboxCallback callback, QboxDataMap &value );
 	void osdRequest(uint32_t addr, const std::string &data, QboxCallback callback );
@@ -113,10 +114,19 @@ class ScreenMgr
 	static const uint32_t MAXCOL = 64;
 	static const uint32_t MAXROW = 8;
 
+	uint32_t screenWidth_;
+	uint32_t screenHeight_;
+
+
 	Screen* screens_[MAXROW][MAXCOL];
+
+	std::vector<ResourceChangedCallback> inputChangedCallbacks_;
 public:
 	~ScreenMgr();
 	static ScreenMgr *instance();
+
+	bool isValidScreenId( uint32_t row, uint32_t col){ return (row<=rowCount_&&row>0 && col<=colCount_&&col>0)?true:false;}
+	void onInputChanged(ResourceChangedCallback callback);
 
 	inline Screen* getScreen(ResourceID id){	
 		int row = (id >> 8) & 0xFF - 1;//start from 1, not 0
@@ -129,13 +139,22 @@ public:
 	std::vector<ResourceID> removeScreenCol();
 	std::vector<ResourceID> removeScreenRow();
 
+	//loop this, if you want this all work.
 	void run();
-	uint32_t getColCount(){ return colCount_;};
-	uint32_t getRowCount(){ return rowCount_;};
+	uint32_t getColCount(){ return colCount_;}
+	uint32_t getRowCount(){ return rowCount_;}
 
+	uint32_t getScreenWidth(){ return screenWidth_;}
+	uint32_t getScreenHeight(){ return screenHeight_;}
+	uint32_t getWallWidth(){ return screenWidth_ * colCount_;}
+	uint32_t getWallHeight(){ return screenHeight_ * rowCount_;}
+
+	bool isInputValid( ResourceID inputid);
+	bool isOutputRingValid( ResourceID outputid);
 };
 
 
 
 
 #endif // Screen_H
+

@@ -31,7 +31,7 @@ chnwnd.cpp \
 ringwnd.cpp \
 channel.cpp \
 ring.cpp \
-window.cpp \
+wnd.cpp \
 
 HEADERS  +=  \
 configmgr.h \
@@ -49,7 +49,7 @@ chnwnd.h \
 ringwnd.h \
 channel.h \
 ring.h \
-window.h \
+wnd.h \
 
 FORMS    += \
 mainwindow.ui \

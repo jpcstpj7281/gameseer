@@ -16,7 +16,16 @@ Screen::Screen(uint32_t row, uint32_t col)
 	,col_(col)
 	,qbox_(0)
 {
-
+	inPort_.insert(std::make_pair(ToResourceID( 1, 0, row, col), -1));
+	inPort_.insert(std::make_pair(ToResourceID( 2, 0, row, col), -1));
+	inPort_.insert(std::make_pair(ToResourceID( 3, 0, row, col), -1));
+	inPort_.insert(std::make_pair(ToResourceID( 4, 0, row, col), -1));
+	inPort_.insert(std::make_pair(ToResourceID( 5, 0, row, col), -1));
+	inPort_.insert(std::make_pair(ToResourceID( 6, 0, row, col), -1));
+	outPort753_.insert(std::make_pair(ToResourceID( 0, 1, row, col), 0));
+	outPort753_.insert(std::make_pair(ToResourceID( 0, 2, row, col), 0));
+	outPortRing_.insert(std::make_pair(ToResourceID( 0, 3, row, col), 0));
+	outPortRing_.insert(std::make_pair(ToResourceID( 0, 4, row, col), 0));
 }
 Screen::~Screen(){
 	disconnect();
@@ -47,19 +56,20 @@ bool Screen::inputCallback( uint32_t , QboxDataMap& value ){
 	for ( auto it = value.begin(); it != value.end(); ++it){
 		if ( it->first.substr(0, 2) == "in"){
 			QString in = QString::fromStdString( it->first.substr( 2, it->first.size()) );
-			ResourceID inputid = ToResourceID( in.toInt(),0, col_, row_);
-			ResourceID old = inPort_[inputid];
+			ResourceID inputid = ToResourceID( in.toInt(),0, row_, col_);
+			Resolution old = inPort_[inputid];
 			if ( it->second=="default"){
 				inPort_.insert( std::make_pair( inputid , -1 ) );
-				if (old == 0){
-					for ( int j = 0; j < inputChangedCallbacks_.size();++j){inputChangedCallbacks_[j](inputid);}
+				if (old != -1){
+					for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](inputid);}
 				}
-			}else{
-				inPort_.insert( std::make_pair( inputid , 0 ) );
-				if (old == -1){
-					for ( int j = 0; j < inputChangedCallbacks_.size();++j){inputChangedCallbacks_[j](inputid);}
-				}
-			}
+			}//else{
+				//if (old != 0 || old != -1)
+					//inPort_.insert( std::make_pair( inputid , 0 ) );
+				//if (old == -1){
+				//	for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](inputid);}
+				//}
+			//}
 		}
 	}
 	inputResolutionRequest();
@@ -75,9 +85,9 @@ bool Screen::outputCallback( uint32_t , QboxDataMap& value ){
 			QString outstr = QString::fromStdString( it->first.substr( 3, it->first.size()) );
 			int out =outstr.toInt();
 			if (out <= half){
-				outPort753_.insert( std::make_pair( ToResourceID( 0, out, col_, row_) , 0 ) );
+				outPort753_.insert( std::make_pair( ToResourceID( 0, out, row_, col_) , 0 ) );
 			}else{
-				outPortRing_.insert( std::make_pair( ToResourceID( 0, out, col_, row_) , 0 ) );
+				outPortRing_.insert( std::make_pair( ToResourceID( 0, out, row_, col_) , 0 ) );
 			}
 		}
 	}
@@ -88,19 +98,19 @@ bool Screen::inputResolutionCallback( uint32_t , QboxDataMap& value ){
 	uint32_t in = QString::fromStdString(value["in"]).toInt();
 	for ( auto i = reqInResolutions_.begin(); i != reqInResolutions_.end(); ++i){
 		if ( in == *i){
-			ResourceID id = ToResourceID(in, 0, col_, row_);
+			ResourceID id = ToResourceID(in, 0, row_, col_);
 			if ( value["error"] == "0"){
 				int w = QString::fromStdString(value["w"]).toInt();
 				int h = QString::fromStdString(value["h"]).toInt();
 			
-				uint32_t resolution = inResolutions_[id];
+				uint32_t resolution = inPort_[id];
 				uint32_t newResolution = (w<<16)|h;
 				if ( resolution != newResolution){
-					inResolutions_[id]= newResolution;
-					for ( int j = 0; j < inputChangedCallbacks_.size();++j){inputChangedCallbacks_[j](id);}
+					inPort_[id]= newResolution;
+					for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](id);}
 				}
 			}else{
-				inResolutions_[id]= 0;
+				inPort_[id]= -1;
 			}
 			reqInResolutions_.erase(i);
 			return true;
@@ -188,27 +198,33 @@ void Screen::disconnect( ){
 		qbox_->close();
 	}
 }
-void Screen::onInputChanged(ResourceChangedCallback callback){
-	inputChangedCallbacks_.push_back(callback);
+//bool Screen::isInputValid( ResourceID inputid){ 
+//	auto found = inPort_.find(inputid) ;
+//	if (  found == inPort_.end()  || (found->second != 0 && found->second != -1)){
+//		return false;
+//	}else return true;
+//}
+bool Screen::isOutputRingValid( ResourceID outputid){ 
+	auto found = outPortRing_.find(outputid) ;
+	if (  found == outPortRing_.end()  ||  (found->second != 0 && found->second != -1)){
+		return false;
+	}else return true;
 }
+
 //=======================================================TEST===============================================================
 void Screen::setupTestResource(){
-	inPort_[ ToResourceID( 1, 0, col_, row_)] = 0;
-	inPort_[ ToResourceID( 2, 0, col_, row_)] = 0;
-	inPort_[ ToResourceID( 3, 0, col_, row_)] = 0;
-	inPort_[ ToResourceID( 4, 0, col_, row_)] = 0;
-	inResolutions_[ ToResourceID( 1, 0, col_, row_)] = (1024 << 16) | 768;
-	inResolutions_[ ToResourceID( 2, 0, col_, row_)] = (1024 << 16) | 768;
-	inResolutions_[ ToResourceID( 3, 0, col_, row_)] = (1024 << 16) | 768;
-	inResolutions_[ ToResourceID( 4, 0, col_, row_)] = (1024 << 16) | 768;
+	inPort_[ ToResourceID( 1, 0, row_, col_)] = (1024 << 16) | 768;
+	inPort_[ ToResourceID( 2, 0, row_, col_)] = (1024 << 16) | 768;
+	inPort_[ ToResourceID( 3, 0, row_, col_)] = (1024 << 16) | 768;
+	inPort_[ ToResourceID( 4, 0, row_, col_)] = (1024 << 16) | 768;
 }
 void Screen::ajustResolution(){
-	inResolutions_[ ToResourceID( 1, 0, col_, row_)] = (800 << 16) | 600;
-	inResolutions_[ ToResourceID( 2, 0, col_, row_)] = (800 << 16) | 600;
+	inPort_[ ToResourceID( 1, 0, row_, col_)] = (800 << 16) | 600;
+	inPort_[ ToResourceID( 2, 0, row_, col_)] = (800 << 16) | 600;
 }
 void Screen::ajustInput(){
-	inPort_[ ToResourceID( 1, 0, col_, row_)] = -1;
-	inResolutions_[ ToResourceID( 1, 0, col_, row_)] = 0;
+	inPort_[ ToResourceID( 1, 0, row_, col_)] = 0;
+
 }
 //=======================================================OSD===============================================================
 void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device){
@@ -350,6 +366,9 @@ ScreenMgr::ScreenMgr()
 	:colCount_(0)
 	,rowCount_(0)
 {
+	screenWidth_ = 1024;
+	screenHeight_ = 768;
+
 
 	for( size_t i = 0 ; i < MAXROW; ++i){
 		for( size_t j = 0 ; j < MAXCOL; ++j){
@@ -367,4 +386,34 @@ void ScreenMgr::run(){
 			screens_[i][j]->run();
 		}
 	}
+}
+
+void ScreenMgr::onInputChanged(ResourceChangedCallback callback){
+	inputChangedCallbacks_.push_back(callback);
+}
+
+bool ScreenMgr::isInputValid( ResourceID inputid){ 
+	uint32_t row, col, input;
+	row = GetRow(inputid);
+	col = GetCol(inputid);
+	input = GetInput(inputid);
+	if ( row <=0) return false;
+	if ( col <=0) return false;
+	if ( input <=0) return false;
+	if ( input <=6) return true;
+	//Screen* s = screens_[row-1][col-1];
+	//if (s == NULL) return false;
+	//return s->isInputValid(inputid); 
+}
+bool ScreenMgr::isOutputRingValid( ResourceID outputid){ 
+	uint32_t row, col, output;
+	row = GetRow(outputid);
+	col = GetCol(outputid);
+	output = GetOutput(outputid);
+	if ( row <=0) return false;
+	if ( col <=0) return false;
+	if ( output <=0) return false;
+	Screen* s = screens_[row-1][col-1];
+	if (s == NULL) return false;
+	return s->isOutputRingValid(outputid); 
 }
