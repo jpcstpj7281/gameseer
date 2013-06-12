@@ -87,6 +87,8 @@ private slots:
 	void disconnAll();
 	void connAll();
 
+	void setupTestClick();
+
 private:
 
 	

@@ -11,39 +11,14 @@
 
 using asio::ip::tcp;
 
-Ring::Ring(const std::string & id):id_(id)
+Ring::Ring(const std::string & id):id_(id),isEnable_(false)
 {
 	
 }
 Ring::~Ring(){
 }
-bool Ring::isNextNodePossible(  uint32_t row, uint32_t col){
-	if (!ScreenMgr::instance()->isValidScreenId(row,col)) return false;
-	if (rnodes_.size() == 0 ) return true;
-	
-	ResourceID rnode = rnodes_.back();
-	if ( GetRow(rnode) == row || GetCol(rnode) == col){
-		return true;
-	}
-	rnode = rnodes_.front();
-	if ( GetRow(rnode) == row && GetCol(rnode) == col){
-		return true;
-	}
-	return false;
-}
-bool Ring::addNode( ResourceID inputid, ResourceID outputid){
-	if ( GetRow(inputid) == GetRow(outputid) && GetCol(inputid) ==GetCol(outputid)){
-		ResourceID rnode = inputid | outputid;
-		for ( size_t i = 0; i < rnodes_.size(); ++i){
-			if ( rnodes_[i] == rnode){
-				return false;
-			}
-		}
-		rnodes_.push_back(rnode);
-		return true;
-	}
-	return false;
-}
+
+
 bool Ring::removeNode( ResourceID rnode){
 	for ( auto i = rnodes_.begin(); i < rnodes_.end(); ++i){
 		if ( *i == rnode){
@@ -53,7 +28,65 @@ bool Ring::removeNode( ResourceID rnode){
 	}
 	return false;
 }
+bool Ring::isNextNodePossible(  uint32_t row, uint32_t col){
+	if (!ScreenMgr::instance()->isValidScreenId(row,col)) return false;
+	if (rnodes_.size() == 0 ) return true;
+	
+	if ( col== GetCol(rnodes_.back()) && row== GetRow(rnodes_.back())  ){
+		return false;
+	}
+	if ( col== GetCol(rnodes_.front()) && row== GetRow(rnodes_.front())  ){
+		return false;
+	}
+	for( size_t i = 1; i < rnodes_.size();++i){
+		if ( col== GetCol(rnodes_[i]) && row== GetRow(rnodes_[i]) ){
+			return false;
+		}
+	}
+	return true;
+}
+bool Ring::isNextNodePossible(  ){
+	if ( rnodes_.size()  > 2 && (GetCol(rnodes_.front())== GetCol(rnodes_.back()) && GetRow(rnodes_.front())== GetRow(rnodes_.back()) ) ){
+		return false;
+	}
+	return true;
+}
+bool Ring::makeNode( ResourceID rnode, uint32_t index){
+	if ( index == rnodes_.size()){
+		if ( rnodes_.size() >0){
+			
+			if ( GetCol(rnode )== GetCol(rnodes_.back()) && GetRow(rnode )== GetRow(rnodes_.back())  ){
+				return false;
+			}
+			for( size_t i = 1; i < rnodes_.size();++i){
+				if ( GetCol(rnode )== GetCol(rnodes_[i]) && GetRow(rnode )== GetRow(rnodes_[i]) ){
+					return false;
+				}
+			}
+			//近邻上一个或同第一个相同的环接才合法.
+			if ( GetCol(rnodes_.back()) ==GetCol(rnode) || GetRow(rnodes_.back()) ==GetRow(rnode) || (GetCol(rnodes_.front()) ==GetCol(rnode) && GetRow(rnodes_.front()) ==GetRow(rnode))){
+				rnodes_.push_back( rnode);
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			rnodes_.push_back( rnode);
+			return true;
+		}
+	}
+	if ( index < rnodes_.size()){
+		if ( rnodes_[index] != rnode){
+			rnodes_[index] = rnode;
+			return true;
+		}
+	}
+	return false;
+}
 
+bool Ring::isCollided( Ring* ring){
+	return false;
+}
 
 RingMgr* RingMgr::inst = 0;
 RingMgr *RingMgr::instance(){

@@ -83,7 +83,8 @@ public:
 
 	ResourceID getAvailable753Resource( void * handle);
 	ResourceID getAvailableRingOutResource( void * handle);
-	std::vector<ResourceID> getValidChnInResources();
+	std::vector<ResourceID> getAvailableInput();
+	//std::vector<ResourceID> getValidChnInResources();
 
 	
 //=======================================================OSD===============================================================
@@ -151,6 +152,11 @@ public:
 
 	bool isInputValid( ResourceID inputid);
 	bool isOutputRingValid( ResourceID outputid);
+
+	//get all that Input what with signal.
+	std::vector<ResourceID> getAvailableInput();
+
+	void setupTest();
 };
 
 

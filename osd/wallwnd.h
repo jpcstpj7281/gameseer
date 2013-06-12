@@ -16,6 +16,7 @@ namespace Ui {
 class WallWnd;
 }
 class WallScene;
+class Ring;
 
 class ScreenRectItem: public QGraphicsRectItem{
 public:
@@ -73,6 +74,7 @@ public:
 	Wnd* wnd_;
 	bool isMoving_;
 	WndRectItem(double x, double y, double w, double h, WallScene* wallscene);
+	~WndRectItem();
 	//QRectF boundingRect() const;  
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
 
@@ -90,7 +92,10 @@ class WallScene:public QGraphicsScene{
 	
 	void createWnd( QPointF & releasePos);
 public:
+	Ring* currRing_;
+	ResourceID currInput_;
 	WallScene();
+	
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
 	virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
@@ -101,6 +106,9 @@ class WallWnd : public QWidget
 {
     Q_OBJECT
     
+		private slots:
+			void currentTabChanged ( int index );
+			void	changed ( const QList<QRectF> & );
 public:
     explicit WallWnd( QWidget* parent);
     ~WallWnd();
@@ -108,6 +116,14 @@ public:
 
 
 private:
+
+	QComboBox* cbRings_;
+	QComboBox* cbChns_;
+	QComboBox* cbWnds_;
+	QString currRingid_;
+	QString currWndid_;
+	std::vector<ResourceID> inputs_;
+
     Ui::WallWnd *ui;
 
 	QGraphicsView* gv_;

@@ -21,13 +21,20 @@ class WndMgr :public QObject
 
 	friend class Wnd;
 
-	std::list<Wnd* > wnds_;
+	std::vector<Wnd* > wnds_;
 public:
+
+
+
 	~WndMgr();
 	static WndMgr *instance();
 
 	//the percentage of wall
 	Wnd* createWnd( double xPercent, double yPercent, double widthPercent, double heightPercent);
+	Wnd* createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent);
+	bool hasWnd(const std::string & id);
+	std::vector<Wnd* > getWnds(){ return wnds_;}
+	bool closeWnd(Wnd*);
 	
 };
 
@@ -49,6 +56,9 @@ class Wnd {
 	Wnd( double xPercent, double yPercent, double widthPercent, double heightPercent);
 	Wnd( uint32_t x, uint32_t y, uint32_t width, uint32_t height);
 public:
+
+	std::string id_;
+
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront(){ return layer_ == WndMgr::instance()->currlayer_ ? layer_: layer_= ++ WndMgr::instance()->currlayer_;}
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);
