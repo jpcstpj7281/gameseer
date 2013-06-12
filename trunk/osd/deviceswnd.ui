@@ -113,6 +113,19 @@
     <string>  断开所有Qbox</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="setupTest">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>320</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Setup Test</string>
+   </property>
+  </widget>
   <zorder>tableDevices</zorder>
   <zorder>incrRow</zorder>
   <zorder>decrRow</zorder>
@@ -120,6 +133,7 @@
   <zorder>incrCol</zorder>
   <zorder>connAll</zorder>
   <zorder>disconnAll</zorder>
+  <zorder>setupTest</zorder>
  </widget>
  <resources/>
  <connections/>

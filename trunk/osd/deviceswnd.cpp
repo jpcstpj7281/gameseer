@@ -191,14 +191,19 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	connect( disconnAll, SIGNAL( clicked()), this, SLOT(disconnAll()) );
 
 	initAddresses();
+
+	QPushButton* setupTest = findChild<QPushButton* >("setupTest");
+	if ( setupTest){
+		connect( setupTest, SIGNAL(clicked()), this, SLOT(setupTestClick()));
+	}
 }
-
-
 DevicesWnd::~DevicesWnd()
 {
     delete ui;
 }
-
+void DevicesWnd::setupTestClick(){
+	ScreenMgr::instance()->setupTest();
+}
 void DevicesWnd::incrCol(){
 	auto ss = ScreenMgr::instance()->addScreenCol();
 	BOOST_FOREACH( uint32_t srn, ss){

@@ -4,6 +4,7 @@
 #include "screen.h"
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QMessageBox>
 
 RingWidget::RingWidget(Ring* ring):QWidget(0),ring_(ring)
 {
@@ -32,7 +33,11 @@ void RingWidget::initTable( QTableWidget* table, int row){
 }
 void RingWidget::clickInsert(){
 	QTableWidget* table = id_->tableWidget();
-	if (  table){
+	if (ScreenMgr::instance()->getColCount() <=1 && ScreenMgr::instance()->getRowCount() <=1){
+		QMessageBox::warning(this, "Error!", "Ring only support for a wall with multiple screens!");
+		return ;
+	}
+	if (  table  ){
 		RingWidget * wgt = new RingWidget( RingMgr::instance()->createRing() );
 		int row = id_->row();
 		table->insertRow( row);
@@ -131,50 +136,54 @@ void RnodeWidget::initTable( QTableWidget* table, int row){
 
 }
 void RnodeWidget::enableRow(){
-	input_->setEnabled(true);
-	output_->setEnabled(true);
+	if (row_->currentIndex() && col_->currentIndex()){
+		input_->setEnabled(true);
+		output_->setEnabled(true);
+	}
 }
 void RnodeWidget::newNextRow(){ //after input or output setted, should open another row to setup.
-	if ( input_->currentIndex() && output_->currentIndex()){
-		this->setEnabled(true);
-		col_->setEnabled(false);
-		row_->setEnabled(false);
-		QTableWidget* table = hide_->tableWidget();
+	if ( output_->currentIndex()){
+		if ( input_->currentIndex() || hide_->tableWidget()->rowCount()==1){
+			
+			QTableWidget* table = hide_->tableWidget();
 		
-		if ( table->rowCount() >= ring_->size()+1){
-			return;
-		}
-		if (  table ){
-			RnodeWidget * wgt = new RnodeWidget( ring_ );
-			int row = hide_->row()+1;
-			table->insertRow( row);
-			wgt->initTable(table, row);
+			rnode_ = ToResourceID( input_->currentIndex(), output_->currentIndex()+2,  row_->currentIndex(), col_->currentIndex());
+			if (ring_->makeNode( rnode_, table->rowCount()-1)){
+				if (  table ){
+					if (ring_->isNextNodePossible()){
+						this->setEnabled(true);
+						col_->setEnabled(false);
+						row_->setEnabled(false);
+						RnodeWidget * wgt = new RnodeWidget( ring_ );
+						int row = hide_->row()+1;
+						table->insertRow( row);
+						wgt->initTable(table, row);
+					}
+				}
+			}
 		}
 	}
 }
 void RnodeWidget::currentColIndexChanged ( int index ){
-
 	if(ring_){
+		enableRow();
 		if (ring_->isNextNodePossible( row_->currentIndex(), index)){
-			enableRow();
-			rnode_ = ToResourceID( input_->currentIndex(), output_->currentIndex(), row_->currentIndex(), index);
+			newNextRow();
 		}
 	}
 }
 void RnodeWidget::currentRowIndexChanged ( int index ){
 	if(ring_){
+		enableRow();
 		if (ring_->isNextNodePossible(index , col_->currentIndex())){
-			enableRow();
-			rnode_ = ToResourceID( input_->currentIndex(), output_->currentIndex(),  index, col_->currentIndex());
+			newNextRow();
 		}
 	}
 }
 void RnodeWidget::currentInputIndexChanged ( int index ){
-
 	if(ring_){
 		if (ScreenMgr::instance()->isInputValid(ToResourceID( index, 0,  row_->currentIndex(), col_->currentIndex()))){
 			newNextRow();
-			rnode_ = ToResourceID( input_->currentIndex(), output_->currentIndex()+2,  row_->currentIndex(), col_->currentIndex());
 		}
 	}
 }
@@ -182,7 +191,6 @@ void RnodeWidget::currentOutputIndexChanged ( int index ){
 	if(ring_){
 		if (ScreenMgr::instance()->isOutputRingValid(ToResourceID( 0, index+2,  row_->currentIndex(), col_->currentIndex()))){
 			newNextRow();
-			rnode_ = ToResourceID( input_->currentIndex(), output_->currentIndex()+2,  row_->currentIndex(), col_->currentIndex());
 		}
 	}
 }
@@ -243,6 +251,7 @@ void RingWnd::currentTabChanged ( int index ){
 	resetRnodeTable( currRing_);
 }
 
+//clear the list of rnodes, and restore the new sets.
 void RingWnd::resetRnodeTable( Ring* ring){
 	currRing_ = ring;
 	rnodeTable_->setRowCount(0);
@@ -259,10 +268,16 @@ void RingWnd::resetRnodeTable( Ring* ring){
 			RnodeWidget* wgt = new RnodeWidget( currRing_ );
 			rnodeTable_->setRowCount(rnodeTable_->rowCount()+1);  
 			wgt->initTable(rnodeTable_,  rnodeTable_->rowCount()-1);
+			wgt->col_->setCurrentIndex(GetCol(nodes[i]));
+			wgt->row_->setCurrentIndex(GetRow(nodes[i]));
+			wgt->input_->setCurrentIndex(GetInput(nodes[i]));
+			wgt->output_->setCurrentIndex(GetOutput(nodes[i])>2?GetOutput(nodes[i])-2:0);
 		}
-		RnodeWidget* wgt = new RnodeWidget( currRing_ );
-		rnodeTable_->setRowCount(rnodeTable_->rowCount()+1);  
-		wgt->initTable(rnodeTable_,  rnodeTable_->rowCount()-1);
+		if ( currRing_->isNextNodePossible()){
+			RnodeWidget* wgt = new RnodeWidget( currRing_ );
+			rnodeTable_->setRowCount(rnodeTable_->rowCount()+1);  
+			wgt->initTable(rnodeTable_,  rnodeTable_->rowCount()-1);
+		}
 	}
 }
 

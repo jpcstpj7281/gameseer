@@ -9,6 +9,8 @@
 
 #include <Screen.h>
 #include <wnd.h>
+#include <Ring.h>
+#include <QMessageBox>
 
 void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	uint32_t cc = ScreenMgr::instance()->getColCount();
@@ -282,7 +284,9 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 //	r.setY( pos().y());
 //	return r;
 //}  
-
+WndRectItem::~WndRectItem(){
+	WndMgr::instance()->closeWnd(wnd_);
+}
 void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	painter->setBrush(QBrush(Qt::red));
 	QRectF r= rect();
@@ -341,6 +345,18 @@ QVariant WndRectItem::itemChange(GraphicsItemChange change, const QVariant &valu
 void WallScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 	pressPos_ = event->scenePos();
 	QList<QGraphicsItem *>  list = items( pressPos_, Qt::ItemSelectionMode::IntersectsItemShape, Qt::SortOrder::AscendingOrder);
+	if ( currInput_ == 0){
+		QMessageBox::warning(0, "Wanning", "There is no input signal has been selected!");
+		return;
+	}
+	if ( currRing_== NULL ){
+		QMessageBox::warning(0, "Wanning", "There is no Ring has been selected!");
+		return;
+	}
+	if ( currRing_->isActivate_){
+		QMessageBox::warning(0, "Wanning", "The Ring is not yet been activated!");
+		return;
+	}
 	if ( list.size() == 0){//Into create wnd mode
 		isCreatingWnd_ = true;
 	}
@@ -387,6 +403,8 @@ void WallScene::createWnd( QPointF & releasePos){
 }
 WallScene::WallScene(){
 	isCreatingWnd_ = false;
+	currRing_ = NULL;
+	currInput_ = 0;
 }
 //=======================================================================================================================================================================
 WallWnd::WallWnd(QWidget* parent) :
@@ -400,15 +418,10 @@ WallWnd::WallWnd(QWidget* parent) :
 	QGraphicsScene *scene_ = new WallScene;  
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);  
 
- //   WndRectItem *item=new WndRectItem;  
-	//item->setRect( QRect(0, 0, 200, 200));
-	//WndRectItem *item1=new WndRectItem;  
-	//item1->setRect( QRect(0, 0, 200, 200));
 	ScreenRectItem* item2 = new ScreenRectItem;
 
 	scene_->addItem(item2);
-   // scene_->addItem(item);
-	//scene_->addItem(item1);
+	connect(scene_, SIGNAL(changed(const QList<QRectF>&)), this, SLOT(changed(const QList<QRectF> &)));
   
 	gv_->setScene(scene_);
     gv_->setRenderHint(QPainter::Antialiasing);  
@@ -419,8 +432,16 @@ WallWnd::WallWnd(QWidget* parent) :
 	gv_->setBackgroundBrush(QBrush(Qt::lightGray));
 	gv_->setInteractive(true);
     gv_->show();  
-}
 
+	cbRings_ = findChild<QComboBox* >("cbRing");
+	cbChns_ = findChild<QComboBox* >("cbChn");
+	cbWnds_ = findChild<QComboBox* >("cbWnd");
+
+	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
+}
+void WallWnd::changed ( const QList<QRectF> & region ){
+	currentTabChanged(0);
+}
 
 
 WallWnd::~WallWnd()
@@ -428,9 +449,37 @@ WallWnd::~WallWnd()
     delete ui;
 }
 
+void WallWnd::currentTabChanged ( int index ){
+	std::vector<Ring*> rings = RingMgr::instance()->getRings();
+	cbRings_->clear();
+	for ( size_t i = 0; i < rings.size();++i){
+		if ( rings[i]->size() >=2){
+			cbRings_->addItem( QString::fromStdString(rings[i]->id_));
+			if ( currRingid_.toStdString() == rings[i]->id_){
+				cbRings_->setCurrentIndex( cbRings_->count());
+			}
+		}
+	}
 
+	std::vector<Wnd*> wnds = WndMgr::instance()->getWnds();
+	cbWnds_->clear();
+	for ( size_t i = 0; i < wnds.size();++i){
+		cbWnds_->addItem( QString::fromStdString(wnds[i]->id_));
+		if ( currWndid_.toStdString() == wnds[i]->id_){
+			cbWnds_->setCurrentIndex( cbWnds_->count());
+		}
+	}
+
+	inputs_ = ScreenMgr::instance()->getAvailableInput();
+	for ( size_t i = 0; i < inputs_.size();++i){
+		//GetRow(inputs_[i]);
+		//GetCol(inputs_[i]);
+		cbChns_->addItem( QString::number( inputs_[i], 16));
+	}
+}
 
 void WallWnd::drawScreens(){
 	uint32_t col = ScreenMgr::instance()->getColCount();
 	uint32_t row = ScreenMgr::instance()->getRowCount();
 }
+

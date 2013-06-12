@@ -46,7 +46,7 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent * ){
     QCoreApplication::exit();
 }
-void MainWindow::resizeEvent(QResizeEvent * event){
+void MainWindow::resizeEvent(QResizeEvent * ){
 
 	_tab->setGeometry( 0, 0, this->width()+2, this->height()+2);
 
@@ -97,20 +97,28 @@ void MainWindow::resizeEvent(QResizeEvent * event){
 	QComboBox* ring = _tab->findChild<QComboBox* >("cbRing");
 	QComboBox* chn = _tab->findChild<QComboBox* >("cbChn");
 	QComboBox* wnd = _tab->findChild<QComboBox* >("cbWnd");
-
 	if (ring && chn&& wnd){
 		ring->setGeometry(ring->x(), this->height()-130, ring->width(), ring->height() );
 		chn->setGeometry(chn->x(), this->height()-130, chn->width(), chn->height() );
 		wnd->setGeometry(wnd->x(), this->height()-130, wnd->width(), wnd->height() );
 	}
 
+	QPushButton* pb = _tab->findChild<QPushButton* >("pbUseRing");
+	if (pb){
+		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
+	}
+	pb = _tab->findChild<QPushButton* >("pbCloseWnd");
+	if (pb){
+		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
+	}
+
 	QList<QLabel*> listl = _tab->findChildren<QLabel* >();
 	QList<QLineEdit*> listle = _tab->findChildren<QLineEdit* >();
 
-	for ( size_t i = 0 ; i < listl.size(); ++i){
+	for ( int i = 0 ; i < listl.size(); ++i){
 		listl[i]->setGeometry(listl[i]->x(), this->height()-130, listl[i]->width(), listl[i]->height() );
 	}
-	for ( size_t i = 0 ; i < listle.size(); ++i){
+	for ( int i = 0 ; i < listle.size(); ++i){
 		listle[i]->setGeometry(listle[i]->x(), this->height()-130, listle[i]->width(), listle[i]->height() );
 	}
 }

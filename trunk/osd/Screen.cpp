@@ -210,7 +210,15 @@ bool Screen::isOutputRingValid( ResourceID outputid){
 		return false;
 	}else return true;
 }
-
+std::vector<ResourceID> Screen::getAvailableInput(){
+	std::vector<ResourceID> inputs;
+	for ( auto it = inPort_.begin(); it != inPort_.end(); ++it){
+		if ( it->second != 0 && it->second != -1){
+			inputs.push_back( it->first);
+		}
+	}
+	return inputs;
+}
 //=======================================================TEST===============================================================
 void Screen::setupTestResource(){
 	inPort_[ ToResourceID( 1, 0, row_, col_)] = (1024 << 16) | 768;
@@ -398,12 +406,10 @@ bool ScreenMgr::isInputValid( ResourceID inputid){
 	col = GetCol(inputid);
 	input = GetInput(inputid);
 	if ( row <=0) return false;
-	if ( col <=0) return false;
-	if ( input <=0) return false;
-	if ( input <=6) return true;
-	//Screen* s = screens_[row-1][col-1];
-	//if (s == NULL) return false;
-	//return s->isInputValid(inputid); 
+	else if ( col <=0) return false;
+	else if ( input <=0) return false;
+	else if ( input <=6) return true;
+	else return false;
 }
 bool ScreenMgr::isOutputRingValid( ResourceID outputid){ 
 	uint32_t row, col, output;
@@ -416,4 +422,25 @@ bool ScreenMgr::isOutputRingValid( ResourceID outputid){
 	Screen* s = screens_[row-1][col-1];
 	if (s == NULL) return false;
 	return s->isOutputRingValid(outputid); 
+}
+
+std::vector<ResourceID> ScreenMgr::getAvailableInput(){
+	std::vector<ResourceID> inputs, tmp;
+	for( size_t i = 0 ; i < rowCount_; ++i){
+		for( size_t j = 0 ; j < colCount_; ++j){
+			tmp = screens_[i][j]->getAvailableInput();
+			inputs.insert( inputs.end(), tmp.begin(), tmp.end());
+		}
+	}
+	return inputs;
+}
+
+void ScreenMgr::setupTest(){
+
+	for( size_t i = 0 ; i < rowCount_; ++i){
+		for( size_t j = 0 ; j < colCount_; ++j){
+			screens_[i][j]->setupTestResource();
+		}
+	}
+
 }
