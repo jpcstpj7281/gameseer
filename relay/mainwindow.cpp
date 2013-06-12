@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
 	trayicon->setContextMenu( trayiconMenu);
 	trayicon->show();
 
+	this->setWindowIcon(icon);
+
 	items = ConfigMgr::instance()->getDoc()->documentElement().elementsByTagName("title");
 	QString title ;
 	if (items.size()==1){
