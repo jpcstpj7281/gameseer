@@ -101,7 +101,7 @@ public:
 	//std::vector<int> triggerFreqs_;
 	//std::vector<size_t> btnStatus_;
 	//std::vector<size_t> delays_;
-	std::vector<RelayTimer> rTimers_;
+	std::vector<RelayTimer*> rTimers_;
 	void initTimer();
 	void calcTimer(RelayTimer* rt);
 	void switchBtn(RelayTimer* rt);

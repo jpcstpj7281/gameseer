@@ -90,7 +90,7 @@ void DateTimeWidget::click8(){
 	shiftChannel(ChannelShift::Channel8);
 }
 
-DateTimeWidget::DateTimeWidget(std::vector<RelayTimer> &rTimers):
+DateTimeWidget::DateTimeWidget(std::vector<RelayTimer*> *rTimers):
 	QDateTimeEdit()
 	,channels_(new QPushButton)
 	,ctrl_(new QWidget)
@@ -187,7 +187,7 @@ DateTimeWidget::DateTimeWidget(std::vector<RelayTimer> &rTimers):
 }
 
 void	DateTimeWidget::dateTimeChanged ( const QDateTime & datetime ){
-	if (rt_)rt_->dt = datetime;
+	if (rt_)rt_->dt = datetime.toString(DATETIME_STRING).toStdString();
 }
 void	DateTimeWidget::valueChanged ( int i ){
 	if (rt_)rt_->delay = i;
@@ -206,18 +206,18 @@ void DateTimeWidget::clickInsert(){
 		rowitem->setDate( this->date());
 		int row = comm_->row();
 		table->insertRow( row);
-		RelayTimer rt = *rt_;
-		rTimers_.push_back(rt);
-		rowitem->initTable(table, row, &rTimers_.back());
+		rTimers_->push_back(new RelayTimer(*rt_));
+		rowitem->initTable(table, row, rTimers_->back());
 	//}
 }
 void DateTimeWidget::clickDelete(){
 	QTableWidget* table = comm_->tableWidget();
-	table->removeRow( comm_->row());
-	for ( auto it = rTimers_.begin(); it!=rTimers_.end(); ++it){
-		if ( rt_ == &(*it)){
-			rTimers_.erase(it);
-			break;
+	for ( auto it = rTimers_->begin(); it!=rTimers_->end(); ++it){
+		if ( rt_ == (*it)){
+			delete (*it);
+			rTimers_->erase(it);
+			table->removeRow( comm_->row());
+			return;
 		}
 	}
 }
@@ -229,7 +229,7 @@ void DateTimeWidget::initTable( QTableWidget* table, int row, RelayTimer* rt){
 	table->setCellWidget ( row, 4, channels_ );
 	table->setItem ( row, 5, comm_ );
 	rt_ = rt;
-	comm_->setText( rt->comment);
+	comm_->setText( QString::fromStdString(rt->comment));
 	frequency_->setCurrentIndex(rt->freq);
 	interval_->setValue( rt->delay);
 	buttonState_ = rt->status >> 8;
@@ -237,7 +237,7 @@ void DateTimeWidget::initTable( QTableWidget* table, int row, RelayTimer* rt){
 	refreshChannels();
 }
 
-TimerWnd::TimerWnd(std::vector<RelayTimer> &rTimers, QString ip  ):
+TimerWnd::TimerWnd(std::vector<RelayTimer*> *rTimers, QString ip  ):
     QWidget(0)
 	,ui(new Ui::TimerWnd)
 	,rTimers_(rTimers)
@@ -290,8 +290,8 @@ TimerWnd::TimerWnd(std::vector<RelayTimer> &rTimers, QString ip  ):
 		connect( btnClear, SIGNAL(clicked()), this, SLOT(clickedClear()));
 	}
 
-	for ( auto it = rTimers_.begin(); it != rTimers_.end(); ++it){
-		newDateTime( &(*it));
+	for ( auto it = rTimers_->begin(); it != rTimers_->end(); ++it){
+		newDateTime( *it);
 	}
 
 	connect( table_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
@@ -301,22 +301,25 @@ void TimerWnd::clickedSave(){
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
 	QDomNode timers = root.elementsByTagName("timers").at(0);
 	QDomNodeList items = root.elementsByTagName("timer");
-	while(items.size()>0){
-		QDomNode node = items.at(0);
-		QDomElement elem = node.toElement();
+	std::vector<QDomNode> nodes;
+	for(int i = 0; i < items.size(); ++i){
+		QDomElement elem = items.at(i).toElement();
 		if ( elem.attribute("ip") == ip_){
-			timers.removeChild(node);
+			nodes.push_back(items.at(i));
 		}
 	}
+	for(int i = 0; i < nodes.size(); ++i){
+		timers.removeChild(nodes[i]);
+	}
 
-	for ( auto it = rTimers_.begin(); it!= rTimers_.end(); ++it){
+	for ( auto it = rTimers_->begin(); it!= rTimers_->end(); ++it){
 		QDomElement elm = ConfigMgr::instance()->getDoc()->createElement( "timer");
 		elm.setAttribute ("ip", ip_);
-		elm.setAttribute( "delay", QString::number((*it).delay));
-		elm.setAttribute( "freq", QString::number((*it).freq & ~(1<<24 /*以防把无关状态保存*/) ));
-		elm.setAttribute( "datetime", (*it).dt.toString("yyyy.MM.dd hh:mm:ss") );
-		elm.setAttribute( "status", QString::number((*it).status, 2) );
-		elm.setAttribute( "comment", (*it).comment );
+		elm.setAttribute( "delay", QString::number((*it)->delay));
+		elm.setAttribute( "freq", QString::number((*it)->freq & ~(1<<24 /*以防把无关状态保存*/) ));
+		elm.setAttribute( "datetime", QString::fromStdString((*it)->dt) );
+		elm.setAttribute( "status", QString::number((*it)->status, 2) );
+		elm.setAttribute( "comment", QString::fromStdString((*it)->comment) );
 		timers.insertAfter( elm, QDomElement());
 	}
 	ConfigMgr::instance()->save();
@@ -340,7 +343,7 @@ void TimerWnd::sendClicked(bool){
 void TimerWnd::newDateTime(RelayTimer * rt){
 	
 	DateTimeWidget* dt = new DateTimeWidget(rTimers_);
-	dt->setDateTime(rt->dt);
+	dt->setDateTime( QDateTime::fromString( QString::fromStdString(rt->dt), DATETIME_STRING) );
 	table_->setRowCount(table_->rowCount()+1);
 	dt->initTable( table_, table_->rowCount()-1, rt);
 }
@@ -349,18 +352,18 @@ void TimerWnd::clickedAdd(){
 	QDate cdate=caldr_->selectedDate();
 	QDateTime dt;
 	dt.setDate(cdate);
-	RelayTimer rt ;
-	rt.dt = dt;
-	rt.freq = TriggerFreq::OneTime;
-	rt.delay = 2;
-	rt.status = 0;
-	rTimers_.push_back(rt);
+	RelayTimer *rt  = new RelayTimer;
+	rt->dt = dt.toString(DATETIME_STRING).toStdString();
+	rt->freq = TriggerFreq::OneTime;
+	rt->delay = 2;
+	rt->status = 0;
+	rTimers_->push_back(rt);
 
-	newDateTime( &rTimers_.back() );
+	newDateTime( rTimers_->back() );
 }
 void TimerWnd::clickedClear(){
 	table_->setRowCount(0);
-	rTimers_.clear();
+	rTimers_->clear();
 }
 void TimerWnd::greenDate(){
 	for ( int i = 0; i < table_->rowCount(); ++i){
@@ -381,5 +384,5 @@ void TimerWnd::whiteDate(){
 void TimerWnd::cellChanged(int row,int col){
 	DateTimeWidget* dtw = (DateTimeWidget* )table_->cellWidget( row, 1);
 	if ( dtw->rt_)
-		dtw->rt_->comment = dtw->comm_->text();
+		dtw->rt_->comment = dtw->comm_->text().toStdString();
 }
