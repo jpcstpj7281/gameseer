@@ -35,7 +35,8 @@ public:
 
 	bool isCollided( Ring*);
 
-
+	ResourceID getInputRNode(ResourceID inputid);
+	ResourceID getOutputRNode(ResourceID outputid);
 };
 
 class RingMgr :public QObject
@@ -57,6 +58,9 @@ public:
 	bool hasRing(const std::string & id);
 	void removeRing(const std::string & id);
 	std::vector<Ring* > getRings() { return rings_;}
+
+	std::vector<Ring* > getInputCorrespondRing( ResourceID inputid);
+	std::vector<Ring* > getOutputCorrespondRing( ResourceID outputid);
 };
 
 

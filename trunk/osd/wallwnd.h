@@ -107,6 +107,7 @@ class WallWnd : public QWidget
     Q_OBJECT
     
 		private slots:
+			void	currentIndexChanged ( const QString & text );
 			void currentTabChanged ( int index );
 			void	changed ( const QList<QRectF> & );
 public:
