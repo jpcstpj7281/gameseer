@@ -15,25 +15,52 @@
 void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	uint32_t cc = ScreenMgr::instance()->getColCount();
 	uint32_t rc = ScreenMgr::instance()->getRowCount();
-
 	if ( !cc || !rc ) {return;}
+	WallScene* scene = (WallScene*)this->scene();
+	QRectF r = scene->sceneRect();
+	double screenh  = r.height()/rc;
+	double screenw  = r.width()/cc;
+	QRectF screenRect = QRectF( 0, 0, screenw, screenh);
+	
+	
+	painter->setBrush( Qt::green);
+	Ring* ring = RingMgr::instance()->getRing(scene->currRingid_.toStdString());
+	if (ring && ring->isActivate()){
+		std::vector<ResourceID> nodes = ring->getRnodes();
+		size_t i = 0;
+		if (nodes.size() >2  && GetRow(nodes.front()) == GetRow(nodes.back()) && GetCol(nodes.front()) == GetCol(nodes.back())){
+			i = 1;
+		}
+		for ( ; i < nodes.size(); ++i){
+			uint32_t row = GetRow(nodes[i]);
+			uint32_t col = GetCol(nodes[i]);
+			QRectF newRect((col -1) *screenw, (row -1) *screenh, screenw, screenh);
+			painter->drawRect(newRect);
+		}
+	}else if (scene->currInput_){
+		uint32_t row = GetRow(scene->currInput_);
+		uint32_t col = GetCol(scene->currInput_);
+		QRectF newRect = screenRect;
+		newRect.setX( (row -1) *screenw);
+		newRect.setY( (col -1) *screenh);
+		painter->drawRect(newRect);
+	}
 
+	painter->setBrush( Qt::black);
 	for ( uint32_t i = 0; i < rc; ++i){
-		QRectF r = scene()->sceneRect();
 		QPointF start, end;
 		start.setX( 0);
-		start.setY( r.height()/rc*i);
+		start.setY( screenh*i);
 		end.setX(r.width());
-		end.setY( r.height()/rc*i);
+		end.setY( screenh*i);
 		painter->drawLine(start, end);
 	}
 
 	for ( uint32_t i = 0; i < cc; ++i){
-		QRectF r = scene()->sceneRect();
 		QPointF start, end;
-		start.setX( r.width()/cc*i);
+		start.setX( screenw*i);
 		start.setY( 0);
-		end.setX(r.width()/cc*i);
+		end.setX(screenw*i);
 		end.setY(r.height() );
 		painter->drawLine(start, end);
 	}
@@ -248,12 +275,15 @@ void CloseItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
 	if (isPressed_){
 		WndRectItem* item = (WndRectItem*)parentItem();
-		item->scene()->removeItem(item);
+		WallScene *scene = ((WallScene*)item->scene());
+		scene->removeItem(item);
+		scene->wndItems_.erase(std::find( scene->wndItems_.begin(), scene->wndItems_.end(), item));
+		WndMgr::instance()->closeWnd( item->wnd_);
 		delete item;
 	}
 }
 //=======================================================================================================================================================================
-WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wallscene){
+WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd){
 	setFlags(QGraphicsItem::ItemIsMovable |QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
 	//ResizeItem *item = new ResizeItem( ResizeItem::RightUp);
 	ResizeItem *item1 = new ResizeItem( ResizeItem::RightBottom);
@@ -274,7 +304,9 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	setX(x);
 	setY(y);
 	setRect( QRectF(0, 0, w, h));
-	wnd_ = WndMgr::instance()->createWnd( x/scene()->sceneRect().width(), y/scene()->sceneRect().height(), w/scene()->sceneRect().width(), h/scene()->sceneRect().height());
+	if ( !wnd){
+		wnd_ = WndMgr::instance()->createWnd( x/scene()->sceneRect().width(), y/scene()->sceneRect().height(), w/scene()->sceneRect().width(), h/scene()->sceneRect().height());
+	}else wnd_ = wnd;
 	setZValue( wnd_->getLayer());
 }
 
@@ -285,7 +317,6 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 //	return r;
 //}  
 WndRectItem::~WndRectItem(){
-	WndMgr::instance()->closeWnd(wnd_);
 }
 void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	painter->setBrush(QBrush(Qt::red));
@@ -397,19 +428,19 @@ void WallScene::createWnd( QPointF & releasePos){
 		//	QMessageBox::warning(0, "Wanning", "The Ring is not yet been activated!");
 		//	return;
 		//}
-		WndRectItem *item=new WndRectItem(pos.x(), pos.y(), width, height, this);  
 
+		wndItems_.push_back(new WndRectItem(pos.x(), pos.y(), width, height, this));
 	}
 }
 WallScene::WallScene(){
 	isCreatingWnd_ = false;
-	currRing_ = NULL;
 	currInput_ = 0;
 }
 //=======================================================================================================================================================================
 WallWnd::WallWnd(QWidget* parent) :
     QWidget(parent)
 	,ui(new Ui::WallWnd)
+	,isResetting_(false)
 {
     ui->setupUi(this);
 	
@@ -418,9 +449,9 @@ WallWnd::WallWnd(QWidget* parent) :
 	scene_ = new WallScene;  
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);  
 
-	ScreenRectItem* item2 = new ScreenRectItem;
+	screensItem_ = new ScreenRectItem;
+	scene_->addItem(screensItem_);
 
-	scene_->addItem(item2);
 	connect(scene_, SIGNAL(changed(const QList<QRectF>&)), this, SLOT(changed(const QList<QRectF> &)));
   
 	gv_->setScene(scene_);
@@ -436,49 +467,118 @@ WallWnd::WallWnd(QWidget* parent) :
 	cbRings_ = findChild<QComboBox* >("cbRing");
 	cbChns_ = findChild<QComboBox* >("cbChn");
 	cbWnds_ = findChild<QComboBox* >("cbWnd");
+	connect(cbChns_, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(currentChnIndexChanged (const QString &)) );
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
+
+	QPushButton* pbClose = findChild<QPushButton* >("pbCloseWnd");
+	if (pbClose){
+		connect(pbClose, SIGNAL(clicked()), this, SLOT(clickedCloseWnd()) );
+	}
+	QPushButton* pbActivateRing = findChild<QPushButton* >("pbActivateRing");
+	if (pbActivateRing){
+		connect(pbActivateRing, SIGNAL(clicked()), this, SLOT(clickedActivateRing()) );
+	}
 }
 void WallWnd::changed ( const QList<QRectF> & region ){
-	currentTabChanged(0);
+	resetComboBoxes();
+}
+void WallWnd::clickedCloseWnd(){
+	int index = cbWnds_->currentIndex();
+	std::vector<Wnd*> wnds = WndMgr::instance()->getWnds();
+	if ( index >= 0 && wnds.size()){
+		for ( auto i = scene_->wndItems_.begin() ; i < scene_->wndItems_.end(); ){
+			if ( wnds[index] == (*i)->wnd_){
+				WndMgr::instance()->closeWnd((*i)->wnd_);
+				(*i)->wnd_ = NULL;
+				scene_->removeItem(*i);
+				delete *i;
+				i = scene_->wndItems_.erase(i);
+			}else ++i;
+		}
+		resetComboBoxes();
+	}
+}
+void WallWnd::clickedActivateRing(){
+	if ( !scene_->currRingid_.isEmpty() ){
+		QPushButton* pb = (QPushButton*) sender();
+		
+		Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdString());
+		if ( ring->isActivate()){
+			pb->setStyleSheet("");
+			ring->activate(false);
+		}else{
+			pb->setStyleSheet("{color:red£»background:yellow}");
+			ring->activate(true);
+		}
+		screensItem_->update();
+	}
 }
 
-
-WallWnd::~WallWnd()
-{
+WallWnd::~WallWnd(){
     delete ui;
 }
-
-void WallWnd::currentTabChanged ( int index ){
+void WallWnd::resetWnds(){
+	std::vector<Wnd*> wnds = WndMgr::instance()->getWnds();
+	screensItem_->update();
+	for ( size_t i = 0 ; i < scene_->wndItems_.size(); ++i){
+		scene_->removeItem(scene_->wndItems_[i]);
+		delete scene_->wndItems_[i];
+	}
+	scene_->wndItems_.clear();
+	for ( size_t i = 0; i < wnds.size();++i){
+		double x = scene_->width()*wnds[i]->xPercent_;
+		double y = scene_->height()*wnds[i]->yPercent_;
+		double w = scene_->width()*wnds[i]->wPercent_;
+		double h =  scene_->height()*wnds[i]->hPercent_;
+		scene_->wndItems_.push_back( new WndRectItem(x, y, w, h, scene_, wnds[i]));
+	}
+}
+void WallWnd::resetComboBoxes(){
 	std::vector<Ring*> rings = RingMgr::instance()->getRings();
 	cbRings_->clear();
 	for ( size_t i = 0; i < rings.size();++i){
 		if ( rings[i]->size() >=2){
 			cbRings_->addItem( QString::fromStdString(rings[i]->id_));
-			if ( currRingid_.toStdString() == rings[i]->id_){
-				cbRings_->setCurrentIndex( cbRings_->count());
+			if ( scene_->currRingid_.toStdString() == rings[i]->id_){//only the one currently referred, set to current index.
+				cbRings_->setCurrentIndex( cbRings_->count()-1);
 			}
 		}
 	}
+	//the the top to be current
+	if ( scene_->currRingid_.isEmpty() && cbRings_->count() )scene_->currRingid_ = cbRings_->currentText();
 
 	std::vector<Wnd*> wnds = WndMgr::instance()->getWnds();
 	cbWnds_->clear();
 	for ( size_t i = 0; i < wnds.size();++i){
-		cbWnds_->addItem( QString::fromStdString(wnds[i]->id_));
-		if ( currWndid_.toStdString() == wnds[i]->id_){
-			cbWnds_->setCurrentIndex( cbWnds_->count());
+		cbWnds_->addItem( QString::fromStdString(wnds[i]->id_));//add all wnd to combox
+		if ( scene_->currWndid_.toStdString() == wnds[i]->id_){//only the one currently referred, set to current index.
+			cbWnds_->setCurrentIndex( cbWnds_->count()-1);
 		}
 	}
+	//the the top to be current
+	if ( scene_->currWndid_.isEmpty() && cbWnds_->count() )scene_->currWndid_ = cbWnds_->currentText();
 
 	cbChns_->clear();
 	inputs_ = ScreenMgr::instance()->getAvailableInput();
 	for ( size_t i = 0; i < inputs_.size();++i){
-		std::vector<Ring*> rs = RingMgr::instance()->getInputCorrespondRing(inputs_[i]);
+		std::vector<Ring*> rs = RingMgr::instance()->getInputCorrespondActivatedRing(inputs_[i]);
 		if ( rs.size()==0){
 			cbChns_->addItem( QString::fromStdString(ToInputStrID(inputs_[i])));
+			if ( scene_->currInput_ == inputs_[i]){//only the one currently referred, set to current index.
+				cbChns_->setCurrentIndex( cbChns_->count()-1);
+			}
 		}
 	}
+	//the the top to be current
 	if ( inputs_.size() >0)	scene_->currInput_ = inputs_.front();
+}
+void WallWnd::currentTabChanged ( int index ){
+	QTabWidget* tab = (QTabWidget*)sender();
+	if (tab->tabText(index) == "Wall"){
+		resetComboBoxes();
+		resetWnds();
+	}
 }
 
 void WallWnd::drawScreens(){
@@ -486,11 +586,14 @@ void WallWnd::drawScreens(){
 	uint32_t row = ScreenMgr::instance()->getRowCount();
 }
 
-void WallWnd::currentIndexChanged ( const QString & text ){
+void WallWnd::currentChnIndexChanged ( const QString & text ){
 	for ( size_t i = 0; i < inputs_.size();++i){
 		if ( ToInputStrID(inputs_[i]) == text.toStdString()){
 			scene_->currInput_ = inputs_[i];
 		}
 	}
-	
+}
+void WallWnd::currentRingIndexChanged ( const QString & text ){
+	scene_->currRingid_ = text;
+	screensItem_->update();
 }

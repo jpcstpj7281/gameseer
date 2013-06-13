@@ -21,8 +21,8 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 	layout->addWidget(add );
 	layout->addWidget(remove );
 	setLayout(layout);
-	connect( add, SIGNAL(clicked()), this, SLOT(clickInsert()) );
-	connect( remove, SIGNAL(clicked()), this, SLOT(clickDelete()) );
+	//connect( add, SIGNAL(clicked()), this, SLOT(clickInsert()) );
+	//connect( remove, SIGNAL(clicked()), this, SLOT(clickDelete()) );
 
 	id_= new QTableWidgetItem();
 	col_= new QTableWidgetItem();

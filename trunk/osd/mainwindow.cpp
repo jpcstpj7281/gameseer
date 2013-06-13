@@ -103,7 +103,7 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 		wnd->setGeometry(wnd->x(), this->height()-130, wnd->width(), wnd->height() );
 	}
 
-	QPushButton* pb = _tab->findChild<QPushButton* >("pbUseRing");
+	QPushButton* pb = _tab->findChild<QPushButton* >("pbActivateRing");
 	if (pb){
 		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
 	}

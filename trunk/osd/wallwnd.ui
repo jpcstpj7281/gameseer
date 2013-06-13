@@ -249,7 +249,7 @@
     <string>ah:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pbUseRing">
+  <widget class="QPushButton" name="pbActivateRing">
    <property name="geometry">
     <rect>
      <x>110</x>
