@@ -11,6 +11,9 @@
 class QSpinBox;
 class QComboBox;
 
+
+const static char* DATETIME_STRING = "yyyy.MM.dd hh:mm:ss";
+
 struct TriggerFreq{
 	enum Freq{
 		OneTime,
@@ -37,11 +40,23 @@ enum {
 };
 
 struct RelayTimer{
-	QDateTime dt;
+	RelayTimer():
+		delay(0)
+		,freq(0)
+		,status(0)
+	{}
+	RelayTimer(const RelayTimer &rt):
+	dt(rt.dt)
+		,delay(rt.delay)
+		,freq(rt.freq)
+		,status(rt.status)
+		,comment(rt.comment)
+	{}
+	std::string dt;
 	size_t delay;
 	size_t freq;
 	size_t status;
-	QString comment;
+	std::string comment;
 };
 
 class DateTimeWidget: public QDateTimeEdit{
@@ -71,7 +86,7 @@ public:
 	QWidget				*ctrl_;
 	QTableWidgetItem	*comm_;
 
-	DateTimeWidget(std::vector<RelayTimer> &rTimers);
+	DateTimeWidget(std::vector<RelayTimer*> *rTimers);
 	~DateTimeWidget();
 	void initTable( QTableWidget* table, int row, RelayTimer* rt);
 	void refreshChannels();
@@ -82,7 +97,7 @@ public:
 	uint32_t channelState_;
 	QPushButton *btns_[16];
 	RelayTimer* rt_;
-	std::vector<RelayTimer> &rTimers_;
+	std::vector<RelayTimer*> *rTimers_;
 };
 
 
@@ -102,13 +117,13 @@ class TimerWnd : public QWidget
 			void cellChanged(int,int);
 
 public:
-	explicit TimerWnd(std::vector<RelayTimer> &rTimers, QString ip );
+	explicit TimerWnd(std::vector<RelayTimer*> *rTimers, QString ip );
 	~TimerWnd();
 	void newDateTime(RelayTimer * rt);
 	void greenDate();
 	void whiteDate();
 
-	std::vector<RelayTimer> &rTimers_;
+	std::vector<RelayTimer*> *rTimers_;
 	QString ip_;
 
 	private slots:

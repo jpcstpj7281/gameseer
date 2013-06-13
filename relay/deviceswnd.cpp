@@ -110,7 +110,7 @@ void NetConnBtn::timerEvent ( QTimerEvent * ){
 	}
 
 	for ( size_t i = 0; i < rTimers_.size(); ++i){
-		calcTimer( &rTimers_[i]);
+		calcTimer( rTimers_[i]);
 	}
 	if ( ongoingDelay_.size() > 0 && ongoingDelay_.front() < GetTickCount() ){
 		Host* host = TcpNet::instance()->getHost(address_->text().toStdString());
@@ -202,8 +202,9 @@ void NetConnBtn::switchBtn(RelayTimer* rt){
 }
 
 void NetConnBtn::calcTimer( RelayTimer* rt){
-	size_t daySec = rt->dt.secsTo(QDateTime::currentDateTime());
-	size_t timeSec =  rt->dt.time().secsTo(QTime::currentTime());
+	QDateTime dt = QDateTime::fromString(QString::fromStdString(rt->dt), DATETIME_STRING);
+	size_t daySec = dt.secsTo(QDateTime::currentDateTime());
+	size_t timeSec =  dt.time().secsTo(QTime::currentTime());
 
 	switch( rt->freq){
 	case TriggerFreq::OneTime:
@@ -219,19 +220,19 @@ void NetConnBtn::calcTimer( RelayTimer* rt){
 		}
 		break;
 	case TriggerFreq::EveryWeek:
-		if( timeSec < 2 && timeSec > 0  && rt->dt.date().weekNumber() ==  QDate::currentDate().weekNumber()){
+		if( timeSec < 2 && timeSec > 0  && dt.date().weekNumber() ==  QDate::currentDate().weekNumber()){
 			switchBtn(rt);
 			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
 		}
 		break;
 	case TriggerFreq::EveryMonth:
-		if( timeSec < 2 && timeSec > 0  && rt->dt.date().daysInMonth() ==  QDate::currentDate().daysInMonth()){
+		if( timeSec < 2 && timeSec > 0  && dt.date().daysInMonth() ==  QDate::currentDate().daysInMonth()){
 			switchBtn(rt);
 			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
 		}
 		break;
 	case TriggerFreq::EveryYear:
-		if( timeSec < 2 && timeSec > 0  &&  rt->dt.date().month() ==  QDate::currentDate().month() &&  rt->dt.date().daysInMonth() ==  QDate::currentDate().daysInMonth()){
+		if( timeSec < 2 && timeSec > 0  &&  dt.date().month() ==  QDate::currentDate().month() &&  dt.date().daysInMonth() ==  QDate::currentDate().daysInMonth()){
 			switchBtn(rt);
 			rt->freq |= (1<<24);//already triggered, stop trigger again with in ten sec
 		}
@@ -257,13 +258,14 @@ void NetConnBtn::initTimer(){
 				QString delay = elem.attribute("delay");
 				QString comm = elem.attribute("comment");
 				if (! dt.isEmpty() ){
-					RelayTimer rt;
-					rt.dt = QDateTime::fromString(dt, "yyyy.MM.dd hh:mm:ss") ;
+					RelayTimer* rtp = new RelayTimer;
+					RelayTimer &rt = *rtp;
+					rt.dt = dt.toStdString();
 					rt.freq=(freq.toInt() );
 					rt.status=( status.toInt(0, 2) );
 					rt.delay=( delay.toInt());
-					rt.comment = comm;
-					rTimers_.push_back(rt);
+					rt.comment = comm.toStdString();
+					rTimers_.push_back(rtp);
 				}
 			}
 		}
@@ -684,7 +686,7 @@ NetConnBtn::~NetConnBtn(){
 
 void NetConnBtn::clickTimer(){
 	initTimer();
-	if ( !timerwnd_)  timerwnd_ = new TimerWnd(rTimers_, address_->text());
+	if ( !timerwnd_)  timerwnd_ = new TimerWnd(&rTimers_, address_->text());
 	timerwnd_->show();
 }
 
