@@ -36,6 +36,7 @@ public:
 	std::vector<Wnd* > getWnds(){ return wnds_;}
 	bool closeWnd(Wnd*);
 	
+	std::vector<Wnd* > getAllWnds(){ return wnds_;}
 };
 
 class Wnd {
@@ -56,6 +57,15 @@ class Wnd {
 	Wnd( double xPercent, double yPercent, double widthPercent, double heightPercent);
 	Wnd( uint32_t x, uint32_t y, uint32_t width, uint32_t height);
 public:
+
+	uint32_t x_;
+	uint32_t y_;
+	uint32_t w_;
+	uint32_t h_;
+	uint32_t ax_;
+	uint32_t ay_;
+	uint32_t aw_;
+	uint32_t ah_;
 
 	std::string id_;
 

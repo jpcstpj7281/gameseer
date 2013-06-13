@@ -13,10 +13,30 @@ namespace Ui {
 class ChnWnd;
 }
 
+
+class ChnWidget:public QWidget{
+	Q_OBJECT
+	private slots:
+
+public:
+	ResourceID inputid_;
+	QTableWidgetItem* id_;
+	QTableWidgetItem* col_;
+	QTableWidgetItem* row_;
+	QTableWidgetItem* width_;
+	QTableWidgetItem* height_;
+	QTableWidgetItem* inport_;
+
+	ChnWidget(ResourceID inputid);
+
+	void initTable( QTableWidget* table, int row);
+};
+
 class ChnWnd : public QWidget
 {
     Q_OBJECT
-    
+		private slots:
+			void currentTabChanged ( int index );
 public:
     explicit ChnWnd(QWidget* parent);
     ~ChnWnd();
@@ -27,8 +47,9 @@ public:
 		//void clearClicked(bool);
 private:
     Ui::ChnWnd *ui;
-
-
+	QTableWidget*	chnTable_;
+	std::vector<ResourceID> inputs_;
 };
 
 #endif // ChnWnd_H
+

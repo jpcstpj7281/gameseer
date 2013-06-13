@@ -349,14 +349,7 @@ void WallScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 		QMessageBox::warning(0, "Wanning", "There is no input signal has been selected!");
 		return;
 	}
-	if ( currRing_== NULL ){
-		QMessageBox::warning(0, "Wanning", "There is no Ring has been selected!");
-		return;
-	}
-	if ( currRing_->isActivate_){
-		QMessageBox::warning(0, "Wanning", "The Ring is not yet been activated!");
-		return;
-	}
+
 	if ( list.size() == 0){//Into create wnd mode
 		isCreatingWnd_ = true;
 	}
@@ -396,7 +389,14 @@ void WallScene::createWnd( QPointF & releasePos){
 		pos = QPointF( releasePos.x(),  pressPos_.y());
 	}
 	if ( width > 50 && height > 50){
-		//QRectF r( 0,0, width, height );
+		//if ( currRing_== NULL ){
+		//	QMessageBox::warning(0, "Wanning", "There is no Ring has been selected!");
+		//	return;
+		//}
+		//if ( currRing_->isActivate_){
+		//	QMessageBox::warning(0, "Wanning", "The Ring is not yet been activated!");
+		//	return;
+		//}
 		WndRectItem *item=new WndRectItem(pos.x(), pos.y(), width, height, this);  
 
 	}
@@ -415,7 +415,7 @@ WallWnd::WallWnd(QWidget* parent) :
 	
 	gv_ = findChild<QGraphicsView* >("wallView");
 
-	QGraphicsScene *scene_ = new WallScene;  
+	scene_ = new WallScene;  
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);  
 
 	ScreenRectItem* item2 = new ScreenRectItem;
@@ -470,12 +470,15 @@ void WallWnd::currentTabChanged ( int index ){
 		}
 	}
 
+	cbChns_->clear();
 	inputs_ = ScreenMgr::instance()->getAvailableInput();
 	for ( size_t i = 0; i < inputs_.size();++i){
-		//GetRow(inputs_[i]);
-		//GetCol(inputs_[i]);
-		cbChns_->addItem( QString::number( inputs_[i], 16));
+		std::vector<Ring*> rs = RingMgr::instance()->getInputCorrespondRing(inputs_[i]);
+		if ( rs.size()==0){
+			cbChns_->addItem( QString::fromStdString(ToInputStrID(inputs_[i])));
+		}
 	}
+	if ( inputs_.size() >0)	scene_->currInput_ = inputs_.front();
 }
 
 void WallWnd::drawScreens(){
@@ -483,3 +486,11 @@ void WallWnd::drawScreens(){
 	uint32_t row = ScreenMgr::instance()->getRowCount();
 }
 
+void WallWnd::currentIndexChanged ( const QString & text ){
+	for ( size_t i = 0; i < inputs_.size();++i){
+		if ( ToInputStrID(inputs_[i]) == text.toStdString()){
+			scene_->currInput_ = inputs_[i];
+		}
+	}
+	
+}

@@ -442,5 +442,4 @@ void ScreenMgr::setupTest(){
 			screens_[i][j]->setupTestResource();
 		}
 	}
-
 }

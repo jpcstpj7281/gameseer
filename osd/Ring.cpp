@@ -88,6 +88,23 @@ bool Ring::isCollided( Ring* ring){
 	return false;
 }
 
+ResourceID Ring::getInputRNode(ResourceID inputid){
+	for ( size_t i =0; i < rnodes_.size();++i){
+		if (GetRow(inputid )== GetRow(rnodes_[i]) && GetCol(inputid) == GetCol(rnodes_[i])&& GetInput(inputid)==GetInput(rnodes_[i])){
+			return rnodes_[i];
+		}
+	}
+	return 0;
+}
+ResourceID Ring::getOutputRNode(ResourceID outputid){
+	for ( size_t i =0; i < rnodes_.size();++i){
+		if (GetRow(outputid )== GetRow(rnodes_[i]) && GetCol(outputid) == GetCol(rnodes_[i])&& GetOutput(outputid)==GetOutput(rnodes_[i])){
+			return rnodes_[i];
+		}
+	}
+	return 0;
+}
+//=======================================================RingMgr===============================================================
 RingMgr* RingMgr::inst = 0;
 RingMgr *RingMgr::instance(){
 	if ( inst) return inst;
@@ -140,4 +157,26 @@ Ring* RingMgr::createRing(){
 		}
 	}
 	return NULL;
+}
+
+std::vector<Ring* > RingMgr::getInputCorrespondRing( ResourceID inputid){
+	std::vector<Ring* > rings;
+	for ( size_t i =0; i < rings_.size();++i){
+		ResourceID rnode = rings_[i]->getInputRNode(inputid);
+		if ( rnode){
+			rings.push_back( rings_[i]);
+		}
+	}
+	return rings;
+}
+
+std::vector<Ring* > RingMgr::getOutputCorrespondRing( ResourceID outputid){
+	std::vector<Ring* > rings;
+	for ( size_t i =0; i < rings_.size();++i){
+		ResourceID rnode = rings_[i]->getOutputRNode(outputid);
+		if ( rnode){
+			rings.push_back( rings_[i]);
+		}
+	}
+	return rings;
 }
