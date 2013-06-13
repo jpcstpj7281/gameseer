@@ -11,7 +11,7 @@
 
 using asio::ip::tcp;
 
-Ring::Ring(const std::string & id):id_(id),isEnable_(false)
+Ring::Ring(const std::string & id):id_(id),isEnable_(false),isActivate_(false)
 {
 	
 }
@@ -104,6 +104,10 @@ ResourceID Ring::getOutputRNode(ResourceID outputid){
 	}
 	return 0;
 }
+
+void Ring::activate(bool flag){
+	isActivate_ = flag;
+}
 //=======================================================RingMgr===============================================================
 RingMgr* RingMgr::inst = 0;
 RingMgr *RingMgr::instance(){
@@ -158,6 +162,14 @@ Ring* RingMgr::createRing(){
 	}
 	return NULL;
 }
+Ring* RingMgr::getRing(const std::string & id){
+	for( auto i = rings_.begin() ; i < rings_.end(); ++i){
+		if ( (*i)->id_ == id){
+			return *i;
+		}
+	}
+	return NULL;
+}
 
 std::vector<Ring* > RingMgr::getInputCorrespondRing( ResourceID inputid){
 	std::vector<Ring* > rings;
@@ -176,6 +188,32 @@ std::vector<Ring* > RingMgr::getOutputCorrespondRing( ResourceID outputid){
 		ResourceID rnode = rings_[i]->getOutputRNode(outputid);
 		if ( rnode){
 			rings.push_back( rings_[i]);
+		}
+	}
+	return rings;
+}
+
+std::vector<Ring* > RingMgr::getInputCorrespondActivatedRing( ResourceID inputid){
+	std::vector<Ring* > rings;
+	for ( size_t i =0; i < rings_.size();++i){
+		if ( rings_[i]->isActivate_){
+			ResourceID rnode = rings_[i]->getInputRNode(inputid);
+			if ( rnode){
+				rings.push_back( rings_[i]);
+			}
+		}
+	}
+	return rings;
+}
+
+std::vector<Ring* > RingMgr::getOutputCorrespondActivatedRing( ResourceID outputid){
+	std::vector<Ring* > rings;
+	for ( size_t i =0; i < rings_.size();++i){
+		if ( rings_[i]->isActivate_){
+			ResourceID rnode = rings_[i]->getOutputRNode(outputid);
+			if ( rnode){
+				rings.push_back( rings_[i]);
+			}
 		}
 	}
 	return rings;

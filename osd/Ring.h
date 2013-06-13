@@ -18,11 +18,14 @@ class Ring :public QObject {
 	//rnodes of a ring.
 	std::vector<ResourceID> rnodes_;
 	
-	
+	bool isActivate_;
 public:
 	std::string id_;
 	bool isEnable_;
-	bool isActivate_;
+	
+	void activate( bool flag);
+
+	bool isActivate(){ return isActivate_;}
 
 	//a rnode only possible to be next by same col or same row of the previous rnode, sure also impossible if it is the last one that closure .
 	bool isNextNodePossible( uint32_t row, uint32_t col);
@@ -57,10 +60,13 @@ public:
 	void removeRing(Ring*);
 	bool hasRing(const std::string & id);
 	void removeRing(const std::string & id);
+	Ring* getRing(const std::string & id);
 	std::vector<Ring* > getRings() { return rings_;}
 
 	std::vector<Ring* > getInputCorrespondRing( ResourceID inputid);
 	std::vector<Ring* > getOutputCorrespondRing( ResourceID outputid);
+	std::vector<Ring* > getInputCorrespondActivatedRing( ResourceID inputid);
+	std::vector<Ring* > getOutputCorrespondActivatedRing( ResourceID outputid);
 };
 
 

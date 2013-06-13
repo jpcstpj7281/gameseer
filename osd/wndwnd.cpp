@@ -20,8 +20,8 @@ WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
 	layout->addWidget(add );
 	layout->addWidget(remove );
 	setLayout(layout);
-	connect( add, SIGNAL(clicked()), this, SLOT(clickInsert()) );
-	connect( remove, SIGNAL(clicked()), this, SLOT(clickDelete()) );
+	//connect( add, SIGNAL(clicked()), this, SLOT(clickInsert()) );
+	//connect( remove, SIGNAL(clicked()), this, SLOT(clickDelete()) );
 
 	id_= new QTableWidgetItem();
 	x_= new QTableWidgetItem();

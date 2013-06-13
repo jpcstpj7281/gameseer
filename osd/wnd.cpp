@@ -11,11 +11,20 @@
 
 using asio::ip::tcp;
 
-Wnd::Wnd(double xPercent, double yPercent, double widthPercent, double heightPercent)
+Wnd::Wnd(double xPercent, double yPercent, double wPercent, double hPercent):
+xPercent_(xPercent)
+,yPercent_(yPercent)
+,wPercent_(wPercent)
+,hPercent_(hPercent)
 {
 	x_ = y_ = w_ = h_= ax_ = ay_ = aw_ = ah_ = 0;
 }
-Wnd::Wnd( uint32_t x, uint32_t y, uint32_t width, uint32_t height){
+Wnd::Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h):
+x_(x)
+,y_(y)
+,w_(w)
+,h_(h){
+	ax_ = ay_ = aw_ = ah_ = 0;
 }
 Wnd::~Wnd(){
 }

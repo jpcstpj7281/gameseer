@@ -46,26 +46,19 @@ class Wnd {
 	~Wnd();
 
 	uint32_t layer_;
-	uint32_t width_;
-	uint32_t height_;
+	
+	
 
-	double xPercent_, yPercent_, wPercent_, hPercent_;
+	
 
 	//rnodes of a ring.
 	std::list<ResourceID> wnodes_;
 
-	Wnd( double xPercent, double yPercent, double widthPercent, double heightPercent);
-	Wnd( uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+	Wnd( double xPercent, double yPercent, double wPercent, double hPercent);
+	Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 public:
-
-	uint32_t x_;
-	uint32_t y_;
-	uint32_t w_;
-	uint32_t h_;
-	uint32_t ax_;
-	uint32_t ay_;
-	uint32_t aw_;
-	uint32_t ah_;
+	double xPercent_, yPercent_, wPercent_, hPercent_;
+	uint32_t x_,y_,w_, h_, ax_, ay_, aw_, ah_;
 
 	std::string id_;
 

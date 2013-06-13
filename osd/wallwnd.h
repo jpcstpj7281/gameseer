@@ -22,6 +22,7 @@ class ScreenRectItem: public QGraphicsRectItem{
 public:
 	//QRectF boundingRect() const;  
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+
 };
 
 class ResizeItem: public QGraphicsRectItem{
@@ -73,7 +74,8 @@ class WndRectItem: public QGraphicsRectItem{
 public:
 	Wnd* wnd_;
 	bool isMoving_;
-	WndRectItem(double x, double y, double w, double h, WallScene* wallscene);
+	//if you dont offer a wnd arg, then it will create one
+	WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd=0);
 	~WndRectItem();
 	//QRectF boundingRect() const;  
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
@@ -91,9 +93,13 @@ class WallScene:public QGraphicsScene{
 	QPointF pressPos_;
 	
 	void createWnd( QPointF & releasePos);
+	
 public:
-	Ring* currRing_;
+	std::vector<WndRectItem*> wndItems_;
+	//Ring* currRing_;
 	ResourceID currInput_;
+	QString currRingid_;
+	QString currWndid_;
 	WallScene();
 	
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
@@ -107,22 +113,26 @@ class WallWnd : public QWidget
     Q_OBJECT
     
 		private slots:
-			void	currentIndexChanged ( const QString & text );
+			void currentChnIndexChanged ( const QString & text );
+			void currentRingIndexChanged ( const QString & text );
 			void currentTabChanged ( int index );
-			void	changed ( const QList<QRectF> & );
+			void changed ( const QList<QRectF> & );
+			void clickedCloseWnd();
+			void clickedActivateRing();
 public:
     explicit WallWnd( QWidget* parent);
     ~WallWnd();
     
-
-
+	void resetWnds();
+	void resetComboBoxes();
 private:
-
+	bool isResetting_;
 	QComboBox* cbRings_;
 	QComboBox* cbChns_;
 	QComboBox* cbWnds_;
-	QString currRingid_;
-	QString currWndid_;
+	
+
+	ScreenRectItem* screensItem_;
 	std::vector<ResourceID> inputs_;
 
     Ui::WallWnd *ui;
