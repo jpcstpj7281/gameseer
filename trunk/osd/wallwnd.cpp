@@ -20,31 +20,6 @@ void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *opt
 	QRectF r = scene->sceneRect();
 	double screenh  = r.height()/rc;
 	double screenw  = r.width()/cc;
-	QRectF screenRect = QRectF( 0, 0, screenw, screenh);
-	
-	
-	painter->setBrush( Qt::green);
-	Ring* ring = RingMgr::instance()->getRing(scene->currRingid_.toStdString());
-	if (ring && ring->isActivate()){
-		std::vector<ResourceID> nodes = ring->getRnodes();
-		size_t i = 0;
-		if (nodes.size() >2  && GetRow(nodes.front()) == GetRow(nodes.back()) && GetCol(nodes.front()) == GetCol(nodes.back())){
-			i = 1;
-		}
-		for ( ; i < nodes.size(); ++i){
-			uint32_t row = GetRow(nodes[i]);
-			uint32_t col = GetCol(nodes[i]);
-			QRectF newRect((col -1) *screenw, (row -1) *screenh, screenw, screenh);
-			painter->drawRect(newRect);
-		}
-	}else if (scene->currInput_){
-		uint32_t row = GetRow(scene->currInput_);
-		uint32_t col = GetCol(scene->currInput_);
-		QRectF newRect = screenRect;
-		newRect.setX( (row -1) *screenw);
-		newRect.setY( (col -1) *screenh);
-		painter->drawRect(newRect);
-	}
 
 	painter->setBrush( Qt::black);
 	for ( uint32_t i = 0; i < rc; ++i){
@@ -65,6 +40,13 @@ void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *opt
 		painter->drawLine(start, end);
 	}
 
+	std::vector<QRectF> & rects = scene->getGreenRects();
+	painter->setBrush( Qt::green);
+	painter->setPen(QPen(Qt::black, 1));
+
+	for (size_t i =0; i < rects.size(); ++i){
+		painter->drawRect(rects[i]);
+	}
 }
 //=======================================================================================================================================================================
 ResizeItem::ResizeItem(Direction dir):
@@ -101,53 +83,111 @@ void ResizeItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,
 	painter->setBrush(QBrush(Qt::yellow));
 	painter->drawRect(r);  
 }
+void ResizeItem::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event ){
+	WndRectItem* item= (WndRectItem*)parentItem();
+	WallScene* wallscene = (WallScene*)this->scene();
+	QRectF itemrect = item->rect();
+	itemrect.translate(item->pos());
+
+	QRectF greenRect = wallscene->getBigGreenRect(itemrect);
+	uint32_t cc = ScreenMgr::instance()->getColCount();
+	uint32_t rc = ScreenMgr::instance()->getRowCount();
+	if ( !cc || !rc ) {return ;}
+
+	QRectF r = wallscene->sceneRect();
+	double screenh  = (r.height()/rc);
+	double screenw  = (r.width()/cc);
+	double x = itemrect.x();
+	double y = itemrect.y();
+
+	size_t countright = (int)((x+itemrect.width())/screenw);
+	size_t countbottom = (int)((y+itemrect.height())/screenh);
+
+	double offsetright = (x+itemrect.width())/screenw - countright;
+	double offsetbottom = (y+itemrect.height())/screenh - countbottom;
+	QPointF newPos = item->pos();
+	QRectF newRect ;
+	if (offsetright > 0){
+		++countright;
+	}else{
+		newRect = QRect( newPos.x(), newPos.y(), (countright+1)*screenw-newPos.x(), (countbottom)*screenh-newPos.y());
+		if ( greenRect.contains( newRect)){
+			++countright;
+		}
+	}
+	if (offsetbottom > 0){
+		++countbottom;
+	}else{
+		newRect = QRect( newPos.x(), newPos.y(), (countright)*screenw-newPos.x(), (countbottom+1)*screenh-newPos.y());
+		if ( greenRect.contains( newRect)){
+			++countbottom;
+		}
+	}
+	switch ( dir_){
+		case Direction::RightBottom:
+			newRect.setX(0);
+			newRect.setY(0);
+			newRect.setWidth(countright*screenw - newPos.x());
+			newRect.setHeight(countbottom*screenh - newPos.y());
+			break;
+	}
+	item->setPos(  newPos  );
+	item->setRect(newRect);
+	item->bringFront();
+	item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
+
+}
 void ResizeItem::resize( QPointF &curr){
 	
 	WndRectItem* item= (WndRectItem*)parentItem();
-	QPointF curPos = this->mapToScene(curr);
+	WallScene* wallscene = (WallScene*)this->scene();
 
-	QPointF leftup =  item->mapToItem(this, item->pos());
-	QPointF rightbottom =  item->mapToItem(this, QPointF( item->pos().x()+item->rect().width(), item->pos().y()+item->rect().height()) );
-	QPointF rightup =  item->mapToItem(this, QPointF( item->pos().x()+item->rect().width(), item->pos().y()) );
-	QPointF leftbottom =  item->mapToItem(this, QPointF( item->pos().x(), item->pos().y()+item->rect().height()) );
+	QPointF curPos = curr;
+	QPointF leftup =  item->pos();
+	QPointF rightbottom =   QPointF( item->pos().x()+item->rect().width(), item->pos().y()+item->rect().height());
+	QPointF rightup =   QPointF( item->pos().x()+item->rect().width(), item->pos().y()) ;
+	QPointF leftbottom =  QPointF( item->pos().x(), item->pos().y()+item->rect().height()) ;
+	QRectF itemrect = item->rect();
+	itemrect.translate(item->pos());
+	QRectF greenRect = wallscene->getBigGreenRect(itemrect);
 
 	QPointF newPos;
 	QRectF newRect;
 	QRectF oldRect;
 	switch ( dir_){
-		case Direction::LeftUp:
-			newPos = curPos;
-			if ( rightbottom.x() - curPos.x() < 50){
-				newPos.setX(rightbottom.x()-50);
-			}
-			else if (  curPos.x() < 0){
-				newPos.setX(0);
-			}
-			if ( rightbottom.y() - curPos.y() < 50){
-				newPos.setY(rightbottom.y()-50);
-			}
-			else if ( curPos.y() < 0){
-				newPos.setY(0);
-			}
+		//case Direction::LeftUp:
+		//	newPos = curPos;
+		//	if ( rightbottom.x() - curPos.x() < 50){
+		//		newPos.setX(rightbottom.x()-50);
+		//	}
+		//	else if (  curPos.x() < greenRect.x()){
+		//		newPos.setX(greenRect.x());
+		//	}
+		//	if ( rightbottom.y() - curPos.y() < 50){
+		//		newPos.setY(rightbottom.y()-50);
+		//	}
+		//	else if ( curPos.y() < greenRect.y()){
+		//		newPos.setY(greenRect.y());
+		//	}
 
-			newRect.setWidth(rightbottom.x() -newPos.x());
-			newRect.setHeight(rightbottom.y() -newPos.y());
-			
-			break;
+		//	newRect.setWidth(rightbottom.x() -newPos.x());
+		//	newRect.setHeight(rightbottom.y() -newPos.y());
+		//	
+		//	break;
 		case Direction::RightBottom:
 			newPos= item->pos();
 			newRect = QRectF( 0, 0, curPos.x()-leftup.x(), curPos.y()-leftup.y());
 			if ( curPos.x() - leftup.x() < 50){
 				newRect.setWidth(50);
 			}
-			else if (  curPos.x()  > scene()->sceneRect().width()  ){
-				newRect.setWidth(scene()->sceneRect().width() - leftup.x());
+			else if (  curPos.x()  > greenRect.right()  ){
+				newRect.setWidth(greenRect.right() - leftup.x());
 			}
 			if ( curPos.y() - leftup.y() < 50){
 				newRect.setHeight(50);
 			}
-			else if (  curPos.y()  > scene()->sceneRect().height() ){
-				newRect.setHeight(scene()->sceneRect().height() - leftup.y());
+			else if (  curPos.y()  > greenRect.bottom() ){
+				newRect.setHeight(greenRect.bottom() - leftup.y());
 			}
 			
 			break;
@@ -188,19 +228,16 @@ void ResizeItem::resize( QPointF &curr){
 		//	item->setRect(newRect);
 		//	break;
 	}
-
-	
-
 	item->setPos(  newPos  );
 	item->setRect(newRect);
 	item->bringFront();
-	item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
+	//item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
 
 }
 void ResizeItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseMoveEvent(event);
 	WndRectItem* parent = ((WndRectItem*)parentItem());
-	if ( isResizing_) resize(event->pos());
+	if ( isResizing_) resize(event->scenePos());
 }
 void ResizeItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
@@ -211,43 +248,16 @@ void ResizeItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 void ResizeItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
-	WndRectItem* parent = ((WndRectItem*)parentItem());
-
-}
-//=======================================================================================================================================================================
-MoveItem::MoveItem(){
-	setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
-	setCursor( Qt::OpenHandCursor);
-}
-//QRectF MoveItem::boundingRect() const  {  
-//	
-//} 
-void MoveItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
-	QRectF r= ((QGraphicsRectItem*)parentItem())->rect();
-	setRect(QRectF(r.x()+r.width()/5*2, r.y()+r.height()/5*2, r.width()/5, r.height()/5));
-	painter->setBrush(QBrush(Qt::cyan));
-	painter->drawRect(r);
-	painter->drawText(r, QString::number((int)1), QTextOption(Qt::Alignment::enum_type::AlignHCenter|Qt::Alignment::enum_type::AlignVCenter));
-	QGraphicsRectItem::paint(painter, option, widget);
-} 
-void MoveItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 	
-	QGraphicsRectItem::mouseMoveEvent(event);
-	((WndRectItem*)parentItem())->mouseMoveEvent(event);
-}
-void MoveItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
-
-	QGraphicsRectItem::mousePressEvent(event);
-	WndRectItem* item = ((WndRectItem*)parentItem());
-	item->isMoving_ = true;
-	item->bringFront();
-	((WndRectItem*)parentItem())->mousePressEvent(event);
-	setCursor( Qt::ClosedHandCursor);
-}
-void MoveItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
-	QGraphicsRectItem::mouseReleaseEvent(event);
-	((WndRectItem*)parentItem())->isMoving_ = false;
-	setCursor( Qt::OpenHandCursor);
+	if ( isResizing_) {
+		WndRectItem* parent = ((WndRectItem*)parentItem());
+		WallScene* wallscene = (WallScene*)this->scene();
+		parent->wnd_->resizeWnd( parent->pos().x()/wallscene->sceneRect().width()
+			,parent->pos().y()/wallscene->sceneRect().height()
+			,parent->rect().width()/wallscene->sceneRect().width()
+			,parent->rect().height()/wallscene->sceneRect().height()
+			);
+	}
 }
 //=======================================================================================================================================================================
 CloseItem::CloseItem(){
@@ -284,21 +294,22 @@ void CloseItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 }
 //=======================================================================================================================================================================
 WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd){
-	setFlags(QGraphicsItem::ItemIsMovable |QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
+	setFlags(QGraphicsItem::ItemIsMovable |QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
 	//ResizeItem *item = new ResizeItem( ResizeItem::RightUp);
 	ResizeItem *item1 = new ResizeItem( ResizeItem::RightBottom);
 	//ResizeItem *item2 = new ResizeItem( ResizeItem::LeftBottom);
-	ResizeItem *item3 = new ResizeItem( ResizeItem::LeftUp);
-	MoveItem *item4 = new MoveItem( );
+	//ResizeItem *item3 = new ResizeItem( ResizeItem::LeftUp);
+	//MoveItem *item4 = new MoveItem( );
 	CloseItem *item5 = new CloseItem( );
 	//item->setParentItem(this);
 	item1->setParentItem(this);
 	//item2->setParentItem(this);
-	item3->setParentItem(this);
-	item4->setParentItem(this);
+	//item3->setParentItem(this);
+	//item4->setParentItem(this);
 	item5->setParentItem(this);
 
-	setCursor( Qt::CrossCursor);
+	setCursor( Qt::OpenHandCursor);
+	//setCursor( Qt::CrossCursor);
 	isMoving_ = false;
 	wallscene->addItem( this);
 	setX(x);
@@ -308,14 +319,9 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 		wnd_ = WndMgr::instance()->createWnd( x/scene()->sceneRect().width(), y/scene()->sceneRect().height(), w/scene()->sceneRect().width(), h/scene()->sceneRect().height());
 	}else wnd_ = wnd;
 	setZValue( wnd_->getLayer());
+
 }
 
-//QRectF WndRectItem::boundingRect() const  {  
-//	QRectF r = rect();
-//	r.setX( pos().x());
-//	r.setY( pos().y());
-//	return r;
-//}  
 WndRectItem::~WndRectItem(){
 }
 void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
@@ -325,9 +331,7 @@ void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option
 	painter->drawRect(r);  
 	painter->setBrush(QBrush(Qt::green));
 	painter->drawRect(areaRect_);  
-	//qDebug()<<r;
-	//qDebug()<< this->x();
-	//qDebug()<< this->y();
+	painter->drawText(r, QString::fromStdString(wnd_->id_), QTextOption(Qt::Alignment::enum_type::AlignHCenter|Qt::Alignment::enum_type::AlignVCenter));
 	QGraphicsRectItem::paint(painter, option, widget);
 }  
 void WndRectItem::bringFront(){
@@ -335,17 +339,25 @@ void WndRectItem::bringFront(){
 }
 
 void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
-	//qDebug()<<"WndRectItem mousePressEvent"<<this;
-	QGraphicsRectItem::mousePressEvent(event);
-	bringFront();
+	if (event->button() == Qt::MouseButton::LeftButton){
+		isMoving_ = true;
+		QGraphicsRectItem::mousePressEvent(event);
+		bringFront();
+		setCursor( Qt::ClosedHandCursor);
+	}
 }
 void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
+	setCursor( Qt::OpenHandCursor);
+	if (isMoving_ ){
+		WallScene* wallscene = (WallScene*)this->scene();
+		isMoving_ = false;
+		wnd_->moveWnd(pos().x()/wallscene->width(), pos().y()/wallscene->height());
+	}
 }
 void	WndRectItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 	if (isMoving_) {
 		QGraphicsRectItem::mouseMoveEvent(event);
-		wnd_->moveWnd( event->scenePos().x()/scene()->sceneRect().width(), event->scenePos().y()/scene()->sceneRect().height());
 	}
 }
 void	WndRectItem::hoverMoveEvent ( QGraphicsSceneHoverEvent * event ){
@@ -355,24 +367,33 @@ void	WndRectItem::hoverMoveEvent ( QGraphicsSceneHoverEvent * event ){
 
 QVariant WndRectItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+
     if(scene() && (change == ItemPositionChange || change ==ItemMatrixChange ) )
     {
-        QPointF newPos = value.toPointF();
-        QRectF r = scene()->sceneRect();
-		r.setRight(r.right() - rect().right());
-		r.setBottom(r.bottom() - rect().bottom());
-        if(!r.contains(newPos))
-        {
-            newPos.setX(qMin(r.right(), qMax(newPos.x(), r.left())));
-            newPos.setY(qMin(r.bottom(), qMax(newPos.y(), r.top())));
-            return newPos;
-        }
+		WallScene* wallscene = (WallScene*)this->scene();
+		QPointF newPos = value.toPointF();
+		
+		if ( rect().width() == 0 || rect().height() == 0 )return newPos;
+		QRectF thisrect = QRectF(pos().x(), pos().y(),rect().width(), rect().height());
+		QRectF bigRect = wallscene->getBigGreenRect(thisrect);
+		bigRect.setRight(bigRect.right() - rect().right());
+		bigRect.setBottom(bigRect.bottom() - rect().bottom());
+		if(!bigRect.contains(newPos)){
+			newPos.setX(qMin(bigRect.right(), qMax(newPos.x(), bigRect.left())));
+			newPos.setY(qMin(bigRect.bottom(), qMax(newPos.y(), bigRect.top())));
+			return newPos;
+		}
+		
     }
  
     return QGraphicsRectItem::itemChange(change, value);
 }
 
 //=======================================================================================================================================================================
+WallScene::WallScene(){
+	isCreatingWnd_ = false;
+	currInput_ = 0;
+}
 void WallScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 	pressPos_ = event->scenePos();
 	QList<QGraphicsItem *>  list = items( pressPos_, Qt::ItemSelectionMode::IntersectsItemShape, Qt::SortOrder::AscendingOrder);
@@ -428,14 +449,157 @@ void WallScene::createWnd( QPointF & releasePos){
 		//	QMessageBox::warning(0, "Wanning", "The Ring is not yet been activated!");
 		//	return;
 		//}
-
-		wndItems_.push_back(new WndRectItem(pos.x(), pos.y(), width, height, this));
+		createWndInGreenRect(QRectF(pos.x(), pos.y(), width, height));
 	}
 }
-WallScene::WallScene(){
-	isCreatingWnd_ = false;
-	currInput_ = 0;
+QRectF WallScene::getBigGreenRect( QRectF rect){
+	uint32_t cc = ScreenMgr::instance()->getColCount();
+	uint32_t rc = ScreenMgr::instance()->getRowCount();
+	if ( !cc || !rc ) {return this->sceneRect();}
+
+	QRectF r = this->sceneRect();
+	double screenh  = (r.height()/rc);
+	double screenw  = (r.width()/cc);
+	double x = rect.x();
+	double y = rect.y();
+
+	size_t countleft = (int)(x/screenw);
+	size_t counttop = (int)(y/screenh);
+	size_t countright = (int)((x+rect.width())/screenw);
+	size_t countbottom = (int)((y+rect.height())/screenh);
+
+	double offsetleft = (x/screenw) - countleft;
+	double offsettop = (y/screenh) - counttop;
+	double offsetright = (x+rect.width())/screenw - countright;
+	double offsetbottom = (y+rect.height())/screenh - countbottom;
+
+	QPointF rightbottom( (countright+1)*screenw,  (countbottom+1)*screenh);
+	QPointF lefttop ( countleft*screenw, counttop*screenh);
+
+	size_t colCount = (size_t)((rightbottom.x() - lefttop.x()) / screenw);
+	size_t rowCount = (size_t)((rightbottom.y() - lefttop.y()) / screenh);
+	size_t rectCount = colCount*rowCount;
+
+	std::vector<QRectF> rects = getGreenRects();
+
+	QRectF growingRect(lefttop.x(), lefttop.y(), screenw, screenh);
+	bool isInGrowingRect = false;
+	size_t ic= 1;
+	size_t ir= 1;
+	for ( ; ic <= colCount; ++ic){
+		int count = 0;
+		growingRect.setWidth( screenw * ic);
+		growingRect.setHeight( screenh * ir);
+		for ( size_t ig= 0;  ig<rects.size();++ig){
+			if ( growingRect.contains(rects[ig])){
+				++count;
+			}
+		}
+		if ( count != ir*ic){
+			--ic;
+			break;;
+		}else if (ic == colCount){
+			break;
+		}
+	}
+	for ( ; ir <= rowCount; ++ir){
+		int count = 0;
+		growingRect.setWidth( screenw * ic);
+		growingRect.setHeight( screenh * ir);
+		for ( size_t ig= 0;  ig<rects.size();++ig){
+			if ( growingRect.contains(rects[ig])){
+				++count;
+			}
+		}
+		if ( count != ir*ic){
+			--ir;
+			break;
+		}else if (ir == rowCount){
+			break;
+		}
+	}
+	growingRect.setWidth( screenw * ic);
+	growingRect.setHeight( screenh * ir);
+	//qDebug()<<rect;
+	//qDebug()<<growingRect;
+	return growingRect;// a big rect that can contains the win rect which organized by screen rects.
 }
+
+bool WallScene::isInGreenRect( QRectF &rect){
+	uint32_t cc = ScreenMgr::instance()->getColCount();
+	uint32_t rc = ScreenMgr::instance()->getRowCount();
+	if ( !cc || !rc ) {return false;}
+
+	QRectF r = this->sceneRect();
+	double screenh  = r.height()/rc;
+	double screenw  = r.width()/cc;
+
+	size_t countleft = (int)(rect.x()/screenw);
+	size_t counttop = (int)(rect.y()/screenh);
+	size_t countright = (int)((rect.x()+rect.width())/screenw);
+	size_t countbottom = (int)((rect.y()+rect.height())/screenh);
+
+	double offsetleft = (rect.x()/screenw) - countleft;
+	double offsettop = (rect.y()/screenh) - counttop;
+	double offsetright = (rect.x()+rect.width()) - countright;
+	double offsetbottom = (rect.y()+rect.height()) - countbottom;
+
+	QPointF rightbottom( offsetright>0 ? (countright+1)*screenw:countright*screenw , offsetbottom>0 ? (countbottom+1)*screenh:countbottom*screenh);
+	QPointF lefttop ( countleft*screenw, counttop*screenh);
+	QRectF bigRect( lefttop, rightbottom);// a big rect that can contains the win rect which organized by screen rects.
+	size_t colCount = (size_t)((rightbottom.x() - lefttop.x()) / screenw);
+	size_t rowCount = (size_t)((rightbottom.y() - lefttop.y()) / screenh);
+	size_t rectCount = colCount*rowCount;
+
+	std::vector<QRectF> rects = getGreenRects();
+	std::vector<QRectF> inRects ;
+	for ( size_t i = 0; i <rects.size();++i){//calculate how many screen rect insight the bigRect.
+		if (bigRect.contains( rects[i])){
+			inRects.push_back( rects[i]);
+		}
+	}
+	if ( inRects.size() < rectCount){
+		//not enough screen to create this window! logically should be the same.
+		return false;
+	}
+	return true;
+}
+void WallScene::createWndInGreenRect( QRectF &rect){
+	if (isInGreenRect(rect))
+		wndItems_.push_back(new WndRectItem(rect.x(), rect.y(),rect.width(), rect.height(), this));
+}
+std::vector<QRectF> WallScene::getGreenRects(){
+	uint32_t cc = ScreenMgr::instance()->getColCount();
+	uint32_t rc = ScreenMgr::instance()->getRowCount();
+	std::vector<QRectF> rects;
+	if ( !cc || !rc ) {return rects;}
+
+	QRectF r = this->sceneRect();
+	double screenh  = r.height()/rc;
+	double screenw  = r.width()/cc;
+	QRectF screenRect = QRectF( 0, 0, screenw, screenh);
+
+	Ring* ring = RingMgr::instance()->getRing(this->currRingid_.toStdString());
+	if (ring && ring->isActivate()){ //draw rect for each rnode in activated ring
+		std::vector<ResourceID> nodes = ring->getRnodes();
+		size_t i = 0;
+		if (nodes.size() >2  && GetRow(nodes.front()) == GetRow(nodes.back()) && GetCol(nodes.front()) == GetCol(nodes.back())){
+			i = 1;
+		}
+		for ( ; i < nodes.size(); ++i){
+			uint32_t row = GetRow(nodes[i]);
+			uint32_t col = GetCol(nodes[i]);
+			rects.push_back(QRectF((col -1) *screenw, (row -1) *screenh, screenw, screenh));
+			
+		}
+	}else if (currInput_){//draw rect for chn
+		uint32_t row = GetRow(currInput_);
+		uint32_t col = GetCol(currInput_);
+		rects.push_back(QRectF ((col -1) *screenw, (row -1) *screenh, screenRect.width(), screenRect.height()));
+	}
+	return rects;
+}
+
 //=======================================================================================================================================================================
 WallWnd::WallWnd(QWidget* parent) :
     QWidget(parent)
@@ -467,7 +631,7 @@ WallWnd::WallWnd(QWidget* parent) :
 	cbRings_ = findChild<QComboBox* >("cbRing");
 	cbChns_ = findChild<QComboBox* >("cbChn");
 	cbWnds_ = findChild<QComboBox* >("cbWnd");
-	connect(cbChns_, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(currentChnIndexChanged (const QString &)) );
+	connect(cbChns_, SIGNAL(activated(const QString &)), this, SLOT(currentChnIndexChanged (const QString &)) );
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 
@@ -481,6 +645,9 @@ WallWnd::WallWnd(QWidget* parent) :
 	}
 }
 void WallWnd::changed ( const QList<QRectF> & region ){
+	//for ( size_t i = 0; i < region.size(); i ++){
+	//	qDebug()<<region[i];
+	//}
 	resetComboBoxes();
 }
 void WallWnd::clickedCloseWnd(){
@@ -496,7 +663,6 @@ void WallWnd::clickedCloseWnd(){
 				i = scene_->wndItems_.erase(i);
 			}else ++i;
 		}
-		resetComboBoxes();
 	}
 }
 void WallWnd::clickedActivateRing(){
@@ -535,6 +701,10 @@ void WallWnd::resetWnds(){
 	}
 }
 void WallWnd::resetComboBoxes(){
+	cbWnds_->setEnabled(false);
+	cbRings_->setEnabled(false);
+	cbChns_->setEnabled(false);
+
 	std::vector<Ring*> rings = RingMgr::instance()->getRings();
 	cbRings_->clear();
 	for ( size_t i = 0; i < rings.size();++i){
@@ -571,7 +741,10 @@ void WallWnd::resetComboBoxes(){
 		}
 	}
 	//the the top to be current
-	if ( inputs_.size() >0)	scene_->currInput_ = inputs_.front();
+	if ( inputs_.size() >0 && scene_->currInput_==0 )scene_->currInput_ = inputs_.front();
+	cbWnds_->setEnabled(true);
+	cbRings_->setEnabled(true);
+	cbChns_->setEnabled(true);
 }
 void WallWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
@@ -590,6 +763,8 @@ void WallWnd::currentChnIndexChanged ( const QString & text ){
 	for ( size_t i = 0; i < inputs_.size();++i){
 		if ( ToInputStrID(inputs_[i]) == text.toStdString()){
 			scene_->currInput_ = inputs_[i];
+			screensItem_->update();
+			break;
 		}
 	}
 }
@@ -597,3 +772,4 @@ void WallWnd::currentRingIndexChanged ( const QString & text ){
 	scene_->currRingid_ = text;
 	screensItem_->update();
 }
+

@@ -47,10 +47,6 @@ class Wnd {
 
 	uint32_t layer_;
 	
-	
-
-	
-
 	//rnodes of a ring.
 	std::list<ResourceID> wnodes_;
 

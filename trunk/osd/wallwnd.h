@@ -11,6 +11,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <wnd.h>
+#include <QMouseEvent>
 
 namespace Ui {
 class WallWnd;
@@ -42,18 +43,9 @@ public:
 	virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
 	virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+	virtual void	mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event );
 
 	void resize( QPointF &curr);
-};
-
-class MoveItem: public QGraphicsRectItem{
-public:
-	MoveItem();
-	//QRectF boundingRect() const;  
-	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
-	virtual void	mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
-	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
-	virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
 };
 
 class CloseItem: public QGraphicsRectItem{
@@ -86,6 +78,8 @@ public:
 	virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event )override;
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value)override;
 	void bringFront();
+
+
 };
 
 class WallScene:public QGraphicsScene{
@@ -93,8 +87,12 @@ class WallScene:public QGraphicsScene{
 	QPointF pressPos_;
 	
 	void createWnd( QPointF & releasePos);
+	void createWndInGreenRect( QRectF &rect);
 	
 public:
+	QRectF getBigGreenRect( QRectF rect);
+	bool isInGreenRect( QRectF &rect);
+	QRectF adjustInGreenRect( QRectF &rect);
 	std::vector<WndRectItem*> wndItems_;
 	//Ring* currRing_;
 	ResourceID currInput_;
@@ -105,6 +103,9 @@ public:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
 	virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+
+
+	std::vector<QRectF> getGreenRects();
 };
 
 
@@ -130,7 +131,6 @@ private:
 	QComboBox* cbRings_;
 	QComboBox* cbChns_;
 	QComboBox* cbWnds_;
-	
 
 	ScreenRectItem* screensItem_;
 	std::vector<ResourceID> inputs_;

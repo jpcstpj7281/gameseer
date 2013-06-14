@@ -252,14 +252,14 @@
   <widget class="QPushButton" name="pbActivateRing">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>60</x>
      <y>540</y>
      <width>71</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Activate</string>
+    <string>Activate-&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbCloseWnd">
