@@ -72,6 +72,7 @@ private:
 	//void newRnode();
 
 	void resetRnodeTable( Ring* ring);
+	void resetRingTable( );
 };
 
 #endif // RingWnd_H

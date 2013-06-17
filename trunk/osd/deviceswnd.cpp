@@ -10,6 +10,7 @@
 #include "ui_mainwindow.h"
 #include <OsdImage.h>
 #include <OsdProjMode.h>
+#include <Ring.h>
 
 #undef min
 using namespace std::placeholders;
@@ -140,15 +141,19 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	address_->setText( QString::fromStdString( ip) );
 
 	connect( this, SIGNAL(clicked()), this, SLOT(clickit()) );
-	
-	
-	
+
+	connect( address_, SIGNAL(editingFinished()), this, SLOT(addressEditFinished()) );
 	
 }
 
 ScreenConnBtn::~ScreenConnBtn(){
 	if (osdWnd_) delete osdWnd_;
 	if (testQbox_) delete testQbox_;
+}
+
+void ScreenConnBtn::addressEditFinished(){
+	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
+	srn->setAddress( address_->text().toStdString());
 }
 
 DevicesWnd::DevicesWnd(QWidget *parent) :
@@ -175,7 +180,8 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
     startTimer(100);
-
+	QPushButton * clearWall = findChild<QPushButton* >("clearWall");
+	connect( clearWall, SIGNAL( clicked()), this, SLOT(clearWall()) );
 	QPushButton * incrCol = findChild<QPushButton* >("incrCol");
 	connect( incrCol, SIGNAL( clicked()), this, SLOT(incrCol()) );
 	QPushButton * incrRow = findChild<QPushButton* >("incrRow");
@@ -196,11 +202,111 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	if ( setupTest){
 		connect( setupTest, SIGNAL(clicked()), this, SLOT(setupTestClick()));
 	}
+
+	QPushButton * pbLoad = findChild<QPushButton* >("pbLoad");
+	connect( pbLoad, SIGNAL( clicked()), this, SLOT(clickedLoad()) );
+	QPushButton * pbSave = findChild<QPushButton* >("pbSave");
+	connect( pbSave, SIGNAL( clicked()), this, SLOT(clickedSave()) );
 }
 DevicesWnd::~DevicesWnd()
 {
     delete ui;
 }
+
+void DevicesWnd::clickedLoad(){
+	clearWall();
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+	QDomNodeList items = root.elementsByTagName("wall");
+	
+	if ( items.size() >0 ){
+		QDomElement wallElm = items.at(0).toElement();
+		size_t row = wallElm.attribute("row").toInt();
+		size_t col = wallElm.attribute("col").toInt();
+		for ( int i = 0; i <col;++i){
+			ScreenMgr::instance()->addScreenCol();
+		}
+		for ( int i = 1; i <row;++i){
+			ScreenMgr::instance()->addScreenRow();
+		}
+	}
+
+	items = root.elementsByTagName("screen");
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement elm = items.at(i).toElement();
+		Screen* srn = ScreenMgr::instance()->getScreen( elm.attribute("id").toInt() );
+		srn->setAddress(elm.attribute("ip").toStdString() );
+		newAddress(srn->getResourceID(), srn->getAddress());
+	}
+	items = root.elementsByTagName("ring");
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement ringelm = items.at(i).toElement();
+		QString id = ringelm.attribute("id");
+		Ring* ring = RingMgr::instance()->getRing(id.toStdString() );
+		if ( ring == NULL){
+			ring = RingMgr::instance()->createRing(id.toStdString() );
+		}
+		QDomElement rnode = ringelm.firstChildElement();
+		while(rnode != QDomElement()){
+			QString rnodeid = rnode.attribute("id");
+			ring->makeNode( rnodeid.toInt() , ring->size());
+			rnode = rnode.nextSibling().toElement();
+		}
+	}
+}
+void DevicesWnd::clickedSave(){
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+
+	size_t row = ScreenMgr::instance()->getRowCount();
+	size_t col = ScreenMgr::instance()->getColCount();
+
+	QDomNodeList items = root.elementsByTagName("wall");
+	QDomElement wallElm;
+	if ( items.size() >0 ){
+		wallElm = items.at(0).toElement();
+	}else{
+		wallElm = ConfigMgr::instance()->getDoc()->createElement("wall");
+		root.appendChild(wallElm);
+	}
+	wallElm.setAttribute("row", row);
+	wallElm.setAttribute("col", col);
+
+	items = root.elementsByTagName("screen");
+	std::vector<Screen*> srns;
+	for (size_t i =1; i <=row; ++i){
+		for (size_t j =1; j <=col; ++j){
+			srns.push_back( ScreenMgr::instance()->getScreen( ToScreenID(i, j)) );
+		}
+	}
+	while (items.size()){
+		root.removeChild(items.at(0));
+	}
+	for (size_t i =0; i <srns.size(); ++i){
+		QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("screen");
+		Screen* srn = srns[i];
+		elm.setAttribute("id", QString::number( srn->getResourceID()));
+		elm.setAttribute("ip",QString::fromStdString( srn->getAddress()));
+		root.appendChild(elm);
+	}
+
+	items = root.elementsByTagName("ring");
+	while (items.size()){
+		root.removeChild(items.at(0));
+	}
+	std::vector<Ring*> rings = RingMgr::instance()->getRings();
+	for (size_t i =0; i <rings.size(); ++i){
+		QDomElement ringelm = ConfigMgr::instance()->getDoc()->createElement("ring");
+		ringelm.setAttribute("id", QString::fromStdString( rings[i]->id_));
+		root.appendChild(ringelm);
+		std::vector<ResourceID> rnodes = rings[i]->getRnodes();
+		for ( size_t j = 0; j < rnodes.size();++j){
+			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("rnode");
+			elm.setAttribute("id", QString::number( rnodes[j]));
+			ringelm.appendChild(elm);
+		}
+	}
+	ConfigMgr::instance()->save();
+}
+
 void DevicesWnd::setupTestClick(){
 	ScreenMgr::instance()->setupTest();
 }
@@ -216,7 +322,12 @@ void DevicesWnd::incrRow(){
 		newAddress( srn, std::string());
 	}
 }
-
+void DevicesWnd::clearWall(){
+	auto ss = ScreenMgr::instance()->clearWall();
+	BOOST_FOREACH( uint32_t srn, ss){
+		deleteAddress( srn);
+	}
+}
 void DevicesWnd::decrCol(){
 	auto ss = ScreenMgr::instance()->removeScreenCol();
 	BOOST_FOREACH( uint32_t srn, ss){

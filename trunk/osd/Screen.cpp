@@ -443,3 +443,18 @@ void ScreenMgr::setupTest(){
 		}
 	}
 }
+std::vector<ResourceID> ScreenMgr::clearWall(){
+
+	std::vector<ResourceID> scrns ;
+	for( size_t i = 0 ; i < MAXROW; ++i){
+		for( size_t j = 0 ; j < MAXCOL; ++j){
+			if ( screens_[i][j]){
+				scrns.push_back(ToScreenID(i+1, j+1));
+				delete screens_[i][j];
+			}
+			screens_[i][j] = NULL;
+		}
+	}
+	colCount_ = rowCount_ =0;
+	return scrns;
+}
