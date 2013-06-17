@@ -73,11 +73,12 @@ public:
 	void versionRequest(QboxCallback callback, QboxDataMap &value );
 
 	bool setAddress( const std::string & ip);
+	std::string getAddress(){ return qbox_?qbox_->address():std::string("");}
 	void connect();
 	void disconnect();
 	Qbox* getQbox(){ return qbox_;}
 
-	inline ResourceID getResourceID(){ return (row_<< 8) + col_;}
+	inline ResourceID getResourceID(){ return ToScreenID(row_, col_);}
 	inline Resolution getInResolution(ResourceID input){ Resolution res= inPort_[input]; return res==-1?0:res;}
 	inline uint32_t getCol() { return col_;}
 	inline uint32_t getRow() { return row_;}
@@ -130,11 +131,7 @@ public:
 	bool isValidScreenId( uint32_t row, uint32_t col){ return (row<=rowCount_&&row>0 && col<=colCount_&&col>0)?true:false;}
 	void onInputChanged(ResourceChangedCallback callback);
 
-	inline Screen* getScreen(ResourceID id){	
-		int row = (id >> 8) & 0xFF - 1;//start from 1, not 0
-		int col = (id & 0xFF) - 1; //start from 1, not 0
-		return screens_[row][col];
-	}
+	inline Screen* getScreen(ResourceID id){return screens_[GetRow(id)-1][GetCol(id)-1];}
 	std::vector<ResourceID> addScreenCol();
 	std::vector<ResourceID> addScreenRow();
 	std::vector<ResourceID> addScreens( uint32_t rowCount, uint32_t colCount);
@@ -150,6 +147,8 @@ public:
 	uint32_t getScreenHeight(){ return screenHeight_;}
 	uint32_t getWallWidth(){ return screenWidth_ * colCount_;}
 	uint32_t getWallHeight(){ return screenHeight_ * rowCount_;}
+
+	std::vector<ResourceID> clearWall();
 
 	bool isInputValid( ResourceID inputid);
 	bool isOutputRingValid( ResourceID outputid);

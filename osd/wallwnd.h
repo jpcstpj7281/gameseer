@@ -67,7 +67,7 @@ public:
 	Wnd* wnd_;
 	bool isMoving_;
 	//if you dont offer a wnd arg, then it will create one
-	WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd=0);
+	WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd);
 	~WndRectItem();
 	//QRectF boundingRect() const;  
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
@@ -97,7 +97,7 @@ public:
 	//Ring* currRing_;
 	ResourceID currInput_;
 	QString currRingid_;
-	QString currWndid_;
+	//QString currWndid_;
 	WallScene();
 	
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
@@ -116,6 +116,7 @@ class WallWnd : public QWidget
 		private slots:
 			void currentChnIndexChanged ( const QString & text );
 			void currentRingIndexChanged ( const QString & text );
+			void currentWndIndexChanged ( const QString & text );
 			void currentTabChanged ( int index );
 			void changed ( const QList<QRectF> & );
 			void clickedCloseWnd();

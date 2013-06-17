@@ -220,8 +220,6 @@ RingWnd::RingWnd(QTabWidget* parent) :
 	connect( ringTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked(int,int)));
 	newRing("");
 
-
-
 	rnodeTable_ = findChild<QTableWidget* >("rnodeTable");
     rnodeTable_->setColumnCount( 6);
 	sl.clear();
@@ -248,9 +246,21 @@ RingWnd::~RingWnd()
     delete ui;
 }
 void RingWnd::currentTabChanged ( int index ){
-	resetRnodeTable( currRing_);
+	
+	QTabWidget* tab = (QTabWidget*)sender();
+	if (tab->tabText(index) == "Rings"){
+		resetRingTable();
+		resetRnodeTable( currRing_);
+	}
 }
-
+void RingWnd::resetRingTable(){
+	ringTable_->setRowCount(0);
+	newRing("");
+	std::vector<Ring*> rings = RingMgr::instance()->getRings();
+	for ( size_t i = 0 ; i <rings.size(); ++i){
+		newRing( rings[i]->id_);
+	}
+}
 //clear the list of rnodes, and restore the new sets.
 void RingWnd::resetRnodeTable( Ring* ring){
 	currRing_ = ring;
@@ -307,7 +317,7 @@ void RingWnd::cellChanged(int row,int col){
 	}
 }
 
-void RingWnd::newRing( const std::string &ip){
+void RingWnd::newRing( const std::string &ringid){
 	RingWidget * wgt = 0;
 	if ( ringTable_->rowCount()>0){
 		wgt= (RingWidget*) ringTable_->cellWidget( ringTable_->rowCount()-1, 0);
@@ -316,27 +326,25 @@ void RingWnd::newRing( const std::string &ip){
 	if ( wgt==0 ){
 		insertRow = 1;
 	}else if (wgt->id_->text().isEmpty()  ){//最后一行已经是空IP
-		if ( ip.empty() ) return;	//无需操作
+		if ( ringid.empty() ) return;	//无需操作
 		else {
 			insertRow = ringTable_->rowCount()-1;//在空行前插入
 			ringTable_->insertRow( insertRow);
 			++insertRow;
 		}
 	}else{//最后一行非空IP
-		if ( ip.empty() ) 
+		if ( ringid.empty() ) 
 			insertRow = ringTable_->rowCount()+1;
 		else 
 			insertRow = ringTable_->rowCount();
 	}
 
-	if (RingMgr::instance()->hasRing(ip)){
-		return;
-	}
-
-	if ( !ip.empty()  ){
-		wgt = new RingWidget( RingMgr::instance()->createRing(ip) );
+	if (RingMgr::instance()->hasRing(ringid)){
+		wgt = new RingWidget( RingMgr::instance()->getRing(ringid) );
+	}else if ( !ringid.empty()  ){
+		wgt = new RingWidget( RingMgr::instance()->createRing(ringid) );
 	}else{
-		wgt = new RingWidget( NULL );
+		wgt = new RingWidget(NULL);
 	}
 
 	if ( insertRow > ringTable_->rowCount()){

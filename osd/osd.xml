@@ -1,12 +1,18 @@
-<?xml version='1.0'?>
 <root>
-    <addresses>
-        <address location="home" ip="127.0.0.1"/>
-        <address location="home" ip="192.168.67.101"/>
-    </addresses>
-    <components/>
-    <settings>
-        <setting default="0" type="brightness" min="0" max="255"/>
-    </settings>
-    <devices/>
+    <wall row="2" col="2"/>
+    <screen ip="192.168.1.123" id="257"/>
+    <screen ip="192.168.1.127" id="258"/>
+    <screen ip="127.0.0.1" id="513"/>
+    <screen ip="" id="514"/>
+    <ring id="Ring1">
+        <rnode id="16974081"/>
+        <rnode id="16974082"/>
+    </ring>
+    <ring id="Ring2">
+        <rnode id="16974081"/>
+        <rnode id="16974082"/>
+        <rnode id="16974338"/>
+        <rnode id="16974337"/>
+        <rnode id="16974081"/>
+    </ring>
 </root>

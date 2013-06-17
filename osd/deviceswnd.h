@@ -47,6 +47,7 @@ class ScreenConnBtn: public QPushButton{
 		void clickit();
 		void clickOsd();
 		void clickTest();
+		void addressEditFinished();
 public:
 	QTableWidgetItem	*row_;
 	QTableWidgetItem	*col_;
@@ -82,6 +83,7 @@ private slots:
 	void cellChanged(int,int);
 	void incrCol();
 	void incrRow();
+	void clearWall();
 	void decrCol();
 	void decrRow();
 	void disconnAll();
@@ -89,6 +91,8 @@ private slots:
 
 	void setupTestClick();
 
+	void clickedLoad();
+	void clickedSave();
 private:
 
 	

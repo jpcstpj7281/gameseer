@@ -37,6 +37,7 @@ public:
 	bool makeNode( ResourceID rnode, uint32_t index);
 
 	bool isCollided( Ring*);
+	bool isClosed(){ return rnodes_.size() > 0 ? (GetRow(rnodes_.front()) ==GetRow(rnodes_.back()) && GetCol(rnodes_.front()) ==GetCol(rnodes_.back()) ? true:false):false;}
 
 	ResourceID getInputRNode(ResourceID inputid);
 	ResourceID getOutputRNode(ResourceID outputid);

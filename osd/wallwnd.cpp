@@ -315,9 +315,7 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	setX(x);
 	setY(y);
 	setRect( QRectF(0, 0, w, h));
-	if ( !wnd){
-		wnd_ = WndMgr::instance()->createWnd( x/scene()->sceneRect().width(), y/scene()->sceneRect().height(), w/scene()->sceneRect().width(), h/scene()->sceneRect().height());
-	}else wnd_ = wnd;
+	wnd_ = wnd;
 	setZValue( wnd_->getLayer());
 
 }
@@ -565,8 +563,16 @@ bool WallScene::isInGreenRect( QRectF &rect){
 	return true;
 }
 void WallScene::createWndInGreenRect( QRectF &rect){
-	if (isInGreenRect(rect))
-		wndItems_.push_back(new WndRectItem(rect.x(), rect.y(),rect.width(), rect.height(), this));
+	if (isInGreenRect(rect)){
+		Ring* ring = NULL;
+		if ( !this->currRingid_.isEmpty()){
+			ring = RingMgr::instance()->getRing(currRingid_.toStdString());
+		}
+		Wnd * wnd = WndMgr::instance()->createWnd(rect.x(), rect.y(),rect.width(), rect.height(), this->currInput_, ring );
+		if (wnd){
+			wndItems_.push_back(new WndRectItem(rect.x(), rect.y(),rect.width(), rect.height(), this, wnd));
+		}
+	}
 }
 std::vector<QRectF> WallScene::getGreenRects(){
 	uint32_t cc = ScreenMgr::instance()->getColCount();
@@ -631,7 +637,9 @@ WallWnd::WallWnd(QWidget* parent) :
 	cbRings_ = findChild<QComboBox* >("cbRing");
 	cbChns_ = findChild<QComboBox* >("cbChn");
 	cbWnds_ = findChild<QComboBox* >("cbWnd");
+	connect(cbWnds_, SIGNAL(activated(const QString &)), this, SLOT(currentWndIndexChanged (const QString &)) );
 	connect(cbChns_, SIGNAL(activated(const QString &)), this, SLOT(currentChnIndexChanged (const QString &)) );
+	connect(cbRings_, SIGNAL(activated(const QString &)), this, SLOT(currentRingIndexChanged (const QString &)) );
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 
@@ -649,6 +657,7 @@ void WallWnd::changed ( const QList<QRectF> & region ){
 	//	qDebug()<<region[i];
 	//}
 	resetComboBoxes();
+
 }
 void WallWnd::clickedCloseWnd(){
 	int index = cbWnds_->currentIndex();
@@ -672,7 +681,7 @@ void WallWnd::clickedActivateRing(){
 		Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdString());
 		if ( ring->isActivate()){
 			pb->setStyleSheet("");
-			ring->activate(false);
+			ring->activate(true);
 		}else{
 			pb->setStyleSheet("{color:red£»background:yellow}");
 			ring->activate(true);
@@ -722,12 +731,11 @@ void WallWnd::resetComboBoxes(){
 	cbWnds_->clear();
 	for ( size_t i = 0; i < wnds.size();++i){
 		cbWnds_->addItem( QString::fromStdString(wnds[i]->id_));//add all wnd to combox
-		if ( scene_->currWndid_.toStdString() == wnds[i]->id_){//only the one currently referred, set to current index.
+		if ( WndMgr::instance()->getCurrLayer() == wnds[i]->getLayer()){//only the one currently referred, set to current index.
 			cbWnds_->setCurrentIndex( cbWnds_->count()-1);
 		}
 	}
-	//the the top to be current
-	if ( scene_->currWndid_.isEmpty() && cbWnds_->count() )scene_->currWndid_ = cbWnds_->currentText();
+	
 
 	cbChns_->clear();
 	inputs_ = ScreenMgr::instance()->getAvailableInput();
@@ -772,4 +780,14 @@ void WallWnd::currentRingIndexChanged ( const QString & text ){
 	scene_->currRingid_ = text;
 	screensItem_->update();
 }
+void WallWnd::currentWndIndexChanged ( const QString & text ){
+	Wnd * wnd = WndMgr::instance()->getWnd(text.toStdString());
+	wnd->bringFront();
 
+	for ( size_t i = 0 ; i < scene_->wndItems_.size(); ++i){
+		if (scene_->wndItems_[i]->wnd_ == wnd){
+			scene_->wndItems_[i]->setZValue(wnd->getLayer());
+		}
+		
+	}
+}

@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include "QboxNet.h"
 #include "Screen.h"
+#include <Ring.h>
 
 class Wnd;
 
@@ -30,11 +31,13 @@ public:
 	static WndMgr *instance();
 
 	//the percentage of wall
-	Wnd* createWnd( double xPercent, double yPercent, double widthPercent, double heightPercent);
-	Wnd* createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent);
+	Wnd* createWnd( double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring);
+	Wnd* createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring);
 	bool hasWnd(const std::string & id);
 	std::vector<Wnd* > getWnds(){ return wnds_;}
+	Wnd* getWnd(const std::string &id);
 	bool closeWnd(Wnd*);
+	uint32_t getCurrLayer(){ return currlayer_;}
 	
 	std::vector<Wnd* > getAllWnds(){ return wnds_;}
 };
@@ -48,7 +51,7 @@ class Wnd {
 	uint32_t layer_;
 	
 	//rnodes of a ring.
-	std::list<ResourceID> wnodes_;
+	std::vector<ResourceID> wnodes_;
 
 	Wnd( double xPercent, double yPercent, double wPercent, double hPercent);
 	Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h);
