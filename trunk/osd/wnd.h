@@ -45,15 +45,16 @@ public:
 class Wnode{
 public:
 	ResourceID wnodeid_;
-	double xp_,yp_,wp_, hp_, axp_, ayp_, awp_, ahp_, leftCut_, rightCut_, topCut_,bottomCut_;
+	double xp_,yp_,wp_, hp_,  leftCut_, rightCut_, topCut_,bottomCut_;
+	size_t axr_, ayr_, awr_, ahr_;	//area in real pixel
 	Wnode(ResourceID wnodeid, double xp,double yp,double wp, double hp, double leftCut, double rightCut, double topCut, double bottomCut):
 	wnodeid_(wnodeid),xp_(xp),yp_(yp),wp_(wp), hp_(hp), leftCut_(leftCut), rightCut_(rightCut), topCut_(topCut), bottomCut_(bottomCut){}
-	void setArea(double axp,double ayp,double awp, double ahp ){
-		axp_=axp;
-		ayp_=ayp; 
-		awp_=awp; 
-		ahp_=ahp;
-	}
+	//void setArea(double axp,double ayp,double awp, double ahp ){
+	//	axp_=axp;
+	//	ayp_=ayp; 
+	//	awp_=awp; 
+	//	ahp_=ahp;
+	//}
 };
 
 class Wnd {
@@ -83,6 +84,7 @@ public:
 	size_t getAW(){ return awPercent_;}
 	size_t getAH(){ return ahPercent_;}
 
+	void recalcArea();
 
 	std::string id_;
 
