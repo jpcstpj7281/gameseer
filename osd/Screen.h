@@ -6,6 +6,8 @@
 #include <QString>
 #include <stdint.h>
 #include "QboxNet.h"
+#include <vector>
+
 
 
 typedef uint32_t ResourceID;	// do the ring input << 24 + ring output << 16 + row <<8 + col; id for screen, channel, ringnode, 
@@ -128,6 +130,7 @@ public:
 	~ScreenMgr();
 	static ScreenMgr *instance();
 
+	//check whether insight of the wall.
 	bool isValidScreenId( uint32_t row, uint32_t col){ return (row<=rowCount_&&row>0 && col<=colCount_&&col>0)?true:false;}
 	void onInputChanged(ResourceChangedCallback callback);
 
@@ -152,6 +155,14 @@ public:
 
 	bool isInputValid( ResourceID inputid);
 	bool isOutputRingValid( ResourceID outputid);
+
+	//return wnode if there is 753port available
+	ResourceID occupyScreenOut( ResourceID inputid);
+	//return wnodes if there is 753port available
+	std::vector<ResourceID> occupyScreensOut( std::vector<ResourceID> &rnodes);
+
+	void freeScreensOut(std::vector<ResourceID> &wnodes);
+	void ScreenMgr::freeScreenOut(ResourceID wnode);
 
 	//get all that Input what with signal.
 	std::vector<ResourceID> getAvailableInput();

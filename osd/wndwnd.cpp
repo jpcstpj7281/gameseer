@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
+#include <boost/math/special_functions/round.hpp>
 
 WnodeWidget::WnodeWidget(Wnd* wnd, ResourceID wnode):QWidget(0),wnd_(wnd),wnode_(wnode)
 {
@@ -46,14 +47,14 @@ WnodeWidget::WnodeWidget(Wnd* wnd, ResourceID wnode):QWidget(0),wnd_(wnd),wnode_
 	Wnode * wn = wnd_->getWnode( wnode_);
 
 	id_->setText( QString::fromStdString(ToStrID(wnode_)));
-	x_->setText( QString::number( wn->xp_));
-	y_->setText( QString::number( wn->yp_));
-	w_->setText( QString::number( wn->wp_));
-	h_->setText( QString::number( wn->hp_));
-	ax_->setText( QString::number( wn->axp_));
-	ay_->setText( QString::number( wn->ayp_));
-	aw_->setText( QString::number( wn->awp_));
-	ah_->setText( QString::number( wn->ahp_));
+	x_->setText( QString::number(boost::math::round( wn->xp_ * ScreenMgr::instance()->getWallWidth())));
+	y_->setText( QString::number(boost::math::round( wn->yp_* ScreenMgr::instance()->getWallHeight())));
+	w_->setText( QString::number(boost::math::round( wn->wp_* ScreenMgr::instance()->getWallWidth())));
+	h_->setText( QString::number(boost::math::round( wn->hp_* ScreenMgr::instance()->getWallHeight())));
+	ax_->setText( QString::number( wn->axr_));
+	ay_->setText( QString::number( wn->ayr_));
+	aw_->setText( QString::number( wn->awr_));
+	ah_->setText( QString::number( wn->ahr_));
 	
 }
 void WnodeWidget::initTable( QTableWidget* table, int row){

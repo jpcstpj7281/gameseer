@@ -29,6 +29,12 @@ xPercent_(xPercent)
 //	ax_ = ay_ = aw_ = ah_ = 0;
 //}
 Wnd::~Wnd(){
+	
+
+	for ( size_t i = 0; i < wnodes_.size(); ++i){
+		ScreenMgr::instance()->freeScreenOut(wnodes_[i]->wnodeid_);
+		delete wnodes_[i];
+	}
 }
 
 bool Wnd::resizeWnd(double xPercent, double yPercent, double widthPercent, double heightPercent){
@@ -45,6 +51,38 @@ Wnode * Wnd::getWnode( ResourceID wnode){
 	}
 	return NULL;
 }
+void Wnd::recalcArea(){
+	if ( inputid_ == 0) return;
+	Resolution res = ScreenMgr::instance()->getInResolution(inputid_);
+	size_t width = GetWidth(res);
+	size_t height= GetHeight(res);
+	double pw = width/wPercent_;
+	double ph = height/hPercent_;
+	size_t rx = boost::math::round(axPercent_*pw);
+	size_t ry = boost::math::round(ayPercent_*ph); 
+	size_t rw = boost::math::round(awPercent_*pw);
+	size_t rh = boost::math::round(ahPercent_*ph);
+	double rpw = rw / wPercent_;
+	double rph = rh / hPercent_;
+
+	for ( size_t i = 0 ; i < wnodes_.size(); ++i){
+		if ( wnodes_[i]->leftCut_>0){
+			wnodes_[i]->axr_ = rx + ( wnodes_[i]->leftCut_ * rpw);
+			wnodes_[i]->awr_ = wnodes_[i]->wp_ * rpw;
+		}else{
+			wnodes_[i]->axr_ = rx;
+			wnodes_[i]->awr_ = wnodes_[i]->wp_ * rpw;
+		}
+		if ( wnodes_[i]->topCut_>0){
+			wnodes_[i]->ayr_ = ry + ( wnodes_[i]->topCut_ * rph);
+			wnodes_[i]->ahr_ = wnodes_[i]->hp_ * rph;
+		}else{
+			wnodes_[i]->ayr_ = ry;
+			wnodes_[i]->ahr_ = wnodes_[i]->hp_ * rph;
+		}
+	}
+}
+
 //=======================================================ScreenMgr===============================================================
 WndMgr* WndMgr::inst = 0;
 WndMgr *WndMgr::instance(){
@@ -151,33 +189,51 @@ Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent
 	std::vector<Wnode*> wnodes;
 	double xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut;
 	if ( ring == NULL || !ring->isActivate()){
-		if ( calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, inputid)){
-			wnodes.push_back( new Wnode( xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, inputid));
-			size_t width = ScreenMgr::instance()->getWallWidth();
-			size_t height = ScreenMgr::instance()->getWallHeight();
-			size_t sw = boost::math::round( width*wOut);
-			size_t sh = boost::math::round( height*hOut);
-			size_t sx = boost::math::round( width*xOut);
-			size_t sy = boost::math::round( height*yOut);
+		ResourceID wnode = 0;
+		if ( wnode = ScreenMgr::instance()->occupyScreenOut(inputid) && calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, inputid)){
+			wnodes.push_back( new Wnode( wnode, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut));
+			//size_t width = ScreenMgr::instance()->getWallWidth();
+			//size_t height = ScreenMgr::instance()->getWallHeight();
+			//size_t sw = boost::math::round( width*wOut);
+			//size_t sh = boost::math::round( height*hOut);
+			//size_t sx = boost::math::round( width*xOut);
+			//size_t sy = boost::math::round( height*yOut);
+			wnodes.back()->wnodeid_ = wnode;
 			//qDebug()<<sx<<" "<<sy<<" "<<sw<<" "<<sh;
 		}
 	}else{
 		std::vector<ResourceID> rnodes = ring->getRnodes();
-		size_t i = 0;
+		std::vector<ResourceID> crossRnodes;
+		std::vector<ResourceID> wnodesid;
 		if (ring->isClosed()){
-			i = 1;
+			rnodes.erase( rnodes.begin());
 		}
-		for ( ; i < rnodes.size(); ++i){
+		for (size_t i = 0; i < rnodes.size(); ++i){
 			if ( calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, rnodes[i])){
-				wnodes.push_back( new Wnode( xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, rnodes[i]));
+				crossRnodes.push_back( rnodes[i]);
+				wnodes.push_back( new Wnode(  rnodes[i], xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut));
 			}
 		}
+
+		wnodesid = ScreenMgr::instance()->occupyScreensOut(crossRnodes );
+		if ( wnodesid.size() == crossRnodes.size()){
+			for (size_t i = 0; i < wnodes.size(); ++i){
+				wnodes[i]->wnodeid_ = wnodesid[i];
+			}
+		}else{
+			for (size_t i = 0; i < wnodes.size(); ++i){
+				delete wnodes[i];
+			}
+			wnodes.clear();
+		}
 	}
+	
 	if ( wnodes.size()>0){
 		wnds_.push_back( new Wnd(xPercent, yPercent, widthPercent, heightPercent, inputid));
 		wnds_.back()->id_ = id;
 		wnds_.back()->layer_ = ++currlayer_;
 		wnds_.back()->wnodes_ = wnodes;
+		wnds_.back()->recalcArea();
 		return wnds_.back();
 	}else{
 		return NULL;
@@ -198,6 +254,7 @@ Wnd* WndMgr::createWnd(double xPercent, double yPercent, double widthPercent, do
 bool WndMgr::closeWnd(Wnd* wnd){
 	for ( auto i = wnds_.begin() ; i < wnds_.end(); ++i){
 		if (*i == wnd) {
+			delete wnd;
 			wnds_.erase(i);
 			return true;
 		}

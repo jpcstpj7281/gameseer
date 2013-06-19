@@ -458,3 +458,59 @@ std::vector<ResourceID> ScreenMgr::clearWall(){
 	colCount_ = rowCount_ =0;
 	return scrns;
 }
+
+
+ResourceID ScreenMgr::occupyScreenOut( ResourceID inputid){
+	Screen* screen = screens_[GetRow(inputid)-1][GetCol(inputid)-1];
+	for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
+		if ( it->second == 0){
+			return it->second =  ToResourceID( GetInput(inputid), GetOutput(it->first), GetRow(inputid), GetCol(inputid));
+		}
+	}
+}
+
+std::vector<ResourceID> ScreenMgr::occupyScreensOut( std::vector<ResourceID> &rnodes){
+	std::vector<ResourceID> outputs ;
+	std::vector<ResourceID> wnodes ;
+	for ( int i = 0; i < rnodes.size(); ++i){
+		Screen* screen = screens_[GetRow(rnodes[i])-1][GetCol(rnodes[i])-1];
+		for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
+			if ( it->second == 0){
+				outputs.push_back( it->first);
+				break;
+			}
+		}
+	}
+	if (outputs.size() != rnodes.size() ){
+		return wnodes;
+	}
+	for ( int i = 0; i < outputs.size(); ++i){
+		Screen* screen = screens_[GetRow(outputs[i])-1][GetCol(outputs[i])-1];
+		wnodes.push_back(ToResourceID( GetInput(rnodes[i]), GetOutput(outputs[i]), GetRow(rnodes[i]), GetCol(rnodes[i])));
+		screen->outPort753_[outputs[i]] = wnodes[i];
+	}
+
+	return wnodes;
+}
+
+void ScreenMgr::freeScreensOut(std::vector<ResourceID> &wnodes){
+	for ( int i = 0; i < wnodes.size(); ++i){
+		Screen* screen = screens_[GetRow(wnodes[i])-1][GetCol(wnodes[i])-1];
+		for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
+			if ( it->second == wnodes[i]){
+				it->second = 0;
+				break;
+			}
+		}
+	}
+}
+void ScreenMgr::freeScreenOut(ResourceID wnode){
+
+	Screen* screen = screens_[GetRow(wnode)-1][GetCol(wnode)-1];
+	for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
+		if ( it->second == wnode){
+			it->second = 0;
+			break;
+		}
+	}
+}
