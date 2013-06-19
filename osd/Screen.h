@@ -16,7 +16,7 @@ inline uint32_t GetRow(ResourceID id){ return (id >> 8) & 0xFF ;}
 inline uint32_t GetCol(ResourceID id){ return id  & 0xFF ;}
 inline uint32_t GetInput(ResourceID id){ return (id >> 24) & 0xFF ;}
 inline uint32_t GetOutput(ResourceID id){ return (id >> 16) & 0xFF ;}
-inline std::string ToInputStrID(ResourceID input){ return (QString::number( GetRow(input))+"X"+QString::number( GetCol(input))+"("+QString::number( GetInput(input))+")").toStdString();}
+inline std::string ToStrID(ResourceID id){ return ("("+QString::number( GetInput(id))+")"+QString::number( GetRow(id))+"X"+QString::number( GetCol(id))+"("+QString::number( GetOutput(id))+")").toStdString();}
 inline uint32_t ToScreenID( uint32_t row, uint32_t col){  return (row << 8) | col;}
 inline ResourceID ToResourceID( uint32_t input, uint32_t output, uint32_t row, uint32_t col){ return (input<<24) | (output<<16) | (row << 8) | col;}
 

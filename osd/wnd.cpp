@@ -3,7 +3,7 @@
 #include "asio.hpp"
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
-
+#include <boost/math/special_functions/round.hpp>
 
 #include <protocol/protocol.h>
 
@@ -11,21 +11,23 @@
 
 using asio::ip::tcp;
 
-Wnd::Wnd(double xPercent, double yPercent, double wPercent, double hPercent):
+Wnd::Wnd(double xPercent, double yPercent, double wPercent, double hPercent, ResourceID inputid):
 xPercent_(xPercent)
 ,yPercent_(yPercent)
 ,wPercent_(wPercent)
 ,hPercent_(hPercent)
+,inputid_(inputid)
 {
-	x_ = y_ = w_ = h_= ax_ = ay_ = aw_ = ah_ = 0;
+	axPercent_=ayPercent_=0;
+	awPercent_= ahPercent_ = 1;
 }
-Wnd::Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h):
-x_(x)
-,y_(y)
-,w_(w)
-,h_(h){
-	ax_ = ay_ = aw_ = ah_ = 0;
-}
+//Wnd::Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h):
+//x_(x)
+//,y_(y)
+//,w_(w)
+//,h_(h){
+//	ax_ = ay_ = aw_ = ah_ = 0;
+//}
 Wnd::~Wnd(){
 }
 
@@ -35,7 +37,14 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double widthPercent, doubl
 bool Wnd::moveWnd(double xPercent, double yPercent){
 	return false;
 }
-
+Wnode * Wnd::getWnode( ResourceID wnode){
+	for ( auto it = wnodes_.begin(); it != wnodes_.end(); ++it){
+		if ( (*it)->wnodeid_ == wnode){
+			return (*it);
+		}
+	}
+	return NULL;
+}
 //=======================================================ScreenMgr===============================================================
 WndMgr* WndMgr::inst = 0;
 WndMgr *WndMgr::instance(){
@@ -57,6 +66,8 @@ Wnd* WndMgr::getWnd(const std::string &id){
 	}
 	return NULL;
 }
+
+//return false if there is no pixel insight this screen.
 bool calcScreen(double xPercent, double yPercent, double wPercent, double hPercent, 
 	double &xOut, double &yOut, double &wOut, double &hOut, 
 	double &leftCut, double &rightCut, double &topCut, double &bottomCut, ResourceID screenid){
@@ -132,14 +143,24 @@ bool calcScreen(double xPercent, double yPercent, double wPercent, double hPerce
 				hOut = wOut = 0;
 			}
 		}
-	return isOutOfScreen;
+	return !isOutOfScreen;
 }
 Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
 	if ( inputid == 0) return NULL;
 	
+	std::vector<Wnode*> wnodes;
 	double xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut;
-	if ( ring == NULL){
-		calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, inputid);
+	if ( ring == NULL || !ring->isActivate()){
+		if ( calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, inputid)){
+			wnodes.push_back( new Wnode( xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, inputid));
+			size_t width = ScreenMgr::instance()->getWallWidth();
+			size_t height = ScreenMgr::instance()->getWallHeight();
+			size_t sw = boost::math::round( width*wOut);
+			size_t sh = boost::math::round( height*hOut);
+			size_t sx = boost::math::round( width*xOut);
+			size_t sy = boost::math::round( height*yOut);
+			//qDebug()<<sx<<" "<<sy<<" "<<sw<<" "<<sh;
+		}
 	}else{
 		std::vector<ResourceID> rnodes = ring->getRnodes();
 		size_t i = 0;
@@ -147,14 +168,20 @@ Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent
 			i = 1;
 		}
 		for ( ; i < rnodes.size(); ++i){
-			calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, rnodes[i]);
+			if ( calcScreen(xPercent, yPercent, widthPercent, heightPercent, xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, rnodes[i])){
+				wnodes.push_back( new Wnode( xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut, rnodes[i]));
+			}
 		}
 	}
-
-	wnds_.push_back( new Wnd(xPercent, yPercent, widthPercent, heightPercent));
-	wnds_.back()->id_ = id;
-	wnds_.back()->layer_ = ++currlayer_;
-	return wnds_.back();
+	if ( wnodes.size()>0){
+		wnds_.push_back( new Wnd(xPercent, yPercent, widthPercent, heightPercent, inputid));
+		wnds_.back()->id_ = id;
+		wnds_.back()->layer_ = ++currlayer_;
+		wnds_.back()->wnodes_ = wnodes;
+		return wnds_.back();
+	}else{
+		return NULL;
+	}
 }
 
 Wnd* WndMgr::createWnd(double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
@@ -177,3 +204,4 @@ bool WndMgr::closeWnd(Wnd* wnd){
 	}
 	return false; 
 }
+

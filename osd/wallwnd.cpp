@@ -230,6 +230,7 @@ void ResizeItem::resize( QPointF &curr){
 	}
 	item->setPos(  newPos  );
 	item->setRect(newRect);
+	item->areaItem_->resetRect();
 	item->bringFront();
 	//item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
 
@@ -293,14 +294,53 @@ void CloseItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	}
 }
 //=======================================================================================================================================================================
+AreaItem::AreaItem(double x, double y, double w, double h){
+	isPressed_ = false;
+	setFlags(QGraphicsItem::ItemClipsToShape );
+	//setCursor( Qt::PointingHandCursor);
+	setX( x);
+	setY( y);
+	this->setRect( QRectF(0, 0, w, h));
+	//setAcceptedMouseButtons( Qt::MouseButton::RightButton);
+}
+
+void AreaItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
+	painter->setBrush(QBrush(Qt::cyan));
+	painter->drawRect( rect());
+	QGraphicsRectItem::paint(painter, option, widget);
+} 
+void AreaItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
+	QGraphicsRectItem::mousePressEvent(event);
+}
+void AreaItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
+	QGraphicsRectItem::mouseReleaseEvent(event);
+}
+void AreaItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
+	if (isMoving_){
+		QGraphicsRectItem::mouseMoveEvent(event);
+	}
+}
+void AreaItem::resetRect(){
+	WndRectItem* parent = (WndRectItem*)this->parentItem();
+	QRectF r = parent->rect();
+	setX( parent->wnd_->axPercent_ * r.width());
+	setY( parent->wnd_->ayPercent_ * r.height());
+	setRect( QRectF(0, 0, parent->wnd_->awPercent_ * r.width(),  parent->wnd_->ahPercent_ * r.height()));
+}
+//=======================================================================================================================================================================
 WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd){
 	setFlags(QGraphicsItem::ItemIsMovable |QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
+
+	areaItem_ = new AreaItem(0, 0, w, h);
+	areaItem_->setParentItem(this);
+
 	//ResizeItem *item = new ResizeItem( ResizeItem::RightUp);
 	ResizeItem *item1 = new ResizeItem( ResizeItem::RightBottom);
 	//ResizeItem *item2 = new ResizeItem( ResizeItem::LeftBottom);
 	//ResizeItem *item3 = new ResizeItem( ResizeItem::LeftUp);
 	//MoveItem *item4 = new MoveItem( );
 	CloseItem *item5 = new CloseItem( );
+	
 	//item->setParentItem(this);
 	item1->setParentItem(this);
 	//item2->setParentItem(this);
@@ -310,6 +350,7 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 
 	setCursor( Qt::OpenHandCursor);
 	//setCursor( Qt::CrossCursor);
+
 	isMoving_ = false;
 	wallscene->addItem( this);
 	setX(x);
@@ -317,7 +358,7 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	setRect( QRectF(0, 0, w, h));
 	wnd_ = wnd;
 	setZValue( wnd_->getLayer());
-
+	setAcceptedMouseButtons( Qt::MouseButton::RightButton|Qt::MouseButton::LeftButton);
 }
 
 WndRectItem::~WndRectItem(){
@@ -342,6 +383,10 @@ void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 		QGraphicsRectItem::mousePressEvent(event);
 		bringFront();
 		setCursor( Qt::ClosedHandCursor);
+	}else if (event->button() == Qt::MouseButton::RightButton){
+		pressPos_ =  event->pos();
+		isScaling_ = true;
+		setCursor( Qt::ArrowCursor);
 	}
 }
 void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
@@ -351,6 +396,55 @@ void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 		WallScene* wallscene = (WallScene*)this->scene();
 		isMoving_ = false;
 		wnd_->moveWnd(pos().x()/wallscene->width(), pos().y()/wallscene->height());
+	}else if (isScaling_){
+		isScaling_=false;
+
+		QPointF releasePos = event->pos();
+		double width, height;
+
+		QPointF pos;
+		if (releasePos.x() > pressPos_.x() && releasePos.y() > pressPos_.y()){
+			width = releasePos.x() - pressPos_.x();
+			height = releasePos.y()-pressPos_.y();
+			pos = pressPos_;
+		}else if (releasePos.x() < pressPos_.x() && releasePos.y() < pressPos_.y()){
+			width = -releasePos.x() + pressPos_.x();
+			height = -releasePos.y()+pressPos_.y();
+			pos = releasePos;
+		}else if (releasePos.x() > pressPos_.x() && releasePos.y() < pressPos_.y()){
+			width = releasePos.x() - pressPos_.x();
+			height = -releasePos.y()+pressPos_.y();
+			pos = QPointF( pressPos_.x(), releasePos.y());
+		}else if (releasePos.x() < pressPos_.x() && releasePos.y() > pressPos_.y()){
+			width = -releasePos.x() + pressPos_.x();
+			height = releasePos.y()-pressPos_.y();
+			pos = QPointF( releasePos.x(),  pressPos_.y());
+		}
+		QRectF r= rect();
+		if ( pos.x() < 0){
+			width + pos.x();
+			pos.setX(0);
+		}
+		if ( pos.y() < 0){
+			height + pos.y();
+			pos.setY(0);
+		}
+		if ( width + pos.x() > r.width()){
+			width = r.width() - pos.x();
+		}
+		if ( height + pos.y() > r.height()){
+			height = r.height() - pos.y();
+		}
+		
+		areaItem_->setX( pos.x());
+		areaItem_->setY( pos.y());
+		areaItem_->setRect( QRectF(0, 0, width, height));
+		wnd_->axPercent_ = pos.x() / r.width();
+		wnd_->ayPercent_ = pos.y() / r.height();
+		wnd_->awPercent_ = width / r.width();
+		wnd_->ahPercent_ = height / r.height();
+		setCursor( Qt::CursorShape::OpenHandCursor);
+
 	}
 }
 void	WndRectItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
@@ -358,11 +452,6 @@ void	WndRectItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 		QGraphicsRectItem::mouseMoveEvent(event);
 	}
 }
-void	WndRectItem::hoverMoveEvent ( QGraphicsSceneHoverEvent * event ){
-	qDebug()<<"WndRectItem::hoverMoveEvent";
-}
-
-
 QVariant WndRectItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 
@@ -568,7 +657,7 @@ void WallScene::createWndInGreenRect( QRectF &rect){
 		if ( !this->currRingid_.isEmpty()){
 			ring = RingMgr::instance()->getRing(currRingid_.toStdString());
 		}
-		Wnd * wnd = WndMgr::instance()->createWnd(rect.x(), rect.y(),rect.width(), rect.height(), this->currInput_, ring );
+		Wnd * wnd = WndMgr::instance()->createWnd(rect.x()/sceneRect().width(), rect.y()/sceneRect().height(),rect.width()/sceneRect().width(), rect.height()/sceneRect().height(), this->currInput_, ring );
 		if (wnd){
 			wndItems_.push_back(new WndRectItem(rect.x(), rect.y(),rect.width(), rect.height(), this, wnd));
 		}
@@ -716,6 +805,7 @@ void WallWnd::resetComboBoxes(){
 
 	std::vector<Ring*> rings = RingMgr::instance()->getRings();
 	cbRings_->clear();
+	cbRings_->addItem("");
 	for ( size_t i = 0; i < rings.size();++i){
 		if ( rings[i]->size() >=2){
 			cbRings_->addItem( QString::fromStdString(rings[i]->id_));
@@ -725,7 +815,7 @@ void WallWnd::resetComboBoxes(){
 		}
 	}
 	//the the top to be current
-	if ( scene_->currRingid_.isEmpty() && cbRings_->count() )scene_->currRingid_ = cbRings_->currentText();
+	//if ( scene_->currRingid_.isEmpty() && cbRings_->count() )scene_->currRingid_ = cbRings_->currentText();
 
 	std::vector<Wnd*> wnds = WndMgr::instance()->getWnds();
 	cbWnds_->clear();
@@ -742,7 +832,7 @@ void WallWnd::resetComboBoxes(){
 	for ( size_t i = 0; i < inputs_.size();++i){
 		std::vector<Ring*> rs = RingMgr::instance()->getInputCorrespondActivatedRing(inputs_[i]);
 		if ( rs.size()==0){
-			cbChns_->addItem( QString::fromStdString(ToInputStrID(inputs_[i])));
+			cbChns_->addItem( QString::fromStdString(ToStrID(inputs_[i])));
 			if ( scene_->currInput_ == inputs_[i]){//only the one currently referred, set to current index.
 				cbChns_->setCurrentIndex( cbChns_->count()-1);
 			}
@@ -769,7 +859,7 @@ void WallWnd::drawScreens(){
 
 void WallWnd::currentChnIndexChanged ( const QString & text ){
 	for ( size_t i = 0; i < inputs_.size();++i){
-		if ( ToInputStrID(inputs_[i]) == text.toStdString()){
+		if ( ToStrID(inputs_[i]) == text.toStdString()){
 			scene_->currInput_ = inputs_[i];
 			screensItem_->update();
 			break;
