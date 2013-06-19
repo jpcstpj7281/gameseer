@@ -73,7 +73,11 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 
 	t = _tab->findChild<QTableWidget* >("wndTable");
 	if (t){
-		t->setGeometry( 0, 0, this->width()-2, this->height()-20);
+		t->setGeometry( 0, 0, this->width()-2, (this->height()-20)/2);
+	}
+	t = _tab->findChild<QTableWidget* >("wnodeTable");
+	if (t){
+		t->setGeometry( 0, (this->height()-20)/2, this->width()-2, (this->height()-20)/2);
 	}
 	t = _tab->findChild<QTableWidget* >("chnTable");
 	if (t){

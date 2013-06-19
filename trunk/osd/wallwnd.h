@@ -58,14 +58,27 @@ public:
 	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
 };
 
-class WndRectItem: public QGraphicsRectItem{
-
-
-	QRectF areaRect_;
-	
+class AreaItem: public QGraphicsRectItem{
+	bool isPressed_;
+	bool isMoving_;
+	QPointF pressPos_;
 public:
+	AreaItem(double x, double y, double w, double h);
+	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
+	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+	void resetRect();
+};
+
+class WndRectItem: public QGraphicsRectItem{
+	QRectF areaRect_;
+public:
+	AreaItem *areaItem_;
 	Wnd* wnd_;
 	bool isMoving_;
+	bool isScaling_;
+	QPointF pressPos_;
 	//if you dont offer a wnd arg, then it will create one
 	WndRectItem(double x, double y, double w, double h, WallScene* wallscene, Wnd* wnd);
 	~WndRectItem();
@@ -75,7 +88,6 @@ public:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
 	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
-	virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event )override;
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value)override;
 	void bringFront();
 

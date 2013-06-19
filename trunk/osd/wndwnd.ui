@@ -25,7 +25,23 @@
      <x>0</x>
      <y>0</y>
      <width>801</width>
-     <height>561</height>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>300</width>
+     <height>200</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="wnodeTable">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>300</y>
+     <width>801</width>
+     <height>301</height>
     </rect>
    </property>
    <property name="minimumSize">

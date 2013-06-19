@@ -42,6 +42,20 @@ public:
 	std::vector<Wnd* > getAllWnds(){ return wnds_;}
 };
 
+class Wnode{
+public:
+	ResourceID wnodeid_;
+	double xp_,yp_,wp_, hp_, axp_, ayp_, awp_, ahp_, leftCut_, rightCut_, topCut_,bottomCut_;
+	Wnode(ResourceID wnodeid, double xp,double yp,double wp, double hp, double leftCut, double rightCut, double topCut, double bottomCut):
+	wnodeid_(wnodeid),xp_(xp),yp_(yp),wp_(wp), hp_(hp), leftCut_(leftCut), rightCut_(rightCut), topCut_(topCut), bottomCut_(bottomCut){}
+	void setArea(double axp,double ayp,double awp, double ahp ){
+		axp_=axp;
+		ayp_=ayp; 
+		awp_=awp; 
+		ahp_=ahp;
+	}
+};
+
 class Wnd {
 	
 	friend class WndMgr;
@@ -49,15 +63,26 @@ class Wnd {
 	~Wnd();
 
 	uint32_t layer_;
+	ResourceID inputid_;
 	
 	//rnodes of a ring.
-	std::vector<ResourceID> wnodes_;
+	
 
-	Wnd( double xPercent, double yPercent, double wPercent, double hPercent);
-	Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+	Wnd( double xPercent, double yPercent, double wPercent, double hPercent, ResourceID inputid);
+	//Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 public:
-	double xPercent_, yPercent_, wPercent_, hPercent_;
-	uint32_t x_,y_,w_, h_, ax_, ay_, aw_, ah_;
+	std::vector<Wnode*> wnodes_;
+	double xPercent_, yPercent_, wPercent_, hPercent_, axPercent_, ayPercent_, awPercent_, ahPercent_;
+	
+	size_t getX(){ return xPercent_*ScreenMgr::instance()->getWallWidth();}
+	size_t getY(){ return yPercent_*ScreenMgr::instance()->getWallHeight();}
+	size_t getW(){ return wPercent_*ScreenMgr::instance()->getWallWidth();}
+	size_t getH(){ return hPercent_*ScreenMgr::instance()->getWallHeight();}
+	size_t getAX(){ return axPercent_;}
+	size_t getAY(){ return ayPercent_;}
+	size_t getAW(){ return awPercent_;}
+	size_t getAH(){ return ahPercent_;}
+
 
 	std::string id_;
 
@@ -65,6 +90,7 @@ public:
 	uint32_t bringFront(){ return layer_ == WndMgr::instance()->currlayer_ ? layer_: layer_= ++ WndMgr::instance()->currlayer_;}
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);
 	bool moveWnd(double xPercent, double yPercent);
+	Wnode * getWnode( ResourceID wnode);
 };
 
 
