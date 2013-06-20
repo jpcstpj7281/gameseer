@@ -1,15 +1,11 @@
 #include "Screen.h"
 #include<QtDebug>
-#include "asio.hpp"
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
 
 #include <QMainWindow>
-#include <protocol/protocol.h>
-#include <qmap.h>
 #include "msgBase.h"
-
-using asio::ip::tcp;
+#include <protocol/protocol.h>
 
 Screen::Screen(uint32_t row, uint32_t col)
 	:row_(row)
@@ -464,7 +460,9 @@ ResourceID ScreenMgr::occupyScreenOut( ResourceID inputid){
 	Screen* screen = screens_[GetRow(inputid)-1][GetCol(inputid)-1];
 	for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
 		if ( it->second == 0){
-			return it->second =  ToResourceID( GetInput(inputid), GetOutput(it->first), GetRow(inputid), GetCol(inputid));
+			ResourceID wnode = ToResourceID( GetInput(inputid), GetOutput(it->first), GetRow(inputid), GetCol(inputid));
+			it->second = wnode;
+			return wnode;
 		}
 	}
 }

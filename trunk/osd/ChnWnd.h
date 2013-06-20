@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <QboxNet.h>
 #include <screen.h>
-#include <channel.h>
+
 
 namespace Ui {
 class ChnWnd;

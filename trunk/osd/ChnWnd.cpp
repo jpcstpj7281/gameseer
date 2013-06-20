@@ -38,7 +38,7 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 	height_->setFlags( Qt::ItemIsEnabled );
 	inport_->setFlags( Qt::ItemIsEnabled );
 
-	id_->setText( QString::fromStdString(ToInputStrID(inputid_)));
+	id_->setText( QString::fromStdString(ToStrID(inputid_)));
 	row_->setText( QString::number( GetRow(inputid_)));
 	col_->setText( QString::number( GetCol(inputid_)));
 	width_->setText( QString::number( GetWidth(ScreenMgr::instance()->getInResolution(inputid_))));

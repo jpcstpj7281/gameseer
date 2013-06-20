@@ -13,6 +13,8 @@
 #include <wndwnd.h>
 #include <chnwnd.h>
 #include <ringwnd.h>
+#include <taskwnd.h>
+#include <modewnd.h>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -26,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
 	modules_.push_back( new WndWnd(_tab));
 	modules_.push_back( new ChnWnd(_tab));
 	modules_.push_back( new RingWnd(_tab));
+	modules_.push_back( new ModeWnd(_tab));
+	modules_.push_back( new TaskWnd(_tab));
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		_tab->addTab(*it, (*it)->windowTitle() );
 	}
@@ -88,6 +92,22 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 		t->setGeometry( 0, 0, 400, this->height()-20);
 	}
 	t = _tab->findChild<QTableWidget* >("rnodeTable");
+	if (t){
+		t->setGeometry( 400, 0, this->width()-302, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("modeTable");
+	if (t){
+		t->setGeometry( 0, 0, 400, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("wndModeTable");
+	if (t){
+		t->setGeometry( 400, 0, this->width()-302, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("taskTable");
+	if (t){
+		t->setGeometry( 0, 0, 400, this->height()-20);
+	}
+	t = _tab->findChild<QTableWidget* >("timerTable");
 	if (t){
 		t->setGeometry( 400, 0, this->width()-302, this->height()-20);
 	}

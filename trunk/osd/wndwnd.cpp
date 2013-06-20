@@ -146,7 +146,7 @@ WndWnd::WndWnd(QWidget* parent) :
     ui->setupUi(this);
 
 	wndTable_ = findChild<QTableWidget* >("wndTable");
-    wndTable_->setColumnCount( 10);
+    wndTable_->setColumnCount( 11);
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "ID");
@@ -158,6 +158,7 @@ WndWnd::WndWnd(QWidget* parent) :
 	sl.push_back( "AY");
 	sl.push_back( "AW");
 	sl.push_back( "AH");
+	sl.push_back( "Input");
 
 	wndTable_->setHorizontalHeaderLabels(sl );
 	wndTable_->setColumnWidth( 0, 0);
@@ -171,6 +172,7 @@ WndWnd::WndWnd(QWidget* parent) :
 	wndTable_->setColumnWidth( 7, 35);
 	wndTable_->setColumnWidth( 8, 35);
 	wndTable_->setColumnWidth( 9, 35);
+	wndTable_->setColumnWidth( 10, 40);
 
 	wnodeTable_ = findChild<QTableWidget* >("wnodeTable");
     wnodeTable_->setColumnCount( 10);

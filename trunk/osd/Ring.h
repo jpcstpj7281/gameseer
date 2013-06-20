@@ -1,6 +1,5 @@
 #ifndef Ring_H
 #define Ring_H
-#include <QWidget>
 #include <map>
 #include <list>
 #include <QString>
@@ -8,7 +7,7 @@
 #include "QboxNet.h"
 #include "Screen.h"
 
-class Ring :public QObject {
+class Ring  {
 	
 	friend class RingMgr;
 	Ring(const std::string & id);
@@ -43,7 +42,7 @@ public:
 	ResourceID getOutputRNode(ResourceID outputid);
 };
 
-class RingMgr :public QObject
+class RingMgr
 {
 
 	static  RingMgr* inst;
