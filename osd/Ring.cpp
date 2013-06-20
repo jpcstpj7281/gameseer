@@ -1,15 +1,9 @@
 #include "Ring.h"
 #include<QtDebug>
-#include "asio.hpp"
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
-
 #include <QMainWindow>
-#include <protocol/protocol.h>
 
-#include "msgBase.h"
-
-using asio::ip::tcp;
 
 Ring::Ring(const std::string & id):id_(id),isEnable_(false),isActivate_(false)
 {
@@ -157,7 +151,6 @@ Ring* RingMgr::createRing(){
 		std::string num = QString::number(i+1).toStdString();
 		if (!hasRing(str + num)){
 			return createRing( str+num);
-			break;
 		}
 	}
 	return NULL;

@@ -1,6 +1,5 @@
 #ifndef Screen_H
 #define Screen_H
-#include <QWidget>
 #include <map>
 #include <list>
 #include <QString>

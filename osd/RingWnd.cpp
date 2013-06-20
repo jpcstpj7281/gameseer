@@ -218,7 +218,6 @@ RingWnd::RingWnd(QTabWidget* parent) :
 
 	connect( ringTable_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 	connect( ringTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked(int,int)));
-	newRing("");
 
 	rnodeTable_ = findChild<QTableWidget* >("rnodeTable");
     rnodeTable_->setColumnCount( 6);
@@ -236,7 +235,7 @@ RingWnd::RingWnd(QTabWidget* parent) :
 	rnodeTable_->setColumnWidth( 3, 100);
 	rnodeTable_->setColumnWidth( 4, 100);
 	rnodeTable_->setColumnWidth( 5, 0);
-	//newRnode();
+
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 }

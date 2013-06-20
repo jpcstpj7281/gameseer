@@ -13,20 +13,12 @@ class Wnd;
 
 class WndMgr :public QObject
 {
-
 	static  WndMgr* inst;
 	WndMgr();
-
 	uint32_t currlayer_;
-
-
 	friend class Wnd;
-
 	std::vector<Wnd* > wnds_;
 public:
-
-
-
 	~WndMgr();
 	static WndMgr *instance();
 
@@ -60,14 +52,15 @@ public:
 class Wnd {
 	
 	friend class WndMgr;
+	friend class Mode;
 	Wnd( uint32_t row, uint32_t col);
 	~Wnd();
 
 	uint32_t layer_;
 	ResourceID inputid_;
 	
-	//rnodes of a ring.
 	
+	void clearWnodes();
 
 	Wnd( double xPercent, double yPercent, double wPercent, double hPercent, ResourceID inputid);
 	//Wnd( uint32_t x, uint32_t y, uint32_t w, uint32_t h);
@@ -87,6 +80,7 @@ public:
 	void recalcArea();
 
 	std::string id_;
+	Ring* ring_;
 
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront(){ return layer_ == WndMgr::instance()->currlayer_ ? layer_: layer_= ++ WndMgr::instance()->currlayer_;}
