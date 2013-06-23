@@ -29,6 +29,7 @@ public:
 	std::vector<Wnd* > getWnds(){ return wnds_;}
 	Wnd* getWnd(const std::string &id);
 	bool closeWnd(Wnd*);
+	void closeAll();
 	uint32_t getCurrLayer(){ return currlayer_;}
 	
 	std::vector<Wnd* > getAllWnds(){ return wnds_;}

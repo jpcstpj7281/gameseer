@@ -15,4 +15,11 @@
         <rnode id="16974337"/>
         <rnode id="16974081"/>
     </ring>
+    <mode id="Mode1">
+        <wnd w="0.409225" x="0.0363101" wndid="Wnd1" y="0.0708535" h="0.268921" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
+    </mode>
+    <mode id="Mode2">
+        <wnd w="0.227674" x="0.216879" wndid="Wnd2" y="0.21256" h="0.207729" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
+        <wnd w="0.227674" x="0.216879" wndid="Wnd2" y="0.21256" h="0.207729" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
+    </mode>
 </root>

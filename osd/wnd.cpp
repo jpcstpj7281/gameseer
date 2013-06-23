@@ -332,4 +332,9 @@ bool WndMgr::closeWnd(Wnd* wnd){
 	}
 	return false; 
 }
-
+void WndMgr::closeAll(){
+	while( wnds_.size()){
+		delete wnds_.back();
+		wnds_.erase( wnds_.end() -1);
+	}
+}

@@ -2,12 +2,46 @@
 #include<QtDebug>
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
+#include <wnd.h>
+#include <ring.h>
 
 Mode::Mode(const std::string & id):id_(id)
 {
+	isActivated_ = false;
 }
 Mode::~Mode(){
 }
+void Mode::save(){
+	auto wnds = WndMgr::instance()->getAllWnds();
+	wnds_.clear();
+	wnds_.resize(wnds.size());
+	for ( size_t i = 0; i < wnds.size(); ++i){
+		wnds_[i].xPercent_ = wnds[i]->xPercent_;
+		wnds_[i].yPercent_ = wnds[i]->yPercent_;
+		wnds_[i].wPercent_ = wnds[i]->wPercent_;
+		wnds_[i].hPercent_ = wnds[i]->hPercent_;
+		wnds_[i].axPercent_ = wnds[i]->axPercent_;
+		wnds_[i].ayPercent_ = wnds[i]->ayPercent_;
+		wnds_[i].awPercent_ = wnds[i]->awPercent_;
+		wnds_[i].ahPercent_ = wnds[i]->ahPercent_;
+		wnds_[i].inputid_ = wnds[i]->inputid_;
+		wnds_[i].ringid_ = (wnds[i]->ring_? wnds[i]->ring_->id_:"");
+		wnds_[i].wndid_ = wnds[i]->id_;
+	}
+}
+void Mode::activate(){
+	if ( !isActivated_){
+		WndMgr::instance()->closeAll();
+		for ( size_t i = 0; i < wnds_.size(); ++i){
+			Ring* ring = NULL;
+			if(!wnds_[i].ringid_.empty()){
+				ring = RingMgr::instance()->getRing(wnds_[i].ringid_);
+			}
+			WndMgr::instance()->createWnd(wnds_[i].wndid_, wnds_[i].xPercent_, wnds_[i].yPercent_, wnds_[i].wPercent_, wnds_[i].hPercent_, wnds_[i].inputid_, ring);
+		}
+	}
+}
+//=================================================================================================================================
 
 ModeMgr* ModeMgr::inst = 0;
 ModeMgr *ModeMgr::instance(){
@@ -54,4 +88,11 @@ bool ModeMgr::removeMode(Mode* mode){
 		}
 	}
 	return false; 
+}
+
+void ModeMgr::clear(){
+	while(modes_.size()){
+		delete modes_.back();
+		modes_.erase(modes_.end() -1);
+	}
 }
