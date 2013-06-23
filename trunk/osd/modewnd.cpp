@@ -32,10 +32,34 @@ ModeWidget::ModeWidget(Mode* mode):QWidget(0),mode_(mode)
 	if ( mode_){
 		id_->setText( QString::fromStdString(mode_->id_));
 	}
+	save_ = new  QPushButton;
+	save_->setText("Save");
+	activate_ = new  QPushButton;
+	activate_->setText("Activate");
+	connect( save_, SIGNAL(clicked()), this, SLOT(saveMode()) );
+	connect( activate_, SIGNAL(clicked()), this, SLOT(activeMode()) );
+	if ( !mode_){
+		save_->setEnabled(false);
+		activate_->setEnabled(false);
+	}
 }
+void ModeWidget::saveMode(){
+	if ( mode_){
+		mode_->save();
+
+	}
+}
+void ModeWidget::activeMode(){
+	if ( mode_){
+		mode_->activate();
+	}
+}
+
 void ModeWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, this);
 	table->setItem ( row, 1, id_ );
+	table->setCellWidget ( row, 2, activate_);
+	table->setCellWidget ( row, 3, save_);
 }
 void ModeWidget::clickInsert(){
 	QTableWidget* table = id_->tableWidget();
@@ -61,6 +85,7 @@ void ModeWidget::clickDelete(){
 ModeWnd::ModeWnd(QWidget* parent) :
     QWidget(parent)
 	,ui(new Ui::ModeWnd)
+	,currMode_(0)
 {
     ui->setupUi(this);
 
@@ -77,8 +102,36 @@ ModeWnd::ModeWnd(QWidget* parent) :
 	modeTable_->setColumnWidth( 1, 100);
 
 	wndModeTable_ = findChild<QTableWidget* >("wndModeTable");
+	wndModeTable_->setColumnCount( 11);
+	sl.clear();
+	sl.push_back( "X");
+	sl.push_back( "Y");
+	sl.push_back( "W");
+	sl.push_back( "H");
+	sl.push_back( "AX");
+	sl.push_back( "AY");
+	sl.push_back( "AW");
+	sl.push_back( "AH");
+	sl.push_back( "Wnd");
+	sl.push_back( "Input");
+	sl.push_back( "Ring");
+	wndModeTable_->setColumnWidth( 0, 40);
+	wndModeTable_->setColumnWidth( 1, 40);
+	wndModeTable_->setColumnWidth( 2, 40);
+	wndModeTable_->setColumnWidth( 3, 40);
+	wndModeTable_->setColumnWidth( 4, 40);
+	wndModeTable_->setColumnWidth( 5, 40);
+	wndModeTable_->setColumnWidth( 6, 40);
+	wndModeTable_->setColumnWidth( 7, 40);
+	wndModeTable_->setColumnWidth( 8, 40);
+	wndModeTable_->setColumnWidth( 9, 80);
+	wndModeTable_->setColumnWidth( 10, 40);
+	wndModeTable_->setHorizontalHeaderLabels(sl);
+	
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
+
+	connect(modeTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
 }
 
 ModeWnd::~ModeWnd()
@@ -97,6 +150,7 @@ void ModeWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
 	if (tab->tabText(index) == "Modes"){
 		resetModeTable();
+		resetWndModeTable(currMode_);
 	}
 }
 
@@ -140,5 +194,34 @@ void ModeWnd::resetWndModeTable( Mode* mode){
 	currMode_ = mode;
 	wndModeTable_->setRowCount(0);
 	if (mode == NULL)return;
-	std::vector<Wnd*> nodes = mode->getWnds();
+	for ( size_t i = 0 ; i <mode->wnds_.size(); ++i){
+		newWnd( &mode->wnds_[i]);
+	}
+}
+
+void ModeWnd::newWnd( WndData* wnd){
+
+	int row = wndModeTable_->rowCount()+1;
+	wndModeTable_->setRowCount(row);  
+	wndModeTable_->setItem( row - 1, 0, new QTableWidgetItem(QString::number(wnd->xPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 1, new QTableWidgetItem(QString::number(wnd->yPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 2, new QTableWidgetItem(QString::number(wnd->wPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 3, new QTableWidgetItem(QString::number(wnd->hPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 4, new QTableWidgetItem(QString::number(wnd->axPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 5, new QTableWidgetItem(QString::number(wnd->ayPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 6, new QTableWidgetItem(QString::number(wnd->awPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 7, new QTableWidgetItem(QString::number(wnd->ahPercent_, 'g', 2)));
+	wndModeTable_->setItem( row - 1, 8, new QTableWidgetItem(QString::fromStdString(wnd->wndid_)));
+	wndModeTable_->setItem( row - 1, 9, new QTableWidgetItem(QString::fromStdString(ToStrID(wnd->inputid_))));
+	wndModeTable_->setItem( row - 1, 10, new QTableWidgetItem(QString::fromStdString(wnd->ringid_)));
+}
+
+void ModeWnd::cellClicked(int row,int col){
+	ModeWidget * wgt = 0;
+	wndModeTable_->setRowCount(0);
+	if ( modeTable_->rowCount()>0){
+		wgt= (ModeWidget*) modeTable_->cellWidget( row, 0);
+		if ( wgt && wgt->mode_)
+			resetWndModeTable( wgt->mode_);
+	}
 }

@@ -11,6 +11,7 @@
 #include <OsdImage.h>
 #include <OsdProjMode.h>
 #include <Ring.h>
+#include <mode.h>
 
 #undef min
 using namespace std::placeholders;
@@ -252,6 +253,32 @@ void DevicesWnd::clickedLoad(){
 			rnode = rnode.nextSibling().toElement();
 		}
 	}
+	items = root.elementsByTagName("mode");
+	ModeMgr::instance()->clear();
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement modeelm = items.at(i).toElement();
+		QString id = modeelm.attribute("id");
+		Mode* mode= ModeMgr::instance()->createMode(id.toStdString() );
+
+		QDomElement wnode = modeelm.firstChildElement();
+		while(wnode != QDomElement()){
+			
+			WndData wd ;
+			wd.wndid_ = wnode.attribute("wndid").toStdString();
+			wd.ringid_ = wnode.attribute("ringid").toStdString();
+			wd.inputid_ = wnode.attribute("inputid").toInt();
+			wd.xPercent_ = wnode.attribute("x").toDouble();
+			wd.yPercent_ = wnode.attribute("y").toDouble();
+			wd.wPercent_ = wnode.attribute("w").toDouble();
+			wd.hPercent_ = wnode.attribute("h").toDouble();
+			wd.axPercent_ = wnode.attribute("ax").toDouble();
+			wd.ayPercent_ = wnode.attribute("ay").toDouble();
+			wd.awPercent_ = wnode.attribute("aw").toDouble();
+			wd.ahPercent_ = wnode.attribute("ah").toDouble();
+			mode->wnds_.push_back(wd);
+			wnode = wnode.nextSibling().toElement();
+		}
+	}
 }
 void DevicesWnd::clickedSave(){
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
@@ -302,6 +329,35 @@ void DevicesWnd::clickedSave(){
 			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("rnode");
 			elm.setAttribute("id", QString::number( rnodes[j]));
 			ringelm.appendChild(elm);
+		}
+	}
+
+	items = root.elementsByTagName("mode");
+	while (items.size()){
+		root.removeChild(items.at(0));
+	}
+	std::vector<Mode*> modes = ModeMgr::instance()->getAllModes();
+	for (size_t i =0; i <modes.size(); ++i){
+		QDomElement modeelm = ConfigMgr::instance()->getDoc()->createElement("mode");
+		modeelm.setAttribute("id", QString::fromStdString( modes[i]->id_));
+		root.appendChild(modeelm);
+
+		for ( size_t j = 0; j < modes[i]->wnds_.size();++j){
+			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("wnd");
+			elm.setAttribute("wndid", QString::fromStdString( modes[i]->wnds_[i].wndid_));
+			if (!modes[i]->wnds_[i].ringid_.empty() ){
+				elm.setAttribute("ringid", QString::fromStdString( modes[i]->wnds_[i].ringid_));
+			}
+			elm.setAttribute("inputid", QString::number( modes[i]->wnds_[i].inputid_));
+			elm.setAttribute("x", QString::number( modes[i]->wnds_[i].xPercent_));
+			elm.setAttribute("y", QString::number( modes[i]->wnds_[i].yPercent_));
+			elm.setAttribute("w", QString::number( modes[i]->wnds_[i].wPercent_));
+			elm.setAttribute("h", QString::number( modes[i]->wnds_[i].hPercent_));
+			elm.setAttribute("ax", QString::number( modes[i]->wnds_[i].axPercent_));
+			elm.setAttribute("ay", QString::number( modes[i]->wnds_[i].ayPercent_));
+			elm.setAttribute("aw", QString::number( modes[i]->wnds_[i].awPercent_));
+			elm.setAttribute("ah", QString::number( modes[i]->wnds_[i].ahPercent_));
+			modeelm.appendChild(elm);
 		}
 	}
 	ConfigMgr::instance()->save();

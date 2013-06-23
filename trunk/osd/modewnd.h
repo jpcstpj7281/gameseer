@@ -8,6 +8,7 @@
 #include <QboxNet.h>
 #include <screen.h>
 #include <mode.h>
+#include <QPushButton>
 
 namespace Ui {
 class ModeWnd;
@@ -19,9 +20,14 @@ class ModeWidget:public QWidget{
 	private slots:
 		void clickInsert();
 		void clickDelete();
+		void saveMode();
+		void activeMode();
 public:
 	Mode* mode_;
 	QTableWidgetItem* id_;
+
+	QPushButton * save_;
+	QPushButton * activate_;
 
 	ModeWidget(Mode* mode);
 
@@ -38,11 +44,12 @@ public:
     ~ModeWnd();
 
 	private slots:
-		//void cellChanged(int,int);
+		void cellClicked(int,int);
 		//void sendClicked(bool);
 		//void clearClicked(bool);
 private:
 	void newMode( const std::string &ip);
+	void ModeWnd::newWnd( WndData* wnd);
 	void resetModeTable();
 	void resetWndModeTable( Mode* mode);
 
