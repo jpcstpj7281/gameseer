@@ -7,8 +7,81 @@
 #include <QPushButton>
 #include <QMessageBox>
 
+TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer_(timer)
+{
+	QVBoxLayout* layout = new QVBoxLayout();
+	layout->setMargin(0);
+	layout->setSpacing(0);
+	QPushButton* add = new  QPushButton;
+	QPushButton* remove = new  QPushButton;
+	add->setText("+");
+	remove->setText("-");
+	layout->addWidget(add );
+	layout->addWidget(remove );
+	setLayout(layout);
+	connect( add, SIGNAL(clicked()), this, SLOT(clickInsert()) );
+	connect( remove, SIGNAL(clicked()), this, SLOT(clickDelete()) );
+
+	state_= new QTableWidgetItem();
 
 
+	state_->setFlags( Qt::ItemIsEnabled );
+	if ( task_){
+		state_->setText("");
+	}
+
+	mode_ = new  QComboBox;
+	//connect( activate_, SIGNAL(clicked()), this, SLOT(activeTask()) );
+	if ( !timer_){
+		mode_->setEnabled(false);
+	}
+	goto_ = new  QComboBox;
+	//connect( schedule_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
+	if ( !timer_){
+		goto_->setEnabled(false);
+	}
+	timeEdit_ = new  QTimeEdit;
+	if ( !timer_){
+		timeEdit_->setEnabled(false);
+	}
+}
+void TimerWidget::initTable( QTableWidget* table, int row){
+	table->setCellWidget ( row, 0, this);
+	table->setItem ( row, 1, state_ );
+	table->setCellWidget ( row, 2, timeEdit_);
+	table->setCellWidget ( row, 3, mode_);
+	table->setCellWidget ( row, 4, goto_);
+}
+void TimerWidget::clickInsert(){
+	QTableWidget* table = state_->tableWidget();
+	if (  table && task_ ){
+		int row = state_->row();
+		Timer *t = new Timer;
+		t->modeid_ = "-";
+		task_->timers_.insert(row+ task_->timers_.begin(), t);
+		TimerWidget * wgt = new TimerWidget(task_, t);
+		table->insertRow( row);
+		wgt->initTable(table, row);
+	}
+}
+void TimerWidget::clickDelete(){
+	QTableWidget* table = state_->tableWidget();
+	if ( state_->row() != table->rowCount()-1 && table){
+		if (task_ && timer_){
+			//TaskMgr::instance()->removeTask(task_);
+			for ( auto  i = task_->timers_.begin() ;  i != task_->timers_.end(); ++i){
+				if ( (*i) == timer_){
+					delete timer_;
+					task_->timers_.erase(i);
+					table->removeRow( state_->row());
+					break;
+				}
+			}
+		}
+		
+	}
+}
+//==============================================================================================================================
 TaskWidget::TaskWidget(Task* task):QWidget(0),task_(task)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
@@ -32,10 +105,43 @@ TaskWidget::TaskWidget(Task* task):QWidget(0),task_(task)
 	if ( task_){
 		id_->setText( QString::fromStdString(task_->id_));
 	}
+
+	activate_ = new  QPushButton;
+	activate_->setText("Activate");
+	connect( activate_, SIGNAL(clicked()), this, SLOT(activeTask()) );
+	if ( !task_){
+		activate_->setEnabled(false);
+	}
+	schedule_ = new  QPushButton;
+	schedule_->setText("Schedule");
+	connect( schedule_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
+	if ( !task_){
+		schedule_->setEnabled(false);
+	}
+	dateTimer_ = new  QDateTimeEdit;
+	//connect( dateTimer_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
+	if ( !task_){
+		dateTimer_->setEnabled(false);
+	}
 }
+
+void TaskWidget::activeTask(){
+	if ( task_){
+		task_->activate();
+	}
+}
+void TaskWidget::scheduleTask(){
+	if ( task_){
+		task_->schedule();
+	}
+}
+
 void TaskWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, this);
 	table->setItem ( row, 1, id_ );
+	table->setCellWidget ( row, 2, activate_);
+	table->setCellWidget ( row, 3, schedule_);
+	table->setCellWidget ( row, 4, dateTimer_);
 }
 void TaskWidget::clickInsert(){
 	QTableWidget* table = id_->tableWidget();
@@ -61,30 +167,64 @@ void TaskWidget::clickDelete(){
 TaskWnd::TaskWnd(QWidget* parent) :
     QWidget(parent)
 	,ui(new Ui::TaskWnd)
+	,currTask_(0)
 {
     ui->setupUi(this);
 
 	taskTable_ = findChild<QTableWidget* >("taskTable");
-    taskTable_->setColumnCount( 4);
+    taskTable_->setColumnCount( 5);
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "ID");
 	sl.push_back( "Activate");
-	sl.push_back( "Save");
+	sl.push_back( "Schedule");
+	sl.push_back( "Timer");
 
 	taskTable_->setHorizontalHeaderLabels(sl );
 	taskTable_->setColumnWidth( 0, 20);
-	taskTable_->setColumnWidth( 1, 100);
+	taskTable_->setColumnWidth( 1, 80);
+	taskTable_->setColumnWidth( 2, 60);
+	taskTable_->setColumnWidth( 3, 60);
+	taskTable_->setColumnWidth( 4, 150);
 
 	timerTable_ = findChild<QTableWidget* >("timerTable");
+    timerTable_->setColumnCount( 5);
+	sl.clear();
+	sl.push_back( "");
+	sl.push_back( "State");
+	sl.push_back( "Timer");
+	sl.push_back( "Mode");
+	sl.push_back( "Goto");
+
+	timerTable_->setHorizontalHeaderLabels(sl );
+	timerTable_->setColumnWidth( 0, 20);
+	timerTable_->setColumnWidth( 1, 80);
+	timerTable_->setColumnWidth( 2, 80);
+	timerTable_->setColumnWidth( 3, 80);
+	timerTable_->setColumnWidth( 4, 150);
+
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
+
+	connect(taskTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
 }
 
 TaskWnd::~TaskWnd()
 {
     delete ui;
 }
+
+void TaskWnd::cellClicked(int row,int col){
+	TaskWidget * wgt = 0;
+	timerTable_->setRowCount(0);
+	if ( taskTable_->rowCount()>0){
+		wgt= (TaskWidget*) taskTable_->cellWidget( row, 0);
+		if ( wgt && wgt->task_)
+			resetTimerTable( wgt->task_);
+	}
+}
+
+
 void TaskWnd::resetTaskTable(){
 	taskTable_->setRowCount(0);
 	newTask("");
@@ -93,10 +233,24 @@ void TaskWnd::resetTaskTable(){
 		newTask( tasks[i]->id_);
 	}
 }
+void TaskWnd::resetTimerTable( Task* task){
+	currTask_ = task;
+	timerTable_->setRowCount(0);
+	if ( !currTask_) return;
+	
+	timerTable_->setRowCount(currTask_->timers_.size()+1);
+	for ( size_t i = 0 ; i <currTask_->timers_.size(); ++i){
+		TimerWidget* wgt = new TimerWidget(currTask_, currTask_->timers_[i]);
+		wgt->initTable( timerTable_, i);
+	}
+	TimerWidget* wgt = new TimerWidget(currTask_, NULL);
+	wgt->initTable(timerTable_, currTask_->timers_.size());
+}
 void TaskWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
 	if (tab->tabText(index) == "Tasks"){
 		resetTaskTable();
+		resetTimerTable(currTask_);
 	}
 }
 
@@ -136,9 +290,3 @@ void TaskWnd::newTask( const std::string &taskid){
 	wgt->initTable(taskTable_,  insertRow-1);
 }
 
-void TaskWnd::resetTimerTable( Task* task){
-	currTask_ = task;
-	timerTable_->setRowCount(0);
-	if (task == NULL)return;
-
-}

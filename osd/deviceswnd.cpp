@@ -344,19 +344,19 @@ void DevicesWnd::clickedSave(){
 
 		for ( size_t j = 0; j < modes[i]->wnds_.size();++j){
 			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("wnd");
-			elm.setAttribute("wndid", QString::fromStdString( modes[i]->wnds_[i].wndid_));
-			if (!modes[i]->wnds_[i].ringid_.empty() ){
-				elm.setAttribute("ringid", QString::fromStdString( modes[i]->wnds_[i].ringid_));
+			elm.setAttribute("wndid", QString::fromStdString( modes[i]->wnds_[j].wndid_));
+			if (!modes[i]->wnds_[j].ringid_.empty() ){
+				elm.setAttribute("ringid", QString::fromStdString( modes[i]->wnds_[j].ringid_));
 			}
-			elm.setAttribute("inputid", QString::number( modes[i]->wnds_[i].inputid_));
-			elm.setAttribute("x", QString::number( modes[i]->wnds_[i].xPercent_));
-			elm.setAttribute("y", QString::number( modes[i]->wnds_[i].yPercent_));
-			elm.setAttribute("w", QString::number( modes[i]->wnds_[i].wPercent_));
-			elm.setAttribute("h", QString::number( modes[i]->wnds_[i].hPercent_));
-			elm.setAttribute("ax", QString::number( modes[i]->wnds_[i].axPercent_));
-			elm.setAttribute("ay", QString::number( modes[i]->wnds_[i].ayPercent_));
-			elm.setAttribute("aw", QString::number( modes[i]->wnds_[i].awPercent_));
-			elm.setAttribute("ah", QString::number( modes[i]->wnds_[i].ahPercent_));
+			elm.setAttribute("inputid", QString::number( modes[i]->wnds_[j].inputid_));
+			elm.setAttribute("x", QString::number( modes[i]->wnds_[j].xPercent_));
+			elm.setAttribute("y", QString::number( modes[i]->wnds_[j].yPercent_));
+			elm.setAttribute("w", QString::number( modes[i]->wnds_[j].wPercent_));
+			elm.setAttribute("h", QString::number( modes[i]->wnds_[j].hPercent_));
+			elm.setAttribute("ax", QString::number( modes[i]->wnds_[j].axPercent_));
+			elm.setAttribute("ay", QString::number( modes[i]->wnds_[j].ayPercent_));
+			elm.setAttribute("aw", QString::number( modes[i]->wnds_[j].awPercent_));
+			elm.setAttribute("ah", QString::number( modes[i]->wnds_[j].ahPercent_));
 			modeelm.appendChild(elm);
 		}
 	}

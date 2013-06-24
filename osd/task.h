@@ -7,15 +7,29 @@
 #include "QboxNet.h"
 #include <wnd.h>
 
+class Timer{
+public:
+
+
+	std::string modeid_;
+	size_t time_;
+	size_t counter_;
+	size_t goto_;
+
+};
+
 class Task {
 	
 	friend class TaskMgr;
 	Task(const std::string & id);
 	~Task();
 
-public:
-	std::string id_;
 	
+public:
+	std::vector<Timer*> timers_;
+	std::string id_;
+	void activate(){}
+	void schedule(){}
 };
 
 class TaskMgr

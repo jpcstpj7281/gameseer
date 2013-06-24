@@ -8,20 +8,46 @@
 #include <QboxNet.h>
 #include <screen.h>
 #include <task.h>
+#include <QPushButton>
+#include <QTimeEdit>
+#include <QDateTimeEdit>
 
 namespace Ui {
 class TaskWnd;
 }
 
+class TimerWidget:public QWidget{
+	Q_OBJECT
+	private slots:
+		void clickInsert();
+		void clickDelete();
+
+public:
+	Task* task_;
+	Timer* timer_;
+	QTableWidgetItem* state_;
+	QComboBox * mode_;
+	QComboBox * goto_;
+	QTimeEdit * timeEdit_;
+
+	TimerWidget(Task* task, Timer* timer);
+
+	void initTable( QTableWidget* table, int row);
+};
 
 class TaskWidget:public QWidget{
 	Q_OBJECT
 	private slots:
 		void clickInsert();
 		void clickDelete();
+		void activeTask();
+		void scheduleTask();
 public:
 	Task* task_;
 	QTableWidgetItem* id_;
+	QPushButton * activate_;
+	QPushButton * schedule_;
+	QDateTimeEdit * dateTimer_;
 
 	TaskWidget(Task* task);
 
@@ -33,6 +59,7 @@ class TaskWnd : public QWidget
     Q_OBJECT
 		private slots:
 			void currentTabChanged ( int index );
+			void cellClicked (int,int);
 public:
     explicit TaskWnd(QWidget* parent);
     ~TaskWnd();
