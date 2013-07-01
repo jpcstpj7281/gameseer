@@ -19,7 +19,7 @@ typedef std::function< bool ( const std::string &)> NetCallback;
 struct NetObj{
 	NetObj(NetCallback callback, std::string && sendMsg):
 	callback_(callback)
-	,sendmsg_(std::move(sendMsg)){
+	,sendmsg_(sendMsg){
 
 	}
 	NetCallback callback_;
