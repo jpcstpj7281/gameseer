@@ -140,11 +140,11 @@ struct Host::Impl{
 			sentList_ = requestList_;
 			requestList_.clear();
 		}else{
-			RequestList tmpList_ = requestList_;
-			BOOST_FOREACH( NetObj* obj, tmpList_){
-				obj->callback_( HOST_CONNECT_FAILED);
+			//dont have to release resouces here, callback maybe will delete this host obj by it own.
+			RequestList tmpList = requestList_;
+			if ( tmpList.size() > 0){
+				tmpList.front()->callback_( HOST_CONNECT_FAILED);
 			}
-			tmpList_.clear();
 		}
 	}
 

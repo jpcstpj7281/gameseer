@@ -298,7 +298,8 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 		this->setEnabled(true);
 		channels_->setEnabled(true);
 		testBtn_->setEnabled(true);
-
+		desc_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
+		loc_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
 		if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
 			Host* host = TcpNet::instance()->getHost(ip);
 			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
@@ -318,8 +319,10 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 		testBtn_->setEnabled(false);
 		this->address_->setEnabled(true);
 		std::string ip = address_->text().toStdString();
-		TcpNet::instance()->removeHost(ip);
 		Log4Qt::Logger::logger(ip.c_str())->info(msg.c_str());
+		desc_->setFlags( Qt::ItemIsEnabled );
+		loc_->setFlags( Qt::ItemIsEnabled );
+		TcpNet::instance()->removeHost(ip);
 	}else if ( msg == "OFF [1,2,3,4,5,6,7,8]"){
 		channels_->setEnabled(false);
 		Log4Qt::Logger::logger(ip.c_str())->info(msg.c_str());
@@ -624,9 +627,9 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	channels_->setEnabled(false);
 
 	loc_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
-	loc_->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
+	loc_->setFlags( Qt::ItemIsEnabled );
 
-	desc_->setFlags( Qt::ItemIsEnabled|Qt::ItemIsEditable );
+	desc_->setFlags( Qt::ItemIsEnabled );
 	desc_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 
 	version_->setFlags( Qt::ItemIsEnabled );
