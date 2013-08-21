@@ -57,7 +57,8 @@ class Screen  {
 	void inputRequest( );
 	void versionRequest( );
 	void inputResolutionRequest();
-	
+	void closeAllWndRequest();
+
 	void outputRequest();
 	bool inputResolutionCallback( uint32_t , QboxDataMap& );
 	bool inputCallback( uint32_t , QboxDataMap& );
@@ -72,6 +73,13 @@ public:
 	bool isOutputRingValid( ResourceID outputid);
 
 	void versionRequest(QboxCallback callback, QboxDataMap &value );
+	void setWndRequest(double x, double y, double w, double h, ResourceID wnode);
+	void setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode);
+	void setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, ResourceID inputid);
+	void connInOutRequest(ResourceID inputid, ResourceID wnode);
+	void showRequest(ResourceID wnode);
+	void hideRequest(ResourceID wnode);
+	void setLayerRequest(size_t layer, ResourceID wnode);
 
 	bool setAddress( const std::string & ip);
 	std::string getAddress(){ return qbox_?qbox_->address():std::string("");}
@@ -168,6 +176,9 @@ public:
 	
 	inline Resolution getInResolution(ResourceID input){ Resolution res= screens_[GetRow(input)-1][GetCol(input)-1]->inPort_[input]; return res==-1?0:res;}
 	void setupTest();
+
+
+	void closeAllWnds();
 };
 
 
