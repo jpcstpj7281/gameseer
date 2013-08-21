@@ -67,7 +67,7 @@ void ScreenConnBtn::disconn(){
 }
 void ScreenConnBtn::clickit(){
 	if ( address_->text().isEmpty() ){
-		address_->setText("127.0.0.1") ;
+		address_->setText("192.168.67.102") ;
 	}
 	if ( !address_->text().isEmpty() && text() == "Connect"){
 		conn();

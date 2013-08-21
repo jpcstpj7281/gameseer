@@ -306,6 +306,29 @@ Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent
 		wnds_.back()->layer_ = ++currlayer_;
 		wnds_.back()->wnodes_ = wnodes;
 		wnds_.back()->recalcArea();
+
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->connInOutRequest( inputid, wnodes[i]->wnodeid_);
+		}
+
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->setAreaRequest( wnodes[i]->axr_, wnodes[i]->ayr_, wnodes[i]->awr_, wnodes[i]->ahr_, wnodes[i]->wnodeid_, inputid);
+		}
+
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->setWndRequest( wnodes[i]->xp_, wnodes[i]->yp_, wnodes[i]->wp_, wnodes[i]->hp_, wnodes[i]->wnodeid_);
+		}
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->setLayerRequest( currlayer_, wnodes[i]->wnodeid_);
+		}
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->showRequest(wnodes[i]->wnodeid_ );
+		}
 		return wnds_.back();
 	}else{
 		return NULL;
