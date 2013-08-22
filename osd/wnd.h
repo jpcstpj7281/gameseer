@@ -83,6 +83,7 @@ public:
 	std::string id_;
 	Ring* ring_;
 
+	bool closeWnodes();
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront(){ return layer_ == WndMgr::instance()->currlayer_ ? layer_: layer_= ++ WndMgr::instance()->currlayer_;}
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);

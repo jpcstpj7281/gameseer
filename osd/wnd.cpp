@@ -149,6 +149,14 @@ void Wnd::clearWnodes(){
 	}
 	wnodes_.clear();
 }
+
+bool Wnd::closeWnodes(){
+	for ( size_t i = 0; i < wnodes_.size(); ++i){
+		ScreenMgr::instance()->freeScreenOut(wnodes_[i]->wnodeid_);
+		
+	}
+
+}
 bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent){
 	xPercent_  = xPercent;
 	yPercent_  = yPercent;
