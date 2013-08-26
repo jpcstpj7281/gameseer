@@ -17,14 +17,14 @@ class Ring  {
 	//rnodes of a ring.
 	std::vector<ResourceID> rnodes_;
 	
-	bool isActivate_;
+	//bool isActivate_;
 public:
 	std::string id_;
 	bool isEnable_;
 	
-	void activate( bool flag);
+	void activate( );
 
-	bool isActivate(){ return isActivate_;}
+	bool isActivate();
 
 	//a rnode only possible to be next by same col or same row of the previous rnode, sure also impossible if it is the last one that closure .
 	bool isNextNodePossible( uint32_t row, uint32_t col);
@@ -40,6 +40,8 @@ public:
 
 	ResourceID getInputRNode(ResourceID inputid);
 	ResourceID getOutputRNode(ResourceID outputid);
+
+
 };
 
 class RingMgr
@@ -67,6 +69,10 @@ public:
 	std::vector<Ring* > getOutputCorrespondRing( ResourceID outputid);
 	std::vector<Ring* > getInputCorrespondActivatedRing( ResourceID inputid);
 	std::vector<Ring* > getOutputCorrespondActivatedRing( ResourceID outputid);
+
+
+	std::string toString();
+	void fromString(const std::string & rings);
 };
 
 

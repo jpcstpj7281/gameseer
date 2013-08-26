@@ -174,6 +174,38 @@ void Screen::connInOutRequest(ResourceID inputid, ResourceID wnode){
 		qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
 	}
 }
+bool Screen::connInOutRingRequest( ResourceID rnode){
+	if ( qbox_){
+		//for( auto it = outPortRing_.begin(); it != outPortRing_.end(); ++it){
+		//	if ( ToResourceID(0, GetOutput(rnode), row_, col_) == it->first){
+		//		it->second = rnode;
+		//		QboxDataMap value;
+		//		value["out"] = QString::number(GetOutput(rnode) ).toStdString();
+		//		value["in"] = QString::number(GetInput(rnode) ).toStdString();
+		//		qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
+		//		break;
+		//	}
+		//}
+		auto found = outPortRing_.find( ToResourceID(0, GetOutput(rnode), row_, col_));
+		if ( found != outPortRing_.end()){
+			QboxDataMap value;
+			value["out"] = QString::number(GetOutput(rnode) ).toStdString();
+			value["in"] = QString::number(GetInput(rnode) ).toStdString();
+			qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
+			return true;
+		}
+	}
+	return false;
+}
+bool Screen::hasRnode( ResourceID rnode){
+	if ( qbox_){
+		auto found = outPortRing_.find( ToResourceID(0, GetOutput(rnode), row_, col_));
+		if (found != outPortRing_.end() && found->second == rnode){
+			return true;
+		}
+	}
+	return false;
+}
 void Screen::showRequest(ResourceID wnode){
 	if ( qbox_){
 		QboxDataMap value;
@@ -208,6 +240,7 @@ void Screen::setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wn
 				value["h"] = QString::number(h ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
 				qbox_->addAsyncRequest( PCreateWindowsReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
+				break;
 			}
 		}
 	}
@@ -605,6 +638,11 @@ void ScreenMgr::freeScreensOut(std::vector<ResourceID> &wnodes){
 		Screen* screen = screens_[GetRow(wnodes[i])-1][GetCol(wnodes[i])-1];
 		for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
 			if ( it->second == wnodes[i]){
+				if ( screen->qbox_){
+					QboxDataMap value;
+					value["out"] = QString::number(GetOutput(wnodes[i]) ).toStdString();
+					screen->qbox_->addAsyncRequest( PDelWindowsReq::uri , std::bind( ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
+				}
 				it->second = 0;
 				break;
 			}
@@ -616,6 +654,11 @@ void ScreenMgr::freeScreenOut(ResourceID wnode){
 	Screen* screen = screens_[GetRow(wnode)-1][GetCol(wnode)-1];
 	for ( auto it = screen->outPort753_.begin(); it != screen->outPort753_.end(); ++it){
 		if ( it->second == wnode){
+			if ( screen->qbox_){
+				QboxDataMap value;
+				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+				screen->qbox_->addAsyncRequest( PDelWindowsReq::uri , std::bind( ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
+			}
 			it->second = 0;
 			break;
 		}
