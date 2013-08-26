@@ -769,11 +769,8 @@ void WallWnd::clickedActivateRing(){
 		
 		Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdString());
 		if ( ring->isActivate()){
-			pb->setStyleSheet("");
-			ring->activate(true);
-		}else{
 			pb->setStyleSheet("{color:red£»background:yellow}");
-			ring->activate(true);
+			ring->activate();
 		}
 		screensItem_->update();
 	}

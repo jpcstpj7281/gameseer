@@ -81,6 +81,9 @@ public:
 	void hideRequest(ResourceID wnode);
 	void setLayerRequest(size_t layer, ResourceID wnode);
 
+	bool connInOutRingRequest( ResourceID rnode);
+	bool hasRnode( ResourceID rnode);
+
 	bool setAddress( const std::string & ip);
 	std::string getAddress(){ return qbox_?qbox_->address():std::string("");}
 	void connect();

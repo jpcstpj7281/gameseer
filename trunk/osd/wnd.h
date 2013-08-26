@@ -85,7 +85,7 @@ public:
 
 	bool closeWnodes();
 	uint32_t getLayer(){return layer_;}
-	uint32_t bringFront(){ return layer_ == WndMgr::instance()->currlayer_ ? layer_: layer_= ++ WndMgr::instance()->currlayer_;}
+	uint32_t bringFront();
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);
 	bool moveWnd(double xPercent, double yPercent);
 	Wnode * getWnode( ResourceID wnode);

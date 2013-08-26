@@ -3,9 +3,13 @@
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
 #include <QMainWindow>
+#include "boost/lexical_cast.hpp"
+#include <sstream>
+#include <fstream>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
 
-
-Ring::Ring(const std::string & id):id_(id),isEnable_(false),isActivate_(false)
+Ring::Ring(const std::string & id):id_(id),isEnable_(false)
 {
 	
 }
@@ -99,9 +103,26 @@ ResourceID Ring::getOutputRNode(ResourceID outputid){
 	return 0;
 }
 
-void Ring::activate(bool flag){
-	isActivate_ = flag;
+void Ring::activate(){
+	//isActivate_ = flag;
+	for ( size_t i = 0 ; i < rnodes_.size(); ++i){
+		Screen* scrn = ScreenMgr::instance()->getScreen( rnodes_[i]);
+		scrn->connInOutRingRequest( rnodes_[i]);
+	}
 }
+
+bool Ring::isActivate(){
+	bool isactivate=true;
+	for ( size_t i = 0 ; i < rnodes_.size(); ++i){
+		Screen* scrn = ScreenMgr::instance()->getScreen( rnodes_[i]);
+		if ( !scrn->hasRnode( rnodes_[i])){
+			isactivate = false;
+		}
+	}
+	return isactivate;
+}
+
+
 //=======================================================RingMgr===============================================================
 RingMgr* RingMgr::inst = 0;
 RingMgr *RingMgr::instance(){
@@ -189,7 +210,7 @@ std::vector<Ring* > RingMgr::getOutputCorrespondRing( ResourceID outputid){
 std::vector<Ring* > RingMgr::getInputCorrespondActivatedRing( ResourceID inputid){
 	std::vector<Ring* > rings;
 	for ( size_t i =0; i < rings_.size();++i){
-		if ( rings_[i]->isActivate_){
+		if ( rings_[i]->isActivate()){
 			ResourceID rnode = rings_[i]->getInputRNode(inputid);
 			if ( rnode){
 				rings.push_back( rings_[i]);
@@ -202,7 +223,7 @@ std::vector<Ring* > RingMgr::getInputCorrespondActivatedRing( ResourceID inputid
 std::vector<Ring* > RingMgr::getOutputCorrespondActivatedRing( ResourceID outputid){
 	std::vector<Ring* > rings;
 	for ( size_t i =0; i < rings_.size();++i){
-		if ( rings_[i]->isActivate_){
+		if ( rings_[i]->isActivate()){
 			ResourceID rnode = rings_[i]->getOutputRNode(outputid);
 			if ( rnode){
 				rings.push_back( rings_[i]);
@@ -210,4 +231,47 @@ std::vector<Ring* > RingMgr::getOutputCorrespondActivatedRing( ResourceID output
 		}
 	}
 	return rings;
+}
+
+std::string RingMgr::toString(){
+	std::stringstream ss;
+	for ( auto rit = rings_.begin(); rit != rings_.end() ; ++rit){
+		Ring*  ring = *rit;
+		ss<<ring->id_<<":";
+		for ( auto nit = ring->rnodes_.begin(); nit != ring->rnodes_.end() ; ++nit){
+			//saveStr+=boost::lexical_cast<std::string>( *nit);
+			ss<<*nit;
+			ss<<">";
+		}
+		ss<<";";
+	}
+	qDebug()<<QString::fromStdString(ss.str());
+	return ss.str();
+}
+void RingMgr::fromString(const std::string & rings){
+
+	while (rings_.size()){
+		this->removeRing( rings_.back());
+	}
+
+	std::vector<std::string> vRing;
+	boost::split( vRing, rings, boost::is_any_of( ";" ) );
+	for( std::vector<std::string>::iterator rit = vRing.begin(); rit != vRing.end(); ++rit ){
+		if ( !rit->empty()){
+			std::vector<std::string> vID;
+			boost::split( vID, *rit, boost::is_any_of( ":" ) );
+			if ( vID.size() == 2){
+				Ring* ring = createRing(vID[0]);
+				std::vector<std::string> vNode;
+				boost::split( vNode, vID[1], boost::is_any_of( ">" ) );
+				qDebug()<< QString::fromStdString( vID[0]);
+				size_t index = 0;
+				for( std::vector<std::string>::iterator nit = vNode.begin(); nit != vNode.end(); ++nit ){
+					size_t rnode = boost::lexical_cast<size_t>(*nit);
+					qDebug()<< rnode;
+					ring->makeNode( rnode, index);
+				}
+			}
+		}
+	}
 }
