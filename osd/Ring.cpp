@@ -103,11 +103,11 @@ ResourceID Ring::getOutputRNode(ResourceID outputid){
 	return 0;
 }
 
-void Ring::activate(){
+void Ring::activate(ResourceID inputid){
 	//isActivate_ = flag;
 	for ( size_t i = 0 ; i < rnodes_.size(); ++i){
 		Screen* scrn = ScreenMgr::instance()->getScreen( rnodes_[i]);
-		scrn->connInOutRingRequest( rnodes_[i]);
+		scrn->connInOutRingRequest( inputid, rnodes_[i]);
 	}
 }
 

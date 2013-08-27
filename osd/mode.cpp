@@ -5,6 +5,8 @@
 #include <wnd.h>
 #include <ring.h>
 
+#include <windows.h>
+
 Mode::Mode(const std::string & id):id_(id)
 {
 	isActivated_ = false;
@@ -36,6 +38,8 @@ void Mode::activate(){
 			Ring* ring = NULL;
 			if(!wnds_[i].ringid_.empty()){
 				ring = RingMgr::instance()->getRing(wnds_[i].ringid_);
+				ring->activate(wnds_[i].inputid_);
+				Sleep(100);
 			}
 			WndMgr::instance()->createWnd(wnds_[i].wndid_, wnds_[i].xPercent_, wnds_[i].yPercent_, wnds_[i].wPercent_, wnds_[i].hPercent_, wnds_[i].inputid_, ring);
 		}

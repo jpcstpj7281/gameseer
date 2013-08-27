@@ -32,6 +32,7 @@ public:
 	void closeAll();
 	uint32_t getCurrLayer(){ return currlayer_;}
 	
+	
 	std::vector<Wnd* > getAllWnds(){ return wnds_;}
 };
 
