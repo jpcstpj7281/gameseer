@@ -166,15 +166,15 @@ void Screen::connInOutRequest(ResourceID inputid, ResourceID wnode){
 	if ( qbox_){
 		QboxDataMap value;
 		value["out"] = QString::number(GetOutput(wnode) ).toStdString();
-		int input = GetInput(wnode) ;
-		if ( input ==0){
-			input = GetInput(inputid);
+		if ( GetCol(inputid) == GetCol(wnode) && GetRow(inputid) == GetRow(wnode)){
+			value["in"] = QString::number(GetInput(inputid) ).toStdString();
+		}else{
+			value["in"] = QString::number(GetInput(wnode) ).toStdString();
 		}
-		value["in"] = QString::number(input).toStdString();
 		qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
 	}
 }
-bool Screen::connInOutRingRequest( ResourceID rnode){
+bool Screen::connInOutRingRequest(ResourceID inputid, ResourceID rnode){
 	if ( qbox_){
 		//for( auto it = outPortRing_.begin(); it != outPortRing_.end(); ++it){
 		//	if ( ToResourceID(0, GetOutput(rnode), row_, col_) == it->first){
@@ -188,9 +188,14 @@ bool Screen::connInOutRingRequest( ResourceID rnode){
 		//}
 		auto found = outPortRing_.find( ToResourceID(0, GetOutput(rnode), row_, col_));
 		if ( found != outPortRing_.end()){
+			found->second = rnode;
 			QboxDataMap value;
 			value["out"] = QString::number(GetOutput(rnode) ).toStdString();
-			value["in"] = QString::number(GetInput(rnode) ).toStdString();
+			if ( GetCol(inputid) == GetCol(rnode) && GetRow(inputid) == GetRow(rnode)){
+				value["in"] = QString::number(GetInput(inputid) ).toStdString();
+			}else{
+				value["in"] = QString::number(GetInput(rnode) ).toStdString();
+			}
 			qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
 			return true;
 		}
@@ -223,10 +228,10 @@ void Screen::hideRequest(ResourceID wnode){
 	}
 }
 void Screen::setWndRequest(double x, double y, double w, double h, ResourceID wnode){
-	setWndRequest( (size_t)boost::math::round(x* ScreenMgr::instance()->screenWidth_), 
-		(size_t)boost::math::round(y* ScreenMgr::instance()->screenHeight_),
-		(size_t)boost::math::round(w* ScreenMgr::instance()->screenWidth_),
-		(size_t)boost::math::round(h* ScreenMgr::instance()->screenHeight_), 
+	setWndRequest( (size_t)boost::math::round(x* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_), 
+		(size_t)boost::math::round(y* ScreenMgr::instance()->screenHeight_*ScreenMgr::instance()->rowCount_),
+		(size_t)boost::math::round(w* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_),
+		(size_t)boost::math::round(h* ScreenMgr::instance()->screenHeight_*ScreenMgr::instance()->rowCount_), 
 		wnode);
 }
 void Screen::setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode){
@@ -236,7 +241,7 @@ void Screen::setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wn
 				QboxDataMap value;
 				value["x"] = QString::number(x ).toStdString();
 				value["y"] = QString::number(y ).toStdString();
-				value["w"] = QString::number(w ).toStdString();
+				value["w"] = QString::number(w+1 ).toStdString();//这里先在这里调整,嵌入式将需DEBUG
 				value["h"] = QString::number(h ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
 				qbox_->addAsyncRequest( PCreateWindowsReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
@@ -255,11 +260,11 @@ void Screen::setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID w
 				value["w"] = QString::number(w ).toStdString();
 				value["h"] = QString::number(h ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
-				int input = GetInput(wnode) ;
-				if ( input ==0){
-					input = GetInput(inputid);
-				}
-				value["in"] = QString::number(input).toStdString();
+				//int input = GetInput(wnode) ;
+				//if ( input ==0){
+				//	input = GetInput(inputid);
+				//}
+				//value["in"] = QString::number(input).toStdString();
 				qbox_->addAsyncRequest( PSetOutPutSizeReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
 				break;
 			}
@@ -271,7 +276,7 @@ void Screen::setLayerRequest(size_t layer, ResourceID wnode){
 		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
 			if ( wnode == it->second){
 				QboxDataMap value;
-				value["layer"] = QString::number(layer ).toStdString();
+				value["layer"] = QString::number( 0xFFFFFFFF - layer ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
 				qbox_->addAsyncRequest( PSetWindowsLayerReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
 				break;

@@ -366,35 +366,42 @@ void DevicesWnd::clickedSave(){
 void DevicesWnd::setupTestClick(){
 	ScreenMgr::instance()->setupTest();
 }
+
 void DevicesWnd::incrCol(){
 	auto ss = ScreenMgr::instance()->addScreenCol();
 	BOOST_FOREACH( uint32_t srn, ss){
 		newAddress( srn, std::string());
 	}
+	//saveWall();
 }
 void DevicesWnd::incrRow(){
 	auto ss = ScreenMgr::instance()->addScreenRow();
 	BOOST_FOREACH( uint32_t srn, ss){
 		newAddress( srn, std::string());
 	}
+	//saveWall();
 }
 void DevicesWnd::clearWall(){
 	auto ss = ScreenMgr::instance()->clearWall();
 	BOOST_FOREACH( uint32_t srn, ss){
 		deleteAddress( srn);
 	}
+	//saveWall();
 }
+
 void DevicesWnd::decrCol(){
 	auto ss = ScreenMgr::instance()->removeScreenCol();
 	BOOST_FOREACH( uint32_t srn, ss){
 		deleteAddress( srn);
 	}
+	//saveWall();
 }
 void DevicesWnd::decrRow(){
 	auto ss = ScreenMgr::instance()->removeScreenRow();
 	BOOST_FOREACH( uint32_t srn, ss){
 		deleteAddress( srn);
 	}
+	//saveWall();
 }
 
 void DevicesWnd::disconnAll(){

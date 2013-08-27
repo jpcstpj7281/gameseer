@@ -768,9 +768,9 @@ void WallWnd::clickedActivateRing(){
 		QPushButton* pb = (QPushButton*) sender();
 		
 		Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdString());
-		if ( ring->isActivate()){
+		if ( !ring->isActivate()){
 			pb->setStyleSheet("{color:red£»background:yellow}");
-			ring->activate();
+			ring->activate(scene_->currInput_);
 		}
 		screensItem_->update();
 	}

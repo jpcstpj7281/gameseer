@@ -22,7 +22,7 @@ public:
 	std::string id_;
 	bool isEnable_;
 	
-	void activate( );
+	void activate( ResourceID inputid);
 
 	bool isActivate();
 
