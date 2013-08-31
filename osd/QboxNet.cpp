@@ -173,6 +173,8 @@ struct Qbox::Impl{
 	typedef std::list<QboxObj*> RequestList;
 	RequestList requestList_;
 	RequestList sentList_;
+
+	asio::deadline_timer timer_;
 	
 	inline std::string encodeData(MsgInfo & msg){
 		NetMsgBody netMsg;
@@ -202,12 +204,20 @@ struct Qbox::Impl{
 		msgBase.UnpackMsg(inmsg);
 		return inmsg;
 	}
-
+	void handleConnectFailed(){
+		if ( !isConnected_){
+			if ( socket_.is_open() ){
+				socket_.close();
+			}
+		}
+	}
 	void asyncConnect(){
 		if ( !socket_.is_open()){
 			socket_.open( asio::ip::tcp::v4()  );
 		}
 		socket_.async_connect( asio::ip::tcp::endpoint(asio::ip::address::from_string(ip_), 5000 ),boost::bind(&Qbox::Impl::handleConnected, this, asio::placeholders::error) );
+		timer_.expires_from_now(boost::posix_time::seconds(5));  
+        timer_.async_wait(boost::bind(&Qbox::Impl::handleConnectFailed, this));  
 	}
 	void asyncReceive(){
 		socket_.async_receive(  asio::buffer(responsed_, CONSTLEN), boost::bind(&Qbox::Impl::handleReceived, this, asio::placeholders::error, asio::placeholders::bytes_transferred) );
@@ -310,6 +320,7 @@ struct Qbox::Impl{
 		if ( !err){
 			//qDebug()<<"handleConnected";
 			isConnected_ = true;
+			timer_.cancel();
 			mainios_->post( boost::bind( &Qbox::Impl::asyncRequest, this) );
 			asyncReceive();
 		}else{
@@ -338,7 +349,8 @@ struct Qbox::Impl{
 	,ip_()
 	,mainios_( &QboxMgr::instance()->impl_->mainios_)
 	,receiveLen(0)
-	,isConnected_(false){
+	,isConnected_(false)
+	,timer_(QboxMgr::instance()->impl_->socketios_, boost::posix_time::seconds(5)){
 		
 	}
 	~Impl(){

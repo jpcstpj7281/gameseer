@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 	modules_.push_back( new ChnWnd(_tab));
 	modules_.push_back( new RingWnd(_tab));
 	modules_.push_back( new ModeWnd(_tab));
-	modules_.push_back( new TaskWnd(_tab));
+	//modules_.push_back( new TaskWnd(_tab));
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		_tab->addTab(*it, (*it)->windowTitle() );
 	}
@@ -132,6 +132,10 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
 	}
 	pb = _tab->findChild<QPushButton* >("pbCloseWnd");
+	if (pb){
+		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
+	}
+	pb = _tab->findChild<QPushButton* >("pbResetWnd");
 	if (pb){
 		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
 	}

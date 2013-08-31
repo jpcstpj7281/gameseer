@@ -114,6 +114,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="setupTest">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -165,6 +168,32 @@
     <string>清墙</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pbSave_2">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>450</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save As</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbLoadAs">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>450</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load As</string>
+   </property>
+  </widget>
   <zorder>tableDevices</zorder>
   <zorder>incrRow</zorder>
   <zorder>decrRow</zorder>
@@ -176,6 +205,8 @@
   <zorder>pbLoad</zorder>
   <zorder>pbSave</zorder>
   <zorder>clearWall</zorder>
+  <zorder>pbSave_2</zorder>
+  <zorder>pbLoadAs</zorder>
  </widget>
  <resources/>
  <connections/>
