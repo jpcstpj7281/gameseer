@@ -1,16 +1,19 @@
 <root>
-    <wall row="1" col="2"/>
-    <screen ip="192.168.67.102" id="257"/>
-    <screen ip="192.168.67.166" id="258"/>
+    <wall row="2" col="2"/>
+    <screen ip="192.168.67.104" id="257"/>
+    <screen ip="192.168.67.103" id="258"/>
+    <screen ip="192.168.67.109" id="513"/>
+    <screen ip="192.168.67.102" id="514"/>
     <ring id="Ring1">
-        <rnode id="100860161"/>
-        <rnode id="16974082"/>
+        <rnode id="196865"/>
+        <rnode id="84082946"/>
+        <rnode id="84083202"/>
+        <rnode id="84083201"/>
     </ring>
-    <mode id="Mode1">
-        <wnd w="0.409225" x="0.0363101" wndid="Wnd1" y="0.0708535" h="0.268921" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
-    </mode>
-    <mode id="Mode2">
-        <wnd w="0.45633" x="0.26104" wndid="Wnd1" y="0.0885668" h="0.415459" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
-        <wnd w="0.56526" x="0.13052" wndid="Wnd2" y="0.2657" h="0.657005" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
-    </mode>
+    <ring id="Ring2">
+        <rnode id="262401"/>
+        <rnode id="100925698"/>
+        <rnode id="100925954"/>
+        <rnode id="100925953"/>
+    </ring>
 </root>

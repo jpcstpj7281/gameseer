@@ -93,13 +93,14 @@ public:
 
 
 };
-
+class WallWnd;
 class WallScene:public QGraphicsScene{
 	bool isCreatingWnd_;
 	QPointF pressPos_;
 	
 	void createWnd( QPointF & releasePos);
 	void createWndInGreenRect( QRectF &rect);
+	
 	
 public:
 	QRectF getBigGreenRect( QRectF rect);
@@ -115,7 +116,7 @@ public:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
 	virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event )override;
 	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
-
+	WallWnd * wallWnd_;
 
 	std::vector<QRectF> getGreenRects();
 };
@@ -133,13 +134,18 @@ class WallWnd : public QWidget
 			void changed ( const QList<QRectF> & );
 			void clickedCloseWnd();
 			void clickedActivateRing();
+			void clickedResetWnd();
 public:
     explicit WallWnd( QWidget* parent);
     ~WallWnd();
     
 	void resetWnds();
 	void resetComboBoxes();
+	void refreshWndArgs();
 private:
+
+	void refreshWndArgs(Wnd* wnd);
+	
 	bool isResetting_;
 	QComboBox* cbRings_;
 	QComboBox* cbChns_;
@@ -154,7 +160,7 @@ private:
 	WallScene* scene_;
 
 	void drawScreens();
-	
+
 };
 
 #endif // WallWnd_H

@@ -74,10 +74,10 @@ public:
 	size_t getY(){ return yPercent_*ScreenMgr::instance()->getWallHeight();}
 	size_t getW(){ return wPercent_*ScreenMgr::instance()->getWallWidth();}
 	size_t getH(){ return hPercent_*ScreenMgr::instance()->getWallHeight();}
-	size_t getAX(){ return axPercent_;}
-	size_t getAY(){ return ayPercent_;}
-	size_t getAW(){ return awPercent_;}
-	size_t getAH(){ return ahPercent_;}
+	size_t getAX(){ return axPercent_* GetWidth(ScreenMgr::instance()->getInResolution(inputid_));}
+	size_t getAY(){ return ayPercent_* GetHeight(ScreenMgr::instance()->getInResolution(inputid_));}
+	size_t getAW(){ return awPercent_* GetWidth(ScreenMgr::instance()->getInResolution(inputid_));}
+	size_t getAH(){ return ahPercent_* GetHeight(ScreenMgr::instance()->getInResolution(inputid_));}
 
 	void recalcArea();
 
@@ -88,6 +88,7 @@ public:
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront();
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);
+	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent,double axPercent, double ayPercent, double awPercent, double ahPercent);
 	bool moveWnd(double xPercent, double yPercent);
 	Wnode * getWnode( ResourceID wnode);
 };

@@ -166,6 +166,13 @@ uint32_t Wnd::bringFront(){
 	}
 	return layer_;
 }
+bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent,double axPercent, double ayPercent, double awPercent, double ahPercent){
+	axPercent_  = axPercent;
+	ayPercent_  = ayPercent;
+	awPercent_  = awPercent;
+	ahPercent_  = ahPercent;
+	return resizeWnd(xPercent,  yPercent,  wPercent,  hPercent);
+}
 bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent){
 	xPercent_  = xPercent;
 	yPercent_  = yPercent;
@@ -178,6 +185,7 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 		wnodes_.back()->yp_  = yPercent;
 		wnodes_.back()->wp_  = wPercent_;
 		wnodes_.back()->hp_  = hPercent_;
+		
 	}else{
 
 		double xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut;
@@ -243,8 +251,8 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 				return false;
 			}
 		}
-		this->recalcArea();
 	}
+	this->recalcArea();
 	//for ( size_t i = 0 ; i < wnodes_.size(); ++i){
 	//	Screen* scrn = ScreenMgr::instance()->getScreen( wnodes_[i]->wnodeid_);
 	//	scrn->hideRequest(wnodes_[i]->wnodeid_ );

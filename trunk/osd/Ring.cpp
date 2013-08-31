@@ -8,6 +8,7 @@
 #include <fstream>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <windows.h>
 
 Ring::Ring(const std::string & id):id_(id),isEnable_(false)
 {
@@ -108,6 +109,7 @@ void Ring::activate(ResourceID inputid){
 	for ( size_t i = 0 ; i < rnodes_.size(); ++i){
 		Screen* scrn = ScreenMgr::instance()->getScreen( rnodes_[i]);
 		scrn->connInOutRingRequest( inputid, rnodes_[i]);
+		Sleep(100);
 	}
 }
 

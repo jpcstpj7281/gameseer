@@ -57,13 +57,17 @@ void ScreenConnBtn::conn(){
 	}
 }
 void ScreenConnBtn::disconn(){
+	ScreenMgr::instance()->closeAllWnds();
 	Screen* scrn = ScreenMgr::instance()->getScreen(screenid_);
-	scrn->disconnect();
+	
 	osdBtn_->setEnabled(false);
 	testBtn_->setEnabled(false);
+	address_->setEnabled(true);
 	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
-	if (osdBtn_ && !osdBtn_->isHidden() ) osdBtn_->hide();
+	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(false);
 	setText("Connect");
+	Sleep(500);
+	scrn->disconnect();
 }
 void ScreenConnBtn::clickit(){
 	if ( address_->text().isEmpty() ){
@@ -78,6 +82,7 @@ void ScreenConnBtn::clickit(){
 void ScreenConnBtn::clickOsd(){
 	if (osdWnd_ == NULL){
 		osdWnd_ = new OsdWnd(screenid_);
+		osdWnd_->setWindowTitle(address_->text() );
 		osdWnd_->resize( 800, 600);
 		osdWnd_->show();
 	}else{
@@ -180,7 +185,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
-    startTimer(100);
+    startTimer(500);
 	QPushButton * clearWall = findChild<QPushButton* >("clearWall");
 	connect( clearWall, SIGNAL( clicked()), this, SLOT(clearWall()) );
 	QPushButton * incrCol = findChild<QPushButton* >("incrCol");
@@ -201,6 +206,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 
 	QPushButton* setupTest = findChild<QPushButton* >("setupTest");
 	if ( setupTest){
+		setupTest->hide();
 		connect( setupTest, SIGNAL(clicked()), this, SLOT(setupTestClick()));
 	}
 
