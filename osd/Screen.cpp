@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include "msgBase.h"
 #include <protocol/protocol.h>
+#include <Windows.h>
 
 static bool ignoreCallback( uint32_t , QboxDataMap& value){
 	
@@ -16,6 +17,7 @@ Screen::Screen(uint32_t row, uint32_t col)
 	:row_(row)
 	,col_(col)
 	,qbox_(0)
+	,inputCount_(GetTickCount()+10000)
 {
 	inPort_.insert(std::make_pair(ToResourceID( 1, 0, row, col), -1));
 	inPort_.insert(std::make_pair(ToResourceID( 2, 0, row, col), -1));
@@ -27,6 +29,7 @@ Screen::Screen(uint32_t row, uint32_t col)
 	outPort753_.insert(std::make_pair(ToResourceID( 0, 2, row, col), 0));
 	outPortRing_.insert(std::make_pair(ToResourceID( 0, 3, row, col), 0));
 	outPortRing_.insert(std::make_pair(ToResourceID( 0, 4, row, col), 0));
+
 }
 Screen::~Screen(){
 	disconnect();
@@ -37,15 +40,20 @@ Screen::~Screen(){
 
 
 void Screen::run ( ){
+	if ( !qbox_ || !qbox_->isConn() ) return;
 	for ( auto it = slowDownCache_.begin(); it != slowDownCache_.end(); ++it){
-		qbox_->addAsyncRequest( (32<<16)|1, it->first, it->second);// for osd request
+		qbox_->addAsyncRequest( PDLPCTRLReq::uri, it->first, it->second);// for osd request
 	}
 	slowDownCache_.clear();
-}
 
+	
+	if ( inputCount_ < (GetTickCount()) ){
+		inputRequest();
+		inputCount_ = GetTickCount()+10000;
+	}
+}
 void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
 	if ( qbox_){
-		//qbox_->addAsyncRequest( (32<<16)|1, callback, value);
 		slowDownCache_.clear();
 		slowDownCache_.push_back( std::make_pair(callback, value) );
 	}
@@ -63,14 +71,16 @@ bool Screen::inputCallback( uint32_t , QboxDataMap& value ){
 				inPort_[ inputid ]= -1 ;
 				if (old != -1){
 					for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](inputid);}
+					return true;
 				}
 			}else{
-
-				if (old != 0 || old != -1)
-					inPort_[ inputid ]= 0 ;
 				if (old == -1){
 					for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](inputid);}
+					inPort_[ inputid ]= 0 ;
+					inputResolutionRequest();
+					return true;
 				}
+				
 			}
 		}
 	}
@@ -106,7 +116,7 @@ bool Screen::inputResolutionCallback( uint32_t , QboxDataMap& value ){
 				int h = QString::fromStdString(value["h"]).toInt();
 			
 				uint32_t resolution = inPort_[id];
-				uint32_t newResolution = (w<<16)|h;
+				uint32_t newResolution = toResolution(w,h);
 				if ( resolution != newResolution){
 					inPort_[id]= newResolution;
 					for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](id);}
@@ -284,14 +294,27 @@ void Screen::setLayerRequest(size_t layer, ResourceID wnode){
 		}
 	}
 }
+void dlpTempRequest(QboxCallback callback, QboxDataMap &value ){
+}
+void Screen::setDlpRequest(int dlpPower ,QboxCallback callback ){
+	QboxDataMap value;
+	value["POWER"] = QString::number( dlpPower ).toStdString();
+	qbox_->addAsyncRequest( PSetDLPPinReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value);
+}
+void Screen::setLampRequest(int lamp ){
+	QboxDataMap value;
+	value["LAMP"] = QString::number( lamp ).toStdString();
+	qbox_->addAsyncRequest( PSetDLPPinReq::uri , std::bind( ignoreCallback,  std::placeholders::_1, std::placeholders::_2), QboxDataMap());
+}
+void Screen::getDlpRequest(QboxCallback callback){
+	qbox_->addAsyncRequest( PGetDLPPinReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), QboxDataMap());
+}
 
 void Screen::closeAllWndRequest(){
 	if ( qbox_){
 		qbox_->addAsyncRequest( PCloseAllReq::uri , std::bind( ignoreCallback,  std::placeholders::_1, std::placeholders::_2), QboxDataMap());
 	}
 }
-
-
 void Screen::outputRequest( ){
 	if ( qbox_){
 		qbox_->addAsyncRequest( PGetOutPutReq::uri , std::bind( &Screen::outputCallback, this, std::placeholders::_1, std::placeholders::_2), QboxDataMap());

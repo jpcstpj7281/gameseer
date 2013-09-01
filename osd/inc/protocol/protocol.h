@@ -13,6 +13,7 @@
 #include "pchannel.h"
 #include "pevent.h"
 #include "pwindow.h"
+#include "pdlp.h"
 
 //#include "pdlp.h"
 

@@ -11,6 +11,7 @@
 #include <wnd.h>
 #include <Ring.h>
 #include <QMessageBox>
+#include <boost/bind.hpp>
 
 void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	uint32_t cc = ScreenMgr::instance()->getColCount();
@@ -753,6 +754,8 @@ WallWnd::WallWnd(QWidget* parent) :
 	if (pbResetWnd){
 		connect(pbResetWnd, SIGNAL(clicked()), this, SLOT(clickedResetWnd()) );
 	}
+
+	ScreenMgr::instance()->onInputChanged( boost::bind( &WallWnd::inChangedCallback, this, _1) );
 }
 
 void WallWnd::changed ( const QList<QRectF> & region ){
@@ -962,4 +965,19 @@ void WallWnd::refreshWndArgs(Wnd* wnd){
 		leaw->setText("");
 		leah->setText("");
 	}
+}
+bool WallWnd::inChangedCallback(ResourceID inputid){
+	resetComboBoxes();
+	if ( cbChns_->currentText().isEmpty()){
+		scene_->currInput_ = 0;
+	}
+	Wnd* wnd = WndMgr::instance()->getWnds(inputid);
+	while ( wnd){
+		WndMgr::instance()->closeWnd(wnd);
+		wnd = WndMgr::instance()->getWnds(inputid);
+	}
+	
+	screensItem_->update();
+	resetWnds();
+	return true;
 }

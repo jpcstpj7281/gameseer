@@ -28,6 +28,7 @@ public:
 	bool hasWnd(const std::string & id);
 	std::vector<Wnd* > getWnds(){ return wnds_;}
 	Wnd* getWnd(const std::string &id);
+	Wnd* getWnds(ResourceID inputid);
 	bool closeWnd(Wnd*);
 	void closeAll();
 	uint32_t getCurrLayer(){ return currlayer_;}

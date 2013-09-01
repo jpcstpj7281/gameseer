@@ -1,4 +1,4 @@
-﻿/*
+/*
  * pstatus.h
  *
  *  Created on: 2012-2-21
@@ -73,6 +73,42 @@ struct PGetOutPutSizeRsp
 {
 	enum{uri=(STATUS_MSGBASE<<16|10)};
 	//error->xxxx | total->??| out0->?? | out1-> ?? | ... //返回输出口信息
+};
+
+struct PGetDLPFanStatusReq
+{
+	enum{uri=(STATUS_MSGBASE<<16|11)};
+
+};
+
+struct PGetDLPFanStatusRsp
+{
+	enum{uri=(STATUS_MSGBASE<<16|12)};
+	//error->xxxx | total->??| out0->?? | out1-> ?? | ... //返回输出口信息
+};
+
+struct PGetDLPPinReq
+{
+	enum{uri=(STATUS_MSGBASE<<16|13)};
+
+};
+
+struct PGetDLPPinRsp
+{
+	enum{uri=(STATUS_MSGBASE<<16|14)};
+	//error->xxxx | ASIC->??| FAN->?? | LAMP-> ?? | ... //返回输出口信息
+};
+
+struct PSetDLPPinReq
+{
+	enum{uri=(STATUS_MSGBASE<<16|15)};
+	//POWER->???|LAMP->???//获取某输入口的分辨率
+};
+
+struct PSetDLPPinRsp
+{
+	enum{uri=(STATUS_MSGBASE<<16|16)};
+	//error->xxxx
 };
 
 

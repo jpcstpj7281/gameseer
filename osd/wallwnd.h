@@ -161,6 +161,8 @@ private:
 
 	void drawScreens();
 
+	bool inChangedCallback(ResourceID input);
+
 };
 
 #endif // WallWnd_H

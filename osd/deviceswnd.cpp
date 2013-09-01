@@ -12,6 +12,7 @@
 #include <OsdProjMode.h>
 #include <Ring.h>
 #include <mode.h>
+#include <QMessageBox>
 
 #undef min
 using namespace std::placeholders;
@@ -52,7 +53,10 @@ void ScreenConnBtn::conn(){
 			address_->setEnabled(false);
 			osdBtn_->setEnabled(false);
 			testBtn_->setEnabled(false);
+			dlpBtn_->setEnabled(true);
+			dlpBtn_->setText("Unknow");
 			scrn->versionRequest( std::bind( &ScreenConnBtn::connectedCallback, this, _1, _2), QboxDataMap() );
+			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpCallback, this, _1, _2) );
 		}
 	}
 }
@@ -63,6 +67,8 @@ void ScreenConnBtn::disconn(){
 	osdBtn_->setEnabled(false);
 	testBtn_->setEnabled(false);
 	address_->setEnabled(true);
+	dlpBtn_->setEnabled(false);
+	
 	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
 	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(false);
 	setText("Connect");
@@ -71,7 +77,7 @@ void ScreenConnBtn::disconn(){
 }
 void ScreenConnBtn::clickit(){
 	if ( address_->text().isEmpty() ){
-		address_->setText("192.168.67.109") ;
+		address_->setText("192.168.67.103") ;
 	}
 	if ( !address_->text().isEmpty() && text() == "Connect"){
 		conn();
@@ -102,7 +108,79 @@ void ScreenConnBtn::clickTest(){
 		}
 	}
 }
+bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
+	if ( data["error"] != "0") return true;
+	auto found = data.find("data");
+	if (found != data.end()){
+		std::string val = found->second;
+		int val1 = val[0];
+		int val2 = val[1];
+		int val3 = val[2];
+		int val4 = val[3];
+		int val5 = val[4];
+		int val6 = val[5];
+		int val7 = val[6];
+	}
+	return true;
+}
+bool ScreenConnBtn::setdlpCallback( uint32_t , QboxDataMap data){
+	if ( data["error"] != "0") return true;
+	dlpBtn_->setEnabled(true);
+	return true;
+}
+void ScreenConnBtn::clickDlp(){
+	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
+	if ( srn == NULL ) return;
+	if ( dlpBtn_->text() == "Turn off"){
+		dlpBtn_->setText("Turn on");
+		dlpBtn_->setStyleSheet("");
+		dlpBtn_->setEnabled(false);
+		srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+	}else if(dlpBtn_->text() == "Turn on") {
+		dlpBtn_->setText("Turn off");
+		dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
+		srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+		dlpBtn_->setEnabled(false);
+	}
+}
 
+bool ScreenConnBtn::dlpCallback( uint32_t , QboxDataMap data){
+	if ( data["error"] != "0") return true;
+
+	int power = data["ASIC"].at(0);
+	int lamp = data["LAMP"].at(0);
+	int fan = data["FAN"].at(0);
+	if ( power == 1){
+		dlpBtn_->setText("Turn off");
+		dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
+		Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
+
+		std::string value;
+		value.resize(7);
+		value[0] = 0;
+		value[1] = 0;
+		value[2] = 0;
+		value[3] = 0;
+		value[4] = 0;
+		value[5] = 0;
+		value[6] = 0;
+		QboxDataMap datamap;
+		datamap["addr"] = QString::number( 0xB7).toStdString();
+		datamap["len"] = QString::number(7).toStdString();
+		datamap["value"] = value;
+		srn->osdRequest( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap );
+		Sleep(1000);
+		srn->osdRequestRead( 0xb7, 7, std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2), 0x34);// for osd request
+	}else{
+		dlpBtn_->setText("Turn on");
+		dlpBtn_->setStyleSheet("");
+	}
+	if ( fan == 1){
+		//QMessageBox::warning(0, "Wanning", "Fan Error, DLP will be turn off!");
+	}else{
+	}
+	return true;
+}
 bool ScreenConnBtn::connectedCallback( uint32_t , QboxDataMap){
 	setText("Disconnect");
 	this->setEnabled(true);
@@ -118,9 +196,11 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	,screenid_(screenid)
 	,row_( new QTableWidgetItem)
 	,col_(new QTableWidgetItem)
+	,temp_(new QTableWidgetItem)
 	,address_(new QLineEdit)
 	,osdBtn_(new QPushButton)
 	,testBtn_(new QPushButton)
+	,dlpBtn_(new QPushButton)
 {
 	this->setText( "Connect");
 
@@ -132,6 +212,10 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	col_->setFlags( Qt::ItemIsEnabled );
 	col_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
 
+	temp_->setText( QString::number( GetRow(0)) );
+	temp_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
+	temp_->setFlags( Qt::ItemIsEnabled );
+
 	osdBtn_->setEnabled(false);
 	osdBtn_->setText( "OSD");
 	connect( osdBtn_, SIGNAL(clicked()), this, SLOT(clickOsd()) );
@@ -139,6 +223,10 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	testBtn_->setEnabled(false);
 	testBtn_->setText( "Test");
 	connect( testBtn_, SIGNAL(clicked()), this, SLOT(clickTest()) );
+
+	dlpBtn_->setEnabled(false);
+	dlpBtn_->setText( "Unknow");
+	connect( dlpBtn_, SIGNAL(clicked()), this, SLOT(clickDlp()) );
 
 	QRegExp ipRx("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-4]|[01]?\\d\\d?)");
 	QRegExpValidator *pIpValidator = new QRegExpValidator(ipRx);
@@ -169,7 +257,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     ui->setupUi(this);
 
     tableDevices_ = findChild<QTableWidget* >("tableDevices");
-    tableDevices_->setColumnCount( 6);
+    tableDevices_->setColumnCount(9);
 
     QStringList sl;
 	sl.push_back( "Row");
@@ -447,11 +535,13 @@ void DevicesWnd::newAddress( ResourceID screenid, const std::string &ip){
 	tableDevices_->setRowCount(tableDevices_->rowCount()+1);  
 	tableDevices_->setItem ( tableDevices_->rowCount()-1, 0, connBtn->row_ );
 	tableDevices_->setItem ( tableDevices_->rowCount()-1, 1, connBtn->col_ );
+	
 	tableDevices_->setCellWidget(tableDevices_->rowCount()-1, 2, connBtn->address_);
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 3, connBtn->osdBtn_ );
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 4, connBtn );
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 5, connBtn->testBtn_ );
-	
+	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 6, connBtn->dlpBtn_ );
+	tableDevices_->setItem ( tableDevices_->rowCount()-1, 7, connBtn->temp_ );
 }
 void DevicesWnd::deleteAddress( ResourceID screenid){
 	uint32_t row = GetRow(screenid );
