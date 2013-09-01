@@ -289,6 +289,7 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 bool Wnd::moveWnd(double xPercent, double yPercent){
 	return this->resizeWnd( xPercent, yPercent, wPercent_, hPercent_);
 }
+
 Wnode * Wnd::getWnode( ResourceID wnode){
 	for ( auto it = wnodes_.begin(); it != wnodes_.end(); ++it){
 		if ( (*it)->wnodeid_ == wnode){
@@ -350,7 +351,12 @@ Wnd* WndMgr::getWnd(const std::string &id){
 	}
 	return NULL;
 }
-
+Wnd* WndMgr::getWnds(ResourceID inputid){
+	for ( size_t i = 0 ; i < wnds_.size(); ++i){
+		if (wnds_[i]->inputid_ == inputid) return wnds_[i];
+	}
+	return NULL;
+}
 
 Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
 	if ( inputid == 0) return NULL;
@@ -371,6 +377,10 @@ Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent
 		for ( size_t i = 0 ; i < wnodes.size(); ++i){
 			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
 			scrn->connInOutRequest( inputid, wnodes[i]->wnodeid_);
+		}
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->hideRequest(wnodes[i]->wnodeid_ );
 		}
 		//Sleep(100);
 		for ( size_t i = 0 ; i < wnodes.size(); ++i){

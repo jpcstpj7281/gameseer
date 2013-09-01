@@ -47,13 +47,17 @@ class ScreenConnBtn: public QPushButton{
 		void clickit();
 		void clickOsd();
 		void clickTest();
+		void clickDlp();
 		void addressEditFinished();
 public:
 	QTableWidgetItem	*row_;
 	QTableWidgetItem	*col_;
+	QTableWidgetItem	*temp_;
 	QLineEdit			*address_;
 	QPushButton			*osdBtn_;
 	QPushButton			*testBtn_;
+	QPushButton			*dlpBtn_;
+
 
 	OsdWnd				*osdWnd_;
 	TestQbox			*testQbox_;
@@ -63,6 +67,9 @@ public:
 	ScreenConnBtn( ResourceID screenid, const std::string & ip);
 	~ScreenConnBtn();
 	bool connectedCallback( uint32_t , QboxDataMap);
+	bool dlpCallback( uint32_t , QboxDataMap);
+	bool setdlpCallback( uint32_t , QboxDataMap);
+	bool tempdlpCallback( uint32_t , QboxDataMap);
 };
 
 class DevicesWnd : public QWidget

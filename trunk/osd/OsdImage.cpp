@@ -29,6 +29,7 @@ QWidget(parent),
 	, vertPos_(0)
 	, comma_(0)
 	, orientation_(01)
+	,fanCtrl_(100)
 {
 	ui->setupUi(this);
 
@@ -103,6 +104,14 @@ QWidget(parent),
 	le  = findChild<QLineEdit*>("leBlueContrast" );
 	if ( le) {
 		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueBlueContrastChangedFinished() ) );
+	}
+	le  = findChild<QLineEdit*>("leFanCtrl" );
+	if ( le) {
+		connect( le, SIGNAL( editingFinished  ()), this, SLOT( valueFanCtrlChangedFinished() ) );
+	}
+	qs  = findChild<QSlider*>("sFanCtrl" );
+	if ( qs) {
+		connect( qs, SIGNAL( valueChanged (int)), this, SLOT( valueFanCtrlChanged(int) ) );
 	}
 
 	qs  = findChild<QSlider*>("sVertOffset" );
@@ -454,6 +463,25 @@ void OsdImage::valueDBlackChangedFinished(){
 	if ( dynamicBlack_ == val ) return ;
 	findChild<QSlider*>("sDynBlack" )->setValue(val);
 }
+void OsdImage::valueFanCtrlChanged(int val){
+	if (val > 100) val = 100;else if (val < 30) val = 30;
+	if (val == fanCtrl_) return;
+	fanCtrl_ = val;
+	findChild<QLineEdit*>("leFanCtrl" )->setText(QString::number(val));
+
+	std::string data;
+	data.resize(3);
+	data[0] = val;
+	data[1] = val;
+	data[2] = val;
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x10, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+}
+void OsdImage::valueFanCtrlChangedFinished(){
+	QLineEdit* le = (QLineEdit*)sender();
+	int val = le->text().toInt();
+	if ( fanCtrl_ == val ) return ;
+	findChild<QSlider*>("sFanCtrl" )->setValue(val);
+}
 
 void OsdImage::btnHoriRevert(){
 	QPushButton* btn = (QPushButton*)sender();
@@ -503,5 +531,5 @@ void OsdImage::currentOverlapIndexChanged(int ){
 }
 void OsdImage::currentCommaIndexChanged(int index){
 	index == 0 ? comma_ |= 0xc000 : comma_ = 0x4000 + (index -1);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestShort( 0xd, comma_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestShort( 0x9, comma_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }

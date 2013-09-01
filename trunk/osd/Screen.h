@@ -37,6 +37,8 @@ class Screen  {
 
 	uint32_t col_;//start from 1
 	uint32_t row_;//start from 1
+
+	size_t inputCount_;
 	Qbox* qbox_;
 
 	//first for 753 out port id, second for Wnode
@@ -44,7 +46,7 @@ class Screen  {
 	//first for ring out port id, second for Rnode
 	std::map<ResourceID, ResourceID> outPortRing_;
 	//first for in port id, second for w << 16 + h resolution.
-	std::map<ResourceID, ResourceID> inPort_;
+	std::map<ResourceID, uint32_t> inPort_;
 
 
 	//only the inport num.
@@ -69,6 +71,11 @@ class Screen  {
 	void run();
 
 public:
+	void setDlpRequest(int dlpPower ,QboxCallback callback);
+	void setLampRequest(int Lamp );
+	void getDlpRequest(QboxCallback callback );
+	void dlpTempRequest(QboxCallback callback, QboxDataMap &value );
+
 	//bool isInputValid( ResourceID inputid);
 	bool isOutputRingValid( ResourceID outputid);
 

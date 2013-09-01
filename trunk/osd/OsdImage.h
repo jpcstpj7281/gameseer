@@ -43,6 +43,9 @@ class OsdImage : public QWidget
 			void valueDBlackChanged(int);
 			void valueDBlackChangedFinished();
 
+			void valueFanCtrlChangedFinished();
+			void valueFanCtrlChanged(int);
+
 			void btnHoriRevert();
 			void btnVertRevert();
 
@@ -58,6 +61,8 @@ private:
 	void dispatchContrast();
 
 	ResourceID screenid_;
+
+	uint32_t fanCtrl_;
 
 	short brightnessRed_;
 	short brightnessGreen_;
