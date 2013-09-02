@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+	w.setFixedSize( 1024, 768);
     
 	QboxMgr::instance()->startThread();
     auto rs = a.exec();

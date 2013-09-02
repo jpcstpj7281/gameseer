@@ -67,9 +67,13 @@ public:
 	ScreenConnBtn( ResourceID screenid, const std::string & ip);
 	~ScreenConnBtn();
 	bool connectedCallback( uint32_t , QboxDataMap);
-	bool dlpCallback( uint32_t , QboxDataMap);
+	bool dlpStatusCallback( uint32_t , QboxDataMap);
 	bool setdlpCallback( uint32_t , QboxDataMap);
 	bool tempdlpCallback( uint32_t , QboxDataMap);
+
+	std::string initStr_;
+	bool osdResponseRead( uint32_t , QboxDataMap& data, int);
+	virtual void	timerEvent ( QTimerEvent * event )override;
 };
 
 class DevicesWnd : public QWidget

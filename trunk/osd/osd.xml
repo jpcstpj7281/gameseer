@@ -16,4 +16,8 @@
         <rnode id="100925954"/>
         <rnode id="100925953"/>
     </ring>
+    <mode id="Mode1">
+        <wnd w="0.756624" x="0.147203" wndid="Wnd1" y="0.0878939" h="0.691542" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+        <wnd w="0.803729" x="0.0225711" wndid="Wnd2" y="0.169154" h="0.703151" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+    </mode>
 </root>

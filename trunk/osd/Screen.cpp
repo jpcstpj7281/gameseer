@@ -38,6 +38,8 @@ Screen::~Screen(){
 	}
 }
 
+void Screen::reset(){
+}
 
 void Screen::run ( ){
 	if ( !qbox_ || !qbox_->isConn() ) return;
@@ -294,19 +296,28 @@ void Screen::setLayerRequest(size_t layer, ResourceID wnode){
 		}
 	}
 }
+void Screen::setVideoRequest(int inputNum ,QboxCallback callback){
+	if ( !qbox_) return;
+	QboxDataMap value;
+	value["channel"] = QString::number( inputNum ).toStdString();
+	qbox_->addAsyncRequest( PInitSDChannelReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value);
+}
 void dlpTempRequest(QboxCallback callback, QboxDataMap &value ){
 }
 void Screen::setDlpRequest(int dlpPower ,QboxCallback callback ){
+	if ( !qbox_) return;
 	QboxDataMap value;
 	value["POWER"] = QString::number( dlpPower ).toStdString();
 	qbox_->addAsyncRequest( PSetDLPPinReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value);
 }
 void Screen::setLampRequest(int lamp ){
+	if ( !qbox_) return;
 	QboxDataMap value;
 	value["LAMP"] = QString::number( lamp ).toStdString();
 	qbox_->addAsyncRequest( PSetDLPPinReq::uri , std::bind( ignoreCallback,  std::placeholders::_1, std::placeholders::_2), QboxDataMap());
 }
 void Screen::getDlpRequest(QboxCallback callback){
+	if ( !qbox_) return;
 	qbox_->addAsyncRequest( PGetDLPPinReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), QboxDataMap());
 }
 
@@ -589,6 +600,15 @@ std::vector<ResourceID> ScreenMgr::getAvailableInput(){
 		}
 	}
 	return inputs;
+}
+bool ScreenMgr::hasAvailableInput(ResourceID inputid){
+	std::vector<ResourceID> inputs = getAvailableInput();
+	for( size_t i = 0 ; i < inputs.size(); ++i){
+		if ( inputs[i] == inputid){
+			return true;
+		}
+	}
+	return false;
 }
 void ScreenMgr::closeAllWnds(){
 	for( size_t i = 0 ; i < rowCount_; ++i){

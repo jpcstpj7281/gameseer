@@ -69,8 +69,10 @@ class Screen  {
 	std::vector< std::pair< QboxCallback, QboxDataMap> > slowDownCache_;
 
 	void run();
+	void reset();
 
 public:
+	void setVideoRequest(int inputNum ,QboxCallback callback);
 	void setDlpRequest(int dlpPower ,QboxCallback callback);
 	void setLampRequest(int Lamp );
 	void getDlpRequest(QboxCallback callback );
@@ -183,6 +185,8 @@ public:
 
 	//get all that Input what with signal.
 	std::vector<ResourceID> getAvailableInput();
+
+	bool hasAvailableInput(ResourceID inputid);
 	
 	inline Resolution getInResolution(ResourceID input){ Resolution res= screens_[GetRow(input)-1][GetCol(input)-1]->inPort_[input]; return res==-1?0:res;}
 	void setupTest();

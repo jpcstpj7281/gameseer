@@ -1,4 +1,4 @@
-﻿/*
+/*
  * pchannel.h
  *
  *  Created on: 2012-2-21
@@ -62,6 +62,19 @@ struct PSetOutPutSizeRsp
 {
 	enum{uri=(CHANNEL_MSGBASE<<16|12)};
 	//error->??? | w->??? | h->??? | //返回设置输出通道分辩率
+};
+
+
+struct PInitSDChannelReq
+{
+	enum{uri=(CHANNEL_MSGBASE<<16|13)};
+	//channel->??? 
+};
+
+struct PInitSDChannelRsp
+{
+	enum{uri=(CHANNEL_MSGBASE<<16|14)};
+	//error->???
 };
 
 
