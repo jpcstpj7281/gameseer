@@ -6,8 +6,9 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
-
-
+#include <functional>
+#include <qdebug.h>
+using namespace std::placeholders;
 
 ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 {
@@ -54,6 +55,8 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 		height_->setBackgroundColor( Qt::lightGray);
 		inport_->setBackgroundColor( Qt::lightGray);
 	}
+
+		
 }
 void ChnWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, this);
@@ -63,8 +66,6 @@ void ChnWidget::initTable( QTableWidget* table, int row){
 	table->setItem ( row, 4, inport_ );
 	table->setItem ( row, 5, width_ );
 	table->setItem ( row, 6, height_ );
-	
-
 }
 
 
@@ -95,6 +96,33 @@ ChnWnd::ChnWnd(QWidget* parent) :
 	chnTable_->setColumnWidth( 5, 50);
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
+
+	QPushButton* setVideo = this->findChild<QPushButton* >("pbSetVideo");
+	if ( setVideo){
+		connect(setVideo, SIGNAL(clicked()), this, SLOT(clickedSetVideo ()) );
+	}
+}
+bool ChnWnd::setVideoCallback( uint32_t , QboxDataMap data){
+	if ( data["error"] == "0"){
+	}
+	return true;
+}
+void ChnWnd::clickedSetVideo (){
+	QSpinBox* chncol = this->findChild<QSpinBox* >("sbChnCol");
+	chncol->setMaximum(ScreenMgr::instance()->getColCount() );
+	QSpinBox* chnrow = this->findChild<QSpinBox* >("sbChnRow");
+	chnrow->setMaximum(ScreenMgr::instance()->getRowCount() );
+	QSpinBox* chninput = this->findChild<QSpinBox* >("sbChnInput");
+	size_t row = chnrow->value();
+	size_t col = chncol->value();
+	size_t input = chninput->value();
+
+	bool existed = ScreenMgr::instance()->hasAvailableInput( ToResourceID( input, 0, row, col) );
+	if ( existed ){
+		QMessageBox::warning(0, "Wanning", "Input Channel already existed!");
+	}else{
+		ScreenMgr::instance()->getScreen(ToResourceID(0, 0, row, col) )->setVideoRequest(input, std::bind( &ChnWnd::setVideoCallback, this, _1, _2));
+	}
 }
 
 ChnWnd::~ChnWnd()
@@ -109,6 +137,22 @@ void ChnWnd::currentTabChanged ( int index ){
 		ChnWidget* wgt = new ChnWidget(inputs_[i]);
 		chnTable_->setRowCount(chnTable_->rowCount()+1);  
 		wgt->initTable(chnTable_,  chnTable_->rowCount()-1);
+	}
+	QSpinBox* chncol = this->findChild<QSpinBox* >("sbChnCol");
+	QSpinBox* chnrow = this->findChild<QSpinBox* >("sbChnRow");
+	QSpinBox* chninput = this->findChild<QSpinBox* >("sbChnInput");
+	if ( ScreenMgr::instance()->getColCount()  > 0 && ScreenMgr::instance()->getColCount() >0){
+		chncol->setEnabled(true);
+		chncol->setEnabled(true);
+		chncol->setEnabled(true);
+		chncol->setMaximum(1 );
+		chncol->setMaximum(ScreenMgr::instance()->getColCount() );
+		chnrow->setMaximum(1 );
+		chnrow->setMaximum(ScreenMgr::instance()->getRowCount() );
+	}else{
+		chncol->setEnabled(false);
+		chncol->setEnabled(false);
+		chncol->setEnabled(false);
 	}
 
 }

@@ -37,6 +37,7 @@ class ChnWnd : public QWidget
     Q_OBJECT
 		private slots:
 			void currentTabChanged ( int index );
+			void clickedSetVideo ();
 public:
     explicit ChnWnd(QWidget* parent);
     ~ChnWnd();
@@ -46,6 +47,7 @@ public:
 		//void sendClicked(bool);
 		//void clearClicked(bool);
 private:
+	bool setVideoCallback( uint32_t , QboxDataMap);
     Ui::ChnWnd *ui;
 	QTableWidget*	chnTable_;
 	std::vector<ResourceID> inputs_;

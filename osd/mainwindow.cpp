@@ -15,6 +15,7 @@
 #include <ringwnd.h>
 #include <taskwnd.h>
 #include <modewnd.h>
+#include <QSpinBox>
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -83,10 +84,7 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 	if (t){
 		t->setGeometry( 0, (this->height()-20)/2, this->width()-2, (this->height()-20)/2);
 	}
-	t = _tab->findChild<QTableWidget* >("chnTable");
-	if (t){
-		t->setGeometry( 0, 0, this->width()-2, this->height()-20);
-	}
+	
 	t = _tab->findChild<QTableWidget* >("ringTable");
 	if (t){
 		t->setGeometry( 0, 0, 400, this->height()-20);
@@ -148,6 +146,28 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 	}
 	for ( int i = 0 ; i < listle.size(); ++i){
 		listle[i]->setGeometry(listle[i]->x(), this->height()-130, listle[i]->width(), listle[i]->height() );
+	}
+
+	t = _tab->findChild<QTableWidget* >("chnTable");
+	if (t){
+		t->setGeometry( 0, 0, this->width()-160, this->height()-20);
+		//QLabel* lchncol = _tab->findChild<QLabel* >("lChnCol");
+		//QLabel* lchnrow = _tab->findChild<QLabel* >("lChnRow");
+		//QLabel* lchninput = _tab->findChild<QLabel* >("lChnInput");
+		QSpinBox* chncol = _tab->findChild<QSpinBox* >("sbChnCol");
+		QSpinBox* chnrow = _tab->findChild<QSpinBox* >("sbChnRow");
+		QSpinBox* chninput = _tab->findChild<QSpinBox* >("sbChnInput");
+		QPushButton* setVideo = _tab->findChild<QPushButton* >("pbSetVideo");
+		if (chncol && chnrow&& chninput){
+			//lchncol->setGeometry(t->width() + 80, lchncol->height()+110, lchncol->width(), lchncol->height() );
+			//lchnrow->setGeometry(t->width() + 80, lchnrow->height()+160, lchnrow->width(), lchnrow->height() );
+			//lchninput->setGeometry(t->width() + 80, lchninput->height()+210, lchninput->width(), lchninput->height() );
+
+			chncol->setGeometry(t->width() + 40, chncol->height()+100, chncol->width(), chncol->height() );
+			chnrow->setGeometry(t->width() + 40, chnrow->height()+150, chnrow->width(), chnrow->height() );
+			chninput->setGeometry(t->width() + 40, chninput->height()+200, chninput->width(), chninput->height() );
+			setVideo->setGeometry(t->width() + 50, setVideo->height()+250, setVideo->width(), setVideo->height() );
+		}
 	}
 }
 

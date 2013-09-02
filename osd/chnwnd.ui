@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>956</width>
     <height>600</height>
    </rect>
   </property>
@@ -33,6 +33,76 @@
      <width>300</width>
      <height>200</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="sbChnRow">
+   <property name="geometry">
+    <rect>
+     <x>841</x>
+     <y>110</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="prefix">
+    <string>Row:</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>16</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="sbChnCol">
+   <property name="geometry">
+    <rect>
+     <x>841</x>
+     <y>150</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="prefix">
+    <string>Col:</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>64</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="sbChnInput">
+   <property name="geometry">
+    <rect>
+     <x>841</x>
+     <y>190</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="prefix">
+    <string>Input:</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>6</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbSetVideo">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>230</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set Video</string>
    </property>
   </widget>
  </widget>
