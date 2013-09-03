@@ -330,7 +330,6 @@ void OsdImage::dispatchContrast(){
 	data[0] = shiftg ;
 	data[1] = shiftr;
 	data[2] = shiftb ;
-	qDebug()<<data.length();
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x1, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
 }
 void	OsdImage::valueContrastChangedFinished (  ){

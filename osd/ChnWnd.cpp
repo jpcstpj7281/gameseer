@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <functional>
 #include <qdebug.h>
+#include <Windows.h>
 using namespace std::placeholders;
 
 ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
@@ -73,9 +74,10 @@ void ChnWidget::initTable( QTableWidget* table, int row){
 ChnWnd::ChnWnd(QWidget* parent) :
     QWidget(parent)
 	,ui(new Ui::ChnWnd)
+	,isCurrTab_(false)
 {
     ui->setupUi(this);
-
+	startTimer(1000);
 	chnTable_ = findChild<QTableWidget* >("chnTable");
     chnTable_->setColumnCount( 7);
 	QStringList sl;
@@ -121,7 +123,9 @@ void ChnWnd::clickedSetVideo (){
 	if ( existed ){
 		QMessageBox::warning(0, "Wanning", "Input Channel already existed!");
 	}else{
-		ScreenMgr::instance()->getScreen(ToResourceID(0, 0, row, col) )->setVideoRequest(input, std::bind( &ChnWnd::setVideoCallback, this, _1, _2));
+		Screen* srn = ScreenMgr::instance()->getScreen(ToResourceID(0, 0, row, col) );
+		srn->setVideoRequest(input, std::bind( &ChnWnd::setVideoCallback, this, _1, _2));
+		srn->inputRequest();
 	}
 }
 
@@ -131,6 +135,10 @@ ChnWnd::~ChnWnd()
 }
 
 void ChnWnd::currentTabChanged ( int index ){
+	QTabWidget* tab = (QTabWidget*)sender();
+	isCurrTab_ = false;
+	if ( tab->tabText(index) != this->windowTitle()) return ;
+	isCurrTab_ = true;
 	chnTable_->setRowCount(0);
 	inputs_ = ScreenMgr::instance()->getAvailableInput();
 	for ( size_t i = 0; i < inputs_.size(); ++i){
@@ -155,4 +163,15 @@ void ChnWnd::currentTabChanged ( int index ){
 		chncol->setEnabled(false);
 	}
 
+}
+
+void ChnWnd::timerEvent ( QTimerEvent * event ){
+	if (!isCurrTab_) return;
+	chnTable_->setRowCount(0);
+	inputs_ = ScreenMgr::instance()->getAvailableInput();
+	for ( size_t i = 0; i < inputs_.size(); ++i){
+		ChnWidget* wgt = new ChnWidget(inputs_[i]);
+		chnTable_->setRowCount(chnTable_->rowCount()+1);  
+		wgt->initTable(chnTable_,  chnTable_->rowCount()-1);
+	}
 }

@@ -120,7 +120,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>320</y>
+     <y>530</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -191,7 +191,33 @@
     </rect>
    </property>
    <property name="text">
-    <string>Load As</string>
+    <string>Load From</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="turnOnAllDlp">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>300</y>
+     <width>171</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>  打开所有光机</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="turnOffAllDlp">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>340</y>
+     <width>171</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>  关闭所有光机</string>
    </property>
   </widget>
   <zorder>tableDevices</zorder>
@@ -207,6 +233,8 @@
   <zorder>clearWall</zorder>
   <zorder>pbSave_2</zorder>
   <zorder>pbLoadAs</zorder>
+  <zorder>turnOnAllDlp</zorder>
+  <zorder>turnOffAllDlp</zorder>
  </widget>
  <resources/>
  <connections/>

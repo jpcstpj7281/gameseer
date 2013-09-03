@@ -155,7 +155,7 @@ void Screen::inputResolutionRequest(){
 
 bool Screen::versionCallback( uint32_t , QboxDataMap& value){
 	version_ = value["protocol"];
-	qDebug()<<"Screen::versionCallback";//<<  m.uniqueKeys();
+	//qDebug()<<"Screen::versionCallback";//<<  m.uniqueKeys();
 	return true;
 }
 void Screen::versionRequest(QboxCallback callback, QboxDataMap &value ){
