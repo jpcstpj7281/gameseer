@@ -56,7 +56,7 @@ class Screen  {
 	
 	std::string version_;
 	
-	void inputRequest( );
+	
 	void versionRequest( );
 	void inputResolutionRequest();
 	void closeAllWndRequest();
@@ -72,6 +72,7 @@ class Screen  {
 	void reset();
 
 public:
+	void inputRequest( );
 	void setVideoRequest(int inputNum ,QboxCallback callback);
 	void setDlpRequest(int dlpPower ,QboxCallback callback);
 	void setLampRequest(int Lamp );

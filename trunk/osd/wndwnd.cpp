@@ -3,12 +3,16 @@
 #include <qdebug.h>
 #include "screen.h"
 #include "ring.h"
+#include "wnd.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
 #include <boost/math/special_functions/round.hpp>
+using namespace std::placeholders;
 
-WnodeWidget::WnodeWidget(Wnd* wnd, ResourceID wnode):QWidget(0),wnd_(wnd),wnode_(wnode)
+WnodeWidget::WnodeWidget(Wnd* wnd, ResourceID wnode):QWidget(0)
+	,wnd_(wnd)
+	,wnode_(wnode)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setMargin(0);
@@ -71,10 +75,16 @@ void WnodeWidget::initTable( QTableWidget* table, int row){
 	
 
 }
-
-
 //==============================================================================================================================
+void WndChnQComboBox::mousePressEvent ( QMouseEvent * e ){
+	isPressed_ = true;
+}
+//==============================================================================================================================
+bool WndWidget::isPressed(){
+	return input_->isPressed_;
+}
 WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
+	,input_(new WndChnQComboBox)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setMargin(0);
@@ -109,7 +119,7 @@ WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
 	ay_->setFlags( Qt::ItemIsEnabled );
 	aw_->setFlags( Qt::ItemIsEnabled );
 	ah_->setFlags( Qt::ItemIsEnabled );
-
+	
 	id_->setText( QString::fromStdString(wnd_->id_));
 	x_->setText( QString::number( wnd_->getX()));
 	y_->setText( QString::number( wnd_->getY()));
@@ -119,7 +129,36 @@ WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
 	ay_->setText( QString::number( wnd_->getAY()));
 	aw_->setText( QString::number( wnd_->getAW()));
 	ah_->setText( QString::number( wnd_->getAH()));
-	
+
+	input_->setEnabled(true);
+	input_->addItem( QString::fromStdString(ToStrID( wnd_->inputid_)));
+	std::vector<ResourceID> inputs = ScreenMgr::instance()->getAvailableInput();
+	for( auto it = inputs.begin(); it != inputs.end(); ++it){
+		if ( GetRow(wnd_->inputid_) == GetRow(*it) && GetCol(wnd_->inputid_) == GetCol(*it)){
+			if ( wnd_->inputid_ != *it){
+				input_->addItem( QString::fromStdString(ToStrID( *it)));
+			}
+		}
+	}
+	connect(input_, SIGNAL(activated(const QString &)), this, SLOT(currentInputIndexChanged (const QString &)) );
+}
+void WndWidget::currentInputIndexChanged (const QString & inputstr){
+	std::vector<ResourceID> inputs = ScreenMgr::instance()->getAvailableInput();
+	for( auto it = inputs.begin(); it != inputs.end(); ++it){
+		if ( GetRow(wnd_->inputid_) == GetRow(*it) && GetCol(wnd_->inputid_) == GetCol(*it)){
+			if ( wnd_->inputid_ != *it && inputstr.toStdString() == ToStrID(*it) ){
+				//size_t x = wnd_->getX();
+				//size_t y = wnd_->getY();
+				//size_t w = wnd_->getW();
+				//size_t h = wnd_->getH();
+				//size_t ax = wnd_->getAX();
+				//size_t ay = wnd_->getAY();
+				//size_t aw = wnd_->getAW();
+				//size_t ah = wnd_->getAH();
+				wnd_->resetInput(*it);
+			}
+		}
+	}
 }
 void WndWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, this);
@@ -132,7 +171,7 @@ void WndWidget::initTable( QTableWidget* table, int row){
 	table->setItem ( row, 7, ay_ );
 	table->setItem ( row, 8, aw_ );
 	table->setItem ( row, 9, ah_ );
-	
+	table->setCellWidget(row, 10, input_);
 
 }
 
@@ -142,9 +181,11 @@ void WndWidget::initTable( QTableWidget* table, int row){
 WndWnd::WndWnd(QWidget* parent) :
     QWidget(parent)
 	,ui(new Ui::WndWnd)
+	,isCurrTab_(false)
+	,isDirectWndMode_(false)
 {
     ui->setupUi(this);
-
+	startTimer(1000);
 	wndTable_ = findChild<QTableWidget* >("wndTable");
     wndTable_->setColumnCount( 11);
 	QStringList sl;
@@ -172,7 +213,7 @@ WndWnd::WndWnd(QWidget* parent) :
 	wndTable_->setColumnWidth( 7, 35);
 	wndTable_->setColumnWidth( 8, 35);
 	wndTable_->setColumnWidth( 9, 35);
-	wndTable_->setColumnWidth( 10, 40);
+	wndTable_->setColumnWidth( 10, 80);
 
 	wnodeTable_ = findChild<QTableWidget* >("wnodeTable");
     wnodeTable_->setColumnCount( 10);
@@ -203,14 +244,29 @@ WndWnd::WndWnd(QWidget* parent) :
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 	connect(wndTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
+
+	QPushButton* pbDirectWndMode = this->findChild<QPushButton* >("pbDirectWndMode");
+	connect(pbDirectWndMode, SIGNAL(clicked()), this, SLOT(clickedDirectWndMode()) );
+
+	ScreenMgr::instance()->onInputChanged( std::bind( &WndWnd::inputChangedCallback, this, _1) );
+
+	//QComboBox* comboBox = findChild<QComboBox* >("comboBox");
+	//connect(comboBox, SIGNAL(activated (const QString &)), this, SLOT(currentInputIndexChanged (const QString &)) );
 }
 
 WndWnd::~WndWnd()
 {
     delete ui;
 }
-
+//void WndWnd::currentInputIndexChanged (const QString & inputstr){
+//	qDebug()<<inputstr;
+//}
 void WndWnd::currentTabChanged ( int index ){
+	QTabWidget* tab = (QTabWidget*)sender();
+	isCurrTab_ = false;
+	if ( tab->tabText(index) != this->windowTitle()) return ;
+	isCurrTab_ = true;
+
 	wndTable_->setRowCount(0);
 	std::vector<Wnd*> wnds = WndMgr::instance()->getAllWnds();
 	for ( size_t i = 0; i < wnds.size(); ++i){
@@ -220,7 +276,19 @@ void WndWnd::currentTabChanged ( int index ){
 	}
 
 }
+bool WndWnd::isChnComboBoxPressed(){
+	bool result = false;
+	for ( size_t i = 0; i < wndTable_->rowCount();++i){
+		WndWidget* ww = (WndWidget*)wndTable_->cellWidget ( i, 0);
+		if ( ww->isPressed()){
+			result = true;
+			break;
+		}
+	}
+	return result;
+}
 void WndWnd::cellClicked ( int row, int column ){
+
 	WndWidget* wgt = (WndWidget* )wndTable_->cellWidget( row, 0);
 	if ( wgt){
 		wnodeTable_->setRowCount(0);
@@ -230,4 +298,92 @@ void WndWnd::cellClicked ( int row, int column ){
 			wngt->initTable(wnodeTable_,  wnodeTable_->rowCount()-1);
 		}
 	}
+}
+
+static Wnd* createWnd(ResourceID inputid){
+	double sWidth = ScreenMgr::instance()->getScreenWidth();
+		double sHeight = ScreenMgr::instance()->getScreenHeight();
+		double wWidth = ScreenMgr::instance()->getWallWidth();
+		double wHeight = ScreenMgr::instance()->getWallHeight();
+		size_t row = GetRow( inputid);
+		size_t col = GetCol( inputid);
+		double x =  sWidth * (col-1) / wWidth;
+		double y =  sHeight * (row-1) / wHeight;
+		double w =  sWidth  / wWidth;
+		double h =  sHeight  / wHeight;
+		Wnd *wnd = WndMgr::instance()->createWnd( x,y,w,h,inputid, NULL);
+		return wnd;
+}
+void WndWnd::clickedDirectWndMode(){
+	isDirectWndMode_ = !isDirectWndMode_;
+	QPushButton* pbDirectWndMode = (QPushButton* )sender();
+	if (isDirectWndMode_){
+		pbDirectWndMode->setStyleSheet("* { background-color: lightGreen }");
+
+		WndMgr::instance()->closeAll();
+
+		std::vector<ResourceID> inputs = ScreenMgr::instance()->getAvailableInput();
+		std::vector<ResourceID> uniqueInputs;
+		for( auto it = inputs.begin(); it != inputs.end(); ++it){ //unique the screen input
+			bool hasit = false;
+			for( auto uit = uniqueInputs.begin(); uit != uniqueInputs.end(); ++uit ){
+				if ( GetRow(*it) == GetRow(*uit) && GetCol(*it) == GetCol(*uit) ){
+					hasit = true;
+				}
+			}
+			if ( !hasit){
+				uniqueInputs.push_back(*it);
+			}
+		}
+		for( auto uit = uniqueInputs.begin(); uit != uniqueInputs.end(); ++uit ){//create wnd for unique input
+			createWnd( *uit);
+		}
+
+	}else{
+		pbDirectWndMode->setStyleSheet("");
+	}
+}
+void WndWnd::timerEvent ( QTimerEvent * event ){
+	if (!isCurrTab_) return;
+	
+	if ( isChnComboBoxPressed()) return;
+
+	wndTable_->setRowCount(0);
+	std::vector<Wnd*> wnds = WndMgr::instance()->getAllWnds();
+	for ( size_t i = 0; i < wnds.size(); ++i){
+		WndWidget* wgt = new WndWidget(wnds[i]);
+		wndTable_->setRowCount(wndTable_->rowCount()+1);  
+		wgt->initTable(wndTable_,  wndTable_->rowCount()-1);
+	}
+}
+bool WndWnd::inputChangedCallback( ResourceID inputid){
+	if ( !isDirectWndMode_) return true;
+
+	std::vector<Wnd* > wnds = WndMgr::instance()->getWnds();
+	Wnd* getWnd = NULL;
+	bool isOpenScreenWnd = false;
+	for ( size_t i = 0; i < wnds.size(); ++i){
+		Wnd* wnd = wnds[i];
+		if ( GetRow(inputid) == GetRow( wnd->inputid_) && GetCol(inputid) == GetCol( wnd->inputid_) ){
+			isOpenScreenWnd = true;
+			if ( inputid == wnd->inputid_) getWnd = wnd;
+			break;
+		}
+	}
+
+	if (isOpenScreenWnd){
+		if ( getWnd){
+			uint32_t res = ScreenMgr::instance()->getInResolution( inputid);
+			if ( res == 0 || res == -1){
+				WndMgr::instance()->closeWnd(getWnd);
+				return true;
+			}
+		}
+	}else{
+		uint32_t res = ScreenMgr::instance()->getInResolution( inputid);
+		size_t input = GetInput(inputid);
+		if ( res == 0 || res == -1 || input >=5) return true;
+		return createWnd(inputid);
+	}
+	return true;
 }

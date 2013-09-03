@@ -845,6 +845,19 @@
     <string>风扇控制:</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btnInit_2">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>470</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>回复默认值</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

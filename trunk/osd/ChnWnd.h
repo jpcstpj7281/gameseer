@@ -51,6 +51,8 @@ private:
     Ui::ChnWnd *ui;
 	QTableWidget*	chnTable_;
 	std::vector<ResourceID> inputs_;
+	bool isCurrTab_ ;
+	virtual void	timerEvent ( QTimerEvent * event )override;
 };
 
 #endif // ChnWnd_H

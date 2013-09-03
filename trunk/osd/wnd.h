@@ -59,8 +59,7 @@ class Wnd {
 	Wnd( uint32_t row, uint32_t col);
 	~Wnd();
 
-	uint32_t layer_;
-	ResourceID inputid_;
+	
 	
 	
 	void clearWnodes();
@@ -84,10 +83,12 @@ public:
 
 	std::string id_;
 	Ring* ring_;
-
+	uint32_t layer_;
+	ResourceID inputid_;
 	bool closeWnodes();
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront();
+	bool resetInput(ResourceID inputid);
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent,double axPercent, double ayPercent, double awPercent, double ahPercent);
 	bool moveWnd(double xPercent, double yPercent);

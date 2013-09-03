@@ -52,7 +52,11 @@ class ScreenConnBtn: public QPushButton{
 public:
 	QTableWidgetItem	*row_;
 	QTableWidgetItem	*col_;
-	QTableWidgetItem	*temp_;
+	QWidget	*temp_;
+	QPushButton			*rTemp_;
+	QPushButton			*gTemp_;
+	QPushButton			*bTemp_;
+
 	QLineEdit			*address_;
 	QPushButton			*osdBtn_;
 	QPushButton			*testBtn_;
@@ -64,11 +68,15 @@ public:
 
 	void conn();
 	void disconn();
+	void turnOnDlp();
+	void turnOffDlp();
 	ScreenConnBtn( ResourceID screenid, const std::string & ip);
 	~ScreenConnBtn();
 	bool connectedCallback( uint32_t , QboxDataMap);
 	bool dlpStatusCallback( uint32_t , QboxDataMap);
 	bool setdlpCallback( uint32_t , QboxDataMap);
+
+	size_t currColorTemp_;
 	bool tempdlpCallback( uint32_t , QboxDataMap);
 
 	std::string initStr_;
@@ -99,6 +107,8 @@ private slots:
 	void decrRow();
 	void disconnAll();
 	void connAll();
+	void turnOnAllDlp();
+	void turnOffAllDlp();
 
 	void setupTestClick();
 

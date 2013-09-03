@@ -166,6 +166,11 @@ uint32_t Wnd::bringFront(){
 	}
 	return layer_;
 }
+
+bool Wnd::resetInput(ResourceID inputid){
+	inputid_= inputid;
+	return resizeWnd(xPercent_,  yPercent_,  wPercent_,  hPercent_);
+}
 bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent,double axPercent, double ayPercent, double awPercent, double ahPercent){
 	axPercent_  = axPercent;
 	ayPercent_  = ayPercent;

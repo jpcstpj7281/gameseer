@@ -499,7 +499,6 @@ void WallScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 	if ( list.size() == 0){//Into create wnd mode
 		isCreatingWnd_ = true;
 	}
-	//qDebug()<<list.size();
 	QGraphicsScene::mousePressEvent(event);
 }
 void WallScene::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
@@ -880,6 +879,13 @@ void WallWnd::resetComboBoxes(){
 
 	cbChns_->clear();
 	inputs_ = ScreenMgr::instance()->getAvailableInput();
+	for ( auto i = inputs_.begin(); i != inputs_.end();){
+		if ( GetInput(*i) >=5){
+			i = inputs_.erase(i);
+		}else{
+			++i;
+		}
+	}
 	for ( size_t i = 0; i < inputs_.size();++i){
 		std::vector<Ring*> rs = RingMgr::instance()->getInputCorrespondActivatedRing(inputs_[i]);
 		if ( rs.size()==0){
