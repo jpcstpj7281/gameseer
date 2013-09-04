@@ -292,6 +292,11 @@ OsdProjMode::OsdProjMode(QWidget *parent, ResourceID screenid) :
 	if ( btn) {
 		connect( btn, SIGNAL( clicked ()), this, SLOT( save() ) );
 	}
+
+	btn  = findChild<QPushButton*>("btnLoadHsgFrom" );
+	btn->hide();
+	btn  = findChild<QPushButton*>("btnSaveHsgAs" );
+	btn->hide();
 }
 
 OsdProjMode::~OsdProjMode()
