@@ -272,8 +272,8 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 	}
 	if ( fan == 1){
 		if ( fanTimerErrorCount_ ==2){
-			QMessageBox::warning(0, "Wanning", "Fan Error, DLP will be turn off in 10 sec!");
 			turnOffDlp();
+			QMessageBox::warning(0, "Wanning", "Fan Error, DLP turn off now!");
 		}
 		if ( fanTimerErrorCount_ < 2) fanTimerErrorCount_++;
 	}else{
@@ -400,7 +400,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     ui->setupUi(this);
 
     tableDevices_ = findChild<QTableWidget* >("tableDevices");
-    tableDevices_->setColumnCount(9);
+    tableDevices_->setColumnCount(8);
 
     QStringList sl;
 	sl.push_back( "Row");
@@ -414,6 +414,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     tableDevices_->setHorizontalHeaderLabels(sl );
 	tableDevices_->setColumnWidth( 0, 35);
 	tableDevices_->setColumnWidth( 1, 35);
+	tableDevices_->hideColumn(5);
 
     connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
@@ -452,6 +453,11 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	connect( pbLoad, SIGNAL( clicked()), this, SLOT(clickedLoad()) );
 	QPushButton * pbSave = findChild<QPushButton* >("pbSave");
 	connect( pbSave, SIGNAL( clicked()), this, SLOT(clickedSave()) );
+
+	QPushButton * btn = findChild<QPushButton* >("pbLoadFrom");
+	btn->hide();
+	btn = findChild<QPushButton* >("pbSaveAs");
+	btn->hide();
 }
 DevicesWnd::~DevicesWnd()
 {
@@ -667,7 +673,7 @@ void DevicesWnd::connAll(){
 void  DevicesWnd::turnOnAllDlp(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
-		if ( t->text() == "Turn on"){
+		if ( t->dlpBtn_->text() == "Turn on"){
 			t->turnOnDlp();
 		}
 	}
@@ -675,7 +681,7 @@ void  DevicesWnd::turnOnAllDlp(){
 void  DevicesWnd::turnOffAllDlp(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
-		if ( t->text() == "Turn off"){
+		if ( t->dlpBtn_->text() == "Turn off"){
 			t->turnOffDlp();
 		}
 	}

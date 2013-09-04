@@ -168,7 +168,7 @@
     <string>清墙</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pbSave_2">
+  <widget class="QPushButton" name="pbSaveAs">
    <property name="geometry">
     <rect>
      <x>930</x>
@@ -181,7 +181,7 @@
     <string>Save As</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pbLoadAs">
+  <widget class="QPushButton" name="pbLoadFrom">
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -231,8 +231,8 @@
   <zorder>pbLoad</zorder>
   <zorder>pbSave</zorder>
   <zorder>clearWall</zorder>
-  <zorder>pbSave_2</zorder>
-  <zorder>pbLoadAs</zorder>
+  <zorder>pbSaveAs</zorder>
+  <zorder>pbLoadFrom</zorder>
   <zorder>turnOnAllDlp</zorder>
   <zorder>turnOffAllDlp</zorder>
  </widget>

@@ -148,7 +148,7 @@ void RnodeWidget::newNextRow(){ //after input or output setted, should open anot
 			QTableWidget* table = hide_->tableWidget();
 		
 			rnode_ = ToResourceID( input_->currentIndex(), output_->currentIndex()+2,  row_->currentIndex(), col_->currentIndex());
-			if (ring_->makeNode( rnode_, table->rowCount()-1)){
+			if (ring_->makeNode( rnode_, hide_->row() )){
 				if (  table ){
 					if (ring_->isNextNodePossible()){
 						this->setEnabled(true);

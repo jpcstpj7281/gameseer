@@ -77,7 +77,7 @@ bool Ring::makeNode( ResourceID rnode, uint32_t index){
 	if ( index < rnodes_.size()){
 		if ( rnodes_[index] != rnode){
 			rnodes_[index] = rnode;
-			return true;
+			return false;
 		}
 	}
 	return false;
