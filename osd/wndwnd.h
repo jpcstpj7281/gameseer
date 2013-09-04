@@ -85,7 +85,7 @@ public:
 		//void cellChanged(int,int);
 		//void sendClicked(bool);
 		//void clearClicked(bool);
-		void currentInputIndexChanged (const QString & inputstr);
+		//void currentInputIndexChanged (const QString & inputstr);
 private:
 	QTableWidget*	wndTable_;
 	QTableWidget*	wnodeTable_;

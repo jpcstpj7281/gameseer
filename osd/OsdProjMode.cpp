@@ -5,6 +5,8 @@
 #include "QSlider.h"
 #include "qlineedit.h"
 #include <qdebug.h>
+#include <ConfigMgr.h>
+
 
 OsdProjMode::OsdProjMode(QWidget *parent, ResourceID screenid) :
     QWidget(parent),
@@ -281,6 +283,15 @@ OsdProjMode::OsdProjMode(QWidget *parent, ResourceID screenid) :
 	if ( btn) {
     	connect( btn, SIGNAL( clicked ()), this, SLOT( readClicked() ) );
     }
+
+	btn  = findChild<QPushButton*>("btnLoadHsg" );
+	if ( btn) {
+		connect( btn, SIGNAL( clicked ()), this, SLOT( load() ) );
+	}
+	btn  = findChild<QPushButton*>("btnSaveHsg" );
+	if ( btn) {
+		connect( btn, SIGNAL( clicked ()), this, SLOT( save() ) );
+	}
 }
 
 OsdProjMode::~OsdProjMode()
@@ -777,3 +788,104 @@ void OsdProjMode::valueChangefinishedTestWidth(){
 	valueChangedTestWidth(val);
 }
 
+
+void OsdProjMode::load(){
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+	QDomNodeList items = root.elementsByTagName("OsdPM");
+	items = root.elementsByTagName("PMScreen");
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement elm = items.at(i).toElement();
+		if ( elm.attribute("id").toLong() ==screenid_){
+
+			redGain_ = elm.attribute("sHsgRedGain", QString::number(redGain_)).toLong();
+			redSat_ = elm.attribute("sHsgRedSat", QString::number(redSat_)).toLong();
+			redHue_ = elm.attribute("sHsgRedHue", QString::number(redHue_)).toLong();
+
+			greenGain_ = elm.attribute("sHsgGreenGain", QString::number(greenGain_)).toLong();
+			greenSat_ = elm.attribute("sHsgGreenSat", QString::number(greenSat_)).toLong();
+			greenHue_ = elm.attribute("sHsgGreenHue", QString::number(greenHue_)).toLong();
+
+			blueGain_ = elm.attribute("sHsgBlueGain", QString::number(blueGain_)).toLong();
+			blueSat_ = elm.attribute("sHsgBlueSat", QString::number(blueSat_)).toLong();
+			blueHue_ = elm.attribute("sHsgBlueHue", QString::number(blueHue_)).toLong();
+
+			cyanGain_ = elm.attribute("sHsgCyanGain", QString::number(cyanGain_)).toLong();
+			cyanSat_ = elm.attribute("sHsgCyanSat", QString::number(cyanSat_)).toLong();
+			cyanHue_ = elm.attribute("sHsgCyanHue", QString::number(cyanHue_)).toLong();
+
+			magentaGain_ = elm.attribute("sHsgMagentGain", QString::number(magentaGain_)).toLong();
+			magentaSat_ = elm.attribute("sHsgMagentSat", QString::number(magentaSat_)).toLong();
+			magentaHue_ = elm.attribute("sHsgMagentHue", QString::number(magentaHue_)).toLong();
+
+			yellowGain_ = elm.attribute("sHsgYellowGain", QString::number(yellowGain_)).toLong();
+			yellowSat_ = elm.attribute("sHsgYellowSat", QString::number(yellowSat_)).toLong();
+			yellowHue_ = elm.attribute("sHsgYellowHue", QString::number(yellowHue_)).toLong();
+
+			whiteRed_ = elm.attribute("sHsgWhiteRed", QString::number(whiteRed_)).toLong();
+			whiteGreen_ = elm.attribute("sHsgWhiteGreen", QString::number(whiteGreen_)).toLong();
+			whiteBlue_ = elm.attribute("sHsgWhiteBlue", QString::number(whiteBlue_)).toLong();
+
+			findChild<QSlider*>("sHsgRedGain" )->setValue(redGain_);
+			findChild<QLineEdit*>("leHsgRedGain" )->setText(QString::number(redGain_));
+
+			dispatchHSG();
+			//tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
+
+			break;
+		}
+	}
+}
+void OsdProjMode::save(){
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+	QDomNodeList items = root.elementsByTagName("OsdPM");
+	QDomElement osdElm;
+	if ( items.size() >0 ){
+		osdElm = items.at(0).toElement();
+	}else{
+		osdElm = ConfigMgr::instance()->getDoc()->createElement("OsdPM");
+		root.appendChild(osdElm);
+	}
+
+	items = osdElm.elementsByTagName("PMScreen");
+	QDomElement currosdElm;
+	for (size_t i =0; i <items.count(); ++i){
+		QDomElement iselm = items.at(i).toElement();
+		if ( iselm.attribute("id").toLong() == screenid_){
+			currosdElm = iselm;
+			break;
+		}
+	}
+
+	if ( currosdElm == QDomElement()){
+		currosdElm = ConfigMgr::instance()->getDoc()->createElement("PMScreen");
+		osdElm.appendChild(currosdElm);
+	}
+	currosdElm.setAttribute("id", QString::number(screenid_));
+	currosdElm.setAttribute("sHsgRedGain", QString::number(redGain_));
+	currosdElm.setAttribute("sHsgRedSat", QString::number(redSat_));
+	currosdElm.setAttribute("sHsgRedHue", QString::number(redHue_));
+
+	currosdElm.setAttribute("sHsgGreenGain", QString::number(greenGain_));
+	currosdElm.setAttribute("sHsgGreenSat", QString::number(greenSat_));
+	currosdElm.setAttribute("sHsgGreenHue", QString::number(greenHue_));
+
+	currosdElm.setAttribute("sHsgBlueGain", QString::number(blueGain_));
+	currosdElm.setAttribute("sHsgBlueSat", QString::number(blueSat_));
+	currosdElm.setAttribute("sHsgBlueHue", QString::number(blueHue_));
+
+	currosdElm.setAttribute("sHsgCyanGain", QString::number(cyanGain_));
+	currosdElm.setAttribute("sHsgCyanSat", QString::number(cyanSat_));
+	currosdElm.setAttribute("sHsgCyanHue", QString::number(cyanHue_));
+
+	currosdElm.setAttribute("sHsgMagentGain", QString::number(magentaGain_));
+	currosdElm.setAttribute("sHsgMagentSat", QString::number(magentaSat_));
+	currosdElm.setAttribute("sHsgMagentHue", QString::number(magentaHue_));
+
+	currosdElm.setAttribute("sHsgYellowGain", QString::number(yellowGain_));
+	currosdElm.setAttribute("sHsgYellowSat", QString::number(yellowSat_));
+	currosdElm.setAttribute("sHsgYellowHue", QString::number(yellowHue_));
+
+	currosdElm.setAttribute("sHsgWhiteRed", QString::number(whiteRed_));
+	currosdElm.setAttribute("sHsgWhiteGreen", QString::number(whiteGreen_));
+	currosdElm.setAttribute("sHsgWhiteBlue", QString::number(whiteBlue_));
+}

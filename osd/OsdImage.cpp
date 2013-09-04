@@ -6,6 +6,8 @@
 #include <qdebug.h>
 #include <sstream>
 #include <string>
+#include <ConfigMgr.h>
+
 
 OsdImage::~OsdImage()
 {
@@ -24,7 +26,7 @@ QWidget(parent),
 	, contrastGreen_(50)
 	, contrastBlue_(50)
 	, dynamicBlack_(0)
-	, brilliantColor_(0)
+	, brilliantColor_(0x80)
 	, horiPos_(0)
 	, vertPos_(0)
 	, comma_(0)
@@ -35,6 +37,7 @@ QWidget(parent),
 
 	QPushButton * initBtn  = findChild<QPushButton*>("btnInit" );
 	if ( initBtn) {
+		initBtn->hide();
 		connect( initBtn, SIGNAL( clicked()), this, SLOT( clickinit() ) );
 	}
 
@@ -171,10 +174,23 @@ QWidget(parent),
 		connect( cb, SIGNAL( currentIndexChanged (int)), this, SLOT( currentCommaIndexChanged(int) ) );
 	}
 
+	btn  = findChild<QPushButton*>("btnReset" );
+	if ( btn) {
+		connect( btn, SIGNAL( clicked ()), this, SLOT( reset() ) );
+	}
+	btn  = findChild<QPushButton*>("btnLoad" );
+	if ( btn) {
+		connect( btn, SIGNAL( clicked ()), this, SLOT( load() ) );
+	}
+	btn  = findChild<QPushButton*>("btnSave" );
+	if ( btn) {
+		connect( btn, SIGNAL( clicked ()), this, SLOT( save() ) );
+	}
+
 }
 
-static bool osdResponse(uint32_t , QboxDataMap&){
-	qDebug()<<"osdResponse";
+bool OsdImage::osdTaskResponse(uint32_t , QboxDataMap& data){
+	if ( !tasks_.empty()){ tasks_.front()();tasks_.pop_front();}
 	return true;
 }
 
@@ -247,7 +263,7 @@ void OsdImage::dispatchBrightness(){
 	data[3] =shiftr;
 	data[4] = shiftb >> 8;
 	data[5] =shiftb;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x0a, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x0a, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void	OsdImage::valueBrightnessChangedFinished (  ){
@@ -330,7 +346,7 @@ void OsdImage::dispatchContrast(){
 	data[0] = shiftg ;
 	data[1] = shiftr;
 	data[2] = shiftb ;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x1, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x1, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 void	OsdImage::valueContrastChangedFinished (  ){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -400,21 +416,21 @@ void OsdImage::valueBlueContrastChanged(int val){
 	adjustAllContrast();
 	dispatchContrast();
 }
-
-
+void OsdImage::dispatchVertOffset(){
+	std::string data;
+	data.resize(2);
+	if ( vertPos_ < 0){
+		data[0] = 1 <<7;
+	}else data[0] = 0;
+	data[1] = std::abs(vertPos_);
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x05, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+}
 void OsdImage::valueVertOffsetChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
 	if (val == vertPos_) return;
 	vertPos_ = val;
 	findChild<QLineEdit*>("leVertOffset" )->setText(QString::number(val));
-
-	std::string data;
-	data.resize(2);
-	if ( val < 0){
-		data[0] = 1 <<7;
-	}else data[0] = 0;
-	data[1] = std::abs(val);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x05, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	dispatchVertOffset();
 }
 void OsdImage::valueVertOffsetChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -422,19 +438,21 @@ void OsdImage::valueVertOffsetChangedFinished(){
 	if ( vertPos_ == val ) return ;
 	findChild<QSlider*>("sVertOffset" )->setValue(val);
 }
+void OsdImage::dispatchHoriOffset(){
+	std::string data;
+	data.resize(2);
+	if ( horiPos_ < 0){
+		data[0] = 1 <<7;
+	}else data[0] = 0;
+	data[1] = std::abs(horiPos_);
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x04, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+}
 void OsdImage::valueHoriOffsetChanged(int val){
 	if (val > 384) val = 384;else if (val < -384) val = -384;
 	if (val == horiPos_) return;
 	horiPos_ = val;
 	findChild<QLineEdit*>("leHoriOffset" )->setText(QString::number(val));
-
-	std::string data;
-	data.resize(2);
-	if ( val < 0){
-		data[0] = 1 <<7;
-	}else data[0] = 0;
-	data[1] = std::abs(val);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x04, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	dispatchHoriOffset();
 }
 void OsdImage::valueHoriOffsetChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -449,12 +467,14 @@ void OsdImage::valueDBlackChanged(int val){
 	if (val == dynamicBlack_) return;
 	dynamicBlack_ = val;
 	findChild<QLineEdit*>("leDynBlack" )->setText(QString::number(val));
-
+	dispatchDBlack();
+}
+void OsdImage::dispatchDBlack(){
 	std::string data;
 	data.resize(2);
 	data[0] = 0 ;
-	data[1] = val;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x4a, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	data[1] = dynamicBlack_;
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x4a, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 void OsdImage::valueDBlackChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -467,13 +487,15 @@ void OsdImage::valueFanCtrlChanged(int val){
 	if (val == fanCtrl_) return;
 	fanCtrl_ = val;
 	findChild<QLineEdit*>("leFanCtrl" )->setText(QString::number(val));
-
+	dispatchFanCtrl();
+}
+void OsdImage::dispatchFanCtrl(){
 	std::string data;
 	data.resize(3);
-	data[0] = val;
-	data[1] = val;
-	data[2] = val;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x10, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	data[0] = fanCtrl_;
+	data[1] = fanCtrl_;
+	data[2] = fanCtrl_;
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x10, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 void OsdImage::valueFanCtrlChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -491,7 +513,7 @@ void OsdImage::btnHoriRevert(){
 		btn->setText( tr("no"));
 		orientation_&=0x1;
 	}
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 void OsdImage::btnVertRevert(){
 	QPushButton* btn = (QPushButton*)sender();
@@ -502,7 +524,7 @@ void OsdImage::btnVertRevert(){
 		btn->setText( tr("yes"));
 		orientation_&=0x2;
 	}
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void OsdImage::currentBrilliantIndexChanged(int val){
@@ -515,12 +537,12 @@ void OsdImage::currentBrilliantIndexChanged(int val){
 	}else{
 		findChild<QComboBox*>("cbColorRegion" )->setEnabled(false);
 		findChild<QComboBox*>("cbColorOverlap" )->setEnabled(false);
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0xd, brilliantColor_&=0x7F, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0xd, brilliantColor_&=0x7F, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 		return;
 	}
 
 	brilliantColor_ = 0x80 + val + ( overlap*12) +  (region*4);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0xd, brilliantColor_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0xd, brilliantColor_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
 }
 void OsdImage::currentRegionIndexChanged(int ){
 	currentBrilliantIndexChanged( findChild<QComboBox*>("cbBrilliantColor" )->currentIndex());
@@ -530,5 +552,163 @@ void OsdImage::currentOverlapIndexChanged(int ){
 }
 void OsdImage::currentCommaIndexChanged(int index){
 	index == 0 ? comma_ |= 0xc000 : comma_ = 0x4000 + (index -1);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestShort( 0x9, comma_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestShort( 0x9, comma_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+}
+void OsdImage::reset(){
+	fanCtrl_ = 100;
+
+	brightnessRed_ = 0;
+	brightnessGreen_ = 0;
+	brightnessBlue_ = 0;
+
+	contrastRed_ = 50;
+	contrastGreen_ = 50;
+	contrastBlue_ = 50;
+
+	
+	dynamicBlack_ = 0;
+	horiPos_ = 0;
+	vertPos_ = 0;
+
+	orientation_ = 0;
+	comma_ = 0;
+	brilliantColor_ = 0x80;
+
+	findChild<QSlider*>("sDynBlack" )->setValue(dynamicBlack_);
+	findChild<QSlider*>("sFanCtrl" )->setValue(fanCtrl_);
+	findChild<QLineEdit*>("leFanCtrl" )->setText(QString::number(fanCtrl_));
+	findChild<QLineEdit*>("leDynBlack" )->setText(QString::number(dynamicBlack_));
+	findChild<QSlider*>("sVertOffset" )->setValue(vertPos_);
+	findChild<QSlider*>("sHoriOffset" )->setValue(horiPos_);
+	findChild<QLineEdit*>("leVertOffset" )->setText(QString::number(vertPos_));
+	findChild<QLineEdit*>("leHoriOffset" )->setText(QString::number(horiPos_));
+	
+	findChild<QSlider*>("sRedContrast" )->setValue(contrastRed_);
+	findChild<QSlider*>("sGreenContrast" )->setValue(contrastGreen_);
+	findChild<QSlider*>("sBlueContrast" )->setValue(contrastBlue_);
+	findChild<QSlider*>("sContrast" )->setValue((contrastRed_+contrastGreen_+contrastBlue_) /3);
+	findChild<QLineEdit*>("leRedContrast" )->setText(QString::number(contrastRed_));
+	findChild<QLineEdit*>("leGreenContrast" )->setText(QString::number(contrastGreen_));
+	findChild<QLineEdit*>("leBlueContrast" )->setText(QString::number(contrastBlue_));
+	findChild<QLineEdit*>("leContrast" )->setText(QString::number( (contrastRed_+contrastGreen_+contrastBlue_) /3));
+	findChild<QSlider*>("sRedBrightness" )->setValue(brightnessRed_);
+	findChild<QSlider*>("sGreenBrightness" )->setValue(brightnessGreen_);
+	findChild<QSlider*>("sBlueBrightness" )->setValue(brightnessBlue_);
+	findChild<QSlider*>("sBrightness" )->setValue((brightnessRed_+brightnessGreen_+brightnessBlue_) /3);
+	findChild<QLineEdit*>("leRedBrightness" )->setText(QString::number(brightnessRed_));
+	findChild<QLineEdit*>("leGreenBrightness" )->setText(QString::number(brightnessGreen_));
+	findChild<QLineEdit*>("leBlueBrightness" )->setText(QString::number(brightnessBlue_));
+	findChild<QLineEdit*>("leBrightness" )->setText(QString::number( (brightnessRed_+brightnessGreen_+brightnessBlue_) /3));
+	dispatchBrightness();
+	tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
+	tasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
+	tasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
+	tasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
+	tasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
+}
+void OsdImage::load(){
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+	QDomNodeList items = root.elementsByTagName("OsdImage");
+	items = root.elementsByTagName("ImageScreen");
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement elm = items.at(i).toElement();
+		if ( elm.attribute("id").toLong() ==screenid_){
+			fanCtrl_= elm.attribute("fanCtrl", QString::number(fanCtrl_)).toLong();
+
+			brightnessRed_ = elm.attribute("brightnessRed", QString::number(brightnessRed_)).toLong();
+			brightnessGreen_ = elm.attribute("brightnessGreen", QString::number(brightnessGreen_)).toLong();
+			brightnessBlue_ = elm.attribute("brightnessBlue", QString::number(brightnessBlue_)).toLong();
+
+			contrastRed_ = elm.attribute("contrastRed", QString::number(contrastRed_)).toLong();
+			contrastGreen_ = elm.attribute("contrastGreen", QString::number(contrastGreen_)).toLong();
+			contrastBlue_ = elm.attribute("contrastBlue", QString::number(contrastBlue_)).toLong();
+
+			dynamicBlack_ = elm.attribute("dynamicBlack", QString::number(dynamicBlack_)).toLong();
+			horiPos_ = elm.attribute("horiPos", QString::number(horiPos_)).toLong();
+			vertPos_ = elm.attribute("vertPos", QString::number(vertPos_)).toLong();
+
+			orientation_ = elm.attribute("orientation", QString::number(orientation_)).toLong();
+			comma_ = elm.attribute("comma", QString::number(comma_)).toLong();
+
+			brilliantColor_ = elm.attribute("brilliantColor", QString::number(brilliantColor_)).toLong();
+
+			findChild<QSlider*>("sDynBlack" )->setValue(dynamicBlack_);
+			findChild<QSlider*>("sFanCtrl" )->setValue(fanCtrl_);
+			findChild<QLineEdit*>("leFanCtrl" )->setText(QString::number(fanCtrl_));
+			findChild<QLineEdit*>("leDynBlack" )->setText(QString::number(dynamicBlack_));
+			findChild<QSlider*>("sVertOffset" )->setValue(vertPos_);
+			findChild<QSlider*>("sHoriOffset" )->setValue(horiPos_);
+			findChild<QLineEdit*>("leVertOffset" )->setText(QString::number(vertPos_));
+			findChild<QLineEdit*>("leHoriOffset" )->setText(QString::number(horiPos_));
+
+			findChild<QSlider*>("sRedContrast" )->setValue(contrastRed_);
+			findChild<QSlider*>("sGreenContrast" )->setValue(contrastGreen_);
+			findChild<QSlider*>("sBlueContrast" )->setValue(contrastBlue_);
+			findChild<QSlider*>("sContrast" )->setValue((contrastRed_+contrastGreen_+contrastBlue_) /3);
+			findChild<QLineEdit*>("leRedContrast" )->setText(QString::number(contrastRed_));
+			findChild<QLineEdit*>("leGreenContrast" )->setText(QString::number(contrastGreen_));
+			findChild<QLineEdit*>("leBlueContrast" )->setText(QString::number(contrastBlue_));
+			findChild<QLineEdit*>("leContrast" )->setText(QString::number( (contrastRed_+contrastGreen_+contrastBlue_) /3));
+			findChild<QSlider*>("sRedBrightness" )->setValue(brightnessRed_);
+			findChild<QSlider*>("sGreenBrightness" )->setValue(brightnessGreen_);
+			findChild<QSlider*>("sBlueBrightness" )->setValue(brightnessBlue_);
+			findChild<QSlider*>("sBrightness" )->setValue((brightnessRed_+brightnessGreen_+brightnessBlue_) /3);
+			findChild<QLineEdit*>("leRedBrightness" )->setText(QString::number(brightnessRed_));
+			findChild<QLineEdit*>("leGreenBrightness" )->setText(QString::number(brightnessGreen_));
+			findChild<QLineEdit*>("leBlueBrightness" )->setText(QString::number(brightnessBlue_));
+			findChild<QLineEdit*>("leBrightness" )->setText(QString::number( (brightnessRed_+brightnessGreen_+brightnessBlue_) /3));
+
+			dispatchBrightness();
+			tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
+			tasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
+			tasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
+			tasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
+			tasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
+			break;
+		}
+	}
+}
+void OsdImage::save(){
+	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
+	QDomNodeList items = root.elementsByTagName("OsdImage");
+	QDomElement osdElm;
+	if ( items.size() >0 ){
+		osdElm = items.at(0).toElement();
+	}else{
+		osdElm = ConfigMgr::instance()->getDoc()->createElement("OsdImage");
+		root.appendChild(osdElm);
+	}
+
+	items = osdElm.elementsByTagName("ImageScreen");
+	QDomElement currosdElm;
+	for (size_t i =0; i <items.count(); ++i){
+		QDomElement iselm = items.at(i).toElement();
+		if ( iselm.attribute("id").toLong() == screenid_){
+			currosdElm = iselm;
+			break;
+		}
+	}
+
+	if ( currosdElm == QDomElement()){
+		currosdElm = ConfigMgr::instance()->getDoc()->createElement("ImageScreen");
+		osdElm.appendChild(currosdElm);
+	}
+	currosdElm.setAttribute("id", QString::number(screenid_));
+	currosdElm.setAttribute("fanCtrl", QString::number(fanCtrl_));
+
+	currosdElm.setAttribute("brightnessRed", QString::number(brightnessRed_));
+	currosdElm.setAttribute("brightnessGreen", QString::number(brightnessGreen_));
+	currosdElm.setAttribute("brightnessBlue", QString::number(brightnessBlue_));
+
+	currosdElm.setAttribute("contrastRed", QString::number(contrastRed_));
+	currosdElm.setAttribute("contrastGreen", QString::number(contrastGreen_));
+	currosdElm.setAttribute("contrastBlue", QString::number(contrastBlue_));
+
+	currosdElm.setAttribute("brilliantColor", QString::number(brilliantColor_));
+	currosdElm.setAttribute("dynamicBlack", QString::number(dynamicBlack_));
+	currosdElm.setAttribute("horiPos", QString::number(horiPos_));
+	currosdElm.setAttribute("vertPos", QString::number(vertPos_));
+
+	currosdElm.setAttribute("orientation", QString::number(orientation_));
+	currosdElm.setAttribute("comma", QString::number(comma_));
 }

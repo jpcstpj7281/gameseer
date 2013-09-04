@@ -82,6 +82,7 @@ public:
 	std::string initStr_;
 	bool osdResponseRead( uint32_t , QboxDataMap& data, int);
 	virtual void	timerEvent ( QTimerEvent * event )override;
+	size_t fanTimerErrorCount_;
 };
 
 class DevicesWnd : public QWidget
@@ -129,7 +130,7 @@ private:
 	//AddressMap addresses_;
 
 	QTableWidget*				tableDevices_;
-
+	
     Ui::DevicesWnd *ui;
 
 	friend class QboxAddress;

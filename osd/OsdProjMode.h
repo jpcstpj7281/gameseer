@@ -70,9 +70,12 @@ class OsdProjMode : public QWidget
 		void valueChangefinishedTestWidth();
 
 		void readClicked();
+		void load();
+		void save();
 private:
 	Q_OBJECT
 	
+		
 	bool readClickedResponse(uint32_t , QboxDataMap&);
 	void adjustAllHsgColor();
 	void adjustAllForeColor();
