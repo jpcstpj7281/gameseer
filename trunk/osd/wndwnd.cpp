@@ -78,6 +78,7 @@ void WnodeWidget::initTable( QTableWidget* table, int row){
 //==============================================================================================================================
 void WndChnQComboBox::mousePressEvent ( QMouseEvent * e ){
 	isPressed_ = true;
+	QComboBox::mousePressEvent(e);
 }
 //==============================================================================================================================
 bool WndWidget::isPressed(){

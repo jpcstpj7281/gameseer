@@ -28,6 +28,7 @@ OsdWnd::OsdWnd(ResourceID screenid)
 ,ui(new Ui::MainWindow)
 ,osdImage_(new OsdImage(this, screenid))
 ,osdProjMode_(new OsdProjMode(this, screenid))
+
 {
     ui->setupUi(this);
 	_tab = findChild<QTabWidget*>( "tabWidget");
@@ -79,7 +80,7 @@ void ScreenConnBtn::disconn(){
 }
 void ScreenConnBtn::clickit(){
 	if ( address_->text().isEmpty() ){
-		address_->setText("192.168.67.109") ;
+		address_->setText("192.168.67.103") ;
 	}
 	if ( !address_->text().isEmpty() && text() == "Connect"){
 		conn();
@@ -225,10 +226,9 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 bool ScreenConnBtn::setdlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
-	Sleep(500);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
-	//Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
-	//srn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
+	
+	if ( dlpBtn_->text() == "Turn off")//³õÊ¼»¯
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
 	return true;
 }
 void ScreenConnBtn::clickDlp(){
@@ -271,8 +271,13 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 		dlpBtn_->setStyleSheet("");
 	}
 	if ( fan == 1){
-		//QMessageBox::warning(0, "Wanning", "Fan Error, DLP will be turn off!");
+		if ( fanTimerErrorCount_ ==2){
+			QMessageBox::warning(0, "Wanning", "Fan Error, DLP will be turn off in 10 sec!");
+			turnOffDlp();
+		}
+		if ( fanTimerErrorCount_ < 2) fanTimerErrorCount_++;
 	}else{
+		fanTimerErrorCount_= 0;
 	}
 	return true;
 }
@@ -300,6 +305,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	,gTemp_(new QPushButton)
 	,bTemp_(new QPushButton)
 	,currColorTemp_(0)
+	,fanTimerErrorCount_(0)
 {
 	this->setText( "Connect");
 	startTimer(5000);

@@ -7,6 +7,7 @@
 namespace Ui {
 class OsdImage;
 }
+typedef std::function< void ()> talkCallback;
 
 class OsdImage : public QWidget
 {
@@ -30,21 +31,25 @@ class OsdImage : public QWidget
 			void	valueGreenContrastChanged ( int  );
 			void	valueBlueContrastChanged ( int  );
 
-			void	valueContrastChangedFinished (  );
-			void	valueRedContrastChangedFinished (  );
-			void	valueGreenContrastChangedFinished ( );
-			void	valueBlueContrastChangedFinished ( );
+			void	valueContrastChangedFinished ();
+			void	valueRedContrastChangedFinished ();
+			void	valueGreenContrastChangedFinished ();
+			void	valueBlueContrastChangedFinished ();
 
 			void valueVertOffsetChanged(int);
 			void valueHoriOffsetChanged(int);
 			void valueHoriOffsetChangedFinished();
 			void valueVertOffsetChangedFinished();
+			void dispatchVertOffset();
+			void dispatchHoriOffset();
 
 			void valueDBlackChanged(int);
 			void valueDBlackChangedFinished();
+			void dispatchDBlack();
 
 			void valueFanCtrlChangedFinished();
 			void valueFanCtrlChanged(int);
+			void dispatchFanCtrl();
 
 			void btnHoriRevert();
 			void btnVertRevert();
@@ -53,6 +58,10 @@ class OsdImage : public QWidget
 			void currentRegionIndexChanged(int) ;
 			void currentOverlapIndexChanged(int);
 			void currentCommaIndexChanged(int);
+
+			void reset();
+			void load();
+			void save();
 private:
 	void adjustAllBrightness();
 	void dispatchBrightness();
@@ -85,7 +94,9 @@ private:
 
 	bool osdResponseRead( uint32_t , QboxDataMap& data, int);
 
+	bool osdTaskResponse(uint32_t , QboxDataMap& data);
 
+	std::list<talkCallback> tasks_;
 public:
     explicit OsdImage(QWidget *parent , ResourceID screenid );
     ~OsdImage();

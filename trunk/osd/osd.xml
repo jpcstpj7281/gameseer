@@ -1,5 +1,11 @@
 <root>
     <wall row="2" col="2"/>
+    <OsdImage>
+        <ImageScreen comma="0" vertPos="-77" horiPos="219" dynamicBlack="0" brightnessGreen="152" contrastRed="50" contrastGreen="50" contrastBlue="50" brightnessBlue="152" id="257" brilliantColor="128" fanCtrl="100" brightnessRed="152" orientation="1"/>
+    </OsdImage>
+    <OsdPM>
+        <PMScreen sHsgBlueHue="-4478" sHsgMagentGain="16384" sHsgCyanSat="5968" id="257" sHsgGreenHue="-9948" sHsgCyanHue="-9761" sHsgCyanGain="16384" sHsgMagentSat="12321" sHsgWhiteBlue="16064" sHsgWhiteGreen="16064" sHsgBlueGain="16384" sHsgGreenGain="16384" sHsgRedHue="2749" sHsgGreenSat="14332" sHsgMagentHue="3965" sHsgYellowHue="-7006" sHsgWhiteRed="16384" sHsgRedSat="15592" sHsgRedGain="0" sHsgBlueSat="15299" sHsgYellowGain="16384" sHsgYellowSat="14332"/>
+    </OsdPM>
     <screen ip="192.168.67.104" id="257"/>
     <screen ip="192.168.67.103" id="258"/>
     <screen ip="192.168.67.109" id="513"/>
