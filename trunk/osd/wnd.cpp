@@ -190,7 +190,10 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 		wnodes_.back()->yp_  = yPercent;
 		wnodes_.back()->wp_  = wPercent_;
 		wnodes_.back()->hp_  = hPercent_;
-		
+		for ( size_t i = 0 ; i < wnodes.size(); ++i){
+			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+			scrn->connInOutRequest( inputid_, wnodes_[i]->wnodeid_);
+		}
 	}else{
 
 		double xOut, yOut, wOut, hOut, leftCut, rightCut, topCut, bottomCut;
@@ -268,6 +271,15 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 	//	scrn->connInOutRequest( inputid_, wnodes_[i]->wnodeid_);
 	//}
 	//Sleep(100);
+	//for ( size_t i = 0 ; i < wnodes.size(); ++i){
+	//	Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+	//	scrn->connInOutRequest( inputid_, wnodes[i]->wnodeid_);
+	//}
+	//for ( size_t i = 0 ; i < wnodes.size(); ++i){
+	//	Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
+	//	scrn->hideRequest(wnodes[i]->wnodeid_ );
+	//}
+
 	for ( size_t i = 0 ; i < wnodes_.size(); ++i){
 		Screen* scrn = ScreenMgr::instance()->getScreen( wnodes_[i]->wnodeid_);
 		scrn->setAreaRequest( wnodes_[i]->axr_, wnodes_[i]->ayr_, wnodes_[i]->awr_, wnodes_[i]->ahr_, wnodes_[i]->wnodeid_, inputid_);

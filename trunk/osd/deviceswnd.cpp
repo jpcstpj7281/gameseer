@@ -57,7 +57,7 @@ void ScreenConnBtn::conn(){
 			osdBtn_->setEnabled(false);
 			testBtn_->setEnabled(false);
 			dlpBtn_->setEnabled(false);
-			dlpBtn_->setText("Unknow");
+			dlpBtn_->setText("Turn on");
 			scrn->versionRequest( std::bind( &ScreenConnBtn::connectedCallback, this, _1, _2), QboxDataMap() );
 			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
 		}
@@ -117,7 +117,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 	if (found == data.end()){
 		Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
 		Sleep(100);
-		srn->osdRequestRead( 0xb7, 4, std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2), 0x34);// for osd request
+		if ( srn) srn->osdRequestRead( 0xb7, 4, std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2), 0x34);// for osd request
 	}else if ( currColorTemp_ > 0){
 		std::string val = found->second;
 		unsigned char valtemp = val[1];
@@ -176,7 +176,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 	std::string val;
 	val.resize(8);
-
+	Sleep(500);
 	if ( step ==6) {
 		val[0] = 0x27;
 		val[1] = 0x00;
@@ -200,7 +200,12 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[7] = 0x01;
 		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
 		return true;
-	}else if ( step > 7){
+	}
+	if ( step > 7){
+		if (osdWnd_ == NULL){
+			osdWnd_ = new OsdWnd(screenid_);
+		}		
+		osdWnd_->osdImage_->loadOSD();
 		return true;
 	}
 	
@@ -227,14 +232,16 @@ bool ScreenConnBtn::setdlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
 	
-	if ( dlpBtn_->text() == "Turn off")//初始化
+	if ( !dlpBtn_->styleSheet().isEmpty()){//初始化
+		Sleep(100);
 		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
+	}
 	return true;
 }
 void ScreenConnBtn::clickDlp(){
-	if ( dlpBtn_->text() == "Turn off"){
+	if ( !dlpBtn_->styleSheet().isEmpty()){
 		turnOffDlp();
-	}else if(dlpBtn_->text() == "Turn on") {
+	}else if(dlpBtn_->styleSheet().isEmpty()) {
 		turnOnDlp();
 	}
 }
@@ -242,7 +249,7 @@ void ScreenConnBtn::turnOnDlp(){
 	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
 	dlpBtn_->setText("Turn off");
 	dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
-	srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+	if ( srn) srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
 	dlpBtn_->setEnabled(false);
 }
 void ScreenConnBtn::turnOffDlp(){
@@ -250,7 +257,7 @@ void ScreenConnBtn::turnOffDlp(){
 	dlpBtn_->setText("Turn on");
 	dlpBtn_->setStyleSheet("");
 	dlpBtn_->setEnabled(false);
-	srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+	if ( srn) srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
 }
 
 bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
@@ -261,16 +268,13 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 	int fan = data["FAN"].at(0);
 	dlpBtn_->setEnabled(true);
 	if ( power == 1){
-		
 		dlpBtn_->setText("Turn off");
 		dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
-
-		
 	}else{
 		dlpBtn_->setText("Turn on");
 		dlpBtn_->setStyleSheet("");
 	}
-	if ( fan == 1){
+	if (!dlpBtn_->styleSheet().isEmpty() &&  fan == 1){
 		if ( fanTimerErrorCount_ ==2){
 			turnOffDlp();
 			QMessageBox::warning(0, "Wanning", "Fan Error, DLP turn off now!");
@@ -306,6 +310,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	,bTemp_(new QPushButton)
 	,currColorTemp_(0)
 	,fanTimerErrorCount_(0)
+	,dlpRunTimerCount_(0)
 {
 	this->setText( "Connect");
 	startTimer(5000);
@@ -344,7 +349,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	connect( testBtn_, SIGNAL(clicked()), this, SLOT(clickTest()) );
 
 	dlpBtn_->setEnabled(false);
-	dlpBtn_->setText( "Unknow");
+	dlpBtn_->setText( "Turn on");
 	connect( dlpBtn_, SIGNAL(clicked()), this, SLOT(clickDlp()) );
 
 	QRegExp ipRx("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-4]|[01]?\\d\\d?)");
@@ -359,27 +364,31 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	
 }
 void ScreenConnBtn::timerEvent ( QTimerEvent * event ){
-	if (dlpBtn_ && dlpBtn_->text() == "Turn off"){
+	if (dlpBtn_ ){
 		Screen* scrn = ScreenMgr::instance()->getScreen( screenid_);
 		if (scrn) {
 			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
 
+			if ( !dlpBtn_->styleSheet().isEmpty()){
+				std::string value;
+				value.resize(8);
+				value[0] = 0xB7;
+				value[1] = 0;
+				value[2] = ++currColorTemp_;
+				value[3] = 0;
+				value[4] = 0;
+				value[5] = 0;
+				value[6] = 0;
+				value[7] = 0;
+				QboxDataMap datamap;
+				datamap["addr"] = QString::number( 0xDE).toStdString();
+				datamap["len"] = QString::number(8).toStdString();
+				datamap["value"] = value;
+				scrn->osdRequest( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap );
 
-			std::string value;
-			value.resize(8);
-			value[0] = 0xB7;
-			value[1] = 0;
-			value[2] = ++currColorTemp_;
-			value[3] = 0;
-			value[4] = 0;
-			value[5] = 0;
-			value[6] = 0;
-			value[7] = 0;
-			QboxDataMap datamap;
-			datamap["addr"] = QString::number( 0xDE).toStdString();
-			datamap["len"] = QString::number(8).toStdString();
-			datamap["value"] = value;
-			scrn->osdRequest( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap );
+				//计算开机时间
+				//dlpRunTimerCount_	
+			}
 		}
 	}
 }
@@ -400,7 +409,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     ui->setupUi(this);
 
     tableDevices_ = findChild<QTableWidget* >("tableDevices");
-    tableDevices_->setColumnCount(8);
+    tableDevices_->setColumnCount(9);
 
     QStringList sl;
 	sl.push_back( "Row");
@@ -411,6 +420,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	sl.push_back( "Test");
 	sl.push_back( "DLP");
 	sl.push_back( "Temp");
+	sl.push_back( "Dlp Run Time");
     tableDevices_->setHorizontalHeaderLabels(sl );
 	tableDevices_->setColumnWidth( 0, 35);
 	tableDevices_->setColumnWidth( 1, 35);
@@ -458,10 +468,15 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	btn->hide();
 	btn = findChild<QPushButton* >("pbSaveAs");
 	btn->hide();
+	
+	connect( QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(destroyedNow()));
 }
 DevicesWnd::~DevicesWnd()
 {
     delete ui;
+}
+void DevicesWnd::destroyedNow ( ){
+	turnOffAllDlp();
 }
 
 void DevicesWnd::clickedLoad(){
@@ -673,7 +688,7 @@ void DevicesWnd::connAll(){
 void  DevicesWnd::turnOnAllDlp(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
-		if ( t->dlpBtn_->text() == "Turn on"){
+		if ( t->dlpBtn_->styleSheet().isEmpty()){
 			t->turnOnDlp();
 		}
 	}
@@ -681,7 +696,7 @@ void  DevicesWnd::turnOnAllDlp(){
 void  DevicesWnd::turnOffAllDlp(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
-		if ( t->dlpBtn_->text() == "Turn off"){
+		if ( !t->dlpBtn_->styleSheet().isEmpty()){
 			t->turnOffDlp();
 		}
 	}

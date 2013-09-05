@@ -387,11 +387,12 @@ void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 		QGraphicsRectItem::mousePressEvent(event);
 		bringFront();
 		setCursor( Qt::ClosedHandCursor);
-	}else if (event->button() == Qt::MouseButton::RightButton){
-		pressPos_ =  event->pos();
-		isScaling_ = true;
-		setCursor( Qt::ArrowCursor);
 	}
+	//else if (event->button() == Qt::MouseButton::RightButton){
+	//	pressPos_ =  event->pos();
+	//	isScaling_ = true;
+	//	setCursor( Qt::ArrowCursor);
+	//}
 }
 void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
@@ -755,6 +756,15 @@ WallWnd::WallWnd(QWidget* parent) :
 	}
 
 	ScreenMgr::instance()->onInputChanged( boost::bind( &WallWnd::inChangedCallback, this, _1) );
+
+	QLineEdit* pbAX = findChild<QLineEdit* >("ax");
+	QLineEdit* pbAY = findChild<QLineEdit* >("ay");
+	QLineEdit* pbAW = findChild<QLineEdit* >("aw");
+	QLineEdit* pbAH = findChild<QLineEdit* >("ah");
+	pbAX->hide();
+	pbAY->hide();
+	pbAW->hide();
+	pbAH->hide();
 }
 
 void WallWnd::changed ( const QList<QRectF> & region ){

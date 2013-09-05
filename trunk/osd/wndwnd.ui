@@ -61,7 +61,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>启动直通开窗模式</string>
+    <string>直通开窗模式</string>
    </property>
   </widget>
  </widget>
