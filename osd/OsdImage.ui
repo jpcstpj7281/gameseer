@@ -858,7 +858,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>回复默认值</string>
+    <string>恢复默认值</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnLoad">

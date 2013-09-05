@@ -101,6 +101,7 @@ public:
     explicit OsdImage(QWidget *parent , ResourceID screenid );
     ~OsdImage();
     
+	void loadOSD(){ load();}
 private:
     Ui::OsdImage *ui;
 };

@@ -655,6 +655,7 @@ ResourceID ScreenMgr::occupyScreenOut( ResourceID inputid){
 			return wnode;
 		}
 	}
+	return 0;
 }
 
 std::vector<ResourceID> ScreenMgr::occupyScreensOut( std::vector<ResourceID> &rnodes){

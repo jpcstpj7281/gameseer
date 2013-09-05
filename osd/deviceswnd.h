@@ -27,13 +27,14 @@ class OsdWnd: public QMainWindow
     public:
 		explicit OsdWnd(ResourceID screenid);
         ~OsdWnd();
+		OsdImage *osdImage_;
+		OsdProjMode * osdProjMode_;
     private slots:
 		void tabChanged (int);
     private:
 		QTabWidget* _tab;
         Ui::MainWindow *ui;
-		OsdImage *osdImage_;
-		OsdProjMode * osdProjMode_;
+		
 		ResourceID screenid_;
 };
 
@@ -83,6 +84,7 @@ public:
 	bool osdResponseRead( uint32_t , QboxDataMap& data, int);
 	virtual void	timerEvent ( QTimerEvent * event )override;
 	size_t fanTimerErrorCount_;
+	size_t dlpRunTimerCount_;
 };
 
 class DevicesWnd : public QWidget
@@ -115,6 +117,7 @@ private slots:
 
 	void clickedLoad();
 	void clickedSave();
+	void	destroyedNow ();
 private:
 
 	

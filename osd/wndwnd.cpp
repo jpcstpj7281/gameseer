@@ -133,6 +133,7 @@ WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
 
 	input_->setEnabled(true);
 	input_->addItem( QString::fromStdString(ToStrID( wnd_->inputid_)));
+	input_->isPressed_ = false;
 	std::vector<ResourceID> inputs = ScreenMgr::instance()->getAvailableInput();
 	for( auto it = inputs.begin(); it != inputs.end(); ++it){
 		if ( GetRow(wnd_->inputid_) == GetRow(*it) && GetCol(wnd_->inputid_) == GetCol(*it)){
@@ -148,18 +149,24 @@ void WndWidget::currentInputIndexChanged (const QString & inputstr){
 	for( auto it = inputs.begin(); it != inputs.end(); ++it){
 		if ( GetRow(wnd_->inputid_) == GetRow(*it) && GetCol(wnd_->inputid_) == GetCol(*it)){
 			if ( wnd_->inputid_ != *it && inputstr.toStdString() == ToStrID(*it) ){
-				//size_t x = wnd_->getX();
-				//size_t y = wnd_->getY();
-				//size_t w = wnd_->getW();
-				//size_t h = wnd_->getH();
-				//size_t ax = wnd_->getAX();
-				//size_t ay = wnd_->getAY();
-				//size_t aw = wnd_->getAW();
-				//size_t ah = wnd_->getAH();
-				wnd_->resetInput(*it);
+				double x = wnd_->xPercent_;
+				double y = wnd_->yPercent_;
+				double w = wnd_->wPercent_;
+				double h = wnd_->hPercent_;
+				double ax = wnd_->axPercent_;
+				double ay = wnd_->ayPercent_;
+				double aw = wnd_->awPercent_;
+				double ah = wnd_->ahPercent_;
+				Ring* ring = wnd_->ring_;
+				WndMgr::instance()->closeWnd(wnd_);
+				if ( ring){
+					ring->activate( *it);
+				}
+				WndMgr::instance()->createWnd( x, y, w, h, *it, ring);
 			}
 		}
 	}
+	input_->isPressed_ = false;
 }
 void WndWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, this);
@@ -265,7 +272,13 @@ WndWnd::~WndWnd()
 void WndWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
 	isCurrTab_ = false;
-	if ( tab->tabText(index) != this->windowTitle()) return ;
+	if ( tab->tabText(index) == "Wall" && tab->tabText(index) != this->windowTitle()) {
+		if ( isDirectWndMode_){
+			//QMessageBox::question(0, "Direct Window", "Have to turn off the direct window", QMessageBox::Ok, QMessageBox::Cancel);
+			//clickedDirectWndMode();
+		}
+		return ;
+	}
 	isCurrTab_ = true;
 
 	wndTable_->setRowCount(0);
@@ -332,7 +345,7 @@ void WndWnd::clickedDirectWndMode(){
 					hasit = true;
 				}
 			}
-			if ( !hasit){
+			if ( !hasit && GetInput(*it) < 5 ){
 				uniqueInputs.push_back(*it);
 			}
 		}
@@ -342,6 +355,7 @@ void WndWnd::clickedDirectWndMode(){
 
 	}else{
 		pbDirectWndMode->setStyleSheet("");
+		WndMgr::instance()->closeAll();
 	}
 }
 void WndWnd::timerEvent ( QTimerEvent * event ){

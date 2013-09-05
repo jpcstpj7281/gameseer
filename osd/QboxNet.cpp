@@ -8,6 +8,8 @@
 #include <protocol/protocol.h>
 
 #include "msgBase.h"
+#include <QMutex>
+
 
 using asio::ip::tcp;
 
@@ -164,6 +166,7 @@ struct Qbox::Impl{
 	tcp::socket socket_;
 	std::string ip_;
 	asio::io_service* mainios_;
+
 	volatile bool isConnected_;
 
 	static const uint32_t CONSTLEN = 1024;

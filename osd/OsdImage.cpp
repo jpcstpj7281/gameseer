@@ -7,7 +7,7 @@
 #include <sstream>
 #include <string>
 #include <ConfigMgr.h>
-
+#include <Windows.h>
 
 OsdImage::~OsdImage()
 {
@@ -190,7 +190,7 @@ QWidget(parent),
 }
 
 bool OsdImage::osdTaskResponse(uint32_t , QboxDataMap& data){
-	if ( !tasks_.empty()){ tasks_.front()();tasks_.pop_front();}
+	if ( !tasks_.empty()){ Sleep(500);tasks_.front()();tasks_.pop_front();}
 	return true;
 }
 
@@ -246,7 +246,6 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 }
 
 void OsdImage::clickinit(){
-	//ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 8, std::bind( &osdResponseRead, std::placeholders::_1, std::placeholders::_2));
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
 }
 
