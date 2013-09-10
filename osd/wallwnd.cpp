@@ -12,6 +12,7 @@
 #include <Ring.h>
 #include <QMessageBox>
 #include <boost/bind.hpp>
+#include <boost/math/special_functions/round.hpp>
 
 void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)  {  
 	uint32_t cc = ScreenMgr::instance()->getColCount();
@@ -132,14 +133,16 @@ void ResizeItem::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event ){
 			newRect.setHeight(countbottom*screenh - newPos.y());
 			break;
 	}
-	item->setPos(  newPos  );
-	item->setRect(newRect);
 	item->bringFront();
-	item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
 
-	item->areaItem_->setX( item->wnd_->axPercent_*item->rect().width());
-	item->areaItem_->setY( item->wnd_->ayPercent_*item->rect().height());
-	item->areaItem_->setRect( QRectF(0, 0, item->wnd_->awPercent_*item->rect().width(),item->wnd_->ahPercent_*item->rect().height()));
+	if ( (newPos.x() + newRect.width()) <= (scene()->sceneRect().width()+1) && (newPos.y() + newRect.height()) <= (scene()->sceneRect().height()+1)){
+		item->setPos(  newPos  );
+		item->setRect(newRect);
+		item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
+		item->areaItem_->setX( item->wnd_->axPercent_*item->rect().width());
+		item->areaItem_->setY( item->wnd_->ayPercent_*item->rect().height());
+		item->areaItem_->setRect( QRectF(0, 0, item->wnd_->awPercent_*item->rect().width(),item->wnd_->ahPercent_*item->rect().height()));
+	}
 }
 void ResizeItem::resize( QPointF &curr){
 	
@@ -558,6 +561,7 @@ QRectF WallScene::getBigGreenRect( QRectF rect){
 	double x = rect.x();
 	double y = rect.y();
 
+	//当前窗所在屏的位置
 	size_t countleft = (int)(x/screenw);
 	size_t counttop = (int)(y/screenh);
 	size_t countright = (int)((x+rect.width())/screenw);
@@ -571,14 +575,30 @@ QRectF WallScene::getBigGreenRect( QRectF rect){
 	QPointF rightbottom( (countright+1)*screenw,  (countbottom+1)*screenh);
 	QPointF lefttop ( countleft*screenw, counttop*screenh);
 
-	size_t colCount = (size_t)((rightbottom.x() - lefttop.x()) / screenw);
-	size_t rowCount = (size_t)((rightbottom.y() - lefttop.y()) / screenh);
-	size_t rectCount = colCount*rowCount;
+	
 
 	std::vector<QRectF> rects = getGreenRects();
+	double growingWidth = screenw;
+	double growingHeight = screenh;
+	for ( size_t i = 0 ; i < rects.size(); ++i){
+		if (lefttop.x()> rects[i].x()){
+			lefttop.setX(rects[i].x());
+			growingWidth = rects[i].x()+screenw;
+		}
+		if (lefttop.y()> rects[i].y()){
+			lefttop.setY(rects[i].y());
+			growingHeight = rects[i].y()+screenh;
+		}
+	}
+	//qDebug()<<"rects.size: "<<rects.size();
 
-	QRectF growingRect(lefttop.x(), lefttop.y(), screenw, screenh);
-	bool isInGrowingRect = false;
+	QRectF growingRect(lefttop.x(), lefttop.y(), growingWidth, growingHeight);
+	//qDebug()<<"growing rect: "<<growingRect << "x: "<<lefttop.x()<<" y: "<<lefttop.y()<<" w: "<<screenw<<" h: "<<screenh;
+
+	size_t colCount = boost::math::round((double)(rightbottom.x() - (double)lefttop.x()) / screenw);
+	size_t rowCount = boost::math::round((double)(rightbottom.y() - (double)lefttop.y()) / screenh);
+	size_t rectCount = colCount*rowCount;
+
 	size_t ic= 1;
 	size_t ir= 1;
 	for ( ; ic <= colCount; ++ic){
@@ -613,6 +633,7 @@ QRectF WallScene::getBigGreenRect( QRectF rect){
 			break;
 		}
 	}
+	//qDebug()<<"ic: "<<ic << " ir: "<<ir;
 	growingRect.setWidth( screenw * ic);
 	growingRect.setHeight( screenh * ir);
 	//qDebug()<<rect;

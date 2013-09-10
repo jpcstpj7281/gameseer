@@ -26,4 +26,10 @@
         <wnd w="0.756624" x="0.147203" wndid="Wnd1" y="0.0878939" h="0.691542" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
         <wnd w="0.803729" x="0.0225711" wndid="Wnd2" y="0.169154" h="0.703151" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
     </mode>
+    <mode id="Mode2">
+        <wnd w="0.242395" x="0.133464" wndid="Wnd1" y="0.112721" h="0.2657" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+        <wnd w="0.287537" x="0.598626" wndid="Wnd2" y="0.127214" h="0.302738" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+        <wnd w="0.315996" x="0.68106" wndid="Wnd3" y="0.636071" h="0.362319" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+        <wnd w="0.339549" x="0.185476" wndid="Wnd4" y="0.570048" h="0.347826" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+    </mode>
 </root>

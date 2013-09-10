@@ -30,7 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
 	modules_.push_back( new ChnWnd(_tab));
 	modules_.push_back( new RingWnd(_tab));
 	modules_.push_back( new ModeWnd(_tab));
-	//modules_.push_back( new TaskWnd(_tab));
+
+	modules_.push_back( new TaskWnd(_tab));
+
 	for (auto it = modules_.begin(); it != modules_.end(); ++it){
 		_tab->addTab(*it, (*it)->windowTitle() );
 	}
