@@ -455,7 +455,9 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 
 	QPushButton* setupTest = findChild<QPushButton* >("setupTest");
 	if ( setupTest){
+#ifndef _DEBUG
 		setupTest->hide();
+#endif
 		connect( setupTest, SIGNAL(clicked()), this, SLOT(setupTestClick()));
 	}
 
