@@ -133,6 +133,7 @@ void TaskWidget::activeTask(){
 void TaskWidget::scheduleTask(){
 	if ( task_){
 		task_->schedule();
+		schedule_->setStyleSheet("* { background-color: lightGreen }");
 	}
 }
 

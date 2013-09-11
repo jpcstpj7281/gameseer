@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include "QboxNet.h"
 #include <wnd.h>
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 class Timer{
 public:
@@ -15,7 +16,7 @@ public:
 	size_t time_;
 	size_t counter_;
 	size_t goto_;
-
+	
 };
 
 class Task {
@@ -30,6 +31,8 @@ public:
 	std::string id_;
 	void activate(){}
 	void schedule(){}
+
+	boost::posix_time::ptime schedule_;
 };
 
 class TaskMgr
