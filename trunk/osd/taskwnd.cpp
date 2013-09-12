@@ -132,8 +132,11 @@ void TaskWidget::activeTask(){
 }
 void TaskWidget::scheduleTask(){
 	if ( task_){
-		task_->schedule();
-		schedule_->setStyleSheet("* { background-color: lightGreen }");
+		if ( schedule_->styleSheet().isEmpty()){
+			schedule_->setStyleSheet("* { background-color: lightGreen }");
+		}else{
+			schedule_->setStyleSheet("");
+		}
 	}
 }
 

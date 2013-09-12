@@ -29,10 +29,9 @@ class Task {
 public:
 	std::vector<Timer*> timers_;
 	std::string id_;
-	void activate(){}
-	void schedule(){}
+	void activate();
 
-	boost::posix_time::ptime schedule_;
+	std::string schedule_;
 };
 
 class TaskMgr
