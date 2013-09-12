@@ -1,5 +1,5 @@
 #include "Task.h"
-#include<QtDebug>
+#include <QtDebug>
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
 
@@ -8,6 +8,11 @@ Task::Task(const std::string & id):id_(id)
 }
 Task::~Task(){
 }
+
+void Task::activate(){
+}
+
+//===========================================================================================================================
 
 TaskMgr* TaskMgr::inst = 0;
 TaskMgr *TaskMgr::instance(){
