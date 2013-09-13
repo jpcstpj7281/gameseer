@@ -15,7 +15,7 @@ public:
 	size_t time_;
 	size_t counter_;
 	size_t goto_;
-	
+
 };
 
 class Task {
@@ -28,9 +28,8 @@ class Task {
 public:
 	std::vector<Timer*> timers_;
 	std::string id_;
-	void activate();
-
-	std::string schedule_;
+	void activate(){}
+	void schedule(){}
 };
 
 class TaskMgr

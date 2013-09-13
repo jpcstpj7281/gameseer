@@ -1,11 +1,13 @@
 #include "TaskWnd.h"
 #include "ui_TaskWnd.h"
 #include <qdebug.h>
+#include "task.h"
+#include "ring.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
 
-TimerWidget::TimerWidget():QWidget(0)//,task_(task), timer_(timer)
+TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer_(timer)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setMargin(0);
@@ -24,8 +26,9 @@ TimerWidget::TimerWidget():QWidget(0)//,task_(task), timer_(timer)
 
 
 	state_->setFlags( Qt::ItemIsEnabled );
-	state_->setText("");
-
+	if ( task_){
+		state_->setText("");
+	}
 
 	mode_ = new  QComboBox;
 	//connect( activate_, SIGNAL(clicked()), this, SLOT(activeTask()) );
@@ -51,12 +54,12 @@ void TimerWidget::initTable( QTableWidget* table, int row){
 }
 void TimerWidget::clickInsert(){
 	QTableWidget* table = state_->tableWidget();
-	if (  table ){
+	if (  table && task_ ){
 		int row = state_->row();
 		Timer *t = new Timer;
 		t->modeid_ = "-";
-		//task_->timers_.insert(row+ task_->timers_.begin(), t);
-		TimerWidget * wgt = new TimerWidget();
+		task_->timers_.insert(row+ task_->timers_.begin(), t);
+		TimerWidget * wgt = new TimerWidget(task_, t);
 		table->insertRow( row);
 		wgt->initTable(table, row);
 	}
@@ -64,16 +67,16 @@ void TimerWidget::clickInsert(){
 void TimerWidget::clickDelete(){
 	QTableWidget* table = state_->tableWidget();
 	if ( state_->row() != table->rowCount()-1 && table){
-		if ( timer_){
+		if (task_ && timer_){
 			//TaskMgr::instance()->removeTask(task_);
-			//for ( auto  i = task_->timers_.begin() ;  i != task_->timers_.end(); ++i){
-			//	if ( (*i) == timer_){
-			//		delete timer_;
-			//		task_->timers_.erase(i);
-			//		table->removeRow( state_->row());
-			//		break;
-			//	}
-			//}
+			for ( auto  i = task_->timers_.begin() ;  i != task_->timers_.end(); ++i){
+				if ( (*i) == timer_){
+					delete timer_;
+					task_->timers_.erase(i);
+					table->removeRow( state_->row());
+					break;
+				}
+			}
 		}
 		
 	}
@@ -129,11 +132,7 @@ void TaskWidget::activeTask(){
 }
 void TaskWidget::scheduleTask(){
 	if ( task_){
-		if ( schedule_->styleSheet().isEmpty()){
-			schedule_->setStyleSheet("* { background-color: lightGreen }");
-		}else{
-			schedule_->setStyleSheet("");
-		}
+		task_->schedule();
 	}
 }
 
@@ -168,6 +167,7 @@ void TaskWidget::clickDelete(){
 TaskWnd::TaskWnd(QWidget* parent) :
     QWidget(parent)
 	,ui(new Ui::TaskWnd)
+	,currTask_(0)
 {
     ui->setupUi(this);
 
@@ -219,28 +219,38 @@ void TaskWnd::cellClicked(int row,int col){
 	timerTable_->setRowCount(0);
 	if ( taskTable_->rowCount()>0){
 		wgt= (TaskWidget*) taskTable_->cellWidget( row, 0);
-		if ( wgt )
-			resetTimerTable( );
+		if ( wgt && wgt->task_)
+			resetTimerTable( wgt->task_);
 	}
 }
 
-void TaskWnd::resetTimerTable( ){
-	////currTask_ = task;
-	//timerTable_->setRowCount(0);
-	////if ( !currTask_) return;
-	//
-	//timerTable_->setRowCount(currTask_->timers_.size()+1);
-	//for ( size_t i = 0 ; i <currTask_->timers_.size(); ++i){
-	//	TimerWidget* wgt = new TimerWidget(currTask_, currTask_->timers_[i]);
-	//	wgt->initTable( timerTable_, i);
-	//}
-	//TimerWidget* wgt = new TimerWidget(currTask_, NULL);
-	//wgt->initTable(timerTable_, currTask_->timers_.size());
-}
 
+void TaskWnd::resetTaskTable(){
+	taskTable_->setRowCount(0);
+	newTask("");
+	std::vector<Task*> tasks = TaskMgr::instance()->getAllTasks();
+	for ( size_t i = 0 ; i <tasks.size(); ++i){
+		newTask( tasks[i]->id_);
+	}
+}
+void TaskWnd::resetTimerTable( Task* task){
+	currTask_ = task;
+	timerTable_->setRowCount(0);
+	if ( !currTask_) return;
+	
+	timerTable_->setRowCount(currTask_->timers_.size()+1);
+	for ( size_t i = 0 ; i <currTask_->timers_.size(); ++i){
+		TimerWidget* wgt = new TimerWidget(currTask_, currTask_->timers_[i]);
+		wgt->initTable( timerTable_, i);
+	}
+	TimerWidget* wgt = new TimerWidget(currTask_, NULL);
+	wgt->initTable(timerTable_, currTask_->timers_.size());
+}
 void TaskWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
 	if (tab->tabText(index) == "Tasks"){
+		resetTaskTable();
+		resetTimerTable(currTask_);
 	}
 }
 

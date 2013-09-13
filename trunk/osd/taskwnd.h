@@ -8,7 +8,6 @@
 #include <QboxNet.h>
 #include <screen.h>
 #include <task.h>
-#include <mode.h>
 #include <QPushButton>
 #include <QTimeEdit>
 #include <QDateTimeEdit>
@@ -24,14 +23,14 @@ class TimerWidget:public QWidget{
 		void clickDelete();
 
 public:
-	//Task* task_;
-	//Timer* timer_;
+	Task* task_;
+	Timer* timer_;
 	QTableWidgetItem* state_;
 	QComboBox * mode_;
 	QComboBox * goto_;
 	QTimeEdit * timeEdit_;
 
-	TimerWidget();//Task* task, Timer* timer);
+	TimerWidget(Task* task, Timer* timer);
 
 	void initTable( QTableWidget* table, int row);
 };
@@ -71,10 +70,10 @@ public:
 		//void clearClicked(bool);
 private:
 	void newTask( const std::string &ip);
-	//void resetTaskTable();
-	void resetTimerTable();
+	void resetTaskTable();
+	void resetTimerTable( Task* task);
 
-	//Task* currTask_;
+	Task* currTask_;
 
     Ui::TaskWnd *ui;
 	QTableWidget*	taskTable_;
