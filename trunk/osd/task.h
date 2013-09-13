@@ -6,7 +6,6 @@
 #include <stdint.h>
 #include "QboxNet.h"
 #include <wnd.h>
-#include "boost/date_time/posix_time/posix_time.hpp"
 
 class Timer{
 public:
