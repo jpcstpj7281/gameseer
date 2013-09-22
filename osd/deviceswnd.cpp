@@ -276,8 +276,8 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 	}
 	if (!dlpBtn_->styleSheet().isEmpty() &&  fan == 1){
 		if ( fanTimerErrorCount_ ==2){
-			turnOffDlp();
-			QMessageBox::warning(0, "Wanning", "Fan Error, DLP turn off now!");
+			//turnOffDlp();
+			//QMessageBox::warning(0, "Wanning", "Fan Error, DLP turn off now!");
 		}
 		if ( fanTimerErrorCount_ < 2) fanTimerErrorCount_++;
 	}else{

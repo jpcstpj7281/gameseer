@@ -2,13 +2,40 @@
 #include<QtDebug>
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
-
+#include <Windows.h>
+void Timer::start(){
+	destMilliSecond_ = GetTickCount()+second_*1000;
+}
+size_t Timer::run(size_t timer){
+	if ( destMilliSecond_ != 0 && destMilliSecond_ > timer){
+		if ( currCounter_ > 0){
+			--currCounter_ ;
+			return TimerGoto;
+		}else{
+			return TimerEnd;
+		}
+	}else{
+		return TimerContinue;
+	}
+}
+//=======================================================================================================================
 Task::Task(const std::string & id):id_(id)
+	,currTimerIndex_(0)
 {
 }
 Task::~Task(){
 }
-
+void Task::run(size_t timer){
+	if ( isActivated_){
+		timers_[currTimerIndex_]->run(timer);
+	}
+}
+void Task::resetTimerCounter(){
+	for( size_t i = 0 ; i < timers_.size(); ++i){
+		timers_[i]->resetCounter();
+	}
+}
+//=======================================================================================================================
 TaskMgr* TaskMgr::inst = 0;
 TaskMgr *TaskMgr::instance(){
 	if ( inst) return inst;
@@ -54,4 +81,10 @@ bool TaskMgr::removeTask(Task* mode){
 		}
 	}
 	return false; 
+}
+
+void TaskMgr::run(){
+	for ( size_t i = 0; i < tasks_.size(); ++i){
+		tasks_[i]->run(GetTickCount());
+	}
 }

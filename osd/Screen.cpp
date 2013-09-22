@@ -253,7 +253,7 @@ void Screen::setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wn
 				QboxDataMap value;
 				value["x"] = QString::number(x ).toStdString();
 				value["y"] = QString::number(y ).toStdString();
-				value["w"] = QString::number(w+1 ).toStdString();//这里先在这里调整,嵌入式将需DEBUG
+				value["w"] = QString::number(w ).toStdString();//这里先在这里调整,嵌入式将需DEBUG
 				value["h"] = QString::number(h ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
 				qbox_->addAsyncRequest( PCreateWindowsReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
