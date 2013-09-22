@@ -127,12 +127,12 @@ TaskWidget::TaskWidget(Task* task):QWidget(0),task_(task)
 
 void TaskWidget::activeTask(){
 	if ( task_){
-		task_->activate();
+		task_->activate(true);
 	}
 }
 void TaskWidget::scheduleTask(){
 	if ( task_){
-		task_->schedule();
+		
 	}
 }
 

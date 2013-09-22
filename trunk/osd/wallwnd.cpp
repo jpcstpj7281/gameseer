@@ -391,11 +391,11 @@ void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 		bringFront();
 		setCursor( Qt::ClosedHandCursor);
 	}
-	//else if (event->button() == Qt::MouseButton::RightButton){
-	//	pressPos_ =  event->pos();
-	//	isScaling_ = true;
-	//	setCursor( Qt::ArrowCursor);
-	//}
+	else if (event->button() == Qt::MouseButton::RightButton){
+		pressPos_ =  event->pos();
+		isScaling_ = true;
+		setCursor( Qt::ArrowCursor);
+	}
 }
 void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);

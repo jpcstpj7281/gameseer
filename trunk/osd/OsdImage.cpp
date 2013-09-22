@@ -37,7 +37,7 @@ QWidget(parent),
 
 	QPushButton * initBtn  = findChild<QPushButton*>("btnInit" );
 	if ( initBtn) {
-		initBtn->hide();
+		//initBtn->hide();
 		connect( initBtn, SIGNAL( clicked()), this, SLOT( clickinit() ) );
 	}
 

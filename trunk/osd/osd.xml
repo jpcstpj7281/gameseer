@@ -6,10 +6,10 @@
     <OsdPM>
         <PMScreen sHsgBlueHue="-4478" sHsgMagentGain="16384" sHsgCyanSat="5968" id="257" sHsgGreenHue="-9948" sHsgCyanHue="-9761" sHsgCyanGain="16384" sHsgMagentSat="12321" sHsgWhiteBlue="16064" sHsgWhiteGreen="16064" sHsgBlueGain="16384" sHsgGreenGain="16384" sHsgRedHue="2749" sHsgGreenSat="14332" sHsgMagentHue="3965" sHsgYellowHue="-7006" sHsgWhiteRed="16384" sHsgRedSat="15592" sHsgRedGain="16384" sHsgBlueSat="15299" sHsgYellowGain="16384" sHsgYellowSat="14332"/>
     </OsdPM>
-    <screen ip="192.168.67.104" id="257"/>
-    <screen ip="192.168.67.103" id="258"/>
+    <screen ip="192.168.67.108" id="257"/>
+    <screen ip="192.168.67.104" id="258"/>
     <screen ip="192.168.67.109" id="513"/>
-    <screen ip="192.168.67.102" id="514"/>
+    <screen ip="192.168.67.105" id="514"/>
     <ring id="Ring1">
         <rnode id="84082945"/>
         <rnode id="84082946"/>
