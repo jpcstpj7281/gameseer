@@ -36,7 +36,7 @@ class Task {
 	Task(const std::string & id);
 	~Task();
 
-	void run( size_t timer);
+	//void run( size_t timer);
 	size_t currTimerIndex_;
 public:
 	std::vector<Timer*> timers_;
@@ -60,7 +60,7 @@ public:
 	~TaskMgr();
 	static TaskMgr *instance();
 
-	void run();
+	//void run();
 	Task* createTask();
 	Task* createTask(const std::string & id);
 	bool hasTask(const std::string & id);

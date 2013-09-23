@@ -7,12 +7,16 @@ void Timer::start(){
 	destMilliSecond_ = GetTickCount()+second_*1000;
 }
 size_t Timer::run(size_t timer){
-	if ( destMilliSecond_ != 0 && destMilliSecond_ > timer){
-		if ( currCounter_ > 0){
-			--currCounter_ ;
-			return TimerGoto;
+	if ( destMilliSecond_ != 0 ){
+		if (destMilliSecond_ >= timer){
+			if ( currCounter_ > 0){
+				--currCounter_ ;
+				return TimerGoto;
+			}else{
+				return TimerEnd;
+			}
 		}else{
-			return TimerEnd;
+			return destMilliSecond_ - timer;
 		}
 	}else{
 		return TimerContinue;
@@ -24,12 +28,15 @@ Task::Task(const std::string & id):id_(id)
 {
 }
 Task::~Task(){
-}
-void Task::run(size_t timer){
-	if ( isActivated_){
-		timers_[currTimerIndex_]->run(timer);
+	for( size_t i = 0 ; i < timers_.size(); ++i){
+		delete timers_[i];
 	}
 }
+//void Task::run(size_t timer){
+//	if ( isActivated_){
+//		timers_[currTimerIndex_]->run(timer);
+//	}
+//}
 void Task::resetTimerCounter(){
 	for( size_t i = 0 ; i < timers_.size(); ++i){
 		timers_[i]->resetCounter();
@@ -46,6 +53,9 @@ TaskMgr::TaskMgr()
 }
 TaskMgr::~TaskMgr()
 {
+	for( size_t i = 0 ; i < tasks_.size(); ++i){
+		delete tasks_[i];
+	}
 }
 Task* TaskMgr::createTask(const std::string & id){
 	if ( hasTask(id)) return NULL;
@@ -83,8 +93,8 @@ bool TaskMgr::removeTask(Task* mode){
 	return false; 
 }
 
-void TaskMgr::run(){
-	for ( size_t i = 0; i < tasks_.size(); ++i){
-		tasks_[i]->run(GetTickCount());
-	}
-}
+//void TaskMgr::run(){
+//	for ( size_t i = 0; i < tasks_.size(); ++i){
+//		tasks_[i]->run(GetTickCount());
+//	}
+//}
