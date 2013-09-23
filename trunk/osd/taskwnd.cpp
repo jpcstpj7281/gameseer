@@ -68,8 +68,7 @@ void TimerWidget::clickDelete(){
 	QTableWidget* table = state_->tableWidget();
 	if ( state_->row() != table->rowCount()-1 && table){
 		if (task_ && timer_){
-			//TaskMgr::instance()->removeTask(task_);
-			for ( auto  i = task_->timers_.begin() ;  i != task_->timers_.end(); ++i){
+			for ( auto  i = task_->timers_.begin() ;  i != task_->timers_.end();++i ){
 				if ( (*i) == timer_){
 					delete timer_;
 					task_->timers_.erase(i);
@@ -78,7 +77,6 @@ void TimerWidget::clickDelete(){
 				}
 			}
 		}
-		
 	}
 }
 //==============================================================================================================================
@@ -262,7 +260,7 @@ void TaskWnd::newTask( const std::string &taskid){
 	int insertRow = 0;
 	if ( wgt==0 ){
 		insertRow = 1;
-	}else if (wgt->id_->text().isEmpty()  ){//最后一行已经是空IP
+	}else if (wgt->id_->text().isEmpty()  ){
 		if ( taskid.empty() ) return;	//无需操作
 		else {
 			insertRow = taskTable_->rowCount()-1;//在空行前插入

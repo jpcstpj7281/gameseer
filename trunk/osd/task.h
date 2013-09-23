@@ -21,7 +21,6 @@ public:
 	size_t counter_;
 	size_t goto_;
 
-
 	size_t currCounter_;
 	size_t destMilliSecond_;
 
@@ -46,6 +45,8 @@ public:
 
 	void activate(bool flag){ isActivated_ = flag;}
 	void resetTimerCounter();
+
+
 };
 
 class TaskMgr
