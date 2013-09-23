@@ -11,6 +11,7 @@
 #include <functional>
 #include <QPushButton.h>
 #include "Screen.h"
+#include "Task.h"
 #include <QMainWindow>
 class OsdImage;
 class OsdProjMode;

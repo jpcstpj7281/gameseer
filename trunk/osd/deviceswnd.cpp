@@ -627,6 +627,24 @@ void DevicesWnd::clickedSave(){
 			modeelm.appendChild(elm);
 		}
 	}
+
+	items = root.elementsByTagName("task");
+	while (items.size()){
+		root.removeChild(items.at(0));
+	}
+	std::vector<Task*> tasks = TaskMgr::instance()->getAllTasks();
+	for (size_t i =0; i <tasks.size(); ++i){
+		QDomElement taskelm = ConfigMgr::instance()->getDoc()->createElement("task");
+		taskelm.setAttribute("id", QString::fromStdString( tasks[i]->id_));
+		root.appendChild(taskelm);
+
+		for ( size_t j = 0; j < tasks[i]->timers_.size();++j){
+			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("timer");
+			elm.setAttribute("timerid", QString::number( j));
+			taskelm.appendChild(elm);
+		}
+	}
+
 	ConfigMgr::instance()->save();
 }
 
