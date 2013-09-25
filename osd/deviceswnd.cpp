@@ -546,6 +546,29 @@ void DevicesWnd::clickedLoad(){
 			wnode = wnode.nextSibling().toElement();
 		}
 	}
+
+
+	TaskMgr::instance()->clear();
+	items = root.elementsByTagName("task");
+	std::vector<Task*> tasks = TaskMgr::instance()->getAllTasks();
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement melm = items.at(i).toElement();
+		QString id = melm.attribute("id");
+		Task* task= TaskMgr::instance()->createTask(id.toStdString() );
+
+		QDomElement telm = melm.firstChildElement();
+		while(telm != QDomElement()){
+			
+			Timer* t = new Timer();
+			t->modeid_ = telm.attribute("modeid").toStdString();
+			t->goto_ = telm.attribute("goto").toLong();
+			t->second_ = telm.attribute("sec").toLong();
+			t->counter_ = telm.attribute("counter").toLong();
+			task->timers_.push_back(t);
+			telm = telm.nextSibling().toElement();
+		}
+	}
+
 }
 void DevicesWnd::clickedSave(){
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
@@ -640,7 +663,10 @@ void DevicesWnd::clickedSave(){
 
 		for ( size_t j = 0; j < tasks[i]->timers_.size();++j){
 			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("timer");
-			elm.setAttribute("timerid", QString::number( j));
+			elm.setAttribute("modeid", QString::fromStdString(tasks[i]->timers_[j]->modeid_));
+			elm.setAttribute("counter", QString::number(tasks[i]->timers_[j]->counter_));
+			elm.setAttribute("goto", QString::number(tasks[i]->timers_[j]->goto_));
+			elm.setAttribute("sec", QString::number(tasks[i]->timers_[j]->second_));
 			taskelm.appendChild(elm);
 		}
 	}

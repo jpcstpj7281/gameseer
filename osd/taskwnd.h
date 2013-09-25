@@ -11,6 +11,8 @@
 #include <QPushButton>
 #include <QTimeEdit>
 #include <QDateTimeEdit>
+#include <qspinbox.h>
+#include <QVBoxLayout>
 
 namespace Ui {
 class TaskWnd;
@@ -21,18 +23,25 @@ class TimerWidget:public QWidget{
 	private slots:
 		void clickInsert();
 		void clickDelete();
-
+		void activated ( const QString & text );
+		void	gotoValueChanged ( int i );
+		void	countValueChanged ( int i );
 public:
 	Task* task_;
 	Timer* timer_;
 	QTableWidgetItem* state_;
 	QComboBox * mode_;
-	QComboBox * goto_;
+	QSpinBox * goto_;
 	QTimeEdit * timeEdit_;
+	QSpinBox * count_;
+	QVBoxLayout* layout_;
+	QPushButton* add_ ;
+	QPushButton* remove_ ;
 
 	TimerWidget(Task* task, Timer* timer);
 
 	void initTable( QTableWidget* table, int row);
+	virtual void	timerEvent ( QTimerEvent * event )override;
 };
 
 class TaskWidget:public QWidget{
@@ -42,6 +51,8 @@ class TaskWidget:public QWidget{
 		void clickDelete();
 		void activeTask();
 		void scheduleTask();
+		void	dateTimeChanged ( const QDateTime & dateTime );
+
 public:
 	Task* task_;
 	QTableWidgetItem* id_;
@@ -50,7 +61,7 @@ public:
 	QDateTimeEdit * dateTimer_;
 
 	TaskWidget(Task* task);
-
+	virtual void	timerEvent ( QTimerEvent * event )override;
 	void initTable( QTableWidget* table, int row);
 };
 
@@ -72,6 +83,8 @@ private:
 	void newTask( const std::string &ip);
 	void resetTaskTable();
 	void resetTimerTable( Task* task);
+
+	virtual void	timerEvent ( QTimerEvent * event )override;
 
 	Task* currTask_;
 

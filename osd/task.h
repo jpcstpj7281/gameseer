@@ -15,7 +15,7 @@ static size_t TimerContinue = 0xfffffffd;
 
 class Timer{
 public:
-
+	Timer();
 	std::string modeid_;
 	size_t second_;
 	size_t counter_;
@@ -26,7 +26,7 @@ public:
 
 	void start();
 	size_t run(size_t timer);
-	void resetCounter(){ currCounter_=counter_;}
+	void resetCounter(){ currCounter_=counter_; destMilliSecond_= 0;}
 };
 
 class Task {
@@ -34,19 +34,18 @@ class Task {
 	friend class TaskMgr;
 	Task(const std::string & id);
 	~Task();
-
-	//void run( size_t timer);
-	size_t currTimerIndex_;
+	
 public:
+	size_t currTimerIndex_;
 	std::vector<Timer*> timers_;
 	std::string id_;
 	std::string schedule_;
 	bool isActivated_;
 
-	void activate(bool flag){ isActivated_ = flag;}
+	void activate(bool flag);
 	void resetTimerCounter();
 
-
+	void run( size_t timer);
 };
 
 class TaskMgr
@@ -61,13 +60,15 @@ public:
 	~TaskMgr();
 	static TaskMgr *instance();
 
-	//void run();
+	void run();
+	void clear();
 	Task* createTask();
 	Task* createTask(const std::string & id);
 	bool hasTask(const std::string & id);
 	Task* getTask(const std::string &id);
 	bool removeTask(Task*);
 	std::vector<Task*> &getAllTasks(){ return  tasks_;};
+
 };
 
 
