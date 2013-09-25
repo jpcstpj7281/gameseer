@@ -204,7 +204,7 @@ RingWnd::RingWnd(QTabWidget* parent) :
     ui->setupUi(this);
 
 	ringTable_ = findChild<QTableWidget* >("ringTable");
-    ringTable_->setColumnCount( 4);
+    ringTable_->setColumnCount( 2);
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "Ring");

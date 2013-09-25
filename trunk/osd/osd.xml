@@ -32,4 +32,8 @@
         <wnd w="0.315996" x="0.68106" wndid="Wnd3" y="0.636071" h="0.362319" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
         <wnd w="0.339549" x="0.185476" wndid="Wnd4" y="0.570048" h="0.347826" inputid="16777473" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
     </mode>
+    <task id="Task1">
+        <timer goto="0" counter="0" sec="10" modeid="Mode1"/>
+        <timer goto="0" counter="0" sec="10" modeid="Mode1"/>
+    </task>
 </root>

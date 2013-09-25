@@ -3,25 +3,27 @@
 #include <qdebug.h>
 #include "task.h"
 #include "ring.h"
-#include <QVBoxLayout>
+#include "mode.h"
 #include <QPushButton>
 #include <QMessageBox>
+#include <qdatetime.h>
+#include <Windows.h>
 
 TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer_(timer)
 {
-	QVBoxLayout* layout = new QVBoxLayout();
-	layout->setMargin(0);
-	layout->setSpacing(0);
-	QPushButton* add = new  QPushButton;
-	QPushButton* remove = new  QPushButton;
-	add->setText("+");
-	remove->setText("-");
-	layout->addWidget(add );
-	layout->addWidget(remove );
-	setLayout(layout);
-	connect( add, SIGNAL(clicked()), this, SLOT(clickInsert()) );
-	connect( remove, SIGNAL(clicked()), this, SLOT(clickDelete()) );
-
+	layout_ = new QVBoxLayout();
+	layout_->setMargin(0);
+	layout_->setSpacing(0);
+	add_ = new  QPushButton;
+	remove_ = new  QPushButton;
+	add_->setText("+");
+	remove_->setText("-");
+	layout_->addWidget(add_ );
+	layout_->addWidget(remove_ );
+	setLayout(layout_);
+	connect( add_, SIGNAL(clicked()), this, SLOT(clickInsert()) );
+	connect( remove_, SIGNAL(clicked()), this, SLOT(clickDelete()) );
+	
 	state_= new QTableWidgetItem();
 
 
@@ -31,18 +33,68 @@ TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer
 	}
 
 	mode_ = new  QComboBox;
-	//connect( activate_, SIGNAL(clicked()), this, SLOT(activeTask()) );
+	connect( mode_, SIGNAL(activated ( const QString &  )), this, SLOT(activated ( const QString & )) );
 	if ( !timer_){
 		mode_->setEnabled(false);
+	}else{
+		auto ms = ModeMgr::instance()->getAllModes();
+		for ( size_t i = 0; i < ms.size(); ++i){
+			mode_->addItem(QString::fromStdString(ms[i]->id_));
+			if( timer_->modeid_ == ms[i]->id_){
+				mode_->setCurrentIndex(i);
+			}
+		}
+		if( mode_->currentText().isEmpty()){
+			mode_->setCurrentIndex(0);
+		}
 	}
-	goto_ = new  QComboBox;
-	//connect( schedule_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
+	goto_ = new  QSpinBox;
+	connect( goto_, SIGNAL(valueChanged ( int  )), this, SLOT(gotoValueChanged ( int  )) );
 	if ( !timer_){
 		goto_->setEnabled(false);
+	}else{
+		goto_->setValue(timer->goto_);
 	}
 	timeEdit_ = new  QTimeEdit;
 	if ( !timer_){
 		timeEdit_->setEnabled(false);
+	}else{
+		size_t h = timer_->second_ /3600;
+		size_t m = timer_->second_/60 - h * 60;
+		size_t s = timer_->second_ - h *3600 - m * 60;
+		timeEdit_->setTime( QTime(h, m, s) );
+	}
+	count_ = new QSpinBox;
+	connect( count_, SIGNAL(valueChanged ( int  )), this, SLOT(countValueChanged ( int  )) );
+	if ( !timer){
+		count_->setEnabled(false);
+	}else{
+		count_->setValue( timer->counter_);
+	}
+
+	this->startTimer(100);
+}
+void TimerWidget::gotoValueChanged ( int i ){
+	timer_->goto_ = i;
+}
+void TimerWidget::countValueChanged ( int i ){
+	timer_->counter_ = i;
+}
+void TimerWidget::activated ( const QString & text ){
+	auto ms = ModeMgr::instance()->getAllModes();
+	for ( size_t i = 0; i < ms.size(); ++i){
+		if( text.toStdString() == ms[i]->id_){
+			timer_->modeid_ =  ms[i]->id_;
+			return;
+		}
+	}
+	mode_->clear();
+	for ( size_t i = 0; i < ms.size(); ++i){
+		mode_->addItem(QString::fromStdString(ms[i]->id_));
+	}
+	if ( ms.size()>0){
+		mode_->setCurrentIndex(0);
+		timer_->modeid_ = "";
 	}
 }
 void TimerWidget::initTable( QTableWidget* table, int row){
@@ -51,13 +103,19 @@ void TimerWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 2, timeEdit_);
 	table->setCellWidget ( row, 3, mode_);
 	table->setCellWidget ( row, 4, goto_);
+	table->setCellWidget ( row, 5, count_);
 }
 void TimerWidget::clickInsert(){
 	QTableWidget* table = state_->tableWidget();
 	if (  table && task_ ){
 		int row = state_->row();
 		Timer *t = new Timer;
-		t->modeid_ = "-";
+		auto ms = ModeMgr::instance()->getAllModes();
+		if ( ms.size() >0){
+			t->modeid_ = ms[0]->id_;
+		}else{
+			t->modeid_ = "";
+		}
 		task_->timers_.insert(row+ task_->timers_.begin(), t);
 		TimerWidget * wgt = new TimerWidget(task_, t);
 		table->insertRow( row);
@@ -77,6 +135,52 @@ void TimerWidget::clickDelete(){
 				}
 			}
 		}
+	}
+}
+void TimerWidget::timerEvent ( QTimerEvent * event ){
+	if ( task_&& timer_ && task_->isActivated_ ){
+		mode_->setEnabled(false);
+		goto_->setEnabled(false);
+		timeEdit_->setEnabled(false);
+		count_->setEnabled(false);
+		add_->setEnabled(false);
+		remove_->setEnabled(false);
+		if (timer_ == task_->timers_[task_->currTimerIndex_]){
+			if ( timer_->destMilliSecond_ ==0){
+				size_t h = timer_->second_ /3600;
+				size_t m = timer_->second_/60 - h * 60;
+				size_t s = timer_->second_ - h *3600 - m * 60;
+				timeEdit_->setTime( QTime(h, m, s) );
+				state_->setBackground(Qt::white);
+			}else{
+				size_t sec = (timer_->destMilliSecond_ - GetTickCount())/1000;
+				size_t h = sec /3600;
+				size_t m = sec/60 - h * 60;
+				size_t s = sec - h *3600 - m * 60;
+				timeEdit_->setTime( QTime(h, m, s) );
+				state_->setBackground(Qt::green);
+			}
+		}else{
+			state_->setBackground(Qt::white);
+		}
+		count_->setValue( timer_->currCounter_);
+	}else if (task_ &&timer_){
+		mode_->setEnabled(true);
+		goto_->setEnabled(true);
+		timeEdit_->setEnabled(true);
+		count_->setEnabled(true);
+		add_->setEnabled(true);
+		remove_->setEnabled(true);
+		count_->setValue( timer_->counter_);
+		//state_->setBackground(Qt::white);
+	}
+
+	if (task_&& task_->isActivated_){
+		add_->setEnabled(false);
+		remove_->setEnabled(false);
+	}else if (task_){
+		add_->setEnabled(true);
+		remove_->setEnabled(true);
 	}
 }
 //==============================================================================================================================
@@ -106,31 +210,47 @@ TaskWidget::TaskWidget(Task* task):QWidget(0),task_(task)
 
 	activate_ = new  QPushButton;
 	activate_->setText("Activate");
+	activate_->setStyleSheet("");
 	connect( activate_, SIGNAL(clicked()), this, SLOT(activeTask()) );
 	if ( !task_){
 		activate_->setEnabled(false);
 	}
 	schedule_ = new  QPushButton;
 	schedule_->setText("Schedule");
+	schedule_->setStyleSheet("");
 	connect( schedule_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
 	if ( !task_){
 		schedule_->setEnabled(false);
 	}
-	dateTimer_ = new  QDateTimeEdit;
-	//connect( dateTimer_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
+	dateTimer_ = new  QDateTimeEdit(QDateTime::currentDateTime().addSecs(3600));
+	connect( dateTimer_, SIGNAL(dateTimeChanged( const QDateTime &)), this, SLOT(dateTimeChanged ( const QDateTime & )) );
 	if ( !task_){
 		dateTimer_->setEnabled(false);
 	}
+	this->startTimer( 200);
 }
-
+void TaskWidget::dateTimeChanged ( const QDateTime & dateTime ){
+	task_->schedule_ = dateTime.toString("yyyy.MM.dd-hh:mm:ss").toStdString();
+}
 void TaskWidget::activeTask(){
 	if ( task_){
-		task_->activate(true);
+		if ( task_->isActivated_){
+			task_->activate(false);
+			activate_->setStyleSheet("");
+		}else if( task_->timers_.size() > 0){
+			//task_->resetTimerCounter();
+			task_->activate(true);
+			activate_->setStyleSheet("* { background-color: lightGreen }");
+		}
 	}
 }
 void TaskWidget::scheduleTask(){
 	if ( task_){
-		
+		if ( schedule_->styleSheet().isEmpty()){
+			schedule_->setStyleSheet("* { background-color: lightGreen }");
+		}else{
+			schedule_->setStyleSheet("");
+		}
 	}
 }
 
@@ -145,6 +265,8 @@ void TaskWidget::clickInsert(){
 	QTableWidget* table = id_->tableWidget();
 	if (  table){
 		Task* task = TaskMgr::instance()->createTask();
+		QDateTime dt = QDateTime::currentDateTime();
+		task->schedule_ = dateTimer_->dateTime().toString("yyyy.MM.dd-hh:mm:ss").toStdString();
 		TaskWidget * wgt = new TaskWidget(  task);
 		int row = id_->row();
 		table->insertRow( row);
@@ -160,7 +282,28 @@ void TaskWidget::clickDelete(){
 		table->removeRow( id_->row());
 	}
 }
-
+void TaskWidget::timerEvent ( QTimerEvent * event ){
+	if ( !schedule_->styleSheet().isEmpty() && task_){
+		QString sch = QString::fromStdString(task_->schedule_);
+		QDateTime dt = QDateTime::currentDateTime();
+		if ( dt >= QDateTime::fromString( sch, "yyyy.MM.dd-hh:mm:ss") && dt <= QDateTime::fromString( sch, "yyyy.MM.dd-hh:mm:ss").addSecs(10)){
+			schedule_->setStyleSheet("");
+			if (!task_->isActivated_){
+				task_->activate(true);
+			}
+			std::vector<Task*> & tasks = TaskMgr::instance()->getAllTasks();
+			for ( size_t i = 0; i < tasks.size(); ++i){
+				if ( tasks[i] != task_){
+					tasks[i]->activate(false);
+				}
+			}
+		}
+	}
+	
+	if ( task_ && !task_->isActivated_ && !activate_->styleSheet().isEmpty() ){
+		activate_->setStyleSheet("");
+	}
+}
 //==============================================================================================================================
 TaskWnd::TaskWnd(QWidget* parent) :
     QWidget(parent)
@@ -186,25 +329,28 @@ TaskWnd::TaskWnd(QWidget* parent) :
 	taskTable_->setColumnWidth( 4, 150);
 
 	timerTable_ = findChild<QTableWidget* >("timerTable");
-    timerTable_->setColumnCount( 5);
+    timerTable_->setColumnCount( 6);
 	sl.clear();
 	sl.push_back( "");
 	sl.push_back( "State");
 	sl.push_back( "Timer");
 	sl.push_back( "Mode");
 	sl.push_back( "Goto");
+	sl.push_back( "Count");
 
 	timerTable_->setHorizontalHeaderLabels(sl );
 	timerTable_->setColumnWidth( 0, 20);
 	timerTable_->setColumnWidth( 1, 80);
 	timerTable_->setColumnWidth( 2, 80);
 	timerTable_->setColumnWidth( 3, 80);
-	timerTable_->setColumnWidth( 4, 150);
-
+	timerTable_->setColumnWidth( 4, 80);
+	timerTable_->setColumnWidth( 5, 80);
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 
 	connect(taskTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
+
+	startTimer(200);
 }
 
 TaskWnd::~TaskWnd()
@@ -288,3 +434,6 @@ void TaskWnd::newTask( const std::string &taskid){
 	wgt->initTable(taskTable_,  insertRow-1);
 }
 
+void TaskWnd::timerEvent ( QTimerEvent * event ){
+	TaskMgr::instance()->run();
+}

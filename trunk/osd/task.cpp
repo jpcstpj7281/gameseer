@@ -3,12 +3,32 @@
 #include "boost/foreach.hpp"
 #include "boost/bind.hpp"
 #include <Windows.h>
+#include "mode.h"
+
+Timer::Timer():destMilliSecond_(0)
+	,second_(10)
+	,goto_(0)
+	,counter_(0)
+	,currCounter_(0)
+	
+{
+	
+	auto ms = ModeMgr::instance()->getAllModes();
+	if (ms.size()>0){
+		modeid_ = ms[0]->id_;
+	}
+}
 void Timer::start(){
-	destMilliSecond_ = GetTickCount()+second_*1000;
+	destMilliSecond_ = (GetTickCount()+((second_)*1000));
 }
 size_t Timer::run(size_t timer){
 	if ( destMilliSecond_ != 0 ){
-		if (destMilliSecond_ >= timer){
+		if (destMilliSecond_ <= timer){
+			destMilliSecond_ = 0;
+			Mode* m = ModeMgr::instance()->getMode( modeid_);
+			if(m){
+				m->activate();
+			}
 			if ( currCounter_ > 0){
 				--currCounter_ ;
 				return TimerGoto;
@@ -25,6 +45,7 @@ size_t Timer::run(size_t timer){
 //=======================================================================================================================
 Task::Task(const std::string & id):id_(id)
 	,currTimerIndex_(0)
+	,isActivated_(false)
 {
 }
 Task::~Task(){
@@ -32,15 +53,65 @@ Task::~Task(){
 		delete timers_[i];
 	}
 }
-//void Task::run(size_t timer){
-//	if ( isActivated_){
-//		timers_[currTimerIndex_]->run(timer);
-//	}
-//}
+void Task::run(size_t timer){
+	if ( isActivated_){
+		if ( timers_[currTimerIndex_]->destMilliSecond_ == 0){
+			timers_[currTimerIndex_]->start();
+		}
+		size_t result = timers_[currTimerIndex_]->run(timer);
+		if ( result == TimerGoto){
+			currTimerIndex_ = timers_[currTimerIndex_]->goto_-1;
+		}else if ( result == TimerEnd){
+			if ( ++currTimerIndex_ < timers_.size()){
+				while( currTimerIndex_){
+					if (timers_[currTimerIndex_]->goto_> 0 ){
+						if (timers_[currTimerIndex_]->currCounter_>0){
+							break;
+						}else{
+							++currTimerIndex_;
+							if ( currTimerIndex_ >= timers_.size()){
+								currTimerIndex_ = 0;
+								isActivated_ = false;
+								break;
+							}
+						}
+					}else if (timers_[currTimerIndex_]->counter_ > 0 ){
+						if (timers_[currTimerIndex_]->currCounter_ ==0){
+							++currTimerIndex_;
+							if ( currTimerIndex_ >= timers_.size()){
+								currTimerIndex_ = 0;
+								isActivated_ = false;
+								break;
+							}
+						}else	break;
+					}else break;
+				}
+				
+			}else{
+				isActivated_ = false;
+				currTimerIndex_= 0;
+			}
+		}
+	}
+}
 void Task::resetTimerCounter(){
 	for( size_t i = 0 ; i < timers_.size(); ++i){
 		timers_[i]->resetCounter();
+		if ( timers_[i]->goto_ > timers_.size()){
+			timers_[i]->goto_ = timers_.size();
+		}
 	}
+}
+void Task::activate(bool flag){ 
+	isActivated_ = flag;
+	for( size_t i = 0 ; i < timers_.size(); ++i){
+		timers_[i]->resetCounter();
+		if ( timers_[i]->goto_ > timers_.size()){
+			timers_[i]->goto_ = timers_.size();
+		}
+		timers_[i]->destMilliSecond_ = 0;
+	}
+	currTimerIndex_= 0;
 }
 //=======================================================================================================================
 TaskMgr* TaskMgr::inst = 0;
@@ -53,9 +124,7 @@ TaskMgr::TaskMgr()
 }
 TaskMgr::~TaskMgr()
 {
-	for( size_t i = 0 ; i < tasks_.size(); ++i){
-		delete tasks_[i];
-	}
+	clear();
 }
 Task* TaskMgr::createTask(const std::string & id){
 	if ( hasTask(id)) return NULL;
@@ -92,9 +161,14 @@ bool TaskMgr::removeTask(Task* mode){
 	}
 	return false; 
 }
-
-//void TaskMgr::run(){
-//	for ( size_t i = 0; i < tasks_.size(); ++i){
-//		tasks_[i]->run(GetTickCount());
-//	}
-//}
+void TaskMgr::clear(){
+	for ( auto i = tasks_.begin() ; i < tasks_.end(); ++i){
+		delete *i;
+	}
+	tasks_.clear();
+}
+void TaskMgr::run(){
+	for ( size_t i = 0; i < tasks_.size(); ++i){
+		if ( tasks_[i]->isActivated_) tasks_[i]->run(GetTickCount());
+	}
+}
