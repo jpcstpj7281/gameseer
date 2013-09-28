@@ -304,11 +304,11 @@ void Screen::setVideoRequest(int inputNum ,QboxCallback callback){
 }
 void dlpTempRequest(QboxCallback callback, QboxDataMap &value ){
 }
-void Screen::setDlpRequest(int dlpPower ,QboxCallback callback ){
+void Screen::setDlpRequest(int dlpPower ,QboxCallback callback, size_t delay ){
 	if ( !qbox_) return;
 	QboxDataMap value;
 	value["POWER"] = QString::number( dlpPower ).toStdString();
-	qbox_->addAsyncRequest( PSetDLPPinReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value);
+	qbox_->addAsyncRequest( PSetDLPPinReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value, delay);
 }
 void Screen::setLampRequest(int lamp ){
 	if ( !qbox_) return;
@@ -402,13 +402,13 @@ void Screen::ajustInput(){
 
 }
 //=======================================================OSD===============================================================
-void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device){
+void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device, size_t delay){
 	QboxDataMap datamap;
 	datamap["addr"] = QString::number( addr).toStdString();
 	datamap["len"] = QString::number(len).toStdString();
 	datamap["device"] = QString::number(device).toStdString();
 	if ( qbox_){
-		qbox_->addAsyncRequest( (32<<16)|3, callback, datamap);
+		qbox_->addAsyncRequest( (32<<16)|3, callback, datamap, delay);
 	}
 }
 
@@ -463,6 +463,13 @@ void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback cal
 	osdRequest( callback, datamap);
 }
 
+void Screen::osdRequestUncache(uint32_t addr, const std::string &data, QboxCallback callback){
+	QboxDataMap datamap;
+	datamap["addr"] = QString::number( addr).toStdString();
+	datamap["len"] = QString::number( data.length()).toStdString();
+	datamap["value"] = data;
+	osdRequest( callback, datamap);
+}
 
 //=======================================================ScreenMgr===============================================================
 

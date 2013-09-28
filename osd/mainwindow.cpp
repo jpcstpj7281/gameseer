@@ -9,7 +9,7 @@
 #include <QLabel>
 #include <QTableView>
 #include <boost/math/special_functions/round.hpp>
-
+#include <QCheckBox>
 #include <wndwnd.h>
 #include <chnwnd.h>
 #include <ringwnd.h>
@@ -132,6 +132,10 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 	if (pb){
 		pb->setGeometry(pb->x(), this->height()-100, pb->width(), pb->height() );
 	}
+	QCheckBox *cb = _tab->findChild<QCheckBox*>("cbDragWnd");
+	if (cb){
+		cb->setGeometry( cb->x(), this->height()-100, cb->width(), cb->height());
+	}
 
 	QList<QLabel*> listl = _tab->findChildren<QLabel* >();
 	QList<QLineEdit*> listle = _tab->findChildren<QLineEdit* >();
@@ -170,5 +174,6 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 		t->setGeometry( 0, 0, this->width()-160, (this->height()-20)/2);
 	}
 	
+
 }
 

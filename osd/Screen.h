@@ -74,7 +74,7 @@ class Screen  {
 public:
 	void inputRequest( );
 	void setVideoRequest(int inputNum ,QboxCallback callback);
-	void setDlpRequest(int dlpPower ,QboxCallback callback);
+	void setDlpRequest(int dlpPower ,QboxCallback callback, size_t delay);
 	void setLampRequest(int Lamp );
 	void getDlpRequest(QboxCallback callback );
 	void dlpTempRequest(QboxCallback callback, QboxDataMap &value );
@@ -119,7 +119,7 @@ public:
 	void osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback );
 	void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
 	void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
-	void osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device);
+	void osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device, size_t delay);
 //=======================================================FOR TEST===============================================================
 	void setupTestResource();
 	void ajustResolution();

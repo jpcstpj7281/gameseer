@@ -71,11 +71,10 @@ void ScreenConnBtn::disconn(){
 	testBtn_->setEnabled(false);
 	address_->setEnabled(true);
 	dlpBtn_->setEnabled(false);
-	if (osdBtn_) scrn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+	if (osdBtn_) scrn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 0);
 	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
 	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(false);
 	setText("Connect");
-	Sleep(500);
 	scrn->disconnect();
 }
 void ScreenConnBtn::clickit(){
@@ -135,7 +134,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 			}
 			if (temp >=65){
 				Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
-				srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+				srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 300 );
 				QMessageBox::warning(0, "Wanning", "Temperature more than 65 degree, DLP turn off now!");
 			}
 		}else{
@@ -233,8 +232,7 @@ bool ScreenConnBtn::setdlpCallback( uint32_t , QboxDataMap data){
 	dlpBtn_->setEnabled(true);
 	
 	if ( !dlpBtn_->styleSheet().isEmpty()){//³õÊ¼»¯
-		Sleep(100);
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 100);
 	}
 	return true;
 }
@@ -249,7 +247,7 @@ void ScreenConnBtn::turnOnDlp(){
 	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
 	dlpBtn_->setText("Turn off");
 	dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
-	if ( srn) srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+	if ( srn) srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 0 );
 	dlpBtn_->setEnabled(false);
 }
 void ScreenConnBtn::turnOffDlp(){
@@ -257,7 +255,7 @@ void ScreenConnBtn::turnOffDlp(){
 	dlpBtn_->setText("Turn on");
 	dlpBtn_->setStyleSheet("");
 	dlpBtn_->setEnabled(false);
-	if ( srn) srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2) );
+	if ( srn) srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 0 );
 }
 
 bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
