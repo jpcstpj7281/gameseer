@@ -131,7 +131,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 			if (currColorTemp_ == 3){
 				bTemp_->setText( QString::number(temp, 'g',2));
 			}
-			if (temp >=65){
+			if (temp >=65){//turn off dlp
 				Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
 				srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 300 );
 				QMessageBox::warning(0, "Wanning", "Temperature more than 65 degree, DLP turn off now!");
@@ -387,9 +387,6 @@ void ScreenConnBtn::timerEvent ( QTimerEvent * event ){
 				datamap["len"] = QString::number(8).toStdString();
 				datamap["value"] = value;
 				scrn->osdRequestUncache( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap, 300 );
-
-				//计算开机时间
-				//dlpRunTimerCount_	
 			}
 		}
 	}

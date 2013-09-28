@@ -283,7 +283,7 @@ void OsdImage::dispatchBrightness(){
 	data[3] =shiftr;
 	data[4] = shiftb >> 8;
 	data[5] =shiftb;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x0a, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x0a, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 }
 
 void	OsdImage::valueBrightnessChangedFinished (  ){
@@ -370,7 +370,7 @@ void OsdImage::dispatchContrast(){
 	data[0] = shiftg ;
 	data[1] = shiftr;
 	data[2] = shiftb ;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x1, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x1, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 }
 void	OsdImage::valueContrastChangedFinished (  ){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -451,7 +451,7 @@ void OsdImage::dispatchVertOffset(){
 		data[0] = 1 <<7;
 	}else data[0] = 0;
 	data[1] = std::abs(vertPos_);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x05, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x05, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2),0);
 }
 void OsdImage::valueVertOffsetChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
@@ -474,7 +474,7 @@ void OsdImage::dispatchHoriOffset(){
 		data[0] = 1 <<7;
 	}else data[0] = 0;
 	data[1] = std::abs(horiPos_);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x04, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x04, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2),0);
 }
 void OsdImage::valueHoriOffsetChanged(int val){
 	if (val > 384) val = 384;else if (val < -384) val = -384;
@@ -505,7 +505,7 @@ void OsdImage::dispatchDBlack(){
 	data.resize(2);
 	data[0] = 0 ;
 	data[1] = dynamicBlack_;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x4a, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x4a, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2),0);
 }
 void OsdImage::valueDBlackChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -527,7 +527,7 @@ void OsdImage::dispatchFanCtrl(){
 	data[0] = fanCtrl_;
 	data[1] = fanCtrl_;
 	data[2] = fanCtrl_;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x10, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x10, data, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2),0);
 }
 void OsdImage::valueFanCtrlChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
