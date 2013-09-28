@@ -20,15 +20,16 @@ Timer::Timer():destMilliSecond_(0)
 }
 void Timer::start(){
 	destMilliSecond_ = (GetTickCount()+((second_)*1000));
+	Mode* m = ModeMgr::instance()->getMode( modeid_);
+	if(m){
+		m->activate();
+	}
 }
 size_t Timer::run(size_t timer){
 	if ( destMilliSecond_ != 0 ){
 		if (destMilliSecond_ <= timer){
 			destMilliSecond_ = 0;
-			Mode* m = ModeMgr::instance()->getMode( modeid_);
-			if(m){
-				m->activate();
-			}
+			
 			if ( currCounter_ > 0){
 				--currCounter_ ;
 				return TimerGoto;

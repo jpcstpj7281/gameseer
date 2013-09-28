@@ -19,13 +19,14 @@ using asio::ip::tcp;
 
 class QboxObj{
 public:
-	QboxObj(uint32_t msgtype, QboxCallback callback, QboxDataMap& var ):
+	QboxObj(uint32_t msgtype, QboxCallback callback, QboxDataMap& var ,size_t delay_ = 0):
 	callback_(callback){
 		sendmsg_.msgType = msgtype;
 		sendmsg_.info = var;
 	}
 	QboxCallback callback_;
 	MsgInfo sendmsg_;
+	size_t delay_;
 };
 
 struct QboxMgr::Impl{
@@ -226,12 +227,12 @@ struct Qbox::Impl{
 		socket_.async_receive(  asio::buffer(responsed_, CONSTLEN), boost::bind(&Qbox::Impl::handleReceived, this, asio::placeholders::error, asio::placeholders::bytes_transferred) );
 	}
 	void asyncSend(std::string & data){
-				std::stringstream ss;
-				static char syms[] = "0123456789ABCDEF";
-				for (size_t it = 0; it < data.length(); it++){
-					ss << syms[((data[it] >> 4) & 0xf)] << syms[data[it] & 0xf] << ' ';
-				}
-				qDebug()<<"send: "<< ss.str().c_str();
+		std::stringstream ss;
+		static char syms[] = "0123456789ABCDEF";
+		for (size_t it = 0; it < data.length(); it++){
+			ss << syms[((data[it] >> 4) & 0xf)] << syms[data[it] & 0xf] << ' ';
+		}
+		qDebug()<<"send: "<< ss.str().c_str();
 
 		socket_.async_send(asio::buffer( data.c_str(), data.length() ) , boost::bind(&Qbox::Impl::handleSent, this, asio::placeholders::error, asio::placeholders::bytes_transferred ) );
 	}
@@ -310,12 +311,18 @@ struct Qbox::Impl{
 	void asyncRequest(){
 		if ( !isConnected_  ) return;
 		if (requestList_.size() > 0){
-			BOOST_FOREACH( QboxObj* obj, requestList_){
-				std::string data = encodeData( obj->sendmsg_);
-				asyncSend( data);
+			for( auto i = requestList_.begin(); i != requestList_.end() ; ){
+				QboxObj* obj = *i;
+				size_t now = GetTickCount();
+				if ( obj->delay_ == 0 && obj->delay_ <= now){
+					std::string data = encodeData( obj->sendmsg_);
+					asyncSend( data);
+					sentList_.insert( sentList_.end(), *i);
+					i=requestList_.erase(i);
+				}else{
+					++i;
+				}
 			}
-			sentList_.insert( sentList_.end(), requestList_.begin(), requestList_.end());
-			requestList_.clear();
 		}
 	}
 
@@ -331,9 +338,10 @@ struct Qbox::Impl{
 		}
 	}
 
-	void addAsyncRequest( uint32_t msgtype , QboxCallback callback, QboxDataMap& value ){
+	void addAsyncRequest( uint32_t msgtype , QboxCallback callback, QboxDataMap& value, size_t delay=0 ){
 		//if ( !isConnected_ ) return false;
-		QboxObj * so = new QboxObj( msgtype , callback, value);
+		if ( delay > 0){ delay = GetTickCount() +delay;}
+		QboxObj * so = new QboxObj( msgtype , callback, value, delay);
 		requestList_.push_back(so);
 		asyncRequest();
 		//return true;
@@ -397,8 +405,9 @@ Qbox::Qbox()
 Qbox::~Qbox(){
 	delete impl_;
 }
-	
-
+void Qbox::addAsyncRequest( uint32_t msgtype ,QboxCallback callback, QboxDataMap &value, size_t delay ){
+	impl_->addAsyncRequest(msgtype, callback, value, delay);
+}
 void Qbox::addAsyncRequest( uint32_t msgtype , QboxCallback callback, QboxDataMap& value ){
 	impl_->addAsyncRequest(msgtype, callback, value);
 }

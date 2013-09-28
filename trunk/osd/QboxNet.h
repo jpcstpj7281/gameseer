@@ -31,6 +31,7 @@ public:
 	void setAddress(const std::string & ip);
 	std::string address();
 	void addAsyncRequest( uint32_t msgtype ,QboxCallback callback, QboxDataMap &value );
+	void addAsyncRequest( uint32_t msgtype ,QboxCallback callback, QboxDataMap &value, size_t delay );
 	//void addAsyncRequestVersion( QboxCallback callback, QboxDataMap &value );
 	void connInit();
 	bool isConn();

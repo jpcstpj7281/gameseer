@@ -35,6 +35,8 @@ public:
 	
 	
 	std::vector<Wnd* > getAllWnds(){ return wnds_;}
+
+	bool isWndMovable_;
 };
 
 class Wnode{

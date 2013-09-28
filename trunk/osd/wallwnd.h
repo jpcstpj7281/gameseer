@@ -48,6 +48,25 @@ public:
 	void resize( QPointF &curr);
 };
 
+class ExtentItem: public QGraphicsRectItem{
+public:
+
+	enum Direction{
+		Left,
+		Top,
+		Bottom,
+		Right,
+	};
+	bool isPressed_;
+	Direction dir_;
+	ExtentItem(Direction dir);
+	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+	virtual void	mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )override;
+
+	void resize();
+};
+
 class CloseItem: public QGraphicsRectItem{
 	bool isPressed_;
 public:
@@ -62,7 +81,9 @@ class AreaItem: public QGraphicsRectItem{
 	bool isPressed_;
 	bool isMoving_;
 	QPointF pressPos_;
+	
 public:
+	QString wndid_;
 	AreaItem(double x, double y, double w, double h);
 	void paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget);  
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
@@ -72,7 +93,7 @@ public:
 };
 
 class WndRectItem: public QGraphicsRectItem{
-	QRectF areaRect_;
+	//QRectF textRect_;
 public:
 	AreaItem *areaItem_;
 	Wnd* wnd_;
@@ -135,6 +156,7 @@ class WallWnd : public QWidget
 			void clickedCloseWnd();
 			void clickedActivateRing();
 			void clickedResetWnd();
+			void	clicked ( bool checked );
 public:
     explicit WallWnd( QWidget* parent);
     ~WallWnd();

@@ -109,7 +109,6 @@ void Ring::activate(ResourceID inputid){
 	for ( size_t i = 0 ; i < rnodes_.size(); ++i){
 		Screen* scrn = ScreenMgr::instance()->getScreen( rnodes_[i]);
 		scrn->connInOutRingRequest( inputid, rnodes_[i]);
-		Sleep(100);
 	}
 }
 
