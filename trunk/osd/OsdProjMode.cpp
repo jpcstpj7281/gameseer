@@ -36,7 +36,10 @@ OsdProjMode::OsdProjMode(QWidget *parent, ResourceID screenid) :
     ,whiteRed_(0)
     ,whiteGreen_(0)
     ,whiteBlue_(0)
+	,readCount_(0)
+	,isDispatching_(false)
 {
+	startTimer(100);
     ui->setupUi(this);
 
 	QSlider* qs  = findChild<QSlider*>("sHsgRedGain" );
@@ -378,13 +381,13 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 }
 
 void OsdProjMode::readClicked(){
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+	if ( readCount_<=0){
+		readCount_=30;
+		findChild<QPushButton*>("btnReadHsg")->setEnabled(false);
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+	}
 }
 
-static bool osdResponse(uint32_t , QboxDataMap&){
-	qDebug()<<"osdResponse";
-	return true;
-}
 
 void OsdProjMode::dispatchHSG(){
 	std::string data;
@@ -410,19 +413,19 @@ void OsdProjMode::dispatchHSG(){
 	data[16] = blueHue_ >>8;
 	data[17] = blueHue_ ;
 
-	data[18] = magentaGain_ >>8;
-	data[19] = magentaGain_ ;
-	data[20] = magentaSat_ >>8;
-	data[21] = magentaSat_ ;
-	data[22] = magentaHue_ >>8;
-	data[23] = magentaHue_ ;
-
-	data[24] = cyanGain_ >>8;
-	data[25] = cyanGain_ ;
-	data[26] = cyanSat_ >>8;
-	data[27] = cyanSat_ ;
-	data[28] = cyanHue_ >>8;
-	data[29] = cyanHue_ ;
+	data[18] = cyanGain_ >>8;
+	data[19] = cyanGain_ ;
+	data[20] = cyanSat_ >>8;
+	data[21] = cyanSat_ ;
+	data[22] = cyanHue_ >>8;
+	data[23] = cyanHue_ ;
+	
+	data[24] = magentaGain_ >>8;
+	data[25] = magentaGain_ ;
+	data[26] = magentaSat_ >>8;
+	data[27] = magentaSat_ ;
+	data[28] = magentaHue_ >>8;
+	data[29] = magentaHue_ ;
 
 	data[30] = yellowGain_ >>8;
 	data[31] = yellowGain_ ;
@@ -438,133 +441,133 @@ void OsdProjMode::dispatchHSG(){
 	data[40] = whiteBlue_ >>8;
 	data[41] = whiteBlue_ ;
 
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x13, data, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x13, data, std::bind( &OsdProjMode::osdTaskResponse, this,  std::placeholders::_1, std::placeholders::_2), 0);
 }
 
 void OsdProjMode::valueChangedHsgRedGain(int val){
 	if ( redGain_ == val  )return;
 	redGain_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgRedGain" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgRedSat(int val){
 	if ( redSat_ == val  )return;
 	redSat_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgRedSat" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgRedHue(int val){
 	if ( redHue_ == val  )return;
 	redHue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgRedHue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgGreenGain(int val){
 	if ( greenGain_ == val  )return;
 	greenGain_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgGreenGain" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgGreenSat(int val){
 	if ( greenSat_ == val  )return;
 	greenSat_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgGreenSat" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgGreenHue(int val){
 	if ( greenHue_ == val  )return;
 	greenHue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgGreenHue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgBlueGain(int val){
 	if ( blueGain_ == val  )return;
 	blueGain_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgBlueGain" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgBlueSat(int val) {
 	if ( blueSat_ == val  )return;
 	blueSat_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgBlueSat" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgBlueHue(int val){
 	if ( blueHue_ == val  )return;
 	blueHue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgBlueHue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgCyanGain(int val){
 	if ( cyanGain_ == val  )return;
 	cyanGain_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgCyanGain" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgCyanSat(int val){
 	if ( cyanSat_ == val  )return;
 	cyanSat_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgCyanSat" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgCyanHue(int val){
 	if ( cyanHue_ == val  )return;
 	cyanHue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgCyanHue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgMagentaGain(int val){
 	if ( magentaGain_ == val  )return;
 	magentaGain_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgMagentaGain" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgMagentaHue(int val){
 	if ( magentaHue_ == val  )return;
 	magentaHue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgMagentaHue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgMagentaSat(int val){
 	if ( magentaSat_ == val  )return;
 	magentaSat_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgMagentaSat" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgYellowGain(int val){
 	if ( yellowGain_ == val  )return;
 	yellowGain_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgYellowGain" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgYellowHue(int val){
 	if ( yellowHue_ == val  )return;
 	yellowHue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgYellowHue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgYellowSat(int val){
 	if ( yellowSat_ == val  )return;
 	yellowSat_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgYellowSat" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgWhiteGreen(int val){
 	if ( whiteGreen_ == val  )return;
 	whiteGreen_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgWhiteGreen" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgWhiteRed(int val){
 	if ( whiteRed_ == val  )return;
 	whiteRed_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgWhiteRed" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedHsgWhiteBlue(int val){
 	if ( whiteBlue_ == val  )return;
 	whiteBlue_ = val;
-	dispatchHSG();
+	hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 	findChild<QLineEdit*>("leHsgWhiteBlue" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangefinishedHsgRedGain(){
@@ -714,14 +717,16 @@ void OsdProjMode::valueChangefinishedHsgWhiteBlue(){
 	//valueChangedHsgWhiteBlue(val);
 	findChild<QSlider*>("sHsgWhiteBlue" )->setValue( val);
 }
-
+void OsdProjMode::dispatchFrontColor(){
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUintUncache( 0x12, foreColor_, std::bind( &OsdProjMode::osdTaskResponse, this,  std::placeholders::_1, std::placeholders::_2), 0);
+}
 void OsdProjMode::valueChangedFrontGreen(int val){
 	int red = findChild<QSlider*>("sFrontRed" )->value();
 	int blue = findChild<QSlider*>("sFrontBlue" )->value();
 	int newval = (val<<16) | (red <<8) | blue;
 	if ( foreColor_ == newval  )return;
 	foreColor_ = newval;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUint( 0x12, foreColor_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	frontColorTasks_.push_back( std::bind( &OsdProjMode::dispatchFrontColor , this) );
 	findChild<QLineEdit*>("leFrontGreen" )->setText( QString::number( val) );
 }
 void OsdProjMode::valueChangedFrontRed(int val){
@@ -758,16 +763,18 @@ void OsdProjMode::valueChangefinishedFrontBlue(){
 }
 
 void OsdProjMode::currentProjModeIndexChanged(int index){
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x2, index<<5, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestCharUncache( 0x2, index<<5, std::bind( &OsdProjMode::osdTaskResponse, this,  std::placeholders::_1, std::placeholders::_2), 0);
 }
-
+void OsdProjMode::dispatchTestPattern(){
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUshortUncache( 0x33, testPatterns_, std::bind( &OsdProjMode::osdTaskResponse, this,  std::placeholders::_1, std::placeholders::_2), 0);
+}
 void OsdProjMode::currentTestPatternsIndexChanged(int index){
 	int period = findChild<QSlider*>("sTestPeriod" )->value();
 	int width = findChild<QSlider*>("sTestWidth" )->value();
 	unsigned short val = (index << 8) | (period << 4) | width;
 	if ( val == testPatterns_) return;
 	testPatterns_ = val;
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUshort( 0x33, testPatterns_, std::bind( &osdResponse, std::placeholders::_1, std::placeholders::_2));
+	testPatternTasks_.push_back( std::bind( &OsdProjMode::dispatchTestPattern , this) );
 }
 
 void OsdProjMode::valueChangedTestPeriod(int val){
@@ -833,7 +840,7 @@ void OsdProjMode::load(){
 			findChild<QSlider*>("sHsgRedGain" )->setValue(redGain_);
 			findChild<QLineEdit*>("leHsgRedGain" )->setText(QString::number(redGain_));
 
-			dispatchHSG();
+			hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 			//tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
 
 			break;
@@ -893,4 +900,30 @@ void OsdProjMode::save(){
 	currosdElm.setAttribute("sHsgWhiteRed", QString::number(whiteRed_));
 	currosdElm.setAttribute("sHsgWhiteGreen", QString::number(whiteGreen_));
 	currosdElm.setAttribute("sHsgWhiteBlue", QString::number(whiteBlue_));
+}
+
+
+bool OsdProjMode::osdTaskResponse(uint32_t , QboxDataMap& data){
+	isDispatching_ = false;
+	if ( !hsgTasks_.empty()){ 
+		hsgTasks_.front()();hsgTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !testPatternTasks_.empty()){ 
+		testPatternTasks_.front()();testPatternTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !frontColorTasks_.empty()){ 
+		frontColorTasks_.front()();frontColorTasks_.pop_front();isDispatching_=true;
+	}
+	return true;
+}
+
+void OsdProjMode::timerEvent ( QTimerEvent * event ){
+	if ( !isDispatching_ ){
+		osdTaskResponse(0 , QboxDataMap());
+	}
+	if ( readCount_>0){
+		--readCount_;
+	}else{
+		findChild<QPushButton*>("btnReadHsg")->setEnabled(true);
+	}
 }

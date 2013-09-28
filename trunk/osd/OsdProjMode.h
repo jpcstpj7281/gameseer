@@ -7,6 +7,7 @@
 namespace Ui {
 class OsdProjMode;
 }
+typedef std::function< void ()> talkCallback;
 
 class OsdProjMode : public QWidget
 {
@@ -77,15 +78,17 @@ private:
 	
 		
 	bool readClickedResponse(uint32_t , QboxDataMap&);
-	void adjustAllHsgColor();
-	void adjustAllForeColor();
-	void adjustAllTestPatterns();
+
 	void dispatchHSG();
+	void dispatchFrontColor();
+	void dispatchTestPattern();
 	ResourceID screenid_;
 	
+	bool isDispatching_;
 	char projMode_;
 	unsigned short testPatterns_;
 	uint32_t foreColor_;
+	size_t readCount_;
 
 	unsigned short redGain_;
     unsigned short redSat_;
@@ -108,6 +111,12 @@ private:
     unsigned short whiteRed_;
     unsigned short whiteGreen_;
     unsigned short whiteBlue_;
+
+	std::list<talkCallback> hsgTasks_;
+	std::list<talkCallback> testPatternTasks_;
+	std::list<talkCallback> frontColorTasks_;
+	bool osdTaskResponse(uint32_t , QboxDataMap& data);
+	virtual void	timerEvent ( QTimerEvent * event )override;
 public:
     explicit OsdProjMode(QWidget *parent , ResourceID screenid);
     ~OsdProjMode();
