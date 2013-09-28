@@ -119,6 +119,15 @@ public:
 	void osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback );
 	void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
 	void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
+
+	void osdRequestUncache(QboxCallback callback, QboxDataMap &value, size_t delay );
+	void osdRequestUncache(uint32_t addr, const std::string &data, QboxCallback callback, size_t delay );
+	void osdRequestCharUncache(uint32_t addr, const char val, QboxCallback callback, size_t delay );
+	void osdRequestShortUncache(uint32_t addr, const short val, QboxCallback callback, size_t delay );
+	void osdRequestUshortUncache(uint32_t addr, const unsigned short val, QboxCallback callback, size_t delay );
+	void osdRequestIntUncache(uint32_t addr, const int val, QboxCallback callback, size_t delay );
+	void osdRequestUintUncache(uint32_t addr, const uint32_t val, QboxCallback callback, size_t delay );
+
 	void osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback callback, uint32_t device, size_t delay);
 //=======================================================FOR TEST===============================================================
 	void setupTestResource();

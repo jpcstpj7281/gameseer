@@ -32,7 +32,10 @@ QWidget(parent),
 	, comma_(0)
 	, orientation_(01)
 	,fanCtrl_(100)
+	,isDispatching_(false)
 {
+
+	startTimer(100);
 	ui->setupUi(this);
 
 	QPushButton * initBtn  = findChild<QPushButton*>("btnInit" );
@@ -190,7 +193,25 @@ QWidget(parent),
 }
 
 bool OsdImage::osdTaskResponse(uint32_t , QboxDataMap& data){
-	if ( !tasks_.empty()){ Sleep(500);tasks_.front()();tasks_.pop_front();}
+	isDispatching_ = false;
+	if ( !vOffsetTasks_.empty()){ 
+		vOffsetTasks_.front()();vOffsetTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !hOffsetTasks_.empty()){ 
+		hOffsetTasks_.front()();hOffsetTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !dBlackTasks_.empty()){ 
+		dBlackTasks_.front()();dBlackTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !fanCtrlTasks_.empty()){ 
+		fanCtrlTasks_.front()();fanCtrlTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !brightnessTasks_.empty()){ 
+		brightnessTasks_.front()();brightnessTasks_.pop_front();isDispatching_=true;
+	}
+	else if ( !contrastTasks_.empty()){ 
+		contrastTasks_.front()();contrastTasks_.pop_front();isDispatching_=true;
+	}
 	return true;
 }
 
@@ -207,7 +228,7 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[5] = 0x00;
 		val[6] = 0x00;
 		val[7] = 0x01;
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
 		return true;
 	}
 	else if ( step ==7) {
@@ -219,7 +240,7 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[5] = 0x00;
 		val[6] = 0x00;
 		val[7] = 0x01;
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
 		return true;
 	}else if ( step > 7){
 		return true;
@@ -240,13 +261,13 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 	val[5] = initStr_[(step)*8 +5];
 	val[6] = initStr_[(step)*8 +6];
 	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
 
 	return true;
 }
 
 void OsdImage::clickinit(){
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0);
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
 }
 
 void OsdImage::dispatchBrightness(){
@@ -310,28 +331,32 @@ void OsdImage::valueBrightnessChanged(int val){
 	brightnessGreen_ += diff;
 	brightnessBlue_ += diff;
 	adjustAllBrightness();
-	dispatchBrightness();
+	brightnessTasks_.clear();
+	brightnessTasks_.push_back( std::bind( &OsdImage::dispatchBrightness , this) );//dispatchBrightness();
 }
 void OsdImage::valueRedBrightnessChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
 	if (val == brightnessRed_) return;
 	brightnessRed_ = val;
 	adjustAllBrightness();
-	dispatchBrightness();
+	brightnessTasks_.clear();
+	brightnessTasks_.push_back( std::bind( &OsdImage::dispatchBrightness , this) );//dispatchBrightness();;
 }
 void OsdImage::valueGreenBrightnessChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
 	if (val == brightnessGreen_) return;
 	brightnessGreen_ = val;
 	adjustAllBrightness();
-	dispatchBrightness();
+	brightnessTasks_.clear();
+	brightnessTasks_.push_back( std::bind( &OsdImage::dispatchBrightness , this) );//dispatchBrightness();;
 }
 void OsdImage::valueBlueBrightnessChanged(int val){
 	if (val > 255) val = 255;else if (val < -255) val = -255;
 	if (val == brightnessBlue_) return;
 	brightnessBlue_ = val;
 	adjustAllBrightness();
-	dispatchBrightness();
+	brightnessTasks_.clear();
+	brightnessTasks_.push_back( std::bind( &OsdImage::dispatchBrightness , this) );//dispatchBrightness();;
 }
 
 
@@ -392,28 +417,32 @@ void OsdImage::valueContrastChanged(int val){
 	contrastGreen_ += diff;
 	contrastBlue_ += diff;
 	adjustAllContrast();
-	dispatchContrast();
+	contrastTasks_.clear();
+	contrastTasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );//dispatchContrast();
 }
 void OsdImage::valueRedContrastChanged(int val){
 	if (val > 100) val = 100;else if (val < 0) val = 0;
 	if (val == contrastRed_) return;
 	contrastRed_ = val;
 	adjustAllContrast();
-	dispatchContrast();
+	contrastTasks_.clear();
+	contrastTasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );//dispatchContrast();;
 }
 void OsdImage::valueGreenContrastChanged(int val){
 	if (val > 100) val = 100;else if (val < 0) val = 0;
 	if (val == contrastGreen_) return;
 	contrastGreen_ = val;
 	adjustAllContrast();
-	dispatchContrast();
+	contrastTasks_.clear();
+	contrastTasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );//dispatchContrast();;
 }
 void OsdImage::valueBlueContrastChanged(int val){
 	if (val > 100) val = 100;else if (val < 0) val = 0;
 	if (val == contrastBlue_) return;
 	contrastBlue_ = val;
 	adjustAllContrast();
-	dispatchContrast();
+	contrastTasks_.clear();
+	contrastTasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );//dispatchContrast();;
 }
 void OsdImage::dispatchVertOffset(){
 	std::string data;
@@ -429,7 +458,8 @@ void OsdImage::valueVertOffsetChanged(int val){
 	if (val == vertPos_) return;
 	vertPos_ = val;
 	findChild<QLineEdit*>("leVertOffset" )->setText(QString::number(val));
-	dispatchVertOffset();
+	vOffsetTasks_.clear();
+	vOffsetTasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
 }
 void OsdImage::valueVertOffsetChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -451,7 +481,8 @@ void OsdImage::valueHoriOffsetChanged(int val){
 	if (val == horiPos_) return;
 	horiPos_ = val;
 	findChild<QLineEdit*>("leHoriOffset" )->setText(QString::number(val));
-	dispatchHoriOffset();
+	hOffsetTasks_.clear();
+	hOffsetTasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
 }
 void OsdImage::valueHoriOffsetChangedFinished(){
 	QLineEdit* le = (QLineEdit*)sender();
@@ -466,7 +497,8 @@ void OsdImage::valueDBlackChanged(int val){
 	if (val == dynamicBlack_) return;
 	dynamicBlack_ = val;
 	findChild<QLineEdit*>("leDynBlack" )->setText(QString::number(val));
-	dispatchDBlack();
+	dBlackTasks_.clear();
+	dBlackTasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
 }
 void OsdImage::dispatchDBlack(){
 	std::string data;
@@ -486,7 +518,8 @@ void OsdImage::valueFanCtrlChanged(int val){
 	if (val == fanCtrl_) return;
 	fanCtrl_ = val;
 	findChild<QLineEdit*>("leFanCtrl" )->setText(QString::number(val));
-	dispatchFanCtrl();
+	fanCtrlTasks_.clear();
+	fanCtrlTasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
 }
 void OsdImage::dispatchFanCtrl(){
 	std::string data;
@@ -512,7 +545,7 @@ void OsdImage::btnHoriRevert(){
 		btn->setText( tr("no"));
 		orientation_&=0x1;
 	}
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestCharUncache( 0x3, orientation_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 }
 void OsdImage::btnVertRevert(){
 	QPushButton* btn = (QPushButton*)sender();
@@ -523,7 +556,7 @@ void OsdImage::btnVertRevert(){
 		btn->setText( tr("yes"));
 		orientation_&=0x2;
 	}
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0x3, orientation_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestCharUncache( 0x3, orientation_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 }
 
 void OsdImage::currentBrilliantIndexChanged(int val){
@@ -536,12 +569,12 @@ void OsdImage::currentBrilliantIndexChanged(int val){
 	}else{
 		findChild<QComboBox*>("cbColorRegion" )->setEnabled(false);
 		findChild<QComboBox*>("cbColorOverlap" )->setEnabled(false);
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0xd, brilliantColor_&=0x7F, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestCharUncache( 0xd, brilliantColor_&=0x7F, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 		return;
 	}
 
 	brilliantColor_ = 0x80 + val + ( overlap*12) +  (region*4);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestChar( 0xd, brilliantColor_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestCharUncache( 0xd, brilliantColor_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 }
 void OsdImage::currentRegionIndexChanged(int ){
 	currentBrilliantIndexChanged( findChild<QComboBox*>("cbBrilliantColor" )->currentIndex());
@@ -551,7 +584,7 @@ void OsdImage::currentOverlapIndexChanged(int ){
 }
 void OsdImage::currentCommaIndexChanged(int index){
 	index == 0 ? comma_ |= 0xc000 : comma_ = 0x4000 + (index -1);
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestShort( 0x9, comma_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestShortUncache( 0x9, comma_, std::bind( &OsdImage::osdTaskResponse, this, std::placeholders::_1, std::placeholders::_2), 0);
 }
 void OsdImage::reset(){
 	fanCtrl_ = 100;
@@ -598,12 +631,13 @@ void OsdImage::reset(){
 	findChild<QLineEdit*>("leGreenBrightness" )->setText(QString::number(brightnessGreen_));
 	findChild<QLineEdit*>("leBlueBrightness" )->setText(QString::number(brightnessBlue_));
 	findChild<QLineEdit*>("leBrightness" )->setText(QString::number( (brightnessRed_+brightnessGreen_+brightnessBlue_) /3));
-	dispatchBrightness();
-	tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
-	tasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
-	tasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
-	tasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
-	tasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
+
+	brightnessTasks_.push_back( std::bind( &OsdImage::dispatchBrightness , this) );
+	contrastTasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
+	dBlackTasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
+	fanCtrlTasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
+	hOffsetTasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
+	vOffsetTasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
 }
 void OsdImage::load(){
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
@@ -657,12 +691,12 @@ void OsdImage::load(){
 			findChild<QLineEdit*>("leBlueBrightness" )->setText(QString::number(brightnessBlue_));
 			findChild<QLineEdit*>("leBrightness" )->setText(QString::number( (brightnessRed_+brightnessGreen_+brightnessBlue_) /3));
 
-			dispatchBrightness();
-			tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
-			tasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
-			tasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
-			tasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
-			tasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
+			brightnessTasks_.push_back( std::bind( &OsdImage::dispatchBrightness , this) );
+			contrastTasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
+			dBlackTasks_.push_back( std::bind( &OsdImage::dispatchDBlack , this) );
+			fanCtrlTasks_.push_back( std::bind( &OsdImage::dispatchFanCtrl , this) );
+			hOffsetTasks_.push_back( std::bind( &OsdImage::dispatchHoriOffset , this) );
+			vOffsetTasks_.push_back( std::bind( &OsdImage::dispatchVertOffset , this) );
 			break;
 		}
 	}
@@ -710,4 +744,10 @@ void OsdImage::save(){
 
 	currosdElm.setAttribute("orientation", QString::number(orientation_));
 	currosdElm.setAttribute("comma", QString::number(comma_));
+}
+
+void OsdImage::timerEvent ( QTimerEvent * event ){
+	if ( !isDispatching_ ){
+		osdTaskResponse(0 , QboxDataMap());
+	}
 }

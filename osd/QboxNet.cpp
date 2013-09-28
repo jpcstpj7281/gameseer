@@ -19,8 +19,9 @@ using asio::ip::tcp;
 
 class QboxObj{
 public:
-	QboxObj(uint32_t msgtype, QboxCallback callback, QboxDataMap& var ,size_t delay_ = 0):
-	callback_(callback){
+	QboxObj(uint32_t msgtype, QboxCallback callback, QboxDataMap& var ,size_t delay = 0):
+	callback_(callback)
+	,delay_(delay){
 		sendmsg_.msgType = msgtype;
 		sendmsg_.info = var;
 	}
@@ -314,7 +315,7 @@ struct Qbox::Impl{
 			for( auto i = requestList_.begin(); i != requestList_.end() ; ){
 				QboxObj* obj = *i;
 				size_t now = GetTickCount();
-				if ( obj->delay_ == 0 && obj->delay_ <= now){
+				if ( obj->delay_ == 0 || obj->delay_ <= now){
 					std::string data = encodeData( obj->sendmsg_);
 					asyncSend( data);
 					sentList_.insert( sentList_.end(), *i);
@@ -340,7 +341,7 @@ struct Qbox::Impl{
 
 	void addAsyncRequest( uint32_t msgtype , QboxCallback callback, QboxDataMap& value, size_t delay=0 ){
 		//if ( !isConnected_ ) return false;
-		if ( delay > 0){ delay = GetTickCount() +delay;}
+		if ( delay > 0){ delay = GetTickCount() + delay;}
 		QboxObj * so = new QboxObj( msgtype , callback, value, delay);
 		requestList_.push_back(so);
 		asyncRequest();

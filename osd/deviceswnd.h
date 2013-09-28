@@ -76,7 +76,8 @@ public:
 	~ScreenConnBtn();
 	bool connectedCallback( uint32_t , QboxDataMap);
 	bool dlpStatusCallback( uint32_t , QboxDataMap);
-	bool setdlpCallback( uint32_t , QboxDataMap);
+	bool turnonDlpCallback( uint32_t , QboxDataMap);
+	bool turnoffDlpCallback( uint32_t , QboxDataMap);
 
 	size_t currColorTemp_;
 	bool tempdlpCallback( uint32_t , QboxDataMap);
