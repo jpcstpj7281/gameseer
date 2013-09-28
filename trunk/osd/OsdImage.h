@@ -40,16 +40,19 @@ class OsdImage : public QWidget
 			void valueHoriOffsetChanged(int);
 			void valueHoriOffsetChangedFinished();
 			void valueVertOffsetChangedFinished();
-			void dispatchVertOffset();
-			void dispatchHoriOffset();
 
 			void valueDBlackChanged(int);
 			void valueDBlackChangedFinished();
-			void dispatchDBlack();
 
 			void valueFanCtrlChangedFinished();
 			void valueFanCtrlChanged(int);
+
+			void dispatchVertOffset();
+			void dispatchHoriOffset();
+			void dispatchDBlack();
 			void dispatchFanCtrl();
+			void dispatchBrightness();
+			void dispatchContrast();
 
 			void btnHoriRevert();
 			void btnVertRevert();
@@ -63,14 +66,12 @@ class OsdImage : public QWidget
 			void load();
 			void save();
 private:
-	void adjustAllBrightness();
-	void dispatchBrightness();
 
+
+	void adjustAllBrightness();
 	void adjustAllContrast();
-	void dispatchContrast();
 
 	ResourceID screenid_;
-
 	uint32_t fanCtrl_;
 
 	short brightnessRed_;
@@ -80,7 +81,6 @@ private:
 	short contrastRed_;
 	short contrastGreen_;
 	short contrastBlue_;
-
 	
 	short brilliantColor_;
 	short dynamicBlack_;
@@ -93,10 +93,17 @@ private:
 	std::string initStr_;
 
 	bool osdResponseRead( uint32_t , QboxDataMap& data, int);
-
+	
+	bool isDispatching_;
+	std::list<talkCallback> vOffsetTasks_;
+	std::list<talkCallback> hOffsetTasks_;
+	std::list<talkCallback> dBlackTasks_;
+	std::list<talkCallback> fanCtrlTasks_;
+	std::list<talkCallback> brightnessTasks_;
+	std::list<talkCallback> contrastTasks_;
 	bool osdTaskResponse(uint32_t , QboxDataMap& data);
 
-	std::list<talkCallback> tasks_;
+	virtual void	timerEvent ( QTimerEvent * event )override;
 public:
     explicit OsdImage(QWidget *parent , ResourceID screenid );
     ~OsdImage();

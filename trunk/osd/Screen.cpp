@@ -60,6 +60,9 @@ void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
 		slowDownCache_.push_back( std::make_pair(callback, value) );
 	}
 }
+void Screen::osdRequestUncache(QboxCallback callback, QboxDataMap &value, size_t delay ){
+	qbox_->addAsyncRequest( PDLPCTRLReq::uri, callback, value, delay);// for osd request
+}
 
 bool Screen::inputCallback( uint32_t , QboxDataMap& value ){
 	if ( value["error"] != "0") return false;
@@ -463,14 +466,57 @@ void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback cal
 	osdRequest( callback, datamap);
 }
 
-void Screen::osdRequestUncache(uint32_t addr, const std::string &data, QboxCallback callback){
+
+void Screen::osdRequestUintUncache(uint32_t addr, const uint32_t val, QboxCallback callback, size_t delay  ){
+	std::string data;
+	data.resize(4);
+	data[0] = val>>24;
+	data[1] = val>>16;
+	data[2] = val>>8;
+	data[3] = val;
+	osdRequestUncache( addr, data, callback,delay);
+}
+
+void Screen::osdRequestIntUncache(uint32_t addr, const int val, QboxCallback callback, size_t delay  ){
+	std::string data;
+	data.resize(4);
+	data[0] = val>>24;
+	data[1] = val>>16;
+	data[2] = val>>8;
+	data[3] = val;
+	osdRequestUncache( addr, data, callback,delay);
+}
+
+void Screen::osdRequestShortUncache(uint32_t addr, const short val, QboxCallback callback, size_t delay  ){
+	std::string data;
+	data.resize(2);
+	data[0] = val>>8;
+	data[1] = val;
+	osdRequestUncache( addr, data, callback,delay);
+}
+
+void Screen::osdRequestUshortUncache(uint32_t addr, const unsigned short val, QboxCallback callback, size_t delay  ){
+	std::string data;
+	data.resize(2);
+	data[0] = val>>8;
+	data[1] = val;
+	osdRequestUncache( addr, data, callback,delay);
+}
+
+void Screen::osdRequestCharUncache(uint32_t addr, const char val, QboxCallback callback, size_t delay  ){
+	std::string data;
+	data.resize(1);
+	data[0] = val;
+	osdRequestUncache( addr, data, callback,delay);
+}
+
+void Screen::osdRequestUncache(uint32_t addr, const std::string &data, QboxCallback callback, size_t delay ){
 	QboxDataMap datamap;
 	datamap["addr"] = QString::number( addr).toStdString();
 	datamap["len"] = QString::number( data.length()).toStdString();
 	datamap["value"] = data;
-	osdRequest( callback, datamap);
+	osdRequestUncache( callback, datamap,delay);
 }
-
 //=======================================================ScreenMgr===============================================================
 
 std::vector<ResourceID> ScreenMgr::removeScreenCol( ){

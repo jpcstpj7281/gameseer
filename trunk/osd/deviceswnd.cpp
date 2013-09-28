@@ -71,7 +71,7 @@ void ScreenConnBtn::disconn(){
 	testBtn_->setEnabled(false);
 	address_->setEnabled(true);
 	dlpBtn_->setEnabled(false);
-	if (osdBtn_) scrn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 0);
+	if (osdBtn_) scrn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 0);
 	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
 	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(false);
 	setText("Connect");
@@ -115,8 +115,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 	auto found = data.find("data");
 	if (found == data.end()){
 		Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
-		Sleep(100);
-		if ( srn) srn->osdRequestRead( 0xb7, 4, std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2), 0x34);// for osd request
+		if ( srn) srn->osdRequestRead( 0xb7, 4, std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2), 0x34, 300);// for osd request
 	}else if ( currColorTemp_ > 0){
 		std::string val = found->second;
 		unsigned char valtemp = val[1];
@@ -134,7 +133,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 			}
 			if (temp >=65){
 				Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
-				srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 300 );
+				srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 300 );
 				QMessageBox::warning(0, "Wanning", "Temperature more than 65 degree, DLP turn off now!");
 			}
 		}else{
@@ -164,7 +163,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 			datamap["addr"] = QString::number( 0xDE).toStdString();
 			datamap["len"] = QString::number(8).toStdString();
 			datamap["value"] = value;
-			srn->osdRequest( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap );
+			srn->osdRequestUncache( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap, 300 );
 		}else{
 			currColorTemp_ = 0;
 		}
@@ -173,9 +172,11 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 }
 
 bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
+	if ( data["error"] != "0"){
+		return true;
+	}
 	std::string val;
 	val.resize(8);
-	Sleep(500);
 	if ( step ==6) {
 		val[0] = 0x27;
 		val[1] = 0x00;
@@ -185,7 +186,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[5] = 0x00;
 		val[6] = 0x00;
 		val[7] = 0x01;
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
 		return true;
 	}
 	else if ( step ==7) {
@@ -197,7 +198,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[5] = 0x00;
 		val[6] = 0x00;
 		val[7] = 0x01;
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 100);
 		return true;
 	}
 	if ( step > 7){
@@ -223,17 +224,20 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 	val[5] = initStr_[(step)*8 +5];
 	val[6] = initStr_[(step)*8 +6];
 	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequest( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1));
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
 
 	return true;
 }
-bool ScreenConnBtn::setdlpCallback( uint32_t , QboxDataMap data){
+bool ScreenConnBtn::turnoffDlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
-	
-	if ( !dlpBtn_->styleSheet().isEmpty()){//初始化
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 100);
-	}
+	return true;
+}
+bool ScreenConnBtn::turnonDlpCallback( uint32_t , QboxDataMap data){
+	if ( data["error"] != "0") return true;
+	dlpBtn_->setEnabled(true);
+	//初始化
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 100);
 	return true;
 }
 void ScreenConnBtn::clickDlp(){
@@ -247,7 +251,7 @@ void ScreenConnBtn::turnOnDlp(){
 	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
 	dlpBtn_->setText("Turn off");
 	dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
-	if ( srn) srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 0 );
+	if ( srn) srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::turnonDlpCallback, this, _1, _2), 0 );
 	dlpBtn_->setEnabled(false);
 }
 void ScreenConnBtn::turnOffDlp(){
@@ -255,7 +259,7 @@ void ScreenConnBtn::turnOffDlp(){
 	dlpBtn_->setText("Turn on");
 	dlpBtn_->setStyleSheet("");
 	dlpBtn_->setEnabled(false);
-	if ( srn) srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::setdlpCallback, this, _1, _2), 0 );
+	if ( srn) srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 0 );
 }
 
 bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
@@ -367,7 +371,7 @@ void ScreenConnBtn::timerEvent ( QTimerEvent * event ){
 		if (scrn) {
 			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
 
-			if ( !dlpBtn_->styleSheet().isEmpty()){
+			if ( !dlpBtn_->styleSheet().isEmpty()){//读光机各色温度
 				std::string value;
 				value.resize(8);
 				value[0] = 0xB7;
@@ -382,7 +386,7 @@ void ScreenConnBtn::timerEvent ( QTimerEvent * event ){
 				datamap["addr"] = QString::number( 0xDE).toStdString();
 				datamap["len"] = QString::number(8).toStdString();
 				datamap["value"] = value;
-				scrn->osdRequest( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap );
+				scrn->osdRequestUncache( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap, 300 );
 
 				//计算开机时间
 				//dlpRunTimerCount_	
