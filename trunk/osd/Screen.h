@@ -112,13 +112,13 @@ public:
 
 	
 //=======================================================OSD===============================================================
-	void osdRequest(QboxCallback callback, QboxDataMap &value );
-	void osdRequest(uint32_t addr, const std::string &data, QboxCallback callback );
-	void osdRequestChar(uint32_t addr, const char val, QboxCallback callback );
-	void osdRequestShort(uint32_t addr, const short val, QboxCallback callback );
-	void osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback );
-	void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
-	void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
+	//void osdRequest(QboxCallback callback, QboxDataMap &value );
+	//void osdRequest(uint32_t addr, const std::string &data, QboxCallback callback );
+	//void osdRequestChar(uint32_t addr, const char val, QboxCallback callback );
+	//void osdRequestShort(uint32_t addr, const short val, QboxCallback callback );
+	//void osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback );
+	//void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
+	//void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
 
 	void osdRequestUncache(QboxCallback callback, QboxDataMap &value, size_t delay );
 	void osdRequestUncache(uint32_t addr, const std::string &data, QboxCallback callback, size_t delay );

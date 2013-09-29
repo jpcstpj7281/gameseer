@@ -77,7 +77,7 @@ ChnWnd::ChnWnd(QWidget* parent) :
 	,isCurrTab_(false)
 {
     ui->setupUi(this);
-	startTimer(1000);
+	startTimer(3000);
 	chnTable_ = findChild<QTableWidget* >("chnTable");
     chnTable_->setColumnCount( 7);
 	QStringList sl;

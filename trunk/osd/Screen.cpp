@@ -54,12 +54,7 @@ void Screen::run ( ){
 		inputCount_ = GetTickCount()+10000;
 	}
 }
-void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
-	if ( qbox_){
-		slowDownCache_.clear();
-		slowDownCache_.push_back( std::make_pair(callback, value) );
-	}
-}
+
 void Screen::osdRequestUncache(QboxCallback callback, QboxDataMap &value, size_t delay ){
 	qbox_->addAsyncRequest( PDLPCTRLReq::uri, callback, value, delay);// for osd request
 }
@@ -414,57 +409,62 @@ void Screen::osdRequestRead(uint32_t addr, const uint32_t len, QboxCallback call
 		qbox_->addAsyncRequest( (32<<16)|3, callback, datamap, delay);
 	}
 }
-
-void Screen::osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback ){
-	std::string data;
-	data.resize(4);
-	data[0] = val>>24;
-	data[1] = val>>16;
-	data[2] = val>>8;
-	data[3] = val;
-	osdRequest( addr, data, callback);
-}
-
-void Screen::osdRequestInt(uint32_t addr, const int val, QboxCallback callback ){
-	std::string data;
-	data.resize(4);
-	data[0] = val>>24;
-	data[1] = val>>16;
-	data[2] = val>>8;
-	data[3] = val;
-	osdRequest( addr, data, callback);
-}
-
-void Screen::osdRequestShort(uint32_t addr, const short val, QboxCallback callback ){
-	std::string data;
-	data.resize(2);
-	data[0] = val>>8;
-	data[1] = val;
-	osdRequest( addr, data, callback);
-}
-
-void Screen::osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback ){
-	std::string data;
-	data.resize(2);
-	data[0] = val>>8;
-	data[1] = val;
-	osdRequest( addr, data, callback);
-}
-
-void Screen::osdRequestChar(uint32_t addr, const char val, QboxCallback callback ){
-	std::string data;
-	data.resize(1);
-	data[0] = val;
-	osdRequest( addr, data, callback);
-}
-
-void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback callback){
-	QboxDataMap datamap;
-	datamap["addr"] = QString::number( addr).toStdString();
-	datamap["len"] = QString::number( data.length()).toStdString();
-	datamap["value"] = data;
-	osdRequest( callback, datamap);
-}
+//void Screen::osdRequest(QboxCallback callback, QboxDataMap &value ){
+//	if ( qbox_){
+//		slowDownCache_.clear();
+//		slowDownCache_.push_back( std::make_pair(callback, value) );
+//	}
+//}
+//void Screen::osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback ){
+//	std::string data;
+//	data.resize(4);
+//	data[0] = val>>24;
+//	data[1] = val>>16;
+//	data[2] = val>>8;
+//	data[3] = val;
+//	osdRequest( addr, data, callback);
+//}
+//
+//void Screen::osdRequestInt(uint32_t addr, const int val, QboxCallback callback ){
+//	std::string data;
+//	data.resize(4);
+//	data[0] = val>>24;
+//	data[1] = val>>16;
+//	data[2] = val>>8;
+//	data[3] = val;
+//	osdRequest( addr, data, callback);
+//}
+//
+//void Screen::osdRequestShort(uint32_t addr, const short val, QboxCallback callback ){
+//	std::string data;
+//	data.resize(2);
+//	data[0] = val>>8;
+//	data[1] = val;
+//	osdRequest( addr, data, callback);
+//}
+//
+//void Screen::osdRequestUshort(uint32_t addr, const unsigned short val, QboxCallback callback ){
+//	std::string data;
+//	data.resize(2);
+//	data[0] = val>>8;
+//	data[1] = val;
+//	osdRequest( addr, data, callback);
+//}
+//
+//void Screen::osdRequestChar(uint32_t addr, const char val, QboxCallback callback ){
+//	std::string data;
+//	data.resize(1);
+//	data[0] = val;
+//	osdRequest( addr, data, callback);
+//}
+//
+//void Screen::osdRequest(uint32_t addr, const std::string &data, QboxCallback callback){
+//	QboxDataMap datamap;
+//	datamap["addr"] = QString::number( addr).toStdString();
+//	datamap["len"] = QString::number( data.length()).toStdString();
+//	datamap["value"] = data;
+//	osdRequest( callback, datamap);
+//}
 
 
 void Screen::osdRequestUintUncache(uint32_t addr, const uint32_t val, QboxCallback callback, size_t delay  ){

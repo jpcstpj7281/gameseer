@@ -410,15 +410,19 @@ void ExtentItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 			break;
 		}
 		item->bringFront();
-
-		if ( (newPos.x() + newRect.width()) <= (scene()->sceneRect().width()+1) && (newPos.y() + newRect.height()) <= (scene()->sceneRect().height()+1)){
-			item->setPos(  newPos  );
-			item->setRect(newRect);
-			item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
-			item->areaItem_->setX( item->wnd_->axPercent_*item->rect().width());
-			item->areaItem_->setY( item->wnd_->ayPercent_*item->rect().height());
-			item->areaItem_->setRect( QRectF(0, 0, item->wnd_->awPercent_*item->rect().width(),item->wnd_->ahPercent_*item->rect().height()));
-		}
+		//QRectF currRect = QRectF(newPos, newRect.bottomRight());
+		//currRect.setY(currRect.y()+1);
+		//if ( greenRect.contains(currRect)){
+		
+			if ( (newPos.x() + newRect.width()) <= (scene()->sceneRect().width()+1) && (newPos.y() + newRect.height()) <= (scene()->sceneRect().height()+1)){
+				item->setPos(  newPos  );
+				item->setRect(newRect);
+				item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
+				item->areaItem_->setX( item->wnd_->axPercent_*item->rect().width());
+				item->areaItem_->setY( item->wnd_->ayPercent_*item->rect().height());
+				item->areaItem_->setRect( QRectF(0, 0, item->wnd_->awPercent_*item->rect().width(),item->wnd_->ahPercent_*item->rect().height()));
+			}
+		//}
 	}
 }
 //=======================================================================================================================================================================
