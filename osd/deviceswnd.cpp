@@ -98,6 +98,7 @@ void ScreenConnBtn::clickOsd(){
 			osdWnd_->show();
 		}
 	}
+	//ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
 }
 void ScreenConnBtn::clickTest(){
 	if (testQbox_ == NULL){
@@ -160,7 +161,7 @@ bool ScreenConnBtn::tempdlpCallback( uint32_t , QboxDataMap data){
 			value[6] = 0;
 			value[7] = 0;
 			QboxDataMap datamap;
-			datamap["addr"] = QString::number( 0xDE).toStdString();
+			datamap["addr"] = QString::number( 0xde).toStdString();
 			datamap["len"] = QString::number(8).toStdString();
 			datamap["value"] = value;
 			srn->osdRequestUncache( std::bind( &ScreenConnBtn::tempdlpCallback, this, _1, _2) , datamap, 300 );
@@ -175,6 +176,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 	if ( data["error"] != "0"){
 		return true;
 	}
+	osdBtn_->setEnabled(false);
 	std::string val;
 	val.resize(8);
 	if ( step ==6) {
@@ -186,7 +188,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[5] = 0x00;
 		val[6] = 0x00;
 		val[7] = 0x01;
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 200);
 		return true;
 	}
 	else if ( step ==7) {
@@ -199,6 +201,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		val[6] = 0x00;
 		val[7] = 0x01;
 		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 100);
+		
 		return true;
 	}
 	if ( step > 7){
@@ -206,6 +209,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 			osdWnd_ = new OsdWnd(screenid_);
 		}		
 		osdWnd_->osdImage_->loadOSD();
+		osdBtn_->setEnabled(true);
 		return true;
 	}
 	
@@ -216,28 +220,31 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		}
 	}
 
-	val[0] = initStr_[(step)*8 +0];
-	val[1] = initStr_[(step)*8 +1];
-	val[2] = initStr_[(step)*8 +2];
-	val[3] = initStr_[(step)*8 +3];
-	val[4] = initStr_[(step)*8 +4];
-	val[5] = initStr_[(step)*8 +5];
-	val[6] = initStr_[(step)*8 +6];
-	val[7] = initStr_[(step)*8 +7];
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
-
+	if ( initStr_.size() ==48){
+		val[0] = initStr_[(step)*8 +0];
+		val[1] = initStr_[(step)*8 +1];
+		val[2] = initStr_[(step)*8 +2];
+		val[3] = initStr_[(step)*8 +3];
+		val[4] = initStr_[(step)*8 +4];
+		val[5] = initStr_[(step)*8 +5];
+		val[6] = initStr_[(step)*8 +6];
+		val[7] = initStr_[(step)*8 +7];
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1),200);
+	}
 	return true;
 }
 bool ScreenConnBtn::turnoffDlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	return true;
 }
 bool ScreenConnBtn::turnonDlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	//初始化
-	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 100);
+	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
 	return true;
 }
 void ScreenConnBtn::clickDlp(){
@@ -290,7 +297,7 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 bool ScreenConnBtn::connectedCallback( uint32_t , QboxDataMap){
 	setText("Disconnect");
 	this->setEnabled(true);
-	osdBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	testBtn_->setEnabled(true);
 	return true;
 }
@@ -371,7 +378,7 @@ void ScreenConnBtn::timerEvent ( QTimerEvent * event ){
 		if (scrn) {
 			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
 
-			if ( !dlpBtn_->styleSheet().isEmpty()){//读光机各色温度
+			if ( !dlpBtn_->styleSheet().isEmpty()&& (!osdWnd_ ||osdWnd_->isHidden())){//读光机各色温度
 				std::string value;
 				value.resize(8);
 				value[0] = 0xB7;

@@ -726,6 +726,7 @@ void OsdProjMode::valueChangedFrontGreen(int val){
 	int newval = (val<<16) | (red <<8) | blue;
 	if ( foreColor_ == newval  )return;
 	foreColor_ = newval;
+	frontColorTasks_.clear();
 	frontColorTasks_.push_back( std::bind( &OsdProjMode::dispatchFrontColor , this) );
 	findChild<QLineEdit*>("leFrontGreen" )->setText( QString::number( val) );
 }
@@ -774,6 +775,7 @@ void OsdProjMode::currentTestPatternsIndexChanged(int index){
 	unsigned short val = (index << 8) | (period << 4) | width;
 	if ( val == testPatterns_) return;
 	testPatterns_ = val;
+	testPatternTasks_.clear();
 	testPatternTasks_.push_back( std::bind( &OsdProjMode::dispatchTestPattern , this) );
 }
 
@@ -840,7 +842,8 @@ void OsdProjMode::load(){
 			findChild<QSlider*>("sHsgRedGain" )->setValue(redGain_);
 			findChild<QLineEdit*>("leHsgRedGain" )->setText(QString::number(redGain_));
 
-			hsgTasks_.clear();hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
+			hsgTasks_.clear();
+			hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
 			//tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
 
 			break;

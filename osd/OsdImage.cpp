@@ -243,6 +243,7 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		ScreenMgr::instance()->getScreen( screenid_)->osdRequestUncache( 0x5e, val, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, step+1), 300);
 		return true;
 	}else if ( step > 7){
+		findChild<QPushButton*>("btnInit" )->setEnabled(true);
 		return true;
 	}
 	
@@ -267,6 +268,7 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 }
 
 void OsdImage::clickinit(){
+	findChild<QPushButton*>("btnInit" )->setEnabled(false);
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
 }
 
