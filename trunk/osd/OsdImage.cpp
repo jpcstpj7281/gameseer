@@ -192,7 +192,7 @@ QWidget(parent),
 
 }
 
-bool OsdImage::osdTaskResponse(uint32_t , QboxDataMap& data){
+bool OsdImage::osdTaskResponse(uint32_t , QboxDataMap& ){
 	isDispatching_ = false;
 	if ( !vOffsetTasks_.empty()){ 
 		vOffsetTasks_.front()();vOffsetTasks_.pop_front();isDispatching_=true;
@@ -748,7 +748,7 @@ void OsdImage::save(){
 	currosdElm.setAttribute("comma", QString::number(comma_));
 }
 
-void OsdImage::timerEvent ( QTimerEvent * event ){
+void OsdImage::timerEvent ( QTimerEvent *  ){
 	if ( !isDispatching_ ){
 		osdTaskResponse(0 , QboxDataMap());
 	}

@@ -83,11 +83,11 @@ ChnWnd::ChnWnd(QWidget* parent) :
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "ID");
-	sl.push_back( "Row");
-	sl.push_back( "Col");
-	sl.push_back( "Inport");
-	sl.push_back( "Width");
-	sl.push_back( "Height");
+	sl.push_back( tr("Row"));
+	sl.push_back( tr("Col"));
+	sl.push_back( tr("Inport"));
+	sl.push_back( tr("Width"));
+	sl.push_back( tr("Height"));
 	chnTable_->setHorizontalHeaderLabels(sl );
 	chnTable_->setColumnWidth( 0, 0);
 	chnTable_->setColumnWidth( 1, 100);
@@ -119,14 +119,17 @@ void ChnWnd::clickedSetVideo (){
 	size_t col = chncol->value();
 	size_t input = chninput->value();
 
-	bool existed = ScreenMgr::instance()->hasAvailableInput( ToResourceID( input, 0, row, col) );
-	if ( existed ){
-		QMessageBox::warning(0, "Wanning", "Input Channel already existed!");
-	}else{
+	//bool existed = ScreenMgr::instance()->hasAvailableInput( ToResourceID( input, 0, row, col) );
+	//if ( existed ){
+	//	QMessageBox::warning(0, "Wanning", "Input Channel already existed!");
+	//}else{
 		Screen* srn = ScreenMgr::instance()->getScreen(ToResourceID(0, 0, row, col) );
-		srn->setVideoRequest(input, std::bind( &ChnWnd::setVideoCallback, this, _1, _2));
-		srn->inputRequest();
-	}
+		if (srn){
+			int type = this->findChild<QComboBox* >("cbVideoType")->currentIndex();
+			srn->setVideoRequest(input, type, std::bind( &ChnWnd::setVideoCallback, this, _1, _2));
+			srn->inputRequest();
+		}
+	//}
 }
 
 ChnWnd::~ChnWnd()

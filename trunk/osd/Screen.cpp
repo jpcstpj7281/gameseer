@@ -294,10 +294,12 @@ void Screen::setLayerRequest(size_t layer, ResourceID wnode){
 		}
 	}
 }
-void Screen::setVideoRequest(int inputNum ,QboxCallback callback){
+
+void Screen::setVideoRequest(int inputNum ,int type, QboxCallback callback){
 	if ( !qbox_) return;
 	QboxDataMap value;
 	value["channel"] = QString::number( inputNum ).toStdString();
+	value["type"] = QString::number( type ).toStdString();
 	qbox_->addAsyncRequest( PInitSDChannelReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value);
 }
 void dlpTempRequest(QboxCallback callback, QboxDataMap &value ){
@@ -583,7 +585,13 @@ std::vector<ResourceID> ScreenMgr::removeScreenRow(){
 	if ( rowCount_ == 0 ) colCount_ = 0;
 	return scrns;
 }
-
+Screen* ScreenMgr::getScreen(ResourceID id){
+	uint32_t row = GetRow(id);
+	uint32_t col = GetCol(id);
+	if ( row-1 >=0 && col-1 >=0 && row -1 < getRowCount() && col -1 < getColCount()){
+		return screens_[GetRow(id)-1][GetCol(id)-1];
+	}else return 0;
+}
 
 ScreenMgr* ScreenMgr::inst = 0;
 ScreenMgr *ScreenMgr::instance(){

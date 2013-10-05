@@ -906,7 +906,7 @@ void OsdProjMode::save(){
 }
 
 
-bool OsdProjMode::osdTaskResponse(uint32_t , QboxDataMap& data){
+bool OsdProjMode::osdTaskResponse(uint32_t , QboxDataMap& ){
 	isDispatching_ = false;
 	if ( !hsgTasks_.empty()){ 
 		hsgTasks_.front()();hsgTasks_.pop_front();isDispatching_=true;
@@ -920,7 +920,7 @@ bool OsdProjMode::osdTaskResponse(uint32_t , QboxDataMap& data){
 	return true;
 }
 
-void OsdProjMode::timerEvent ( QTimerEvent * event ){
+void OsdProjMode::timerEvent ( QTimerEvent * ){
 	if ( !isDispatching_ ){
 		osdTaskResponse(0 , QboxDataMap());
 	}

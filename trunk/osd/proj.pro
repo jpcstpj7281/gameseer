@@ -6,6 +6,7 @@
 
 QT  += core gui xml  
 
+TRANSLATIONS = proj_zh.ts proj_en.ts
 
 CONFIG += c++11				
 CONFIG += static

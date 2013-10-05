@@ -33,9 +33,9 @@ ModeWidget::ModeWidget(Mode* mode):QWidget(0),mode_(mode)
 		id_->setText( QString::fromStdString(mode_->id_));
 	}
 	save_ = new  QPushButton;
-	save_->setText("Save");
+	save_->setText(tr("Save"));
 	activate_ = new  QPushButton;
-	activate_->setText("Activate");
+	activate_->setText(tr("Activate"));
 	connect( save_, SIGNAL(clicked()), this, SLOT(saveMode()) );
 	connect( activate_, SIGNAL(clicked()), this, SLOT(activeMode()) );
 	if ( !mode_){
@@ -94,8 +94,8 @@ ModeWnd::ModeWnd(QWidget* parent) :
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "ID");
-	sl.push_back( "Activate");
-	sl.push_back( "Save");
+	sl.push_back( tr("Activate"));
+	sl.push_back( tr("Save"));
 
 	modeTable_->setHorizontalHeaderLabels(sl );
 	modeTable_->setColumnWidth( 0, 20);
@@ -112,9 +112,9 @@ ModeWnd::ModeWnd(QWidget* parent) :
 	sl.push_back( "AY");
 	sl.push_back( "AW");
 	sl.push_back( "AH");
-	sl.push_back( "Wnd");
-	sl.push_back( "Input");
-	sl.push_back( "Ring");
+	sl.push_back( tr("Wnd"));
+	sl.push_back( tr("Input"));
+	sl.push_back( tr("Ring"));
 	wndModeTable_->setColumnWidth( 0, 40);
 	wndModeTable_->setColumnWidth( 1, 40);
 	wndModeTable_->setColumnWidth( 2, 40);
@@ -148,7 +148,7 @@ void ModeWnd::resetModeTable(){
 }
 void ModeWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
-	if (tab->tabText(index) == "Modes"){
+	if (tab->tabText(index) == tr("Modes")){
 		resetModeTable();
 		resetWndModeTable(currMode_);
 	}

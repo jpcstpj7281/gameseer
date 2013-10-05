@@ -73,7 +73,7 @@ class Screen  {
 
 public:
 	void inputRequest( );
-	void setVideoRequest(int inputNum ,QboxCallback callback);
+	void setVideoRequest(int inputNum ,int type, QboxCallback callback);
 	void setDlpRequest(int dlpPower ,QboxCallback callback, size_t delay);
 	void setLampRequest(int Lamp );
 	void getDlpRequest(QboxCallback callback );
@@ -163,7 +163,7 @@ public:
 	bool isValidScreenId( uint32_t row, uint32_t col){ return (row<=rowCount_&&row>0 && col<=colCount_&&col>0)?true:false;}
 	void onInputChanged(ResourceChangedCallback callback);
 
-	inline Screen* getScreen(ResourceID id){return screens_[GetRow(id)-1][GetCol(id)-1];}
+	Screen* getScreen(ResourceID id);
 	std::vector<ResourceID> addScreenCol();
 	std::vector<ResourceID> addScreenRow();
 	std::vector<ResourceID> addScreens( uint32_t rowCount, uint32_t colCount);

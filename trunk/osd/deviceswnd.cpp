@@ -57,7 +57,7 @@ void ScreenConnBtn::conn(){
 			osdBtn_->setEnabled(false);
 			testBtn_->setEnabled(false);
 			dlpBtn_->setEnabled(false);
-			dlpBtn_->setText("Turn on");
+			dlpBtn_->setText(tr("Turn on"));
 			scrn->versionRequest( std::bind( &ScreenConnBtn::connectedCallback, this, _1, _2), QboxDataMap() );
 			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
 		}
@@ -74,16 +74,16 @@ void ScreenConnBtn::disconn(){
 	if (osdBtn_) scrn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 0);
 	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
 	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(false);
-	setText("Connect");
+	setText(tr("Connect"));
 	scrn->disconnect();
 }
 void ScreenConnBtn::clickit(){
 	if ( address_->text().isEmpty() ){
 		address_->setText("192.168.67.103") ;
 	}
-	if ( !address_->text().isEmpty() && text() == "Connect"){
+	if ( !address_->text().isEmpty() && text() == tr("Connect")){
 		conn();
-	}else if (text() == "Disconnect"){
+	}else if (text() == tr("Disconnect")){
 		disconn();
 	}
 }
@@ -256,14 +256,14 @@ void ScreenConnBtn::clickDlp(){
 }
 void ScreenConnBtn::turnOnDlp(){
 	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
-	dlpBtn_->setText("Turn off");
+	dlpBtn_->setText(tr("Turn off"));
 	dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
 	if ( srn) srn->setDlpRequest( 1,std::bind( &ScreenConnBtn::turnonDlpCallback, this, _1, _2), 0 );
 	dlpBtn_->setEnabled(false);
 }
 void ScreenConnBtn::turnOffDlp(){
 	Screen* srn = ScreenMgr::instance()->getScreen( screenid_);
-	dlpBtn_->setText("Turn on");
+	dlpBtn_->setText(tr("Turn on"));
 	dlpBtn_->setStyleSheet("");
 	dlpBtn_->setEnabled(false);
 	if ( srn) srn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 0 );
@@ -277,10 +277,10 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 	int fan = data["FAN"].at(0);
 	dlpBtn_->setEnabled(true);
 	if ( power == 1){
-		dlpBtn_->setText("Turn off");
+		dlpBtn_->setText(tr("Turn off"));
 		dlpBtn_->setStyleSheet("* { background-color: lightGreen }");
 	}else{
-		dlpBtn_->setText("Turn on");
+		dlpBtn_->setText(tr("Turn on"));
 		dlpBtn_->setStyleSheet("");
 	}
 	if (!dlpBtn_->styleSheet().isEmpty() &&  fan == 1){
@@ -295,7 +295,7 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 	return true;
 }
 bool ScreenConnBtn::connectedCallback( uint32_t , QboxDataMap){
-	setText("Disconnect");
+	setText(tr("Disconnect"));
 	this->setEnabled(true);
 	osdBtn_->setEnabled(false);
 	testBtn_->setEnabled(true);
@@ -321,7 +321,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	,fanTimerErrorCount_(0)
 	,dlpRunTimerCount_(0)
 {
-	this->setText( "Connect");
+	this->setText( tr("Connect"));
 	startTimer(5000);
 	row_->setText( QString::number( GetRow(screenid)) );
 	row_->setTextAlignment( Qt::AlignVCenter|Qt::AlignHCenter);
@@ -358,7 +358,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	connect( testBtn_, SIGNAL(clicked()), this, SLOT(clickTest()) );
 
 	dlpBtn_->setEnabled(false);
-	dlpBtn_->setText( "Turn on");
+	dlpBtn_->setText( tr("Turn on"));
 	connect( dlpBtn_, SIGNAL(clicked()), this, SLOT(clickDlp()) );
 
 	QRegExp ipRx("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-4]|[01]?\\d\\d?)");
@@ -418,15 +418,15 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
     tableDevices_->setColumnCount(9);
 
     QStringList sl;
-	sl.push_back( "Row");
-	sl.push_back( "Col");
+	sl.push_back( tr("Row"));
+	sl.push_back( tr("Col"));
 	sl.push_back( "IP");
     sl.push_back( "OSD");
-    sl.push_back( "Connection");
+    sl.push_back( tr("Connection"));
 	sl.push_back( "Test");
-	sl.push_back( "DLP");
-	sl.push_back( "Temp");
-	sl.push_back( "Dlp Run Time");
+	sl.push_back( tr("DLP"));
+	sl.push_back( tr("Temp"));
+	sl.push_back( tr("DlpRunTime"));
     tableDevices_->setHorizontalHeaderLabels(sl );
 	tableDevices_->setColumnWidth( 0, 35);
 	tableDevices_->setColumnWidth( 1, 35);
@@ -507,7 +507,8 @@ void DevicesWnd::clickedLoad(){
 	items = root.elementsByTagName("screen");
 	for (size_t i = 0; i < items.size();++i){
 		QDomElement elm = items.at(i).toElement();
-		Screen* srn = ScreenMgr::instance()->getScreen( elm.attribute("id").toInt() );
+		int sid = elm.attribute("id").toInt();
+		Screen* srn = ScreenMgr::instance()->getScreen( sid );
 		srn->setAddress(elm.attribute("ip").toStdString() );
 		newAddress(srn->getResourceID(), srn->getAddress());
 	}
@@ -724,7 +725,7 @@ void DevicesWnd::decrRow(){
 void DevicesWnd::disconnAll(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
-		if ( t->text() == "Disconnect"){
+		if ( t->text() == tr("Disconnect")){
 			t->disconn();
 		}
 	}
@@ -732,7 +733,7 @@ void DevicesWnd::disconnAll(){
 void DevicesWnd::connAll(){
 	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
 		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
-		if ( t->text() == "Connect"){
+		if ( t->text() == tr("Connect")){
 			t->conn();
 		}
 	}
@@ -810,10 +811,10 @@ void DevicesWnd::connectImpl( ){
 void DevicesWnd::itemClicked(QTableWidgetItem * item)
 {
     if (item->column() == 4 ){
-        if(item->text() == "Connect" ){
+        if(item->text() == tr("Connect") ){
 
         }
-		if(item->text() == "Disconnect" ){
+		if(item->text() == tr("Disconnect") ){
 
         }
     }
