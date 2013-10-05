@@ -38,7 +38,7 @@ WnodeWidget::WnodeWidget(Wnd* wnd, ResourceID wnode):QWidget(0)
 	ah_= new QTableWidgetItem();
 	
 
-	id_->setFlags( Qt::ItemIsEnabled );
+	id_->setFlags( Qt::ItemIsEnabled  );
 	x_->setFlags( Qt::ItemIsEnabled );
 	y_->setFlags( Qt::ItemIsEnabled );
 	w_->setFlags( Qt::ItemIsEnabled );
@@ -111,7 +111,7 @@ WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
 	ah_= new QTableWidgetItem();
 	
 
-	id_->setFlags( Qt::ItemIsEnabled );
+	id_->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
 	x_->setFlags( Qt::ItemIsEnabled );
 	y_->setFlags( Qt::ItemIsEnabled );
 	w_->setFlags( Qt::ItemIsEnabled );
@@ -121,7 +121,7 @@ WndWidget::WndWidget(Wnd* wnd):QWidget(0),wnd_(wnd)
 	aw_->setFlags( Qt::ItemIsEnabled );
 	ah_->setFlags( Qt::ItemIsEnabled );
 	
-	id_->setText( QString::fromStdString(wnd_->id_));
+	id_->setText( QString::fromStdWString(wnd_->id_));
 	x_->setText( QString::number( wnd_->getX()));
 	y_->setText( QString::number( wnd_->getY()));
 	w_->setText( QString::number( wnd_->getW()));
@@ -252,6 +252,7 @@ WndWnd::WndWnd(QWidget* parent) :
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 	connect(wndTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
+	connect( wndTable_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
 	QPushButton* pbDirectWndMode = this->findChild<QPushButton* >("pbDirectWndMode");
 	connect(pbDirectWndMode, SIGNAL(clicked()), this, SLOT(clickedDirectWndMode()) );
@@ -287,6 +288,10 @@ void WndWnd::currentTabChanged ( int index ){
 		WndWidget* wgt = new WndWidget(wnds[i]);
 		wndTable_->setRowCount(wndTable_->rowCount()+1);  
 		wgt->initTable(wndTable_,  wndTable_->rowCount()-1);
+		if ( isDirectWndMode_)
+			wgt->id_->setFlags( Qt::ItemIsEnabled);
+		else
+			wgt->id_->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
 	}
 
 }
@@ -353,6 +358,7 @@ void WndWnd::clickedDirectWndMode(){
 			createWnd( *uit);
 		}
 
+
 	}else{
 		pbDirectWndMode->setStyleSheet("");
 		WndMgr::instance()->closeAll();
@@ -362,11 +368,15 @@ void WndWnd::timerEvent ( QTimerEvent * event ){
 	if (!isCurrTab_) return;
 	
 	if ( isChnComboBoxPressed()) return;
+	
+	QPushButton* pbDirectWndMode = this->findChild<QPushButton* >("pbDirectWndMode");
+	if (pbDirectWndMode&& pbDirectWndMode->styleSheet().isEmpty()) return;
 
 	wndTable_->setRowCount(0);
 	std::vector<Wnd*> wnds = WndMgr::instance()->getAllWnds();
 	for ( size_t i = 0; i < wnds.size(); ++i){
 		WndWidget* wgt = new WndWidget(wnds[i]);
+		wgt->id_->setFlags(Qt::ItemIsEnabled);
 		wndTable_->setRowCount(wndTable_->rowCount()+1);  
 		wgt->initTable(wndTable_,  wndTable_->rowCount()-1);
 	}
@@ -401,4 +411,14 @@ bool WndWnd::inputChangedCallback( ResourceID inputid){
 		return createWnd(inputid);
 	}
 	return true;
+}
+
+void WndWnd::cellChanged(int row,int col){
+	if ( col == 1){
+		WndWidget * wgt = (WndWidget*)wndTable_->cellWidget( row, 0);
+		if ( wgt->wnd_){
+			wgt->wnd_->id_ = wgt->id_->text().toStdWString();
+			return;
+		}
+	}
 }

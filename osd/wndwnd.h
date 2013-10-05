@@ -75,6 +75,7 @@ class WndWnd : public QWidget
 			void currentTabChanged ( int index );
 			void cellClicked ( int row, int column );
 			void clickedDirectWndMode();
+		void cellChanged(int,int);
 public:
     explicit WndWnd(QWidget* parent);
     ~WndWnd();

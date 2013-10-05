@@ -27,22 +27,30 @@ void Mode::save(){
 		wnds_[i].awPercent_ = wnds[i]->awPercent_;
 		wnds_[i].ahPercent_ = wnds[i]->ahPercent_;
 		wnds_[i].inputid_ = wnds[i]->inputid_;
-		wnds_[i].ringid_ = (wnds[i]->ring_? wnds[i]->ring_->id_:"");
+		wnds_[i].ringid_ = (wnds[i]->ring_? wnds[i]->ring_->id_:L"");
 		wnds_[i].wndid_ = wnds[i]->id_;
 	}
 }
-void Mode::activate(){
+bool Mode::activate(){
+	bool res = false;
 	if ( !isActivated_){
 		WndMgr::instance()->closeAll();
 		for ( size_t i = 0; i < wnds_.size(); ++i){
 			Ring* ring = NULL;
 			if(!wnds_[i].ringid_.empty()){
 				ring = RingMgr::instance()->getRing(wnds_[i].ringid_);
-				ring->activate(wnds_[i].inputid_);
+				if ( ring){
+					ring->activate(wnds_[i].inputid_);
+					WndMgr::instance()->createWnd(wnds_[i].wndid_, wnds_[i].xPercent_, wnds_[i].yPercent_, wnds_[i].wPercent_, wnds_[i].hPercent_, wnds_[i].inputid_, ring);
+					res = true;
+				}
+			}else{
+				WndMgr::instance()->createWnd(wnds_[i].wndid_, wnds_[i].xPercent_, wnds_[i].yPercent_, wnds_[i].wPercent_, wnds_[i].hPercent_, wnds_[i].inputid_, NULL);
+				res = true;
 			}
-			WndMgr::instance()->createWnd(wnds_[i].wndid_, wnds_[i].xPercent_, wnds_[i].yPercent_, wnds_[i].wPercent_, wnds_[i].hPercent_, wnds_[i].inputid_, ring);
 		}
 	}
+	return res;
 }
 //=================================================================================================================================
 

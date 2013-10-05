@@ -51,7 +51,9 @@ void ModeWidget::saveMode(){
 }
 void ModeWidget::activeMode(){
 	if ( mode_){
-		mode_->activate();
+		if ( !mode_->activate()){
+			QMessageBox::warning(0, tr("ModeError"), tr("ModeConfigError"));
+		}
 	}
 }
 
@@ -211,9 +213,9 @@ void ModeWnd::newWnd( WndData* wnd){
 	wndModeTable_->setItem( row - 1, 5, new QTableWidgetItem(QString::number(wnd->ayPercent_, 'g', 2)));
 	wndModeTable_->setItem( row - 1, 6, new QTableWidgetItem(QString::number(wnd->awPercent_, 'g', 2)));
 	wndModeTable_->setItem( row - 1, 7, new QTableWidgetItem(QString::number(wnd->ahPercent_, 'g', 2)));
-	wndModeTable_->setItem( row - 1, 8, new QTableWidgetItem(QString::fromStdString(wnd->wndid_)));
+	wndModeTable_->setItem( row - 1, 8, new QTableWidgetItem(QString::fromStdWString(wnd->wndid_)));
 	wndModeTable_->setItem( row - 1, 9, new QTableWidgetItem(QString::fromStdString(ToStrID(wnd->inputid_))));
-	wndModeTable_->setItem( row - 1, 10, new QTableWidgetItem(QString::fromStdString(wnd->ringid_)));
+	wndModeTable_->setItem( row - 1, 10, new QTableWidgetItem(QString::fromStdWString(wnd->ringid_)));
 }
 
 void ModeWnd::cellClicked(int row,int col){

@@ -10,7 +10,7 @@
 class Ring  {
 	
 	friend class RingMgr;
-	Ring(const std::string & id);
+	Ring(const std::wstring & id);
 	~Ring();
 
 
@@ -19,7 +19,7 @@ class Ring  {
 	
 	//bool isActivate_;
 public:
-	std::string id_;
+	std::wstring id_;
 	bool isEnable_;
 	
 	void activate( ResourceID inputid);
@@ -57,12 +57,12 @@ public:
 	~RingMgr();
 	static RingMgr *instance();
 
-	Ring* createRing(const std::string & id);
+	Ring* createRing(const std::wstring & id);
 	Ring* createRing();
 	void removeRing(Ring*);
-	bool hasRing(const std::string & id);
-	void removeRing(const std::string & id);
-	Ring* getRing(const std::string & id);
+	bool hasRing(const std::wstring & id);
+	void removeRing(const std::wstring & id);
+	Ring* getRing(const std::wstring & id);
 	std::vector<Ring* > getRings() { return rings_;}
 
 	std::vector<Ring* > getInputCorrespondRing( ResourceID inputid);
@@ -71,8 +71,8 @@ public:
 	std::vector<Ring* > getOutputCorrespondActivatedRing( ResourceID outputid);
 
 
-	std::string toString();
-	void fromString(const std::string & rings);
+	std::wstring toString();
+	void fromString(const std::wstring & rings);
 };
 
 

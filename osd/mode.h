@@ -8,9 +8,9 @@
 #include <wnd.h>
 
 struct WndData{
-	std::string wndid_;
+	std::wstring wndid_;
 	ResourceID inputid_;
-	std::string ringid_;
+	std::wstring ringid_;
 	double xPercent_, yPercent_, wPercent_, hPercent_, axPercent_, ayPercent_, awPercent_, ahPercent_;
 };
 
@@ -26,7 +26,7 @@ public:
 	std::vector<WndData> wnds_;
 	bool isActivated_;
 	void save();
-	void activate();
+	bool activate();
 };
 
 class ModeMgr

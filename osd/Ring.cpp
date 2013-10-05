@@ -10,7 +10,7 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <windows.h>
 
-Ring::Ring(const std::string & id):id_(id),isEnable_(false)
+Ring::Ring(const std::wstring & id):id_(id),isEnable_(false)
 {
 	
 }
@@ -137,7 +137,7 @@ RingMgr::RingMgr()
 RingMgr::~RingMgr()
 {
 }
-bool RingMgr::hasRing(const std::string & id){
+bool RingMgr::hasRing(const std::wstring & id){
 	for( size_t i = 0 ; i < rings_.size(); ++i){
 		if ( rings_[i]->id_ == id){
 			return true;
@@ -145,7 +145,7 @@ bool RingMgr::hasRing(const std::string & id){
 	}
 	return false;
 }
-void RingMgr::removeRing(const std::string & id){
+void RingMgr::removeRing(const std::wstring & id){
 	for( auto i = rings_.begin() ; i < rings_.end(); ++i){
 		if ( (*i)->id_ == id){
 			rings_.erase(i);
@@ -161,7 +161,7 @@ void RingMgr::removeRing(Ring* r){
 	}
 }
 
-Ring* RingMgr::createRing(const std::string & id){
+Ring* RingMgr::createRing(const std::wstring & id){
 	if ( hasRing(id)) return NULL;
 	rings_.push_back(new Ring(id));
 	return rings_.back();
@@ -169,15 +169,15 @@ Ring* RingMgr::createRing(const std::string & id){
 
 Ring* RingMgr::createRing(){
 	for ( size_t i = 0 ; i < 0xFFFFFFFF; ++i){
-		std::string str = "Ring";
-		std::string num = QString::number(i+1).toStdString();
+		std::wstring str = L"Ring";
+		std::wstring num = QString::number(i+1).toStdWString();
 		if (!hasRing(str + num)){
 			return createRing( str+num);
 		}
 	}
 	return NULL;
 }
-Ring* RingMgr::getRing(const std::string & id){
+Ring* RingMgr::getRing(const std::wstring & id){
 	for( auto i = rings_.begin() ; i < rings_.end(); ++i){
 		if ( (*i)->id_ == id){
 			return *i;
@@ -234,40 +234,39 @@ std::vector<Ring* > RingMgr::getOutputCorrespondActivatedRing( ResourceID output
 	return rings;
 }
 
-std::string RingMgr::toString(){
-	std::stringstream ss;
+std::wstring RingMgr::toString(){
+	std::wstringstream ss;
 	for ( auto rit = rings_.begin(); rit != rings_.end() ; ++rit){
 		Ring*  ring = *rit;
-		ss<<ring->id_<<":";
+		ss<<ring->id_<<L":";
 		for ( auto nit = ring->rnodes_.begin(); nit != ring->rnodes_.end() ; ++nit){
-			//saveStr+=boost::lexical_cast<std::string>( *nit);
 			ss<<*nit;
-			ss<<">";
+			ss<<L">";
 		}
-		ss<<";";
+		ss<<L";";
 	}
-	qDebug()<<QString::fromStdString(ss.str());
+	qDebug()<<QString::fromStdWString(ss.str());
 	return ss.str();
 }
-void RingMgr::fromString(const std::string & rings){
+void RingMgr::fromString(const std::wstring & rings){
 
 	while (rings_.size()){
 		this->removeRing( rings_.back());
 	}
 
-	std::vector<std::string> vRing;
-	boost::split( vRing, rings, boost::is_any_of( ";" ) );
-	for( std::vector<std::string>::iterator rit = vRing.begin(); rit != vRing.end(); ++rit ){
+	std::vector<std::wstring> vRing;
+	boost::split( vRing, rings, boost::is_any_of( L";" ) );
+	for( std::vector<std::wstring>::iterator rit = vRing.begin(); rit != vRing.end(); ++rit ){
 		if ( !rit->empty()){
-			std::vector<std::string> vID;
-			boost::split( vID, *rit, boost::is_any_of( ":" ) );
+			std::vector<std::wstring> vID;
+			boost::split( vID, *rit, boost::is_any_of( L":" ) );
 			if ( vID.size() == 2){
 				Ring* ring = createRing(vID[0]);
-				std::vector<std::string> vNode;
-				boost::split( vNode, vID[1], boost::is_any_of( ">" ) );
-				qDebug()<< QString::fromStdString( vID[0]);
+				std::vector<std::wstring> vNode;
+				boost::split( vNode, vID[1], boost::is_any_of( L">" ) );
+				qDebug()<< QString::fromStdWString( vID[0]);
 				size_t index = 0;
-				for( std::vector<std::string>::iterator nit = vNode.begin(); nit != vNode.end(); ++nit ){
+				for( std::vector<std::wstring>::iterator nit = vNode.begin(); nit != vNode.end(); ++nit ){
 					size_t rnode = boost::lexical_cast<size_t>(*nit);
 					qDebug()<< rnode;
 					ring->makeNode( rnode, index);
