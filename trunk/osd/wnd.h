@@ -24,15 +24,14 @@ public:
 
 	//the percentage of wall
 	Wnd* createWnd( double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring);
-	Wnd* createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring);
-	bool hasWnd(const std::string & id);
+	Wnd* createWnd( const std::wstring & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring);
+	bool hasWnd(const std::wstring & id);
 	std::vector<Wnd* > getWnds(){ return wnds_;}
-	Wnd* getWnd(const std::string &id);
+	Wnd* getWnd(const std::wstring &id);
 	Wnd* getWnds(ResourceID inputid);
 	bool closeWnd(Wnd*);
 	void closeAll();
 	uint32_t getCurrLayer(){ return currlayer_;}
-	
 	
 	std::vector<Wnd* > getAllWnds(){ return wnds_;}
 
@@ -61,9 +60,6 @@ class Wnd {
 	Wnd( uint32_t row, uint32_t col);
 	~Wnd();
 
-	
-	
-	
 	void clearWnodes();
 
 	Wnd( double xPercent, double yPercent, double wPercent, double hPercent, ResourceID inputid);
@@ -83,7 +79,7 @@ public:
 
 	void recalcArea();
 
-	std::string id_;
+	std::wstring id_;
 	Ring* ring_;
 	uint32_t layer_;
 	ResourceID inputid_;

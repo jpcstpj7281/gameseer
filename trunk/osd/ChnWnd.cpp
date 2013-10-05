@@ -168,7 +168,7 @@ void ChnWnd::currentTabChanged ( int index ){
 
 }
 
-void ChnWnd::timerEvent ( QTimerEvent * event ){
+void ChnWnd::timerEvent ( QTimerEvent *  ){
 	if (!isCurrTab_) return;
 	chnTable_->setRowCount(0);
 	inputs_ = ScreenMgr::instance()->getAvailableInput();

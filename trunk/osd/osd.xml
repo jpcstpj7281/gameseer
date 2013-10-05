@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="GB18030"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <root>
     <wall row="2" col="2"/>
     <screen ip="192.168.67.105" id="257"/>
     <screen ip="192.168.67.103" id="258"/>
     <screen ip="192.168.67.109" id="513"/>
     <screen ip="192.168.67.102" id="514"/>
-    <ring id="Ring1?">
+    <ring id="Ring1无">
         <rnode id="84082945"/>
         <rnode id="84082946"/>
         <rnode id="84083202"/>
@@ -20,5 +20,8 @@
     <mode id="Mode1">
         <wnd w="0.756624" x="0.147203" wndid="Wnd1" y="0.0878939" h="0.691542" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
         <wnd w="0.803729" x="0.0225711" wndid="Wnd2" y="0.169154" h="0.703151" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
+    </mode>
+    <mode id="Mode2">
+        <wnd w="0.445535" x="0.0215898" wndid="窗口" y="0.0466989" h="0.4219" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
     </mode>
 </root>

@@ -354,10 +354,10 @@ WndMgr::WndMgr():currlayer_(0),isWndMovable_(false)
 WndMgr::~WndMgr()
 {
 }
-bool WndMgr::hasWnd(const std::string & id){
+bool WndMgr::hasWnd(const std::wstring & id){
 	return getWnd(id) ;
 }
-Wnd* WndMgr::getWnd(const std::string &id){
+Wnd* WndMgr::getWnd(const std::wstring &id){
 	for ( size_t i = 0 ; i < wnds_.size(); ++i){
 		if (wnds_[i]->id_ == id) return wnds_[i];
 	}
@@ -370,7 +370,7 @@ Wnd* WndMgr::getWnds(ResourceID inputid){
 	return NULL;
 }
 
-Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
+Wnd* WndMgr::createWnd( const std::wstring & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
 	if ( inputid == 0) return NULL;
 	
 	std::vector<Wnode*> wnodes = createWnodes(xPercent, yPercent, widthPercent, heightPercent, inputid, ring);
@@ -417,8 +417,8 @@ Wnd* WndMgr::createWnd( const std::string & id, double xPercent, double yPercent
 
 Wnd* WndMgr::createWnd(double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
 	for ( size_t i = 0 ; i < 0xFFFFFFFF; ++i){
-		std::string str = "Wnd";
-		std::string num = QString::number(i+1).toStdString();
+		std::wstring str = L"Wnd";
+		std::wstring num = QString::number(i+1).toStdWString();
 		if (!hasWnd(str + num)){
 			return createWnd( str+num, xPercent, yPercent, widthPercent, heightPercent, inputid, ring);
 		}

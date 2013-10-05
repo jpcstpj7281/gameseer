@@ -68,7 +68,7 @@ private:
 	QTableWidget*	rnodeTable_;
 
 	Ring * currRing_;
-	void newRing( const std::string &ip);
+	void newRing( const std::wstring &ip);
 	//void newRnode();
 
 	void resetRnodeTable( Ring* ring);

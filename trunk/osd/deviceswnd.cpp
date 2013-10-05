@@ -372,7 +372,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	connect( address_, SIGNAL(editingFinished()), this, SLOT(addressEditFinished()) );
 	
 }
-void ScreenConnBtn::timerEvent ( QTimerEvent * event ){
+void ScreenConnBtn::timerEvent ( QTimerEvent * ){
 	if (dlpBtn_ ){
 		Screen* scrn = ScreenMgr::instance()->getScreen( screenid_);
 		if (scrn) {
@@ -516,9 +516,9 @@ void DevicesWnd::clickedLoad(){
 	for (size_t i = 0; i < items.size();++i){
 		QDomElement ringelm = items.at(i).toElement();
 		QString id = ringelm.attribute("id");
-		Ring* ring = RingMgr::instance()->getRing(id.toStdString() );
+		Ring* ring = RingMgr::instance()->getRing(id.toStdWString() );
 		if ( ring == NULL){
-			ring = RingMgr::instance()->createRing(id.toStdString() );
+			ring = RingMgr::instance()->createRing(id.toStdWString() );
 		}
 		QDomElement rnode = ringelm.firstChildElement();
 		while(rnode != QDomElement()){
@@ -538,8 +538,8 @@ void DevicesWnd::clickedLoad(){
 		while(wnode != QDomElement()){
 			
 			WndData wd ;
-			wd.wndid_ = wnode.attribute("wndid").toStdString();
-			wd.ringid_ = wnode.attribute("ringid").toStdString();
+			wd.wndid_ = wnode.attribute("wndid").toStdWString();
+			wd.ringid_ = wnode.attribute("ringid").toStdWString();
 			wd.inputid_ = wnode.attribute("inputid").toInt();
 			wd.xPercent_ = wnode.attribute("x").toDouble();
 			wd.yPercent_ = wnode.attribute("y").toDouble();
@@ -619,7 +619,7 @@ void DevicesWnd::clickedSave(){
 	std::vector<Ring*> rings = RingMgr::instance()->getRings();
 	for (size_t i =0; i <rings.size(); ++i){
 		QDomElement ringelm = ConfigMgr::instance()->getDoc()->createElement("ring");
-		ringelm.setAttribute("id", QString::fromStdString( rings[i]->id_));
+		ringelm.setAttribute("id", QString::fromStdWString( rings[i]->id_));
 		root.appendChild(ringelm);
 		std::vector<ResourceID> rnodes = rings[i]->getRnodes();
 		for ( size_t j = 0; j < rnodes.size();++j){
@@ -641,9 +641,9 @@ void DevicesWnd::clickedSave(){
 
 		for ( size_t j = 0; j < modes[i]->wnds_.size();++j){
 			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("wnd");
-			elm.setAttribute("wndid", QString::fromStdString( modes[i]->wnds_[j].wndid_));
+			elm.setAttribute("wndid", QString::fromStdWString( modes[i]->wnds_[j].wndid_));
 			if (!modes[i]->wnds_[j].ringid_.empty() ){
-				elm.setAttribute("ringid", QString::fromStdString( modes[i]->wnds_[j].ringid_));
+				elm.setAttribute("ringid", QString::fromStdWString( modes[i]->wnds_[j].ringid_));
 			}
 			elm.setAttribute("inputid", QString::number( modes[i]->wnds_[j].inputid_));
 			elm.setAttribute("x", QString::number( modes[i]->wnds_[j].xPercent_));
@@ -797,7 +797,7 @@ void DevicesWnd::deleteAddress( ResourceID screenid){
 	}
 }
 
-void DevicesWnd::timerEvent ( QTimerEvent * event ){
+void DevicesWnd::timerEvent ( QTimerEvent * ){
 	ScreenMgr::instance()->run();
 }
 

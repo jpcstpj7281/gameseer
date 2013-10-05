@@ -507,7 +507,7 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 
 	areaItem_ = new AreaItem(wnd->axPercent_*w, wnd->ayPercent_*h, wnd->awPercent_*w, wnd->ahPercent_*h);
 	areaItem_->setParentItem(this);
-	areaItem_->wndid_ = QString::fromStdString(wnd->id_);
+	areaItem_->wndid_ = QString::fromStdWString(wnd->id_);
 
 	//ResizeItem *item = new ResizeItem( ResizeItem::RightUp);
 	ResizeItem *item1 = new ResizeItem( ResizeItem::RightBottom);
@@ -551,7 +551,7 @@ void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option
 	painter->setBrush(QBrush(Qt::red));
 	QRectF r= rect();
 	painter->drawRect(r);  
-	painter->drawText(r, QString::fromStdString(wnd_->id_), QTextOption(Qt::Alignment::enum_type::AlignTop|Qt::Alignment::enum_type::AlignHCenter));
+	painter->drawText(r, QString::fromStdWString(wnd_->id_), QTextOption(Qt::Alignment::enum_type::AlignTop|Qt::Alignment::enum_type::AlignHCenter));
 	QGraphicsRectItem::paint(painter, option, widget);
 }  
 void WndRectItem::bringFront(){
@@ -870,7 +870,7 @@ void WallScene::createWndInGreenRect( QRectF &rect){
 	if (isInGreenRect(rect)){
 		Ring* ring = NULL;
 		if ( !this->currRingid_.isEmpty()){
-			ring = RingMgr::instance()->getRing(currRingid_.toStdString());
+			ring = RingMgr::instance()->getRing(currRingid_.toStdWString());
 		}
 		Wnd * wnd = WndMgr::instance()->createWnd(rect.x()/sceneRect().width(), rect.y()/sceneRect().height(),rect.width()/sceneRect().width(), rect.height()/sceneRect().height(), this->currInput_, ring );
 		if (wnd){
@@ -889,7 +889,7 @@ std::vector<QRectF> WallScene::getGreenRects(){
 	double screenw  = r.width()/cc;
 	QRectF screenRect = QRectF( 0, 0, screenw, screenh);
 
-	Ring* ring = RingMgr::instance()->getRing(this->currRingid_.toStdString());
+	Ring* ring = RingMgr::instance()->getRing(this->currRingid_.toStdWString());
 	if (ring && ring->isActivate()){ //draw rect for each rnode in activated ring
 		std::vector<ResourceID> nodes = ring->getRnodes();
 		size_t i = 0;
@@ -1023,7 +1023,7 @@ void WallWnd::clickedResetWnd(){
 		double ay = leay->text().toLong();
 		double aw = leaw->text().toLong();
 		double ah = leah->text().toLong();
-		Wnd* wnd = WndMgr::instance()->getWnd(wndstr.toStdString() );
+		Wnd* wnd = WndMgr::instance()->getWnd(wndstr.toStdWString() );
 		wnd->resizeWnd(x/ScreenMgr::instance()->getWallWidth(), 
 			y/ScreenMgr::instance()->getWallHeight(), 
 			w/ScreenMgr::instance()->getWallWidth(), 
@@ -1055,7 +1055,7 @@ void WallWnd::clickedActivateRing(){
 	if ( !scene_->currRingid_.isEmpty() ){
 		QPushButton* pb = (QPushButton*) sender();
 		
-		Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdString());
+		Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdWString());
 		//if ( !ring->isActivate()){
 		//	pb->setStyleSheet("{color:red£»background:yellow}");
 			ring->activate(scene_->currInput_);
@@ -1093,8 +1093,8 @@ void WallWnd::resetComboBoxes(){
 	cbRings_->addItem("");
 	for ( size_t i = 0; i < rings.size();++i){
 		if ( rings[i]->size() >=2){
-			cbRings_->addItem( QString::fromStdString(rings[i]->id_));
-			if ( scene_->currRingid_.toStdString() == rings[i]->id_){//only the one currently referred, set to current index.
+			cbRings_->addItem( QString::fromStdWString(rings[i]->id_));
+			if ( scene_->currRingid_.toStdWString() == rings[i]->id_){//only the one currently referred, set to current index.
 				cbRings_->setCurrentIndex( cbRings_->count()-1);
 			}
 		}
@@ -1105,7 +1105,7 @@ void WallWnd::resetComboBoxes(){
 	std::vector<Wnd*> wnds = WndMgr::instance()->getWnds();
 	cbWnds_->clear();
 	for ( size_t i = 0; i < wnds.size();++i){
-		cbWnds_->addItem( QString::fromStdString(wnds[i]->id_));//add all wnd to combox
+		cbWnds_->addItem( QString::fromStdWString(wnds[i]->id_));//add all wnd to combox
 		if ( WndMgr::instance()->getCurrLayer() == wnds[i]->getLayer()){//only the one currently referred, set to current index.
 			cbWnds_->setCurrentIndex( cbWnds_->count()-1);
 			refreshWndArgs(wnds[i]);
@@ -1164,7 +1164,7 @@ void WallWnd::currentRingIndexChanged ( const QString & text ){
 	screensItem_->update();
 }
 void WallWnd::currentWndIndexChanged ( const QString & text ){
-	Wnd * wnd = WndMgr::instance()->getWnd(text.toStdString());
+	Wnd * wnd = WndMgr::instance()->getWnd(text.toStdWString());
 	wnd->bringFront();
 
 	for ( size_t i = 0 ; i < scene_->wndItems_.size(); ++i){
@@ -1175,7 +1175,7 @@ void WallWnd::currentWndIndexChanged ( const QString & text ){
 	}
 }
 void WallWnd::refreshWndArgs(){
-	refreshWndArgs(WndMgr::instance()->getWnd(cbWnds_->currentText().toStdString()));
+	refreshWndArgs(WndMgr::instance()->getWnd(cbWnds_->currentText().toStdWString()));
 }
 void WallWnd::refreshWndArgs(Wnd* wnd){
 		QLineEdit* lex = findChild<QLineEdit* >("x");

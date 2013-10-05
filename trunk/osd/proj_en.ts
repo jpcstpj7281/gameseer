@@ -290,37 +290,47 @@
         <source>Activate</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="modewnd.cpp" line="55"/>
+        <source>ModeError</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="modewnd.cpp" line="55"/>
+        <source>ModeConfigError</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ModeWnd</name>
     <message>
         <location filename="modewnd.ui" line="20"/>
-        <location filename="modewnd.cpp" line="151"/>
+        <location filename="modewnd.cpp" line="153"/>
         <source>Modes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="modewnd.cpp" line="97"/>
+        <location filename="modewnd.cpp" line="99"/>
         <source>Activate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="modewnd.cpp" line="98"/>
+        <location filename="modewnd.cpp" line="100"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="modewnd.cpp" line="115"/>
+        <location filename="modewnd.cpp" line="117"/>
         <source>Wnd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="modewnd.cpp" line="116"/>
+        <location filename="modewnd.cpp" line="118"/>
         <source>Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="modewnd.cpp" line="117"/>
+        <location filename="modewnd.cpp" line="119"/>
         <source>Ring</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1050,7 +1060,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="wndwnd.cpp" line="275"/>
+        <location filename="wndwnd.cpp" line="276"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>

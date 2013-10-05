@@ -23,7 +23,7 @@ RingWidget::RingWidget(Ring* ring):QWidget(0),ring_(ring)
 
 	id_= new QTableWidgetItem();
 	if (ring){
-		id_->setText( QString::fromStdString(ring->id_));
+		id_->setText( QString::fromStdWString(ring->id_));
 	}
 }
 void RingWidget::initTable( QTableWidget* table, int row){
@@ -254,7 +254,7 @@ void RingWnd::currentTabChanged ( int index ){
 }
 void RingWnd::resetRingTable(){
 	ringTable_->setRowCount(0);
-	newRing("");
+	newRing(L"");
 	std::vector<Ring*> rings = RingMgr::instance()->getRings();
 	for ( size_t i = 0 ; i <rings.size(); ++i){
 		newRing( rings[i]->id_);
@@ -302,13 +302,13 @@ void RingWnd::cellChanged(int row,int col){
 	if ( col == 1){
 		RingWidget * wgt = (RingWidget*)ringTable_->cellWidget( row, 0);
 		if ( wgt->ring_){
-			wgt->ring_->id_ = wgt->id_->text().toStdString();
+			wgt->ring_->id_ = wgt->id_->text().toStdWString();
 			return;
 		}
 		if (!wgt->id_->text().isEmpty()){
-			if ( !RingMgr::instance()->hasRing(wgt->id_->text().toStdString())){
-				wgt->ring_ = RingMgr::instance()->createRing(wgt->id_->text().toStdString());
-				newRing("");
+			if ( !RingMgr::instance()->hasRing(wgt->id_->text().toStdWString())){
+				wgt->ring_ = RingMgr::instance()->createRing(wgt->id_->text().toStdWString());
+				newRing(L"");
 			}else{
 				wgt->id_->setText("");
 			}
@@ -316,7 +316,7 @@ void RingWnd::cellChanged(int row,int col){
 	}
 }
 
-void RingWnd::newRing( const std::string &ringid){
+void RingWnd::newRing( const std::wstring &ringid){
 	RingWidget * wgt = 0;
 	if ( ringTable_->rowCount()>0){
 		wgt= (RingWidget*) ringTable_->cellWidget( ringTable_->rowCount()-1, 0);
