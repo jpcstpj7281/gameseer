@@ -153,12 +153,14 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 		QSpinBox* chncol = _tab->findChild<QSpinBox* >("sbChnCol");
 		QSpinBox* chnrow = _tab->findChild<QSpinBox* >("sbChnRow");
 		QSpinBox* chninput = _tab->findChild<QSpinBox* >("sbChnInput");
+		QComboBox* cbVideoType = _tab->findChild<QComboBox* >("cbVideoType");
 		QPushButton* setVideo = _tab->findChild<QPushButton* >("pbSetVideo");
-		if (chncol && chnrow&& chninput){
+		if (chncol && chnrow&& chninput && cbVideoType){
 			chnrow->setGeometry(t->width() + 40, chnrow->height()+100, chnrow->width(), chnrow->height() );
 			chncol->setGeometry(t->width() + 40, chncol->height()+150, chncol->width(), chncol->height() );
 			chninput->setGeometry(t->width() + 40, chninput->height()+200, chninput->width(), chninput->height() );
-			setVideo->setGeometry(t->width() + 50, setVideo->height()+250, setVideo->width(), setVideo->height() );
+			cbVideoType->setGeometry(t->width() + 40, cbVideoType->height()+250, cbVideoType->width(), cbVideoType->height() );
+			setVideo->setGeometry(t->width() + 50, setVideo->height()+300, setVideo->width(), setVideo->height() );
 		}
 	}
 	t = _tab->findChild<QTableWidget* >("wnodeTable");

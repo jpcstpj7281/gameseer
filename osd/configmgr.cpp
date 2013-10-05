@@ -39,5 +39,6 @@ void ConfigMgr::save(){
 	if ( !file1.open( QIODevice::WriteOnly | QIODevice::Truncate ) )return ;
 
 	QTextStream out( &file1 );
-	doc_->save( out, 4 );
+	out.setCodec("UTF-8");
+	doc_->save(out,4,QDomNode::EncodingFromTextStream);
 }

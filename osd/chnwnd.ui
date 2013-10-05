@@ -96,7 +96,7 @@
    <property name="geometry">
     <rect>
      <x>850</x>
-     <y>230</y>
+     <y>270</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -104,6 +104,26 @@
    <property name="text">
     <string>Set Video</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="cbVideoType">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>230</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>PAL</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>NTSC</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

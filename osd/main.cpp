@@ -5,6 +5,8 @@
 #include <QApplication>
 #include <qdebug.h>
 #include <Windows.h>
+#include <QTextCodec>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
@@ -28,8 +30,15 @@ int main(int argc, char *argv[])
 	//	}
 	//}
 	//qDebug()<<GetTickCount() - pre;
+	QTextCodec *code = QTextCodec::codecForName("gb18030");
+	QTextCodec::setCodecForTr( code);
+
+	QTranslator translator( 0 );
+	translator.load( "proj_zh.qm", "." );//要跟刚才得到的qm的文件名对应
+	
 
     QApplication a(argc, argv);
+	a.installTranslator( &translator );
     MainWindow w;
     w.show();
 	w.setFixedSize( 1024, 768);

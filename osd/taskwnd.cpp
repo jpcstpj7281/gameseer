@@ -209,14 +209,14 @@ TaskWidget::TaskWidget(Task* task):QWidget(0),task_(task)
 	}
 
 	activate_ = new  QPushButton;
-	activate_->setText("Activate");
+	activate_->setText(tr("Activate"));
 	activate_->setStyleSheet("");
 	connect( activate_, SIGNAL(clicked()), this, SLOT(activeTask()) );
 	if ( !task_){
 		activate_->setEnabled(false);
 	}
 	schedule_ = new  QPushButton;
-	schedule_->setText("Schedule");
+	schedule_->setText(tr("Schedule"));
 	schedule_->setStyleSheet("");
 	connect( schedule_, SIGNAL(clicked()), this, SLOT(scheduleTask()) );
 	if ( !task_){
@@ -317,9 +317,9 @@ TaskWnd::TaskWnd(QWidget* parent) :
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "ID");
-	sl.push_back( "Activate");
-	sl.push_back( "Schedule");
-	sl.push_back( "Timer");
+	sl.push_back( tr("Activate"));
+	sl.push_back( tr("Schedule"));
+	sl.push_back( tr("Timer"));
 
 	taskTable_->setHorizontalHeaderLabels(sl );
 	taskTable_->setColumnWidth( 0, 20);
@@ -332,11 +332,11 @@ TaskWnd::TaskWnd(QWidget* parent) :
     timerTable_->setColumnCount( 6);
 	sl.clear();
 	sl.push_back( "");
-	sl.push_back( "State");
-	sl.push_back( "Timer");
-	sl.push_back( "Mode");
-	sl.push_back( "Goto");
-	sl.push_back( "Count");
+	sl.push_back( tr("State"));
+	sl.push_back( tr("Timer"));
+	sl.push_back( tr("Mode"));
+	sl.push_back( tr("Goto"));
+	sl.push_back( tr("Count"));
 
 	timerTable_->setHorizontalHeaderLabels(sl );
 	timerTable_->setColumnWidth( 0, 20);
@@ -392,7 +392,7 @@ void TaskWnd::resetTimerTable( Task* task){
 }
 void TaskWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
-	if (tab->tabText(index) == "Tasks"){
+	if (tab->tabText(index) == tr("Tasks")){
 		resetTaskTable();
 		resetTimerTable(currTask_);
 	}

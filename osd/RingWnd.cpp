@@ -128,8 +128,8 @@ void RnodeWidget::clickDelete(){
 }
 void RnodeWidget::initTable( QTableWidget* table, int row){
 	table->setCellWidget ( row, 0, this);
-	table->setCellWidget ( row, 1, col_ );
-	table->setCellWidget ( row, 2, row_ );
+	table->setCellWidget ( row, 1, row_ );
+	table->setCellWidget ( row, 2, col_ );
 	table->setCellWidget ( row, 3, input_ );
 	table->setCellWidget ( row, 4, output_ );
 	table->setItem(row, 5, hide_);
@@ -207,7 +207,7 @@ RingWnd::RingWnd(QTabWidget* parent) :
     ringTable_->setColumnCount( 2);
 	QStringList sl;
 	sl.push_back( "");
-	sl.push_back( "Ring");
+	sl.push_back( tr("Ring"));
 	sl.push_back( "Compatible");
 	sl.push_back( "Collided");
 	ringTable_->setHorizontalHeaderLabels(sl );
@@ -223,10 +223,10 @@ RingWnd::RingWnd(QTabWidget* parent) :
     rnodeTable_->setColumnCount( 6);
 	sl.clear();
 	sl.push_back( "");
-	sl.push_back( "Col");
-	sl.push_back( "Row");
-	sl.push_back( "Input");
-	sl.push_back( "Output");
+	sl.push_back( tr("Row"));
+	sl.push_back( tr("Col"));
+	sl.push_back( tr("Input"));
+	sl.push_back( tr("Output"));
 	sl.push_back( "");
 	rnodeTable_->setHorizontalHeaderLabels(sl );
 	rnodeTable_->setColumnWidth( 0, 20);
@@ -247,7 +247,7 @@ RingWnd::~RingWnd()
 void RingWnd::currentTabChanged ( int index ){
 	
 	QTabWidget* tab = (QTabWidget*)sender();
-	if (tab->tabText(index) == "Rings"){
+	if (tab->tabText(index) == tr("Rings")){
 		resetRingTable();
 		resetRnodeTable( currRing_);
 	}

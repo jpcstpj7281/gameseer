@@ -348,8 +348,8 @@ void ExtentItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 		size_t countright = (int)((x+itemrect.width())/screenw);
 		size_t countbottom = (int)((y+itemrect.height())/screenh);
 
-		size_t countleft = (int)((x+itemrect.width())/screenw);
-		size_t counttop = (int)((y+itemrect.height())/screenh);
+		size_t countleft = (int)((x+itemrect.width()-0.5)/screenw);
+		size_t counttop = (int)((y+itemrect.height()-0.5)/screenh);
 		
 
 		double offsetright = (x+itemrect.width())/screenw - countright;
@@ -410,19 +410,22 @@ void ExtentItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 			break;
 		}
 		item->bringFront();
-		//QRectF currRect = QRectF(newPos, newRect.bottomRight());
-		//currRect.setY(currRect.y()+1);
-		//if ( greenRect.contains(currRect)){
+
+		if ( greenRect.contains(newPos)){
 		
 			if ( (newPos.x() + newRect.width()) <= (scene()->sceneRect().width()+1) && (newPos.y() + newRect.height()) <= (scene()->sceneRect().height()+1)){
 				item->setPos(  newPos  );
 				item->setRect(newRect);
-				item->wnd_->resizeWnd( newPos.x()/scene()->sceneRect().width(), newPos.y()/scene()->sceneRect().height(), newRect.width()/scene()->sceneRect().width(), newRect.height()/scene()->sceneRect().height());
+				double x = newPos.x()/scene()->sceneRect().width();
+				double y = newPos.y()/scene()->sceneRect().height();
+				double w = newRect.width()/scene()->sceneRect().width();
+				double h = newRect.height()/scene()->sceneRect().height();
+				item->wnd_->resizeWnd( x,y,w,h);
 				item->areaItem_->setX( item->wnd_->axPercent_*item->rect().width());
 				item->areaItem_->setY( item->wnd_->ayPercent_*item->rect().height());
 				item->areaItem_->setRect( QRectF(0, 0, item->wnd_->awPercent_*item->rect().width(),item->wnd_->ahPercent_*item->rect().height()));
 			}
-		//}
+		}
 	}
 }
 //=======================================================================================================================================================================
@@ -1136,7 +1139,7 @@ void WallWnd::resetComboBoxes(){
 }
 void WallWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
-	if (tab->tabText(index) == "Wall"){
+	if (tab->tabText(index) == tr("Wall")){
 		resetComboBoxes();
 		resetWnds();
 	}

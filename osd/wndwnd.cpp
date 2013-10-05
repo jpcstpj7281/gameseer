@@ -207,7 +207,7 @@ WndWnd::WndWnd(QWidget* parent) :
 	sl.push_back( "AY");
 	sl.push_back( "AW");
 	sl.push_back( "AH");
-	sl.push_back( "Input");
+	sl.push_back( tr("Input"));
 
 	wndTable_->setHorizontalHeaderLabels(sl );
 	wndTable_->setColumnWidth( 0, 0);
@@ -272,7 +272,7 @@ WndWnd::~WndWnd()
 void WndWnd::currentTabChanged ( int index ){
 	QTabWidget* tab = (QTabWidget*)sender();
 	isCurrTab_ = false;
-	if ( tab->tabText(index) == "Wall" && tab->tabText(index) != this->windowTitle()) {
+	if ( tab->tabText(index) == tr("Wall") && tab->tabText(index) != this->windowTitle()) {
 		if ( isDirectWndMode_){
 			//QMessageBox::question(0, "Direct Window", "Have to turn off the direct window", QMessageBox::Ok, QMessageBox::Cancel);
 			//clickedDirectWndMode();
