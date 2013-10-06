@@ -31,6 +31,7 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 	row_= new QTableWidgetItem();
 	width_= new QTableWidgetItem();
 	height_= new QTableWidgetItem();
+	freq_ = new QTableWidgetItem(); 
 	inport_ = new QTableWidgetItem();
 
 	id_->setFlags( Qt::ItemIsEnabled );
@@ -38,6 +39,7 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 	row_->setFlags( Qt::ItemIsEnabled );
 	width_->setFlags( Qt::ItemIsEnabled );
 	height_->setFlags( Qt::ItemIsEnabled );
+	freq_->setFlags( Qt::ItemIsEnabled );
 	inport_->setFlags( Qt::ItemIsEnabled );
 
 	id_->setText( QString::fromStdString(ToStrID(inputid_)));
@@ -45,6 +47,7 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 	col_->setText( QString::number( GetCol(inputid_)));
 	width_->setText( QString::number( GetWidth(ScreenMgr::instance()->getInResolution(inputid_))));
 	height_->setText( QString::number( GetHeight(ScreenMgr::instance()->getInResolution(inputid_))));
+	freq_->setText( QString::number( GetFreq(ScreenMgr::instance()->getInResolution(inputid_))));
 	inport_->setText(  QString::number( GetInput(inputid_)));
 
 	std::vector<Ring*> rings = RingMgr::instance()->getInputCorrespondRing( inputid_);
@@ -54,6 +57,7 @@ ChnWidget::ChnWidget(ResourceID inputid):QWidget(0),inputid_(inputid)
 		row_->setBackgroundColor( Qt::lightGray);
 		width_->setBackgroundColor( Qt::lightGray);
 		height_->setBackgroundColor( Qt::lightGray);
+		freq_->setBackgroundColor( Qt::lightGray);
 		inport_->setBackgroundColor( Qt::lightGray);
 	}
 
@@ -67,6 +71,7 @@ void ChnWidget::initTable( QTableWidget* table, int row){
 	table->setItem ( row, 4, inport_ );
 	table->setItem ( row, 5, width_ );
 	table->setItem ( row, 6, height_ );
+	table->setItem ( row, 7, freq_ );
 }
 
 
@@ -79,7 +84,7 @@ ChnWnd::ChnWnd(QWidget* parent) :
     ui->setupUi(this);
 	startTimer(3000);
 	chnTable_ = findChild<QTableWidget* >("chnTable");
-    chnTable_->setColumnCount( 7);
+    chnTable_->setColumnCount( 8);
 	QStringList sl;
 	sl.push_back( "");
 	sl.push_back( "ID");
@@ -88,6 +93,7 @@ ChnWnd::ChnWnd(QWidget* parent) :
 	sl.push_back( tr("Inport"));
 	sl.push_back( tr("Width"));
 	sl.push_back( tr("Height"));
+	sl.push_back( tr("Freq"));
 	chnTable_->setHorizontalHeaderLabels(sl );
 	chnTable_->setColumnWidth( 0, 0);
 	chnTable_->setColumnWidth( 1, 100);
@@ -96,6 +102,8 @@ ChnWnd::ChnWnd(QWidget* parent) :
 	chnTable_->setColumnWidth( 3, 50);
 	chnTable_->setColumnWidth( 4, 50);
 	chnTable_->setColumnWidth( 5, 50);
+	chnTable_->setColumnWidth( 6, 50);
+	chnTable_->setColumnWidth( 7, 50);
 
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 

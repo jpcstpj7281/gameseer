@@ -56,6 +56,9 @@ struct QboxMgr::Impl{
 			for ( auto it = qboxes_.begin(); it != qboxes_.end(); ++it){
 				(*it)->close();
 			}
+			for ( auto it = removeQboxs_.begin(); it != removeQboxs_.end(); ++it){
+				(*it)->close();
+			}
 			delete work_;
 			socketios_.stop();
 			mainios_.stop();
@@ -215,6 +218,7 @@ struct Qbox::Impl{
 				socket_.close();
 			}
 		}
+		//else socket_.close();
 	}
 	void asyncConnect(){
 		if ( !socket_.is_open()){
@@ -276,6 +280,7 @@ struct Qbox::Impl{
 		}else{
 			qDebug()<<"***Error handleReceived: "<<bytes_transferred;
 			isConnected_ = false;
+			this->socket_.close();
 		}
 	}
 
@@ -336,6 +341,7 @@ struct Qbox::Impl{
 			asyncReceive();
 		}else{
 			isConnected_ = false;
+			this->socket_.close();
 		}
 	}
 

@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 	}
 
 	this->resize(1024, 768);
+	this->setWindowTitle(tr("QboxSystem"));
 }
 
 

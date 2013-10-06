@@ -76,11 +76,10 @@ public:
     ~TaskWnd();
 
 	private slots:
-		//void cellChanged(int,int);
-		//void sendClicked(bool);
-		//void clearClicked(bool);
+		
+		void cellChanged(int,int);
 private:
-	void newTask( const std::string &ip);
+	void newTask( const std::wstring &ip);
 	void resetTaskTable();
 	void resetTimerTable( Task* task);
 

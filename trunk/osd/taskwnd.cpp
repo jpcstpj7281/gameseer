@@ -39,7 +39,7 @@ TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer
 	}else{
 		auto ms = ModeMgr::instance()->getAllModes();
 		for ( size_t i = 0; i < ms.size(); ++i){
-			mode_->addItem(QString::fromStdString(ms[i]->id_));
+			mode_->addItem(QString::fromStdWString(ms[i]->id_));
 			if( timer_->modeid_ == ms[i]->id_){
 				mode_->setCurrentIndex(i);
 			}
@@ -83,18 +83,18 @@ void TimerWidget::countValueChanged ( int i ){
 void TimerWidget::activated ( const QString & text ){
 	auto ms = ModeMgr::instance()->getAllModes();
 	for ( size_t i = 0; i < ms.size(); ++i){
-		if( text.toStdString() == ms[i]->id_){
+		if( text.toStdWString() == ms[i]->id_){
 			timer_->modeid_ =  ms[i]->id_;
 			return;
 		}
 	}
 	mode_->clear();
 	for ( size_t i = 0; i < ms.size(); ++i){
-		mode_->addItem(QString::fromStdString(ms[i]->id_));
+		mode_->addItem(QString::fromStdWString(ms[i]->id_));
 	}
 	if ( ms.size()>0){
 		mode_->setCurrentIndex(0);
-		timer_->modeid_ = "";
+		timer_->modeid_ = L"";
 	}
 }
 void TimerWidget::initTable( QTableWidget* table, int row){
@@ -114,7 +114,7 @@ void TimerWidget::clickInsert(){
 		if ( ms.size() >0){
 			t->modeid_ = ms[0]->id_;
 		}else{
-			t->modeid_ = "";
+			t->modeid_ = L"";
 		}
 		task_->timers_.insert(row+ task_->timers_.begin(), t);
 		TimerWidget * wgt = new TimerWidget(task_, t);
@@ -137,7 +137,7 @@ void TimerWidget::clickDelete(){
 		}
 	}
 }
-void TimerWidget::timerEvent ( QTimerEvent * event ){
+void TimerWidget::timerEvent ( QTimerEvent *  ){
 	if ( task_&& timer_ && task_->isActivated_ ){
 		mode_->setEnabled(false);
 		goto_->setEnabled(false);
@@ -202,10 +202,10 @@ TaskWidget::TaskWidget(Task* task):QWidget(0),task_(task)
 	id_= new QTableWidgetItem();
 
 
-	id_->setFlags( Qt::ItemIsEnabled );
+	id_->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
 
 	if ( task_){
-		id_->setText( QString::fromStdString(task_->id_));
+		id_->setText( QString::fromStdWString(task_->id_));
 	}
 
 	activate_ = new  QPushButton;
@@ -282,7 +282,7 @@ void TaskWidget::clickDelete(){
 		table->removeRow( id_->row());
 	}
 }
-void TaskWidget::timerEvent ( QTimerEvent * event ){
+void TaskWidget::timerEvent ( QTimerEvent *  ){
 	if ( !schedule_->styleSheet().isEmpty() && task_){
 		QString sch = QString::fromStdString(task_->schedule_);
 		QDateTime dt = QDateTime::currentDateTime();
@@ -350,6 +350,7 @@ TaskWnd::TaskWnd(QWidget* parent) :
 
 	connect(taskTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
 
+	connect(taskTable_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged (int,int)) );
 	startTimer(200);
 }
 
@@ -358,7 +359,7 @@ TaskWnd::~TaskWnd()
     delete ui;
 }
 
-void TaskWnd::cellClicked(int row,int col){
+void TaskWnd::cellClicked(int row,int ){
 	TaskWidget * wgt = 0;
 	timerTable_->setRowCount(0);
 	if ( taskTable_->rowCount()>0){
@@ -371,7 +372,7 @@ void TaskWnd::cellClicked(int row,int col){
 
 void TaskWnd::resetTaskTable(){
 	taskTable_->setRowCount(0);
-	newTask("");
+	newTask(L"");
 	std::vector<Task*> tasks = TaskMgr::instance()->getAllTasks();
 	for ( size_t i = 0 ; i <tasks.size(); ++i){
 		newTask( tasks[i]->id_);
@@ -398,7 +399,7 @@ void TaskWnd::currentTabChanged ( int index ){
 	}
 }
 
-void TaskWnd::newTask( const std::string &taskid){
+void TaskWnd::newTask( const std::wstring &taskid){
 	TaskWidget * wgt = 0;
 	if ( taskTable_->rowCount()>0){
 		wgt= (TaskWidget*) taskTable_->cellWidget( taskTable_->rowCount()-1, 0);
@@ -434,6 +435,16 @@ void TaskWnd::newTask( const std::string &taskid){
 	wgt->initTable(taskTable_,  insertRow-1);
 }
 
-void TaskWnd::timerEvent ( QTimerEvent * event ){
+void TaskWnd::timerEvent ( QTimerEvent *  ){
 	TaskMgr::instance()->run();
+}
+
+void TaskWnd::cellChanged(int row,int col){
+	if ( col == 1){
+		TaskWidget * wgt = (TaskWidget*)taskTable_->cellWidget( row, 0);
+		if ( wgt->task_){
+			wgt->task_->id_ = wgt->id_->text().toStdWString();
+			return;
+		}
+	}
 }

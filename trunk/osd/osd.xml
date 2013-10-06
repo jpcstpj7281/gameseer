@@ -17,11 +17,16 @@
         <rnode id="100925954"/>
         <rnode id="100925953"/>
     </ring>
-    <mode id="Mode1">
+    <mode id="我知道">
         <wnd w="0.756624" x="0.147203" wndid="Wnd1" y="0.0878939" h="0.691542" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
         <wnd w="0.803729" x="0.0225711" wndid="Wnd2" y="0.169154" h="0.703151" inputid="33554689" aw="1" ax="0" ay="0" ah="1" ringid="Ring1"/>
     </mode>
     <mode id="Mode2">
         <wnd w="0.445535" x="0.0215898" wndid="窗口" y="0.0466989" h="0.4219" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
     </mode>
+    <task id="然后呢">
+        <timer goto="0" counter="0" sec="10" modeid="我知道"/>
+        <timer goto="0" counter="0" sec="10" modeid="Mode2"/>
+        <timer goto="0" counter="0" sec="10" modeid="我知道"/>
+    </task>
 </root>

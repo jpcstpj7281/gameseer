@@ -45,10 +45,10 @@ public:
 
 	private slots:
 		void cellClicked(int,int);
-		//void sendClicked(bool);
-		//void clearClicked(bool);
+		
+		void cellChanged(int,int);
 private:
-	void newMode( const std::string &ip);
+	void newMode( const std::wstring &ip);
 	void ModeWnd::newWnd( WndData* wnd);
 	void resetModeTable();
 	void resetWndModeTable( Mode* mode);

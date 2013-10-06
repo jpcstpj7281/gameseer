@@ -27,10 +27,10 @@ ModeWidget::ModeWidget(Mode* mode):QWidget(0),mode_(mode)
 	id_= new QTableWidgetItem();
 
 
-	id_->setFlags( Qt::ItemIsEnabled );
+	id_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
 
 	if ( mode_){
-		id_->setText( QString::fromStdString(mode_->id_));
+		id_->setText( QString::fromStdWString(mode_->id_));
 	}
 	save_ = new  QPushButton;
 	save_->setText(tr("Save"));
@@ -134,6 +134,8 @@ ModeWnd::ModeWnd(QWidget* parent) :
 	connect(parent, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged (int)) );
 
 	connect(modeTable_, SIGNAL(cellClicked(int,int)), this, SLOT(cellClicked (int,int)) );
+	
+	connect(modeTable_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged (int,int)) );
 }
 
 ModeWnd::~ModeWnd()
@@ -142,7 +144,7 @@ ModeWnd::~ModeWnd()
 }
 void ModeWnd::resetModeTable(){
 	modeTable_->setRowCount(0);
-	newMode("");
+	newMode(L"");
 	std::vector<Mode*> modes = ModeMgr::instance()->getAllModes();
 	for ( size_t i = 0 ; i <modes.size(); ++i){
 		newMode( modes[i]->id_);
@@ -156,7 +158,7 @@ void ModeWnd::currentTabChanged ( int index ){
 	}
 }
 
-void ModeWnd::newMode( const std::string &modeid){
+void ModeWnd::newMode( const std::wstring &modeid){
 	ModeWidget * wgt = 0;
 	if ( modeTable_->rowCount()>0){
 		wgt= (ModeWidget*) modeTable_->cellWidget( modeTable_->rowCount()-1, 0);
@@ -225,5 +227,14 @@ void ModeWnd::cellClicked(int row,int col){
 		wgt= (ModeWidget*) modeTable_->cellWidget( row, 0);
 		if ( wgt && wgt->mode_)
 			resetWndModeTable( wgt->mode_);
+	}
+}
+void ModeWnd::cellChanged(int row,int col){
+	if ( col == 1){
+		ModeWidget * wgt = (ModeWidget*)modeTable_->cellWidget( row, 0);
+		if ( wgt->mode_){
+			wgt->mode_->id_ = wgt->id_->text().toStdWString();
+			return;
+		}
 	}
 }

@@ -7,7 +7,7 @@
 
 #include <windows.h>
 
-Mode::Mode(const std::string & id):id_(id)
+Mode::Mode(const std::wstring & id):id_(id)
 {
 	isActivated_ = false;
 }
@@ -65,15 +65,15 @@ ModeMgr::ModeMgr()
 ModeMgr::~ModeMgr()
 {
 }
-Mode* ModeMgr::createMode(const std::string & id){
+Mode* ModeMgr::createMode(const std::wstring & id){
 	if ( hasMode(id)) return NULL;
 	modes_.push_back(new Mode(id));
 	return modes_.back();
 }
 Mode* ModeMgr::createMode(){
 	for ( size_t i = 0 ; i < 0xFFFFFFFF; ++i){
-		std::string str = "Mode";
-		std::string num = QString::number(i+1).toStdString();
+		std::wstring str = L"Mode";
+		std::wstring num = QString::number(i+1).toStdWString();
 		if (!hasMode(str + num)){
 			modes_.push_back( new Mode(str+num));
 			return modes_.back();
@@ -81,10 +81,10 @@ Mode* ModeMgr::createMode(){
 	}
 	return NULL;
 }
-bool ModeMgr::hasMode(const std::string & id){
+bool ModeMgr::hasMode(const std::wstring & id){
 	return getMode(id) ;
 }
-Mode* ModeMgr::getMode(const std::string &id){
+Mode* ModeMgr::getMode(const std::wstring &id){
 	for ( size_t i = 0 ; i < modes_.size(); ++i){
 		if (modes_[i]->id_ == id) return modes_[i];
 	}
