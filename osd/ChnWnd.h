@@ -25,6 +25,7 @@ public:
 	QTableWidgetItem* row_;
 	QTableWidgetItem* width_;
 	QTableWidgetItem* height_;
+	QTableWidgetItem* freq_;
 	QTableWidgetItem* inport_;
 
 	ChnWidget(ResourceID inputid);

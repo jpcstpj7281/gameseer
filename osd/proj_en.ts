@@ -39,28 +39,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="86"/>
+        <location filename="chnwnd.cpp" line="91"/>
         <source>Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="87"/>
+        <location filename="chnwnd.cpp" line="92"/>
         <source>Col</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="88"/>
+        <location filename="chnwnd.cpp" line="93"/>
         <source>Inport</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="89"/>
+        <location filename="chnwnd.cpp" line="94"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="90"/>
+        <location filename="chnwnd.cpp" line="95"/>
         <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chnwnd.cpp" line="96"/>
+        <source>Freq</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -173,14 +178,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="728"/>
-        <location filename="deviceswnd.cpp" line="817"/>
+        <location filename="deviceswnd.cpp" line="729"/>
+        <location filename="deviceswnd.cpp" line="818"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="736"/>
-        <location filename="deviceswnd.cpp" line="814"/>
+        <location filename="deviceswnd.cpp" line="737"/>
+        <location filename="deviceswnd.cpp" line="815"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -277,6 +282,11 @@
         <source>编辑OID</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="mainwindow.cpp" line="41"/>
+        <source>QboxSystem</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ModeWidget</name>
@@ -305,7 +315,7 @@
     <name>ModeWnd</name>
     <message>
         <location filename="modewnd.ui" line="20"/>
-        <location filename="modewnd.cpp" line="153"/>
+        <location filename="modewnd.cpp" line="155"/>
         <source>Modes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -914,7 +924,7 @@
     <name>TaskWnd</name>
     <message>
         <location filename="taskwnd.ui" line="20"/>
-        <location filename="taskwnd.cpp" line="395"/>
+        <location filename="taskwnd.cpp" line="396"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>

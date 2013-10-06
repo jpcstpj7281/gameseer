@@ -22,9 +22,10 @@ inline uint32_t ToScreenID( uint32_t row, uint32_t col){  return (row << 8) | co
 inline ResourceID ToResourceID( uint32_t input, uint32_t output, uint32_t row, uint32_t col){ return (input<<24) | (output<<16) | (row << 8) | col;}
 
 typedef uint32_t Resolution;    // resolution of w << 16 | h.
-inline uint32_t GetWidth(Resolution res){ return res>>16;}
-inline uint32_t GetHeight(Resolution res){ return res & 0xffff;}
-inline Resolution toResolution( uint32_t width, uint32_t height){ return (width<<16)|height;}
+inline uint32_t GetWidth(Resolution res){ return (res>>12)& 0xfff;}
+inline uint32_t GetHeight(Resolution res){ return res & 0xfff;}
+inline uint32_t GetFreq(Resolution res){ return (res>>24)&0xff;}
+inline Resolution toResolution( uint32_t width, uint32_t height, uint32_t freq){ return (freq<<24)|(width<<12)|height;}
 
 typedef std::function< bool (ResourceID )> ResourceChangedCallback;
 

@@ -17,12 +17,12 @@ struct WndData{
 class Mode {
 	
 	friend class ModeMgr;
-	Mode(const std::string & id);
+	Mode(const std::wstring & id);
 	~Mode();
 
 	
 public:
-	std::string id_;
+	std::wstring id_;
 	std::vector<WndData> wnds_;
 	bool isActivated_;
 	void save();
@@ -42,9 +42,9 @@ public:
 	static ModeMgr *instance();
 
 	Mode* createMode();
-	Mode* createMode(const std::string & id);
-	bool hasMode(const std::string & id);
-	Mode* getMode(const std::string &id);
+	Mode* createMode(const std::wstring & id);
+	bool hasMode(const std::wstring & id);
+	Mode* getMode(const std::wstring &id);
 	bool removeMode(Mode*);
 	void clear();
 	std::vector<Mode*> &getAllModes(){ return  modes_;};

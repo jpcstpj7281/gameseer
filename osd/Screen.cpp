@@ -114,9 +114,10 @@ bool Screen::inputResolutionCallback( uint32_t , QboxDataMap& value ){
 			if ( value["error"] == "0"){
 				int w = QString::fromStdString(value["w"]).toInt();
 				int h = QString::fromStdString(value["h"]).toInt();
+				int f = QString::fromStdString(value["f"]).toInt();
 			
 				uint32_t resolution = inPort_[id];
-				uint32_t newResolution = toResolution(w,h);
+				uint32_t newResolution = toResolution(w,h, f);
 				if ( resolution != newResolution){
 					inPort_[id]= newResolution;
 					for ( int j = 0; j < ScreenMgr::instance()->inputChangedCallbacks_.size();++j){ScreenMgr::instance()->inputChangedCallbacks_[j](id);}
@@ -388,14 +389,14 @@ std::vector<ResourceID> Screen::getAvailableInput(){
 }
 //=======================================================TEST===============================================================
 void Screen::setupTestResource(){
-	inPort_[ ToResourceID( 1, 0, row_, col_)] = (1024 << 16) | 768;
-	inPort_[ ToResourceID( 2, 0, row_, col_)] = (1024 << 16) | 768;
-	inPort_[ ToResourceID( 3, 0, row_, col_)] = (1024 << 16) | 768;
-	inPort_[ ToResourceID( 4, 0, row_, col_)] = (1024 << 16) | 768;
+	inPort_[ ToResourceID( 1, 0, row_, col_)] = toResolution(1024,768,60);
+	inPort_[ ToResourceID( 2, 0, row_, col_)] = toResolution(1024,768,60);
+	inPort_[ ToResourceID( 3, 0, row_, col_)] = toResolution(1024,768,60);
+	inPort_[ ToResourceID( 4, 0, row_, col_)] = toResolution(1024,768,60);
 }
 void Screen::ajustResolution(){
-	inPort_[ ToResourceID( 1, 0, row_, col_)] = (800 << 16) | 600;
-	inPort_[ ToResourceID( 2, 0, row_, col_)] = (800 << 16) | 600;
+	inPort_[ ToResourceID( 1, 0, row_, col_)] = toResolution(1024,768,70);
+	inPort_[ ToResourceID( 2, 0, row_, col_)] = toResolution(1024,768,70);
 }
 void Screen::ajustInput(){
 	inPort_[ ToResourceID( 1, 0, row_, col_)] = 0;

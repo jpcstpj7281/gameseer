@@ -44,7 +44,7 @@ size_t Timer::run(size_t timer){
 	}
 }
 //=======================================================================================================================
-Task::Task(const std::string & id):id_(id)
+Task::Task(const std::wstring & id):id_(id)
 	,currTimerIndex_(0)
 	,isActivated_(false)
 {
@@ -127,15 +127,15 @@ TaskMgr::~TaskMgr()
 {
 	clear();
 }
-Task* TaskMgr::createTask(const std::string & id){
+Task* TaskMgr::createTask(const std::wstring & id){
 	if ( hasTask(id)) return NULL;
 	tasks_.push_back(new Task(id));
 	return tasks_.back();
 }
 Task* TaskMgr::createTask(){
 	for ( size_t i = 0 ; i < 0xFFFFFFFF; ++i){
-		std::string str = "Task";
-		std::string num = QString::number(i+1).toStdString();
+		std::wstring str = L"Task";
+		std::wstring num = QString::number(i+1).toStdWString();
 		if (!hasTask(str + num)){
 			tasks_.push_back( new Task(str+num));
 			return tasks_.back();
@@ -143,10 +143,10 @@ Task* TaskMgr::createTask(){
 	}
 	return NULL;
 }
-bool TaskMgr::hasTask(const std::string & id){
+bool TaskMgr::hasTask(const std::wstring & id){
 	return getTask(id) ;
 }
-Task* TaskMgr::getTask(const std::string &id){
+Task* TaskMgr::getTask(const std::wstring &id){
 	for ( size_t i = 0 ; i < tasks_.size(); ++i){
 		if (tasks_[i]->id_ == id) return tasks_[i];
 	}

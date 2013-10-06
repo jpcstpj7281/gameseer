@@ -54,7 +54,7 @@ class ScreenConnBtn: public QPushButton{
 public:
 	QTableWidgetItem	*row_;
 	QTableWidgetItem	*col_;
-	QWidget	*temp_;
+	QWidget				*temp_;
 	QPushButton			*rTemp_;
 	QPushButton			*gTemp_;
 	QPushButton			*bTemp_;
@@ -67,6 +67,9 @@ public:
 
 	OsdWnd				*osdWnd_;
 	TestQbox			*testQbox_;
+
+	bool isFanCheck_;
+	bool isTempCheck_;
 
 	void conn();
 	void disconn();
@@ -100,7 +103,8 @@ public:
 
 	void initAddresses();
 	
-	//typedef std::map< QString, QboxAddress* > AddressMap;
+	QPushButton* pbFanCheck_;
+	QPushButton* pbTempCheck_;
 private slots:
 
 	void itemClicked(QTableWidgetItem *);
@@ -119,6 +123,10 @@ private slots:
 
 	void clickedLoad();
 	void clickedSave();
+	
+	void clickedFanCheck();
+	void clickedTempCheck();
+
 	void	destroyedNow ();
 private:
 

@@ -120,7 +120,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>530</y>
+     <y>590</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -133,7 +133,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>410</y>
+     <y>500</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -146,7 +146,7 @@
    <property name="geometry">
     <rect>
      <x>930</x>
-     <y>410</y>
+     <y>500</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -172,7 +172,7 @@
    <property name="geometry">
     <rect>
      <x>930</x>
-     <y>450</y>
+     <y>540</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -185,7 +185,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>450</y>
+     <y>540</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -220,6 +220,32 @@
     <string>  关闭所有光机</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pbTempCheck">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>430</y>
+     <width>171</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>温度检测</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbFanCheck">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>390</y>
+     <width>171</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>光机检测</string>
+   </property>
+  </widget>
   <zorder>tableDevices</zorder>
   <zorder>incrRow</zorder>
   <zorder>decrRow</zorder>
@@ -235,6 +261,8 @@
   <zorder>pbLoadFrom</zorder>
   <zorder>turnOnAllDlp</zorder>
   <zorder>turnOffAllDlp</zorder>
+  <zorder>pbTempCheck</zorder>
+  <zorder>pbFanCheck</zorder>
  </widget>
  <resources/>
  <connections/>

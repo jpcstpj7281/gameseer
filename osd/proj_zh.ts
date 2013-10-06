@@ -39,29 +39,34 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="86"/>
+        <location filename="chnwnd.cpp" line="91"/>
         <source>Row</source>
         <translation>行</translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="87"/>
+        <location filename="chnwnd.cpp" line="92"/>
         <source>Col</source>
         <translation>列</translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="88"/>
+        <location filename="chnwnd.cpp" line="93"/>
         <source>Inport</source>
         <translation>输入</translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="89"/>
+        <location filename="chnwnd.cpp" line="94"/>
         <source>Width</source>
         <translation>宽度</translation>
     </message>
     <message>
-        <location filename="chnwnd.cpp" line="90"/>
+        <location filename="chnwnd.cpp" line="95"/>
         <source>Height</source>
         <translation>高度</translation>
+    </message>
+    <message>
+        <location filename="chnwnd.cpp" line="96"/>
+        <source>Freq</source>
+        <translation>频率</translation>
     </message>
 </context>
 <context>
@@ -304,7 +309,7 @@
     <name>ModeWnd</name>
     <message>
         <location filename="modewnd.ui" line="20"/>
-        <location filename="modewnd.cpp" line="153"/>
+        <location filename="modewnd.cpp" line="155"/>
         <source>Modes</source>
         <translation>模式</translation>
     </message>
@@ -913,7 +918,7 @@
     <name>TaskWnd</name>
     <message>
         <location filename="taskwnd.ui" line="20"/>
-        <location filename="taskwnd.cpp" line="395"/>
+        <location filename="taskwnd.cpp" line="396"/>
         <source>Tasks</source>
         <translation>任务</translation>
     </message>

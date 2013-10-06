@@ -320,6 +320,8 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	,currColorTemp_(0)
 	,fanTimerErrorCount_(0)
 	,dlpRunTimerCount_(0)
+	,isFanCheck_(true)
+	,isTempCheck_(true)
 {
 	this->setText( tr("Connect"));
 	startTimer(5000);
@@ -376,12 +378,15 @@ void ScreenConnBtn::timerEvent ( QTimerEvent * ){
 	if (dlpBtn_ ){
 		Screen* scrn = ScreenMgr::instance()->getScreen( screenid_);
 		if (scrn) {
-			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
+			DevicesWnd* tb = (DevicesWnd*)row_->tableWidget();
+			if ( isFanCheck_ ){
+				scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
+			}
 
-			if ( !dlpBtn_->styleSheet().isEmpty()&& (!osdWnd_ ||osdWnd_->isHidden())){//读光机各色温度
+			if (isTempCheck_ && !dlpBtn_->styleSheet().isEmpty()&& (!osdWnd_ ||osdWnd_->isHidden())){//读光机各色温度
 				std::string value;
 				value.resize(8);
-				value[0] = 0xB7;
+				value[0] = (char)0xB7;
 				value[1] = 0;
 				value[2] = ++currColorTemp_;
 				value[3] = 0;
@@ -411,6 +416,8 @@ void ScreenConnBtn::addressEditFinished(){
 DevicesWnd::DevicesWnd(QWidget *parent) :
     QWidget(parent)
     ,ui(new Ui::DevicesWnd)
+	,pbFanCheck_(0)
+	,pbTempCheck_(0)
 {
     ui->setupUi(this);
 
@@ -431,6 +438,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	tableDevices_->setColumnWidth( 0, 35);
 	tableDevices_->setColumnWidth( 1, 35);
 	tableDevices_->hideColumn(5);
+	tableDevices_->hideColumn(8);
 
     connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
     connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
@@ -478,6 +486,15 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	btn->hide();
 	
 	connect( QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(destroyedNow()));
+
+	pbFanCheck_ = this->findChild<QPushButton* >("pbFanCheck");
+	pbFanCheck_->setStyleSheet("* { background-color: lightGreen }");
+	connect( pbFanCheck_, SIGNAL( clicked()), this, SLOT(clickedFanCheck()) );
+
+	pbTempCheck_ = this->findChild<QPushButton* >("pbTempCheck");
+	pbTempCheck_->setStyleSheet("* { background-color: lightGreen }");
+	connect( pbTempCheck_, SIGNAL( clicked()), this, SLOT(clickedTempCheck()) );
+
 }
 DevicesWnd::~DevicesWnd()
 {
@@ -532,7 +549,7 @@ void DevicesWnd::clickedLoad(){
 	for (size_t i = 0; i < items.size();++i){
 		QDomElement modeelm = items.at(i).toElement();
 		QString id = modeelm.attribute("id");
-		Mode* mode= ModeMgr::instance()->createMode(id.toStdString() );
+		Mode* mode= ModeMgr::instance()->createMode(id.toStdWString() );
 
 		QDomElement wnode = modeelm.firstChildElement();
 		while(wnode != QDomElement()){
@@ -561,13 +578,13 @@ void DevicesWnd::clickedLoad(){
 	for (size_t i = 0; i < items.size();++i){
 		QDomElement melm = items.at(i).toElement();
 		QString id = melm.attribute("id");
-		Task* task= TaskMgr::instance()->createTask(id.toStdString() );
+		Task* task= TaskMgr::instance()->createTask(id.toStdWString() );
 
 		QDomElement telm = melm.firstChildElement();
 		while(telm != QDomElement()){
 			
 			Timer* t = new Timer();
-			t->modeid_ = telm.attribute("modeid").toStdString();
+			t->modeid_ = telm.attribute("modeid").toStdWString();
 			t->goto_ = telm.attribute("goto").toLong();
 			t->second_ = telm.attribute("sec").toLong();
 			t->counter_ = telm.attribute("counter").toLong();
@@ -575,8 +592,39 @@ void DevicesWnd::clickedLoad(){
 			telm = telm.nextSibling().toElement();
 		}
 	}
-
 }
+
+void DevicesWnd::clickedFanCheck(){
+	QPushButton* pbFanCheck = this->findChild<QPushButton* >("pbFanCheck");
+	bool isCheck = false;
+	if ( pbFanCheck->styleSheet().isEmpty()){
+		pbFanCheck->setStyleSheet("* { background-color: lightGreen }");
+		isCheck = true;
+	}else{
+		pbFanCheck->setStyleSheet("");
+		isCheck = false;
+	}
+	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
+		t->isFanCheck_ = isCheck;
+	}
+}
+void DevicesWnd::clickedTempCheck(){
+	QPushButton* pbTempCheck = this->findChild<QPushButton* >("pbTempCheck");
+	bool isCheck = false;
+	if ( pbTempCheck->styleSheet().isEmpty()){
+		pbTempCheck->setStyleSheet("* { background-color: lightGreen }");
+		isCheck = true;
+	}else{
+		pbTempCheck->setStyleSheet("");
+		isCheck = false;
+	}
+	for ( uint32_t i = 0; i < tableDevices_->rowCount(); ++i){
+		ScreenConnBtn* t = (ScreenConnBtn*)tableDevices_->cellWidget( i, 4);
+		t->isTempCheck_ = isCheck;
+	}
+}
+
 void DevicesWnd::clickedSave(){
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
 
@@ -636,7 +684,7 @@ void DevicesWnd::clickedSave(){
 	std::vector<Mode*> modes = ModeMgr::instance()->getAllModes();
 	for (size_t i =0; i <modes.size(); ++i){
 		QDomElement modeelm = ConfigMgr::instance()->getDoc()->createElement("mode");
-		modeelm.setAttribute("id", QString::fromStdString( modes[i]->id_));
+		modeelm.setAttribute("id", QString::fromStdWString( modes[i]->id_));
 		root.appendChild(modeelm);
 
 		for ( size_t j = 0; j < modes[i]->wnds_.size();++j){
@@ -665,12 +713,12 @@ void DevicesWnd::clickedSave(){
 	std::vector<Task*> tasks = TaskMgr::instance()->getAllTasks();
 	for (size_t i =0; i <tasks.size(); ++i){
 		QDomElement taskelm = ConfigMgr::instance()->getDoc()->createElement("task");
-		taskelm.setAttribute("id", QString::fromStdString( tasks[i]->id_));
+		taskelm.setAttribute("id", QString::fromStdWString( tasks[i]->id_));
 		root.appendChild(taskelm);
 
 		for ( size_t j = 0; j < tasks[i]->timers_.size();++j){
 			QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("timer");
-			elm.setAttribute("modeid", QString::fromStdString(tasks[i]->timers_[j]->modeid_));
+			elm.setAttribute("modeid", QString::fromStdWString(tasks[i]->timers_[j]->modeid_));
 			elm.setAttribute("counter", QString::number(tasks[i]->timers_[j]->counter_));
 			elm.setAttribute("goto", QString::number(tasks[i]->timers_[j]->goto_));
 			elm.setAttribute("sec", QString::number(tasks[i]->timers_[j]->second_));
