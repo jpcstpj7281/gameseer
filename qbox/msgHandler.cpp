@@ -61,7 +61,7 @@ void MsgHandler::netMsgInput(uint32_t connID,char* buff,uint32_t buffLen)
 		cout << " Buff Error buffLen=" << buffLen <<endl;
 		return;
 	}
-    showData(buff);
+//    showData(buff);
 
 	uint32_t move =  sizeof(netMsg.msgHead);
 

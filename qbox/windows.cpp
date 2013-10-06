@@ -36,9 +36,7 @@ Windows::~Windows()
 
 uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
-#ifndef __unix__
-	taskLock();
-#endif
+
     switch(msg->msgType)
     {
         case PGetWindowsHandleReq::uri:
@@ -81,9 +79,7 @@ uint32_t Windows::onMsgReq(MsgInfo *msg,uint32_t connID)
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
-#ifndef __unix__
-    taskUnlock();
-#endif
+
     return 0;
 }
 

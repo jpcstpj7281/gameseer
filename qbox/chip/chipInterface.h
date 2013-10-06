@@ -6,7 +6,7 @@
 enum OUTPUT_MODEL
 {
 	TYPE_MODEL_1024_768 = 0,
-	TYPE_MODEL_1440_1050 = 1,
+	TYPE_MODEL_1400_1050 = 1,
 };
 
 enum DLP_DEVICE_TYPE
@@ -26,6 +26,7 @@ void hideChannel(uint32_t chn);
 
 void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
+void setOutputBGSize(uint32_t type);
 void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw);
 
 
@@ -44,6 +45,11 @@ void init772(uint32_t chn,uint32_t flg);
 
 void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
 void DLPI2cR(uint8_t type,uint8_t subAddr,uint8_t dwCount,uint8_t *byDate);
+
+bool isDevC772Online(uint32_t byChannel);
+
+void setChannelMH(uint32_t channel,uint32_t flg);
+
 
 
 }

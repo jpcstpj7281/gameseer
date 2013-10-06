@@ -32,9 +32,9 @@ void initOutputModel(uint32_t model)
 	{
 		s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
 	}
-	else if(model == TYPE_MODEL_1440_1050)
+	else if(model == TYPE_MODEL_1400_1050)
 	{
-		s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1440_1050);
+		s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1400_1050);
 	}
 }
 
@@ -60,7 +60,8 @@ void moveOutputChannel(uint32_t chid,int hPoint,int vPoint)
 void moveInputChannel(uint32_t chid,int hPoint,int vPoint)
 {
 	AppScale &s_c753=*AppScale::Instance();
-	s_c753.moveChannelInput(chid,hPoint+1,vPoint+1);
+//	s_c753.moveChannelInput(chid,hPoint+1,vPoint+1);
+	s_c753.moveChannelInput(chid,hPoint,vPoint);
 }
 
 
@@ -92,6 +93,12 @@ void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw)
 	s_c753.C753GetInputPortACTVerticalWidth(chid,inputVw);
 
 	s_c753.initScal(chid,inputHw,inputVw,hw,vw);
+}
+
+void setOutputBGSize(uint32_t type)
+{
+	AppScale &s_c753=*AppScale::Instance();
+	s_c753.setOutputBGSize(type);
 }
 
 void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw)
@@ -151,6 +158,22 @@ void getChnModel(uint32_t chn,uint32_t &model)
 
 void setChnModel(uint32_t chn,uint32_t model)
 {
+
+	if(model <=3)
+	{
+		setChannelMH(chn,0);
+	}
+	else
+	{
+		setChannelMH(chn,1);
+	}
+
+	DriverChipFPGA s_cfpga;
+
+	s_cfpga.setRingFreq(chn,model);
+	s_cfpga.setRingFp(chn,model);
+
+
 	if(chn == 1 || chn== 2)
 	{
 		AppScale &s_c753=*AppScale::Instance();
@@ -231,5 +254,29 @@ void DLPI2cR(uint8_t type,uint8_t subAddr,uint8_t dwCount,uint8_t *byDate)
 	}
 
 
+}
+
+bool isDevC772Online(uint32_t byChannel)
+{
+	DriverChip772 s_c772;
+	return s_c772.isOnline(byChannel);
+}
+
+
+void setChannelMH(uint32_t channel,uint32_t flg)
+{
+	DriverChipFPGA s_cfpga;
+
+	debug_msg(" setChannelMH chn=%d,flg=%d!",channel,flg);
+
+	if(channel == 1 || channel== 2)
+	{
+		s_cfpga.set753ChannelMH(channel,flg);
+	}
+
+	if(channel == 3 || channel== 4)
+	{
+		s_cfpga.setRingChannelMH(channel,flg);
+	}
 }
 

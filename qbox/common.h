@@ -36,16 +36,37 @@ enum OUTPUT_MODEL
 enum INPUT_SIZE_TYPE
 {
     TYPE_INPUT_SIZE_702_480 = 0,
-
-    TYPE_INPUT_SIZE_800_600 = 2,
+    TYPE_INPUT_SIZE_720_576 = 1,
+    TYPE_INPUT_SIZE_800_600_60 = 2,
     TYPE_INPUT_SIZE_1024_768_60 = 3,
     TYPE_INPUT_SIZE_1280_1024_60 = 4,
     TYPE_INPUT_SIZE_1600_1200_60 = 5,
+    TYPE_INPUT_SIZE_1024_768_75 = 6,
+    TYPE_INPUT_SIZE_1280_1024_75 = 7,
+    TYPE_INPUT_SIZE_1440_900_60 = 8,
+    TYPE_INPUT_SIZE_1920_1080_60 = 9,
+    TYPE_INPUT_SIZE_1600_900_60 = 10,
+    TYPE_INPUT_SIZE_1280_960_60 = 11,
 
     TYPE_INPUT_SIZE_DEFAULT = 255,
 
 };
 
+enum PIN_POW_TYPE
+{
+	PIN_TYPE_LOW = 0,
+	PIN_TYPE_HIGH = 1,
+
+
+};
+
+enum BOARD_ONINE_TYPE
+{
+	BOARD_OFFLINE = 0,
+	BOARD_ONLINE = 1,
+
+
+};
 
 
 #define test_msg (printf("\n%s[%d]:", __FILE__,__LINE__), printf)
@@ -72,6 +93,7 @@ extern void hideChannel(uint32_t chn);
 
 extern void setInputSize(uint32_t chid,uint16_t hw,uint16_t vw);
 extern void setOutputSize(uint32_t chid,uint16_t hw,uint16_t vw);
+extern void setOutputBGSize(uint32_t type);
 extern void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw);
 
 extern void getSignalModel(uint32_t signal,uint32_t &model);
@@ -88,6 +110,17 @@ extern void init772(uint32_t chn,uint32_t flg);
 
 extern void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
 extern void DLPI2cR(uint8_t type,uint8_t subAddr,uint8_t dwCount,uint8_t *byDate);
+
+extern bool isDevC772Online(uint32_t byChannel);
+
+extern unsigned char Get_Asic_Ready();
+extern unsigned char Get_Fan_Locked();
+extern unsigned char Get_Lamp_Status();
+
+extern void Set_PowerGood(unsigned long val);
+extern void Set_Lamp_Ctrl(unsigned long val);
+
+//extern void setChannelMH(uint32_t channel,uint32_t flg);
 
 }
 #endif
