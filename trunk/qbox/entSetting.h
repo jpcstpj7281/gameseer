@@ -43,6 +43,7 @@ struct ChannelInfo
 	uint32_t useFlg;
 	uint32_t width;
 	uint32_t height;
+	uint32_t freq;
 	uint32_t model;
 	string   type;
 
@@ -54,6 +55,7 @@ struct ChannelInfo
 		useFlg = info.useFlg;
 		width = info.width;
 		height = info.height;
+		freq = info.freq;
 		model = info.model;
 		type = info.type;
 
@@ -91,10 +93,30 @@ struct WindowInfo
 
 		return *this;
 	}
+};
+
+struct SignalInfo
+{
+
+	uint32_t width;
+	uint32_t height;
+	uint32_t freq;
+	string type;
+
+	SignalInfo& operator = (const SignalInfo& info)
+	{
+		if (this == &info)
+			return *this;
+
+		width = info.width;
+		height = info.height;
+		freq = info.freq;
+
+		return *this;
+	}
 
 
 };
-
 
 class EntSetting
 {
@@ -109,10 +131,10 @@ public:
 
 	void setInputInfoFlg(uint32_t chId,uint32_t iFlg);
 	void setInputInfoType(uint32_t chId,string sType);
-	void setInputInfoSize(uint32_t chId,uint32_t width,uint32_t height);
+	void setInputInfoSize(uint32_t chId,uint32_t width,uint32_t height,uint32_t freq);
 	uint32_t getInputInfoFlg(uint32_t chId);
 	string getInputInfoType(uint32_t chId);
-	void getInputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height);
+	void getInputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height,uint32_t &freq);
 	uint32_t getInputTotal();
 
 	void setOutputInfoFlg(uint32_t chId,uint32_t iFlg);
@@ -149,6 +171,9 @@ public:
 	bool setShowStatus(uint32_t winHandle,uint32_t status);
 	bool getShowStatus(uint32_t winHandle,uint32_t &status);
 
+	uint32_t getDLPFanStatus();
+	void setDLPFanStatus(uint32_t status);
+
 	bool setWindowPosition(uint32_t winHandle,uint32_t winX,uint32_t winY,uint32_t width,uint32_t height);
 
 	void setSlotStatusFlg(uint32_t slot,uint32_t iFlg);
@@ -159,6 +184,11 @@ public:
 
 	void setInputModel(uint32_t chId,uint32_t model);
 	uint32_t getInputModel(uint32_t chId);
+
+	void setOutputSwitch(uint32_t out,uint32_t inputSignal);
+	uint32_t getOutputSwitch(uint32_t out);
+
+	string dumpModelInfo(uint32_t model);
 
 	void dumpAll();
 
@@ -176,6 +206,12 @@ private:
 
 	uint32_t m_windowNum;
 	map<uint32_t,WindowInfo> m_windowInfo;
+
+	map<uint32_t,uint32_t> m_outputSwitch;
+
+	uint32_t m_DLPFanStatus;
+
+	map<uint32_t,SignalInfo> m_signalInfo;
 
 };
 

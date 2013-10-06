@@ -633,7 +633,7 @@ void demoSD()
 
 }
 
-void demoRing()
+void demoWindows(uint32_t outType)
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initHardware();
@@ -648,17 +648,22 @@ void demoRing()
 
 
 	s_c753.setOutputBGColor(0x000000ff,0x000000ff);
-	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,TYPE_OUTPUT_SIZE_1024_768);
+
+	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,outType);
 
 
-	s_c753.setInputChannelACT(1,1024,768,303,36);
-	s_c753.setOutputChannelACT(1,1024,768,0,0);
+	uint32_t model = 0;
 
-	s_c753.setInputChannelACT(2,1024,768,303,36);
-	s_c753.setOutputChannelACT(2,1024,768,0,0);
+	s_c753.setInputChannelACT(1,800,600,0,0);
+	s_c753.setOutputChannelACT(1,800,600,50,50);
+
+
+	s_c753.setInputChannelACT(2,800,600,0,0);
+	s_c753.setOutputChannelACT(2,800,600,100,100);
+
 	s_c753.showWnd(1);
 
-	setFpgaSelectChn(1,4);
+
 
 
 
@@ -706,97 +711,9 @@ void testMemory(uint32_t chId,uint32_t addr)
 
 }
 
-void initSDBoard()
-{
-	init5160(1);
-	init5160(2);
-	init772(1,1);
-	init772(2,1);
-}
-
-
-void dump772(uint32_t chn)
-{
-	uint8_t byAddr=0x0a;
-	uint8_t byVal1=0x00;
-
-	debug_msg("Test C772 Base  Bank\n",byAddr,byVal1);
-
-	byAddr = 0x00;
-	dev_SPI_Read(chn,byAddr,&byVal1);
-	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
-
-
-	for(byAddr=0x01;byAddr<=0x07;byAddr++)
-	{
-		dev_SPI_Read(chn,byAddr,&byVal1);
-		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
-	}
-
-	byAddr = 0x00;
-	dev_SPI_Write(chn,byAddr,0x00);
-	dev_SPI_Read(chn,byAddr,&byVal1);
-	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
-
-
-	for(byAddr=0x08;byAddr<=0x61;byAddr++)
-	{
-		dev_SPI_Read(chn,byAddr,&byVal1);
-		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
-	}
-
-	byAddr = 0x00;
-	dev_SPI_Write(chn,byAddr,0x01);
-	dev_SPI_Read(chn,byAddr,&byVal1);
-	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
-
-
-	for(byAddr=0x08;byAddr<=0x2d;byAddr++)
-	{
-		dev_SPI_Read(chn,byAddr,&byVal1);
-		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
-	}
-
-
-	byAddr = 0x00;
-	dev_SPI_Write(chn,byAddr,0x02);
-	dev_SPI_Read(chn,byAddr,&byVal1);
-	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
-
-
-	for(byAddr=0x08;byAddr<=0x49;byAddr++)
-	{
-		dev_SPI_Read(chn,byAddr,&byVal1);
-		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
-	}
-
-	byAddr = 0x00;
-	dev_SPI_Write(chn,byAddr,0x03);
-	dev_SPI_Read(chn,byAddr,&byVal1);
-	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
-
-
-	for(byAddr=0x08;byAddr<=0x1E;byAddr++)
-	{
-		dev_SPI_Read(chn,byAddr,&byVal1);
-		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
-	}
-
-	byAddr = 0x00;
-	dev_SPI_Write(chn,byAddr,0x04);
-	dev_SPI_Read(chn,byAddr,&byVal1);
-	debug_msg("Test C772 Bank addr=%02x,byVal=%02x\n",byAddr,byVal1);
-
-
-	for(byAddr=0x08;byAddr<=0x31;byAddr++)
-	{
-		dev_SPI_Read(chn,byAddr,&byVal1);
-		debug_msg("Test C772 addr=%02x,byVal=%02x\n",byAddr,byVal1);
-	}
 
 
 
-}
 
 void setOSD(uint16_t posX,uint16_t posY,uint16_t w,uint16_t h)
 {
@@ -932,6 +849,18 @@ void testSlot()
 	debug_msg("Read Slot0=%02x,Slot1=%02x,Slot2=%02x\n",S0,S1,S2);
 }
 
+void set753InOffSet(uint32_t hs,uint32_t vs)
+{
+	AppScale s_c753;
+	s_c753.C753SetInputPortACTHorizontalStart(1,hs);
+	s_c753.C753SetInputPortACTVerticalStart(1,vs);
+}
+
+
+void testReboot()
+{
+
+}
 
 }
 #endif /* __cplusplus */

@@ -7,14 +7,17 @@
 
 #include "entSetting.h"
 #include "common.h"
+#include <iostream>
+#include <sstream>
 
 using namespace ent;
-
+using namespace std;
 
 
 EntSetting* EntSetting::m_instance = 0;
 EntSetting::EntSetting()
 :m_windowNum(0)
+,m_DLPFanStatus(0)
 {
 	m_version = "1.0.0.1";
 
@@ -25,7 +28,7 @@ EntSetting::EntSetting()
 	{
 		setInputInfoFlg(i,USE_FLG_OFFLINE);
 		setInputInfoType(i,VIDEO_TYPE_DEFAULT);
-		setInputInfoSize(i,0,0);
+		setInputInfoSize(i,0,0,0);
 	}
 
 	for(int i=1;i<=4;i++)
@@ -42,13 +45,96 @@ EntSetting::EntSetting()
 
 	}
 
+	for(int i=1;i<=4;i++)
+	{
+		setOutputSwitch(i,1);
+	}
 
-	//test
-//	setInputInfoFlg(6,USE_FLG_ONLINE);
-//	setInputInfoType(6,VIDEO_TYPE_RGB);
-//	setInputInfoSize(6,1024,768);
-//
-//	setChnSignalInput(3,6);
+//    TYPE_INPUT_SIZE_800_600_60 = 2,
+//    TYPE_INPUT_SIZE_1024_768_60 = 3,
+//    TYPE_INPUT_SIZE_1280_1024_60 = 4,
+//    TYPE_INPUT_SIZE_1600_1200_60 = 5,
+//    TYPE_INPUT_SIZE_1024_768_75 = 6,
+//    TYPE_INPUT_SIZE_1280_1024_75 = 7,
+//    TYPE_INPUT_SIZE_1440_900_60 = 8,
+//    TYPE_INPUT_SIZE_1920_1080_60 = 9,
+//    TYPE_INPUT_SIZE_1600_900_60 = 10,
+//    TYPE_INPUT_SIZE_1280_960_60 = 11
+
+	SignalInfo info;
+
+	info.type = VIDEO_TYPE_CVBS;
+	info.freq = 60;
+	info.width = 702;
+	info.height = 480;
+	m_signalInfo[TYPE_INPUT_SIZE_702_480] = info;
+
+	info.type = VIDEO_TYPE_CVBS;
+	info.freq = 60;
+	info.width = 720;
+	info.height = 576;
+	m_signalInfo[TYPE_INPUT_SIZE_720_576] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 800;
+	info.height = 600;
+	m_signalInfo[TYPE_INPUT_SIZE_800_600_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1024;
+	info.height = 768;
+	m_signalInfo[TYPE_INPUT_SIZE_1024_768_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1280;
+	info.height = 1024;
+	m_signalInfo[TYPE_INPUT_SIZE_1280_1024_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1600;
+	info.height = 1200;
+	m_signalInfo[TYPE_INPUT_SIZE_1600_1200_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 75;
+	info.width = 1024;
+	info.height = 768;
+	m_signalInfo[TYPE_INPUT_SIZE_1024_768_75] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 75;
+	info.width = 1280;
+	info.height = 1024;
+	m_signalInfo[TYPE_INPUT_SIZE_1280_1024_75] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1440;
+	info.height = 900;
+	m_signalInfo[TYPE_INPUT_SIZE_1440_900_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1920;
+	info.height = 1080;
+	m_signalInfo[TYPE_INPUT_SIZE_1920_1080_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1600;
+	info.height = 900;
+	m_signalInfo[TYPE_INPUT_SIZE_1600_900_60] = info;
+
+	info.type = VIDEO_TYPE_RGB;
+	info.freq = 60;
+	info.width = 1280;
+	info.height = 960;
+	m_signalInfo[TYPE_INPUT_SIZE_1280_960_60] = info;
+
 
 }
 
@@ -78,15 +164,20 @@ void EntSetting::setInputInfoType(uint32_t chId,string sType)
 	m_inputStatus[chId].type = sType;
 }
 
-void EntSetting::setInputInfoSize(uint32_t chId,uint32_t width,uint32_t height)
+void EntSetting::setInputInfoSize(uint32_t chId,uint32_t width,uint32_t height,uint32_t freq)
 {
 	m_inputStatus[chId].width = width;
 	m_inputStatus[chId].height = height;
+	m_inputStatus[chId].freq = freq;
 }
 
 void EntSetting::setInputModel(uint32_t chId,uint32_t model)
 {
 	m_inputStatus[chId].model = model;
+
+	setInputInfoSize(chId,m_signalInfo[model].width,m_signalInfo[model].height,m_signalInfo[model].freq);
+	setInputInfoType(chId,m_signalInfo[model].type);
+
 }
 
 uint32_t EntSetting::getInputModel(uint32_t chId)
@@ -104,10 +195,11 @@ string EntSetting::getInputInfoType(uint32_t chId)
 	return m_inputStatus[chId].type;
 }
 
-void EntSetting::getInputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height)
+void EntSetting::getInputInfoSize(uint32_t chId,uint32_t &width,uint32_t &height,uint32_t &freq)
 {
 	width = m_inputStatus[chId].width;
 	height = m_inputStatus[chId].height;
+	freq = m_inputStatus[chId].freq;
 
 }
 
@@ -127,6 +219,7 @@ void EntSetting::setOutputInfoSize(uint32_t chId,uint32_t width,uint32_t height)
 {
 	m_outputStatus[chId].width = width;
 	m_outputStatus[chId].height = height;
+
 }
 
 
@@ -474,6 +567,16 @@ string EntSetting::getSlotStatusType(uint32_t slot)
 	return m_slotStatus[slot].type;
 }
 
+uint32_t EntSetting::getDLPFanStatus()
+{
+	return m_DLPFanStatus;
+}
+
+void EntSetting::setDLPFanStatus(uint32_t status)
+{
+	m_DLPFanStatus = status;
+}
+
 
 
 void EntSetting::dumpAll()
@@ -481,7 +584,7 @@ void EntSetting::dumpAll()
 	test_msg("Dump  inputStatus");
 	for(map<uint32_t,ChannelInfo>::iterator it=m_inputStatus.begin();it!=m_inputStatus.end();it++)
 	{
-		test_msg("input  signal=%d,type=%s,useFlg=%d,width=%d,height=%d",it->first,it->second.type.c_str(),it->second.useFlg,it->second.width,it->second.height);
+		test_msg("input  signal=%d,type=%s,useFlg=%d,width=%d,height=%d,model=%d",it->first,it->second.type.c_str(),it->second.useFlg,it->second.width,it->second.height,it->second.model);
 	}
 
 	test_msg("Dump  outputStatus");
@@ -498,4 +601,23 @@ void EntSetting::dumpAll()
 
 }
 
+
+void EntSetting::setOutputSwitch(uint32_t out,uint32_t inputSignal)
+{
+	m_outputSwitch[out] = inputSignal;
+}
+
+uint32_t EntSetting::getOutputSwitch(uint32_t out)
+{
+	return m_outputSwitch[out];
+}
+
+string EntSetting::dumpModelInfo(uint32_t model)
+{
+	stringstream ss;
+
+	ss<<"Signal:"<<m_signalInfo[model].width<<"X"<<m_signalInfo[model].height<<"@"<<m_signalInfo[model].freq<<endl;
+
+	return ss.str();
+}
 

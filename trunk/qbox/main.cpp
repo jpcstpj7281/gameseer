@@ -83,29 +83,6 @@ void testMenu()
 	return ;
 }
 
-
-
-//void runService(int port)
-//{
-//	Status status;
-//	Windows windows;
-//	Event evt;
-//	Channel channel;
-//
-//	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
-//	MsgHandler::Instance()->setModel(TYPE_MODEL_WINDOWS,(CommModel*)(&windows));
-//	MsgHandler::Instance()->setModel(TYPE_MODEL_EVENT,(CommModel*)(&windows));
-//	MsgHandler::Instance()->setModel(TYPE_MODEL_CHANNEL,(CommModel*)(&windows));
-//
-//	IServer::Instance()->setPort(port);
-//	IServer::Instance()->setServerFlg(true);
-//
-//	IServer::Instance()->setMsgHandler(MsgHandler::Instance());
-//
-//
-//	IServer::Instance()->Run();
-//}
-
 void runServer(int port)
 {
 	Status status;
@@ -114,7 +91,7 @@ void runServer(int port)
 	Channel channel;
 
 
-	test_msg("version:2013-03-22");
+	test_msg("\n Qbox System version:2013-10-06 12:32:00\n");
 
 
 	MsgHandler::Instance()->setModel(TYPE_MODEL_STATUS,(CommModel*)(&status));
@@ -135,8 +112,6 @@ void runServer(int port)
 #ifndef __unix__
 	taskDelay(100);
 
-	init5160(4);
-	init772(4,1);
 	initOutputModel(TYPE_MODEL_1024_768);
 
 #else
@@ -162,58 +137,128 @@ void taskCheckInputSignal()
 			uint32_t model = 0;
 			getSignalModel(i,model);
 
+
+
 			if(model != EntSetting::Instance()->getInputModel(i))
 			{
 				if(model != TYPE_INPUT_SIZE_DEFAULT)
 				{
 					EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_ONLINE);
-					if(model == TYPE_INPUT_SIZE_702_480)
-					{
-						EntSetting::Instance()->setInputModel(i,model);
-
-						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
-						EntSetting::Instance()->setInputInfoSize(i,702,480);
-						test_msg("check signal =%d,702_480",i);
-
-					}
-					else if(model == TYPE_INPUT_SIZE_800_600)
-					{
-						EntSetting::Instance()->setInputModel(i,model);
-						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
-						EntSetting::Instance()->setInputInfoSize(i,800,600);
-						test_msg("check signal =%d,800_600",i);
-					}
-					else if(model == TYPE_INPUT_SIZE_1024_768_60)
-					{
-						EntSetting::Instance()->setInputModel(i,model);
-						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
-						EntSetting::Instance()->setInputInfoSize(i,1024,768);
-						test_msg("check signal =%d,1024_768",i);
-					}
-					else if(model == TYPE_INPUT_SIZE_1280_1024_60)
-					{
-						EntSetting::Instance()->setInputModel(i,model);
-						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
-						EntSetting::Instance()->setInputInfoSize(i,1280,1024);
-						test_msg("check signal =%d,1280_1024",i);
-					}
+					EntSetting::Instance()->setInputModel(i,model);
+					string str;
+					str = EntSetting::Instance()->dumpModelInfo(model);
+					test_msg("check %s",str.c_str());
 
 
-					else if(model == TYPE_INPUT_SIZE_1600_1200_60)
+//					if(model == TYPE_INPUT_SIZE_702_480)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
+//						EntSetting::Instance()->setInputInfoSize(i,702,480);
+//						test_msg("check signal =%d,702_480",i);
+//
+//					}
+//					else if(model == TYPE_INPUT_SIZE_720_576)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_CVBS);
+//						EntSetting::Instance()->setInputInfoSize(i,720,576);
+//						test_msg("check signal =%d,720_576",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_800_600_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,800,600);
+//						test_msg("check signal =%d,800_600",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_1024_768_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1024,768);
+//						test_msg("check signal =%d,1024_768_60",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_1280_1024_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1280,1024);
+//						test_msg("check signal =%d,1280_1024_60",i);
+//					}
+//
+//
+//					else if(model == TYPE_INPUT_SIZE_1600_1200_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1600,1200);
+//						test_msg("check signal =%d,1600_1200_60",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_1024_768_75)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1024,768);
+//						test_msg("check signal =%d,1024_768_75",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_1280_1024_75)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1280,1024);
+//						test_msg("check signal =%d,1280_1024_75",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_1440_900_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1440,900);
+//						test_msg("check signal =%d,1440_900_60",i);
+//					}
+//					else if(model == TYPE_INPUT_SIZE_1600_900_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1600,900);
+//						test_msg("check signal =%d,1600_900_60",i);
+//					}
+//
+//					else if(model == TYPE_INPUT_SIZE_1280_960_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1280,960);
+//						test_msg("check signal =%d,1280_960_60",i);
+//					}
+//
+//					else if(model == TYPE_INPUT_SIZE_1920_1080_60)
+//					{
+//						EntSetting::Instance()->setInputModel(i,model);
+//						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
+//						EntSetting::Instance()->setInputInfoSize(i,1920,1080);
+//						test_msg("check signal =%d,1920_1080_60",i);
+//					}
+
+
+					for(int x=1;x<=4;x++)
 					{
-						EntSetting::Instance()->setInputModel(i,model);
-						EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_RGB);
-						EntSetting::Instance()->setInputInfoSize(i,1600,1200);
-						test_msg("check signal =%d,1600_1200",i);
+						uint32_t inputSignal = EntSetting::Instance()->getOutputSwitch(x);
+						if(inputSignal == i)
+						{
+							setChnModel(x,model);
+							test_msg("set FPGE signal =%d,model = %d",i,model);
+						}
 					}
+
 				}
-
 				else
 				{
 					EntSetting::Instance()->setInputModel(i,model);
 					EntSetting::Instance()->setInputInfoFlg(i,USE_FLG_OFFLINE);
 					EntSetting::Instance()->setInputInfoType(i,VIDEO_TYPE_DEFAULT);
-					EntSetting::Instance()->setInputInfoSize(i,0,0);
+					EntSetting::Instance()->setInputInfoSize(i,0,0,0);
 				}
 			}
 		}
@@ -229,13 +274,105 @@ void taskCheckInputSignal()
 
 }
 
+
+void taskCheckDLPFanStatus()
+{
+
+#ifndef __unix__
+
+	uint8_t status = 0;
+
+	while(1)
+	{
+		if(PIN_TYPE_LOW == Get_Fan_Locked())
+		{
+			status = 0;
+		}
+		else
+		{
+			status++;
+		}
+
+		if(status >=10)
+		{
+			EntSetting::Instance()->setDLPFanStatus(PIN_TYPE_HIGH);
+			Set_PowerGood(PIN_TYPE_LOW);
+			cout<<"Check FAN HIGH!"<<endl;
+		}
+		else
+		{
+
+			EntSetting::Instance()->setDLPFanStatus(PIN_TYPE_LOW);
+			Set_PowerGood(PIN_TYPE_HIGH);
+		}
+
+//		cout<<"Check FAN Status!"<<endl;
+		taskDelay(100);
+	}
+
+#else
+#endif
+
+
+
+
+}
+
+void taskCheckSDBoardOnline()
+{
+
+#ifndef __unix__
+	map<uint32_t,uint32_t> onLineStatus;
+
+	for(int i=1;i<7;i++)
+	{
+		onLineStatus[i] = BOARD_OFFLINE;
+	}
+
+	while(1)
+	{
+		for(int i=1;i<7;i++)
+		{
+//			test_msg("chech signal =%d",i);
+			if(true == isDevC772Online(i))
+			{
+				init5160(i);
+				init772(i,1);
+				onLineStatus[i] = BOARD_ONLINE;
+			}
+			else
+			{
+				onLineStatus[i] = BOARD_OFFLINE;
+			}
+		}
+		taskDelay(10);
+	}
+
+#else
+#endif
+
+
+
+
+}
+
+
+
+
 #ifndef __unix__
 void enterApp()
 {
+
+	Set_PowerGood(PIN_TYPE_LOW);
+
 	int ret = 0;
 	ret = taskSpawn("tServer", 165, 0x0002, 16*1024,(FUNCPTR) runServer,5000,0,0,0,0,0,0,0,0,0);
 
 	ret = taskSpawn("tCheckSignal", 125, 0x0002, 2*1024,(FUNCPTR) taskCheckInputSignal,0,0,0,0,0,0,0,0,0,0);
+
+//	ret = taskSpawn("tCheckDLPFan", 200, 0x0002, 1*512,(FUNCPTR) taskCheckDLPFanStatus,0,0,0,0,0,0,0,0,0,0);
+
+//	ret = taskSpawn("tCheckSDOnline", 210, 0x0002, 1*512,(FUNCPTR) taskCheckSDBoardOnline,0,0,0,0,0,0,0,0,0,0);
 
 }
 #endif

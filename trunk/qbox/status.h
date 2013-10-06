@@ -32,6 +32,9 @@ private:
 	void onGetOutPutReq(MsgInfo *msg,uint32_t connID);
 	void onGetInPutSizeReq(MsgInfo *msg,uint32_t connID);
 	void onGetOutPutSizeReq(MsgInfo *msg,uint32_t connID);
+	void onGetDLPFanStatusReq(MsgInfo *msg,uint32_t connID);
+	void onGetDLPPinReq(MsgInfo *msg,uint32_t connID);
+	void onSetDLPPinReq(MsgInfo *msg,uint32_t connID);
 
 
 	uint32_t name;

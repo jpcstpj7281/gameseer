@@ -55,6 +55,18 @@ uint32_t Status::onMsgReq(MsgInfo *msg,uint32_t connID)
             onGetOutPutSizeReq(msg,connID);
             break;
 
+        case PGetDLPFanStatusReq::uri:
+        	onGetDLPFanStatusReq(msg,connID);
+        	break;
+
+        case PGetDLPPinReq::uri:
+        	onGetDLPPinReq(msg,connID);
+        	break;
+
+        case PSetDLPPinReq::uri:
+         	onSetDLPPinReq(msg,connID);
+         	break;
+
         default:
             //cout<<"URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
 
@@ -145,10 +157,11 @@ void Status::onGetInPutSizeReq(MsgInfo *msg,uint32_t connID)
     if(inputFlg == USE_FLG_ONLINE)
     {
 
-		uint32_t w,h;
-		EntSetting::Instance()->getInputInfoSize(ichid,w,h);
+		uint32_t w,h,f;
+		EntSetting::Instance()->getInputInfoSize(ichid,w,h,f);
 		rsp.info["w"] = tostring(w);
 		rsp.info["h"] = tostring(h);
+		rsp.info["f"] = tostring(f);
 		test_msg("onGetInPutSizeReq OK in==%d",atoi(msg->info["in"].c_str()));
 
     }
@@ -157,6 +170,7 @@ void Status::onGetInPutSizeReq(MsgInfo *msg,uint32_t connID)
     	rsp.info["error"] = tostring(ERROR_TYPE_NOSIGNAL);
     	rsp.info["w"] = tostring(0);
     	rsp.info["h"] = tostring(0);
+    	rsp.info["f"] = tostring(0);
     	test_msg("onGetInPutSizeReq ERROR in==%d",atoi(msg->info["in"].c_str()));
 
     }
@@ -182,5 +196,82 @@ void Status::onGetOutPutSizeReq(MsgInfo *msg,uint32_t connID)
 
 }
 
+
+void Status::onGetDLPFanStatusReq(MsgInfo *msg,uint32_t connID)
+{
+    cout<<"GetDLPFanStatus "<<" connID="<<connID <<"out="<<atoi(msg->info["out"].c_str()) <<endl;
+
+    MsgInfo rsp;
+
+    rsp.msgType = PGetDLPFanStatusRsp::uri;
+
+    if(EntSetting::Instance()->getDLPFanStatus() == PIN_TYPE_LOW)
+    {
+        rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+    }
+    else
+    {
+    	rsp.info["error"] = tostring(ERROR_TYPE_FALSE);
+    }
+
+
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+}
+
+void Status::onGetDLPPinReq(MsgInfo *msg,uint32_t connID)
+{
+    cout<<"GetDLPFanStatus "<<" connID="<<connID <<"out="<<atoi(msg->info["out"].c_str()) <<endl;
+
+    MsgInfo rsp;
+
+    rsp.msgType = PGetDLPPinRsp::uri;
+
+    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+
+    rsp.info["ASIC"] = tostring(Get_Asic_Ready());
+    rsp.info["FAN"] = tostring(Get_Fan_Locked());
+    rsp.info["LAMP"] = tostring(Get_Lamp_Status());
+
+
+
+
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+}
+
+void Status::onSetDLPPinReq(MsgInfo *msg,uint32_t connID)
+{
+    cout<<"onSetDLPPinReq "<<" connID="<<connID <<endl;
+
+    MsgInfo rsp;
+
+    rsp.msgType = PSetDLPPinRsp::uri;
+
+    rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+
+
+
+    if(msg->info.find("POWER")!= msg->info.end())
+    {
+    	uint32_t power =atoi(msg->info["POWER"].c_str());
+    	Set_PowerGood((unsigned long)power);
+    	test_msg("onSetDLPPinReq power=%d",power);
+    }
+
+    if(msg->info.find("LAMP")!= msg->info.end())
+     {
+     	uint32_t lamp =atoi(msg->info["LAMP"].c_str());
+     	Set_Lamp_Ctrl((unsigned long)lamp);
+     	test_msg("onSetDLPPinReq lamp=%d",lamp);
+     }
+
+
+
+
+
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+}
 
 
