@@ -36,9 +36,7 @@ Channel::~Channel()
 
 uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
 {
-#ifndef __unix__
-	taskLock();
-#endif
+
     switch(msg->msgType)
     {
         case PSetSwitchInputReq::uri:
@@ -57,14 +55,16 @@ uint32_t Channel::onMsgReq(MsgInfo *msg,uint32_t connID)
         	onPSetInPutShowAreaReq(msg,connID);
             break;
 
+        case PInitSDChannelReq::uri:
+        	onPInitSDChannelReq(msg,connID);
+        	break;
+
 
         default:
             //cout<<"CHANNEL URI UNKOWN!"<<" msg->msgType="<<msg->msgType <<endl;
         	break;
     }
-#ifndef __unix__
-    taskUnlock();
-#endif
+
     return 0;
 }
 
@@ -93,10 +93,12 @@ void Channel::onPSetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 		test_msg("onPSetSwitchInputReq  out=%d,input=%d",out,input);
 		setChnSignalInput(out,input);
 
+		EntSetting::Instance()->setOutputSwitch(out,input);
+
 //		taskDelay(10);
 
 	    uint32_t model = 0;
-	    uint32_t inputModel = 0;
+
 	    getChnModel(out,model);
 		test_msg("setChnModel  out=%d,model:%d  !",out,model);
 		setChnModel(out,model);
@@ -220,6 +222,33 @@ void Channel::onPGetSwitchInputReq(MsgInfo *msg,uint32_t connID)
 
 }
 
+void Channel::onPInitSDChannelReq(MsgInfo *msg,uint32_t connID)
+{
+	test_msg("onPInitSDChannelReq  connID=%d",connID);
+
+    uint32_t channel = atoi(msg->info["channel"].c_str());
+    uint32_t type = 0;
+
+    if(msg->info.find("type") != msg->info.end())
+    {
+        type = atoi(msg->info["type"].c_str());
+        test_msg("onPInitSDChannelReq  type=%d",type);
+    }
+
+    MsgInfo rsp;
+    rsp.msgType = PInitSDChannelRsp::uri;
+
+
+   	rsp.info["error"] = tostring(ERROR_TYPE_SUCCESS);
+
+   	init5160(channel);
+
+   	init772(channel,type);
+
+    MsgHandler::Instance()->sendMsg(connID,&rsp);
+
+
+}
 
 
 

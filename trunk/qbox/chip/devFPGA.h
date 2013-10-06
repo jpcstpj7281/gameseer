@@ -47,6 +47,15 @@ struct InputInfoT
 
 };
 
+struct FpgaSetInfo
+{
+	uint8_t fp;
+	uint8_t freqA;
+	uint8_t freqB;
+	uint8_t freqC;
+
+};
+
 
 class DriverChipFPGA
 :public FPGABus
@@ -74,11 +83,20 @@ public:
 
 	void getSignalModel(uint32_t signal,uint32_t &model);
 
+	void setRing54MH();
+	void setRing162MH();
+
+
+	void set753ChannelMH(uint32_t chn,uint32_t flg);
+	void setRingChannelMH(uint32_t channel,uint32_t flg);
+
+	void setRingFreq(uint32_t channel,uint32_t model);
+	void setRingFp(uint32_t channel,uint32_t model);
 
 
 private:
 
-
+	map<uint32_t,FpgaSetInfo> m_fpgaSetInfo;
 
 
 };

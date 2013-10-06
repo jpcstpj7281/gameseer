@@ -29,6 +29,7 @@ private:
 	void onPGetSwitchInputReq(MsgInfo *msg,uint32_t connID);
 	void onPSetInPutPicReq(MsgInfo *msg,uint32_t connID);
 	void onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID);
+	void onPInitSDChannelReq(MsgInfo *msg,uint32_t connID);
 
 
 

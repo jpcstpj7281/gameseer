@@ -33,6 +33,7 @@ void DriverChip772::set480(uint32_t chn)
 	map<uint8_t,uint8_t> bank0;
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
+	bank0[CP_IP00C772_B0_OSWP_ADDR] = 0x04;
 	bank0[CP_IP00C772_B0_OHCYCL_ADDR1] = 0x58;
 	bank0[CP_IP00C772_B0_OHCYCL_ADDR2] = 0x03;
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR1] = 0x0b;
@@ -100,6 +101,9 @@ void DriverChip772::set576(uint32_t chn)
 	map<uint8_t,uint8_t> bank0;
 
 	bank0[CP_IP00C772_RGBNK_ADDR] = 0x00;
+
+
+	bank0[CP_IP00C772_B0_OSWP_ADDR] = 0x00;
 	bank0[CP_IP00C772_B0_OHCYCL_ADDR1] = 0x5e;
 	bank0[CP_IP00C772_B0_OHCYCL_ADDR2] = 0x03;
 	bank0[CP_IP00C772_B0_OVCYCL_ADDR1] = 0x6f;
@@ -110,7 +114,7 @@ void DriverChip772::set576(uint32_t chn)
 	bank0[CP_IP00C772_B0_OACTHST_ADDR2] = 0x00;
 	bank0[CP_IP00C772_B0_OACTVST_ADDR1] = 0x2a;
 	bank0[CP_IP00C772_B0_OACTVST_ADDR2] = 0x00;
-	bank0[CP_IP00C772_B0_OACTHW_ADDR1] = 0xbc;
+	bank0[CP_IP00C772_B0_OACTHW_ADDR1] = 0xd0;
 	bank0[CP_IP00C772_B0_OACTHW_ADDR2] = 0x02;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR1] = 0x43;
 	bank0[CP_IP00C772_B0_OACTVW_ADDR2] = 0x02;
@@ -837,7 +841,7 @@ void DriverChip772::dev_C772_Init(uint32_t byChannel)
 	initBaseReg(byChannel);
 
 	SPI_Write(byChannel,CP_IP00C772_B0_OSYCT_ADDR,0x41);
-	SPI_Write(byChannel,CP_IP00C772_B0_OSWP_ADDR,0x04);
+
 
 	setOutputSyncCycle(byChannel,858,525);
 	setHorAndVerSyncCtrl(byChannel,POL_LOW,30,POL_LOW,5);
@@ -1016,4 +1020,20 @@ void DriverChip772::initPixelNR(uint32_t byChannel)
 	SPI_Write(byChannel,CP_IP00C772_B2_DIAGTH12_ADDR,0x32);
 
 
+}
+
+
+bool DriverChip772::isOnline(uint32_t byChannel)
+{
+	uint8_t byVal=0x0a;
+	uint8_t byVal1=0x00;
+
+	SPI_Write(byChannel,0,byVal);
+	SPI_Read(byChannel,0,byVal1);
+	if(byVal==byVal1)
+	{
+		return true;
+	}
+
+	return false;
 }

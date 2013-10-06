@@ -47,6 +47,13 @@ extern unsigned char GpioValGet_Slot1();
 extern unsigned char GpioValGet_Slot2();
 
 
+extern unsigned char Get_Asic_Ready();
+extern unsigned char Get_Fan_Locked();
+extern unsigned char Get_Lamp_Status();
+
+extern void Set_PowerGood(unsigned long val);
+extern void Set_Lamp_Ctrl(unsigned long val);
+
 extern void DLPI2cWritePage(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate);
 extern void DLPI2cReadData(uint8_t addr,uint8_t sub2,uint8_t dwCount,uint8_t *byDate);
 
