@@ -166,7 +166,7 @@ enum OUTPUT_MODLE_TYPE
 enum OUTPUT_SIZE_TYPE
 {
     TYPE_OUTPUT_SIZE_1024_768 = 0,
-    TYPE_OUTPUT_SIZE_1440_1050 = 1,
+    TYPE_OUTPUT_SIZE_1400_1050 = 1,
 };
 
 
@@ -243,7 +243,7 @@ public:
 	void selectOutPutModel(uint32_t model);
 
 	void setOutputBGColor(uint32_t bg0Color,uint32_t bg1Color);
-	void setOutputSize(uint32_t type);
+	void setOutputBGSize(uint32_t type);
 	void setOutputImage(uint32_t model,uint32_t size);
 	void setOutputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_t hs,uint16_t vs);
 	void setInputChannelACT(uint32_t iChID,uint16_t hw,uint16_t vw,uint16_t hs,uint16_t vs);

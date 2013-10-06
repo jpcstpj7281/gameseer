@@ -65,5 +65,18 @@ struct PSetOutPutSizeRsp
 };
 
 
+struct PInitSDChannelReq
+{
+	enum{uri=(CHANNEL_MSGBASE<<16|13)};
+	//channel->??? //设置输出通道分辩率
+};
+
+struct PInitSDChannelRsp
+{
+	enum{uri=(CHANNEL_MSGBASE<<16|14)};
+	//error->???
+};
+
+
 
 #endif /* PROTOCOL_H_ */

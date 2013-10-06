@@ -93,41 +93,96 @@ AppScale::AppScale()
     InputInfo info;
     info.hW = 702;
     info.Vw = 480;
-    info.hStar = 137;
-    info.vStar = 45;
+    info.hStar = 268;
+    info.vStar = 43;
+ //   info.freqHL = 0;
     m_InputInfo[TYPE_INPUT_SIZE_702_480] = info;
 
-
+    info.hW = 720;
+    info.Vw = 576;
+    info.hStar = 268;
+    info.vStar = 46;
+ //   info.freqHL = 0;
+    m_InputInfo[TYPE_INPUT_SIZE_720_576] = info;
 
     info.hW = 800;
     info.Vw = 600;
-    info.hStar = 95;
-    info.vStar = 22;
-    m_InputInfo[TYPE_INPUT_SIZE_800_600] = info;
+    info.hStar = 268;
+    info.vStar = 29;
+//    info.freqHL = 0;
+    m_InputInfo[TYPE_INPUT_SIZE_800_600_60] = info;
 
     info.hW = 1024;
     info.Vw = 768;
-    info.hStar = 303;
-    info.vStar = 36;
+    info.hStar = 268;
+    info.vStar = 37;
+ //   info.freqHL = 0;
     m_InputInfo[TYPE_INPUT_SIZE_1024_768_60] = info;
 
     info.hW = 1280;
     info.Vw = 1024;
-    info.hStar = 255;
-    info.vStar = 37;
+    info.hStar = 268;
+    info.vStar = 43;
+ //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1280_1024_60] = info;
 
     info.hW = 1600;
     info.Vw = 1200;
-    info.hStar = 303;
-    info.vStar = 36;
+    info.hStar = 268;
+    info.vStar = 51;
+ //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1600_1200_60] = info;
+
+    //-----------------------------------
+    info.hW = 1024;
+    info.Vw = 768;
+    info.hStar = 268;
+    info.vStar = 33;
+ //   info.freqHL = 1;
+    m_InputInfo[TYPE_INPUT_SIZE_1024_768_75] = info;
+
+    info.hW = 1280;
+    info.Vw = 1024;
+    info.hStar = 268;
+    info.vStar = 43;
+ //   info.freqHL = 1;
+    m_InputInfo[TYPE_INPUT_SIZE_1280_1024_75] = info;
+
+    info.hW = 1440;
+    info.Vw = 900;
+    info.hStar = 268;
+    info.vStar = 33;
+ //   info.freqHL = 1;
+    m_InputInfo[TYPE_INPUT_SIZE_1440_900_60] = info;
+
+    info.hW = 1600;
+    info.Vw = 900;
+    info.hStar = 168;
+    info.vStar = 101;
+//    info.freqHL = 1;
+    m_InputInfo[TYPE_INPUT_SIZE_1600_900_60] = info;
+
+    info.hW = 1920;
+    info.Vw = 1080;
+    info.hStar = 268;
+    info.vStar = 43;
+//    info.freqHL = 1;
+    m_InputInfo[TYPE_INPUT_SIZE_1920_1080_60] = info;
+
+
+    info.hW = 1280;
+    info.Vw = 960;
+    info.hStar = 268;
+    info.vStar = 43;
+//    info.freqHL = 1;
+    m_InputInfo[TYPE_INPUT_SIZE_1280_960_60] = info;
 
 
     info.hW = 702;
     info.Vw = 480;
     info.hStar = 137;
     info.vStar = 45;
+ //   info.freqHL = 0;
     m_InputInfo[TYPE_INPUT_SIZE_DEFAULT] = info;
 
 
@@ -1021,7 +1076,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 
 
         C753SetInputHorizontalShrinkScale(iChID,shrinkScale);
-    	debug_msg("HorizontalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
+//    	debug_msg("HorizontalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
 
 
         C753SetInputPortACTHorizontalWidth(iChID,hOutput);
@@ -1096,7 +1151,7 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 
 
         C753SetInputVerticalShrinkScale(iChID, shrinkScale);
-        debug_msg("VerticalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
+//        debug_msg("VerticalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
 
 
         C753SetInputPortACTVerticalWidth(iChID,vInput);
@@ -1256,7 +1311,7 @@ void  AppScale::setOutputBGColor(uint32_t bg0Color,uint32_t bg1Color)
 	debug_msg("setOutputBGColor bg0Color=%X,bg1Color=%X !",bg0Color,bg1Color);
 }
 
-void AppScale::setOutputSize(uint32_t type)
+void AppScale::setOutputBGSize(uint32_t type)
 {
 	 DriverChipICS307 s_ics307;
 
@@ -1277,7 +1332,7 @@ void AppScale::setOutputSize(uint32_t type)
 			 break;
 		 }
 
-		 case TYPE_OUTPUT_SIZE_1440_1050:
+		 case TYPE_OUTPUT_SIZE_1400_1050:
 		 {
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_121750KHZ);
 			 C753SetOutputHorizontalSync(0x0746);
@@ -1286,7 +1341,7 @@ void AppScale::setOutputSize(uint32_t type)
  		     C753SetVerticalSyncResetDelay(4);
 
 
-			 debug_msg("setOutputSize 1440 X 1050 @60Hz !");
+			 debug_msg("setOutputSize 1400 X 1050 @60Hz !");
 			 break;
 		 }
 
@@ -1301,7 +1356,7 @@ void AppScale::setOutputSize(uint32_t type)
 void AppScale::setOutputImage(uint32_t model,uint32_t size)
 {
 	selectOutPutModel(model);
-	setOutputSize(size);
+	setOutputBGSize(size);
 
 	if(model == TYPE_OUTPUT_ACT)
 	{
@@ -1321,7 +1376,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			m_verFp = 33;
 
 		}
-		else if(size == TYPE_OUTPUT_SIZE_1440_1050)
+		else if(size == TYPE_OUTPUT_SIZE_1400_1050)
 		{
 			 C753SetOutputPortOAOI0HorizontalStart((uint16_t)241);
 			 C753SetOutputPortOAOI0HorizontalEnd((uint16_t)1640);
@@ -1347,7 +1402,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			m_horFp = 296;
 			m_verFp = 33;
 		}
-		else if(size == TYPE_OUTPUT_SIZE_1440_1050)
+		else if(size == TYPE_OUTPUT_SIZE_1400_1050)
 		{
 			C753SetOutputPortOAOI1HorizontalStart((uint16_t)241);
 			C753SetOutputPortOAOI1HorizontalEnd((uint16_t)1640);
@@ -1448,20 +1503,22 @@ AppScale* AppScale::Instance()
 void AppScale::setInputSignalModel(uint32_t chId,uint32_t model)
 {
 
-	debug_msg("setInputSignalModel  chId:%d,model:%d",chId,model);
-	setInputChannelACT(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,m_InputInfo[model].hStar,m_InputInfo[model].vStar);
+//	setChannelMH(chId,m_InputInfo[model].freqHL);
 
-	uint16_t outHw =0;
-	uint16_t outVw =0;
+		debug_msg("setInputSignalModel  chId:%d,model:%d",chId,model);
+		setInputChannelACT(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,m_InputInfo[model].hStar,m_InputInfo[model].vStar);
 
-
-	C753GetOutputPortACTHorizontalWidth(chId,outHw);
-	C753GetOutputPortACTVerticalWidth(chId,outVw);
-
-	debug_msg("setInputSignalModel getOutput  chId:%d,outHw:%d,outVw:%d",chId,outHw,outVw);
+		uint16_t outHw =0;
+		uint16_t outVw =0;
 
 
-	initScal(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,outHw,outVw);
+		C753GetOutputPortACTHorizontalWidth(chId,outHw);
+		C753GetOutputPortACTVerticalWidth(chId,outVw);
+
+		debug_msg("setInputSignalModel getOutput  chId:%d,outHw:%d,outVw:%d",chId,outHw,outVw);
+
+
+		initScal(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,outHw,outVw);
 
 }
 

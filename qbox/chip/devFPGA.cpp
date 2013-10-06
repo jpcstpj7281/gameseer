@@ -17,7 +17,86 @@ using namespace chip;
 
 DriverChipFPGA::DriverChipFPGA()
 {
+	FpgaSetInfo info;
+	info.fp = 0xc8;
+	info.freqA = 0x36;
+	info.freqB = 0x02;
+	info.freqC = 0x06;
 
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_702_480] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x10;
+	info.freqC = 0x19;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_800_600_60] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x1c;
+	info.freqC = 0x99;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1024_768_60] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x02;
+	info.freqC = 0x01;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1280_1024_60] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x05;
+	info.freqC = 0x01;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1600_1200_60] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x0d;
+	info.freqC = 0x8a;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1024_768_75] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x03;
+	info.freqC = 0x81;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1280_1024_75] = info;
+
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x1f;
+	info.freqC = 0x90;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1440_900_60] = info;
+
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x07;
+	info.freqC = 0x02;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1920_1080_60] = info;
+
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x02;
+	info.freqC = 0x01;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1600_900_60] = info;
+
+	info.fp = 0xc8;
+	info.freqA = 0x31;
+	info.freqB = 0x02;
+	info.freqC = 0x01;
+
+	m_fpgaSetInfo[TYPE_INPUT_SIZE_1280_960_60] = info;
 }
 
 DriverChipFPGA::~DriverChipFPGA()
@@ -350,6 +429,7 @@ void DriverChipFPGA::getSignalModel(uint32_t signal,uint32_t &model)
 {
 	uint16_t wHs = 0;
 	uint16_t wVs = 0;
+	uint16_t wPf = 0;
 
 
 //	debug_msg("getSignalModel signal=%d!",signal);
@@ -364,36 +444,42 @@ void DriverChipFPGA::getSignalModel(uint32_t signal,uint32_t &model)
 			{
 				FPGA_Read(FPGA_HS_REGISTER_1_ADDR,wHs);
 				FPGA_Read(FPGA_VS_REGISTER_1_ADDR,wVs);
+				FPGA_Read(FPGA_PIXEL_FREQ_1_ADDR,wPf);
 				break;
 			}
 			case 2:
 			{
 				FPGA_Read(FPGA_HS_REGISTER_2_ADDR,wHs);
 				FPGA_Read(FPGA_VS_REGISTER_2_ADDR,wVs);
+				FPGA_Read(FPGA_PIXEL_FREQ_2_ADDR,wPf);
 				break;
 			}
 			case 3:
 			{
 				FPGA_Read(FPGA_HS_REGISTER_3_ADDR,wHs);
 				FPGA_Read(FPGA_VS_REGISTER_3_ADDR,wVs);
+				FPGA_Read(FPGA_PIXEL_FREQ_3_ADDR,wPf);
 				break;
 			}
 			case 4:
 			{
 				FPGA_Read(FPGA_HS_REGISTER_4_ADDR,wHs);
 				FPGA_Read(FPGA_VS_REGISTER_4_ADDR,wVs);
+				FPGA_Read(FPGA_PIXEL_FREQ_4_ADDR,wPf);
 				break;
 			}
 			case 5:
 			{
 				FPGA_Read(FPGA_HS_REGISTER_5_ADDR,wHs);
 				FPGA_Read(FPGA_VS_REGISTER_5_ADDR,wVs);
+				FPGA_Read(FPGA_PIXEL_FREQ_5_ADDR,wPf);
 				break;
 			}
 			case 6:
 			{
 				FPGA_Read(FPGA_HS_REGISTER_6_ADDR,wHs);
 				FPGA_Read(FPGA_VS_REGISTER_6_ADDR,wVs);
+				FPGA_Read(FPGA_PIXEL_FREQ_6_ADDR,wPf);
 				break;
 			}
 		}
@@ -411,36 +497,101 @@ void DriverChipFPGA::getSignalModel(uint32_t signal,uint32_t &model)
 	   && wVs > 480
 	   && wVs < 500)
 	{
-//		if(signal ==1 || signal ==2)
-//		{
-//			model = TYPE_INPUT_SIZE_702_480_RING;
-//		}
-//		else
-		{
-			model = TYPE_INPUT_SIZE_702_480;
-		}
+		model = TYPE_INPUT_SIZE_702_480;
+	}
+	else if(wHs > 710
+			   && wHs < 740
+			   && wVs > 560
+			   && wVs < 590)
+	{
+		model = TYPE_INPUT_SIZE_720_576;
 	}
 	else if(wHs > 790
 			   && wHs < 810
 			   && wVs > 590
 			   && wVs < 610)
 	{
-		model = TYPE_INPUT_SIZE_800_600;
+		model = TYPE_INPUT_SIZE_800_600_60;
 	}
 	else if(wHs > 1000
 			   && wHs < 1100
 			   && wVs > 750
-			   && wVs < 780)
+			   && wVs < 780
+			   && wPf > 6470
+			   && wPf < 6550)
 	{
 		model = TYPE_INPUT_SIZE_1024_768_60;
+	}
+
+	else if(wHs > 1000
+			   && wHs < 1100
+			   && wVs > 750
+			   && wVs < 780
+			   && wPf > 7850
+			   && wPf < 7950)
+	{
+		model = TYPE_INPUT_SIZE_1024_768_75;
 	}
 	else if(wHs > 1200
 			   && wHs < 1350
 			   && wVs > 1000
-			   && wVs < 1100)
+			   && wVs < 1100
+			   && wPf > 10750
+			   && wPf < 10850)
 	{
 		model = TYPE_INPUT_SIZE_1280_1024_60;
 	}
+
+	else if(wHs > 1200
+			   && wHs < 1350
+			   && wVs > 1000
+			   && wVs < 1100
+			   && wPf > 13450
+			   && wPf < 13550)
+	{
+		model = TYPE_INPUT_SIZE_1280_1024_75;
+	}
+
+	else if(wHs > 1430
+				   && wHs < 1450
+				   && wVs > 890
+				   && wVs < 910
+				   && wPf > 10630
+				   && wPf < 10730)
+		{
+			model = TYPE_INPUT_SIZE_1440_900_60;
+		}
+	else if(wHs > 1550
+				   && wHs < 1650
+				   && wVs > 890
+				   && wVs < 910
+				   && wPf > 10750
+				   && wPf < 10850)
+		{
+			model = TYPE_INPUT_SIZE_1600_900_60;
+		}
+
+
+	else if(wHs > 1910
+		   && wHs < 1930
+		   && wVs > 1050
+		   && wVs < 1150
+		   && wPf > 14800
+		   && wPf < 14900)
+			{
+				model = TYPE_INPUT_SIZE_1920_1080_60;
+			}
+
+	else if(wHs > 1230
+			&& wHs < 1330
+			&& wVs > 930
+			&& wVs < 990
+			&& wPf > 10747
+			&& wPf < 10847)
+			{
+				model = TYPE_INPUT_SIZE_1280_960_60;
+			}
+
 	else if(wHs > 1580
 			   && wHs < 1680
 			   && wVs > 1180
@@ -457,6 +608,555 @@ void DriverChipFPGA::getSignalModel(uint32_t signal,uint32_t &model)
 }
 
 
+void DriverChipFPGA::setRingChannelMH(uint32_t channel,uint32_t flg)
+{
+	if(channel == 3)
+	{
+		if(flg == 0)
+		{
+			FPGA_Write(0xc6,0x31);
+			FPGA_Write(0xc7,0x2);
+			FPGA_Write(0xc8,0x4);
+		}
+		else
+		{
+			FPGA_Write(0xc6,0x31);
+			FPGA_Write(0xc7,0x5);
+			FPGA_Write(0xc8,0x1);
+
+		}
+	}
+
+	if(channel == 4)
+	{
+		if(flg == 0)
+		{
+			FPGA_Write(0xc9,0x31);
+			FPGA_Write(0xca,0x2);
+			FPGA_Write(0xcb,0x4);
+
+		}
+		else
+		{
+			FPGA_Write(0xc9,0x31);
+			FPGA_Write(0xca,0x5);
+			FPGA_Write(0xcb,0x1);
+		}
+	}
 
 
+}
+
+
+
+void DriverChipFPGA::set753ChannelMH(uint32_t chn,uint32_t flg)
+{
+	uint16_t tempFlg = 0;
+
+	FPGA_Read(0x0,tempFlg);
+
+	if(chn == 1)
+	{
+		if(flg == 0)
+		{
+			tempFlg  = tempFlg | 0x0001;
+		}
+		else
+		{
+			tempFlg  = tempFlg & 0xfffe;
+		}
+	}
+
+	if(chn == 2)
+	{
+		if(flg == 0)
+		{
+			tempFlg  = tempFlg | 0x0002;
+		}
+		else
+		{
+			tempFlg  = tempFlg & 0xfffd;
+		}
+	}
+
+	FPGA_Write(0x0,tempFlg);
+
+
+}
+
+void DriverChipFPGA::setRingFreq(uint32_t channel,uint32_t model)
+{
+	if(channel==1 || channel==2)
+	{
+		return;
+	}
+
+
+	if(channel == 3)
+	{
+		FPGA_Write(0xc6,m_fpgaSetInfo[model].freqA);
+		FPGA_Write(0xc7,m_fpgaSetInfo[model].freqB);
+		FPGA_Write(0xc8,m_fpgaSetInfo[model].freqC);
+	}
+	else if(channel == 4)
+	{
+		FPGA_Write(0xc9,m_fpgaSetInfo[model].freqA);
+		FPGA_Write(0xca,m_fpgaSetInfo[model].freqB);
+		FPGA_Write(0xcb,m_fpgaSetInfo[model].freqC);
+	}
+
+
+//	switch(model)
+//	{
+//	case TYPE_INPUT_SIZE_702_480:
+//	case TYPE_INPUT_SIZE_720_576:
+//
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x36);
+//			FPGA_Write(0xc7,0x02);
+//			FPGA_Write(0xc8,0x06);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x36);
+//			FPGA_Write(0xca,0x02);
+//			FPGA_Write(0xcb,0x06);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_800_600_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x10);
+//			FPGA_Write(0xc8,0x19);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x10);
+//			FPGA_Write(0xcb,0x19);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1024_768_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x1c);
+//			FPGA_Write(0xc8,0x99);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x1c);
+//			FPGA_Write(0xcb,0x99);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1280_1024_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x02);
+//			FPGA_Write(0xc8,0x01);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x02);
+//			FPGA_Write(0xcb,0x01);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1600_1200_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x5);
+//			FPGA_Write(0xc8,0x1);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x5);
+//			FPGA_Write(0xcb,0x1);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1024_768_75:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x0d);
+//			FPGA_Write(0xc8,0x8a);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x0d);
+//			FPGA_Write(0xcb,0x8a);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1280_1024_75:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x03);
+//			FPGA_Write(0xc8,0x81);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x03);
+//			FPGA_Write(0xcb,0x81);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1440_900_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x1f);
+//			FPGA_Write(0xc8,0x90);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x1f);
+//			FPGA_Write(0xcb,0x90);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1920_1080_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x07);
+//			FPGA_Write(0xc8,0x02);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x07);
+//			FPGA_Write(0xcb,0x02);
+//		}
+//			break;
+//
+//
+//	case TYPE_INPUT_SIZE_1600_900_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x02);
+//			FPGA_Write(0xc8,0x01);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x02);
+//			FPGA_Write(0xcb,0x01);
+//		}
+//
+//		break;
+//
+//	case TYPE_INPUT_SIZE_1280_960_60:
+//		if(channel == 3)
+//		{
+//			FPGA_Write(0xc6,0x31);
+//			FPGA_Write(0xc7,0x02);
+//			FPGA_Write(0xc8,0x01);
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xc9,0x31);
+//			FPGA_Write(0xca,0x02);
+//			FPGA_Write(0xcb,0x01);
+//		}
+//
+//
+//		break;
+//
+//	}
+}
+
+void DriverChipFPGA::setRingFp(uint32_t channel,uint32_t model)
+{
+
+	if(channel == 1)
+	{
+		FPGA_Write(0xd6,m_fpgaSetInfo[model].fp);
+	}
+	else if(channel == 2)
+	{
+		FPGA_Write(0xd9,m_fpgaSetInfo[model].fp);
+
+	}
+	else if(channel == 3)
+	{
+		FPGA_Write(0xd0,m_fpgaSetInfo[model].fp);
+
+	}
+	else if(channel == 4)
+	{
+		FPGA_Write(0xd3,m_fpgaSetInfo[model].fp);
+	}
+
+
+//	switch(model)
+//	{
+//	case TYPE_INPUT_SIZE_702_480:
+//	case TYPE_INPUT_SIZE_720_576:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_800_600_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1024_768_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1280_1024_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1600_1200_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1024_768_75:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1280_1024_75:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1440_900_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1920_1080_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1600_900_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0x64);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0x64);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0x64);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0x64);
+//		}
+//		break;
+//
+//
+//	case TYPE_INPUT_SIZE_1280_960_60:
+//		if(channel == 1)
+//		{
+//			FPGA_Write(0xd6,0xc8);
+//		}
+//		else if(channel == 2)
+//		{
+//			FPGA_Write(0xd9,0xc8);
+//
+//		}
+//		else if(channel == 3)
+//		{
+//			FPGA_Write(0xd0,0xc8);
+//
+//		}
+//		else if(channel == 4)
+//		{
+//			FPGA_Write(0xd3,0xc8);
+//		}
+//		break;
+//
+//	}
+}
 

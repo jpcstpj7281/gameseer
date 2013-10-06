@@ -85,6 +85,7 @@ public:
 	void initPixelNR(uint32_t byChannel);
 
 
+	bool isOnline(uint32_t byChannel);
 private:
 
 
