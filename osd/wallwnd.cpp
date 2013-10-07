@@ -296,6 +296,9 @@ void ExtentItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,
 	case Direction::Bottom:
 		r = QRectF( 30, ((QGraphicsRectItem*)parentItem())->rect().height() - 10, 10, 10);
 		break;
+	case Direction::Full:
+		r = QRectF( ((QGraphicsRectItem*)parentItem())->rect().width() - 50, 0, 10, 10);
+		break;
 	}
 	setRect(r);
 	painter->setBrush(QBrush(Qt::yellow));
@@ -322,6 +325,11 @@ void ExtentItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,
 		painter->drawLine(QPointF(r.x()+r.width()/2, r.y()), QPointF(r.x()+r.width()/2, r.y()+r.height()));
 		painter->drawLine(QPointF(r.x(), r.y()+r.height()/2), QPointF(r.x()+r.width()/2, r.y()+r.height()));
 		painter->drawLine(QPointF(r.x()+r.width(), r.y()+r.height()/2), QPointF(r.x()+r.width()/2, r.y()+r.height()));
+		break;
+	case Direction::Full:
+		//painter->drawLine(QPointF(r.x()+r.width()/2, r.y()), QPointF(r.x()+r.width()/2, r.y()+r.height()));
+		//painter->drawLine(QPointF(r.x(), r.y()+r.height()/2), QPointF(r.x()+r.width()/2, r.y()+r.height()));
+		//painter->drawLine(QPointF(r.x()+r.width(), r.y()+r.height()/2), QPointF(r.x()+r.width()/2, r.y()+r.height()));
 		break;
 	}
 
@@ -412,6 +420,14 @@ void ExtentItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 			newRect.setY(0);
 			newRect.setWidth(itemrect.width());
 			newRect.setHeight(countbottom*screenh - newPos.y());
+			break;
+		case Direction::Full:
+			newPos.setY((counttop)*screenh);
+			newPos.setX((countleft)*screenw);
+			newRect.setX(0);
+			newRect.setY(0);
+			newRect.setWidth((countright - countleft)*screenw);
+			newRect.setHeight((countbottom - counttop)*screenh );
 			break;
 		}
 		item->bringFront();
@@ -525,6 +541,7 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	ExtentItem *itemleft = new ExtentItem( ExtentItem::Left);
 	ExtentItem *itemright = new ExtentItem( ExtentItem::Right);
 	ExtentItem *itembottom = new ExtentItem( ExtentItem::Bottom);
+	ExtentItem *itemfull = new ExtentItem( ExtentItem::Full);
 	
 	//item->setParentItem(this);
 	item1->setParentItem(this);
@@ -537,6 +554,7 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	itemleft->setParentItem(this);
 	itemright->setParentItem(this);
 	itembottom->setParentItem(this);
+	itemfull->setParentItem(this);
 	//setCursor( Qt::CrossCursor);
 
 	isMoving_ = false;

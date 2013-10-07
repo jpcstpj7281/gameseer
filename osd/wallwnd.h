@@ -56,6 +56,9 @@ public:
 		Top,
 		Bottom,
 		Right,
+		Full,
+		pre,
+		next,
 	};
 	bool isPressed_;
 	Direction dir_;
