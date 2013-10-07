@@ -53,6 +53,7 @@ void ScreenRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *opt
 //=======================================================================================================================================================================
 ResizeItem::ResizeItem(Direction dir):
 dir_(dir)
+	,isResizing_(false)
 {
 	setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemClipsToShape|ItemSendsScenePositionChanges );
 	switch(dir_){
@@ -244,15 +245,19 @@ void ResizeItem::resize( QPointF &curr){
 }
 void ResizeItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseMoveEvent(event);
-	WndRectItem* parent = ((WndRectItem*)parentItem());
-	if ( isResizing_) resize(event->scenePos());
+	//WndRectItem* parent = ((WndRectItem*)parentItem());
+	if ( WndMgr::instance()->isWndMovable_){
+		if ( isResizing_) resize(event->scenePos());
+	}
 }
 void ResizeItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 	QGraphicsRectItem::mousePressEvent(event);
-	WndRectItem* parent = ((WndRectItem*)parentItem());
-	pressPos_ = event->pos();
-	isResizing_ = true;
+	//WndRectItem* parent = ((WndRectItem*)parentItem());
+	if ( WndMgr::instance()->isWndMovable_){
+		pressPos_ = event->pos();
+		isResizing_ = true;
+	}
 }
 void ResizeItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
@@ -685,7 +690,10 @@ void WallScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 			return;
 		}
 
-		if ( !WndMgr::instance()->isWndMovable_ || list.size() == 0){//Into create wnd mode
+		if ( !WndMgr::instance()->isWndMovable_ ){//Into create wnd mode
+			isCreatingWnd_ = true;
+		}
+		if (list.size() == 0){
 			isCreatingWnd_ = true;
 		}
 	}
