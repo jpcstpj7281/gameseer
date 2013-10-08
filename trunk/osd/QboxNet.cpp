@@ -11,6 +11,7 @@
 #include <QMutex>
 #include <log4qt/FileAppender.h>
 #include "log4qt/logger.h"
+#include "wnd.h"
 
 using asio::ip::tcp;
 
@@ -213,20 +214,12 @@ struct Qbox::Impl{
 		msgBase.UnpackMsg(inmsg);
 		return inmsg;
 	}
-	void handleConnectFailed(){
-		if ( !isConnected_){
-			if ( socket_.is_open() ){
-				socket_.close();
-			}
-		}
-		//else socket_.close();
-	}
 	void asyncConnect(){
 		if ( !socket_.is_open()){
 			socket_.open( asio::ip::tcp::v4()  );
 		}
 		socket_.async_connect( asio::ip::tcp::endpoint(asio::ip::address::from_string(ip_), 5000 ),boost::bind(&Qbox::Impl::handleConnected, this, asio::placeholders::error) );
-		timer_.expires_from_now(boost::posix_time::seconds(5));  
+		timer_.expires_from_now(boost::posix_time::seconds(3));  
         timer_.async_wait(boost::bind(&Qbox::Impl::handleConnectFailed, this));  
 	}
 	void asyncReceive(){
@@ -336,16 +329,42 @@ struct Qbox::Impl{
 		}
 	}
 
+	void dispatchConnectFailed(){
+		RequestList foundList;
+		for( RequestList::iterator it = sentList_.begin(); it != sentList_.end(); ){
+			QboxObj* obj = *it;
+            obj->callback_( -1 , QboxDataMap());
+            ++it;
+		}
+		for( RequestList::iterator it = requestList_.begin(); it != requestList_.end(); ){
+			QboxObj* obj = *it;
+            obj->callback_( -1 , QboxDataMap());
+            ++it;
+		}
+        sentList_.clear();
+        requestList_.clear();
+	}
+	void handleConnectFailed(){
+		if ( !isConnected_){
+			if ( socket_.is_open() ){
+				socket_.close();
+			}
+		}
+		else socket_.close();
+		qDebug()<<QString::fromStdString(ip_)<<" connect failed!";
+	}
 	void handleConnected( const asio::error_code& err){
 		if ( !err){
-			//qDebug()<<"handleConnected";
+            qDebug()<<QString::fromStdString(ip_)<<" connected!";
 			isConnected_ = true;
 			timer_.cancel();
 			mainios_->post( boost::bind( &Qbox::Impl::asyncRequest, this) );
 			asyncReceive();
 		}else{
+            qDebug()<<QString::fromStdString(ip_)<<" connect error!";
 			isConnected_ = false;
-			this->socket_.close();
+			//this->socket_.close();
+            mainios_->post( boost::bind( &Qbox::Impl::dispatchConnectFailed, this ) );
 		}
 	}
 

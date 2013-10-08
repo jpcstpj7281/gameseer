@@ -146,47 +146,256 @@
         <source>  关闭所有光机</source>
         <translation type="unfinished"></translation>
     </message>
+    <message utf8="true">
+        <location filename="deviceswnd.ui" line="233"/>
+        <source>温度检测</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="deviceswnd.ui" line="246"/>
+        <source>光机检测</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
-        <location filename="deviceswnd.cpp" line="421"/>
+        <location filename="deviceswnd.cpp" line="435"/>
         <source>Row</source>
         <translation>行</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="422"/>
+        <location filename="deviceswnd.cpp" line="436"/>
         <source>Col</source>
         <translation>列</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="425"/>
+        <location filename="deviceswnd.cpp" line="439"/>
         <source>Connection</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="427"/>
+        <location filename="deviceswnd.cpp" line="441"/>
         <source>DLP</source>
         <translation>光机</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="428"/>
+        <location filename="deviceswnd.cpp" line="442"/>
         <source>Temp</source>
         <translation>温度</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="429"/>
+        <location filename="deviceswnd.cpp" line="443"/>
         <source>DlpRunTime</source>
         <translation>光机运行时间</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="728"/>
-        <location filename="deviceswnd.cpp" line="817"/>
+        <location filename="deviceswnd.cpp" line="783"/>
+        <location filename="deviceswnd.cpp" line="875"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="deviceswnd.cpp" line="736"/>
-        <location filename="deviceswnd.cpp" line="814"/>
+        <location filename="deviceswnd.cpp" line="791"/>
+        <location filename="deviceswnd.cpp" line="872"/>
         <source>Connect</source>
         <translation>连接</translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::AppenderSkeleton</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/appenderskeleton.cpp" line="137"/>
+        <source>Activation of appender &apos;%1&apos; that requires layout and has no layout set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/appenderskeleton.cpp" line="228"/>
+        <source>Use of non activated appender &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/appenderskeleton.cpp" line="236"/>
+        <source>Use of closed appender &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/appenderskeleton.cpp" line="244"/>
+        <source>Use of appender &apos;%1&apos; that requires layout and has no layout set</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::DailyRollingFileAppender</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/dailyrollingfileappender.cpp" line="148"/>
+        <source>Use of appender &apos;%1&apos; without having a valid date pattern set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/dailyrollingfileappender.cpp" line="215"/>
+        <source>The pattern &apos;%1&apos; does not specify a frequency for appender &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::Factory</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/factory.cpp" line="262"/>
+        <source>Cannot convert to type &apos;%1&apos; for property &apos;%2&apos; on object of class &apos;%3&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/factory.cpp" line="375"/>
+        <source>Unable to set property value on object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/factory.cpp" line="381"/>
+        <source>Invalid null object pointer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/factory.cpp" line="390"/>
+        <source>Invalid empty property name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/factory.cpp" line="408"/>
+        <source>Property &apos;%1&apos; does not exist in class &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/factory.cpp" line="421"/>
+        <source>Property &apos;%1&apos; is not writable in class &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::FileAppender</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/fileappender.cpp" line="131"/>
+        <source>Activation of Appender &apos;%1&apos; that requires file and has no file set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/fileappender.cpp" line="161"/>
+        <source>Use of appender &apos;%1&apos; without open file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/fileappender.cpp" line="224"/>
+        <source>Unable to write to file &apos;%1&apos; for appender &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/fileappender.cpp" line="258"/>
+        <source>Unable to open file &apos;%1&apos; for appender &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/fileappender.cpp" line="276"/>
+        <source>Unable to remove file &apos;%1&apos; for appender &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/fileappender.cpp" line="292"/>
+        <source>Unable to rename file &apos;%1&apos; to &apos;%2&apos; for appender &apos;%3&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::OptionConverter</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/optionconverter.cpp" line="103"/>
+        <source>Missing closing bracket for opening bracket at %1. Invalid subsitution in value %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/optionconverter.cpp" line="151"/>
+        <source>Invalid option string &apos;%1&apos; for a boolean</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/optionconverter.cpp" line="207"/>
+        <source>Invalid option string &apos;%1&apos; for a file size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/optionconverter.cpp" line="227"/>
+        <source>Invalid option string &apos;%1&apos; for an integer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/optionconverter.cpp" line="246"/>
+        <source>Invalid option string &apos;%1&apos; for a level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/optionconverter.cpp" line="285"/>
+        <source>Invalid option string &apos;%1&apos; for a target</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::PatternFormatter</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/patternformatter.cpp" line="535"/>
+        <source>Found character &apos;%1&apos; where digit was expected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/patternformatter.cpp" line="620"/>
+        <source>Option &apos;%1&apos; cannot be converted into an integer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/helpers/patternformatter.cpp" line="628"/>
+        <source>Option %1 isn&apos;t a positive integer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::PropertyConfigurator</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/propertyconfigurator.cpp" line="146"/>
+        <source>Unable to open property file &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/propertyconfigurator.cpp" line="158"/>
+        <source>Unable to read property file &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/propertyconfigurator.cpp" line="370"/>
+        <source>Missing appender definition for appender named &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/propertyconfigurator.cpp" line="380"/>
+        <source>Unable to create appender of class &apos;%1&apos; namd &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/propertyconfigurator.cpp" line="428"/>
+        <source>Missing layout definition for appender &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/propertyconfigurator.cpp" line="438"/>
+        <source>Unable to create layoput of class &apos;%1&apos; requested by appender &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Log4Qt::WriterAppender</name>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/writerappender.cpp" line="137"/>
+        <source>Activation of Appender &apos;%1&apos; that requires writer and has no writer set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../3rdParty/inc/log4qt/writerappender.cpp" line="192"/>
+        <source>Use of appender &apos;%1&apos; without a writer set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -279,6 +488,11 @@
     <message utf8="true">
         <location filename="mainwindow.ui" line="126"/>
         <source>编辑OID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="41"/>
+        <source>QboxSystem</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -874,23 +1088,29 @@
 <context>
     <name>ScreenConnBtn</name>
     <message>
+        <location filename="deviceswnd.cpp" line="54"/>
+        <source>Connecting...</source>
+        <translation>连接中...</translation>
+    </message>
+    <message>
         <location filename="deviceswnd.cpp" line="60"/>
         <location filename="deviceswnd.cpp" line="266"/>
         <location filename="deviceswnd.cpp" line="283"/>
-        <location filename="deviceswnd.cpp" line="361"/>
+        <location filename="deviceswnd.cpp" line="370"/>
         <source>Turn on</source>
         <translation>启动</translation>
     </message>
     <message>
         <location filename="deviceswnd.cpp" line="77"/>
         <location filename="deviceswnd.cpp" line="84"/>
-        <location filename="deviceswnd.cpp" line="324"/>
+        <location filename="deviceswnd.cpp" line="304"/>
+        <location filename="deviceswnd.cpp" line="333"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
         <location filename="deviceswnd.cpp" line="86"/>
-        <location filename="deviceswnd.cpp" line="298"/>
+        <location filename="deviceswnd.cpp" line="299"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
@@ -1001,7 +1221,7 @@
     <name>WallWnd</name>
     <message>
         <location filename="wallwnd.ui" line="20"/>
-        <location filename="wallwnd.cpp" line="1142"/>
+        <location filename="wallwnd.cpp" line="1205"/>
         <source>Wall</source>
         <translation>拼接墙</translation>
     </message>

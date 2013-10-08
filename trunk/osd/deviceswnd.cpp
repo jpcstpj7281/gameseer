@@ -51,7 +51,7 @@ void ScreenConnBtn::conn(){
 	if ( scrn){
 		if ( scrn->setAddress( address_->text().toStdString())){
 			scrn->connect();
-			setText("Connecting...");
+			setText(tr("Connecting..."));
 			this->setEnabled(false);
 			address_->setEnabled(false);
 			osdBtn_->setEnabled(false);
@@ -294,16 +294,24 @@ bool ScreenConnBtn::dlpStatusCallback( uint32_t , QboxDataMap data){
 	}
 	return true;
 }
-bool ScreenConnBtn::connectedCallback( uint32_t , QboxDataMap){
-	setText(tr("Disconnect"));
-	this->setEnabled(true);
-	osdBtn_->setEnabled(false);
-	testBtn_->setEnabled(true);
+bool ScreenConnBtn::connectedCallback( uint32_t msgType , QboxDataMap){
+    if ( msgType != -1){
+		setText(tr("Disconnect"));
+		this->setEnabled(true);
+		osdBtn_->setEnabled(false);
+		testBtn_->setEnabled(true);
+	}else{
+		setText(tr("Connect"));
+		this->setEnabled(true);
+		osdBtn_->setEnabled(false);
+		testBtn_->setEnabled(true);
+        address_->setEnabled(true);
+	}
 	return true;
 }
 
 ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
-	QPushButton()
+QPushButton()
 	,osdWnd_(0)
 	,testQbox_(0)
 	,screenid_(screenid)
@@ -372,7 +380,7 @@ ScreenConnBtn::ScreenConnBtn( ResourceID screenid, const std::string & ip ):
 	connect( this, SIGNAL(clicked()), this, SLOT(clickit()) );
 
 	connect( address_, SIGNAL(editingFinished()), this, SLOT(addressEditFinished()) );
-	
+
 }
 void ScreenConnBtn::timerEvent ( QTimerEvent * ){
 	if (dlpBtn_ ){
@@ -414,36 +422,36 @@ void ScreenConnBtn::addressEditFinished(){
 }
 
 DevicesWnd::DevicesWnd(QWidget *parent) :
-    QWidget(parent)
-    ,ui(new Ui::DevicesWnd)
+QWidget(parent)
+	,ui(new Ui::DevicesWnd)
 	,pbFanCheck_(0)
 	,pbTempCheck_(0)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    tableDevices_ = findChild<QTableWidget* >("tableDevices");
-    tableDevices_->setColumnCount(9);
+	tableDevices_ = findChild<QTableWidget* >("tableDevices");
+	tableDevices_->setColumnCount(9);
 
-    QStringList sl;
+	QStringList sl;
 	sl.push_back( tr("Row"));
 	sl.push_back( tr("Col"));
 	sl.push_back( "IP");
-    sl.push_back( "OSD");
-    sl.push_back( tr("Connection"));
+	sl.push_back( "OSD");
+	sl.push_back( tr("Connection"));
 	sl.push_back( "Test");
 	sl.push_back( tr("DLP"));
 	sl.push_back( tr("Temp"));
 	sl.push_back( tr("DlpRunTime"));
-    tableDevices_->setHorizontalHeaderLabels(sl );
+	tableDevices_->setHorizontalHeaderLabels(sl );
 	tableDevices_->setColumnWidth( 0, 35);
 	tableDevices_->setColumnWidth( 1, 35);
 	tableDevices_->hideColumn(5);
 	tableDevices_->hideColumn(8);
 
-    connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
-    connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
+	connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
+	connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
-    startTimer(500);
+	startTimer(500);
 	QPushButton * clearWall = findChild<QPushButton* >("clearWall");
 	connect( clearWall, SIGNAL( clicked()), this, SLOT(clearWall()) );
 	QPushButton * incrCol = findChild<QPushButton* >("incrCol");
@@ -484,7 +492,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	btn->hide();
 	btn = findChild<QPushButton* >("pbSaveAs");
 	btn->hide();
-	
+
 	connect( QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(destroyedNow()));
 
 	pbFanCheck_ = this->findChild<QPushButton* >("pbFanCheck");
@@ -498,7 +506,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 }
 DevicesWnd::~DevicesWnd()
 {
-    delete ui;
+	delete ui;
 }
 void DevicesWnd::destroyedNow ( ){
 	turnOffAllDlp();
@@ -508,7 +516,7 @@ void DevicesWnd::clickedLoad(){
 	clearWall();
 	QDomElement root = ConfigMgr::instance()->getDoc()->documentElement();
 	QDomNodeList items = root.elementsByTagName("wall");
-	
+
 	if ( items.size() >0 ){
 		QDomElement wallElm = items.at(0).toElement();
 		size_t row = wallElm.attribute("row").toInt();
@@ -553,7 +561,7 @@ void DevicesWnd::clickedLoad(){
 
 		QDomElement wnode = modeelm.firstChildElement();
 		while(wnode != QDomElement()){
-			
+
 			WndData wd ;
 			wd.wndid_ = wnode.attribute("wndid").toStdWString();
 			wd.ringid_ = wnode.attribute("ringid").toStdWString();
@@ -582,7 +590,7 @@ void DevicesWnd::clickedLoad(){
 
 		QDomElement telm = melm.firstChildElement();
 		while(telm != QDomElement()){
-			
+
 			Timer* t = new Timer();
 			t->modeid_ = telm.attribute("modeid").toStdWString();
 			t->goto_ = telm.attribute("goto").toLong();
@@ -805,16 +813,16 @@ void  DevicesWnd::turnOffAllDlp(){
 
 //load addresses from configuration
 void DevicesWnd::initAddresses(){
-    //if ( addresses_.size() > 0) return;
-    //QDomElement address = ConfigMgr::instance()->getAddressElem().firstChildElement();
-    //while (address != QDomElement() ){
-    //    QString ip = address.attribute( "ip");
-    //    if ( addresses_.find( ip) == addresses_.end() ){
-    //        QboxAddress * aa = new QboxAddress(ip );
-    //        newAddress(aa);
-    //    }
-    //    address = address.nextSiblingElement();
-    //}
+	//if ( addresses_.size() > 0) return;
+	//QDomElement address = ConfigMgr::instance()->getAddressElem().firstChildElement();
+	//while (address != QDomElement() ){
+	//    QString ip = address.attribute( "ip");
+	//    if ( addresses_.find( ip) == addresses_.end() ){
+	//        QboxAddress * aa = new QboxAddress(ip );
+	//        newAddress(aa);
+	//    }
+	//    address = address.nextSiblingElement();
+	//}
 }
 
 void DevicesWnd::newAddress( ResourceID screenid, const std::string &ip){
@@ -826,7 +834,7 @@ void DevicesWnd::newAddress( ResourceID screenid, const std::string &ip){
 	tableDevices_->setRowCount(tableDevices_->rowCount()+1);  
 	tableDevices_->setItem ( tableDevices_->rowCount()-1, 0, connBtn->row_ );
 	tableDevices_->setItem ( tableDevices_->rowCount()-1, 1, connBtn->col_ );
-	
+
 	tableDevices_->setCellWidget(tableDevices_->rowCount()-1, 2, connBtn->address_);
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 3, connBtn->osdBtn_ );
 	tableDevices_->setCellWidget ( tableDevices_->rowCount()-1, 4, connBtn );
@@ -861,14 +869,14 @@ void DevicesWnd::connectImpl( ){
 
 void DevicesWnd::itemClicked(QTableWidgetItem * item)
 {
-    if (item->column() == 4 ){
-        if(item->text() == tr("Connect") ){
+	if (item->column() == 4 ){
+		if(item->text() == tr("Connect") ){
 
-        }
+		}
 		if(item->text() == tr("Disconnect") ){
 
-        }
-    }
+		}
+	}
 }
 
 void DevicesWnd::cellChanged(int row,int col){
