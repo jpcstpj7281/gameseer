@@ -364,7 +364,7 @@ void WndWnd::clickedDirectWndMode(){
 		WndMgr::instance()->closeAll();
 	}
 }
-void WndWnd::timerEvent ( QTimerEvent * event ){
+void WndWnd::timerEvent ( QTimerEvent *  ){
 	if (!isCurrTab_) return;
 	
 	if ( isChnComboBoxPressed()) return;

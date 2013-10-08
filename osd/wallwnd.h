@@ -57,8 +57,8 @@ public:
 		Bottom,
 		Right,
 		Full,
-		pre,
-		next,
+		Pre,
+		Next,
 	};
 	bool isPressed_;
 	Direction dir_;
@@ -144,7 +144,6 @@ public:
 
 	std::vector<QRectF> getGreenRects();
 };
-
 
 class WallWnd : public QWidget
 {

@@ -7,12 +7,6 @@
 #include "QboxNet.h"
 #include <wnd.h>
 
-struct WndData{
-	std::wstring wndid_;
-	ResourceID inputid_;
-	std::wstring ringid_;
-	double xPercent_, yPercent_, wPercent_, hPercent_, axPercent_, ayPercent_, awPercent_, ahPercent_;
-};
 
 class Mode {
 	
