@@ -6,10 +6,11 @@
 
 #include <QMainWindow>
 #include <protocol/protocol.h>
-
+#include <qt_ext\qtsingleapplication.h>
 #include "msgBase.h"
 #include <QMutex>
-
+#include <log4qt/FileAppender.h>
+#include "log4qt/logger.h"
 
 using asio::ip::tcp;
 
@@ -234,10 +235,11 @@ struct Qbox::Impl{
 	void asyncSend(std::string & data){
 		std::stringstream ss;
 		static char syms[] = "0123456789ABCDEF";
+		ss<<"len: "<<data.length()<<": "<<" data: ";
 		for (size_t it = 0; it < data.length(); it++){
 			ss << syms[((data[it] >> 4) & 0xf)] << syms[data[it] & 0xf] << ' ';
 		}
-		qDebug()<<"send: "<< ss.str().c_str();
+        Log4Qt::Logger::logger("sent")->info(ss.str().c_str());
 
 		socket_.async_send(asio::buffer( data.c_str(), data.length() ) , boost::bind(&Qbox::Impl::handleSent, this, asio::placeholders::error, asio::placeholders::bytes_transferred ) );
 	}
@@ -264,10 +266,12 @@ struct Qbox::Impl{
 				//qDebug()<<bytes_transferred;
 				std::stringstream ss;
 				static char syms[] = "0123456789ABCDEF";
+				ss<<"len: "<<bytes_transferred<<": "<<" data: ";
 				for (size_t it = move; it < bytes_transferred; it++){
 					ss << syms[((responsed_[it] >> 4) & 0xf)] << syms[responsed_[it] & 0xf] << ' ';
 				}
-				qDebug()<< "receive: "<<ss.str().c_str();
+				//qDebug()<< "receive: "<<ss.str().c_str();
+                Log4Qt::Logger::logger("received")->info(ss.str().c_str());
 				
 				mainios_->post( boost::bind( &Qbox::Impl::dispatchResponse, this, msg) );
 				//qDebug()<<"test2";

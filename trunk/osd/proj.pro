@@ -74,10 +74,13 @@ taskwnd.ui \
 
 
 LIBS += -lws2_32
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lQtSolutions_SingleApplication-head
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lQtSolutions_SingleApplication-headd
 DEFINES +=	_WIN32_WINNT=0x0501 \
 _CRT_SECURE_NO_DEPRECATE \
 BOOST_DATE_TIME_NO_LIB BOOST_REGEX_NO_LIB BOOST_ALL_NO_LIB=1
 
+include($$PWD/../3rdParty/inc/log4qt/log4qt.pri) 
 
 INCLUDEPATH += $$PWD/inc
 INCLUDEPATH += $$PWD/../3rdParty/inc
