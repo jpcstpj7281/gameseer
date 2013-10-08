@@ -11,6 +11,13 @@
 
 class Wnd;
 
+struct WndData{
+	std::wstring wndid_;
+	ResourceID inputid_;
+	std::wstring ringid_;
+	double xPercent_, yPercent_, wPercent_, hPercent_, axPercent_, ayPercent_, awPercent_, ahPercent_;
+};
+
 class WndMgr :public QObject
 {
 	static  WndMgr* inst;
@@ -45,12 +52,6 @@ public:
 	size_t axr_, ayr_, awr_, ahr_;	//area in real pixel
 	Wnode(ResourceID wnodeid, double xp,double yp,double wp, double hp, double leftCut, double rightCut, double topCut, double bottomCut):
 	wnodeid_(wnodeid),xp_(xp),yp_(yp),wp_(wp), hp_(hp), leftCut_(leftCut), rightCut_(rightCut), topCut_(topCut), bottomCut_(bottomCut){}
-	//void setArea(double axp,double ayp,double awp, double ahp ){
-	//	axp_=axp;
-	//	ayp_=ayp; 
-	//	awp_=awp; 
-	//	ahp_=ahp;
-	//}
 };
 
 class Wnd {
@@ -83,11 +84,21 @@ public:
 	Ring* ring_;
 	uint32_t layer_;
 	ResourceID inputid_;
+
+
+    std::vector<WndData> wndRecords_;
+    size_t currRecordNum_;
+
 	bool closeWnodes();
+    bool hasPre();
+    bool hasNext();
+    bool pre();
+    bool next();
+    void save();
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront();
 	bool resetInput(ResourceID inputid);
-	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent);
+	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent, bool isSave = true);
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent,double axPercent, double ayPercent, double awPercent, double ahPercent);
 	bool moveWnd(double xPercent, double yPercent);
 	Wnode * getWnode( ResourceID wnode);

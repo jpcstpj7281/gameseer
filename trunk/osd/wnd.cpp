@@ -135,6 +135,7 @@ xPercent_(xPercent)
 ,wPercent_(wPercent)
 ,hPercent_(hPercent)
 ,inputid_(inputid)
+,currRecordNum_(0)
 {
 	axPercent_=ayPercent_=0;
 	awPercent_= ahPercent_ = 1;
@@ -178,12 +179,67 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 	ahPercent_  = ahPercent;
 	return resizeWnd(xPercent,  yPercent,  wPercent,  hPercent);
 }
-bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent){
+bool Wnd::hasPre(){ 
+    return currRecordNum_>0;
+}
+bool Wnd::hasNext(){ 
+	return currRecordNum_ < wndRecords_.size() - 1;
+}
+bool Wnd::pre(){ 
+	if ( currRecordNum_ <=0){
+        return false;
+	}
+    WndData& wd = wndRecords_[--currRecordNum_];
+	inputid_ = wd.inputid_;
+	axPercent_  = wd.axPercent_;
+	ayPercent_  = wd.ayPercent_;
+	awPercent_  = wd.awPercent_;
+	ahPercent_  = wd.ahPercent_;
+	resizeWnd( wd.xPercent_, wd.yPercent_, wd.wPercent_, wd.hPercent_, false);
+    return true;
+}
+bool Wnd::next(){ 
+	if ( currRecordNum_ >= wndRecords_.size() - 1){
+        return false;
+	}
+    WndData& wd = wndRecords_[++currRecordNum_];
+	inputid_ = wd.inputid_;
+	axPercent_  = wd.axPercent_;
+	ayPercent_  = wd.ayPercent_;
+	awPercent_  = wd.awPercent_;
+	ahPercent_  = wd.ahPercent_;
+	resizeWnd( wd.xPercent_, wd.yPercent_, wd.wPercent_, wd.hPercent_, false);
+    return true;
+}
+void Wnd::save(){
+	WndData wd;
+	wd.inputid_ = inputid_;
+	wd.ahPercent_ = ahPercent_;
+	wd.awPercent_ = awPercent_;
+	wd.axPercent_ = axPercent_;
+	wd.ayPercent_ = ayPercent_;
+	wd.hPercent_ = hPercent_;
+	wd.wPercent_ = wPercent_;
+	wd.xPercent_ = xPercent_;
+	wd.yPercent_ = yPercent_;
+
+	if ( currRecordNum_ == wndRecords_.size() -1){
+		wndRecords_.push_back(wd);
+	}else{
+        if ( wndRecords_.size() > 1 && currRecordNum_ < wndRecords_.size() -1 )
+            wndRecords_.erase( wndRecords_.begin()+currRecordNum_+1, wndRecords_.end());
+		wndRecords_.push_back(wd);
+	}
+	currRecordNum_ = wndRecords_.size() -1;
+}
+bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent, bool isSave){
 	xPercent_  = xPercent;
 	yPercent_  = yPercent;
 	wPercent_  = wPercent;
 	hPercent_  = hPercent;
-	
+	if ( isSave){
+        save();
+	}
 	std::vector<Wnode*> wnodes;
 	if ( ring_ == NULL){
 		wnodes_.back()->xp_ = xPercent;
@@ -283,8 +339,8 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 		scrn->setAreaRequest( wnodes_[i]->axr_, wnodes_[i]->ayr_, wnodes_[i]->awr_, wnodes_[i]->ahr_, wnodes_[i]->wnodeid_, inputid_);
 	}
 	/*for ( size_t i = 0 ; i < wnodes_.size(); ++i){
-		Screen* scrn = ScreenMgr::instance()->getScreen( wnodes_[i]->wnodeid_);
-		scrn->setLayerRequest( layer_, wnodes_[i]->wnodeid_);
+	Screen* scrn = ScreenMgr::instance()->getScreen( wnodes_[i]->wnodeid_);
+	scrn->setLayerRequest( layer_, wnodes_[i]->wnodeid_);
 	}*/
 	//bringFront();
 	for ( size_t i = 0 ; i < wnodes_.size(); ++i){
@@ -372,7 +428,7 @@ Wnd* WndMgr::getWnds(ResourceID inputid){
 
 Wnd* WndMgr::createWnd( const std::wstring & id, double xPercent, double yPercent, double widthPercent, double heightPercent, ResourceID inputid, Ring* ring){
 	if ( inputid == 0) return NULL;
-	
+
 	std::vector<Wnode*> wnodes = createWnodes(xPercent, yPercent, widthPercent, heightPercent, inputid, ring);
 	if ( wnodes.size()>0){
 		wnds_.push_back( new Wnd(xPercent, yPercent, widthPercent, heightPercent, inputid));
@@ -409,6 +465,7 @@ Wnd* WndMgr::createWnd( const std::wstring & id, double xPercent, double yPercen
 			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
 			scrn->showRequest(wnodes[i]->wnodeid_ );
 		}
+        wnds_.back()->save();
 		return wnds_.back();
 	}else{
 		return NULL;

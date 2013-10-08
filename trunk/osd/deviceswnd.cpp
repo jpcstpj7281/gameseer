@@ -820,6 +820,9 @@ void DevicesWnd::initAddresses(){
 void DevicesWnd::newAddress( ResourceID screenid, const std::string &ip){
 
 	ScreenConnBtn * connBtn = new ScreenConnBtn( screenid , ip );
+	connBtn->isFanCheck_ = !pbFanCheck_->styleSheet().isEmpty();
+	connBtn->isTempCheck_ = !pbTempCheck_->styleSheet().isEmpty();
+
 	tableDevices_->setRowCount(tableDevices_->rowCount()+1);  
 	tableDevices_->setItem ( tableDevices_->rowCount()-1, 0, connBtn->row_ );
 	tableDevices_->setItem ( tableDevices_->rowCount()-1, 1, connBtn->col_ );
