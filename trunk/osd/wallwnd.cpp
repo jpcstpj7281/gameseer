@@ -477,12 +477,14 @@ void ExtentItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 			double y = wallscene->height()*item->wnd_->yPercent_;
 			double w = wallscene->width()*item->wnd_->wPercent_;
 			double h =  wallscene->height()*item->wnd_->hPercent_;
-            QPointF newPos = item->pos();
-			newPos.setX(x);
-			newPos.setY(y);
-			item->setRect( QRectF(0, 0, w, h));
-            item->setPos(  newPos  );
-			item->areaItem_->resetRect();
+			auto found  = std::find(wallscene->wndItems_.begin(), wallscene->wndItems_.end(), item);
+            if ( found != wallscene->wndItems_.end()){
+                Wnd* wnd = item->wnd_;
+                wallscene->removeItem(*found);
+                delete *found;
+                wallscene->wndItems_.erase(found);
+                wallscene->wndItems_.push_back( new WndRectItem(x, y, w, h, wallscene, wnd));
+			}
 		}
 	}
 }
@@ -575,14 +577,10 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	ExtentItem *itemright = new ExtentItem( ExtentItem::Right);
 	ExtentItem *itembottom = new ExtentItem( ExtentItem::Bottom);
 	ExtentItem *itemfull = new ExtentItem( ExtentItem::Full);
-	//ExtentItem *itempre = new ExtentItem( ExtentItem::Pre);
-	//ExtentItem *itemnext = new ExtentItem( ExtentItem::Next);
+	ExtentItem *itempre = new ExtentItem( ExtentItem::Pre);
+	ExtentItem *itemnext = new ExtentItem( ExtentItem::Next);
 
-	//item->setParentItem(this);
 	item1->setParentItem(this);
-	//item2->setParentItem(this);
-	//item3->setParentItem(this);
-	//item4->setParentItem(this);
 	item5->setParentItem(this);
 
 	itemup->setParentItem(this);
@@ -590,8 +588,8 @@ WndRectItem::WndRectItem(double x, double y, double w, double h, WallScene* wall
 	itemright->setParentItem(this);
 	itembottom->setParentItem(this);
 	itemfull->setParentItem(this);
-	//itempre->setParentItem(this);
-	//itemnext->setParentItem(this);
+	itempre->setParentItem(this);
+	itemnext->setParentItem(this);
 	//setCursor( Qt::CrossCursor);
 
 	isMoving_ = false;
