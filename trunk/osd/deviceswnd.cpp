@@ -500,7 +500,8 @@ QWidget(parent)
 	connect( pbFanCheck_, SIGNAL( clicked()), this, SLOT(clickedFanCheck()) );
 
 	pbTempCheck_ = this->findChild<QPushButton* >("pbTempCheck");
-	pbTempCheck_->setStyleSheet("* { background-color: lightGreen }");
+	//pbTempCheck_->setStyleSheet("* { background-color: lightGreen }");
+    pbTempCheck_->setStyleSheet("");
 	connect( pbTempCheck_, SIGNAL( clicked()), this, SLOT(clickedTempCheck()) );
 
 }
