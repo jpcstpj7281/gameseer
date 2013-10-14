@@ -350,8 +350,8 @@ struct Qbox::Impl{
 				socket_.close();
 			}
 		}
-		else socket_.close();
-		qDebug()<<QString::fromStdString(ip_)<<" connect failed!";
+		//else socket_.close();
+		//qDebug()<<QString::fromStdString(ip_)<<" connect failed!";
 	}
 	void handleConnected( const asio::error_code& err){
 		if ( !err){

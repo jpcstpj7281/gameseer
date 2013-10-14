@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <wall row="2" col="2"/>
-    <screen ip="192.168.67.105" id="257"/>
+    <screen ip="127.0.0.1" id="257"/>
     <screen ip="192.168.67.103" id="258"/>
     <screen ip="192.168.67.109" id="513"/>
     <screen ip="192.168.67.102" id="514"/>
