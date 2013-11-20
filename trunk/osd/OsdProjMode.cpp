@@ -311,7 +311,16 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 	if ( val.empty() ){
 		val = data["data"];
 	}
-	if ( val.length() == 42){
+    bool isValid = true;
+	for ( size_t i = 0; i < val.length(); ++i){
+        if( val[i] == 0xff){
+			isValid = false;
+            break;
+		}
+	}
+	if ( !isValid)
+        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+	else if ( val.length() == 42){
 		redGain_ =(val[0] << 8 ) + val[1];
 		redSat_=(val[2] << 8 ) + val[3];
 		redHue_=(val[4] << 8 ) + val[5];
@@ -376,16 +385,17 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 		findChild<QLineEdit*>("leHsgWhiteGreen" )->setText( QString::number( whiteGreen_));
 		findChild<QLineEdit*>("leHsgWhiteRed" )->setText( QString::number(whiteRed_ ));
 		findChild<QLineEdit*>("leHsgWhiteBlue" )->setText( QString::number( whiteBlue_));
+		findChild<QPushButton*>("btnReadHsg")->setEnabled(true);
 	}
 	return true;
 }
 
 void OsdProjMode::readClicked(){
-	if ( readCount_<=0){
-		readCount_=30;
+	//if ( readCount_<=0){
+	//	readCount_=30;
 		findChild<QPushButton*>("btnReadHsg")->setEnabled(false);
 		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
-	}
+	//}
 }
 
 
@@ -906,8 +916,9 @@ void OsdProjMode::save(){
 }
 
 
-bool OsdProjMode::osdTaskResponse(uint32_t , QboxDataMap& ){
+bool OsdProjMode::osdTaskResponse(uint32_t msgid, QboxDataMap& data){
 	isDispatching_ = false;
+
 	if ( !hsgTasks_.empty()){ 
 		hsgTasks_.front()();hsgTasks_.pop_front();isDispatching_=true;
 	}
@@ -924,9 +935,11 @@ void OsdProjMode::timerEvent ( QTimerEvent * ){
 	if ( !isDispatching_ ){
 		osdTaskResponse(0 , QboxDataMap());
 	}
+/*
 	if ( readCount_>0){
 		--readCount_;
 	}else{
 		findChild<QPushButton*>("btnReadHsg")->setEnabled(true);
 	}
+    */
 }
