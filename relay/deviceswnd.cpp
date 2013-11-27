@@ -56,6 +56,17 @@ void NetConnBtn::disconn(){
 		setText("Connect");
 		address_->setEnabled(true);
 		channels_->setEnabled(false);
+
+		status_->setText("Off Line");
+		status_->setBackground(QBrush(QColor(Qt::red)));
+		this->setEnabled(true);
+		testBtn_->setEnabled(false);
+		this->address_->setEnabled(true);
+		this->loc_->setText("");
+		this->desc_->setText("");
+		this->runTime_->setText("");
+		this->version_->setText("");
+
 		if (testNet_) {
 			delete testNet_;
 			testNet_ = 0;
@@ -91,13 +102,20 @@ void NetConnBtn::timerEvent ( QTimerEvent * ){
 	if (text() == "Disconnect"){
 		if (tickcount_!=0){
 			size_t now = GetTickCount();
-			if ( now - tickcount_ > 1000){
+			if ( now - tickcount_ > 1000 && isReadResponded_ ){
 				tickcount_ = now;
+                isReadResponded_ = false;
 				std::string ip = address_->text().toStdString();
 				if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
 					Host* host = TcpNet::instance()->getHost(ip);
 					host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
 				}
+			}
+			if ( now - tickcount_ > 5000 && !isReadResponded_ ){
+				this->disconn();
+				ongoingCmd_.clear();
+				ongoingDelay_.clear();
+                return;
 			}
 			disconnTickCount_ = now;
 		}
@@ -112,7 +130,7 @@ void NetConnBtn::timerEvent ( QTimerEvent * ){
 	for ( size_t i = 0; i < rTimers_.size(); ++i){
 		calcTimer( rTimers_[i]);
 	}
-	if ( ongoingDelay_.size() > 0 && ongoingDelay_.front() < GetTickCount() ){
+	if ( ongoingDelay_.size() > 0 && ongoingDelay_.front() < GetTickCount() ){//exec next ongoing cmd
 		Host* host = TcpNet::instance()->getHost(address_->text().toStdString());
 		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(ongoingCmd_.front() ) );
 		ongoingCmd_.pop_front();
@@ -294,12 +312,12 @@ bool NetConnBtn::incommingCallback( const std::string& msg){
 bool NetConnBtn::connectedCallback( const std::string& msg){
 	std::string ip = address_->text().toStdString();
 	if ( msg == "Login OK."){
-		setText("Disconnect");
+		desc_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
+		loc_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
 		this->setEnabled(true);
 		channels_->setEnabled(true);
 		testBtn_->setEnabled(true);
-		desc_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
-		loc_->setFlags( Qt::ItemIsEnabled| Qt::ItemIsEditable );
+		setText("Disconnect");
 		if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
 			Host* host = TcpNet::instance()->getHost(ip);
 			host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("Read\r\n")) );
@@ -326,7 +344,7 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 	}else if ( msg == "OFF [1,2,3,4,5,6,7,8]"){
 		channels_->setEnabled(false);
 		Log4Qt::Logger::logger(ip.c_str())->info(msg.c_str());
-	}else if ( msg == "ON [1,2,3,4,5,6,7,8]"){
+	}else if ( msg == "ON [8,7,6,5,4,3,2,1]"){
 		channels_->setEnabled(false);
 		Log4Qt::Logger::logger(ip.c_str())->info(msg.c_str());
 	}else{
@@ -435,6 +453,7 @@ bool NetConnBtn::connectedCallback( const std::string& msg){
 				runTime_->setText(tmp1);
 				runTime_->setToolTip(tmp1);
 				tickcount_ = GetTickCount();
+                isReadResponded_ = true;
 			}
 			if (qmsg.contains("Model:")){
 				QString tmp = qmsg.left(qmsg.indexOf("Ver"));
@@ -474,7 +493,7 @@ void NetConnBtn::offAll(int interval){
 	std::string ip = address_->text().toStdString();
 	if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
 		Host* host = TcpNet::instance()->getHost(ip);
-		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("OFF [1,2,3,4,5,6,7,8] T["+QString::number(interval).toStdString()+"]\r\n")) );
+		host->addAsyncRequest( std::bind( &NetConnBtn::connectedCallback, this, _1), std::move(std::string("OFF [8,7,6,5,4,3,2,1] T["+QString::number(interval).toStdString()+"]\r\n")) );
 		waitForState_ = WaitAllOff;
 	}
 }
@@ -543,6 +562,7 @@ NetConnBtn::NetConnBtn( const std::string & ip ):
 	,tickcount_(0)
 	,waitForState_(WaitNothing)
 	,disconnTickCount_ ( GetTickCount())
+	,isReadResponded_(true)
 {
 
 	this->setText( "Connect");
@@ -766,7 +786,6 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	tableDevices_->setColumnWidth( 12, 50);
 
     //connect( tableDevices_, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(itemClicked(QTableWidgetItem *)));
-    connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 
     startTimer(1000);
 	initAddresses();
@@ -818,6 +837,7 @@ DevicesWnd::DevicesWnd(QWidget *parent) :
 	}
 
 	logWnd_ = findChild<QPlainTextEdit*>("log");
+    connect( tableDevices_, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int,int)));
 }
 
 
@@ -1012,7 +1032,7 @@ void DevicesWnd::cellChanged(int row,int col){
 		t->desc_->setText("");
 	}
 	std::string ip = t->address_->text().toStdString();
-	if ( !ip.empty() && TcpNet::instance()->hasHost( ip)){
+	if ( t->text()=="Disconnect" && !ip.empty() && TcpNet::instance()->hasHost( ip)){
 		Host* host = TcpNet::instance()->getHost(ip);
 		switch(col){
 		case 2:

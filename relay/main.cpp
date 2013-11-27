@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 	Sleep(time);
 
 	if (!a.isRunning()){
-		a.setQuitOnLastWindowClosed(false);
+		a.setQuitOnLastWindowClosed(false);//点关闭不退出程序
 		MainWindow w;
 		w.show();
 		splash.finish(&w);

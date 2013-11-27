@@ -41,6 +41,7 @@ struct Host::Impl{
 	void handleConnectFailed(){
 		if ( !isConnected_){
 			if ( socket_.is_open() ){
+				qDebug()<<"***Error: handleConnectFailed! "<<this->ip_.c_str();
 				socket_.close();
 			}
 		}
@@ -59,6 +60,7 @@ struct Host::Impl{
 	}
 	void asyncSend(std::string & data){
 		socket_.async_send(asio::buffer( data.c_str(), data.length() ) , boost::bind(&Host::Impl::handleSent, this, asio::placeholders::error, asio::placeholders::bytes_transferred ) );
+		qDebug()<<"asyncSend: "<<data.c_str();
 	}
 	void handleSent( const asio::error_code& err, std::size_t bytes_transferred ){
 		if ( !err  ){
@@ -81,6 +83,7 @@ struct Host::Impl{
 				//}
 				//qDebug()<< ss.str().c_str();
 				std::string msg( responsed_, responsed_+bytes_transferred);
+				qDebug()<<"handleReceived: "<<msg.c_str();
 				mainios_->post( boost::bind( &Host::Impl::dispatchResponse, this, std::move(msg) ));
 				//qDebug()<<"test2";
 				move+=bytes_transferred;
@@ -90,6 +93,7 @@ struct Host::Impl{
 		}else{
 			qDebug()<<"***Error handleReceived: "<<bytes_transferred;
 			isConnected_ = false;
+            mainios_->post( boost::bind( &Host::Impl::asyncRequest, this) );
 		}
 	}
 #ifdef WIN32
