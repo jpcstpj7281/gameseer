@@ -85,8 +85,9 @@ public:
 
 	QPushButton			*btns_[16];
 
-	size_t				tickcount_;
-	size_t				disconnTickCount_;
+	size_t				tickcount_;//try to read once if now - tickcount_ > 1000
+	size_t				disconnTickCount_;//try to connect if now - disconnTickCount_ > 10000
+    bool                isReadResponded_;
 	size_t				waitTime_;
 
 	void conn();
