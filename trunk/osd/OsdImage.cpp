@@ -252,6 +252,22 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		if ( initStr_.empty()){
 			initStr_ = data["data"];
 		}
+		if ( initStr_.length() != 48){
+            ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
+            return true;
+		}else {
+            bool isValid = true;
+			for ( size_t i = 0; i < initStr_.length(); ++i){
+                if ( initStr_[i] == 0xff){
+                    isValid = false;
+                    break;
+				}
+			}
+			if ( !isValid){
+                ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &OsdImage::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
+                return true;
+			}
+		}
 	}
 
 	val[0] = initStr_[(step)*8 +0];

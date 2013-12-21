@@ -311,6 +311,11 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 	if ( val.empty() ){
 		val = data["data"];
 	}
+	if ( val.length() != 42){
+        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+        return true;
+	}
+
     bool isValid = true;
 	for ( size_t i = 0; i < val.length(); ++i){
         if( val[i] == 0xff){
@@ -318,9 +323,9 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
             break;
 		}
 	}
-	if ( !isValid)
+	if ( !isValid )
         ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
-	else if ( val.length() == 42){
+	else {
 		redGain_ =(val[0] << 8 ) + val[1];
 		redSat_=(val[2] << 8 ) + val[3];
 		redHue_=(val[4] << 8 ) + val[5];
