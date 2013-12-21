@@ -54,7 +54,7 @@ void ScreenConnBtn::conn(){
 			setText(tr("Connecting..."));
 			this->setEnabled(false);
 			address_->setEnabled(false);
-			osdBtn_->setEnabled(true);
+			osdBtn_->setEnabled(false);
 			testBtn_->setEnabled(false);
 			dlpBtn_->setEnabled(false);
 			dlpBtn_->setText(tr("Turn on"));
@@ -67,13 +67,13 @@ void ScreenConnBtn::disconn(){
 	ScreenMgr::instance()->closeAllWnds();
 	Screen* scrn = ScreenMgr::instance()->getScreen(screenid_);
 	
-	osdBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	testBtn_->setEnabled(false);
 	address_->setEnabled(true);
 	dlpBtn_->setEnabled(false);
 	if (osdBtn_) scrn->setDlpRequest( 0,std::bind( &ScreenConnBtn::turnoffDlpCallback, this, _1, _2), 0);
 	if (testQbox_ && !testQbox_->isHidden() ) testQbox_->hide();
-	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(true);
+	if (osdBtn_ && osdBtn_->isEnabled() ) osdBtn_->setEnabled(false);
 	setText(tr("Connect"));
 	scrn->disconnect();
 }
@@ -176,7 +176,7 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 	if ( data["error"] != "0"){
 		return true;
 	}
-	osdBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	std::string val;
 	val.resize(8);
 	if ( step ==6) {
@@ -236,13 +236,13 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 bool ScreenConnBtn::turnoffDlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
-	osdBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	return true;
 }
 bool ScreenConnBtn::turnonDlpCallback( uint32_t , QboxDataMap data){
 	if ( data["error"] != "0") return true;
 	dlpBtn_->setEnabled(true);
-	osdBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	//³õÊ¼»¯
 	ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
 	return true;
@@ -298,12 +298,12 @@ bool ScreenConnBtn::connectedCallback( uint32_t msgType , QboxDataMap){
     if ( msgType != -1){
 		setText(tr("Disconnect"));
 		this->setEnabled(true);
-		osdBtn_->setEnabled(true);
+		osdBtn_->setEnabled(false);
 		testBtn_->setEnabled(true);
 	}else{
 		setText(tr("Connect"));
 		this->setEnabled(true);
-		osdBtn_->setEnabled(true);
+		osdBtn_->setEnabled(false);
 		testBtn_->setEnabled(true);
         address_->setEnabled(true);
 	}
@@ -359,7 +359,7 @@ QPushButton()
 	bTemp_->setStyleSheet("* { background-color: lightBlue }");
 	temp_->setLayout( layout);
 
-	osdBtn_->setEnabled(true);
+	osdBtn_->setEnabled(false);
 	osdBtn_->setText( "OSD");
 	connect( osdBtn_, SIGNAL(clicked()), this, SLOT(clickOsd()) );
 
