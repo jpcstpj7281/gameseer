@@ -620,7 +620,8 @@ void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 	if (WndMgr::instance()->isWndMovable_ && event->button() == Qt::MouseButton::LeftButton){
 		isMoving_ = true;
 		QGraphicsRectItem::mousePressEvent(event);
-		bringFront();
+		
+		//bringFront();
 		setCursor( Qt::ClosedHandCursor);
 	}
 
@@ -636,6 +637,7 @@ void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	if (WndMgr::instance()->isWndMovable_ && isMoving_ && !isScaling_){
 		WallScene* wallscene = (WallScene*)this->scene();
 		isMoving_ = false;
+		setZValue( wnd_->layer_);
 		wnd_->moveWnd(pos().x()/wallscene->width(), pos().y()/wallscene->height());
 	}
 	else if (isScaling_){
@@ -772,15 +774,15 @@ void WallScene::createWnd( QPointF & releasePos){
 		width = releasePos.x() - pressPos_.x();
 		height = releasePos.y()-pressPos_.y();
 		pos = pressPos_;
-	}else if (releasePos.x() < pressPos_.x() && releasePos.y() < pressPos_.y()){
+	}else if (releasePos.x() >= 0 && releasePos.y() >= 0 && releasePos.x() < pressPos_.x() && releasePos.y() < pressPos_.y()){
 		width = -releasePos.x() + pressPos_.x();
 		height = -releasePos.y()+pressPos_.y();
 		pos = releasePos;
-	}else if (releasePos.x() > pressPos_.x() && releasePos.y() < pressPos_.y()){
+	}else if (releasePos.x() >= 0 && releasePos.y() >= 0 && releasePos.x() > pressPos_.x() && releasePos.y() < pressPos_.y()){
 		width = releasePos.x() - pressPos_.x();
 		height = -releasePos.y()+pressPos_.y();
 		pos = QPointF( pressPos_.x(), releasePos.y());
-	}else if (releasePos.x() < pressPos_.x() && releasePos.y() > pressPos_.y()){
+	}else if (releasePos.x() >= 0 && releasePos.y() >= 0 && releasePos.x() < pressPos_.x() && releasePos.y() > pressPos_.y()){
 		width = -releasePos.x() + pressPos_.x();
 		height = releasePos.y()-pressPos_.y();
 		pos = QPointF( releasePos.x(),  pressPos_.y());

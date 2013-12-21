@@ -260,7 +260,7 @@ struct Qbox::Impl{
 				std::stringstream ss;
 				static char syms[] = "0123456789ABCDEF";
 				ss<<"len: "<<bytes_transferred<<": "<<" data: ";
-				for (size_t it = move; it < bytes_transferred; it++){
+				for (size_t it = move; it < (len+8); it++){
 					ss << syms[((responsed_[it] >> 4) & 0xf)] << syms[responsed_[it] & 0xf] << ' ';
 				}
 				//qDebug()<< "receive: "<<ss.str().c_str();

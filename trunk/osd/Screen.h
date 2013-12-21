@@ -84,13 +84,16 @@ public:
 	bool isOutputRingValid( ResourceID outputid);
 
 	void versionRequest(QboxCallback callback, QboxDataMap &value );
-	void setWndRequest(double x, double y, double w, double h, ResourceID wnode);
-	void setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode);
-	void setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, ResourceID inputid);
+
+	void setWndRequest(double x, double y, double w, double h, ResourceID wnode, size_t delay);
+	void setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay);
+
+	void setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, ResourceID inputid, size_t delay);
 	void connInOutRequest(ResourceID inputid, ResourceID wnode);
-	void showRequest(ResourceID wnode);
-	void hideRequest(ResourceID wnode);
-	void setLayerRequest(size_t layer, ResourceID wnode);
+
+	void showRequest(ResourceID wnode, size_t delay);
+	void hideRequest(ResourceID wnode, size_t delay);
+	void setLayerRequest(size_t layer, ResourceID wnode, size_t delay);
 
 	bool connInOutRingRequest(ResourceID inputid, ResourceID rnode);
 	bool hasRnode( ResourceID rnode);
