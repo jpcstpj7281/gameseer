@@ -15,6 +15,7 @@
 #include <QMessageBox>
 #include <math.h>
 #include <QHBoxLayout>
+#include <sstream>
 
 #undef min
 using namespace std::placeholders;
@@ -67,7 +68,6 @@ void ScreenConnBtn::disconn(){
 	ScreenMgr::instance()->closeAllWnds();
 	Screen* scrn = ScreenMgr::instance()->getScreen(screenid_);
 	
-	osdBtn_->setEnabled(false);
 	testBtn_->setEnabled(false);
 	address_->setEnabled(true);
 	dlpBtn_->setEnabled(false);
@@ -218,6 +218,31 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		if ( initStr_.empty()){
 			initStr_ = data["data"];
 		}
+		qDebug()<<val.length();
+		std::stringstream ss;
+		static char syms[] = "0123456789ABCDEF";
+
+		for (size_t it = 0; it < val.length(); it++){
+			ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
+		}
+		qDebug()<< "data: "<<ss.str().c_str();
+
+		if ( initStr_.length() != 48){
+            ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 100);
+            return true;
+		}else {
+            bool isValid = true;
+			for ( size_t i = 0; i < initStr_.length(); ++i){
+                if ( initStr_[i] == (char)0xff){
+                    isValid = false;
+                    break;
+				}
+			}
+			if ( !isValid){
+                ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 100);
+                return true;
+			}
+		}
 	}
 
 	if ( initStr_.size() ==48){
@@ -359,7 +384,7 @@ QPushButton()
 	bTemp_->setStyleSheet("* { background-color: lightBlue }");
 	temp_->setLayout( layout);
 
-	osdBtn_->setEnabled(false);
+	osdBtn_->setEnabled(true);
 	osdBtn_->setText( "OSD");
 	connect( osdBtn_, SIGNAL(clicked()), this, SLOT(clickOsd()) );
 

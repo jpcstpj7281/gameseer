@@ -67,7 +67,6 @@ void ScreenConnBtn::disconn(){
 	ScreenMgr::instance()->closeAllWnds();
 	Screen* scrn = ScreenMgr::instance()->getScreen(screenid_);
 	
-	osdBtn_->setEnabled(true);
 	testBtn_->setEnabled(false);
 	address_->setEnabled(true);
 	dlpBtn_->setEnabled(false);
@@ -217,6 +216,22 @@ bool ScreenConnBtn::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		initStr_ = data["Data"];
 		if ( initStr_.empty()){
 			initStr_ = data["data"];
+		}
+		if ( initStr_.length() != 48){
+            ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
+            return true;
+		}else {
+            bool isValid = true;
+			for ( size_t i = 0; i < initStr_.length(); ++i){
+                if ( initStr_[i] == (char)0xff){
+                    isValid = false;
+                    break;
+				}
+			}
+			if ( !isValid){
+                ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0xd0, 48, std::bind( &ScreenConnBtn::osdResponseRead, this, std::placeholders::_1, std::placeholders::_2, 0), 0xa0, 0);
+                return true;
+			}
 		}
 	}
 

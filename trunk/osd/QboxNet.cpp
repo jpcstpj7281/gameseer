@@ -233,6 +233,7 @@ struct Qbox::Impl{
 			ss << syms[((data[it] >> 4) & 0xf)] << syms[data[it] & 0xf] << ' ';
 		}
         Log4Qt::Logger::logger("sent")->info(ss.str().c_str());
+		//qDebug()<< "sent: "<<ss.str().c_str();
 
 		socket_.async_send(asio::buffer( data.c_str(), data.length() ) , boost::bind(&Qbox::Impl::handleSent, this, asio::placeholders::error, asio::placeholders::bytes_transferred ) );
 	}
