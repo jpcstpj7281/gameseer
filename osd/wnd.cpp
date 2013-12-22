@@ -352,7 +352,7 @@ bool Wnd::resizeWnd(double xPercent, double yPercent, double wPercent, double hP
 	}
 	for ( size_t i = 0 ; i < wnodes_.size(); ++i){
 		Screen* scrn = ScreenMgr::instance()->getScreen( wnodes_[i]->wnodeid_);
-		scrn->showRequest(wnodes_[i]->wnodeid_ , 0);
+		scrn->showRequest(wnodes_[i]->wnodeid_ , 100);
 	}
 
 	return true;
@@ -466,7 +466,7 @@ Wnd* WndMgr::createWnd( const std::wstring & id, double xPercent, double yPercen
 		}
 		for ( size_t i = 0 ; i < wnodes.size(); ++i){
 			Screen* scrn = ScreenMgr::instance()->getScreen( wnodes[i]->wnodeid_);
-			scrn->showRequest(wnodes[i]->wnodeid_ , 0);
+			scrn->showRequest(wnodes[i]->wnodeid_ , 100);
 		}
         wnds_.back()->save();
 		return wnds_.back();

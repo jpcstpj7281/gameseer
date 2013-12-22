@@ -258,7 +258,7 @@ bool OsdImage::osdResponseRead( uint32_t , QboxDataMap& data, int step){
 		}else {
             bool isValid = true;
 			for ( size_t i = 0; i < initStr_.length(); ++i){
-                if ( initStr_[i] == 0xff){
+                if ( initStr_[i] == (char)0xff){
                     isValid = false;
                     break;
 				}

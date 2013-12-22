@@ -319,7 +319,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -335,7 +335,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -351,10 +351,10 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>-32766</number>
+    <number>-16383</number>
    </property>
    <property name="maximum">
-    <number>32767</number>
+    <number>16384</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -448,7 +448,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -477,10 +477,10 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>-32766</number>
+    <number>-16383</number>
    </property>
    <property name="maximum">
-    <number>32767</number>
+    <number>16384</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -496,7 +496,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -564,7 +564,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -593,10 +593,10 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>-32766</number>
+    <number>-16383</number>
    </property>
    <property name="maximum">
-    <number>32767</number>
+    <number>16384</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -625,7 +625,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -641,7 +641,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -683,7 +683,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -699,10 +699,10 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>-32766</number>
+    <number>-16383</number>
    </property>
    <property name="maximum">
-    <number>32767</number>
+    <number>16384</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -770,7 +770,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -799,10 +799,10 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>-32766</number>
+    <number>-16383</number>
    </property>
    <property name="maximum">
-    <number>32767</number>
+    <number>16384</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -831,7 +831,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -847,7 +847,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -889,7 +889,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -905,10 +905,10 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>-32766</number>
+    <number>-16383</number>
    </property>
    <property name="maximum">
-    <number>32767</number>
+    <number>16384</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -950,7 +950,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -979,7 +979,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -1008,7 +1008,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>65535</number>
+    <number>32768</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>

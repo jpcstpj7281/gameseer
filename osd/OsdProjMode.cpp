@@ -6,7 +6,7 @@
 #include "qlineedit.h"
 #include <qdebug.h>
 #include <ConfigMgr.h>
-
+#include <sstream>
 
 OsdProjMode::OsdProjMode(QWidget *parent, ResourceID screenid) :
     QWidget(parent),
@@ -317,12 +317,23 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 	}
 
     bool isValid = true;
-	for ( size_t i = 0; i < val.length(); ++i){
-        if( val[i] == 0xff){
-			isValid = false;
-            break;
-		}
+	qDebug()<<val.length();
+	std::stringstream ss;
+	static char syms[] = "0123456789ABCDEF";
+
+	for (size_t it = 0; it < val.length(); it++){
+		ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
 	}
+	qDebug()<< "data: "<<ss.str().c_str();
+	if ( val[0] == (char)0xC3){
+		isValid = false;
+	}else 
+		for ( size_t i = 0; i < val.length(); ++i){
+			if( val[i] == (char)0xFF){
+				isValid = false;
+				break;
+			}
+		}
 	if ( !isValid )
         ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
 	else {
