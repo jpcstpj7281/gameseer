@@ -311,21 +311,21 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 	if ( val.empty() ){
 		val = data["data"];
 	}
-	if ( val.length() != 42){
-        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+	if ( val.length() != 44){
+        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 44, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
         return true;
 	}
 
     bool isValid = true;
-	qDebug()<<val.length();
-	std::stringstream ss;
-	static char syms[] = "0123456789ABCDEF";
+	//qDebug()<<val.length();
+	//std::stringstream ss;
+	//static char syms[] = "0123456789ABCDEF";
 
-	for (size_t it = 0; it < val.length(); it++){
-		ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
-	}
-	qDebug()<< "data: "<<ss.str().c_str();
-	if ( val[0] == (char)0xC3){
+	//for (size_t it = 0; it < val.length(); it++){
+	//	ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
+	//}
+	//qDebug()<< "data: "<<ss.str().c_str();
+	if ( val[0] != (char)0x00 || val[1] != (char)0xC3){
 		isValid = false;
 	}else 
 		for ( size_t i = 0; i < val.length(); ++i){
@@ -335,8 +335,10 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 			}
 		}
 	if ( !isValid )
-        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 44, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
 	else {
+		val.erase(val.begin());
+		val.erase(val.begin());
 		redGain_ =(val[0] << 8 ) + val[1];
 		redSat_=(val[2] << 8 ) + val[3];
 		redHue_=(val[4] << 8 ) + val[5];
@@ -410,7 +412,7 @@ void OsdProjMode::readClicked(){
 	//if ( readCount_<=0){
 	//	readCount_=30;
 		findChild<QPushButton*>("btnReadHsg")->setEnabled(false);
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 44, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
 	//}
 }
 
