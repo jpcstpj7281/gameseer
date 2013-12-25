@@ -839,6 +839,7 @@ void OsdProjMode::load(){
 		QDomElement elm = items.at(i).toElement();
 		if ( elm.attribute("id").toLong() ==screenid_){
 
+
 			redGain_ = elm.attribute("sHsgRedGain", QString::number(redGain_)).toLong();
 			redSat_ = elm.attribute("sHsgRedSat", QString::number(redSat_)).toLong();
 			redHue_ = elm.attribute("sHsgRedHue", QString::number(redHue_)).toLong();
@@ -869,10 +870,70 @@ void OsdProjMode::load(){
 
 			findChild<QSlider*>("sHsgRedGain" )->setValue(redGain_);
 			findChild<QLineEdit*>("leHsgRedGain" )->setText(QString::number(redGain_));
+			findChild<QSlider*>("sHsgRedSat" )->setValue(redSat_);
+			findChild<QLineEdit*>("leHsgRedSat" )->setText(QString::number(redSat_));
+			findChild<QSlider*>("sHsgRedHue" )->setValue(redHue_);
+			findChild<QLineEdit*>("leHsgRedHue" )->setText(QString::number(redHue_));
+			findChild<QSlider*>("sHsgGreenGain" )->setValue(greenGain_);
+			findChild<QLineEdit*>("leHsgGreenGain" )->setText(QString::number(greenGain_));
+			findChild<QSlider*>("sHsgGreenSat" )->setValue(greenSat_);
+			findChild<QLineEdit*>("leHsgGreenSat" )->setText(QString::number(greenSat_));
+			findChild<QSlider*>("sHsgGreenHue" )->setValue(greenHue_);
+			findChild<QLineEdit*>("leHsgGreenHue" )->setText(QString::number(greenHue_));
+			findChild<QSlider*>("sHsgBlueGain" )->setValue(blueGain_);
+			findChild<QLineEdit*>("leHsgBlueGain" )->setText(QString::number(blueGain_));
+			findChild<QSlider*>("sHsgBlueSat" )->setValue(blueSat_);
+			findChild<QLineEdit*>("leHsgBlueSat" )->setText(QString::number(blueSat_));
+			findChild<QSlider*>("sHsgBlueHue" )->setValue(blueHue_);
+			findChild<QLineEdit*>("leHsgBlueHue" )->setText(QString::number(blueHue_));
+			findChild<QSlider*>("sHsgCyanGain" )->setValue(cyanGain_);
+			findChild<QLineEdit*>("leHsgCyanGain" )->setText(QString::number(cyanGain_));
+			findChild<QSlider*>("sHsgCyanSat" )->setValue(cyanSat_);
+			findChild<QLineEdit*>("leHsgCyanSat" )->setText(QString::number(cyanSat_));
+			findChild<QSlider*>("sHsgCyanHue" )->setValue(cyanHue_);
+			findChild<QLineEdit*>("leHsgCyanHue" )->setText(QString::number(cyanHue_));
+			findChild<QSlider*>("sHsgMagentaGain" )->setValue(magentaGain_);
+			findChild<QLineEdit*>("leHsgMagentaGain" )->setText(QString::number(magentaGain_));
+			findChild<QSlider*>("sHsgMagentaSat" )->setValue(magentaSat_);
+			findChild<QLineEdit*>("leHsgMagentaSat" )->setText(QString::number(magentaSat_));
+			findChild<QSlider*>("sHsgMagentaHue" )->setValue(magentaHue_);
+			findChild<QLineEdit*>("leHsgMagentaHue" )->setText(QString::number(magentaHue_));
+			findChild<QSlider*>("sHsgYellowGain" )->setValue(yellowGain_);
+			findChild<QLineEdit*>("leHsgYellowGain" )->setText(QString::number(yellowGain_));
+			findChild<QSlider*>("sHsgYellowSat" )->setValue(yellowSat_);
+			findChild<QLineEdit*>("leHsgYellowSat" )->setText(QString::number(yellowSat_));
+			findChild<QSlider*>("sHsgYellowHue" )->setValue(yellowHue_);
+			findChild<QLineEdit*>("leHsgYellowHue" )->setText(QString::number(yellowHue_));
+			findChild<QSlider*>("sHsgWhiteRed" )->setValue(whiteRed_);
+			findChild<QLineEdit*>("leHsgWhiteRed" )->setText(QString::number(whiteRed_));
+			findChild<QSlider*>("sHsgWhiteGreen" )->setValue(whiteGreen_);
+			findChild<QLineEdit*>("leHsgWhiteGreen" )->setText(QString::number(whiteGreen_));
+			findChild<QSlider*>("sHsgWhiteBlue" )->setValue(whiteBlue_);
+			findChild<QLineEdit*>("leHsgWhiteBlue" )->setText(QString::number(whiteBlue_));
 
 			hsgTasks_.clear();
 			hsgTasks_.push_back( std::bind( &OsdProjMode::dispatchHSG , this) );
-			//tasks_.push_back( std::bind( &OsdImage::dispatchContrast , this) );
+
+	//std::stringstream ss;
+	//static char syms[] = "0123456789ABCDEF";
+ //   char* val = (char*)&redGain_;
+	//for (size_t it = 0; it < 2; it++){
+	//	ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
+	//}
+	//qDebug()<< "redGain: "<<ss.str().c_str();
+	//ss.str("");
+ //   val = (char*)&redSat_;
+	//for (size_t it = 0; it < 2; it++){
+	//	ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
+	//}
+	//qDebug()<< "redSat: "<<ss.str().c_str();
+	//ss.str("");
+ //   val = (char*)&redHue_;
+	//for (size_t it = 0; it < 2; it++){
+	//	ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
+	//}
+	//qDebug()<< "redHue: "<<ss.str().c_str();
+	//ss.str("");
 
 			break;
 		}
@@ -903,6 +964,11 @@ void OsdProjMode::save(){
 		currosdElm = ConfigMgr::instance()->getDoc()->createElement("PMScreen");
 		osdElm.appendChild(currosdElm);
 	}
+
+    //redGain_ = (0x60 << 8) + 0x0;
+    //redSat_ = (0x3c << 8) + 0x82;
+    //redHue_ = (0xd << 8) + 0x32;
+
 	currosdElm.setAttribute("id", QString::number(screenid_));
 	currosdElm.setAttribute("sHsgRedGain", QString::number(redGain_));
 	currosdElm.setAttribute("sHsgRedSat", QString::number(redSat_));
