@@ -29,4 +29,7 @@
         <timer goto="0" counter="0" sec="10" modeid="Mode2"/>
         <timer goto="0" counter="0" sec="10" modeid="我知道"/>
     </task>
+    <OsdPM>
+        <PMScreen sHsgBlueHue="0" sHsgMagentGain="0" sHsgCyanSat="0" id="257" sHsgGreenHue="0" sHsgCyanHue="0" sHsgCyanGain="0" sHsgMagentSat="0" sHsgWhiteBlue="0" sHsgWhiteGreen="0" sHsgBlueGain="0" sHsgGreenGain="0" sHsgRedHue="3378" sHsgGreenSat="0" sHsgMagentHue="0" sHsgYellowHue="0" sHsgWhiteRed="0" sHsgRedSat="15490" sHsgRedGain="24576" sHsgBlueSat="0" sHsgYellowGain="0" sHsgYellowSat="0"/>
+    </OsdPM>
 </root>
