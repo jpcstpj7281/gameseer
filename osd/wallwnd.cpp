@@ -134,7 +134,7 @@ void ResizeItem::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event ){
 			newRect.setHeight(countbottom*screenh - newPos.y());
 			break;
 	}
-	item->bringFront();
+	//item->bringFront();
 
 	if ( (newPos.x() + newRect.width()) <= (scene()->sceneRect().width()+1) && (newPos.y() + newRect.height()) <= (scene()->sceneRect().height()+1)){
 		item->setPos(  newPos  );
@@ -613,94 +613,95 @@ void WndRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option
 	QGraphicsRectItem::paint(painter, option, widget);
 }  
 void WndRectItem::bringFront(){
-	setZValue(wnd_->bringFront());
+	setZValue(wnd_->bringFrontShow());
 }
 
 void WndRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 	if (WndMgr::instance()->isWndMovable_ && event->button() == Qt::MouseButton::LeftButton){
-		isMoving_ = true;
 		QGraphicsRectItem::mousePressEvent(event);
-		
-		//bringFront();
+		pressPos_ =  event->scenePos();
+		//qDebug()<<event->pos();
+		//isMoving_ = false;
 		setCursor( Qt::ClosedHandCursor);
 	}
-
-	//if (event->button() == Qt::MouseButton::RightButton){
-	//	pressPos_ =  event->pos();
-	//	isScaling_ = true;
-	//	setCursor( Qt::ArrowCursor);
-	//}
 }
+
 void	WndRectItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ){
 	QGraphicsRectItem::mouseReleaseEvent(event);
 	//setCursor( Qt::OpenHandCursor);
-	if (WndMgr::instance()->isWndMovable_ && isMoving_ && !isScaling_){
-		WallScene* wallscene = (WallScene*)this->scene();
-		isMoving_ = false;
-		setZValue( wnd_->layer_);
-		wnd_->moveWnd(pos().x()/wallscene->width(), pos().y()/wallscene->height());
-	}
-	else if (isScaling_){
-		isScaling_=false;
-
-		QPointF releasePos = event->pos();
-		double width, height;
-
-		QPointF postemp;
-		if (releasePos.x() > pressPos_.x() && releasePos.y() > pressPos_.y()){
-			width = releasePos.x() - pressPos_.x();
-			height = releasePos.y()-pressPos_.y();
-			postemp = pressPos_;
-		}else if (releasePos.x() < pressPos_.x() && releasePos.y() < pressPos_.y()){
-			width = -releasePos.x() + pressPos_.x();
-			height = -releasePos.y()+pressPos_.y();
-			postemp = releasePos;
-		}else if (releasePos.x() > pressPos_.x() && releasePos.y() < pressPos_.y()){
-			width = releasePos.x() - pressPos_.x();
-			height = -releasePos.y()+pressPos_.y();
-			postemp = QPointF( pressPos_.x(), releasePos.y());
-		}else if (releasePos.x() < pressPos_.x() && releasePos.y() > pressPos_.y()){
-			width = -releasePos.x() + pressPos_.x();
-			height = releasePos.y()-pressPos_.y();
-			postemp = QPointF( releasePos.x(),  pressPos_.y());
-		}
-		QRectF r= rect();
-		if ( postemp.x() < 0){
-			width + postemp.x();
-			postemp.setX(0);
-		}
-		if ( postemp.y() < 0){
-			height + postemp.y();
-			postemp.setY(0);
-		}
-		if ( width + postemp.x() > r.width()){
-			width = r.width() - postemp.x();
-		}
-		if ( height + postemp.y() > r.height()){
-			height = r.height() - postemp.y();
-		}
-		double wp = width / r.width();
-		double hp = height / r.height();
-		if (wp >0.1 && hp > 0.1){ 
-			areaItem_->setX( postemp.x());
-			areaItem_->setY( postemp.y());
-			areaItem_->setRect( QRectF(0, 0, width, height));
-			wnd_->axPercent_ = postemp.x() / r.width();
-			wnd_->ayPercent_ = postemp.y() / r.height();
-			wnd_->awPercent_ = wp;
-			wnd_->ahPercent_ = hp;
+	if (WndMgr::instance()->isWndMovable_  ){
+		QPointF p = event->scenePos();
+		if (  p !=  pressPos_){
 			WallScene* wallscene = (WallScene*)this->scene();
+			//isMoving_ = false;
 			wnd_->moveWnd(pos().x()/wallscene->width(), pos().y()/wallscene->height());
+		}else {
+			//qDebug()<<pressPos_;
+			//qDebug()<< p;
+			this->bringFront();
 		}
-		setCursor( Qt::CursorShape::OpenHandCursor);
-
 	}
+	
+	//else if (isScaling_){
+	//	isScaling_=false;
+
+	//	QPointF releasePos = event->pos();
+	//	double width, height;
+
+	//	QPointF postemp;
+	//	if (releasePos.x() > pressPos_.x() && releasePos.y() > pressPos_.y()){
+	//		width = releasePos.x() - pressPos_.x();
+	//		height = releasePos.y()-pressPos_.y();
+	//		postemp = pressPos_;
+	//	}else if (releasePos.x() < pressPos_.x() && releasePos.y() < pressPos_.y()){
+	//		width = -releasePos.x() + pressPos_.x();
+	//		height = -releasePos.y()+pressPos_.y();
+	//		postemp = releasePos;
+	//	}else if (releasePos.x() > pressPos_.x() && releasePos.y() < pressPos_.y()){
+	//		width = releasePos.x() - pressPos_.x();
+	//		height = -releasePos.y()+pressPos_.y();
+	//		postemp = QPointF( pressPos_.x(), releasePos.y());
+	//	}else if (releasePos.x() < pressPos_.x() && releasePos.y() > pressPos_.y()){
+	//		width = -releasePos.x() + pressPos_.x();
+	//		height = releasePos.y()-pressPos_.y();
+	//		postemp = QPointF( releasePos.x(),  pressPos_.y());
+	//	}
+	//	QRectF r= rect();
+	//	if ( postemp.x() < 0){
+	//		width + postemp.x();
+	//		postemp.setX(0);
+	//	}
+	//	if ( postemp.y() < 0){
+	//		height + postemp.y();
+	//		postemp.setY(0);
+	//	}
+	//	if ( width + postemp.x() > r.width()){
+	//		width = r.width() - postemp.x();
+	//	}
+	//	if ( height + postemp.y() > r.height()){
+	//		height = r.height() - postemp.y();
+	//	}
+	//	double wp = width / r.width();
+	//	double hp = height / r.height();
+	//	if (wp >0.1 && hp > 0.1){ 
+	//		areaItem_->setX( postemp.x());
+	//		areaItem_->setY( postemp.y());
+	//		areaItem_->setRect( QRectF(0, 0, width, height));
+	//		wnd_->axPercent_ = postemp.x() / r.width();
+	//		wnd_->ayPercent_ = postemp.y() / r.height();
+	//		wnd_->awPercent_ = wp;
+	//		wnd_->ahPercent_ = hp;
+	//		WallScene* wallscene = (WallScene*)this->scene();
+	//		wnd_->moveWnd(pos().x()/wallscene->width(), pos().y()/wallscene->height());
+	//	}
+	//	setCursor( Qt::CursorShape::OpenHandCursor);
+
+	//}
 }
 void	WndRectItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
 	if (WndMgr::instance()->isWndMovable_){
-		if ( isMoving_) {
-			QGraphicsRectItem::mouseMoveEvent(event);
-		}
+		//isMoving_ = true;
+		QGraphicsRectItem::mouseMoveEvent(event);
 	}
 }
 QVariant WndRectItem::itemChange(GraphicsItemChange change, const QVariant &value)

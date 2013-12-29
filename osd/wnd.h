@@ -97,6 +97,7 @@ public:
     void save();
 	uint32_t getLayer(){return layer_;}
 	uint32_t bringFront(size_t delay = 0);
+	uint32_t bringFrontShow(size_t delay = 0);
 	bool resetInput(ResourceID inputid);
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent, bool isSave = true);
 	bool resizeWnd(double xPercent, double yPercent, double wPercent, double hPercent,double axPercent, double ayPercent, double awPercent, double ahPercent);
