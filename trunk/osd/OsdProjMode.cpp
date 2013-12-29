@@ -311,8 +311,8 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 	if ( val.empty() ){
 		val = data["data"];
 	}
-	if ( val.length() != 44){
-        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 44, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+	if ( val.length() != 42){
+        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
         return true;
 	}
 
@@ -325,9 +325,9 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 	//	ss << syms[((val[it] >> 4) & 0xf)] << syms[val[it] & 0xf] << ' ';
 	//}
 	//qDebug()<< "data: "<<ss.str().c_str();
-	if ( val[0] != (char)0x00 || val[1] != (char)0xC3){
-		isValid = false;
-	}else 
+	//if ( val[0] != (char)0x00 || val[1] != (char)0xC3){
+	//	isValid = false;
+	//}else 
 		for ( size_t i = 0; i < val.length(); ++i){
 			if( val[i] == (char)0xFF){
 				isValid = false;
@@ -335,31 +335,32 @@ bool OsdProjMode::readClickedResponse(uint32_t , QboxDataMap& data){
 			}
 		}
 	if ( !isValid )
-        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 44, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+        ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
 	else {
-		val.erase(val.begin());
-		val.erase(val.begin());
-		redGain_ =(val[0] << 8 ) + val[1];
-		redSat_=(val[2] << 8 ) + val[3];
-		redHue_=(val[4] << 8 ) + val[5];
-		greenGain_=(val[6] << 8 ) + val[7];
-		greenSat_=(val[8] << 8 ) + val[9];
-		greenHue_=(val[10] << 8 ) + val[11];
-		blueGain_=(val[12] << 8 ) + val[13];
-		blueSat_=(val[14] << 8 ) + val[15];
-		blueHue_=(val[16] << 8 ) + val[17];
-		cyanGain_=(val[18] << 8 ) + val[19];
-		cyanSat_=(val[20] << 8 ) + val[21];
-		cyanHue_=(val[22] << 8 ) + val[23];
-		magentaGain_=(val[24] << 8 ) + val[25];
-		magentaSat_=(val[26] << 8 ) + val[27];
-		magentaHue_=(val[28] << 8 ) + val[29];
-		yellowGain_=(val[30] << 8 ) + val[31];
-		yellowSat_=(val[32] << 8 ) + val[33];
-		yellowHue_=(val[34] << 8 ) + val[35];
-		whiteRed_=(val[36] << 8 ) + val[37];
-		whiteGreen_=(val[38] << 8 ) + val[39];
-		whiteBlue_=(val[40] << 8 ) + val[41];
+		//val.erase(val.begin());
+		//val.erase(val.begin());
+		unsigned char* val1 = (unsigned char*)val.c_str();
+		redGain_ =(val1[0] << 8 ) | val1[1];
+		redSat_=(val1[2]<<8)  |val1[3];
+		redHue_=(val1[4] << 8 ) | val1[5];
+		greenGain_=(val1[6] << 8 ) | val1[7];
+		greenSat_=(val1[8] << 8 ) | val1[9];
+		greenHue_=(val1[10] << 8 ) | val1[11];
+		blueGain_=(val1[12] << 8 ) | val1[13];
+		blueSat_=(val1[14] << 8 ) | val1[15];
+		blueHue_=(val1[16] << 8 ) | val1[17];
+		cyanGain_=(val1[18] << 8 ) | val1[19];
+		cyanSat_=(val1[20] << 8 ) | val1[21];
+		cyanHue_=(val1[22] << 8 ) | val1[23];
+		magentaGain_=(val1[24] << 8 ) | val1[25];
+		magentaSat_=(val1[26] << 8 ) | val1[27];
+		magentaHue_=(val1[28] << 8 ) | val1[29];
+		yellowGain_=(val1[30] << 8 ) | val1[31];
+		yellowSat_=(val1[32] << 8 ) | val1[33];
+		yellowHue_=(val1[34] << 8 ) | val1[35];
+		whiteRed_=(val1[36] << 8 ) | val1[37];
+		whiteGreen_=(val1[38] << 8 ) | val1[39];
+		whiteBlue_=(val1[40] << 8 ) | val1[41];
 
 		findChild<QSlider*>("sHsgRedGain" )->setValue( redGain_);
 		findChild<QSlider*>("sHsgRedSat" )->setValue( redSat_);
@@ -412,7 +413,7 @@ void OsdProjMode::readClicked(){
 	//if ( readCount_<=0){
 	//	readCount_=30;
 		findChild<QPushButton*>("btnReadHsg")->setEnabled(false);
-		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 44, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
+		ScreenMgr::instance()->getScreen( screenid_)->osdRequestRead( 0x1516, 42, std::bind( &OsdProjMode::readClickedResponse, this,std::placeholders::_1, std::placeholders::_2), 0x34, 0);
 	//}
 }
 

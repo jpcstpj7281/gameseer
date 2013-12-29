@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <wall row="2" col="2"/>
-    <screen ip="192.168.67.104" id="257"/>
-    <screen ip="192.168.67.103" id="258"/>
-    <screen ip="192.168.67.109" id="513"/>
-    <screen ip="192.168.67.102" id="514"/>
+    <OsdPM>
+        <PMScreen sHsgBlueHue="0" sHsgMagentGain="0" sHsgCyanSat="0" id="257" sHsgGreenHue="0" sHsgCyanHue="0" sHsgCyanGain="0" sHsgMagentSat="0" sHsgWhiteBlue="0" sHsgWhiteGreen="0" sHsgBlueGain="0" sHsgGreenGain="0" sHsgRedHue="3378" sHsgGreenSat="0" sHsgMagentHue="0" sHsgYellowHue="0" sHsgWhiteRed="0" sHsgRedSat="15490" sHsgRedGain="24576" sHsgBlueSat="0" sHsgYellowGain="0" sHsgYellowSat="0"/>
+        <PMScreen sHsgBlueHue="-4331" sHsgMagentGain="16384" sHsgCyanSat="6440" id="514" sHsgGreenHue="-9750" sHsgCyanHue="-9492" sHsgCyanGain="16384" sHsgMagentSat="12377" sHsgWhiteBlue="16064" sHsgWhiteGreen="16064" sHsgBlueGain="16384" sHsgGreenGain="16384" sHsgRedHue="2771" sHsgGreenSat="14146" sHsgMagentHue="5381" sHsgYellowHue="-6874" sHsgWhiteRed="16384" sHsgRedSat="15592" sHsgRedGain="16384" sHsgBlueSat="15621" sHsgYellowGain="16384" sHsgYellowSat="13979"/>
+    </OsdPM>
+    <screen ip="192.168.67.109" id="257"/>
+    <screen ip="192.168.67.105" id="258"/>
+    <screen ip="192.168.67.102" id="513"/>
+    <screen ip="192.168.67.101" id="514"/>
     <ring id="Ring1无">
         <rnode id="84082945"/>
         <rnode id="84082946"/>
@@ -29,7 +33,4 @@
         <timer goto="0" counter="0" sec="10" modeid="Mode2"/>
         <timer goto="0" counter="0" sec="10" modeid="我知道"/>
     </task>
-    <OsdPM>
-        <PMScreen sHsgBlueHue="0" sHsgMagentGain="0" sHsgCyanSat="0" id="257" sHsgGreenHue="0" sHsgCyanHue="0" sHsgCyanGain="0" sHsgMagentSat="0" sHsgWhiteBlue="0" sHsgWhiteGreen="0" sHsgBlueGain="0" sHsgGreenGain="0" sHsgRedHue="3378" sHsgGreenSat="0" sHsgMagentHue="0" sHsgYellowHue="0" sHsgWhiteRed="0" sHsgRedSat="15490" sHsgRedGain="24576" sHsgBlueSat="0" sHsgYellowGain="0" sHsgYellowSat="0"/>
-    </OsdPM>
 </root>

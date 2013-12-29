@@ -297,7 +297,8 @@ void Screen::setLayerRequest(size_t layer, ResourceID wnode, size_t delay){
 		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
 			if ( wnode == it->second){
 				QboxDataMap value;
-				value["layer"] = QString::number( 0xFFFFFFFF - layer ).toStdString();
+				value["layer"] = QString::number( 0xfffffff - layer ).toStdString();
+				//value["layer"] = QString::number( layer ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
 				qbox_->addAsyncRequest( PSetWindowsLayerReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value,delay);
 				break;

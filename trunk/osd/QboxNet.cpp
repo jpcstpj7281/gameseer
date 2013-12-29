@@ -13,6 +13,8 @@
 #include "log4qt/logger.h"
 #include "wnd.h"
 
+#include <boost/optional/optional.hpp>
+
 using asio::ip::tcp;
 
 
@@ -74,9 +76,31 @@ struct QboxMgr::Impl{
 	}
 };
 
+//void set_result(boost::optional<error_code>* a, asio::error_code b) 
+//  { 
+//    a->reset(b); 
+//  } 
 void QboxMgr::threadRun(){
 	try{
 		impl_->socketios_.run();
+
+		//boost::optional<asio::error_code> timer_result; 
+		//asio::deadline_timer timer(impl_->socketios_); 
+		//timer.expires_from_now(boost::posix_time::seconds(5)); 
+		//timer.async_wait(boost::bind(set_result, &timer_result, _1)); 
+		//boost::optional<asio::error_code> read_result; 
+		////async_read(sock, buffers, boost::bind(set_result, &read_result, _1)); 
+
+		////sock.io_service().reset(); 
+		//while (impl_->socketios_.run_one()) 
+		//{ 
+		//	if (read_result) 
+		//		timer.cancel(); 
+		//	else if (timer_result) 
+		//		impl_->stop(); 
+		//} 
+		////if (*read_result) throw system_error(*read_result); 
+
 	}catch( std::exception &e){
 		qDebug()<<"QboxMgr::threadRun: "<<e.what();
 	}
@@ -185,6 +209,7 @@ struct Qbox::Impl{
 	RequestList sentList_;
 
 	asio::deadline_timer timer_;
+	//asio::deadline_timer receiveTimer_;
 	
 	inline std::string encodeData(MsgInfo & msg){
 		NetMsgBody netMsg;
@@ -246,7 +271,9 @@ struct Qbox::Impl{
 		}
 	}
 	void handleReceived( const asio::error_code& err, std::size_t bytes_transferred ){
+		timer_.cancel();
 		if ( !err){
+			
 			//qDebug()<<"handleReceived: "<<bytes_transferred;
 			uint32_t len = 0, move = 0, msgtype = 0;
 			//qDebug()<<"test";
@@ -279,6 +306,7 @@ struct Qbox::Impl{
 			qDebug()<<"***Error handleReceived: "<<bytes_transferred;
 			isConnected_ = false;
 			this->socket_.close();
+			mainios_->post( boost::bind( &Qbox::Impl::dispatchConnectFailed, this ) );
 		}
 	}
 
@@ -392,7 +420,9 @@ struct Qbox::Impl{
 	,mainios_( &QboxMgr::instance()->impl_->mainios_)
 	,receiveLen(0)
 	,isConnected_(false)
-	,timer_(QboxMgr::instance()->impl_->socketios_, boost::posix_time::seconds(5)){
+	,timer_(QboxMgr::instance()->impl_->socketios_, boost::posix_time::seconds(5))
+	//,receiveTimer_(QboxMgr::instance()->impl_->socketios_, boost::posix_time::seconds(5))
+	{
 		
 	}
 	~Impl(){
