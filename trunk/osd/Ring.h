@@ -23,6 +23,7 @@ public:
 	bool isEnable_;
 	
 	void activate( ResourceID inputid);
+	void unactivate( ResourceID inputid);
 
 	bool isActivate();
 

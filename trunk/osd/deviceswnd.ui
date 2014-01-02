@@ -246,6 +246,58 @@
     <string>光机检测</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="leColNum">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>30</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="leRowNum">
+   <property name="geometry">
+    <rect>
+     <x>950</x>
+     <y>30</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lColNum">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>30</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>列:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lRowNum">
+   <property name="geometry">
+    <rect>
+     <x>920</x>
+     <y>30</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>行:</string>
+   </property>
+  </widget>
   <zorder>tableDevices</zorder>
   <zorder>incrRow</zorder>
   <zorder>decrRow</zorder>
@@ -263,6 +315,10 @@
   <zorder>turnOffAllDlp</zorder>
   <zorder>pbTempCheck</zorder>
   <zorder>pbFanCheck</zorder>
+  <zorder>leColNum</zorder>
+  <zorder>leRowNum</zorder>
+  <zorder>lColNum</zorder>
+  <zorder>lRowNum</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -78,24 +78,34 @@ public:
 	void setDlpRequest(int dlpPower ,QboxCallback callback, size_t delay);
 	void setLampRequest(int Lamp );
 	void getDlpRequest(QboxCallback callback );
-	void dlpTempRequest(QboxCallback callback, QboxDataMap &value );
+	void dlpTempRequest(QboxCallback callback, QboxDataMap &v );
 
 	//bool isInputValid( ResourceID inputid);
 	bool isOutputRingValid( ResourceID outputid);
 
-	void versionRequest(QboxCallback callback, QboxDataMap &value );
+	void versionRequest(QboxCallback callback, QboxDataMap &v );
 
+	bool setWndRequestCB(double x, double y, double w, double h, ResourceID wnode, QboxCallback callback, uint32_t , QboxDataMap &v);
 	void setWndRequest(double x, double y, double w, double h, ResourceID wnode, size_t delay);
-	void setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay);
+	bool setWndRequestUintCB(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay, QboxCallback callback, uint32_t , QboxDataMap &v);
+	void setWndRequestUint(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay);
 
 	void setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, ResourceID inputid, size_t delay);
+	bool setAreaRequestCB(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, /*ResourceID inputid,*/ QboxCallback callback, uint32_t , QboxDataMap &v);
 	void connInOutRequest(ResourceID inputid, ResourceID wnode);
+	bool connInOutRequestCB(ResourceID inputid, ResourceID wnode, QboxCallback callback, uint32_t , QboxDataMap& v);
 
+	bool showRequestCB(ResourceID wnode, size_t delay, QboxCallback callback, uint32_t , QboxDataMap &v);
 	void showRequest(ResourceID wnode, size_t delay);
 	void hideRequest(ResourceID wnode, size_t delay);
+	bool hideRequestCB(ResourceID wnode, size_t delay, QboxCallback cb, uint32_t , QboxDataMap &v);
+
 	void setLayerRequest(size_t layer, ResourceID wnode, size_t delay);
+	bool setLayerRequestCB(size_t layer, ResourceID wnode, size_t delay, QboxCallback callback, uint32_t , QboxDataMap &v);
 
 	bool connInOutRingRequest(ResourceID inputid, ResourceID rnode);
+	bool freeRingRequest(ResourceID inputid, ResourceID rnode);
+	
 	bool hasRnode( ResourceID rnode);
 
 	bool setAddress( const std::string & ip);
@@ -116,7 +126,7 @@ public:
 
 	
 //=======================================================OSD===============================================================
-	//void osdRequest(QboxCallback callback, QboxDataMap &value );
+	//void osdRequest(QboxCallback callback, QboxDataMap &v );
 	//void osdRequest(uint32_t addr, const std::string &data, QboxCallback callback );
 	//void osdRequestChar(uint32_t addr, const char val, QboxCallback callback );
 	//void osdRequestShort(uint32_t addr, const short val, QboxCallback callback );
@@ -124,7 +134,7 @@ public:
 	//void osdRequestInt(uint32_t addr, const int val, QboxCallback callback );
 	//void osdRequestUint(uint32_t addr, const uint32_t val, QboxCallback callback );
 
-	void osdRequestUncache(QboxCallback callback, QboxDataMap &value, size_t delay );
+	void osdRequestUncache(QboxCallback callback, QboxDataMap &v, size_t delay );
 	void osdRequestUncache(uint32_t addr, const std::string &data, QboxCallback callback, size_t delay );
 	void osdRequestCharUncache(uint32_t addr, const char val, QboxCallback callback, size_t delay );
 	void osdRequestShortUncache(uint32_t addr, const short val, QboxCallback callback, size_t delay );
@@ -155,11 +165,19 @@ class ScreenMgr
 	uint32_t screenWidth_;
 	uint32_t screenHeight_;
 
+	
+
 
 	Screen* screens_[MAXROW][MAXCOL];
 
 	std::vector<ResourceChangedCallback> inputChangedCallbacks_;
 public:
+
+	size_t areaDelay_;
+	size_t layerDelay_;
+	size_t setWndDelay_;
+	size_t showDelay_;
+
 	~ScreenMgr();
 	static ScreenMgr *instance();
 

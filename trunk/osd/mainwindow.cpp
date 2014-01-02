@@ -79,6 +79,7 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 	btn = _tab->findChild<QPushButton* >("decrRow");
 	btn->setGeometry(this->width()-95, 110, btn->width(), btn->height() );
 
+
 	
 	
 	t = _tab->findChild<QTableWidget* >("ringTable");
@@ -178,5 +179,14 @@ void MainWindow::resizeEvent(QResizeEvent * ){
 	}
 	
 
+	QLineEdit *le = _tab->findChild<QLineEdit* >("leColNum");
+	le->setGeometry(this->width()-175, 30, le->width(), le->height() );
+	le = _tab->findChild<QLineEdit* >("leRowNum");
+	le->setGeometry(this->width()-75, 30, le->width(), le->height() );
+
+	QLabel *ll = _tab->findChild<QLabel* >("lColNum");
+	ll->setGeometry(this->width()-195, 30, ll->width(), ll->height() );
+	ll = _tab->findChild<QLabel* >("lRowNum");
+	ll->setGeometry(this->width()-95, 30, ll->width(), ll->height() );
 }
 

@@ -111,6 +111,9 @@ private slots:
 	void cellChanged(int,int);
 	void incrCol();
 	void incrRow();
+	void colEditFinished();
+	void rowEditFinished();
+
 	void clearWall();
 	void decrCol();
 	void decrRow();

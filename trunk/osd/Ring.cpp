@@ -112,6 +112,13 @@ void Ring::activate(ResourceID inputid){
 	}
 }
 
+void Ring::unactivate( ResourceID inputid){
+	for ( size_t i = 0 ; i < rnodes_.size(); ++i){
+		Screen* scrn = ScreenMgr::instance()->getScreen( rnodes_[i]);
+		scrn->freeRingRequest( inputid, rnodes_[i]);
+	}
+}
+
 bool Ring::isActivate(){
 	bool isactivate=true;
 	for ( size_t i = 0 ; i < rnodes_.size(); ++i){

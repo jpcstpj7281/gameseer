@@ -10,7 +10,9 @@
 #include "log4qt/logger.h"
 #include <log4qt/FileAppender.h>
 
-static bool ignoreCallback( uint32_t , QboxDataMap& value){
+
+
+static bool ignoreCallback( uint32_t , QboxDataMap& v){
 	
 	return true;
 }
@@ -57,14 +59,14 @@ void Screen::run ( ){
 	}
 }
 
-void Screen::osdRequestUncache(QboxCallback callback, QboxDataMap &value, size_t delay ){
-	qbox_->addAsyncRequest( PDLPCTRLReq::uri, callback, value, delay);// for osd request
+void Screen::osdRequestUncache(QboxCallback callback, QboxDataMap &v, size_t delay ){
+	qbox_->addAsyncRequest( PDLPCTRLReq::uri, callback, v, delay);// for osd request
 }
 
-bool Screen::inputCallback( uint32_t , QboxDataMap& value ){
-	if ( value["error"] != "0") return false;
+bool Screen::inputCallback( uint32_t , QboxDataMap& v ){
+	if ( v["error"] != "0") return false;
 	
-	for ( auto it = value.begin(); it != value.end(); ++it){
+	for ( auto it = v.begin(); it != v.end(); ++it){
 		if ( it->first.substr(0, 2) == "in"){
 			QString in = QString::fromStdString( it->first.substr( 2, it->first.size()) );
 			ResourceID inputid = ToResourceID( in.toInt(),0, row_, col_);
@@ -90,11 +92,11 @@ bool Screen::inputCallback( uint32_t , QboxDataMap& value ){
 	return true;
 }
 
-bool Screen::outputCallback( uint32_t , QboxDataMap& value ){
-	if ( value["error"] != "0") return false;
-	int half = QString::fromStdString(value["total"]).toInt()/2;
+bool Screen::outputCallback( uint32_t , QboxDataMap& v ){
+	if ( v["error"] != "0") return false;
+	int half = QString::fromStdString(v["total"]).toInt()/2;
 	half = 2;
-	for ( auto it = value.begin(); it != value.end(); ++it){
+	for ( auto it = v.begin(); it != v.end(); ++it){
 		if ( it->first.substr(0, 3) == "out"){
 			QString outstr = QString::fromStdString( it->first.substr( 3, it->first.size()) );
 			int out =outstr.toInt();
@@ -108,15 +110,15 @@ bool Screen::outputCallback( uint32_t , QboxDataMap& value ){
 
 	return true;
 }
-bool Screen::inputResolutionCallback( uint32_t , QboxDataMap& value ){
-	uint32_t in = QString::fromStdString(value["in"]).toInt();
+bool Screen::inputResolutionCallback( uint32_t , QboxDataMap& v ){
+	uint32_t in = QString::fromStdString(v["in"]).toInt();
 	for ( auto i = reqInResolutions_.begin(); i != reqInResolutions_.end(); ++i){
 		if ( in == *i){
 			ResourceID id = ToResourceID(in, 0, row_, col_);
-			if ( value["error"] == "0"){
-				int w = QString::fromStdString(value["w"]).toInt();
-				int h = QString::fromStdString(value["h"]).toInt();
-				int f = QString::fromStdString(value["f"]).toInt();
+			if ( v["error"] == "0"){
+				int w = QString::fromStdString(v["w"]).toInt();
+				int h = QString::fromStdString(v["h"]).toInt();
+				int f = QString::fromStdString(v["f"]).toInt();
 			
 				uint32_t resolution = inPort_[id];
 				uint32_t newResolution = toResolution(w,h, f);
@@ -154,14 +156,14 @@ void Screen::inputResolutionRequest(){
 	}
 }
 
-bool Screen::versionCallback( uint32_t , QboxDataMap& value){
-	version_ = value["protocol"];
+bool Screen::versionCallback( uint32_t , QboxDataMap& v){
+	version_ = v["protocol"];
 	//qDebug()<<"Screen::versionCallback";//<<  m.uniqueKeys();
 	return true;
 }
-void Screen::versionRequest(QboxCallback callback, QboxDataMap &value ){
+void Screen::versionRequest(QboxCallback callback, QboxDataMap &v ){
 	if ( qbox_){
-		qbox_->addAsyncRequest(PProtocolVersionReq::uri, callback, value );
+		qbox_->addAsyncRequest(PProtocolVersionReq::uri, callback, v );
 	}
 }
 void Screen::versionRequest(){
@@ -174,7 +176,20 @@ void Screen::inputRequest(){
 		qbox_->addAsyncRequest( PGetInPutReq::uri , std::bind( &Screen::inputCallback, this, std::placeholders::_1, std::placeholders::_2), QboxDataMap());
 	}
 }
-
+bool Screen::connInOutRequestCB(ResourceID inputid, ResourceID wnode, QboxCallback callback, uint32_t , QboxDataMap& v){
+	if ( qbox_){
+		QboxDataMap value;
+		value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+		if ( GetCol(inputid) == GetCol(wnode) && GetRow(inputid) == GetRow(wnode)){
+			value["in"] = QString::number(GetInput(inputid) ).toStdString();
+		}else{
+			value["in"] = QString::number(GetInput(wnode) ).toStdString();
+		}
+		qbox_->addAsyncRequest( PSetSwitchInputReq::uri , callback, value);
+		return true;
+	}
+	return false;
+}
 void Screen::connInOutRequest(ResourceID inputid, ResourceID wnode){
 	if ( qbox_){
 		QboxDataMap value;
@@ -187,18 +202,19 @@ void Screen::connInOutRequest(ResourceID inputid, ResourceID wnode){
 		qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
 	}
 }
+
+bool Screen::freeRingRequest(ResourceID inputid, ResourceID rnode){
+	if ( qbox_){
+		auto found = outPortRing_.find( ToResourceID(0, GetOutput(rnode), row_, col_));
+		if ( found != outPortRing_.end() && found->second == rnode){
+			found->second=0;
+			return true;
+		}
+	}
+	return false;
+}
 bool Screen::connInOutRingRequest(ResourceID inputid, ResourceID rnode){
 	if ( qbox_){
-		//for( auto it = outPortRing_.begin(); it != outPortRing_.end(); ++it){
-		//	if ( ToResourceID(0, GetOutput(rnode), row_, col_) == it->first){
-		//		it->second = rnode;
-		//		QboxDataMap value;
-		//		value["out"] = QString::number(GetOutput(rnode) ).toStdString();
-		//		value["in"] = QString::number(GetInput(rnode) ).toStdString();
-		//		qbox_->addAsyncRequest( PSetSwitchInputReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value);
-		//		break;
-		//	}
-		//}
 		auto found = outPortRing_.find( ToResourceID(0, GetOutput(rnode), row_, col_));
 		if ( found != outPortRing_.end()){
 			found->second = rnode;
@@ -224,6 +240,16 @@ bool Screen::hasRnode( ResourceID rnode){
 	}
 	return false;
 }
+bool Screen::showRequestCB(ResourceID wnode, size_t delay, QboxCallback callback, uint32_t , QboxDataMap& v){
+	if ( qbox_){
+		QboxDataMap value;
+		value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+		value["showState"] = "show";
+		qbox_->addAsyncRequest( PSetWindowsShowStateReq::uri , callback, value, delay);
+		return true;
+	}
+	return false;
+}
 void Screen::showRequest(ResourceID wnode, size_t delay){
 	if ( qbox_){
 		QboxDataMap value;
@@ -240,14 +266,53 @@ void Screen::hideRequest(ResourceID wnode, size_t delay){
 		qbox_->addAsyncRequest( PSetWindowsShowStateReq::uri , std::bind( /*&Screen::inputCallback, this*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value, delay);
 	}
 }
+//, uint32_t , QboxDataMap& v
+bool Screen::hideRequestCB(ResourceID wnode, size_t delay, QboxCallback callback, uint32_t , QboxDataMap& v){
+	if ( qbox_){
+		QboxDataMap value;
+		value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+		value["showState"] = "hide";
+		qbox_->addAsyncRequest( PSetWindowsShowStateReq::uri , callback, value, delay);
+		return true;
+	}
+	return false;
+}
+bool Screen::setWndRequestCB(double x, double y, double w, double h, ResourceID wnode, QboxCallback callback, uint32_t m, QboxDataMap& v){
+	return setWndRequestUintCB( (size_t)boost::math::round(x* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_), 
+		(size_t)boost::math::round(y* ScreenMgr::instance()->screenHeight_*ScreenMgr::instance()->rowCount_),
+		(size_t)boost::math::round(w* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_),
+		(size_t)boost::math::round(h* ScreenMgr::instance()->screenHeight_*ScreenMgr::instance()->rowCount_), 
+		wnode, ScreenMgr::instance()->setWndDelay_, callback, m,v);
+}
 void Screen::setWndRequest(double x, double y, double w, double h, ResourceID wnode, size_t delay){
-	setWndRequest( (size_t)boost::math::round(x* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_), 
+	setWndRequestUint( (size_t)boost::math::round(x* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_), 
 		(size_t)boost::math::round(y* ScreenMgr::instance()->screenHeight_*ScreenMgr::instance()->rowCount_),
 		(size_t)boost::math::round(w* ScreenMgr::instance()->screenWidth_*ScreenMgr::instance()->colCount_),
 		(size_t)boost::math::round(h* ScreenMgr::instance()->screenHeight_*ScreenMgr::instance()->rowCount_), 
 		wnode, delay);
 }
-void Screen::setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay){
+bool Screen::setWndRequestUintCB(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay, QboxCallback callback, uint32_t m , QboxDataMap& v){
+	if ( qbox_){
+		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
+			if ( wnode == it->second){
+				QboxDataMap value;
+				value["x"] = QString::number(x ).toStdString();
+				value["y"] = QString::number(y ).toStdString();
+				value["w"] = QString::number(w ).toStdString();//这里先在这里调整,嵌入式将需DEBUG
+				value["h"] = QString::number(h ).toStdString();
+				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+				Log4Qt::Logger::logger((getAddress()+" setWnd x: ").c_str())->info(value["x"].c_str());
+				Log4Qt::Logger::logger((getAddress()+" setWnd y: ").c_str())->info(value["y"].c_str());
+				Log4Qt::Logger::logger((getAddress()+" setWnd w: ").c_str())->info(value["w"].c_str());
+				Log4Qt::Logger::logger((getAddress()+" setWnd h: ").c_str())->info(value["h"].c_str());
+				qbox_->addAsyncRequest( PCreateWindowsReq::uri , callback, value, delay);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+void Screen::setWndRequestUint(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, size_t delay){
 	if ( qbox_){
 		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
 			if ( wnode == it->second){
@@ -266,6 +331,32 @@ void Screen::setWndRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wn
 			}
 		}
 	}
+}
+bool Screen::setAreaRequestCB(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, /*ResourceID inputid,*/ QboxCallback callback, uint32_t , QboxDataMap& v){
+	if ( qbox_){
+		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
+			if ( wnode == it->second){
+				QboxDataMap value;
+				value["x"] = QString::number(x ).toStdString();
+				value["y"] = QString::number(y ).toStdString();
+				value["w"] = QString::number(w ).toStdString();
+				value["h"] = QString::number(h ).toStdString();
+				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+				//int input = GetInput(wnode) ;
+				//if ( input ==0){
+				//	input = GetInput(inputid);
+				//}
+				//value["in"] = QString::number(input).toStdString();
+				Log4Qt::Logger::logger((getAddress()+" setArea x: ").c_str())->info(value["x"].c_str());
+				Log4Qt::Logger::logger((getAddress()+" setArea y: ").c_str())->info(value["y"].c_str());
+				Log4Qt::Logger::logger((getAddress()+" setArea w: ").c_str())->info(value["w"].c_str());
+				Log4Qt::Logger::logger((getAddress()+" setArea h: ").c_str())->info(value["h"].c_str());
+				qbox_->addAsyncRequest( PSetOutPutSizeReq::uri , callback/*std::bind( ignoreCallback, std::placeholders::_1, std::placeholders::_2)*/, value, ScreenMgr::instance()->areaDelay_);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 void Screen::setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID wnode, ResourceID inputid, size_t delay){
 	if ( qbox_){
@@ -292,12 +383,27 @@ void Screen::setAreaRequest(size_t x, size_t y, size_t w, size_t h, ResourceID w
 		}
 	}
 }
-void Screen::setLayerRequest(size_t layer, ResourceID wnode, size_t delay){
+bool Screen::setLayerRequestCB(size_t layer, ResourceID wnode, size_t delay, QboxCallback callback, uint32_t , QboxDataMap& v){
 	if ( qbox_){
 		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
 			if ( wnode == it->second){
 				QboxDataMap value;
 				value["layer"] = QString::number( 0xfffffff - layer ).toStdString();
+				//value["layer"] = QString::number( layer ).toStdString();
+				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
+				qbox_->addAsyncRequest( PSetWindowsLayerReq::uri , callback/*std::bind( ignoreCallback, std::placeholders::_1, std::placeholders::_2)*/, value,delay);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+void Screen::setLayerRequest(size_t layer, ResourceID wnode, size_t delay){
+	if ( qbox_){
+		for( auto it = outPort753_.begin(); it != outPort753_.end(); ++it){
+			if ( wnode == it->second){
+				QboxDataMap value;
+				value["layer"] = QString::number( layer ).toStdString();
 				//value["layer"] = QString::number( layer ).toStdString();
 				value["out"] = QString::number(GetOutput(wnode) ).toStdString();
 				qbox_->addAsyncRequest( PSetWindowsLayerReq::uri , std::bind( /*&Screen::inputCallback, this,*/ignoreCallback, std::placeholders::_1, std::placeholders::_2), value,delay);
@@ -314,7 +420,7 @@ void Screen::setVideoRequest(int inputNum ,int type, QboxCallback callback){
 	value["type"] = QString::number( type ).toStdString();
 	qbox_->addAsyncRequest( PInitSDChannelReq::uri , std::bind( callback,  std::placeholders::_1, std::placeholders::_2), value);
 }
-void dlpTempRequest(QboxCallback callback, QboxDataMap &value ){
+void dlpTempRequest(QboxCallback callback, QboxDataMap &v ){
 }
 void Screen::setDlpRequest(int dlpPower ,QboxCallback callback, size_t delay ){
 	if ( !qbox_) return;
@@ -613,6 +719,10 @@ ScreenMgr *ScreenMgr::instance(){
 ScreenMgr::ScreenMgr()
 	:colCount_(0)
 	,rowCount_(0)
+	,areaDelay_(0)
+	,layerDelay_(0)
+	,setWndDelay_(0)
+	,showDelay_(500)
 {
 	screenWidth_ = 1024;
 	screenHeight_ = 768;
