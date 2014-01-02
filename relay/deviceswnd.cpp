@@ -994,7 +994,6 @@ void DevicesWnd::timerEvent ( QTimerEvent *  ){
 			logWnd_->appendPlainText(text);
 			logtext_ = text;
 		}
-		
 	}
 }
 QString DevicesWnd::loadLog(QString &name){

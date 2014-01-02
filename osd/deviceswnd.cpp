@@ -531,7 +531,41 @@ QWidget(parent)
     pbTempCheck_->setStyleSheet("");
 	connect( pbTempCheck_, SIGNAL( clicked()), this, SLOT(clickedTempCheck()) );
 
+
+	QLineEdit *le = this->findChild<QLineEdit* >("leColNum");
+	QValidator * validator = new QIntValidator(0, 99, this);
+	le->setValidator(validator);
+	le->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
+	connect( le, SIGNAL(editingFinished()), this, SLOT(colEditFinished()) );
+	le = this->findChild<QLineEdit* >("leRowNum");
+	le->setValidator(validator);
+	le->setAlignment( Qt::AlignVCenter| Qt::AlignHCenter);
+	connect( le, SIGNAL(editingFinished()), this, SLOT(rowEditFinished()) );
 }
+
+void DevicesWnd::colEditFinished(){
+	QLineEdit* le = (QLineEdit*) sender();
+	size_t col = le->text().toInt();
+	while ( col < ScreenMgr::instance()->getColCount()){
+		this->decrCol();
+	}
+	while ( col > ScreenMgr::instance()->getColCount()){
+		this->incrCol();
+	}
+	this->findChild<QLineEdit* >("leRowNum")->setText( QString::number( ScreenMgr::instance()->getRowCount()));
+}
+void DevicesWnd::rowEditFinished(){
+	QLineEdit* le = (QLineEdit*) sender();
+	size_t row = le->text().toInt();
+	while ( row < ScreenMgr::instance()->getRowCount()){
+		this->decrRow();
+	}
+	while ( row > ScreenMgr::instance()->getRowCount()){
+		this->incrRow();
+	}
+	this->findChild<QLineEdit* >("leColNum")->setText( QString::number( ScreenMgr::instance()->getColCount()));
+}
+
 DevicesWnd::~DevicesWnd()
 {
 	delete ui;
@@ -554,6 +588,22 @@ void DevicesWnd::clickedLoad(){
 		}
 		for ( int i = 1; i <row;++i){
 			ScreenMgr::instance()->addScreenRow();
+		}
+	}
+	items = root.elementsByTagName("delay");
+	for (size_t i = 0; i < items.size();++i){
+		QDomElement elm = items.at(i).toElement();
+		if ( elm.attribute("id") == "show"){
+			ScreenMgr::instance()->showDelay_ = elm.attribute("value").toLong();
+		}
+		if ( elm.attribute("id") == "layer"){
+			ScreenMgr::instance()->layerDelay_ = elm.attribute("value").toLong();
+		}
+		if ( elm.attribute("id") == "setWnd"){
+			ScreenMgr::instance()->setWndDelay_ = elm.attribute("value").toLong();
+		}
+		if ( elm.attribute("id") == "setArea"){
+			ScreenMgr::instance()->areaDelay_ = elm.attribute("value").toLong();
 		}
 	}
 
@@ -678,6 +728,29 @@ void DevicesWnd::clickedSave(){
 	wallElm.setAttribute("row", row);
 	wallElm.setAttribute("col", col);
 
+	items = root.elementsByTagName("delay");
+
+	while (items.size()){
+		root.removeChild(items.at(0));
+	}
+	QDomElement elm = ConfigMgr::instance()->getDoc()->createElement("delay");
+	elm.setAttribute("id", "show");
+	elm.setAttribute("value",QString::number( ScreenMgr::instance()->showDelay_));
+	root.appendChild(elm);
+	elm = ConfigMgr::instance()->getDoc()->createElement("delay");
+	elm.setAttribute("id", "layer");
+	elm.setAttribute("value",QString::number( ScreenMgr::instance()->layerDelay_));
+	root.appendChild(elm);
+	elm = ConfigMgr::instance()->getDoc()->createElement("delay");
+	elm.setAttribute("id", "setWnd");
+	elm.setAttribute("value",QString::number( ScreenMgr::instance()->setWndDelay_));
+	root.appendChild(elm);
+	elm = ConfigMgr::instance()->getDoc()->createElement("delay");
+	elm.setAttribute("id", "setArea");
+	elm.setAttribute("value",QString::number( ScreenMgr::instance()->areaDelay_));
+	root.appendChild(elm);
+
+
 	items = root.elementsByTagName("screen");
 	std::vector<Screen*> srns;
 	for (size_t i =1; i <=row; ++i){
@@ -774,6 +847,8 @@ void DevicesWnd::incrCol(){
 	BOOST_FOREACH( uint32_t srn, ss){
 		newAddress( srn, std::string());
 	}
+	this->findChild<QLineEdit* >("leColNum")->setText( QString::number( ScreenMgr::instance()->getColCount()));
+	this->findChild<QLineEdit* >("leRowNum")->setText( QString::number( ScreenMgr::instance()->getRowCount()));
 	//saveWall();
 }
 void DevicesWnd::incrRow(){
@@ -781,6 +856,8 @@ void DevicesWnd::incrRow(){
 	BOOST_FOREACH( uint32_t srn, ss){
 		newAddress( srn, std::string());
 	}
+	this->findChild<QLineEdit* >("leColNum")->setText( QString::number( ScreenMgr::instance()->getColCount()));
+	this->findChild<QLineEdit* >("leRowNum")->setText( QString::number( ScreenMgr::instance()->getRowCount()));
 	//saveWall();
 }
 void DevicesWnd::clearWall(){
@@ -788,6 +865,8 @@ void DevicesWnd::clearWall(){
 	BOOST_FOREACH( uint32_t srn, ss){
 		deleteAddress( srn);
 	}
+	this->findChild<QLineEdit* >("leColNum")->setText( QString::number( ScreenMgr::instance()->getColCount()));
+	this->findChild<QLineEdit* >("leRowNum")->setText( QString::number( ScreenMgr::instance()->getRowCount()));
 	//saveWall();
 }
 
@@ -796,6 +875,8 @@ void DevicesWnd::decrCol(){
 	BOOST_FOREACH( uint32_t srn, ss){
 		deleteAddress( srn);
 	}
+	this->findChild<QLineEdit* >("leColNum")->setText( QString::number( ScreenMgr::instance()->getColCount()));
+	this->findChild<QLineEdit* >("leRowNum")->setText( QString::number( ScreenMgr::instance()->getRowCount()));
 	//saveWall();
 }
 void DevicesWnd::decrRow(){
@@ -803,6 +884,8 @@ void DevicesWnd::decrRow(){
 	BOOST_FOREACH( uint32_t srn, ss){
 		deleteAddress( srn);
 	}
+	this->findChild<QLineEdit* >("leColNum")->setText( QString::number( ScreenMgr::instance()->getColCount()));
+	this->findChild<QLineEdit* >("leRowNum")->setText( QString::number( ScreenMgr::instance()->getRowCount()));
 	//saveWall();
 }
 

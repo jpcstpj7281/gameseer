@@ -28,12 +28,15 @@ struct PDLPReadReq
 {
 	enum{uri=(DLP_MSGBASE<<16|3)};
 
+	//addr-> //起始地址
+	//len-> //读取字节长度
+	//device-> //器件地址
 };
 
 struct PDLPReadRsp
 {
 	enum{uri=(DLP_MSGBASE<<16|4)};
-
+	//data->//返回读取的数据
 };
 
 

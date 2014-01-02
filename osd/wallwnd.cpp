@@ -1229,7 +1229,7 @@ void WallWnd::currentRingIndexChanged ( const QString & text ){
 }
 void WallWnd::currentWndIndexChanged ( const QString & text ){
 	Wnd * wnd = WndMgr::instance()->getWnd(text.toStdWString());
-	wnd->bringFront();
+	wnd->bringFrontShow();
 
 	for ( size_t i = 0 ; i < scene_->wndItems_.size(); ++i){
 		if (scene_->wndItems_[i]->wnd_ == wnd){
@@ -1281,6 +1281,8 @@ bool WallWnd::inChangedCallback(ResourceID inputid){
 		WndMgr::instance()->closeWnd(wnd);
 		wnd = WndMgr::instance()->getWnds(inputid);
 	}
+	Ring * ring = RingMgr::instance()->getRing(scene_->currRingid_.toStdWString());
+	if ( ring) ring->unactivate(scene_->currInput_);
 
 	screensItem_->update();
 	resetWnds();
