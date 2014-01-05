@@ -651,15 +651,14 @@ void demoWindows(uint32_t outType)
 
 	s_c753.setOutputImage(TYPE_OUTPUT_AOI1,outType);
 
+	setChnSignalInput(1,1);
 
 	uint32_t model = 0;
 
-	s_c753.setInputChannelACT(1,800,600,0,0);
-	s_c753.setOutputChannelACT(1,800,600,50,50);
+	s_c753.setInputChannelACT(1,1024,768,268,35);
+	s_c753.setOutputChannelACT(1,1024,768,0,0);
 
 
-	s_c753.setInputChannelACT(2,800,600,0,0);
-	s_c753.setOutputChannelACT(2,800,600,100,100);
 
 	s_c753.showWnd(1);
 
@@ -815,6 +814,8 @@ void set753ScalPara(uint16_t uHscal,uint16_t uVscal)
 	s_c753.C753SetInputVerticalShrinkScale(1,uVscal);
 }
 
+
+
 void set753OutH(uint32_t uHscal)
 {
 	AppScale s_c753;
@@ -856,11 +857,36 @@ void set753InOffSet(uint32_t hs,uint32_t vs)
 	s_c753.C753SetInputPortACTVerticalStart(1,vs);
 }
 
-
-void testReboot()
+void get753ChnInfo()
 {
+	AppScale s_c753;
+	uint16_t outHStar = 0;
+	uint16_t outHWidth = 0;
+	uint16_t outVStar = 0;
+	uint16_t outVWidth = 0;
 
+	s_c753.C753GetOutputPortACTHorizontalStart(1,outHStar);
+	s_c753.C753GetOutputPortACTHorizontalWidth(1,outHWidth);
+
+	s_c753.C753GetOutputPortACTVerticalStart(1,outVStar);
+	s_c753.C753GetOutputPortACTVerticalWidth(1,outVWidth);
+
+	debug_msg("outHStar=%d,outHWidth=%d,outVStar=%d,outVWidth=%d\n",outHStar,outHWidth,outVStar,outVWidth);
 }
+
+void set753ChnInfo(uint16_t outHStar,uint16_t outHWidth,uint16_t outVStar,uint16_t outVWidth)
+{
+	AppScale s_c753;
+
+	s_c753.C753SetOutputPortACTHorizontalStart(1,outHStar);
+	s_c753.C753SetOutputPortACTHorizontalWidth(1,outHWidth);
+
+	s_c753.C753SetOutputPortACTVerticalStart(1,outVStar);
+	s_c753.C753SetOutputPortACTVerticalWidth(1,outVWidth);
+
+	debug_msg("outHStar=%d,outHWidth=%d,outVStar=%d,outVWidth=%d\n",outHStar,outHWidth,outVStar,outVWidth);
+}
+
 
 }
 #endif /* __cplusplus */

@@ -252,8 +252,8 @@ void Windows::onPSetWindowsLayerReq(MsgInfo *msg,uint32_t connID)
 {
 	test_msg("onPSetWindowsLayerReq connID=%d",connID);
 
-    uint32_t out = atoi(msg->info["out"].c_str());
-    uint32_t layer = atoi(msg->info["layer"].c_str());
+	int out = atoi(msg->info["out"].c_str());
+	int layer = atoi(msg->info["layer"].c_str());
 
     MsgInfo rsp;
     rsp.msgType = PSetWindowsLayerRsp::uri;

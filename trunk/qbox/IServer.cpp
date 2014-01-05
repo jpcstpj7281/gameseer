@@ -370,10 +370,9 @@ void IServer::server_proc(int sock)
             continue;
         if(FD_ISSET(sock,&socket))
         {
-#ifndef __unix__
             //TODO::semTake有锁太长时间的问题
             semTake(Server_SM, WAIT_FOREVER);
-#endif
+
             memset(buffer,0,sizeof(buffer));
             rc = recv(sock,buffer, 8, MSG_PEEK);
             int len = 0;
@@ -381,7 +380,11 @@ void IServer::server_proc(int sock)
                 memcpy((void*)&len,(const void*)(buffer+4),4);
 //                test_msg("RecvMsg len:%d\n",len);
             }
-            if ( len <12 ) break;
+            if ( len <12 )
+            {
+            	semGive(Server_SM);
+            	break;
+            }
             rc = recv(sock,buffer,len+8,0);
             if(rc > 0)
             {
@@ -395,9 +398,9 @@ void IServer::server_proc(int sock)
                 {
                     m_pMsgHandler->netMsgInput((uint32_t)sock,buffer,(uint32_t)rc);
                 }
-#ifndef __unix__
-                semGive(Server_SM);
-#endif
+
+               semGive(Server_SM);
+
             }
             else
             {
@@ -405,17 +408,87 @@ void IServer::server_proc(int sock)
                 close(sock);
                 m_server = 0;
                 m_fd[sock] = 0;
-#ifndef __unix__
+
                 semGive(Server_SM);
-#endif
+
                 break;
             }
         }
-#ifndef __unix__
+
         taskDelay(10);
-#endif
+
     }
 
 }
+
+//void IServer::server_proc(int sock)
+//{
+//    int rc = 0;
+//    char buffer[1024];
+//    fd_set socket;
+//    struct timeval wait;
+//
+//    wait.tv_sec = 0;
+//    wait.tv_usec = 500000;
+//
+//
+//        while(m_server > 0)
+//        {
+//            FD_ZERO(&socket);
+//            FD_SET(sock,&socket);
+//
+////            rc = select(FD_SETSIZE,&socket,(fd_set *)0,(fd_set *)0,&wait);
+////            if(rc == 0)
+////                continue;
+////            if(FD_ISSET(sock,&socket))
+//            {
+//                //TODO::semTake有锁太长时间的问题
+//                semTake(Server_SM, WAIT_FOREVER);
+//
+//                memset(buffer,0,sizeof(buffer));
+//                rc = recv(sock,buffer, 8, MSG_PEEK);
+//                int len = 0;
+//                if ( rc > 0){
+//                    memcpy((void*)&len,(const void*)(buffer+4),4);
+//    //                test_msg("RecvMsg len:%d\n",len);
+//                }
+//                if ( len <12 ) break;
+//                rc = recv(sock,buffer,len+8,0);
+//                if(rc > 0)
+//                {
+//                    /* you can add your application specific code here */
+//    //                test_msg("RecvMsg:%s\n",buffer);
+//                    if(m_pMsgHandler == NULL)
+//                    {
+//                        test_msg("ERROR m_pMsgHandler NOT INIT\n");
+//                    }
+//                    else
+//                    {
+//                        m_pMsgHandler->netMsgInput((uint32_t)sock,buffer,(uint32_t)rc);
+//                    }
+//
+//    //                semGive(Server_SM);
+//
+//                }
+//                else
+//                {
+//                    test_msg("Socket closed\n");
+//                    close(sock);
+//                    m_server = 0;
+//                    m_fd[sock] = 0;
+//
+//    //                semGive(Server_SM);
+//
+//                    break;
+//                }
+//            }
+//
+//            taskDelay(10);
+//
+//        }
+//
+//
+//
+//}
 
 
