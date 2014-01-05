@@ -29,23 +29,6 @@ AppScale::AppScale()
 	timingIndex.wVerResolution = 768;
 	m_asTimingIndexTable.push_back(timingIndex);
 
-
-//	m_asTimingIndexTable[1].wHorResolution = 1400;
-//	m_asTimingIndexTable[1].wVerResolution = 1050;
-//
-//	m_asTimingIndexTable[2].wHorResolution = 1600;
-//	m_asTimingIndexTable[2].wVerResolution = 1200;
-//
-//	m_asTimingIndexTable[3].wHorResolution = 1920;
-//	m_asTimingIndexTable[3].wVerResolution = 1080;
-//
-//	m_asTimingIndexTable[4].wHorResolution = 1366;
-//	m_asTimingIndexTable[4].wVerResolution = 768;
-//
-//	m_asTimingIndexTable[5].wHorResolution = 1920;
-//	m_asTimingIndexTable[5].wVerResolution = 1200;
-
-
 	TimingT timing;
 
 	timing.wHorResolution = 1024;
@@ -62,52 +45,26 @@ AppScale::AppScale()
 	timing.sswC753OffsetY = -1;
 	m_asSignalTiming.push_back(timing);
 
-//	m_asSignalTiming[1].wHorResolution = 1366;
-//	m_asSignalTiming[1].wVerResolution = 768;
-//	m_asSignalTiming[1].iFrameRate = 60;
-//	m_asSignalTiming[1].iClock = 85;
-//	m_asSignalTiming[1].wHorTotal = 1792;
-//	m_asSignalTiming[1].wHorSync = 112;
-//	m_asSignalTiming[1].wHorStart = 368;
-//	m_asSignalTiming[1].wVerTotal = 795;
-//	m_asSignalTiming[1].wVerSync = 6;
-//	m_asSignalTiming[1].wVerStart = 24;
-//	m_asSignalTiming[1].sswC753OffsetX = -134;
-//	m_asSignalTiming[1].sswC753OffsetY = -1;
 
-
-	 /* ˮƽ   ��ֱ   ֡�� Ƶ��  ˮƽ���� �͵�ƽ ƫ�� ��ֱ���� �͵�ƽ ƫ��  ����ֵ ����ֵ*/
-//	    {1024,  768,   60,  65,   1344,    136,  296,  806,     6,     35,  -133,   -1},
-//	    {1366,  768,   60,  85,   1792,    112,  368,  795,     6,     24,  -134,   -1},
-//	    {1366,  768,   60,  71,   1792,    112,  368,  795,     6,     24,  -134,   -1},
-//	    {1400,  1050,  60,  108,  1688,    112,  240,  1066,    3,     15,  -135,   -1},
-//	    {1400,  1050,  60,  121,  1864,    144,  376,  1089,    4,     36,  -135,   -1},
-//	    {1600,  1200,  60,  162,  2160,    192,  496,  1250,    3,     49,  -135,   -1},
-//	    {1920,  1080,  60,  148,  2200,     44,  192,  1125,    5,     41,  -135,   -1},
-//	    {1920,  1200,  60,  154,  2080,     32,  112,  1235,    6,     32,  1941,   -2},
-
-
-
-//	initTimingIndexTable();
 
     InputInfo info;
     info.hW = 702;
     info.Vw = 480;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 43;
  //   info.freqHL = 0;
     m_InputInfo[TYPE_INPUT_SIZE_702_480] = info;
 
     info.hW = 720;
     info.Vw = 576;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 46;
  //   info.freqHL = 0;
     m_InputInfo[TYPE_INPUT_SIZE_720_576] = info;
 
     info.hW = 800;
     info.Vw = 600;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 29;
 //    info.freqHL = 0;
     m_InputInfo[TYPE_INPUT_SIZE_800_600_60] = info;
@@ -121,14 +78,14 @@ AppScale::AppScale()
 
     info.hW = 1280;
     info.Vw = 1024;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 43;
  //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1280_1024_60] = info;
 
     info.hW = 1600;
     info.Vw = 1200;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 51;
  //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1600_1200_60] = info;
@@ -136,35 +93,35 @@ AppScale::AppScale()
     //-----------------------------------
     info.hW = 1024;
     info.Vw = 768;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 33;
  //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1024_768_75] = info;
 
     info.hW = 1280;
     info.Vw = 1024;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 43;
  //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1280_1024_75] = info;
 
     info.hW = 1440;
     info.Vw = 900;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 33;
  //   info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1440_900_60] = info;
 
     info.hW = 1600;
     info.Vw = 900;
-    info.hStar = 168;
+    info.hStar = 269;
     info.vStar = 101;
 //    info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1600_900_60] = info;
 
     info.hW = 1920;
     info.Vw = 1080;
-    info.hStar = 268;
+    info.hStar = 269;
     info.vStar = 43;
 //    info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1920_1080_60] = info;
@@ -172,8 +129,8 @@ AppScale::AppScale()
 
     info.hW = 1280;
     info.Vw = 960;
-    info.hStar = 268;
-    info.vStar = 43;
+    info.hStar = 269;
+    info.vStar = 41;
 //    info.freqHL = 1;
     m_InputInfo[TYPE_INPUT_SIZE_1280_960_60] = info;
 
@@ -201,7 +158,7 @@ void AppScale::chipTest()
     int i;
 
     printf("chip Test Begin\n");
-    /*测试寄存器的读写*/
+    /*娴嬭瘯瀵勫瓨鍣ㄧ殑璇诲啓*/
     val1 = 0x0b;
     C753SetBankRegister(val1);
     C753GetBankRegister(val2);
@@ -228,19 +185,19 @@ void AppScale::chipTest()
             return ;
         }
     }
-    /*软件复位*/
+    /*杞欢澶嶄綅*/
     C753Reset(0x01);
     C753SetDDRControl(0x80);
-    /*C753内存控制器初始化*/
+    /*C753鍐呭瓨鎺у埗鍣ㄥ垵濮嬪寲*/
     C753SetMemoryControl(0x28);
-    /*至少延时200us*/
+    /*鑷冲皯寤舵椂200us*/
 
     for(i = 0; i < 40000; i++);
     C753SetMemoryControl(0x29);
-    /*至少延时200us*/
+    /*鑷冲皯寤舵椂200us*/
     for(i = 0; i < 80000; i++);
 
-    /*配置内存控制器寄存器*/
+    /*閰嶇疆鍐呭瓨鎺у埗鍣ㄥ瘎瀛樺櫒*/
     C753SetDLLControl0(0xaa);
     C753SetDLLControl1(0xaa);
     C753SetDLLControl2(0xdd);
@@ -251,7 +208,6 @@ void AppScale::chipTest()
     C753SetDLLControl7(0x00);
     C753SetDLLControl8(0x02);
 
-    /*测试内存的读写*/
     val1 = 0x00;
     memAddr = 0x10000;
     C753SetCPUWriteAddress(memAddr);
@@ -290,7 +246,7 @@ void AppScale::initHardware()
 void AppScale::initChannel(uint32_t iChID, ScaleChInfoT *pScalCh)
 {
 
-    /*重新设置窗口大小时窗口已经打开通道*/
+    /*閲嶆柊璁剧疆绐楀彛澶у皬鏃剁獥鍙ｅ凡缁忔墦寮��閬�/
     /*
     if(pScalCh->iChStatus != -1)
         return -1;
@@ -514,7 +470,7 @@ int16_t AppScale::getVerticalCompensation(uint16_t wHorResolution, uint16_t wVer
 void AppScale::showWnd(uint32_t iChID)
 {
 //	printf("showWnd !\n");
-	/*显示该通道*/
+
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
         C753SetMainControl(iChID,0x03);
@@ -532,7 +488,7 @@ void AppScale::showWnd(uint32_t iChID)
 
 void AppScale::hideWnd(uint32_t iChID)
 {
-    /*���ظ�ͨ��*/
+    /*锟斤拷锟截革拷通锟斤拷*/
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
        C753SetMainControl(iChID,0x02);
@@ -832,36 +788,35 @@ void AppScale::initTest1024()
 
     debug_msg("initTest1024\n");
 
-    /*配置传输寄存器*/
+
     C753SetRegisterValueTransferControl(0x0);
     /*
-    *  配置输入部分寄存器
+    *  閰嶇疆杈撳叆閮ㄥ垎瀵勫瓨鍣�
     */
-    /*RGB 30-bit 输入*/
+    /*RGB 30-bit 杈撳叆*/
     C753SetInputFormatControl(iChID, 0x00);
-    /*IFLD 0到3循环*/
-    /*水平同步信号低电平有效*/
-    /*垂直同步信号低电平有效*/
+    /*IFLD 0鍒�寰幆*/
+
     C753SetInputPortSyncControl(iChID, 0x02);
-    /*关闭场信号自动识别*/
+
     C753SetInputFieldRecognitionControl(iChID, 0x00);
-    /*PIACT区域外图像为0 PIACT POL*/
+    /*PIACT鍖哄煙澶栧浘鍍忎负0 PIACT POL*/
     C753SetInputDigitalInterfaceControl(iChID, 0x00);
     /*
-    *  配置输出部分寄存器
+    *  閰嶇疆杈撳嚭閮ㄥ垎瀵勫瓨鍣�
     */
     C753SetOutputPortSyncControl(0x2359);
 
-    /*通道1输出场指针延时改变时间*/
+
     C753SetFieldPropagationDelay1(0x04);
-    /*通道2输出场指针延时改变时间*/
+
     C753SetFieldPropagationDelay2(0x04);
-    /*背景图像*/
+    /*鑳屾櫙鍥惧儚*/
     C753SetOutputBackground0(0x00ff00);
     C753SetOutputBackground1(0x0000ff);
-    /*POCLKO 输出使能*/
+    /*POCLKO 杈撳嚭浣胯兘*/
     C753SetPOCLKControl(0x03);
-    /*POCLK PLL配置*/
+    /*POCLK PLL閰嶇疆*/
     C753SetPOCLKPLLControl(0x81);
     C753SetPOCLKReferenceDividing(0x07);
     C753SetPOCLKFeedbackDividing(0x0f);
@@ -879,7 +834,7 @@ void AppScale::initTest1024()
 
 
 
-    /*输出图像区域*/
+    /*杈撳嚭鍥惧儚鍖哄煙*/
     C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)163);
     C753SetOutputPortACTHorizontalWidth(iChID, 1024);
     C753SetOutputPortACTVerticalStart(iChID, (uint16_t)34);
@@ -888,26 +843,6 @@ void AppScale::initTest1024()
 
     debug_msg("initHardware OUTPUT PORT OK \n!");
 
-//    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-//    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-//    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-//    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-    /*
-    *  配置图像数据存储器
-    */
-
-//    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
-//    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
-//    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
-//    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
-//    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
-//    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
-//    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
-//    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
-//
-//
-//    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
-//    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
 
 
 
@@ -922,36 +857,35 @@ void AppScale::initTest1400()
 
     debug_msg("initTest1400\n");
 
-    /*配置传输寄存器*/
+
     C753SetRegisterValueTransferControl(0x0);
     /*
-    *  配置输入部分寄存器
+    *  閰嶇疆杈撳叆閮ㄥ垎瀵勫瓨鍣�
     */
-    /*RGB 30-bit 输入*/
+    /*RGB 30-bit 杈撳叆*/
     C753SetInputFormatControl(iChID, 0x00);
-    /*IFLD 0到3循环*/
-    /*水平同步信号低电平有效*/
-    /*垂直同步信号低电平有效*/
+    /*IFLD 0鍒�寰幆*/
+
     C753SetInputPortSyncControl(iChID, 0x02);
-    /*关闭场信号自动识别*/
+
     C753SetInputFieldRecognitionControl(iChID, 0x00);
-    /*PIACT区域外图像为0 PIACT POL*/
+    /*PIACT鍖哄煙澶栧浘鍍忎负0 PIACT POL*/
     C753SetInputDigitalInterfaceControl(iChID, 0x00);
     /*
-    *  配置输出部分寄存器
+    *  閰嶇疆杈撳嚭閮ㄥ垎瀵勫瓨鍣�
     */
     C753SetOutputPortSyncControl(0x2341);
 
-    /*通道1输出场指针延时改变时间*/
+
     C753SetFieldPropagationDelay1(0x04);
-    /*通道2输出场指针延时改变时间*/
+
     C753SetFieldPropagationDelay2(0x04);
-    /*背景图像*/
+    /*鑳屾櫙鍥惧儚*/
     C753SetOutputBackground0(0x00ff00);
     C753SetOutputBackground1(0x0000ff);
-    /*POCLKO 输出使能*/
+    /*POCLKO 杈撳嚭浣胯兘*/
     C753SetPOCLKControl(0x03);
-    /*POCLK PLL配置*/
+    /*POCLK PLL閰嶇疆*/
     C753SetPOCLKPLLControl(0x81);
     C753SetPOCLKReferenceDividing(0x07);
     C753SetPOCLKFeedbackDividing(0x0f);
@@ -985,7 +919,7 @@ void AppScale::initTest1400()
 
 //    {1024,  768,   60,  65,   1344,    136,  296,  806,     6,     35,  -133,   -1},
 //    {1400,  1050,  60,  121,  1864,    144,  376,  1089,    4,     36,  -135,   -1},
-    /*输出图像区域*/
+    /*杈撳嚭鍥惧儚鍖哄煙*/
     C753SetOutputPortACTHorizontalStart(iChID, (uint16_t)341);
     C753SetOutputPortACTHorizontalWidth(iChID, 1024);
     C753SetOutputPortACTVerticalStart(iChID, (uint16_t)135);
@@ -994,54 +928,37 @@ void AppScale::initTest1400()
 
     debug_msg("initHardware OUTPUT PORT OK \n!");
 
-//    C753LoadInputHorizontalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-//    C753LoadInputVerticalShrinkLookupTable(iChID, s_abyScaleShrinkCoefficient4SymbolTable);
-//    C753LoadOutputHorizontalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-//    C753LoadOutputVerticalZoomLookupTable(iChID, s_abyScaleZoomCoefficient4SymbolTable);
-//    /*
-//    *  配置图像数据存储器
-//    */
-//
-//    C753SetOutputField0MemoryReadStartAddress(iChID, 0x00C00000);
-//    C753SetOutputField1MemoryReadStartAddress(iChID, 0x00000000);
-//    C753SetOutputField2MemoryReadStartAddress(iChID, 0x00400000);
-//    C753SetOutputField3MemoryReadStartAddress(iChID, 0x00800000);
-//    C753SetInputField0MemoryWriteStartAddress(iChID, 0x00000000);
-//    C753SetInputField1MemoryWriteStartAddress(iChID, 0x00400000);
-//    C753SetInputField2MemoryWriteStartAddress(iChID, 0x00800000);
-//    C753SetInputField3MemoryWriteStartAddress(iChID, 0x00C00000);
-//
-//
-//    C753SetMemoryReadLinefeedWidth(iChID, 0x10);
-//    C753SetMemoryWriteLinefeedWidth(iChID, 0x10);
 
 }
 
 void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t hOutput,uint32_t vOutput)
 {
+	uint32_t tempVsOutPut = vOutput +3;
+	uint32_t tempVsInPut = vInput +1;
 
-	vOutput = vOutput +3;
 	hideWnd(iChID);
     C753SetOutputVerticalEnlargementControl(iChID, 0x00);
-    /*关闭缩小模块*/
+    /*鍏抽棴缂╁皬妯″潡*/
     C753SetInputVerticalShrinkControl(iChID, 0x00);
 
-    C753SetInputPortACTVerticalWidth(iChID,vInput);
+    C753SetInputPortACTVerticalWidth(iChID,tempVsInPut);
     C753SetOutputPortACTVerticalWidth(iChID,vInput);
 
-    /*关闭缩小模块*/
+    /*鍏抽棴缂╁皬妯″潡*/
      C753SetInputHorizontalShrinkControl(iChID, 0x00);
-     /*关闭放大模块*/
+     /*鍏抽棴鏀惧ぇ妯″潡*/
      C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
 
      C753SetInputPortACTHorizontalWidth(iChID,hInput);
-     C753SetOutputPortACTHorizontalWidth(iChID, hInput);
+     C753SetOutputPortACTHorizontalWidth(iChID,hInput);
 
 
 
 	debug_msg("initScal ichid=%d,hInput:%d,vInput:%d,hOutput:%d,vOutput:%d\n",iChID,hInput,vInput,hOutput,vOutput);
 	if(hInput > hOutput)
 	{
+		debug_msg("hs shrinkScale \n!");
+
 		uint16_t shrinkScale= ((hOutput-1) * 65536 / (hInput-1) ) + 1;
 
         uint8_t lut[24];
@@ -1063,13 +980,10 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputHorizontalShrinkCompensation(iChID, 0x00);
 
-
-
-
         /*6-symbol LUT*/
         C753SetInputHorizontalShrinkControl(iChID, 0x07);
 
-        /*关闭放大模块*/
+        /*鍏抽棴鏀惧ぇ妯″潡*/
         C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
         C753SetInputHorizontalShrinkInitialValue(iChID, 0x00);
 
@@ -1085,29 +999,19 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 	}
 	else if(hInput < hOutput)
 	{
-
-//		C753SetOutputPortACTHorizontalWidth(iChID, hOutput);
-		 uint16_t zoomScale= hInput * 65536 / (hOutput );
-
-        /*
-        *  配置放大寄存器
-        */
-         /*关闭缩小模块*/
-//        C753SetInputHorizontalShrinkControl(iChID, 0x00);
-//        C753SetOutputHorizontalEnlargementInitialValue(iChID, 0x00);
-
+		debug_msg("hs zoomScale \n!");
+		uint16_t zoomScale= hInput * 65536 / (hOutput );
         /*6-symbol LUT*/
-         C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
-
-
+		C753SetOutputHorizontalEnlargementControl(iChID, 0x07);
         C753SetOutputHorizontalZoomScale(iChID,zoomScale);
 
 	}
 	else
 	{
-        /*关闭缩小模块*/
+		debug_msg("hs nomal \n!");
+        /*鍏抽棴缂╁皬妯″潡*/
         C753SetInputHorizontalShrinkControl(iChID, 0x00);
-        /*关闭放大模块*/
+        /*鍏抽棴鏀惧ぇ妯″潡*/
         C753SetOutputHorizontalEnlargementControl(iChID, 0x00);
 
         C753SetInputPortACTHorizontalWidth(iChID,hInput);
@@ -1117,14 +1021,14 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 
 	if(vInput > vOutput)
 	{
+		debug_msg("vs shrinkScale \n!");
 
-        uint16_t shrinkScale= ((vOutput-1) * 65536 /(vInput-1)) + 1;
+        uint16_t shrinkScale= ((tempVsOutPut-1) * 65536 /(tempVsInPut-2)) + 1;
+
+//        uint16_t shrinkScale= ((tempVsOutPut-1) * 65536 /(tempVsInPut)) + 1;
 
         uint8_t lut[24];
         float ratio, win;
-
-
-
 
         ratio = (float)shrinkScale / 65536;
         if(ratio > 0.5)
@@ -1140,12 +1044,10 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
         C753SetInputShrinkCompensationControl(iChID, 0x00);
         C753SetInputVerticalShrinkCompensation(iChID, 0x00);
 
-
-
         /*6-symbol LUT*/
         C753SetInputVerticalShrinkControl(iChID, 0x07);
 
-        /*关闭放大模块*/
+        /*鍏抽棴鏀惧ぇ妯″潡*/
         C753SetOutputVerticalEnlargementControl(iChID, 0x00);
         C753SetInputVerticalShrinkInitialValue(iChID, 0x00);
 
@@ -1154,33 +1056,42 @@ void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t 
 //        debug_msg("VerticalShrinkScale:0x%X,%d\n",shrinkScale,shrinkScale);
 
 
-        C753SetInputPortACTVerticalWidth(iChID,vInput);
-        C753SetOutputPortACTVerticalWidth(iChID,vOutput);
+        C753SetInputPortACTVerticalWidth(iChID,tempVsInPut);
+        C753SetOutputPortACTVerticalWidth(iChID,tempVsOutPut);
+
+//        C753SetInputPortACTVerticalStart(iChID, m_inputOffsetVS+1);
+
+//       debug_msg("vs shrinkScale vs=%d \n!",m_inputOffsetVS+1);
+
 	}
 	else if(vInput < vOutput)
 	{
-		uint16_t zoomScale= vInput * 65536 / (vOutput + 1);
-
+		debug_msg("vs zome \n!");
+		uint16_t zoomScale= tempVsInPut * 65536 / (tempVsOutPut + 1);
         /*
-        *  配置放大寄存器
+        *  閰嶇疆鏀惧ぇ瀵勫瓨鍣�
         */
         /*6-symbol LUT*/
         C753SetOutputVerticalEnlargementControl(iChID, 0x07);
-
-
         C753SetOutputVerticalZoomScale(iChID, zoomScale);
+        C753SetOutputPortACTVerticalWidth(iChID,tempVsOutPut);
 
+        uint16_t tempVStar = 0;
 
-        C753SetOutputPortACTVerticalWidth(iChID,vOutput);
+        C753GetOutputPortACTVerticalStart(iChID,tempVStar);
+        C753SetOutputPortACTVerticalStart(iChID,tempVStar-1);
+        debug_msg("vs zome get tempVStar=%d \n!",tempVStar-1);
+
 	}
 	else
 	{
+		debug_msg("vs nomal \n!");
         C753SetOutputVerticalEnlargementControl(iChID, 0x00);
-        /*关闭缩小模块*/
+        /*鍏抽棴缂╁皬妯″潡*/
         C753SetInputVerticalShrinkControl(iChID, 0x00);
 
-        C753SetInputPortACTVerticalWidth(iChID,vInput);
-        C753SetOutputPortACTVerticalWidth(iChID,vOutput);
+        C753SetInputPortACTVerticalWidth(iChID,tempVsInPut);
+        C753SetOutputPortACTVerticalWidth(iChID,tempVsOutPut);
 	}
 
 //	showWnd(iChID);
@@ -1208,9 +1119,9 @@ void AppScale::initChipDDR()
 
 void AppScale::initCLK()
 {
-	/*POCLKO 输出使能*/
+	/*POCLKO 杈撳嚭浣胯兘*/
 	C753SetPOCLKControl(0x03);
-	/*POCLK PLL配置*/
+	/*POCLK PLL閰嶇疆*/
 	C753SetPOCLKPLLControl(0x81);
 	C753SetPOCLKReferenceDividing(0x07);
 	C753SetPOCLKFeedbackDividing(0x0f);
@@ -1221,9 +1132,9 @@ void AppScale::initCLK()
 	C753SetIPCLKFeedbackDividing(0x03);
 
 
-    /*通道1输出场指针延时改变时间*/
+
     C753SetFieldPropagationDelay1(0x04);
-    /*通道2输出场指针延时改变时间*/
+
     C753SetFieldPropagationDelay2(0x04);
 
 	debug_msg("initChipDDR OK !");
@@ -1322,8 +1233,6 @@ void AppScale::setOutputBGSize(uint32_t type)
 			 s_ics307.setPOCLK(ICS307_FREQUENCY_65000KHZ);
 			 C753SetOutputHorizontalSync(0x053e);
 		     C753SetOutputVerticalSync(0x0324);
-//		     C753SetHorizontalSyncResetDelay(1);
-//		     C753SetVerticalSyncResetDelay(1);
      	     C753SetHorizontalSyncResetDelay(20);
 		     C753SetVerticalSyncResetDelay(4);
 
@@ -1373,7 +1282,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			C753SetOutputPortOAOI0VerticalEnd((uint16_t)803);
 
 			m_horFp = 296;
-			m_verFp = 33;
+			m_verFp = 34;
 
 		}
 		else if(size == TYPE_OUTPUT_SIZE_1400_1050)
@@ -1384,7 +1293,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			 C753SetOutputPortOAOI0VerticalEnd((uint16_t)1085);
 
 			 m_horFp = 241;
-			 m_verFp = 33;
+			 m_verFp = 34;
 
 		}
 
@@ -1400,7 +1309,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			C753SetOutputPortOAOI1VerticalEnd((uint16_t)803);
 
 			m_horFp = 296;
-			m_verFp = 33;
+			m_verFp = 34;
 		}
 		else if(size == TYPE_OUTPUT_SIZE_1400_1050)
 		{
@@ -1410,7 +1319,7 @@ void AppScale::setOutputImage(uint32_t model,uint32_t size)
 			C753SetOutputPortOAOI1VerticalEnd((uint16_t)1085);
 
 			m_horFp = 241;
-			m_verFp = 33;
+			m_verFp = 34;
 		}
 	}
 }
@@ -1453,9 +1362,9 @@ void AppScale::moveChannelInput(uint32_t channel,int hPoint,int vPoint)
 {
 	uint16_t temp = 0;
 
-	debug_msg("move  hPoint:%d,vPoint:%d",hPoint,vPoint);
+	debug_msg("moveInput  hPoint:%d,vPoint:%d",hPoint,vPoint);
 	C753GetInputPortACTHorizontalStart(channel,temp);
-	debug_msg("src  oldHS:%d,newHS:%d",temp, temp + hPoint);
+	debug_msg("moveInput src  oldHS:%d,newHS:%d",temp, temp + hPoint);
 	temp = m_inputOffsetHS + hPoint;
 	C753SetInputPortACTHorizontalStart(channel,temp);
 
@@ -1463,19 +1372,29 @@ void AppScale::moveChannelInput(uint32_t channel,int hPoint,int vPoint)
 	C753GetInputPortACTVerticalStart(channel,temp);
 	temp = m_inputOffsetVS + vPoint;
 	C753SetInputPortACTVerticalStart(channel,temp);
-	debug_msg("src  oldHS:%d,newHS:%d",temp, temp + vPoint);
+	debug_msg("moveInput src  oldVS:%d,newVS:%d",temp, temp + vPoint);
 }
 
 void AppScale::moveChannelOutput(uint32_t channel,int hPoint,int vPoint)
 {
-	uint16_t tempHs = hPoint + m_horFp;
-	uint16_t tempVs = vPoint + m_verFp;
+//	uint16_t tempHs = hPoint + m_horFp;
+//	uint16_t tempVs = vPoint + m_verFp;
+
+	uint16_t temp = 0;
+	debug_msg("moveOutput  hPoint:%d,vPoint:%d",hPoint,vPoint);
+
+	C753GetOutputPortACTHorizontalStart(channel,temp);
+	debug_msg("moveOutput src  oldHS:%d,newHS:%d",temp,temp+ hPoint);
+	temp = temp + hPoint;
+
+	C753SetOutputPortACTHorizontalStart(channel,temp);
 
 
-	C753SetOutputPortACTHorizontalStart(channel,tempHs);
+	C753GetOutputPortACTVerticalStart(channel,temp);
+	debug_msg("moveOutput src  oldVS:%d,newVS:%d",temp,temp+ vPoint);
+	C753SetOutputPortACTVerticalStart(channel,temp);
 
 
-	C753SetOutputPortACTVerticalStart(channel,tempVs);
 }
 
 void AppScale::topChannel(uint32_t channel)
@@ -1517,8 +1436,13 @@ void AppScale::setInputSignalModel(uint32_t chId,uint32_t model)
 
 		debug_msg("setInputSignalModel getOutput  chId:%d,outHw:%d,outVw:%d",chId,outHw,outVw);
 
+		C753SetOutputPortACTHorizontalStart(chId,m_horFp);
+		C753SetOutputPortACTVerticalStart(chId,m_verFp);
+
 
 		initScal(chId,m_InputInfo[model].hW,m_InputInfo[model].Vw,outHw,outVw);
+		C753SetInputPortACTHorizontalStart(chId,m_InputInfo[model].hStar);
+		C753SetInputPortACTVerticalStart(chId,m_InputInfo[model].vStar);
 
 }
 

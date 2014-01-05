@@ -54,6 +54,10 @@ struct FpgaSetInfo
 	uint8_t freqB;
 	uint8_t freqC;
 
+	uint32_t hs;
+	uint32_t vs;
+	uint32_t pxielFreq;
+
 };
 
 

@@ -8,7 +8,7 @@
 #include "devTVP5160.h"
 #include "devC772.h"
 
-
+#include <vxworks.h>
 
 
 using namespace chipApp;
@@ -60,7 +60,6 @@ void moveOutputChannel(uint32_t chid,int hPoint,int vPoint)
 void moveInputChannel(uint32_t chid,int hPoint,int vPoint)
 {
 	AppScale &s_c753=*AppScale::Instance();
-//	s_c753.moveChannelInput(chid,hPoint+1,vPoint+1);
 	s_c753.moveChannelInput(chid,hPoint,vPoint);
 }
 
@@ -218,10 +217,10 @@ void DLPI2c(uint8_t dwAddr, uint8_t dwCount,uint8_t *byDate)
 
 	debug_msg("dwAddr = 0x%02X dwCount=%d!",dwAddr,dwCount);
 
-	for(int i=0;i<dwCount;i++)
-	{
-		debug_msg("count=%d,date=0x%02X!",i,*(byDate+i));
-	}
+//	for(int i=0;i<dwCount;i++)
+//	{
+//		debug_msg("count=%d,date=0x%02X!",i,*(byDate+i));
+//	}
 
 	DLPI2cWritePage(dwAddr,dwCount,byDate);
 
@@ -245,13 +244,15 @@ void DLPI2cR(uint8_t type,uint8_t subAddr,uint8_t dwCount,uint8_t *byDate)
 	}
 	else
 	{
+		taskLock();
 		DLPI2cReadData(type,subAddr,dwCount,byDate);
+		taskUnlock();
 	}
 
-	for(int i=0;i<dwCount;i++)
-	{
-		debug_msg(" DLPI2cRead count=%d,date=0x%02X!",i,*(byDate+i));
-	}
+//	for(int i=0;i<dwCount;i++)
+//	{
+//		debug_msg(" DLPI2cRead count=%d,date=0x%02X!",i,*(byDate+i));
+//	}
 
 
 }

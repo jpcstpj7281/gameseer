@@ -161,7 +161,7 @@ void Channel::onPSetInPutShowAreaReq(MsgInfo *msg,uint32_t connID)
 
 #ifndef __unix__
     moveInputChannel(out,channelX,channelY);
- //   setInputSize(out,width,height);
+
 #endif
 
     uint32_t hw = 0;

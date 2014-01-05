@@ -96,7 +96,7 @@ void Status::onProtocolVersionReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
 {
-	test_msg("onGetInPutReq connID=%d",connID);
+//	test_msg("onGetInPutReq connID=%d",connID);
 
 
     MsgInfo rsp;
@@ -114,7 +114,7 @@ void Status::onGetInPutReq(MsgInfo *msg,uint32_t connID)
     rsp.info["in6"] = EntSetting::Instance()->getInputInfoType(6);
     rsp.info["total"] = tostring(iTotal);
 
-    test_msg("onGetInPutReq Done\n",connID);
+//    test_msg("onGetInPutReq Done\n",connID);
     MsgHandler::Instance()->sendMsg(connID,&rsp);
 
 }
@@ -181,7 +181,7 @@ void Status::onGetInPutSizeReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetOutPutSizeReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onUserLogin"<<" connID="<<connID <<"out="<<atoi(msg->info["out"].c_str()) <<endl;
+	test_msg("onUserLogin connID=%d,out=%s!",connID,msg->info["out"].c_str());
 
     MsgInfo rsp;
 
@@ -199,7 +199,8 @@ void Status::onGetOutPutSizeReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetDLPFanStatusReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"GetDLPFanStatus "<<" connID="<<connID <<"out="<<atoi(msg->info["out"].c_str()) <<endl;
+
+//	test_msg("GetDLPFanStatus  connID=%d,out=%s!",connID,msg->info["out"].c_str());
 
     MsgInfo rsp;
 
@@ -221,7 +222,7 @@ void Status::onGetDLPFanStatusReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onGetDLPPinReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"GetDLPFanStatus "<<" connID="<<connID <<"out="<<atoi(msg->info["out"].c_str()) <<endl;
+//	test_msg("GetDLPFanStatus connID=%d,out=%s!",connID,msg->info["out"].c_str());
 
     MsgInfo rsp;
 
@@ -242,7 +243,7 @@ void Status::onGetDLPPinReq(MsgInfo *msg,uint32_t connID)
 
 void Status::onSetDLPPinReq(MsgInfo *msg,uint32_t connID)
 {
-    cout<<"onSetDLPPinReq "<<" connID="<<connID <<endl;
+	test_msg("onSetDLPPinReq  connID=%d",connID);
 
     MsgInfo rsp;
 
