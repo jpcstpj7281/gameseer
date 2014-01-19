@@ -9,6 +9,7 @@
 #include "devC772.h"
 
 #include <vxworks.h>
+#include <unistd.h>
 
 
 using namespace chipApp;
@@ -54,6 +55,7 @@ void moveOutputChannel(uint32_t chid,int hPoint,int vPoint)
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.moveChannelOutput(chid,hPoint,vPoint);
+//	taskDelay(10);
 
 }
 
@@ -61,6 +63,7 @@ void moveInputChannel(uint32_t chid,int hPoint,int vPoint)
 {
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.moveChannelInput(chid,hPoint,vPoint);
+//	taskDelay(10);
 }
 
 
@@ -105,16 +108,19 @@ void setScal(uint32_t chid,uint16_t iHw,uint16_t iVw,uint16_t oHw,uint16_t oVw)
 	debug_msg("setScal chid=%d,ihw=%d,ivw=%d,ohw=%d,ovw=%d!",chid,iHw,iVw,oHw,oVw);
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.initScal(chid,iHw,iVw,oHw,oVw);
+	taskDelay(20);
 }
 
 void showChannel(uint32_t chn)
 {
+//	debug_msg("showChannel chn=%d",chn);
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.showWnd(chn);
 }
 
 void hideChannel(uint32_t chn)
 {
+//	debug_msg("hideChannel chn=%d",chn);
 	AppScale &s_c753=*AppScale::Instance();
 	s_c753.hideWnd(chn);
 }
