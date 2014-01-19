@@ -18,6 +18,7 @@ EntSetting* EntSetting::m_instance = 0;
 EntSetting::EntSetting()
 :m_windowNum(0)
 ,m_DLPFanStatus(0)
+,m_bConnent(false)
 {
 	m_version = "1.0.0.1";
 

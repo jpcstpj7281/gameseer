@@ -190,6 +190,9 @@ public:
 
 	string dumpModelInfo(uint32_t model);
 
+	void setConnectFlg(bool flg){m_bConnent = flg;};
+	bool getConnectFlg(){return m_bConnent;};
+
 	void dumpAll();
 
 protected:
@@ -212,6 +215,8 @@ private:
 	uint32_t m_DLPFanStatus;
 
 	map<uint32_t,SignalInfo> m_signalInfo;
+
+	bool m_bConnent;
 
 };
 

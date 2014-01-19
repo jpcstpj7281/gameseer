@@ -183,10 +183,58 @@ void taskCheckInputSignal()
 
 #else
 #endif
+}
 
 
+void taskFreeModel()
+{
+	uint32_t count = 0;
+	bool flg=false;
+	while(1)
+	{
+		if(EntSetting::Instance()->getConnectFlg())
+		{
+			count = 0;
+		}
+		else
+		{
+			count++;
+			if(flg == false && count>=10)
+			{
+				count = 10;
+			}
+
+			if(flg == true && count >=10000)
+			{
+				count = 100;
+			}
+
+		}
+
+		if(count >= 10)
+		{
+			if(count == 10)
+			{
+				if(EntSetting::Instance()->getInputInfoFlg(1) == USE_FLG_ONLINE)
+				{
+					test_msg("FreeModel",0);
+
+					setOutputSize(1,1024,768);
+					showChannel(1);
+					flg = true;
+				}
+			}
 
 
+		}
+		else
+		{
+//			test_msg("Connect Model",0);
+		}
+
+
+		taskDelay(100);
+	}
 }
 
 
@@ -284,6 +332,9 @@ void enterApp()
 	ret = taskSpawn("tServer", 110, 0x0002, 16*1024,(FUNCPTR) runServer,5000,0,0,0,0,0,0,0,0,0);
 
 	ret = taskSpawn("tCheckSignal", 125, 0x0002, 2*1024,(FUNCPTR) taskCheckInputSignal,0,0,0,0,0,0,0,0,0,0);
+
+//	ret = taskSpawn("tFreeModel", 130, 0x0002, 2*1024,(FUNCPTR) taskFreeModel,0,0,0,0,0,0,0,0,0,0);
+
 
 //	ret = taskSpawn("tCheckDLPFan", 200, 0x0002, 1*512,(FUNCPTR) taskCheckDLPFanStatus,0,0,0,0,0,0,0,0,0,0);
 

@@ -475,14 +475,36 @@ void AppScale::showWnd(uint32_t iChID)
     {
         C753SetMainControl(iChID,0x03);
 
+        uint8_t value1 = 0;
+        C753GetMainControl(iChID,value1);
+        while(value1 != 0x03)
+        {
+        	taskDelay(50);
+        	debug_msg("retry showWnd iChid=%d,value=%02x\n",iChID,value1);
+        	C753SetMainControl(iChID,0x03);
+        	C753GetMainControl(iChID,value1);
+
+        }
+
     }
     else if(iChID == C753_OUTPUT_CHANNEL_2)
     {
     	C753SetMainControl(iChID,0x07);
+        uint8_t value2 = 0;
+        C753GetMainControl(iChID,value2);
+        while(value2 != 0x07)
+        {
+        	taskDelay(50);
+        	debug_msg("retry showWnd iChid=%d,value=%02x\n",iChID,value2);
+        	C753SetMainControl(iChID,0x07);
+        	C753GetMainControl(iChID,value2);
+
+        }
 
     }
 
     debug_msg("showWnd iChid=%d\n",iChID);
+
 
 }
 
@@ -492,11 +514,33 @@ void AppScale::hideWnd(uint32_t iChID)
     if(iChID == C753_OUTPUT_CHANNEL_1)
     {
        C753SetMainControl(iChID,0x02);
+       uint8_t value = 0;
+       C753GetMainControl(iChID,value);
+       while(value != 0x02)
+       {
+    	   taskDelay(50);
+    	   debug_msg("retry hideWnd iChid=%d,value=%02x\n",iChID,value);
+    	   C753SetMainControl(iChID,0x02);
+    	   C753GetMainControl(iChID,value);
+
+       }
+
     }
     else if(iChID == C753_OUTPUT_CHANNEL_2)
     {
         C753SetMainControl(iChID,0x06);
+        uint8_t value = 0;
+        C753GetMainControl(iChID,value);
+        while(value != 0x06)
+        {
+           taskDelay(50);
+           debug_msg("retry hideWnd iChid=%d,value=%02x\n",iChID,value);
+     	   C753SetMainControl(iChID,0x06);
+     	   C753GetMainControl(iChID,value);
+
+        }
     }
+    debug_msg("hideWnd iChid=%d\n",iChID);
 }
 
 
@@ -933,6 +977,7 @@ void AppScale::initTest1400()
 
 void AppScale::initScal(uint32_t iChID,uint32_t hInput,uint32_t vInput,uint32_t hOutput,uint32_t vOutput)
 {
+	debug_msg("initScal iChid=%d",iChID);
 	uint32_t tempVsOutPut = vOutput +3;
 	uint32_t tempVsInPut = vInput +1;
 

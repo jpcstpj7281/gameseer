@@ -219,6 +219,7 @@ void Windows::onPCreateWindowsReq(MsgInfo *msg,uint32_t connID)
     	EntSetting::Instance()->getWindowsInfo(winOut,inputX,inputY,inputW,inputH);
 
     	setScal(winOut,(uint16_t)inputW,(uint16_t)inputH,(uint16_t)winW,(uint16_t)winH);
+
     	moveInputChannel(winOut,inputX,inputY);
     	//setOutputSize(winOut,winW,winH);
     	moveOutputChannel(winOut,winX,winY);
