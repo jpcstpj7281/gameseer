@@ -56,6 +56,7 @@ TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer
 		goto_->setValue(timer->goto_);
 	}
 	timeEdit_ = new  QTimeEdit;
+	connect( timeEdit_, SIGNAL(timeChanged ( const QTime & )), this, SLOT(timeChanged ( const QTime & )) );
 	if ( !timer_){
 		timeEdit_->setEnabled(false);
 	}else{
@@ -65,6 +66,7 @@ TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer
 		timeEdit_->setTime( QTime(h, m, s) );
 	}
 	count_ = new QSpinBox;
+	count_->setMaximum(10000);
 	connect( count_, SIGNAL(valueChanged ( int  )), this, SLOT(countValueChanged ( int  )) );
 	if ( !timer){
 		count_->setEnabled(false);
@@ -74,6 +76,12 @@ TimerWidget::TimerWidget(Task* task, Timer* timer):QWidget(0),task_(task), timer
 
 	this->startTimer(100);
 }
+
+void TimerWidget::timeChanged ( const QTime & time ){
+	if (! task_->isActivated_)
+		timer_->second_ = time.hour()*3600 + time.minute()*60+ time.second();
+}
+
 void TimerWidget::gotoValueChanged ( int i ){
 	timer_->goto_ = i;
 }

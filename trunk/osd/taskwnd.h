@@ -26,6 +26,7 @@ class TimerWidget:public QWidget{
 		void activated ( const QString & text );
 		void	gotoValueChanged ( int i );
 		void	countValueChanged ( int i );
+		void	timeChanged ( const QTime & time );
 public:
 	Task* task_;
 	Timer* timer_;
