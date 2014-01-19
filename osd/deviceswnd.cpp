@@ -58,6 +58,7 @@ void ScreenConnBtn::conn(){
 			testBtn_->setEnabled(false);
 			dlpBtn_->setEnabled(false);
 			dlpBtn_->setText(tr("Turn on"));
+			scrn->inputRequest();
 			scrn->versionRequest( std::bind( &ScreenConnBtn::connectedCallback, this, _1, _2), QboxDataMap() );
 			scrn->getDlpRequest( std::bind( &ScreenConnBtn::dlpStatusCallback, this, _1, _2) );
 		}

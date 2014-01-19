@@ -33,8 +33,8 @@
         <wnd w="0.445535" x="0.0215898" wndid="窗口" y="0.0466989" h="0.4219" inputid="16777473" aw="1" ax="0" ay="0" ah="1"/>
     </mode>
     <task id="然后呢">
-        <timer goto="0" counter="0" sec="10" modeid="我知道"/>
-        <timer goto="0" counter="0" sec="10" modeid="Mode2"/>
-        <timer goto="0" counter="0" sec="10" modeid="我知道"/>
+        <timer goto="0" counter="0" sec="2" modeid="我知道"/>
+        <timer goto="0" counter="0" sec="3" modeid="Mode2"/>
+        <timer goto="0" counter="0" sec="6" modeid="我知道"/>
     </task>
 </root>
