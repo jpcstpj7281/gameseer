@@ -36,12 +36,12 @@
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{0d31cb23-b621-4000-933e-842f9dcad924}</UniqueIdentifier>
+      <UniqueIdentifier>{30d7f4e9-442e-427b-8216-7b84c6dec286}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{a175eb38-4911-49c0-9941-57bb9d5eb300}</UniqueIdentifier>
+      <UniqueIdentifier>{5c5e44bf-956b-4da9-ba69-19c1e32f5b1c}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -111,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="snmpnetwnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tcpnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug\.moc\moc_ACPlot.cpp">
@@ -280,6 +283,9 @@
     <CustomBuild Include="snmpnetwnd.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="tcpnet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="cobranetwnd.ui">
