@@ -34,6 +34,7 @@ OIDDial.cpp\
 cobranetwnd.cpp \
 snmpnetwnd.cpp \
 snmpnet.cpp \
+tcpnet.cpp\
 ACPlot.cpp \
     mainwindow.cpp \
     presetwnd.cpp \
@@ -45,6 +46,7 @@ ACPlot.cpp \
     deviceswnd.cpp
 
 HEADERS  +=  snmpnet.h \
+tcpnet.h \
 snmpnetwnd.h \
 homepage.h \
 peqwnd.h \
@@ -89,9 +91,11 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -L$$PWD/../3rdPart
 else:unix: LIBS += -L$$PWD/lib/ -lnetsnmp
 
 DEFINES += QWT_DLL \
-_CRT_SECURE_NO_DEPRECATE
+_CRT_SECURE_NO_DEPRECATE \
+BOOST_DATE_TIME_NO_LIB BOOST_REGEX_NO_LIB BOOST_ALL_NO_LIB=1
 
 INCLUDEPATH += $$PWD/inc
+INCLUDEPATH += $$PWD/../3rdParty/inc
 INCLUDEPATH += $$PWD/inc/qwt
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD/inc
